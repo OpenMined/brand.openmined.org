@@ -5,13 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenMined Brand Guidelines</title>
   <meta name="description" content="Official brand guidelines, logos, colors, and design tokens for OpenMined.">
+  <meta property="og:title" content="OpenMined Brand Guidelines">
+  <meta property="og:description" content="Official logos, colors, typography, and design tokens for the OpenMined brand.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brand.openmined.org">
   <link rel="icon" href="assets/logo/OpenMined-Icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-0Dj9ut_cnM1vd6N2fSOKx.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
 </head>
 <body>
+
+  <a href="#logos" class="skip-link">Skip to content</a>
 
   <!-- Nav -->
   <nav class="site-nav" aria-label="Main navigation">
@@ -26,6 +38,8 @@
       </ul>
     </div>
   </nav>
+
+  <main>
 
   <!-- Hero -->
   <header class="hero" id="hero">
@@ -160,7 +174,7 @@
         <!-- Icon -->
         <div class="logo-card">
           <div class="logo-card-preview logo-card-preview--light">
-            <img src="assets/logo/OpenMined-Icon.svg" alt="OpenMined Icon" style="max-height: 56px;">
+            <img src="assets/logo/OpenMined-Icon.svg" alt="OpenMined Icon" class="logo-card-preview-icon">
           </div>
           <div class="logo-card-info">
             <div>
@@ -670,23 +684,23 @@
         <div class="button-state-grid">
           <div class="button-state-card">
             <div class="button-state-label">Default</div>
-            <button class="btn btn-primary">Button</button>
-            <div style="margin-top:var(--spacing-s);font-size:11px;color:var(--grayscale-600);font-family:var(--font-mono)">#272532</div>
+            <button class="btn btn-primary" tabindex="-1">Button</button>
+            <div class="button-state-hex">#272532</div>
           </div>
           <div class="button-state-card">
             <div class="button-state-label">Hover</div>
-            <button class="btn btn-primary btn--hover-demo">Button</button>
-            <div style="margin-top:var(--spacing-s);font-size:11px;color:var(--grayscale-600);font-family:var(--font-mono)">#3c9f8b</div>
+            <button class="btn btn-primary btn--hover-demo" tabindex="-1">Button</button>
+            <div class="button-state-hex">#3c9f8b</div>
           </div>
           <div class="button-state-card">
             <div class="button-state-label">Focus</div>
-            <button class="btn btn-primary btn--focus-demo">Button</button>
-            <div style="margin-top:var(--spacing-s);font-size:11px;color:var(--grayscale-600);font-family:var(--font-mono)">#388ca8</div>
+            <button class="btn btn-primary btn--focus-demo" tabindex="-1">Button</button>
+            <div class="button-state-hex">#388ca8</div>
           </div>
           <div class="button-state-card">
             <div class="button-state-label">Active</div>
-            <button class="btn btn-primary btn--active-demo">Button</button>
-            <div style="margin-top:var(--spacing-s);font-size:11px;color:var(--grayscale-600);font-family:var(--font-mono)">#2a697e</div>
+            <button class="btn btn-primary btn--active-demo" tabindex="-1">Button</button>
+            <div class="button-state-hex">#2a697e</div>
           </div>
         </div>
       </div>
@@ -742,6 +756,7 @@
           <div class="spacing-item"><div class="spacing-meta"><span class="spacing-name">2XL</span><span class="spacing-val">24px</span></div><div class="spacing-bar" style="width:24px"></div></div>
           <div class="spacing-item"><div class="spacing-meta"><span class="spacing-name">3XL</span><span class="spacing-val">32px</span></div><div class="spacing-bar" style="width:32px"></div></div>
           <div class="spacing-item"><div class="spacing-meta"><span class="spacing-name">4XL</span><span class="spacing-val">40px</span></div><div class="spacing-bar" style="width:40px"></div></div>
+          <div class="spacing-item"><div class="spacing-meta"><span class="spacing-name">5XL</span><span class="spacing-val">48px</span></div><div class="spacing-bar" style="width:48px"></div></div>
           <div class="spacing-item"><div class="spacing-meta"><span class="spacing-name">Full</span><span class="spacing-val">99px</span></div><div class="spacing-bar" style="width:99px"></div></div>
         </div>
       </div>
@@ -878,6 +893,8 @@
 
     </div>
   </section>
+
+  </main>
 
   <!-- Footer -->
   <footer class="site-footer">

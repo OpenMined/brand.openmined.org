@@ -225,6 +225,27 @@
   --transition-duration: 0.4s;
 }
 
+/* --- Skip Link --- */
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--spacing-l);
+  background: var(--grayscale-850);
+  color: var(--grayscale-00);
+  padding: var(--spacing-s) var(--spacing-l);
+  border-radius: var(--radius-m);
+  font-size: var(--type-subtitle-size);
+  font-weight: 700;
+  z-index: 200;
+  transition: top var(--transition-duration);
+}
+
+.skip-link:focus {
+  top: var(--spacing-s);
+  color: var(--grayscale-00);
+}
+
 /* --- Reset & Base --- */
 
 *,
@@ -450,6 +471,10 @@ a:hover {
   max-width: 240px;
 }
 
+.logo-card-preview-icon {
+  max-height: 56px;
+}
+
 .logo-card-info {
   padding: var(--spacing-l) var(--spacing-xl);
   background: var(--surface-bg-bright);
@@ -529,6 +554,13 @@ a:hover {
   color: var(--green-600);
 }
 
+.btn-outline:focus-visible {
+  border-color: var(--teal-400);
+  color: var(--teal-600);
+  outline: 2px solid var(--teal-400);
+  outline-offset: 2px;
+}
+
 /* --- Colors Section --- */
 
 .color-family {
@@ -550,12 +582,14 @@ a:hover {
 }
 
 .color-swatches {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-s);
 }
 
 .color-swatch {
+  flex: 1 1 0;
+  min-width: 64px;
   cursor: pointer;
   border-radius: var(--radius-m);
   overflow: hidden;
@@ -570,6 +604,7 @@ a:hover {
 
 .color-swatch-color {
   height: 64px;
+  border-bottom: 1px solid var(--surface-fg-default);
 }
 
 .color-swatch-label {
@@ -706,7 +741,7 @@ a:hover {
 .type-specimens {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: var(--spacing-5xl);
 }
 
 .type-specimen {
@@ -857,6 +892,14 @@ a:hover {
 
 .button-state-card .btn {
   pointer-events: none;
+}
+
+.button-state-hex {
+  margin-top: var(--spacing-s);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-line);
+  color: var(--grayscale-600);
+  font-family: var(--font-mono);
 }
 
 .btn--hover-demo {
@@ -1218,7 +1261,7 @@ a:hover {
   }
 
   .section {
-    padding: 48px var(--spacing-l);
+    padding: var(--spacing-5xl) var(--spacing-l);
   }
 
   .section-title {
@@ -1228,10 +1271,6 @@ a:hover {
 
   .logo-grid {
     grid-template-columns: 1fr;
-  }
-
-  .color-swatches {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 
   .gradient-grid {
@@ -1273,7 +1312,7 @@ a:hover {
   }
 
   .type-scale-samples span {
-    font-size: clamp(12px, 4vw, inherit) !important;
+    font-size: clamp(12px, 4vw, 61px) !important;
   }
 }
 
