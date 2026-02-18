@@ -98,11 +98,11 @@
       return 0.10 * squeeze * taper;
     }
 
-    // Warm palette: top=red-orange, mid=gold, bottom=magenta
+    // Warm palette: top=magenta, mid=gold, bottom=red-orange (orange on top visually)
     vec3 warmColor(float v) {
-      vec3 top    = vec3(0.92, 0.25, 0.10);
+      vec3 top    = vec3(0.80, 0.16, 0.48);
       vec3 mid    = vec3(0.96, 0.67, 0.12);
-      vec3 bottom = vec3(0.80, 0.16, 0.48);
+      vec3 bottom = vec3(0.92, 0.25, 0.10);
       if (v < 0.5) return mix(top, mid, v * 2.0);
       return mix(mid, bottom, (v - 0.5) * 2.0);
     }
@@ -180,7 +180,7 @@
       vec3 cool = coolColor(vPos);
 
       // Smooth transition from warm to cool
-      float warmCoolMix = smoothstep(0.38, 0.55, x);
+      float warmCoolMix = smoothstep(0.25, 0.70, x);
       // Add subtle noise to transition boundary
       float transNoise = snoise(vec2(x * 2.0 + 50.0, y * 3.0 * aspect + uTime * 0.05)) * 0.08;
       warmCoolMix = clamp(warmCoolMix + transNoise, 0.0, 1.0);

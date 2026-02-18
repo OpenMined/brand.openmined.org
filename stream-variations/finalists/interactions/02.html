@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stream — Ripple</title>
+<title>Stream — Magnetic + Ripple</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100%; overflow: hidden; background: #ffffff; }
@@ -98,20 +98,20 @@
       return 0.10 * squeeze * taper;
     }
 
-    // Warm palette: Orange 500, Gold 500, Red 500
+    // Warm palette: top=red-orange, mid=gold, bottom=magenta
     vec3 warmColor(float v) {
-      vec3 top    = vec3(0.969, 0.592, 0.388);
-      vec3 mid    = vec3(0.973, 0.753, 0.451);
-      vec3 bottom = vec3(0.800, 0.404, 0.482);
+      vec3 top    = vec3(0.92, 0.25, 0.10);
+      vec3 mid    = vec3(0.96, 0.67, 0.12);
+      vec3 bottom = vec3(0.80, 0.16, 0.48);
       if (v < 0.5) return mix(top, mid, v * 2.0);
       return mix(mid, bottom, (v - 0.5) * 2.0);
     }
 
-    // Cool palette: Lime 500, Green 500, Teal 500
+    // Cool palette: top=lime, mid=green, bottom=teal (blue on top visually)
     vec3 coolColor(float v) {
-      vec3 top    = vec3(0.588, 0.820, 0.584);
-      vec3 mid    = vec3(0.325, 0.745, 0.663);
-      vec3 bottom = vec3(0.322, 0.659, 0.773);
+      vec3 top    = vec3(0.55, 0.78, 0.16);
+      vec3 mid    = vec3(0.12, 0.67, 0.32);
+      vec3 bottom = vec3(0.0, 0.63, 0.63);
       if (v < 0.5) return mix(top, mid, v * 2.0);
       return mix(mid, bottom, (v - 0.5) * 2.0);
     }
@@ -132,13 +132,10 @@
       float mdx = x - uMouse.x;
       float attract = 0.04 * exp(-(mdx * mdx) / 0.03);
       float bendY = (uMouse.y - getCenterY(x)) * attract;
-      // Ripple — subtle turbulence near cursor
+      // Ripple — turbulence near cursor
       float mDistSq = (x - uMouse.x) * (x - uMouse.x) + (y - uMouse.y) * (y - uMouse.y);
-      float ripple = 0.010 * exp(-mDistSq / 0.020) * snoise(vec2(x * 10.0 - uTime * 0.4, y * 10.0));
-      // Ambient ripple — subtle turbulence everywhere
-      float ambientRipple = snoise(vec2(x * 8.0 - uTime * 0.3, y * 6.0 + uTime * 0.15)) * 0.005
-                          + snoise(vec2(x * 12.0 + uTime * 0.2, y * 10.0 - uTime * 0.1)) * 0.003;
-      float centerY = getCenterY(x) + centerNoise + bendY + ripple + ambientRipple;
+      float ripple = 0.008 * exp(-mDistSq / 0.012) * snoise(vec2(x * 10.0 - uTime * 0.4, y * 10.0));
+      float centerY = getCenterY(x) + centerNoise + bendY + ripple;
 
       // Half width with gentle breathing
       float hw = getHalfWidth(x);
@@ -165,7 +162,7 @@
       float alphaNoise = snoise(vec2(x * 5.0 + uTime * 0.05, y * 5.0 * aspect + uTime * 0.03)) * 0.08;
       alpha = clamp(alpha + alphaNoise * alpha, 0.0, 1.0);
 
-      alpha = pow(alpha, 0.35);
+      alpha = pow(alpha, 0.55);
       alpha *= smoothstep(0.0, 0.03, alpha);
 
       // Vertical position within stream: 0=top, 1=bottom
@@ -180,7 +177,7 @@
       vec3 cool = coolColor(vPos);
 
       // Smooth transition from warm to cool
-      float warmCoolMix = smoothstep(0.38, 0.55, x);
+      float warmCoolMix = smoothstep(0.25, 0.70, x);
       // Add subtle noise to transition boundary
       float transNoise = snoise(vec2(x * 2.0 + 50.0, y * 3.0 * aspect + uTime * 0.05)) * 0.08;
       warmCoolMix = clamp(warmCoolMix + transNoise, 0.0, 1.0);
@@ -191,11 +188,11 @@
 
       // Boost saturation slightly
       float lum = dot(color, vec3(0.299, 0.587, 0.114));
-      color = mix(vec3(lum), color, 1.6);
+      color = mix(vec3(lum), color, 1.15);
 
       // Composite over white
       vec3 white = vec3(1.0);
-      vec3 final = mix(white, color, min(alpha * 1.15, 1.0));
+      vec3 final = mix(white, color, alpha * 0.96);
 
       gl_FragColor = vec4(final, 1.0);
     }
@@ -246,8 +243,8 @@
 
   function draw() {
     const t = (performance.now() - startTime) / 1000.0;
-    smx += (mx - smx) * 0.08;
-    smy += (my - smy) * 0.08;
+    smx += (mx - smx) * 0.05;
+    smy += (my - smy) * 0.05;
     gl.uniform1f(uTime, t);
     gl.uniform2f(uRes, canvas.width, canvas.height);
     gl.uniform2f(uMouse, smx, smy);
