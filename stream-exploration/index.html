@@ -125,9 +125,10 @@
 
       // Noise-modulated center line — subtle life
       float noiseScale = 1.8;
-      float centerNoise = snoise(vec2(x * noiseScale + 0.3, uTime * 0.10)) * 0.028
-                        + snoise(vec2(x * noiseScale * 2.5 + 5.0, uTime * 0.14 + 3.0)) * 0.014
-                        + snoise(vec2(x * 5.0 - uTime * 0.18, 12.0)) * 0.005;
+      float flow = uTime * 0.06;
+      float centerNoise = snoise(vec2(x * noiseScale + 0.3 - flow, uTime * 0.10)) * 0.028
+                        + snoise(vec2(x * noiseScale * 2.5 + 5.0 - flow * 1.5, uTime * 0.14 + 3.0)) * 0.014
+                        + snoise(vec2(x * 5.0 - uTime * 0.18 - flow * 2.0, 12.0)) * 0.005;
       // Magnetic attraction — stream bends toward cursor
       float mdx = x - uMouse.x;
       float attract = 0.04 * exp(-(mdx * mdx) / 0.03);
@@ -142,8 +143,8 @@
 
       // Half width with gentle breathing
       float hw = getHalfWidth(x);
-      float widthNoise = snoise(vec2(x * 3.0 + 10.0, uTime * 0.12 + 7.0)) * 0.010
-                       + snoise(vec2(x * 6.0 - uTime * 0.08, 20.0)) * 0.004;
+      float widthNoise = snoise(vec2(x * 3.0 + 10.0 - flow, uTime * 0.12 + 7.0)) * 0.010
+                       + snoise(vec2(x * 6.0 - uTime * 0.08 - flow * 1.5, 20.0)) * 0.004;
       hw += widthNoise;
       hw = max(hw, 0.01);
 
@@ -162,7 +163,7 @@
       float alpha = mix(outerGauss, gauss, 0.5);
 
       // Add subtle noise to alpha for organic feel
-      float alphaNoise = snoise(vec2(x * 5.0 + uTime * 0.05, y * 5.0 * aspect + uTime * 0.03)) * 0.08;
+      float alphaNoise = snoise(vec2(x * 5.0 - flow * 1.5, y * 5.0 * aspect + uTime * 0.03)) * 0.08;
       alpha = clamp(alpha + alphaNoise * alpha, 0.0, 1.0);
 
       alpha = pow(alpha, 0.55);
@@ -172,7 +173,7 @@
       float vPos = clamp(dist * 0.5 + 0.5, 0.0, 1.0);
 
       // Add noise to vertical position for more organic color variation
-      float vNoise = snoise(vec2(x * 3.0 + uTime * 0.07 + 20.0, y * 4.0 * aspect - uTime * 0.04)) * 0.13;
+      float vNoise = snoise(vec2(x * 3.0 - flow * 2.0 + 20.0, y * 4.0 * aspect - uTime * 0.04)) * 0.13;
       vPos = clamp(vPos + vNoise, 0.0, 1.0);
 
       // Color: blend warm and cool based on x
