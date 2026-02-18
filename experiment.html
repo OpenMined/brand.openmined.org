@@ -76,6 +76,8 @@
       left: var(--diamond-offset);
       top: 0;
       z-index: 10;
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
     }
 
     /* --- Gradient mesh --- */
@@ -134,12 +136,12 @@
     }
 
     .label--left {
-      left: -320px;   /* 40px inside left tip (-360) */
+      left: -335px;   /* 25px inside left tip (-360) */
       transform: translateY(-50%) translateX(-12px);
     }
 
     .label--right {
-      right: -320px;  /* right edge 40px inside right tip (360) */
+      right: -335px;  /* right edge 25px inside right tip (360) */
       text-align: right;
       transform: translateY(-50%) translateX(12px);
     }
@@ -166,8 +168,30 @@
       }
 
       .label { font-size: 12px; }
-      .label--left { left: -242px; }
-      .label--right { right: -242px; }
+      .label--left { left: -230px; }
+      .label--right { right: -230px; }
+    }
+
+    @media (max-width: 600px) {
+      :root {
+        --outline-side: 170px;
+        --outline-half: 85px;
+        --outline-tip: 120px;
+        --diamond-offset: 60px;
+        --mesh-side: 195px;
+        --mesh-half: 97px;
+        --small-side: 70px;
+        --small-half: 35px;
+      }
+
+      .diamond-mesh--small {
+        top: -88px;
+      }
+
+      /* Tips at ±180px. Place labels 25px inside = ±155px */
+      .label { font-size: 10px; }
+      .label--left { left: -155px; }
+      .label--right { right: -155px; }
     }
   </style>
 </head>
@@ -182,9 +206,6 @@
         <canvas id="gradientLarge" width="780" height="780"></canvas>
       </div>
 
-      <div class="diamond-mesh diamond-mesh--small" id="meshSmall">
-        <canvas id="gradientSmall" width="280" height="280"></canvas>
-      </div>
     </div>
 
     <span class="label label--left" id="labelLeft">Non-Public Data</span>
@@ -268,7 +289,6 @@
       }
 
       var largeMesh = initMesh(document.getElementById("gradientLarge"), MESH_BLOBS);
-      var smallMesh = initMesh(document.getElementById("gradientSmall"), SMALL_BLOBS);
 
       function renderMesh(m, t) {
         m.ctx.clearRect(0, 0, m.size, m.size);
@@ -289,7 +309,6 @@
 
       var dGroup = document.getElementById("diamondGroup");
       var mLg = document.getElementById("meshLarge");
-      var mSm = document.getElementById("meshSmall");
 
       /* --- Labels --- */
       setTimeout(function () { document.getElementById("labelLeft").classList.add("visible"); }, 500);
@@ -302,7 +321,6 @@
         var t = ts - t0;
 
         renderMesh(largeMesh, t);
-        renderMesh(smallMesh, t);
 
         cRX += (tRX - cRX) * 0.03;
         cRY += (tRY - cRY) * 0.03;
@@ -320,8 +338,6 @@
         var oy = cRX * 1;
         mLg.style.transform =
           "translate(calc(-50% + " + ox + "px), calc(-50% + " + oy + "px)) rotate(45deg)";
-        mSm.style.transform =
-          "translate(calc(-50% + " + (-ox * 0.3) + "px), calc(-50% + " + (-oy * 0.3) + "px)) rotate(-135deg)";
 
         requestAnimationFrame(loop);
       }
