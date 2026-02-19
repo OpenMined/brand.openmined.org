@@ -344,6 +344,8 @@ a:hover {
 
 .section {
   padding: 80px var(--spacing-2xl);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 .section-inner {
@@ -429,6 +431,103 @@ a:hover {
   color: var(--grayscale-500);
   max-width: 520px;
   margin: 0 auto;
+}
+
+/* --- Web Graphics Section --- */
+
+.graphics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2xl);
+}
+
+.graphic-card {
+  display: block;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  border: 1px solid var(--grayscale-800);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.graphic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  border-color: var(--grayscale-600);
+}
+
+.graphic-card-preview {
+  position: relative;
+  height: 280px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.graphic-card-preview canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.graphic-card-preview canvas.ready {
+  opacity: 1;
+}
+
+/* Shimmer placeholder shown until WebGL is ready */
+.graphic-card-preview--loading {
+  background: linear-gradient(
+    110deg,
+    var(--grayscale-900) 30%,
+    var(--grayscale-800) 50%,
+    var(--grayscale-900) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.graphic-card-info {
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  background: var(--grayscale-900);
+  border-top: 1px solid var(--grayscale-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.graphic-card-name {
+  font-family: var(--font-secondary);
+  font-size: var(--type-headline-size);
+  font-weight: 600;
+  line-height: var(--type-headline-line);
+  color: var(--grayscale-00);
+}
+
+.graphic-card-desc {
+  font-family: var(--font-primary);
+  font-size: var(--type-subtitle-size);
+  font-weight: 500;
+  line-height: var(--type-subtitle-line);
+  color: var(--grayscale-500);
+  margin-top: var(--spacing-2xs);
+}
+
+.graphic-card-arrow {
+  color: var(--grayscale-600);
+  font-size: 24px;
+  flex-shrink: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.graphic-card:hover .graphic-card-arrow {
+  color: var(--green-500);
+  transform: translateX(4px);
 }
 
 /* --- Logo Section --- */
@@ -1267,6 +1366,14 @@ a:hover {
   .section-title {
     font-size: var(--type-h4-size);
     line-height: var(--type-h4-line);
+  }
+
+  .graphics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .graphic-card-preview {
+    height: 200px;
   }
 
   .logo-grid {
