@@ -1,0 +1,55 @@
+---
+interface Props {
+  variant?: 'category' | 'topic';
+  href?: string;
+  class?: string;
+}
+
+const {
+  variant = 'category',
+  href,
+  class: className = '',
+} = Astro.props;
+
+const isLink = Boolean(href);
+const classes = ['tag', `tag--${variant}`, isLink ? 'tag--link' : '', className].filter(Boolean).join(' ');
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    <slot />
+  </a>
+) : (
+  <span class={classes}>
+    <slot />
+  </span>
+)}
+
+<style>
+  .tag {
+    display: inline-block;
+    font-size: 14px; /* non-default; body is 16px */
+    color: var(--text-body);
+    text-decoration: none;
+    cursor: default;
+    background-image: linear-gradient(transparent calc(100% - 1px), currentColor 1px);
+    background-repeat: no-repeat;
+    background-size: 0% 100%;
+    animation: underlineIn 0.4s ease forwards;
+    padding-bottom: 2px;
+  }
+
+  .tag:hover {
+    animation: underlineOut 0.4s ease,
+               underlineInGreen 0.4s ease 0.4s;
+  }
+
+  a.tag,
+  .tag--link {
+    cursor: pointer;
+  }
+
+  .tag--topic {
+    font-size: 15px;
+  }
+</style>

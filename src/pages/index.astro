@@ -1,0 +1,1387 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '@brand/Button.astro';
+import Link from '@brand/Link.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import MiniToggle from '@brand/MiniToggle.astro';
+import Input from '@brand/Input.astro';
+import Textarea from '@brand/Textarea.astro';
+import Select from '@brand/Select.astro';
+import Checkbox from '@brand/Checkbox.astro';
+import Radio from '@brand/Radio.astro';
+import CodeBlock from '@brand/CodeBlock.astro';
+import Blockquote from '@brand/Blockquote.astro';
+import DiamondEmbed from '@brand/DiamondEmbed.astro';
+import StreamEmbed from '@brand/StreamEmbed.astro';
+import diamondSrc from '../components/DiamondEmbed.astro?raw';
+import streamSrc  from '../components/StreamEmbed.astro?raw';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+/* ── Embed copy snippets — extract inline scripts from component source ── */
+function extractInlineScript(src: string): string {
+  const m = src.match(/<script is:inline>([\s\S]*?)<\/script>/);
+  return m ? m[1].trim() : '';
+}
+
+const diamondCode = `<div id="diamond-embed" style="width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;">
+  <canvas style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+</div>
+<script>
+${extractInlineScript(diamondSrc)}
+</script>`;
+
+const streamCode = `<div id="stream-embed" data-stream-id="stream-embed" style="width:100%;"></div>
+<script>
+${extractInlineScript(streamSrc)}
+</script>`;
+
+/* ── Color families ── */
+const colorFamilies = [
+  {
+    name: 'Grayscale',
+    prefix: 'grayscale',
+    steps: [50, 100, 150, 200, 300, 400, 500, 550, 600, 700, 750, 800, 850, 900, 950, 1000],
+  },
+  { name: 'Gold',   prefix: 'gold',   steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Orange', prefix: 'orange', steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Red',    prefix: 'red',    steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Violet', prefix: 'violet', steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Blue',   prefix: 'blue',   steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Teal',   prefix: 'teal',   steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Green',  prefix: 'green',  steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Lime',   prefix: 'lime',   steps: [50,100,200,300,400,500,600,700,800,900,950] },
+  { name: 'Yellow', prefix: 'yellow', steps: [50,100,200,300,400,500,600,700,800,900,950] },
+];
+
+const gradients = [
+  { name: '--gradient-gold-orange',  label: 'Gold → Orange' },
+  { name: '--gradient-orange-red',   label: 'Orange → Red' },
+  { name: '--gradient-red-violet',   label: 'Red → Violet' },
+  { name: '--gradient-violet-blue',  label: 'Violet → Blue' },
+  { name: '--gradient-teal-green',   label: 'Teal → Green' },
+  { name: '--gradient-green-lime',   label: 'Green → Lime' },
+  { name: '--gradient-lime-yellow',  label: 'Lime → Yellow' },
+];
+
+const semanticBgSurfaces = [
+  { token: '--surface-background-default',  label: 'Background Default' },
+  { token: '--surface-background-bright',   label: 'Background Bright' },
+  { token: '--surface-background-dim',      label: 'Background Dim' },
+];
+
+const semanticFgSurfaces = [
+  { token: '--surface-foreground-lowest',   label: 'Foreground Lowest' },
+  { token: '--surface-foreground-low',      label: 'Foreground Low' },
+  { token: '--surface-foreground-default',  label: 'Foreground Default' },
+  { token: '--surface-foreground-high',     label: 'Foreground High' },
+  { token: '--surface-foreground-highest',  label: 'Foreground Highest' },
+];
+
+const darkBgSurfaces = [
+  { token: '--dark-surface-background-default',  label: 'Background Default' },
+  { token: '--dark-surface-background-bright',   label: 'Background Bright' },
+  { token: '--dark-surface-background-dim',      label: 'Background Dim' },
+];
+
+const darkFgSurfaces = [
+  { token: '--dark-surface-foreground-lowest',   label: 'Foreground Lowest' },
+  { token: '--dark-surface-foreground-low',      label: 'Foreground Low' },
+  { token: '--dark-surface-foreground-default',  label: 'Foreground Default' },
+  { token: '--dark-surface-foreground-high',     label: 'Foreground High' },
+  { token: '--dark-surface-foreground-highest',  label: 'Foreground Highest' },
+];
+
+const textTokens = [
+  '--text-headline', '--text-body', '--text-subtle',
+  '--text-headline-light', '--text-body-light',
+];
+
+const interactiveTokens = [
+  '--color-interactive-default', '--color-interactive-hover',
+  '--color-interactive-focus', '--color-interactive-active', '--color-interactive-disabled',
+];
+
+const spacingSteps = [
+  { name: '3XS',  token: '--spacing-3XS' },
+  { name: '2XS',  token: '--spacing-2XS' },
+  { name: 'XS',   token: '--spacing-XS' },
+  { name: 'S',    token: '--spacing-S' },
+  { name: 'M',    token: '--spacing-M' },
+  { name: 'L',    token: '--spacing-L' },
+  { name: 'XL',   token: '--spacing-XL' },
+  { name: '2XL',  token: '--spacing-2XL' },
+  { name: '3XL',  token: '--spacing-3XL' },
+  { name: '4XL',  token: '--spacing-4XL' },
+  { name: '5XL',  token: '--spacing-5XL' },
+  { name: 'Full', token: '--spacing-full' },
+];
+
+const radii = [
+  { name: 'XS',   token: '--border-radius-XS' },
+  { name: 'S',    token: '--border-radius-S' },
+  { name: 'M',    token: '--border-radius-M' },
+  { name: 'L',    token: '--border-radius-L' },
+  { name: 'XL',   token: '--border-radius-XL' },
+  { name: 'Full', token: '--border-radius-full' },
+];
+
+const shadows = [
+  { name: 'sm', token: '--shadow-sm' },
+  { name: 'md', token: '--shadow-md' },
+  { name: 'lg', token: '--shadow-lg' },
+];
+
+const transitions = [
+  { name: 'base',  token: '--transition-base',  value: '0.4s ease — buttons, links, icons, surfaces' },
+  { name: 'theme', token: '--transition-theme', value: '0.4s ease — theme switch bg/color transitions' },
+];
+
+const icons = [
+  'logo-github', 'logo-twitter', 'logo-linkedin', 'logo-youtube',
+  'arrow-forward-outline', 'arrow-back-outline', 'chevron-forward-outline', 'chevron-down-outline',
+  'close-outline', 'menu-outline', 'search-outline',
+  'copy-outline', 'link-outline', 'open-outline', 'download-outline',
+  'checkmark-circle-outline', 'alert-circle-outline', 'information-circle-outline',
+  'lock-closed-outline', 'shield-checkmark-outline', 'eye-outline', 'layers-outline',
+];
+
+const selectOptions = [
+  { value: 'opt1', label: 'Option 1' },
+  { value: 'opt2', label: 'Option 2' },
+  { value: 'opt3', label: 'Option 3' },
+];
+
+const logoGroups = [
+  {
+    group: 'Horizontal',
+    logos: [
+      { file: 'OpenMined-Logo.svg',            label: 'Full color',    dark: false },
+      { file: 'OpenMined-Logo-Dark.svg',        label: 'Reversed',      dark: true  },
+      { file: 'OpenMined-Logo-Ghost.svg',       label: 'Ghost',         dark: true  },
+      { file: 'OpenMined-Logo-Mono-White.svg',  label: 'Mono white',    dark: true  },
+      { file: 'OpenMined-Logo-Mono-Black.svg',  label: 'Mono black',    dark: false },
+    ],
+  },
+  {
+    group: 'Stacked',
+    logos: [
+      { file: 'OpenMined-Logo-Stacked.svg',           label: 'Full color', dark: false },
+      { file: 'OpenMined-Logo-Stacked-Dark.svg',       label: 'Reversed',   dark: true  },
+      { file: 'OpenMined-Logo-Stacked-Ghost.svg',      label: 'Ghost',      dark: true  },
+      { file: 'OpenMined-Logo-Stacked-Mono-White.svg', label: 'Mono white', dark: true  },
+      { file: 'OpenMined-Logo-Stacked-Mono-Black.svg', label: 'Mono black', dark: false },
+    ],
+  },
+  {
+    group: 'Icon mark',
+    logos: [
+      { file: 'OpenMined-Icon.svg', label: 'Icon mark', dark: true },
+    ],
+  },
+];
+
+const navLinks = [
+  { label: 'Colors',     href: '#colors'     },
+  { label: 'Gradients',  href: '#gradients'  },
+  { label: 'Surfaces',   href: '#surfaces'   },
+  { label: 'Typography', href: '#typography' },
+  { label: 'Spacing',    href: '#spacing'    },
+  { label: 'Styles',     href: '#styles'     },
+  { label: 'Elements',   href: '#elements'   },
+  { label: 'Icons',      href: '#icons'      },
+  { label: 'Graphics',   href: '#graphics'   },
+  { label: 'Logos',      href: '#logos'      },
+];
+---
+
+<Base>
+
+  <!-- ── Top nav ────────────────────────────────────────────────────── -->
+  <header class="br-nav">
+    <div class="container br-nav__inner">
+      <a href="/" class="br-nav__logo" aria-label="OpenMined Brand Reference — home">
+        <img src={`${base}/logos/OpenMined-Logo.svg`}      alt="OpenMined" class="logo-color" height="26" />
+        <img src={`${base}/logos/OpenMined-Logo-Dark.svg`} alt="OpenMined" class="logo-white" height="26" />
+        <span class="br-nav__wordmark">Brand Reference</span>
+      </a>
+      <nav class="br-nav__links" aria-label="Sections">
+        {navLinks.map(l => <a class="br-nav__link" href={l.href}>{l.label}</a>)}
+      </nav>
+      <ThemeToggle />
+    </div>
+  </header>
+
+  <!-- ── Main ───────────────────────────────────────────────────────── -->
+  <main>
+    <div class="container">
+      <div class="sg-main">
+
+        <div class="sg-header">
+          <h1>OpenMined Brand Reference</h1>
+          <p class="text-subtitle">Canonical tokens, UI primitives, and logo assets for all OpenMined projects.</p>
+        </div>
+
+        <!-- COLORS -->
+        <section class="sg-section" id="colors">
+          <h2 class="sg-section__title">Colors</h2>
+          <p class="sg-section__desc">Brand palette across 10 color families and interactive states. Click any swatch to copy its hex value.</p>
+
+          {colorFamilies.map(family => (
+            <div class="sg-color-family">
+              <h4 class="sg-subsection-title">{family.name}</h4>
+              <div class="sg-swatches">
+                {family.steps.map(step => (
+                  <button
+                    class="sg-swatch"
+                    type="button"
+                    data-section="always-light"
+                    data-var={`--color-${family.prefix}-${step}`}
+                    aria-label={`Copy ${family.prefix}-${step} hex`}
+                  >
+                    <div
+                      class="sg-swatch__color"
+                      style={`background-color: var(--color-${family.prefix}-${step});`}
+                    ></div>
+                    <div class="sg-swatch__info">
+                      <span class="sg-swatch__label">{step}</span>
+                      <span class="sg-swatch__hex"></span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <h4 class="sg-subsection-title">Interactive States</h4>
+          <div class="sg-swatches">
+            {interactiveTokens.map(token => (
+              <button
+                class="sg-swatch"
+                type="button"
+                data-section="always-light"
+                data-var={token}
+                aria-label={`Copy ${token} hex`}
+              >
+                <div class="sg-swatch__color" style={`background-color: var(${token});`}></div>
+                <div class="sg-swatch__info">
+                  <span class="sg-swatch__label">{token.replace('--color-interactive-', '')}</span>
+                  <span class="sg-swatch__hex"></span>
+                </div>
+              </button>
+            ))}
+          </div>
+
+        </section>
+
+        <!-- GRADIENTS -->
+        <section class="sg-section" id="gradients">
+          <h2 class="sg-section__title">Gradients</h2>
+          <p class="sg-section__desc">7 directional gradients at 67° per brand spec.</p>
+          <div class="sg-gradients">
+            {gradients.map(g => (
+              <div class="sg-gradient-row">
+                <div class="sg-gradient-strip" style={`background: var(${g.name});`}></div>
+                <div class="sg-gradient-meta">
+                  <code>{g.name}</code>
+                  <span class="sg-gradient-label">{g.label}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- SURFACES -->
+        <section class="sg-section" id="surfaces">
+          <h2 class="sg-section__title">Surfaces</h2>
+          <p class="sg-section__desc">Semantic tokens for backgrounds and foregrounds, with theme-responsive and fixed-context variants.</p>
+          <h4 class="sg-subsection-title">Semantic (theme-responsive)</h4>
+          <p class="sg-section__desc">Adapts automatically to light and dark mode. Use <code>--surface-background-*</code> for page backgrounds and <code>--surface-foreground-*</code> for cards, borders, and overlays.</p>
+          <div class="sg-surface-wrap" style="background: var(--surface-background-default); border: 1px solid var(--surface-foreground-default);">
+            <div class="sg-surface-grid sg-surface-grid--3">
+              {semanticBgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--surface-background-default' ? ' border: 1px solid var(--surface-foreground-default);' : ''}`}>
+                  <code>{s.token}</code>
+                  <span>{s.label}</span>
+                </div>
+              ))}
+            </div>
+            <div class="sg-surface-grid sg-surface-grid--5">
+              {semanticFgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--surface-foreground-default);`}>
+                  <code>{s.token}</code>
+                  <span>{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <h4 class="sg-subsection-title">Invert Tokens</h4>
+          <p class="sg-section__desc">The <code>--dark-surface-*</code> parallel set. Apply <code>data-section="invert"</code> to flip an element's surface tokens relative to the page theme — dark surface in light mode, light surface in dark mode.</p>
+          <div class="sg-surface-wrap" style="background: var(--dark-surface-background-default);">
+            <div class="sg-surface-grid sg-surface-grid--3">
+              {darkBgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--dark-surface-background-default' ? ' border: 1px solid var(--dark-surface-foreground-default);' : ''}`}>
+                  <code style="color: var(--text-headline-light);">{s.token}</code>
+                  <span style="color: var(--text-body-light);">{s.label}</span>
+                </div>
+              ))}
+            </div>
+            <div class="sg-surface-grid sg-surface-grid--5">
+              {darkFgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--dark-surface-foreground-default);`}>
+                  <code style="color: var(--text-headline-light);">{s.token}</code>
+                  <span style="color: var(--text-body-light);">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <h4 class="sg-subsection-title">Fixed Context</h4>
+          <p class="sg-section__desc">Lock any element to a specific surface mode regardless of page theme. Apply <code>data-section</code> directly to a card, section, or container — all semantic tokens inside resolve correctly for that context.</p>
+          <div class="sg-surface-contexts">
+
+            <div class="sg-surface-context" data-section="always-light">
+              <p class="sg-context-label"><code>data-section="always-light"</code></p>
+              <p class="sg-context-desc">Use for cards, modals, or panels that must always appear on a light surface — ensures dark text on light background in both light and dark modes.</p>
+              <h3>Surface heading</h3>
+              <p>Body copy inside an always-light context. Semantic text and surface tokens resolve to their light values regardless of the page theme.</p>
+            </div>
+
+            <div class="sg-surface-context" data-section="always-dark">
+              <p class="sg-context-label"><code>data-section="always-dark"</code></p>
+              <p class="sg-context-desc">Use for hero sections, feature callouts, or decorative panels that should always appear on a dark surface — ensures light text on dark background in both modes.</p>
+              <h3>Surface heading</h3>
+              <p>Body copy inside an always-dark context. Semantic text and surface tokens resolve to their dark values regardless of the page theme.</p>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- TYPOGRAPHY -->
+        <section class="sg-section" id="typography">
+          <h2 class="sg-section__title">Typography</h2>
+          <p class="sg-section__desc">Type scale, utility classes, and text color tokens for all OpenMined projects.</p>
+
+          <h4 class="sg-subsection-title">Color Tokens</h4>
+          <div class="sg-token-table">
+            {textTokens.map(token => (
+              <div class="sg-token-row">
+                <div class="sg-swatch__color sg-swatch__color--sm" style={`background-color: var(${token});`}></div>
+                <code>{token}</code>
+              </div>
+            ))}
+          </div>
+
+          <h4 class="sg-subsection-title">Page Scale — Headings &amp; Body</h4>
+          <div class="sg-type-specimens">
+            <div class="sg-type-row">
+              <span class="sg-type-label">H1 · Rubik 400</span>
+              <h1 class="sg-type-demo">The Quick Brown Fox</h1>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">H2 · Rubik 400</span>
+              <h2 class="sg-type-demo">The Quick Brown Fox</h2>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">H3 · Rubik 400</span>
+              <h3 class="sg-type-demo">The Quick Brown Fox</h3>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">H4 · Rubik 400</span>
+              <h4 class="sg-type-demo">The Quick Brown Fox</h4>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">H5 · Inter 400</span>
+              <h5 class="sg-type-demo">The Quick Brown Fox Jumps</h5>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">H6 · Inter 400</span>
+              <h6 class="sg-type-demo">The Quick Brown Fox Jumps Over</h6>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">.text-subtitle · Inter 400 21px</span>
+              <p class="text-subtitle sg-type-demo">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">.text-eyebrow</span>
+              <p class="text-eyebrow sg-type-demo">Who It's For</p>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">Body · Inter 400 16px</span>
+              <p class="sg-type-demo">The quick brown fox jumps over the lazy dog. Vivamus lacinia odio vitae vestibulum vestibulum lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">Body 300 (light)</span>
+              <p style="font-weight:300;" class="sg-type-demo">The quick brown fox jumps over the lazy dog. Vivamus lacinia odio vitae vestibulum vestibulum lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">Body italic</span>
+              <p style="font-style:italic;" class="sg-type-demo">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">.text-meta · Inter 500 12px</span>
+              <span class="text-meta sg-type-demo">Meta Text — captions, icon names, form labels, error hints, supporting UI text</span>
+            </div>
+            <div class="sg-type-row">
+              <span class="sg-type-label">.text-meta-error</span>
+              <span class="text-meta-error sg-type-demo">This field is required.</span>
+            </div>
+          </div>
+
+          <h4 class="sg-subsection-title">Article Scale</h4>
+          <p class="sg-section__desc">Long-form reading context. Rendered inside <code>.prose</code>.</p>
+          <div class="prose sg-article-demo">
+            <h2>Federated Learning and the Future of Collaborative AI</h2>
+            <p>Privacy-preserving machine learning has emerged as one of the defining challenges of the AI era. As organizations accumulate vast stores of sensitive data — medical records, financial transactions, behavioral signals — the traditional approach of centralizing that data for model training becomes untenable both legally and ethically.</p>
+            <p>Federated learning inverts the paradigm: instead of bringing data to the model, we bring the model to the data. Each participant trains locally, shares only gradient updates, and never exposes raw records. See the <a href="#">original Syft paper</a> for the full protocol.</p>
+
+            <h3>Why Centralization Fails</h3>
+            <p>The costs of centralized training are not merely regulatory. Moving petabytes of sensitive data introduces exfiltration risk at every step — in transit, at rest, and in the hands of whoever operates the central silo.</p>
+
+            <Blockquote>
+              <p>"The question is not whether we can build AI systems that learn from private data — the question is whether we can do so without ever moving the data at all."</p>
+            </Blockquote>
+
+            <h4>Gradient Compression</h4>
+            <p>Modern federated systems combine gradient sparsification with quantization to reduce communication overhead by several orders of magnitude.</p>
+
+            <h5>Aggregation Protocols</h5>
+            <p>Secure aggregation uses cryptographic masking so the central coordinator sees only the sum of participant gradients — never any individual update.</p>
+
+            <CodeBlock lang="python">{`import syft as sy
+
+data_owner = sy.connect("https://hospital-a.example.com")
+dataset = data_owner.datasets["patient_records"].request_access(
+    reason="Training federated model for disease prediction"
+)
+model.fit(dataset.features, dataset.labels)`}</CodeBlock>
+
+            <h6>Implementation Considerations</h6>
+            <p>Practical deployments must account for client dropout, non-IID data distributions, and adversarial participants.</p>
+          </div>
+
+        </section>
+
+        <!-- SPACING -->
+        <section class="sg-section" id="spacing">
+          <h2 class="sg-section__title">Spacing</h2>
+          <p class="sg-section__desc">12 defined steps. Values above <code>--spacing-full</code> (88px) are not in the token system.</p>
+          <div class="sg-spacing-list">
+            {spacingSteps.map(s => (
+              <div class="sg-spacing-row">
+                <code class="sg-spacing-label">{s.token}</code>
+                <div class="sg-spacing-bar" style={`width: var(${s.token}); height: 20px; background: var(--color-teal-400); border-radius: 2px; flex-shrink: 0;`}></div>
+                <span class="sg-spacing-name">{s.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- STYLES -->
+        <section class="sg-section" id="styles">
+          <h2 class="sg-section__title">Styles</h2>
+          <p class="sg-section__desc">Border radius, shadow, and transition tokens.</p>
+
+          <div class="sg-group" id="radii">
+            <h4 class="sg-group-heading">Border Radius</h4>
+            <div class="sg-radius-grid">
+              {radii.map(r => (
+                <div class="sg-radius-cell">
+                  <div class="sg-radius-box" style={`border-radius: var(${r.token});`}></div>
+                  <code>{r.token}</code>
+                  <span>{r.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="sg-group" id="shadows">
+            <h4 class="sg-group-heading">Shadows</h4>
+            <div class="sg-shadow-grid">
+              {shadows.map(s => (
+                <div class="sg-shadow-cell" style={`box-shadow: var(${s.token});`}>
+                  <code>{s.token}</code>
+                  <span>{s.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="sg-group" id="transitions">
+            <h4 class="sg-group-heading">Transitions</h4>
+            <p class="sg-section__desc">2 tokens. Both are <code>0.4s ease</code>. Hover each box to preview.</p>
+            <div class="sg-transition-grid">
+              {transitions.map(t => (
+                <div class="sg-transition-cell">
+                  <div class="sg-transition-box" style={`transition: background-color var(${t.token});`}>Hover me</div>
+                  <code>{t.token}</code>
+                  <span>{t.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <!-- ELEMENTS -->
+        <section class="sg-section" id="elements">
+          <h2 class="sg-section__title">Elements</h2>
+          <p class="sg-section__desc">Brand UI primitives — buttons, links, forms, and controls.</p>
+
+          <div class="sg-group" id="buttons">
+            <h4 class="sg-group-heading">Buttons</h4>
+            <h4 class="sg-subsection-title">Variants</h4>
+            <div class="sg-component-row">
+              <Button href="#">Primary</Button>
+              <Button href="#" variant="outline">Outline</Button>
+              <Button disabled>Disabled Primary</Button>
+              <Button variant="outline" disabled>Disabled Outline</Button>
+            </div>
+            <h4 class="sg-subsection-title">With Icon</h4>
+            <div class="sg-component-row">
+              <Button href="#">
+                <span class="btn-icon-row">
+                  Get Started
+                  <ion-icon name="arrow-forward-outline"></ion-icon>
+                </span>
+              </Button>
+              <Button href="#" variant="outline">
+                <span class="btn-icon-row">
+                  <ion-icon name="logo-github"></ion-icon>
+                  View on GitHub
+                </span>
+              </Button>
+            </div>
+            <h4 class="sg-subsection-title">As button element</h4>
+            <div class="sg-component-row">
+              <Button type="button">Button Type</Button>
+              <Button type="submit">Submit Type</Button>
+            </div>
+          </div>
+
+          <div class="sg-group" id="theme-toggle">
+            <h4 class="sg-group-heading">Theme Toggle</h4>
+            <p class="sg-section__desc">
+              Two sizes. Both carry <code>.js-switch-theme</code> so the global handler in
+              <code>Base.astro</code> toggles <code>[data-theme]</code>.
+              <code>ThemeToggle</code> (46×26px) for prominent placement.
+              <code>MiniToggle</code> (20×11px) for the header corner.
+            </p>
+            <div class="sg-component-row">
+              <ThemeToggle />
+              <MiniToggle />
+            </div>
+          </div>
+
+          <div class="sg-group" id="links">
+            <h4 class="sg-group-heading">Links</h4>
+            <p class="sg-section__desc">
+              Author links via the canonical <code>&lt;Link&gt;</code> component — variants
+              <code>inline</code>, <code>nav</code>, <code>subtle</code>, <code>absolute-cover</code>.
+            </p>
+            <div class="sg-component-col">
+              <div class="sg-link-row">
+                <span class="sg-type-label">Bare <code>a</code> inside <code>.prose</code></span>
+                <div class="prose"><p>Visit <a href="#">the OpenMined documentation</a> to get started.</p></div>
+              </div>
+              <div class="sg-link-row">
+                <span class="sg-type-label"><code>&lt;Link variant="inline"&gt;</code></span>
+                <p><Link href="#" variant="inline">Genomics — Join the Beta</Link></p>
+              </div>
+              <div class="sg-link-row">
+                <span class="sg-type-label"><code>&lt;Link variant="inline"&gt;</code> with icon</span>
+                <p>
+                  <Link href="#" variant="inline" class="sg-link-icon">
+                    Read the case study
+                    <ion-icon name="arrow-forward-outline" class="sg-link-icon__icon"></ion-icon>
+                  </Link>
+                </p>
+              </div>
+              <div class="sg-link-row">
+                <span class="sg-type-label"><code>&lt;Link variant="nav"&gt;</code></span>
+                <p>
+                  <Link href="#" variant="nav">Foundation</Link>
+                  <Link href="#" variant="nav">Blog</Link>
+                  <Link href="#" variant="nav">Careers</Link>
+                </p>
+              </div>
+              <div class="sg-link-row">
+                <span class="sg-type-label"><code>&lt;Link variant="subtle"&gt;</code></span>
+                <p><Link href="#" variant="subtle">Privacy Policy</Link> · <Link href="#" variant="subtle">Terms of Service</Link></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="sg-group" id="forms">
+            <h4 class="sg-group-heading">Forms</h4>
+            <div class="sg-form-demo">
+              <Input id="demo-name"     name="name"     label="Full Name"       placeholder="Enter your full name" />
+              <Input id="demo-email"    name="email"    label="Email Address"    placeholder="you@example.com" type="email" />
+              <Input id="demo-disabled" name="disabled" label="Disabled Input"   placeholder="Not editable" disabled />
+              <Textarea id="demo-message" name="message" label="Message"         placeholder="Tell us about your use case..." />
+              <Select id="demo-select"  name="select"  label="Select an option"  options={selectOptions} placeholder="Choose one..." />
+              <div class="sg-form-checks">
+                <Checkbox id="demo-check1" name="check"  label="I agree to the terms of service" />
+                <Checkbox id="demo-check2" name="check2" label="Subscribe to newsletter" />
+                <Checkbox id="demo-check3" name="check3" label="Disabled checkbox" disabled />
+              </div>
+              <div class="sg-form-checks">
+                <Radio id="demo-radio1" name="radio" label="Option A" value="a" />
+                <Radio id="demo-radio2" name="radio" label="Option B" value="b" />
+                <Radio id="demo-radio3" name="radio" label="Option C (disabled)" value="c" disabled />
+              </div>
+              <div class="sg-form-submit">
+                <Button type="submit">Submit Form</Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ICONS -->
+        <section class="sg-section" id="icons">
+          <h2 class="sg-section__title">Icons</h2>
+          <p class="sg-section__desc">Ionicons web components — current icon peer dependency. Usage: <code>&lt;ion-icon name="arrow-forward-outline"&gt;&lt;/ion-icon&gt;</code>. Custom SVG icons go in <code>assets/icons/</code> and can replace these element-by-element.</p>
+          <div class="sg-icon-grid">
+            {icons.map(name => (
+              <div class="sg-icon-cell">
+                <ion-icon name={name} class="sg-icon"></ion-icon>
+                <span class="text-meta">{name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- GRAPHICS -->
+        <section class="sg-section" id="graphics">
+          <h2 class="sg-section__title">Graphics</h2>
+          <p class="sg-section__desc">WebGL animated brand components. Click the edit button to open the interactive controls editor. Copy button copies the component usage snippet.</p>
+
+          <h4 class="sg-subsection-title">Diamond Embed (SDF WebGL)</h4>
+          <div class="sg-graphic-wrap">
+            <a class="sg-graphic-edit" href={`${base}/diamond/`} target="_blank" aria-label="Open Diamond editor">
+              <ion-icon name="open-outline"></ion-icon>
+            </a>
+            <button class="sg-graphic-copy" type="button" aria-label="Copy usage code" data-copy={diamondCode}>
+              <ion-icon name="copy-outline"      class="copy-icon"></ion-icon>
+              <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+            </button>
+            <div class="sg-diamond-demo">
+              <DiamondEmbed id="diamond-sg" />
+            </div>
+          </div>
+
+          <h4 class="sg-subsection-title">Stream Embed (Gradient WebGL)</h4>
+          <div class="sg-graphic-wrap">
+            <a class="sg-graphic-edit" href={`${base}/stream/`} target="_blank" aria-label="Open Stream editor">
+              <ion-icon name="open-outline"></ion-icon>
+            </a>
+            <button class="sg-graphic-copy" type="button" aria-label="Copy usage code" data-copy={streamCode}>
+              <ion-icon name="copy-outline"      class="copy-icon"></ion-icon>
+              <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+            </button>
+            <div class="sg-stream-demo">
+              <StreamEmbed id="stream-sg" />
+            </div>
+          </div>
+        </section>
+
+        <!-- LOGOS -->
+        <section class="sg-section" id="logos">
+          <h2 class="sg-section__title">Logos</h2>
+          <p class="sg-section__desc">All approved logo variants from brand.openmined.org. SVG source files in <code>public/logos/</code>.</p>
+
+          {logoGroups.map(group => (
+            <div class="sg-logo-group">
+              <h4 class="sg-subsection-title">{group.group}</h4>
+              {group.note && <p class="sg-logo-group-note">{group.note}</p>}
+              <div class="sg-logo-grid">
+                {group.logos.map(({ file, label, dark }) => (
+                  <div
+                    class:list={['sg-logo-cell', dark ? 'sg-logo-cell--dark' : 'sg-logo-cell--light']}
+                    data-section={dark ? 'always-dark' : 'always-light'}
+                  >
+                    <img src={`${base}/logos/${file}`} alt={label} class="sg-logo-img" />
+                    <span class="text-meta">{label}</span>
+                    <a class="sg-logo-download" href={`${base}/logos/${file}`} download={file}>
+                      <ion-icon name="download-outline"></ion-icon> {file}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+</Base>
+
+<style>
+  /* ── Top nav ──────────────────────────────────────────────────────── */
+  .br-nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: var(--surface-background-default);
+    border-bottom: 1px solid var(--surface-foreground-default);
+    transition: background-color var(--transition-theme);
+  }
+
+  .br-nav__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2XL);
+    min-height: 56px;
+    padding-block: var(--spacing-S);
+  }
+
+  .br-nav__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-M);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .br-nav__wordmark {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-subtle);
+    border-left: 1px solid var(--surface-foreground-default);
+    padding-left: var(--spacing-M);
+    white-space: nowrap;
+  }
+
+  .br-nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-S);
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .br-nav__link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-body);
+    text-decoration: none;
+    padding: var(--spacing-2XS) var(--spacing-S);
+    border-radius: var(--border-radius-XS);
+    white-space: nowrap;
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+  .br-nav__link:hover {
+    background: var(--surface-foreground-low);
+    color: var(--text-headline);
+  }
+
+  .br-nav__link.is-active {
+    background: var(--surface-foreground-default);
+    color: var(--text-headline);
+  }
+
+  /* ── Main content ─────────────────────────────────────────────────── */
+  .sg-main {
+    padding: var(--spacing-3XL);
+  }
+
+  .sg-header {
+    margin-bottom: var(--spacing-4XL);
+    padding-bottom: var(--spacing-2XL);
+    border-bottom: 1px solid var(--surface-foreground-default);
+  }
+
+  .sg-header h1 { margin-bottom: var(--spacing-M); }
+
+  /* ── Section ──────────────────────────────────────────────────────── */
+  .sg-section {
+    margin-bottom: var(--spacing-4XL);
+    padding-bottom: var(--spacing-4XL);
+    border-bottom: 1px solid var(--surface-foreground-default);
+  }
+
+  .sg-section__title {
+    margin-bottom: var(--spacing-M);
+    color: var(--text-headline);
+  }
+
+  .sg-section__desc {
+    color: var(--text-body);
+    margin-bottom: var(--spacing-2XL);
+  }
+
+  .sg-subsection-title {
+    margin-bottom: var(--spacing-L);
+    margin-top: var(--spacing-3XL);
+  }
+  .sg-subsection-title:first-child { margin-top: 0; }
+
+  /* ── Colors ───────────────────────────────────────────────────────── */
+  .sg-color-family { margin-bottom: var(--spacing-3XL); }
+
+  .sg-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
+    gap: var(--spacing-XS);
+    width: 100%;
+  }
+
+  .sg-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    cursor: pointer;
+    border: none;
+    background: var(--surface-background-default);
+    padding: 0;
+    text-align: center;
+    border-radius: var(--border-radius-S);
+    overflow: hidden;
+    transition: transform var(--transition-base);
+    font-family: inherit;
+    box-shadow: var(--shadow-md);
+  }
+
+  .sg-swatch:hover { transform: translateY(-3px); }
+
+  .sg-swatch:focus-visible {
+    outline: 2px solid var(--color-interactive-focus);
+    outline-offset: 2px;
+  }
+
+  .sg-swatch__color {
+    width: 100%;
+    height: 56px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .sg-swatch__color--sm {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: var(--border-radius-XS);
+  }
+
+  .sg-swatch__info {
+    padding: var(--spacing-S);
+    background: var(--surface-background-bright);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2XS);
+  }
+
+  .sg-swatch__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-body);
+    line-height: 1;
+  }
+
+  .sg-swatch__hex {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-subtle);
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sg-token-table { display: flex; flex-direction: column; gap: var(--spacing-S); }
+  .sg-token-row   { display: flex; align-items: center; gap: var(--spacing-M); }
+
+  /* ── Gradients ────────────────────────────────────────────────────── */
+  .sg-gradients { display: flex; flex-direction: column; gap: var(--spacing-L); }
+  .sg-gradient-row { display: flex; align-items: center; gap: var(--spacing-L); }
+
+  .sg-gradient-strip {
+    width: 340px;
+    height: 44px;
+    border-radius: var(--border-radius-S);
+    flex-shrink: 0;
+  }
+
+  .sg-gradient-meta { display: flex; flex-direction: column; gap: var(--spacing-2XS); flex-shrink: 0; }
+  .sg-gradient-label { font-size: 13px; color: var(--text-body); }
+
+  /* ── Surfaces ─────────────────────────────────────────────────────── */
+  .sg-surface-wrap {
+    padding: var(--spacing-L);
+    border-radius: var(--border-radius-M);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-M);
+  }
+
+  .sg-surface-grid { display: grid; gap: var(--spacing-M); }
+  .sg-surface-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .sg-surface-grid--5 { grid-template-columns: repeat(5, 1fr); }
+
+  .sg-surface-cell {
+    padding: var(--spacing-L);
+    border-radius: var(--border-radius-S);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-XS);
+  }
+
+  .sg-surface-cell code { font-size: 13px; word-break: break-all; background: none; padding: 0; }
+  .sg-surface-cell span { font-size: 13px; color: var(--text-body); }
+
+  .sg-surface-contexts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-M);
+  }
+
+  .sg-surface-context {
+    padding: var(--spacing-3XL);
+    border-radius: var(--border-radius-M);
+    background: var(--surface-background-default);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-M);
+  }
+
+  .sg-context-label code { font-size: 13px; background: none; padding: 0; }
+
+  .sg-context-desc {
+    color: var(--text-body);
+    border-bottom: 1px solid var(--surface-foreground-default);
+    padding-bottom: var(--spacing-M);
+    margin-bottom: var(--spacing-S);
+  }
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  .sg-type-specimens { display: flex; flex-direction: column; gap: 0; }
+
+  .sg-type-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-2XL);
+    padding: var(--spacing-M) 0;
+    border-bottom: 1px solid var(--surface-foreground-lowest);
+  }
+
+  .sg-type-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-subtle);
+    min-width: 200px;
+    flex-shrink: 0;
+  }
+
+  .sg-type-demo { margin: 0; }
+
+  .sg-article-demo {
+    border: 1px solid var(--surface-foreground-default);
+    border-radius: var(--border-radius-M);
+    padding: var(--spacing-4XL);
+  }
+
+  /* ── Spacing ──────────────────────────────────────────────────────── */
+  .sg-spacing-list { display: flex; flex-direction: column; gap: var(--spacing-S); }
+
+  .sg-spacing-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-L);
+  }
+
+  .sg-spacing-label { font-size: 13px; min-width: 160px; }
+  .sg-spacing-name  { font-size: 13px; color: var(--text-subtle); }
+
+  /* ── Border Radius ────────────────────────────────────────────────── */
+  .sg-radius-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2XL);
+    align-items: flex-end;
+  }
+
+  .sg-radius-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-S);
+  }
+
+  .sg-radius-box {
+    width: 72px;
+    height: 72px;
+    background: var(--surface-foreground-low);
+    border: 2px solid var(--surface-foreground-high);
+  }
+
+  .sg-radius-cell code,
+  .sg-radius-cell span { font-size: 13px; color: var(--text-subtle); text-align: center; }
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  .sg-shadow-grid { display: flex; gap: var(--spacing-3XL); flex-wrap: wrap; }
+
+  .sg-shadow-cell {
+    width: 160px;
+    height: 100px;
+    background: var(--surface-background-dim, var(--surface-foreground-lowest));
+    border-radius: var(--border-radius-M);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-XS);
+  }
+
+  .sg-shadow-cell code,
+  .sg-shadow-cell span { font-size: 13px; color: var(--text-body); }
+
+  /* ── Transitions ──────────────────────────────────────────────────── */
+  .sg-transition-grid { display: flex; gap: var(--spacing-2XL); flex-wrap: wrap; align-items: flex-start; }
+
+  .sg-transition-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-S);
+    max-width: 240px;
+  }
+
+  .sg-transition-box {
+    width: 160px;
+    height: 72px;
+    background: var(--surface-foreground-low);
+    border-radius: var(--border-radius-S);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: default;
+    border: 1px solid var(--surface-foreground-default);
+  }
+
+  .sg-transition-box:hover { background: var(--color-teal-100); }
+  :global([data-theme="dark"]) .sg-transition-box:hover { background: var(--color-teal-900); }
+
+  .sg-transition-cell code { font-size: 13px; }
+  .sg-transition-cell span { font-size: 13px; color: var(--text-subtle); line-height: 1.4; }
+
+  /* ── Component rows ───────────────────────────────────────────────── */
+  .sg-component-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-L);
+    align-items: center;
+    margin-bottom: var(--spacing-3XL);
+  }
+
+  .sg-component-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-L);
+  }
+
+  .btn-icon-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-S);
+  }
+
+  /* ── Links ────────────────────────────────────────────────────────── */
+  .sg-link-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-2XL);
+    padding: var(--spacing-M) 0;
+    border-bottom: 1px solid var(--surface-foreground-lowest);
+  }
+
+  .sg-link-row .sg-type-label { min-width: 220px; flex-shrink: 0; }
+
+  .sg-link-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-XS);
+  }
+  .sg-link-icon__icon { font-size: 14px; flex-shrink: 0; }
+
+  /* ── Forms ────────────────────────────────────────────────────────── */
+  .sg-form-demo {
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-L);
+  }
+
+  .sg-form-checks { display: flex; flex-direction: column; gap: var(--spacing-M); }
+
+  /* ── Icons ────────────────────────────────────────────────────────── */
+  .sg-icon-grid { display: flex; flex-wrap: wrap; gap: var(--spacing-L); }
+
+  .sg-icon-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-XS);
+    width: 80px;
+  }
+
+  .sg-icon { font-size: 28px; color: var(--text-body); }
+  .sg-icon-cell span { text-align: center; word-break: break-all; }
+
+  /* ── Grouped sub-sections (Styles, Elements) ─────────────────────── */
+  .sg-group {
+    margin-top: var(--spacing-4XL);
+    padding-top: var(--spacing-4XL);
+    border-top: 1px solid var(--surface-foreground-lowest);
+  }
+  .sg-group:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .sg-group-heading {
+    color: var(--text-headline);
+    margin-bottom: var(--spacing-2XL);
+  }
+
+  /* ── Form submit ──────────────────────────────────────────────────── */
+  .sg-form-submit :global(.btn) {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Graphics ─────────────────────────────────────────────────────── */
+  .sg-graphic-wrap {
+    position: relative;
+    box-shadow: 0 0 0 1px var(--surface-foreground-default);
+    border-radius: var(--border-radius-S);
+    margin-bottom: var(--spacing-L);
+  }
+
+  /* box-shadow outline avoids clipping — DiamondEmbed labels extend 335px outside canvas */
+
+  .sg-graphic-edit,
+  .sg-graphic-copy {
+    position: absolute;
+    top: var(--spacing-S);
+    z-index: var(--z-sticky);
+    background: var(--surface-background-default);
+    border: 1px solid var(--surface-foreground-default);
+    border-radius: var(--border-radius-XS);
+    color: var(--text-body);
+    cursor: pointer;
+    padding: var(--spacing-2XS) var(--spacing-XS);
+    font-size: 15px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background var(--transition-base), color var(--transition-base),
+                border-color var(--transition-base);
+  }
+
+  .sg-graphic-edit  { left: var(--spacing-S); }
+  .sg-graphic-copy  { right: var(--spacing-S); }
+
+  .sg-graphic-edit:hover,
+  .sg-graphic-copy:hover {
+    border-color: var(--text-body);
+    color: var(--text-headline);
+  }
+
+  .sg-graphic-copy .check-icon { display: none; }
+  .sg-graphic-copy.copied .copy-icon  { display: none; }
+  .sg-graphic-copy.copied .check-icon { display: block; }
+  .sg-graphic-copy.copied { color: var(--color-green-600); }
+
+  .sg-diamond-demo {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .sg-stream-demo {
+    width: 100%;
+  }
+
+  /* ── Logos ────────────────────────────────────────────────────────── */
+  .sg-logo-group {
+    margin-bottom: var(--spacing-4XL);
+  }
+
+  .sg-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2XL);
+  }
+
+  .sg-logo-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-M);
+    padding: var(--spacing-3XL);
+    border-radius: var(--border-radius-M);
+    min-height: 180px;
+  }
+
+  .sg-logo-cell--light {
+    background: var(--surface-background-default);
+    border: 1px solid var(--surface-foreground-default);
+  }
+
+  /* always-dark context provides the dark palette; no hardcoding needed */
+  .sg-logo-cell--dark { background: var(--surface-background-dim); }
+
+  .sg-logo-img { max-width: 220px; max-height: 80px; object-fit: contain; }
+
+  .sg-logo-download {
+    color: var(--text-subtle);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-XS);
+    transition: color var(--transition-base);
+  }
+  .sg-logo-download:hover { color: var(--color-interactive-hover); }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 991px) {
+    .br-nav__links { gap: var(--spacing-3XS); }
+    .sg-main { padding: var(--spacing-2XL); }
+    .sg-surface-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .sg-surface-grid--5 { grid-template-columns: repeat(3, 1fr); }
+    .sg-gradient-strip { width: 200px; }
+    .sg-logo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .sg-main { padding: var(--spacing-L); }
+    .br-nav__wordmark { display: none; }
+
+    /* Swatches — tighter columns and strip hex on small screens */
+    .sg-swatches { grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); }
+    .sg-swatch__color { height: 40px; }
+    .sg-swatch__info { padding: var(--spacing-2XS); }
+    .sg-swatch__label { font-size: 11px; }
+    .sg-swatch__hex { display: none; }
+
+    /* Gradients — stack strip above meta */
+    .sg-gradient-row { flex-direction: column; align-items: flex-start; }
+    .sg-gradient-strip { width: 100%; }
+
+    /* Surfaces */
+    .sg-surface-contexts { grid-template-columns: 1fr; }
+    .sg-surface-grid--3,
+    .sg-surface-grid--5 { grid-template-columns: repeat(2, 1fr); }
+
+    /* Typography */
+    .sg-type-row { flex-direction: column; align-items: flex-start; gap: var(--spacing-XS); }
+    .sg-type-label { min-width: auto; }
+
+    /* Spacing */
+    .sg-spacing-label { min-width: 120px; font-size: 11px; }
+
+    /* Links */
+    .sg-link-row { flex-direction: column; gap: var(--spacing-XS); }
+    .sg-link-row .sg-type-label { min-width: auto; }
+
+    /* Logos */
+    .sg-logo-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 479px) {
+    .sg-main { padding: var(--spacing-M); }
+
+    /* Even smaller swatches — ~5 per row on 375px */
+    .sg-swatches { grid-template-columns: repeat(auto-fit, minmax(36px, 1fr)); }
+
+    /* Surfaces: single column on very small */
+    .sg-surface-grid--3,
+    .sg-surface-grid--5 { grid-template-columns: 1fr 1fr; }
+
+    /* Hide nav links that don't fit, rely on scroll */
+    .br-nav__links { font-size: 12px; }
+
+    /* Shadows/radii: tighter */
+    .sg-shadow-grid { gap: var(--spacing-2XL); }
+    .sg-radius-grid { gap: var(--spacing-L); }
+  }
+</style>
+
+<script>
+  // Graphic copy buttons
+  document.addEventListener('click', (e: MouseEvent) => {
+    const btn = (e.target as HTMLElement).closest('.sg-graphic-copy') as HTMLElement | null;
+    if (!btn) return;
+    const text = (btn as HTMLElement).dataset.copy ?? '';
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 2000);
+    });
+  });
+
+  // Swatch hex display + click-to-copy
+  (() => {
+    function rgbToHex(rgb: string): string {
+      const m = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+      if (!m) return '';
+      const h = (n: string) => parseInt(n).toString(16).padStart(2, '0');
+      return `#${h(m[1])}${h(m[2])}${h(m[3])}`;
+    }
+
+    document.querySelectorAll<HTMLElement>('.sg-swatch[data-var]').forEach(swatch => {
+      const colorEl = swatch.querySelector<HTMLElement>('.sg-swatch__color');
+      const hexSpan = swatch.querySelector<HTMLElement>('.sg-swatch__hex');
+      if (!colorEl || !hexSpan) return;
+
+      const hex = rgbToHex(getComputedStyle(colorEl).backgroundColor);
+      hexSpan.textContent = hex;
+
+      swatch.addEventListener('click', () => {
+        if (!hex) return;
+        navigator.clipboard.writeText(hex).then(() => {
+          hexSpan.textContent = 'Copied!';
+          hexSpan.style.color = 'var(--color-green-600)';
+          setTimeout(() => {
+            hexSpan.textContent = hex;
+            hexSpan.style.color = '';
+          }, 1500);
+        });
+      });
+    });
+  })();
+
+  // Scrollspy — highlight the active nav section
+  (() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('section.sg-section[id]'));
+    const links    = document.querySelectorAll<HTMLAnchorElement>('.br-nav__link');
+    const visible  = new Set<string>();
+
+    const setActive = () => {
+      // First visible section in document order wins
+      const current = sections.find(s => visible.has(s.id))?.id ?? null;
+      links.forEach(link => {
+        link.classList.toggle('is-active', link.getAttribute('href') === `#${current}`);
+      });
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.isIntersecting ? visible.add(entry.target.id) : visible.delete(entry.target.id);
+      });
+      setActive();
+    }, {
+      // Section must break past the sticky nav (≈56px) and
+      // be within the top 60% of the viewport to register
+      rootMargin: '-56px 0px -40% 0px',
+      threshold: 0,
+    });
+
+    sections.forEach(s => observer.observe(s));
+  })();
+</script>
