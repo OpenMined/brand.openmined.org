@@ -1,0 +1,85 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<button
+  type="button"
+  role="switch"
+  aria-label="Toggle dark mode"
+  class:list={['theme-toggle', 'js-switch-theme', className]}
+>
+  <span class="theme-toggle__track">
+    <span class="theme-toggle__knob"></span>
+  </span>
+</button>
+
+<style>
+  .theme-toggle {
+    --tt-w: 40px;
+    --tt-h: 20px;
+    --tt-pad: 3px;
+    --tt-knob: calc(var(--tt-h) - 2 * var(--tt-pad));
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .theme-toggle__track {
+    position: relative;
+    width: var(--tt-w);
+    height: var(--tt-h);
+    border-radius: var(--border-radius-full);
+    background: var(--surface-foreground-default);
+    box-shadow: 0 0 0 1px var(--text-body);
+    transition: background-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .theme-toggle__knob {
+    position: absolute;
+    top: var(--tt-pad);
+    left: var(--tt-pad);
+    width: var(--tt-knob);
+    height: var(--tt-knob);
+    border-radius: var(--border-radius-full);
+    background: var(--text-body);
+    transition: transform var(--transition-base);
+  }
+
+  /* Dark: knob slides right */
+  :global([data-theme='dark']) .theme-toggle__knob {
+    transform: translateX(calc(var(--tt-w) - var(--tt-knob) - 2 * var(--tt-pad)));
+  }
+
+  .theme-toggle:focus-visible .theme-toggle__track {
+    outline: 2px solid var(--color-interactive-focus);
+    outline-offset: 2px;
+  }
+</style>
+
+<script is:inline>
+  // Keep aria-checked in sync with the page theme. The actual toggle is driven
+  // by the global .js-switch-theme click handler in Base.astro; this only
+  // reflects state for assistive tech. Guarded so multiple toggles share one observer.
+  (() => {
+    if (window.__omThemeToggleAria) return;
+    window.__omThemeToggleAria = true;
+    const sync = () => {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document
+        .querySelectorAll('.theme-toggle.js-switch-theme[role="switch"]')
+        .forEach((el) => el.setAttribute('aria-checked', String(dark)));
+    };
+    new MutationObserver(sync).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+    document.addEventListener('DOMContentLoaded', sync);
+    sync();
+  })();
+</script>

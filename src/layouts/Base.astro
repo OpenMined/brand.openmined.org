@@ -1,0 +1,65 @@
+---
+import '@tokens/tokens.css';
+import '@tokens/global.css';
+import '@tokens/typography.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'OpenMined Brand Reference',
+  description = 'Canonical brand tokens, UI primitives, and logo assets for OpenMined projects.',
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--
+      Theme init runs before stylesheets to prevent flash of wrong theme.
+      Reads localStorage, falls back to system preference, defaults to light.
+    -->
+    <script is:inline>
+      const stored = localStorage.getItem('theme');
+      const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme',
+        stored ?? (system ? 'dark' : 'light'));
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/logos/OpenMined-Icon.svg" />
+
+    <!-- Google Fonts scaffold — TODO: replace with self-hosted woff2 before production -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+
+    <!-- Theme toggle handler — wires any .js-switch-theme button on the page -->
+    <script>
+      document.addEventListener('click', (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.js-switch-theme')) {
+          const html = document.documentElement;
+          const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+        }
+      });
+    </script>
+
+    <!-- Ionicons — CDN for scaffold; swap for self-hosted before production -->
+    <script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
