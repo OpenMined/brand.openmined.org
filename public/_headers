@@ -5,3 +5,9 @@
 /embeds/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Design tokens, generated from src/tokens/ at build (see prebuild). Served so
+# any project can fetch or <link> the canonical CSS without cloning the repo.
+/tokens/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
