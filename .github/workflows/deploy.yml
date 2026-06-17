@@ -24,6 +24,11 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # OMDS enforcement gate — a raw color value blocks the deploy.
+      - name: Lint (design-token enforcement)
+        run: npm run lint
+
       - run: npm run build
 
       - name: Deploy to Cloudflare Pages

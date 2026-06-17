@@ -5,9 +5,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "lint": "stylelint \"src/**/*.{css,astro}\"",
+    "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix"
   },
   "dependencies": {
     "astro": "^4.16.0"
+  },
+  "devDependencies": {
+    "postcss-html": "^1.7.0",
+    "stylelint": "^16.10.0",
+    "stylelint-declaration-strict-value": "^1.10.6"
   }
 }

@@ -55,6 +55,20 @@ Tokens respond to `[data-theme="dark"]` on `<html>`. Three `data-section` values
 
 Ionicons is the current peer dependency. Custom SVG icons go in `public/icons/` and replace ionicons element-by-element when available. Each component that uses an ionicon names it in its file header.
 
+## Enforcement (raw colors are un-shippable)
+
+**IMPORTANT — never hardcode a color.** Every color on a brand surface MUST be a design token: `var(--color-teal-600)`, `var(--surface-background-default)`, `var(--text-body)`, etc. Literal palette values live in exactly one file: `src/tokens/tokens.css`.
+
+A stylelint gate (`stylelint.config.js`) makes this a hard rule, not a suggestion. Three rules — `color-no-hex`, `color-named`, and `declaration-strict-value` on color properties — fail the build on any raw hex, named color (`red`), or `rgb()`/`hsl()` literal. Run it with `npm run lint`. It runs in CI on every PR (`.github/workflows/lint.yml`, the merge blocker) and before every deploy (`deploy.yml`) — a violation cannot reach `brand.openmined.org`.
+
+**Exempt from the gate** (intentional, in `ignoreFiles`):
+- `src/tokens/tokens.css` — the palette source of truth; literal hex is correct here.
+- `src/pages/diamond/`, `src/pages/stream/` — WebGL tuning tooling with their own local control-panel palette; not brand surfaces.
+
+The WebGL embeds (`DiamondEmbed`/`StreamEmbed`) carry brand gradient stops as JS literals (shader inputs a CSS linter can't reach) — keep them in sync with the `--gradient-*` tokens by hand until a shared JS token export exists.
+
+If you genuinely need a color the tokens don't cover, add it to `tokens.css` first, then reference it — don't reach around the gate.
+
 ## Deploying
 
 Standard Astro build — no special config needed for GitHub Pages or Cloudflare Pages:

@@ -1,0 +1,30 @@
+name: Lint
+
+# OMDS design-token enforcement gate.
+# Runs on every PR (the merge blocker) and on pushes to main (backstop).
+# A raw color value — hex, named, or rgb()/hsl() literal on a color property —
+# fails the build. See stylelint.config.js.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint (design-token enforcement)
+        run: npm run lint
