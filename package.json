@@ -10,7 +10,7 @@
     "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix"
   },
   "dependencies": {
-    "astro": "^4.16.0"
+    "astro": "^6.4.8"
   },
   "devDependencies": {
     "postcss-html": "^1.7.0",
