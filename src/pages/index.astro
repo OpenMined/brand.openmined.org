@@ -13,28 +13,15 @@ import CodeBlock from '@brand/CodeBlock.astro';
 import Blockquote from '@brand/Blockquote.astro';
 import DiamondEmbed from '@brand/DiamondEmbed.astro';
 import StreamEmbed from '@brand/StreamEmbed.astro';
-import diamondSrc from '../components/DiamondEmbed.astro?raw';
-import streamSrc  from '../components/StreamEmbed.astro?raw';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-/* ── Embed copy snippets — extract inline scripts from component source ── */
-function extractInlineScript(src: string): string {
-  const m = src.match(/<script is:inline>([\s\S]*?)<\/script>/);
-  return m ? m[1].trim() : '';
-}
+/* ── Embed copy snippets — framework-agnostic <om-*> web components ── */
+const diamondCode = `<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
+<om-diamond style="max-width:420px"></om-diamond>`;
 
-const diamondCode = `<div id="diamond-embed" style="width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;">
-  <canvas style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
-</div>
-<script>
-${extractInlineScript(diamondSrc)}
-</script>`;
-
-const streamCode = `<div id="stream-embed" data-stream-id="stream-embed" style="width:100%;"></div>
-<script>
-${extractInlineScript(streamSrc)}
-</script>`;
+const streamCode = `<script type="module" src="https://design.openmined.org/embeds/om-stream.js"></script>
+<om-stream></om-stream>`;
 
 /* ── Color families ── */
 const colorFamilies = [

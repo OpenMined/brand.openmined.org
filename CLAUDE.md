@@ -65,9 +65,28 @@ A stylelint gate (`stylelint.config.js`) makes this a hard rule, not a suggestio
 - `src/tokens/tokens.css` — the palette source of truth; literal hex is correct here.
 - `src/pages/diamond/`, `src/pages/stream/` — WebGL tuning tooling with their own local control-panel palette; not brand surfaces.
 
-The WebGL embeds (`DiamondEmbed`/`StreamEmbed`) carry brand gradient stops as JS literals (shader inputs a CSS linter can't reach) — keep them in sync with the `--gradient-*` tokens by hand until a shared JS token export exists.
+WebGL shaders need numeric color values, so the embeds can't read `var(--…)` tokens — they import from `public/embeds/brand-colors.js`, the single JS-side color source (see Portable embeds). Never hand-type hex into a shader; add/adjust colors in `brand-colors.js` (kept in lockstep with `tokens.css` until the DTCG build unifies them).
 
-If you genuinely need a color the tokens don't cover, add it to `tokens.css` first, then reference it — don't reach around the gate.
+If you genuinely need a color the tokens don't cover, add it to `tokens.css` (or `brand-colors.js` for canvas) first, then reference it — don't reach around the gate.
+
+## Portable embeds (`<om-diamond>` / `<om-stream>`)
+
+The animated WebGL brand visuals are **framework-agnostic web components** in `public/embeds/`, meant to drop into any project — plain HTML, React, Astro, Webflow, anywhere. They are the canonical assets; the `DiamondEmbed.astro` / `StreamEmbed.astro` files are just thin wrappers the reference site uses to dogfood them.
+
+**Consume — hosted (zero-build):**
+```html
+<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
+<om-diamond></om-diamond>
+```
+**Consume — copied** (the OMDS sync pattern, no Astro needed): copy the whole `public/embeds/` folder (`om-*.js` + `brand-colors.js`) into the project and record the SHA.
+
+**Attributes:** `gradient="spectrum"` (named gradient from `brand-colors.js`) or `colors="#f8c073,#52a8c5,…"` (explicit stops). `<om-stream>` also takes `aspect-ratio`, `crop-top`, `crop-bottom`, `rot-speed`, `rot-axis`. Size with normal CSS.
+
+**Design notes:**
+- Each element is independent (multiple per page is fine) and self-cleans on removal — no global boot step.
+- Colors come from `brand-colors.js` only — on-brand by construction, so the embeds never hand-type hex.
+- Cross-origin hosting works because `public/_headers` sends `Access-Control-Allow-Origin: *` for `/embeds/*` (module scripts + their relative imports are fetched in CORS mode).
+- The `/diamond` and `/stream` pages are tuning tooling (gate-exempt), not the assets themselves.
 
 ## Deploying
 

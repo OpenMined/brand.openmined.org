@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "mkdir -p public/tokens && cp src/tokens/*.css public/tokens/",
     "build": "astro build",
     "preview": "astro preview",
     "lint": "stylelint \"src/**/*.{css,astro}\"",

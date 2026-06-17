@@ -3,3 +3,6 @@ dist/
 .astro/
 .env
 .env.*
+
+# Generated at build (prebuild) from src/tokens/ — served at /tokens/*.css
+public/tokens/
