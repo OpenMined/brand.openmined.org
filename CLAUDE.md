@@ -75,7 +75,7 @@ The animated WebGL brand visuals are **framework-agnostic web components** in `p
 
 **Consume — hosted (zero-build):**
 ```html
-<script type="module" src="https://brand.openmined.org/embeds/om-diamond.js"></script>
+<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
 <om-diamond></om-diamond>
 ```
 **Consume — copied** (the OMDS sync pattern, no Astro needed): copy the whole `public/embeds/` folder (`om-*.js` + `brand-colors.js`) into the project and record the SHA.

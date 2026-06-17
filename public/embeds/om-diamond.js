@@ -4,7 +4,7 @@
  * A framework-agnostic WebGL diamond rendered in the brand gradient.
  * Drop it on any page:
  *
- *   <script type="module" src="https://brand.openmined.org/embeds/om-diamond.js"></script>
+ *   <script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
  *   <om-diamond></om-diamond>
  *
  * Attributes (all optional):

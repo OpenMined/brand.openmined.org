@@ -4,7 +4,7 @@
  * A framework-agnostic WebGL ribbon rendered in the brand gradient.
  * Drop it on any page:
  *
- *   <script type="module" src="https://brand.openmined.org/embeds/om-stream.js"></script>
+ *   <script type="module" src="https://design.openmined.org/embeds/om-stream.js"></script>
  *   <om-stream></om-stream>
  *
  * Attributes (all optional):
