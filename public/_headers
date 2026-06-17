@@ -1,0 +1,7 @@
+# Cloudflare Pages headers.
+# Portable brand embeds are loaded cross-origin from other projects, so they
+# need permissive CORS (module scripts are fetched in CORS mode, and so are
+# their relative imports — e.g. om-diamond.js → brand-colors.js).
+/embeds/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
