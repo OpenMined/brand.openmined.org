@@ -11,3 +11,9 @@
 /tokens/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Official logo SVGs. <img>/CSS don't need CORS, but allow it so projects can
+# fetch + inline an SVG (e.g. to recolor a mono mark via currentColor).
+/logos/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
