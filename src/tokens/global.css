@@ -180,6 +180,7 @@ nav {
 @media (max-width: 991px) {
   .grid-12 {
     grid-template-columns: 1fr;
+    row-gap: var(--grid-gap);
   }
 }
 

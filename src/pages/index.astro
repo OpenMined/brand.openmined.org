@@ -171,8 +171,9 @@ const logoGroups = [
 const navLinks = [
   { label: 'Colors',     href: '#colors'     },
   { label: 'Gradients',  href: '#gradients'  },
-  { label: 'Surfaces',   href: '#surfaces'   },
   { label: 'Typography', href: '#typography' },
+  { label: 'Surfaces',   href: '#surfaces'   },
+  { label: 'Grid',       href: '#grid'       },
   { label: 'Spacing',    href: '#spacing'    },
   { label: 'Styles',     href: '#styles'     },
   { label: 'Elements',   href: '#elements'   },
@@ -278,73 +279,6 @@ const navLinks = [
           </div>
         </section>
 
-        <!-- SURFACES -->
-        <section class="sg-section" id="surfaces">
-          <h2 class="sg-section__title">Surfaces</h2>
-          <p class="sg-section__desc">Semantic tokens for backgrounds and foregrounds, with theme-responsive and fixed-context variants.</p>
-          <h4 class="sg-subsection-title">Semantic (theme-responsive)</h4>
-          <p class="sg-section__desc">Adapts automatically to light and dark mode. Use <code>--surface-background-*</code> for page backgrounds and <code>--surface-foreground-*</code> for cards, borders, and overlays.</p>
-          <div class="sg-surface-wrap" style="background: var(--surface-background-default); border: 1px solid var(--surface-foreground-default);">
-            <div class="sg-surface-grid sg-surface-grid--3">
-              {semanticBgSurfaces.map(s => (
-                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--surface-background-default' ? ' border: 1px solid var(--surface-foreground-default);' : ''}`}>
-                  <code>{s.token}</code>
-                  <span>{s.label}</span>
-                </div>
-              ))}
-            </div>
-            <div class="sg-surface-grid sg-surface-grid--5">
-              {semanticFgSurfaces.map(s => (
-                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--surface-foreground-default);`}>
-                  <code>{s.token}</code>
-                  <span>{s.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <h4 class="sg-subsection-title">Invert Tokens</h4>
-          <p class="sg-section__desc">The <code>--dark-surface-*</code> parallel set. Apply <code>data-section="invert"</code> to flip an element's surface tokens relative to the page theme — dark surface in light mode, light surface in dark mode.</p>
-          <div class="sg-surface-wrap" style="background: var(--dark-surface-background-default);">
-            <div class="sg-surface-grid sg-surface-grid--3">
-              {darkBgSurfaces.map(s => (
-                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--dark-surface-background-default' ? ' border: 1px solid var(--dark-surface-foreground-default);' : ''}`}>
-                  <code style="color: var(--text-headline-light);">{s.token}</code>
-                  <span style="color: var(--text-body-light);">{s.label}</span>
-                </div>
-              ))}
-            </div>
-            <div class="sg-surface-grid sg-surface-grid--5">
-              {darkFgSurfaces.map(s => (
-                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--dark-surface-foreground-default);`}>
-                  <code style="color: var(--text-headline-light);">{s.token}</code>
-                  <span style="color: var(--text-body-light);">{s.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <h4 class="sg-subsection-title">Fixed Context</h4>
-          <p class="sg-section__desc">Lock any element to a specific surface mode regardless of page theme. Apply <code>data-section</code> directly to a card, section, or container — all semantic tokens inside resolve correctly for that context.</p>
-          <div class="sg-surface-contexts">
-
-            <div class="sg-surface-context" data-section="always-light">
-              <p class="sg-context-label"><code>data-section="always-light"</code></p>
-              <p class="sg-context-desc">Use for cards, modals, or panels that must always appear on a light surface — ensures dark text on light background in both light and dark modes.</p>
-              <h3>Surface heading</h3>
-              <p>Body copy inside an always-light context. Semantic text and surface tokens resolve to their light values regardless of the page theme.</p>
-            </div>
-
-            <div class="sg-surface-context" data-section="always-dark">
-              <p class="sg-context-label"><code>data-section="always-dark"</code></p>
-              <p class="sg-context-desc">Use for hero sections, feature callouts, or decorative panels that should always appear on a dark surface — ensures light text on dark background in both modes.</p>
-              <h3>Surface heading</h3>
-              <p>Body copy inside an always-dark context. Semantic text and surface tokens resolve to their dark values regardless of the page theme.</p>
-            </div>
-
-          </div>
-
-        </section>
-
         <!-- TYPOGRAPHY -->
         <section class="sg-section" id="typography">
           <h2 class="sg-section__title">Typography</h2>
@@ -448,6 +382,140 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
             <p>Practical deployments must account for client dropout, non-IID data distributions, and adversarial participants.</p>
           </div>
 
+        </section>
+
+        <!-- SURFACES -->
+        <section class="sg-section" id="surfaces">
+          <h2 class="sg-section__title">Surfaces</h2>
+          <p class="sg-section__desc">Semantic tokens for backgrounds and foregrounds, with theme-responsive and fixed-context variants.</p>
+          <h4 class="sg-subsection-title">Semantic (theme-responsive)</h4>
+          <p class="sg-section__desc">Adapts automatically to light and dark mode. Use <code>--surface-background-*</code> for page backgrounds and <code>--surface-foreground-*</code> for cards, borders, and overlays.</p>
+          <div class="sg-surface-wrap" style="background: var(--surface-background-default); border: 1px solid var(--surface-foreground-default);">
+            <div class="sg-surface-grid sg-surface-grid--3">
+              {semanticBgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--surface-background-default' ? ' border: 1px solid var(--surface-foreground-default);' : ''}`}>
+                  <code>{s.token}</code>
+                  <span>{s.label}</span>
+                </div>
+              ))}
+            </div>
+            <div class="sg-surface-grid sg-surface-grid--5">
+              {semanticFgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--surface-foreground-default);`}>
+                  <code>{s.token}</code>
+                  <span>{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <h4 class="sg-subsection-title">Invert Tokens</h4>
+          <p class="sg-section__desc">The <code>--dark-surface-*</code> parallel set. Apply <code>data-section="invert"</code> to flip an element's surface tokens relative to the page theme — dark surface in light mode, light surface in dark mode.</p>
+          <div class="sg-surface-wrap" style="background: var(--dark-surface-background-default);">
+            <div class="sg-surface-grid sg-surface-grid--3">
+              {darkBgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token});${s.token !== '--dark-surface-background-default' ? ' border: 1px solid var(--dark-surface-foreground-default);' : ''}`}>
+                  <code style="color: var(--text-headline-light);">{s.token}</code>
+                  <span style="color: var(--text-body-light);">{s.label}</span>
+                </div>
+              ))}
+            </div>
+            <div class="sg-surface-grid sg-surface-grid--5">
+              {darkFgSurfaces.map(s => (
+                <div class="sg-surface-cell" style={`background-color: var(${s.token}); border: 1px solid var(--dark-surface-foreground-default);`}>
+                  <code style="color: var(--text-headline-light);">{s.token}</code>
+                  <span style="color: var(--text-body-light);">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <h4 class="sg-subsection-title">Fixed Context</h4>
+          <p class="sg-section__desc">Lock any element to a specific surface mode regardless of page theme. Apply <code>data-section</code> directly to a card, section, or container — all semantic tokens inside resolve correctly for that context.</p>
+          <div class="sg-surface-contexts">
+
+            <div class="sg-surface-context" data-section="always-light">
+              <p class="sg-context-label"><code>data-section="always-light"</code></p>
+              <p class="sg-context-desc">Use for cards, modals, or panels that must always appear on a light surface — ensures dark text on light background in both light and dark modes.</p>
+              <h3>Surface heading</h3>
+              <p>Body copy inside an always-light context. Semantic text and surface tokens resolve to their light values regardless of the page theme.</p>
+            </div>
+
+            <div class="sg-surface-context" data-section="always-dark">
+              <p class="sg-context-label"><code>data-section="always-dark"</code></p>
+              <p class="sg-context-desc">Use for hero sections, feature callouts, or decorative panels that should always appear on a dark surface — ensures light text on dark background in both modes.</p>
+              <h3>Surface heading</h3>
+              <p>Body copy inside an always-dark context. Semantic text and surface tokens resolve to their dark values regardless of the page theme.</p>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- GRID -->
+        <section class="sg-section" id="grid">
+          <h2 class="sg-section__title">Grid</h2>
+          <p class="sg-section__desc">A 12-column grid with a <code>--container-full</code> (1300px) max content width and <code>--grid-gap</code> (20px) gutters. Two usage modes: apply <code>.grid-12</code> for proportional column structure and span children with <code>grid-column</code>, or use a <code>--col-N</code> max-width helper to center a content block without a grid. Copy these from <code>tokens.css</code> and <code>global.css</code> as a starting grid for any project.</p>
+
+          <div class="sg-group" id="grid-tracks">
+            <h4 class="sg-group-heading">Column Tracks</h4>
+            <p class="sg-section__desc">The 12 tracks and their gutters at container width. This is <code>.grid-12</code> with twelve single-column children.</p>
+            <div class="sg-grid-demo grid-12">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div class="sg-grid-track"><span>{i + 1}</span></div>
+              ))}
+            </div>
+          </div>
+
+          <div class="sg-group" id="grid-spans">
+            <h4 class="sg-group-heading">Spans</h4>
+            <p class="sg-section__desc">Children address tracks with <code>grid-column</code>. Common layouts:</p>
+            <div class="sg-grid-stack">
+              <div class="sg-grid-demo grid-12">
+                <div class="sg-grid-cell" style="grid-column: span 6;"><code>span 6</code></div>
+                <div class="sg-grid-cell" style="grid-column: span 6;"><code>span 6</code></div>
+              </div>
+              <div class="sg-grid-demo grid-12">
+                <div class="sg-grid-cell" style="grid-column: span 4;"><code>span 4</code></div>
+                <div class="sg-grid-cell" style="grid-column: span 4;"><code>span 4</code></div>
+                <div class="sg-grid-cell" style="grid-column: span 4;"><code>span 4</code></div>
+              </div>
+              <div class="sg-grid-demo grid-12">
+                <div class="sg-grid-cell" style="grid-column: span 8;"><code>span 8</code></div>
+                <div class="sg-grid-cell" style="grid-column: span 4;"><code>span 4</code></div>
+              </div>
+              <div class="sg-grid-demo grid-12">
+                <div class="sg-grid-cell" style="grid-column: 2 / 12;"><code>2 / 12 — 10-col inset</code></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sg-group" id="grid-colwidths">
+            <h4 class="sg-group-heading">Max-width Helpers</h4>
+            <p class="sg-section__desc">Use <code>max-width: var(--col-N)</code> with <code>margin-inline: auto</code> to center a content block at a proportional column width — no grid needed.</p>
+            <div class="sg-grid-colwidths">
+              {['--col-10','--col-8','--col-6','--col-4'].map(token => (
+                <div class="sg-grid-colbar" style={`max-width: var(${token});`}><code>{token}</code></div>
+              ))}
+            </div>
+          </div>
+
+          <div class="sg-group" id="grid-breakpoints">
+            <h4 class="sg-group-heading">Breakpoints</h4>
+            <p class="sg-section__desc">Canonical max-width thresholds. <code>.grid-12</code> collapses 12&nbsp;→&nbsp;1 column at <code>--breakpoint-lg</code> (991px); override per component if intermediate steps are needed. CSS <code>@media</code> can't read custom properties, so media queries use the literal px — these tokens document the set and power JS (matchMedia).</p>
+            <div class="sg-token-table">
+              {[
+                { token: '--breakpoint-lg', value: '991px', name: 'tablet / below desktop' },
+                { token: '--breakpoint-md', value: '767px', name: 'below tablet' },
+                { token: '--breakpoint-sm', value: '479px', name: 'phones' },
+              ].map(b => (
+                <div class="sg-token-row">
+                  <code class="sg-spacing-label">{b.token}</code>
+                  <span class="sg-spacing-name">{b.value}</span>
+                  <span class="sg-spacing-name">{b.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         <!-- SPACING -->
@@ -929,6 +997,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     padding: var(--spacing-3XL);
     border-radius: var(--border-radius-M);
     background: var(--surface-background-default);
+    border: 1px solid var(--surface-foreground-default);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-M);
@@ -1236,6 +1305,85 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
   }
   .sg-logo-download:hover { color: var(--color-interactive-hover); }
 
+  /* ── Grid ─────────────────────────────────────────────────────────── */
+  /* .grid-12 / --container-full / --grid-gap come from the canonical tokens;
+     these classes only style the specimen's visual fills and labels. */
+  .sg-grid-demo {
+    margin-bottom: var(--spacing-M);
+  }
+
+  .sg-grid-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-M);
+  }
+
+  .sg-grid-track {
+    grid-column: span 1;
+    min-height: 56px;
+    border-radius: var(--border-radius-S);
+    background: var(--color-teal-100);
+    border: 1px solid var(--color-teal-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sg-grid-track span { font-size: 13px; color: var(--text-subtle); }
+
+  .sg-grid-cell {
+    min-height: 56px;
+    border-radius: var(--border-radius-S);
+    background: var(--color-teal-100);
+    border: 1px solid var(--color-teal-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sg-grid-cell code {
+    font-size: 13px;
+    background: none;
+    padding: 0;
+    color: var(--text-body);
+  }
+
+  :global([data-theme="dark"]) .sg-grid-track,
+  :global([data-theme="dark"]) .sg-grid-cell {
+    background: var(--color-teal-900);
+    border-color: var(--color-teal-700);
+  }
+
+  .sg-grid-colwidths {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-M);
+  }
+
+  .sg-grid-colbar {
+    width: 100%;
+    margin-inline: auto;
+    min-height: 40px;
+    border-radius: var(--border-radius-S);
+    background: var(--color-teal-100);
+    border: 1px solid var(--color-teal-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sg-grid-colbar code {
+    font-size: 13px;
+    background: none;
+    padding: 0;
+    color: var(--text-body);
+  }
+
+  :global([data-theme="dark"]) .sg-grid-colbar {
+    background: var(--color-teal-900);
+    border-color: var(--color-teal-700);
+  }
+
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 991px) {
     .br-nav__links { gap: var(--spacing-3XS); }
@@ -1244,6 +1392,10 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     .sg-surface-grid--5 { grid-template-columns: repeat(3, 1fr); }
     .sg-gradient-strip { width: 200px; }
     .sg-logo-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Grid spans demo: .grid-12 collapses to one column here, so inline
+       span / line placements must reset to full width (override inline styles). */
+    #grid-spans .sg-grid-cell { grid-column: 1 / -1 !important; }
   }
 
   @media (max-width: 767px) {

@@ -274,6 +274,15 @@
   --col-8:  calc(8  * var(--grid-col-width) + 7  * var(--grid-gap)); /*  860px */
   --col-6:  calc(6  * var(--grid-col-width) + 5  * var(--grid-gap)); /*  640px */
   --col-4:  calc(4  * var(--grid-col-width) + 3  * var(--grid-gap)); /*  420px */
+
+  /* ── 14. BREAKPOINTS ────────────────────────────────────────────── */
+  /* Canonical max-width breakpoints for all OpenMined projects. NOTE: CSS
+     @media queries cannot read custom properties, so media queries must still
+     use the literal px values below. These tokens document the canonical set
+     and power any JS that needs the same thresholds (matchMedia, etc.). */
+  --breakpoint-lg: 991px;   /* tablet / below desktop — .grid-12 collapses here */
+  --breakpoint-md: 767px;   /* below tablet */
+  --breakpoint-sm: 479px;   /* phones */
 }
 
 
