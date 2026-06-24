@@ -1,0 +1,29 @@
+---
+/**
+ * PartnerLogo — a third-party integration/tool mark (NOT an OpenMined asset).
+ * Renders an official partner logo from public/logos/partners/. These are the
+ * trademarks of their owners, used nominatively; never recolor where the owner
+ * forbids it. See public/logos/partners/README.md + partners.json.
+ *
+ * For a themeable 1-color mark, inline the `icon.svg` (fill=currentColor) and set
+ * `color` instead — this <img>-based atom renders the file as-is.
+ */
+interface Props {
+  brand: string;                                   // e.g. "github", "asana"
+  variant?: 'icon' | 'icon-color' | 'logo' | 'logo-black' | 'logo-white';
+  size?: number | string;                          // height in px (icons) — width auto
+  alt?: string;
+  class?: string;
+}
+const { brand, variant = 'icon-color', size = 32, alt, class: className = '' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const src = `${base}/logos/partners/${brand}/${variant}.svg`;
+const h = typeof size === 'number' ? `${size}px` : size;
+---
+<img
+  src={src}
+  alt={alt ?? `${brand} logo`}
+  class={className}
+  style={`height:${h};width:auto;display:inline-block;vertical-align:middle;`}
+  loading="lazy"
+/>

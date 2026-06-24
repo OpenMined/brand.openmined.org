@@ -180,6 +180,23 @@ const navLinks = [
   { label: 'Icons',      href: '#icons'      },
   { label: 'Graphics',   href: '#graphics'   },
   { label: 'Logos',      href: '#logos'      },
+  { label: 'Partners',   href: '#partners'   },
+];
+
+/* ── Partner / integration marks (third-party trademarks; see public/logos/partners/partners.json) ── */
+const partnerIcons = [
+  { brand: 'google',    label: 'Google',    file: 'icon-color.svg' },
+  { brand: 'github',    label: 'GitHub',    file: 'icon.svg' },
+  { brand: 'notion',    label: 'Notion',    file: 'icon.svg' },
+  { brand: 'asana',     label: 'Asana',     file: 'icon-color.svg' },
+  { brand: 'slack',     label: 'Slack',     file: 'icon.svg' },
+  { brand: 'claude',    label: 'Claude',    file: 'icon-color.svg' },
+  { brand: 'hubspot',   label: 'HubSpot',   file: 'icon-color.svg' },
+  { brand: '1password', label: '1Password', file: 'icon-color.svg' },
+];
+const partnerLockups = [
+  { brand: 'github', label: 'GitHub', file: 'logo-black.svg' },
+  { brand: 'ramp',   label: 'Ramp',   file: 'logo.svg' },
 ];
 ---
 
@@ -767,6 +784,38 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
           ))}
         </section>
 
+        <!-- PARTNER / INTEGRATION MARKS -->
+        <section class="sg-section" id="partners">
+          <h2 class="sg-section__title">Partner marks</h2>
+          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Gaps pending an official file: Rippling (gated), Slack's 4-color icon, and several wordmark lockups.</p>
+
+          <h4 class="sg-subsection-title">Icons</h4>
+          <div class="sg-logo-grid">
+            {partnerIcons.map(({ brand, label, file }) => (
+              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
+                <img src={`${base}/logos/partners/${brand}/${file}`} alt={label} class="sg-logo-img sg-partner-icon" />
+                <span class="text-meta">{label}</span>
+                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${file}`} download>
+                  <ion-icon name="download-outline"></ion-icon> {brand}/{file}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <h4 class="sg-subsection-title">Lockups</h4>
+          <div class="sg-logo-grid">
+            {partnerLockups.map(({ brand, label, file }) => (
+              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
+                <img src={`${base}/logos/partners/${brand}/${file}`} alt={label} class="sg-logo-img" />
+                <span class="text-meta">{label}</span>
+                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${file}`} download>
+                  <ion-icon name="download-outline"></ion-icon> {brand}/{file}
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+
       </div>
     </div>
   </main>
@@ -1294,6 +1343,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
   .sg-logo-cell--dark { background: var(--surface-background-dim); }
 
   .sg-logo-img { max-width: 220px; max-height: 80px; object-fit: contain; }
+  .sg-partner-icon { max-height: 48px; }
 
   .sg-logo-download {
     color: var(--text-subtle);
