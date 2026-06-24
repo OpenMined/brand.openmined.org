@@ -184,20 +184,28 @@ const navLinks = [
 ];
 
 /* ── Partner / integration marks (third-party trademarks; see public/logos/partners/partners.json) ── */
+// Icons are normalized to a uniform square viewBox. `color` = best color file
+// (icon-color.svg, or icon.svg for marks that are monochrome by design); every
+// brand also has a 1-color icon.svg (currentColor).
 const partnerIcons = [
-  { brand: 'google',    label: 'Google',    file: 'icon-color.svg' },
-  { brand: 'github',    label: 'GitHub',    file: 'icon.svg' },
-  { brand: 'notion',    label: 'Notion',    file: 'icon.svg' },
-  { brand: 'asana',     label: 'Asana',     file: 'icon-color.svg' },
-  { brand: 'slack',     label: 'Slack',     file: 'icon-color.svg' },
-  { brand: 'claude',    label: 'Claude',    file: 'icon-color.svg' },
-  { brand: 'hubspot',   label: 'HubSpot',   file: 'icon-color.svg' },
-  { brand: '1password', label: '1Password', file: 'icon-color.svg' },
-  { brand: 'rippling',  label: 'Rippling',  file: 'icon.svg' },
+  { brand: 'google',    label: 'Google',    color: 'icon-color.svg' },
+  { brand: 'github',    label: 'GitHub',    color: 'icon.svg', monoBrand: true },
+  { brand: 'notion',    label: 'Notion',    color: 'icon.svg', monoBrand: true },
+  { brand: 'asana',     label: 'Asana',     color: 'icon-color.svg' },
+  { brand: 'slack',     label: 'Slack',     color: 'icon-color.svg' },
+  { brand: 'claude',    label: 'Claude',    color: 'icon-color.svg' },
+  { brand: 'hubspot',   label: 'HubSpot',   color: 'icon-color.svg' },
+  { brand: '1password', label: '1Password', color: 'icon-color.svg' },
+  { brand: 'rippling',  label: 'Rippling',  color: 'icon-color.svg' },
 ];
 const partnerLockups = [
+  { brand: 'google',    label: 'Google Workspace', file: 'logo.svg' },
   { brand: 'github',    label: 'GitHub',    file: 'logo-black.svg' },
+  { brand: 'notion',    label: 'Notion',    file: 'logo.svg' },
+  { brand: 'asana',     label: 'Asana',     file: 'logo.svg' },
+  { brand: 'slack',     label: 'Slack',     file: 'logo.svg' },
   { brand: 'claude',    label: 'Claude',    file: 'logo.svg' },
+  { brand: 'hubspot',   label: 'HubSpot',   file: 'logo.svg' },
   { brand: '1password', label: '1Password', file: 'logo-black.svg' },
   { brand: 'ramp',      label: 'Ramp',      file: 'logo.svg' },
 ];
@@ -790,16 +798,30 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
         <!-- PARTNER / INTEGRATION MARKS -->
         <section class="sg-section" id="partners">
           <h2 class="sg-section__title">Partner marks</h2>
-          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Remaining gaps (gated by the owners, pending an official file): wordmark lockups for Slack, Rippling, HubSpot, Asana, and Notion — and Google Workspace, which has no official suite lockup.</p>
+          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Icons are normalized to a uniform square; each ships in color (<code>icon-color.svg</code>) and 1-color (<code>icon.svg</code>, <code>currentColor</code>). Only gap: Rippling has no combined wordmark lockup (separate icon + wordmark by design).</p>
 
-          <h4 class="sg-subsection-title">Icons</h4>
+          <h4 class="sg-subsection-title">Icons — color</h4>
           <div class="sg-logo-grid">
-            {partnerIcons.map(({ brand, label, file }) => (
+            {partnerIcons.map(({ brand, label, color, monoBrand }) => (
               <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
-                <img src={`${base}/logos/partners/${brand}/${file}`} alt={label} class="sg-logo-img sg-partner-icon" />
+                <img src={`${base}/logos/partners/${brand}/${color}`} alt={label} class="sg-logo-img sg-partner-icon" />
+                <span class="text-meta">{label}{monoBrand ? ' (mono brand)' : ''}</span>
+                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${color}`} download>
+                  <ion-icon name="download-outline"></ion-icon> {brand}/{color}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <h4 class="sg-subsection-title">Icons — 1-color</h4>
+          <p class="sg-logo-group-note">Monochrome <code>icon.svg</code> (<code>fill="currentColor"</code>) — inline + set <code>color</code> to theme. Shown black here.</p>
+          <div class="sg-logo-grid">
+            {partnerIcons.map(({ brand, label }) => (
+              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
+                <img src={`${base}/logos/partners/${brand}/icon.svg`} alt={`${label} 1-color`} class="sg-logo-img sg-partner-icon" />
                 <span class="text-meta">{label}</span>
-                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${file}`} download>
-                  <ion-icon name="download-outline"></ion-icon> {brand}/{file}
+                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/icon.svg`} download>
+                  <ion-icon name="download-outline"></ion-icon> {brand}/icon.svg
                 </a>
               </div>
             ))}

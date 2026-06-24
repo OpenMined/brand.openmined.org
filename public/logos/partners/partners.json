@@ -26,8 +26,9 @@
       "source": "https://about.google/brand-resource-center/",
       "icon": "google/icon.svg",
       "iconColor": "google/icon-color.svg",
-      "notes": "icon-color = the official 4-color 'G' artwork (#4285F4/#EA4335/#FBBC05/#34A853) — DO NOT recolor (Google guidelines). icon.svg is the generic monochrome G glyph (Simple Icons) for single-color contexts. There is NO official 'Google Workspace' suite lockup SVG, and app-icon use is partner-gated.",
-      "gaps": ["Google Workspace suite lockup (no official SVG exists)", "app icons (Gmail/Drive/etc.) are partner-gated"]
+      "lockup": { "wordmark": "google/logo.svg" },
+      "notes": "icon-color = the official 4-color 'G' artwork — DO NOT recolor (Google guidelines). icon.svg = generic mono G glyph. lockup = the 2026 Google Workspace wordmark (Wikimedia Commons, PD-textlogo). App-icon use is partner-gated.",
+      "gaps": ["app icons (Gmail/Drive/etc.) are partner-gated"]
     },
     "notion": {
       "name": "Notion",
@@ -35,8 +36,9 @@
       "source": "https://www.notion.so/brand",
       "brandColor": "#000000",
       "icon": "notion/icon.svg",
-      "notes": "Monochrome by design (black + reversed white). Icon = the 'N'. Color == mono.",
-      "gaps": ["wordmark lockup (in official zip; not yet added)"]
+      "lockup": { "main": "notion/logo.svg" },
+      "notes": "Monochrome by design (black + reversed white). Icon = the 'N'. lockup = N + 'Notion' wordmark (svgporn community CDN — Notion ships no fetchable official lockup file; verify against notion.so/brand).",
+      "gaps": []
     },
     "asana": {
       "name": "Asana",
@@ -45,8 +47,9 @@
       "brandColor": "#F06A6A",
       "icon": "asana/icon.svg",
       "iconColor": "asana/icon-color.svg",
-      "notes": "Asana discourages standalone use of the 3-dot symbol — prefer the lockup where possible. Never place on a coral background.",
-      "gaps": ["official lockup (in brand kit; not yet added)"]
+      "lockup": { "main": "asana/logo.svg" },
+      "notes": "lockup = 3-dot symbol + 'asana' wordmark (Wikimedia Commons, PD-textlogo). Asana discourages standalone use of the symbol — prefer the lockup. Never place on a coral background.",
+      "gaps": []
     },
     "slack": {
       "name": "Slack",
@@ -55,8 +58,9 @@
       "brandColor": "#4A154B",
       "icon": "slack/icon.svg",
       "iconColor": "slack/icon-color.svg",
-      "notes": "icon-color = the official 4-color hash from Slack's CDN (#E01E5A/#36C5F0/#2EB67D/#ECB22E) — never recolor. icon.svg is a monochrome glyph. The wordmark lockup is gated behind Salesforce's Widen DAM.",
-      "gaps": ["wordmark lockup (gated)"]
+      "lockup": { "main": "slack/logo.svg" },
+      "notes": "icon-color = the official 4-color hash from Slack's CDN — never recolor. icon.svg = monochrome glyph. lockup = 4-color hash + 'Slack' wordmark (Wikimedia Commons, PD-textlogo).",
+      "gaps": []
     },
     "claude": {
       "name": "Claude",
@@ -76,8 +80,9 @@
       "brandColor": "#FF7A59",
       "icon": "hubspot/icon.svg",
       "iconColor": "hubspot/icon-color.svg",
-      "notes": "Sprocket mark. HubSpot gates official logo files (request/partner program) — referential use only, keep your name more prominent, include an independence disclaimer.",
-      "gaps": ["official lockup (request-gated)"]
+      "lockup": { "main": "hubspot/logo.svg" },
+      "notes": "Sprocket mark. lockup = sprocket + 'HubSpot' wordmark (Wikimedia Commons, PD-textlogo). Referential use only — keep your name more prominent, include an independence disclaimer.",
+      "gaps": []
     },
     "1password": {
       "name": "1Password",
@@ -96,8 +101,9 @@
       "source": "https://www.rippling.com/press",
       "brandColor": "#000000",
       "icon": "rippling/icon.svg",
-      "notes": "icon = the official 'R' mark from Rippling's production CDN (monochrome, currentColor). The full wordmark lockup suite is gated behind a Google Drive share + their developer Brand Guide.",
-      "gaps": ["wordmark lockup (gated)"]
+      "iconColor": "rippling/icon-color.svg",
+      "notes": "icon = official 'R' mark (mono, currentColor); icon-color = official color icon (plum #502D3C + yellow #FDB71C), both from Rippling's CDN. Rippling has NO combined icon+wordmark lockup — it ships icon and wordmark as separate assets by design.",
+      "gaps": ["no combined wordmark lockup exists (separate icon + wordmark by design)"]
     }
   }
 }
