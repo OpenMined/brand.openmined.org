@@ -88,6 +88,15 @@ The animated WebGL brand visuals are **framework-agnostic web components** in `p
 - Cross-origin hosting works because `public/_headers` sends `Access-Control-Allow-Origin: *` for `/embeds/*` (module scripts + their relative imports are fetched in CORS mode).
 - The `/diamond` and `/stream` pages are tuning tooling (gate-exempt), not the assets themselves.
 
+## Partner / integration marks (`public/logos/partners/`)
+
+Third-party tool logos (GitHub, Slack, Notion, Asana, Claude, HubSpot, 1Password, Google, Ramp, …) used to identify integrations — **NOT OpenMined brand assets, and NOT governed by OMDS.** Each is the **trademark of its owner**, used nominatively. Rules:
+
+- **Never recolor/restyle** a mark where the owner forbids it (e.g. Google's 4-color G stays as-is). OMDS color tokens do **not** apply to partner marks. Never imply endorsement.
+- **Never redraw** a partner mark — source it from the owner's official brand resources (or a CC0 Simple Icons glyph for monochrome icons), or leave it as a documented gap.
+- `partners.json` is the source of truth: per brand it records trademark owner, official source URL, available variants, brand color, and known gaps. `README.md` carries the governance.
+- Per brand: `icon.svg` (monochrome, `fill="currentColor"` — inline + set `color` to theme it), `icon-color.svg` (official brand color), `logo*.svg` (wordmark lockups where officially available). The `PartnerLogo.astro` atom renders them.
+
 ## Deploying
 
 Standard Astro build — no special config needed for GitHub Pages or Cloudflare Pages:
