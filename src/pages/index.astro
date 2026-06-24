@@ -189,14 +189,17 @@ const partnerIcons = [
   { brand: 'github',    label: 'GitHub',    file: 'icon.svg' },
   { brand: 'notion',    label: 'Notion',    file: 'icon.svg' },
   { brand: 'asana',     label: 'Asana',     file: 'icon-color.svg' },
-  { brand: 'slack',     label: 'Slack',     file: 'icon.svg' },
+  { brand: 'slack',     label: 'Slack',     file: 'icon-color.svg' },
   { brand: 'claude',    label: 'Claude',    file: 'icon-color.svg' },
   { brand: 'hubspot',   label: 'HubSpot',   file: 'icon-color.svg' },
   { brand: '1password', label: '1Password', file: 'icon-color.svg' },
+  { brand: 'rippling',  label: 'Rippling',  file: 'icon.svg' },
 ];
 const partnerLockups = [
-  { brand: 'github', label: 'GitHub', file: 'logo-black.svg' },
-  { brand: 'ramp',   label: 'Ramp',   file: 'logo.svg' },
+  { brand: 'github',    label: 'GitHub',    file: 'logo-black.svg' },
+  { brand: 'claude',    label: 'Claude',    file: 'logo.svg' },
+  { brand: '1password', label: '1Password', file: 'logo-black.svg' },
+  { brand: 'ramp',      label: 'Ramp',      file: 'logo.svg' },
 ];
 ---
 
@@ -787,7 +790,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
         <!-- PARTNER / INTEGRATION MARKS -->
         <section class="sg-section" id="partners">
           <h2 class="sg-section__title">Partner marks</h2>
-          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Gaps pending an official file: Rippling (gated), Slack's 4-color icon, and several wordmark lockups.</p>
+          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Remaining gaps (gated by the owners, pending an official file): wordmark lockups for Slack, Rippling, HubSpot, Asana, and Notion — and Google Workspace, which has no official suite lockup.</p>
 
           <h4 class="sg-subsection-title">Icons</h4>
           <div class="sg-logo-grid">

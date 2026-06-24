@@ -54,8 +54,9 @@
       "source": "https://slack.com/media-kit",
       "brandColor": "#4A154B",
       "icon": "slack/icon.svg",
-      "notes": "Monochrome glyph (Simple Icons). The true 4-color hash icon + lockup are gated behind Salesforce's Widen DAM — supply officially for color use.",
-      "gaps": ["4-color icon (gated)", "lockup (gated)"]
+      "iconColor": "slack/icon-color.svg",
+      "notes": "icon-color = the official 4-color hash from Slack's CDN (#E01E5A/#36C5F0/#2EB67D/#ECB22E) — never recolor. icon.svg is a monochrome glyph. The wordmark lockup is gated behind Salesforce's Widen DAM.",
+      "gaps": ["wordmark lockup (gated)"]
     },
     "claude": {
       "name": "Claude",
@@ -64,8 +65,9 @@
       "brandColor": "#D97757",
       "icon": "claude/icon.svg",
       "iconColor": "claude/icon-color.svg",
-      "notes": "Claude sunburst mark. Official wordmark lockup is in Anthropic's press-kit zip.",
-      "gaps": ["official wordmark lockup (in press-kit zip; not yet added)"]
+      "lockup": { "slate": "claude/logo.svg", "ivory": "claude/logo-ivory.svg", "mono": "claude/logo-mono.svg" },
+      "notes": "Official (Anthropic press kit). Icon = the Claude Spark (clay #D97757). Lockup in Slate (default), Ivory (on dark), and one-color.",
+      "gaps": []
     },
     "hubspot": {
       "name": "HubSpot",
@@ -84,15 +86,18 @@
       "brandColor": "#145FE4",
       "icon": "1password/icon.svg",
       "iconColor": "1password/icon-color.svg",
-      "notes": "Recent rebrand ships separate company and product marks — verify which is intended. Lockup available via the brand hub.",
-      "gaps": ["official lockup (brand-hub; not yet added)"]
+      "lockup": { "black": "1password/logo-black.svg", "white": "1password/logo-white.svg" },
+      "notes": "Official lockup from the press CDN (mono black + white). Recent rebrand ships separate company and product marks — verify which is intended.",
+      "gaps": []
     },
     "rippling": {
       "name": "Rippling",
       "trademark": "Rippling People Center Inc.",
       "source": "https://www.rippling.com/press",
-      "notes": "Official SVG logo suite exists (light/dark) but is gated behind a Google Drive share + governed by their developer Brand Guide. Not in Simple Icons. Supply officially.",
-      "gaps": ["icon (gated)", "lockup (gated)", "no Simple Icons glyph"]
+      "brandColor": "#000000",
+      "icon": "rippling/icon.svg",
+      "notes": "icon = the official 'R' mark from Rippling's production CDN (monochrome, currentColor). The full wordmark lockup suite is gated behind a Google Drive share + their developer Brand Guide.",
+      "gaps": ["wordmark lockup (gated)"]
     }
   }
 }
