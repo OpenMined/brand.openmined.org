@@ -1,0 +1,144 @@
+{
+  "_comment": "Affiliations / partners / press logos used on openmined.org — third-party marks, NOT OpenMined assets and NOT governed by OMDS tokens. Used nominatively (organizations OM has engaged with). `color`=the mark in brand color (use as-is via <img>, never recolor); `mono`=1-color currentColor knockout where one is meaningful (omitted for detailed multi-color seals). `usageRestricted`=government seals/marks with their own legal usage rules — confirm before reuse beyond nominative reference. Google & Anthropic also appear on the site but live in logos/partners/ (tool set). Gap: Christchurch Call has no public vector (JPG only) — request from the Christchurch Call Foundation.",
+  "brands": {
+    "microsoft": {
+      "name": "Microsoft",
+      "owner": "Microsoft Corporation",
+      "category": "tech",
+      "color": "microsoft/logo.svg",
+      "mono": "microsoft/logo-mono.svg"
+    },
+    "meta": {
+      "name": "Meta",
+      "owner": "Meta Platforms, Inc.",
+      "category": "tech",
+      "color": "meta/logo.svg",
+      "mono": "meta/logo-mono.svg"
+    },
+    "reddit": {
+      "name": "Reddit",
+      "owner": "Reddit, Inc.",
+      "category": "tech",
+      "color": "reddit/logo.svg",
+      "mono": "reddit/logo-mono.svg"
+    },
+    "x-twitter": {
+      "name": "X (Twitter)",
+      "owner": "X Corp.",
+      "category": "tech",
+      "color": "x-twitter/logo.svg",
+      "mono": "x-twitter/logo-mono.svg"
+    },
+    "pytorch": {
+      "name": "PyTorch",
+      "owner": "The Linux Foundation",
+      "category": "tech",
+      "color": "pytorch/logo.svg",
+      "mono": "pytorch/logo-mono.svg",
+      "notes": "Open-source project mark."
+    },
+    "nist": {
+      "name": "NIST",
+      "owner": "U.S. NIST (Dept. of Commerce)",
+      "category": "government",
+      "color": "nist/logo.svg",
+      "mono": "nist/logo-mono.svg",
+      "usageRestricted": true
+    },
+    "aisi": {
+      "name": "AI Security Institute",
+      "owner": "UK AI Security Institute",
+      "category": "government",
+      "color": "aisi/logo.svg",
+      "mono": "aisi/logo-mono.svg",
+      "usageRestricted": true
+    },
+    "census-bureau": {
+      "name": "U.S. Census Bureau",
+      "owner": "U.S. Census Bureau",
+      "category": "government",
+      "color": "census-bureau/logo.svg",
+      "mono": "census-bureau/logo-mono.svg",
+      "usageRestricted": true
+    },
+    "royal-society": {
+      "name": "The Royal Society",
+      "owner": "The Royal Society",
+      "category": "institution",
+      "color": "royal-society/logo.svg",
+      "mono": "royal-society/logo-mono.svg"
+    },
+    "ssir": {
+      "name": "Stanford Social Innovation Review",
+      "owner": "Stanford University",
+      "category": "publication",
+      "color": "ssir/logo.svg",
+      "mono": "ssir/logo-mono.svg"
+    },
+    "tpg": {
+      "name": "Technologists for the Public Good",
+      "owner": "Technologists for the Public Good",
+      "category": "org",
+      "color": "tpg/logo.svg",
+      "mono": "tpg/logo-mono.svg"
+    },
+    "uk-dsit": {
+      "name": "UK DSIT",
+      "owner": "UK Dept. for Science, Innovation & Technology",
+      "category": "government",
+      "color": "uk-dsit/logo.svg",
+      "mono": "uk-dsit/logo-mono.svg",
+      "usageRestricted": true
+    },
+    "ntia": {
+      "name": "NTIA",
+      "owner": "U.S. NTIA (Dept. of Commerce)",
+      "category": "government",
+      "color": "ntia/logo.svg",
+      "mono": "ntia/logo-mono.svg",
+      "usageRestricted": true
+    },
+    "white-house": {
+      "name": "The White House",
+      "owner": "Executive Office of the President",
+      "category": "government",
+      "color": "white-house/logo.svg",
+      "usageRestricted": true,
+      "notes": "Detailed seal — color only (no clean 1-color)."
+    },
+    "un-big-data": {
+      "name": "UN Big Data",
+      "owner": "United Nations",
+      "category": "institution",
+      "color": "un-big-data/logo.svg",
+      "notes": "Multi-color mark — color only."
+    },
+    "us-senate": {
+      "name": "U.S. Senate",
+      "owner": "United States Senate",
+      "category": "government",
+      "color": "us-senate/logo.svg",
+      "usageRestricted": true,
+      "notes": "Detailed seal — color only (no clean 1-color)."
+    },
+    "nsf": {
+      "name": "National Science Foundation",
+      "owner": "U.S. NSF",
+      "category": "government",
+      "color": "nsf/logo.svg",
+      "usageRestricted": true,
+      "notes": "Official Wikimedia vector; detailed seal — color only."
+    },
+    "executive-office": {
+      "name": "Executive Office of the President",
+      "owner": "Executive Office of the President",
+      "category": "government",
+      "color": "executive-office/logo.svg",
+      "usageRestricted": true,
+      "notes": "Official Wikimedia 2014 seal; detailed — color only."
+    }
+  },
+  "gaps": {
+    "christchurch-call": "No public SVG (official site is JPG only); request official vector from the Christchurch Call Foundation."
+  }
+}
