@@ -21,11 +21,12 @@
       "source": "https://ramp.com/press",
       "brandColor": "#000000",
       "lockup": {
+        "main": "ramp/logo.svg",
         "mono": "ramp/logo-mono.svg"
       },
-      "notes": "Official production SVG (next.ramp.com), verified byte-identical to ramp.com header. Monochrome by design (currentColor). No separately-published icon-only mark.",
+      "notes": "Official production SVG (next.ramp.com). Monochrome by design (currentColor lockup + mono). No standalone icon: the swoosh is fused into the single wordmark path, not separable without redrawing.",
       "gaps": [
-        "icon-only (not officially published standalone)"
+        "no official standalone icon (swoosh fused into the wordmark path)"
       ]
     },
     "google": {
@@ -35,9 +36,10 @@
       "icon": "google/icon.svg",
       "iconColor": "google/icon-color.svg",
       "lockup": {
-        "wordmark": "google/logo.svg"
+        "wordmark": "google/logo.svg",
+        "mono": "google/logo-mono.svg"
       },
-      "notes": "icon-color = the official 4-color 'G' artwork — DO NOT recolor (Google guidelines). icon.svg = generic mono G glyph. lockup = the 2026 Google Workspace wordmark (Wikimedia Commons, PD-textlogo). App-icon use is partner-gated.",
+      "notes": "icon-color = the official 4-color 'G' artwork — DO NOT recolor (Google guidelines). icon.svg = generic mono G glyph. lockup = the 2026 Google Workspace wordmark (Wikimedia Commons, PD-textlogo); logo-mono.svg is a currentColor knockout of it (note: Google's guidelines discourage recoloring — use the color wordmark externally). App-icon use is partner-gated.",
       "gaps": [
         "app icons (Gmail/Drive/etc.) are partner-gated"
       ]
@@ -134,10 +136,12 @@
       "brandColor": "#000000",
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
-      "notes": "icon = official 'R' mark (mono, currentColor); icon-color = official color icon (plum #502D3C + yellow #FDB71C), both from Rippling's CDN. Rippling has NO combined icon+wordmark lockup — it ships icon and wordmark as separate assets by design.",
-      "gaps": [
-        "no combined wordmark lockup exists (separate icon + wordmark by design)"
-      ]
+      "notes": "icon = official 'R' mark (mono, currentColor); icon-color = official color app icon (plum/yellow); lockup = official combined mark+wordmark from Rippling's CDN (mauve #A17A8B), with a currentColor knockout. All from rippling2.imgix.net.",
+      "gaps": [],
+      "lockup": {
+        "main": "rippling/logo.svg",
+        "mono": "rippling/logo-mono.svg"
+      }
     }
   }
 }

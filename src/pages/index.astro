@@ -13,8 +13,16 @@ import CodeBlock from '@brand/CodeBlock.astro';
 import Blockquote from '@brand/Blockquote.astro';
 import DiamondEmbed from '@brand/DiamondEmbed.astro';
 import StreamEmbed from '@brand/StreamEmbed.astro';
+import { readFileSync } from 'node:fs';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Inline a partner mono SVG so currentColor inherits the (light) text color
+// of an always-dark box — i.e. the 1-color mark renders white on dark.
+function pmono(brand: string, file: string): string {
+  try { return readFileSync(`public/logos/partners/${brand}/${file}`, 'utf-8'); }
+  catch { return ''; }
+}
 
 /* ── Embed copy snippets — framework-agnostic <om-*> web components ── */
 const diamondCode = `<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
@@ -201,7 +209,7 @@ const partnerIcons = [
 // color = the primary lockup; mono = 1-color (currentColor). Google has no mono
 // (its guidelines forbid it). Rippling omitted — no combined lockup by design.
 const partnerLockups = [
-  { brand: 'google',    label: 'Google Workspace', color: 'logo.svg',       mono: null },
+  { brand: 'google',    label: 'Google Workspace', color: 'logo.svg',       mono: 'logo-mono.svg' },
   { brand: 'github',    label: 'GitHub',    color: 'logo-black.svg', mono: 'logo-mono.svg' },
   { brand: 'notion',    label: 'Notion',    color: 'logo.svg',       mono: 'logo-mono.svg' },
   { brand: 'asana',     label: 'Asana',     color: 'logo.svg',       mono: 'logo-mono.svg' },
@@ -210,6 +218,7 @@ const partnerLockups = [
   { brand: 'hubspot',   label: 'HubSpot',   color: 'logo.svg',       mono: 'logo-mono.svg' },
   { brand: '1password', label: '1Password', color: 'logo-black.svg', mono: 'logo-mono.svg' },
   { brand: 'ramp',      label: 'Ramp',      color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'rippling',  label: 'Rippling',  color: 'logo.svg',       mono: 'logo-mono.svg' },
 ];
 ---
 
@@ -802,19 +811,19 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
           <h2 class="sg-section__title">Partner marks</h2>
           <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Icons are normalized to a uniform square; each ships in color (<code>icon-color.svg</code>) and 1-color (<code>icon.svg</code>, <code>currentColor</code>). Only gap: Rippling has no combined wordmark lockup (separate icon + wordmark by design).</p>
 
-          <p class="sg-logo-group-note">Each card pairs the <strong>color</strong> and <strong>1-color</strong> (<code>currentColor</code>, shown black) variant. Google has no monochrome variant — its guidelines forbid it. Rippling has no combined lockup (separate icon + wordmark by design).</p>
+          <p class="sg-logo-group-note">Each card pairs the <strong>color</strong> variant (on light) with the <strong>1-color</strong> knockout (<code>currentColor</code>, shown white on dark). Every icon shares a <code>0 0 24 24</code> box and every brand's color/1-color share a viewBox, so variants swap in place. 1-color marks recolor the official artwork (Google's own guidelines discourage recoloring its logo). Ramp publishes no standalone icon, and Rippling no combined lockup (separate icon + wordmark by design).</p>
 
           <h4 class="sg-subsection-title">Icons</h4>
           <div class="sg-logo-grid">
             {partnerIcons.map(({ brand, label, color, monoBrand }) => (
-              <div class="sg-pcard" data-section="always-light">
+              <div class="sg-pcard">
                 <div class="sg-pcard__row">
                   <div class="sg-pv">
-                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} icon`} class="sg-pcard__icon" /></div>
+                    <div class="sg-pv__box sg-pv__box--icon" data-section="always-light"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} icon`} class="sg-pcard__icon" /></div>
                     <span class="sg-pv__tag">{monoBrand ? 'mono brand' : 'color'}</span>
                   </div>
                   <div class="sg-pv">
-                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/icon.svg`} alt={`${label} 1-color icon`} class="sg-pcard__icon" /></div>
+                    <div class="sg-pv__box sg-pv__box--icon sg-pv__box--dark" data-section="always-dark" set:html={pmono(brand, 'icon.svg')} />
                     <span class="sg-pv__tag">1-color</span>
                   </div>
                 </div>
@@ -826,16 +835,16 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
           <h4 class="sg-subsection-title">Lockups</h4>
           <div class="sg-logo-grid">
             {partnerLockups.map(({ brand, label, color, mono }) => (
-              <div class="sg-pcard sg-pcard--wide" data-section="always-light">
+              <div class="sg-pcard sg-pcard--wide">
                 <div class="sg-pcard__row">
                   <div class="sg-pv">
-                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} lockup`} class="sg-pcard__lockup" /></div>
+                    <div class="sg-pv__box sg-pv__box--lockup" data-section="always-light"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} lockup`} class="sg-pcard__lockup" /></div>
                     <span class="sg-pv__tag">color</span>
                   </div>
                   <div class="sg-pv">
-                    <div class="sg-pv__box">
-                      {mono ? <img src={`${base}/logos/partners/${brand}/${mono}`} alt={`${label} 1-color lockup`} class="sg-pcard__lockup" /> : <span class="sg-pv__na">no mono (guidelines)</span>}
-                    </div>
+                    {mono
+                      ? <div class="sg-pv__box sg-pv__box--lockup sg-pv__box--dark" data-section="always-dark" set:html={pmono(brand, mono)} />
+                      : <div class="sg-pv__box sg-pv__box--lockup"><span class="sg-pv__na">no mono (guidelines)</span></div>}
                     <span class="sg-pv__tag">1-color</span>
                   </div>
                 </div>
@@ -1394,6 +1403,11 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
   }
   .sg-pcard__icon   { height: 34px; width: auto; }                 /* icons: uniform square */
   .sg-pcard__lockup { height: 22px; width: auto; max-width: 100%; } /* lockups: uniform height */
+  /* 1-color boxes: dark surface, mark inlined so currentColor renders light/white */
+  .sg-pv__box--dark { color: var(--text-headline); }
+  .sg-pv__box--dark :global(svg) { color: var(--text-headline); }
+  .sg-pv__box--icon   :global(svg) { height: 34px; width: auto; display: block; }
+  .sg-pv__box--lockup :global(svg) { height: 22px; width: auto; max-width: 100%; display: block; }
   .sg-pv__tag { font-size: 11px; font-weight: 500; color: var(--text-subtle); }
   .sg-pv__na  { font-size: 11px; color: var(--text-subtle); text-align: center; }
   .sg-pcard__label { text-align: center; }
