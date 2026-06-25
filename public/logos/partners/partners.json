@@ -24,10 +24,9 @@
         "main": "ramp/logo.svg",
         "mono": "ramp/logo-mono.svg"
       },
-      "notes": "Official production SVG (next.ramp.com). Monochrome by design (currentColor lockup + mono). No standalone icon: the swoosh is fused into the single wordmark path, not separable without redrawing.",
-      "gaps": [
-        "no official standalone icon (swoosh fused into the wordmark path)"
-      ]
+      "notes": "Official production lockup SVG (next.ramp.com), monochrome by design (currentColor). icon = the Ramp swoosh mark (community dashboard-icons set, single-color/currentColor).",
+      "gaps": [],
+      "icon": "ramp/icon.svg"
     },
     "google": {
       "name": "Google",
@@ -138,7 +137,7 @@
       "brandColor": "#000000",
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
-      "notes": "icon = official 'R' mark (mono); icon-color = official color app icon (plum/yellow); lockup = the official Rippling combined mark+wordmark vector, recolored to brand plum (#402530) + a currentColor knockout.",
+      "notes": "icon = the 3-ripple mark (currentColor); icon-color = same mark in brand plum #402530 (matches the 1-color geometry — not the app-badge). lockup = supplied official vector, plum + currentColor knockout.",
       "gaps": [],
       "lockup": {
         "main": "rippling/logo.svg",
