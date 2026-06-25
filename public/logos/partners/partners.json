@@ -40,7 +40,7 @@
         "wordmark": "google/wordmark.svg",
         "wordmark-mono": "google/wordmark-mono.svg"
       },
-      "notes": "icon-color = official 4-color 'G' (DO NOT recolor — Google guidelines). icon.svg = mono G glyph. Lockups: 'Google Workspace' wordmark + plain 'Google' 4-color wordmark (both Wikimedia, PD-textlogo), each with a currentColor knockout (note: Google discourages recoloring — prefer the color versions externally). App icons partner-gated.",
+      "notes": "icon-color = the official 4-color 'G' (DO NOT recolor — Google guidelines). icon.svg = a 1-color knockout of that same G geometry (currentColor). Lockups: 'Google Workspace' wordmark + plain 'Google' 4-color wordmark (Wikimedia, PD-textlogo), each with a currentColor knockout (Google discourages recoloring — prefer color externally). App icons (Gmail/Drive/etc.) partner-gated.",
       "gaps": [
         "app icons (Gmail/Drive/etc.) are partner-gated"
       ]
