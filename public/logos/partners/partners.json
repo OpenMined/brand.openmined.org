@@ -1,5 +1,5 @@
 {
-  "_comment": "Third-party partner/integration marks — NOT OpenMined's brand. Each is the trademark of its owner, used nominatively to identify the tool. Sourced from official brand resources (or CC0 Simple Icons glyphs for monochrome icons). Never recolor a mark where the owner's guidelines forbid it; never imply endorsement. OMDS color tokens do NOT apply to these. Icons named `icon.svg` use fill=currentColor (theme via `color`); `icon-color.svg` carries the official brand color.",
+  "_comment": "Third-party partner/integration marks — NOT OpenMined's brand. Each is the trademark of its owner, used nominatively to identify the tool. Sourced from official brand resources (or CC0 Simple Icons glyphs for monochrome icons). Never recolor a mark where the owner's guidelines forbid it; never imply endorsement. OMDS color tokens do NOT apply to these. Icons named `icon.svg` use fill=currentColor (theme via `color`); `icon-color.svg` carries the official brand color. Lockups: `logo*.svg` is the color/primary lockup; `logo-mono.svg` is the 1-color (currentColor) variant. Google has no mono lockup (its guidelines forbid a monochrome Google logo).",
   "brands": {
     "github": {
       "name": "GitHub",
@@ -7,7 +7,11 @@
       "source": "https://brand.github.com",
       "brandColor": "#181717",
       "icon": "github/icon.svg",
-      "lockup": { "black": "github/logo-black.svg", "white": "github/logo-white.svg" },
+      "lockup": {
+        "black": "github/logo-black.svg",
+        "white": "github/logo-white.svg",
+        "mono": "github/logo-mono.svg"
+      },
       "notes": "Official (GitHub_Logos.zip). Monochrome by design — use black or white only per GitHub guidelines. Icon = Invertocat.",
       "gaps": []
     },
@@ -16,9 +20,13 @@
       "trademark": "Ramp Business Corporation",
       "source": "https://ramp.com/press",
       "brandColor": "#000000",
-      "lockup": { "mono": "ramp/logo.svg" },
+      "lockup": {
+        "mono": "ramp/logo-mono.svg"
+      },
       "notes": "Official production SVG (next.ramp.com), verified byte-identical to ramp.com header. Monochrome by design (currentColor). No separately-published icon-only mark.",
-      "gaps": ["icon-only (not officially published standalone)"]
+      "gaps": [
+        "icon-only (not officially published standalone)"
+      ]
     },
     "google": {
       "name": "Google",
@@ -26,9 +34,13 @@
       "source": "https://about.google/brand-resource-center/",
       "icon": "google/icon.svg",
       "iconColor": "google/icon-color.svg",
-      "lockup": { "wordmark": "google/logo.svg" },
+      "lockup": {
+        "wordmark": "google/logo.svg"
+      },
       "notes": "icon-color = the official 4-color 'G' artwork — DO NOT recolor (Google guidelines). icon.svg = generic mono G glyph. lockup = the 2026 Google Workspace wordmark (Wikimedia Commons, PD-textlogo). App-icon use is partner-gated.",
-      "gaps": ["app icons (Gmail/Drive/etc.) are partner-gated"]
+      "gaps": [
+        "app icons (Gmail/Drive/etc.) are partner-gated"
+      ]
     },
     "notion": {
       "name": "Notion",
@@ -36,7 +48,10 @@
       "source": "https://www.notion.so/brand",
       "brandColor": "#000000",
       "icon": "notion/icon.svg",
-      "lockup": { "main": "notion/logo.svg" },
+      "lockup": {
+        "main": "notion/logo.svg",
+        "mono": "notion/logo-mono.svg"
+      },
       "notes": "Monochrome by design (black + reversed white). Icon = the 'N'. lockup = N + 'Notion' wordmark (svgporn community CDN — Notion ships no fetchable official lockup file; verify against notion.so/brand).",
       "gaps": []
     },
@@ -47,7 +62,10 @@
       "brandColor": "#F06A6A",
       "icon": "asana/icon.svg",
       "iconColor": "asana/icon-color.svg",
-      "lockup": { "main": "asana/logo.svg" },
+      "lockup": {
+        "main": "asana/logo.svg",
+        "mono": "asana/logo-mono.svg"
+      },
       "notes": "lockup = 3-dot symbol + 'asana' wordmark (Wikimedia Commons, PD-textlogo). Asana discourages standalone use of the symbol — prefer the lockup. Never place on a coral background.",
       "gaps": []
     },
@@ -58,7 +76,10 @@
       "brandColor": "#4A154B",
       "icon": "slack/icon.svg",
       "iconColor": "slack/icon-color.svg",
-      "lockup": { "main": "slack/logo.svg" },
+      "lockup": {
+        "main": "slack/logo.svg",
+        "mono": "slack/logo-mono.svg"
+      },
       "notes": "icon-color = the official 4-color hash from Slack's CDN — never recolor. icon.svg = monochrome glyph. lockup = 4-color hash + 'Slack' wordmark (Wikimedia Commons, PD-textlogo).",
       "gaps": []
     },
@@ -69,7 +90,11 @@
       "brandColor": "#D97757",
       "icon": "claude/icon.svg",
       "iconColor": "claude/icon-color.svg",
-      "lockup": { "slate": "claude/logo.svg", "ivory": "claude/logo-ivory.svg", "mono": "claude/logo-mono.svg" },
+      "lockup": {
+        "slate": "claude/logo.svg",
+        "ivory": "claude/logo-ivory.svg",
+        "mono": "claude/logo-mono.svg"
+      },
       "notes": "Official (Anthropic press kit). Icon = the Claude Spark (clay #D97757). Lockup in Slate (default), Ivory (on dark), and one-color.",
       "gaps": []
     },
@@ -80,7 +105,10 @@
       "brandColor": "#FF7A59",
       "icon": "hubspot/icon.svg",
       "iconColor": "hubspot/icon-color.svg",
-      "lockup": { "main": "hubspot/logo.svg" },
+      "lockup": {
+        "main": "hubspot/logo.svg",
+        "mono": "hubspot/logo-mono.svg"
+      },
       "notes": "Sprocket mark. lockup = sprocket + 'HubSpot' wordmark (Wikimedia Commons, PD-textlogo). Referential use only — keep your name more prominent, include an independence disclaimer.",
       "gaps": []
     },
@@ -91,7 +119,11 @@
       "brandColor": "#145FE4",
       "icon": "1password/icon.svg",
       "iconColor": "1password/icon-color.svg",
-      "lockup": { "black": "1password/logo-black.svg", "white": "1password/logo-white.svg" },
+      "lockup": {
+        "black": "1password/logo-black.svg",
+        "white": "1password/logo-white.svg",
+        "mono": "1password/logo-mono.svg"
+      },
       "notes": "Official lockup from the press CDN (mono black + white). Recent rebrand ships separate company and product marks — verify which is intended.",
       "gaps": []
     },
@@ -103,7 +135,9 @@
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
       "notes": "icon = official 'R' mark (mono, currentColor); icon-color = official color icon (plum #502D3C + yellow #FDB71C), both from Rippling's CDN. Rippling has NO combined icon+wordmark lockup — it ships icon and wordmark as separate assets by design.",
-      "gaps": ["no combined wordmark lockup exists (separate icon + wordmark by design)"]
+      "gaps": [
+        "no combined wordmark lockup exists (separate icon + wordmark by design)"
+      ]
     }
   }
 }

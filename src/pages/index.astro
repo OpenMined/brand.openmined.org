@@ -198,16 +198,18 @@ const partnerIcons = [
   { brand: '1password', label: '1Password', color: 'icon-color.svg' },
   { brand: 'rippling',  label: 'Rippling',  color: 'icon-color.svg' },
 ];
+// color = the primary lockup; mono = 1-color (currentColor). Google has no mono
+// (its guidelines forbid it). Rippling omitted — no combined lockup by design.
 const partnerLockups = [
-  { brand: 'google',    label: 'Google Workspace', file: 'logo.svg' },
-  { brand: 'github',    label: 'GitHub',    file: 'logo-black.svg' },
-  { brand: 'notion',    label: 'Notion',    file: 'logo.svg' },
-  { brand: 'asana',     label: 'Asana',     file: 'logo.svg' },
-  { brand: 'slack',     label: 'Slack',     file: 'logo.svg' },
-  { brand: 'claude',    label: 'Claude',    file: 'logo.svg' },
-  { brand: 'hubspot',   label: 'HubSpot',   file: 'logo.svg' },
-  { brand: '1password', label: '1Password', file: 'logo-black.svg' },
-  { brand: 'ramp',      label: 'Ramp',      file: 'logo.svg' },
+  { brand: 'google',    label: 'Google Workspace', color: 'logo.svg',       mono: null },
+  { brand: 'github',    label: 'GitHub',    color: 'logo-black.svg', mono: 'logo-mono.svg' },
+  { brand: 'notion',    label: 'Notion',    color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'asana',     label: 'Asana',     color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'slack',     label: 'Slack',     color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'claude',    label: 'Claude',    color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'hubspot',   label: 'HubSpot',   color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: '1password', label: '1Password', color: 'logo-black.svg', mono: 'logo-mono.svg' },
+  { brand: 'ramp',      label: 'Ramp',      color: 'logo.svg',       mono: 'logo-mono.svg' },
 ];
 ---
 
@@ -800,42 +802,44 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
           <h2 class="sg-section__title">Partner marks</h2>
           <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Icons are normalized to a uniform square; each ships in color (<code>icon-color.svg</code>) and 1-color (<code>icon.svg</code>, <code>currentColor</code>). Only gap: Rippling has no combined wordmark lockup (separate icon + wordmark by design).</p>
 
-          <h4 class="sg-subsection-title">Icons — color</h4>
+          <p class="sg-logo-group-note">Each card pairs the <strong>color</strong> and <strong>1-color</strong> (<code>currentColor</code>, shown black) variant. Google has no monochrome variant — its guidelines forbid it. Rippling has no combined lockup (separate icon + wordmark by design).</p>
+
+          <h4 class="sg-subsection-title">Icons</h4>
           <div class="sg-logo-grid">
             {partnerIcons.map(({ brand, label, color, monoBrand }) => (
-              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
-                <img src={`${base}/logos/partners/${brand}/${color}`} alt={label} class="sg-logo-img sg-partner-icon" />
-                <span class="text-meta">{label}{monoBrand ? ' (mono brand)' : ''}</span>
-                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${color}`} download>
-                  <ion-icon name="download-outline"></ion-icon> {brand}/{color}
-                </a>
-              </div>
-            ))}
-          </div>
-
-          <h4 class="sg-subsection-title">Icons — 1-color</h4>
-          <p class="sg-logo-group-note">Monochrome <code>icon.svg</code> (<code>fill="currentColor"</code>) — inline + set <code>color</code> to theme. Shown black here.</p>
-          <div class="sg-logo-grid">
-            {partnerIcons.map(({ brand, label }) => (
-              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
-                <img src={`${base}/logos/partners/${brand}/icon.svg`} alt={`${label} 1-color`} class="sg-logo-img sg-partner-icon" />
-                <span class="text-meta">{label}</span>
-                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/icon.svg`} download>
-                  <ion-icon name="download-outline"></ion-icon> {brand}/icon.svg
-                </a>
+              <div class="sg-pcard" data-section="always-light">
+                <div class="sg-pcard__row">
+                  <div class="sg-pv">
+                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} icon`} class="sg-pcard__icon" /></div>
+                    <span class="sg-pv__tag">{monoBrand ? 'mono brand' : 'color'}</span>
+                  </div>
+                  <div class="sg-pv">
+                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/icon.svg`} alt={`${label} 1-color icon`} class="sg-pcard__icon" /></div>
+                    <span class="sg-pv__tag">1-color</span>
+                  </div>
+                </div>
+                <span class="sg-pcard__label text-meta">{label}</span>
               </div>
             ))}
           </div>
 
           <h4 class="sg-subsection-title">Lockups</h4>
           <div class="sg-logo-grid">
-            {partnerLockups.map(({ brand, label, file }) => (
-              <div class="sg-logo-cell sg-logo-cell--light" data-section="always-light">
-                <img src={`${base}/logos/partners/${brand}/${file}`} alt={label} class="sg-logo-img" />
-                <span class="text-meta">{label}</span>
-                <a class="sg-logo-download" href={`${base}/logos/partners/${brand}/${file}`} download>
-                  <ion-icon name="download-outline"></ion-icon> {brand}/{file}
-                </a>
+            {partnerLockups.map(({ brand, label, color, mono }) => (
+              <div class="sg-pcard sg-pcard--wide" data-section="always-light">
+                <div class="sg-pcard__row">
+                  <div class="sg-pv">
+                    <div class="sg-pv__box"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} lockup`} class="sg-pcard__lockup" /></div>
+                    <span class="sg-pv__tag">color</span>
+                  </div>
+                  <div class="sg-pv">
+                    <div class="sg-pv__box">
+                      {mono ? <img src={`${base}/logos/partners/${brand}/${mono}`} alt={`${label} 1-color lockup`} class="sg-pcard__lockup" /> : <span class="sg-pv__na">no mono (guidelines)</span>}
+                    </div>
+                    <span class="sg-pv__tag">1-color</span>
+                  </div>
+                </div>
+                <span class="sg-pcard__label text-meta">{label}</span>
               </div>
             ))}
           </div>
@@ -1368,7 +1372,31 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
   .sg-logo-cell--dark { background: var(--surface-background-dim); }
 
   .sg-logo-img { max-width: 220px; max-height: 80px; object-fit: contain; }
-  .sg-partner-icon { max-height: 48px; }
+
+  /* Partner cards — color + 1-color variants grouped per mark */
+  .sg-pcard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-S);
+    padding: var(--spacing-L);
+    border: 1px solid var(--surface-foreground-default);
+    border-radius: var(--border-radius-L);
+    background: var(--surface-background-bright);
+  }
+  .sg-pcard__row { display: flex; gap: var(--spacing-S); }
+  .sg-pcard--wide .sg-pcard__row { flex-direction: column; }
+  .sg-pv { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-2XS); min-width: 0; }
+  .sg-pv__box {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 60px; padding: var(--spacing-S);
+    border-radius: var(--border-radius-S);
+    background: var(--surface-foreground-lowest);
+  }
+  .sg-pcard__icon   { height: 34px; width: auto; }                 /* icons: uniform square */
+  .sg-pcard__lockup { height: 22px; width: auto; max-width: 100%; } /* lockups: uniform height */
+  .sg-pv__tag { font-size: 11px; font-weight: 500; color: var(--text-subtle); }
+  .sg-pv__na  { font-size: 11px; color: var(--text-subtle); text-align: center; }
+  .sg-pcard__label { text-align: center; }
 
   .sg-logo-download {
     color: var(--text-subtle);
