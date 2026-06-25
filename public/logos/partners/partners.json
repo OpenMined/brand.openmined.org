@@ -36,10 +36,12 @@
       "icon": "google/icon.svg",
       "iconColor": "google/icon-color.svg",
       "lockup": {
-        "wordmark": "google/logo.svg",
-        "mono": "google/logo-mono.svg"
+        "workspace": "google/logo.svg",
+        "workspace-mono": "google/logo-mono.svg",
+        "wordmark": "google/wordmark.svg",
+        "wordmark-mono": "google/wordmark-mono.svg"
       },
-      "notes": "icon-color = the official 4-color 'G' artwork — DO NOT recolor (Google guidelines). icon.svg = generic mono G glyph. lockup = the 2026 Google Workspace wordmark (Wikimedia Commons, PD-textlogo); logo-mono.svg is a currentColor knockout of it (note: Google's guidelines discourage recoloring — use the color wordmark externally). App-icon use is partner-gated.",
+      "notes": "icon-color = official 4-color 'G' (DO NOT recolor — Google guidelines). icon.svg = mono G glyph. Lockups: 'Google Workspace' wordmark + plain 'Google' 4-color wordmark (both Wikimedia, PD-textlogo), each with a currentColor knockout (note: Google discourages recoloring — prefer the color versions externally). App icons partner-gated.",
       "gaps": [
         "app icons (Gmail/Drive/etc.) are partner-gated"
       ]
@@ -136,7 +138,7 @@
       "brandColor": "#000000",
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
-      "notes": "icon = official 'R' mark (mono, currentColor); icon-color = official color app icon (plum/yellow); lockup = official combined mark+wordmark from Rippling's CDN (mauve #A17A8B), with a currentColor knockout. All from rippling2.imgix.net.",
+      "notes": "icon = official 'R' mark (mono); icon-color = official color app icon (plum/yellow); lockup = the official Rippling combined mark+wordmark vector, recolored to brand plum (#402530) + a currentColor knockout.",
       "gaps": [],
       "lockup": {
         "main": "rippling/logo.svg",

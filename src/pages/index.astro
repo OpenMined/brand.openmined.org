@@ -206,19 +206,21 @@ const partnerIcons = [
   { brand: '1password', label: '1Password', color: 'icon-color.svg' },
   { brand: 'rippling',  label: 'Rippling',  color: 'icon-color.svg' },
 ];
-// color = the primary lockup; mono = 1-color (currentColor). Google has no mono
-// (its guidelines forbid it). Rippling omitted — no combined lockup by design.
+// color = primary lockup; mono = 1-color (currentColor). `scale` is an optical
+// size multiplier (some marks have tall icons that inflate their bbox, so a flat
+// height reads small/large — tuned by eye for a consistent wordmark size).
 const partnerLockups = [
-  { brand: 'google',    label: 'Google Workspace', color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'github',    label: 'GitHub',    color: 'logo-black.svg', mono: 'logo-mono.svg' },
-  { brand: 'notion',    label: 'Notion',    color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'asana',     label: 'Asana',     color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'slack',     label: 'Slack',     color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'claude',    label: 'Claude',    color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'hubspot',   label: 'HubSpot',   color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: '1password', label: '1Password', color: 'logo-black.svg', mono: 'logo-mono.svg' },
-  { brand: 'ramp',      label: 'Ramp',      color: 'logo.svg',       mono: 'logo-mono.svg' },
-  { brand: 'rippling',  label: 'Rippling',  color: 'logo.svg',       mono: 'logo-mono.svg' },
+  { brand: 'google',    label: 'Google Workspace', color: 'logo.svg',     mono: 'logo-mono.svg',     scale: 0.8 },
+  { brand: 'google',    label: 'Google',    color: 'wordmark.svg',   mono: 'wordmark-mono.svg', scale: 1 },
+  { brand: 'github',    label: 'GitHub',    color: 'logo-black.svg', mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'notion',    label: 'Notion',    color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1.4 },
+  { brand: 'asana',     label: 'Asana',     color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'slack',     label: 'Slack',     color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'claude',    label: 'Claude',    color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'hubspot',   label: 'HubSpot',   color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1.35 },
+  { brand: '1password', label: '1Password', color: 'logo-black.svg', mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'ramp',      label: 'Ramp',      color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'rippling',  label: 'Rippling',  color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
 ];
 ---
 
@@ -834,8 +836,8 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
 
           <h4 class="sg-subsection-title">Lockups</h4>
           <div class="sg-logo-grid">
-            {partnerLockups.map(({ brand, label, color, mono }) => (
-              <div class="sg-pcard sg-pcard--wide">
+            {partnerLockups.map(({ brand, label, color, mono, scale = 1 }) => (
+              <div class="sg-pcard sg-pcard--wide" style={`--lk-h:${(22 * scale).toFixed(1)}px`}>
                 <div class="sg-pcard__row">
                   <div class="sg-pv">
                     <div class="sg-pv__box sg-pv__box--lockup" data-section="always-light"><img src={`${base}/logos/partners/${brand}/${color}`} alt={`${label} lockup`} class="sg-pcard__lockup" /></div>
@@ -1402,12 +1404,12 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     background: var(--surface-foreground-lowest);
   }
   .sg-pcard__icon   { height: 34px; width: auto; }                 /* icons: uniform square */
-  .sg-pcard__lockup { height: 22px; width: auto; max-width: 100%; } /* lockups: uniform height */
+  .sg-pcard__lockup { height: var(--lk-h, 22px); width: auto; max-width: 100%; } /* lockups: per-mark optical height */
   /* 1-color boxes: dark surface, mark inlined so currentColor renders light/white */
   .sg-pv__box--dark { color: var(--text-headline); }
   .sg-pv__box--dark :global(svg) { color: var(--text-headline); }
   .sg-pv__box--icon   :global(svg) { height: 34px; width: auto; display: block; }
-  .sg-pv__box--lockup :global(svg) { height: 22px; width: auto; max-width: 100%; display: block; }
+  .sg-pv__box--lockup :global(svg) { height: var(--lk-h, 22px); width: auto; max-width: 100%; display: block; }
   .sg-pv__tag { font-size: 11px; font-weight: 500; color: var(--text-subtle); }
   .sg-pv__na  { font-size: 11px; color: var(--text-subtle); text-align: center; }
   .sg-pcard__label { text-align: center; }
