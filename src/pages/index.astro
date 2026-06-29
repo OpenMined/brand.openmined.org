@@ -233,6 +233,24 @@ const partnerLockups = [
   { brand: 'ramp',      label: 'Ramp',      color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
   { brand: 'rippling',  label: 'Rippling',  color: 'logo.svg',       mono: 'logo-mono.svg', scale: 0.85 },
 ];
+// Google Workspace product icons — official multicolor marks (Wikimedia, 2020+
+// artwork). COLOR-ONLY: Google forbids monochrome/recolored product icons, so no
+// 1-color variant. `scale` = optical multiplier (square marks read large at a flat
+// height, so they're nudged down). Each has intrinsic aspect ratio (kept natural).
+const googleProducts = [
+  { slug: 'gmail',    label: 'Gmail',    scale: 1 },
+  { slug: 'drive',    label: 'Drive',    scale: 1 },
+  { slug: 'calendar', label: 'Calendar', scale: 0.9 },
+  { slug: 'docs',     label: 'Docs',     scale: 1 },
+  { slug: 'sheets',   label: 'Sheets',   scale: 1 },
+  { slug: 'slides',   label: 'Slides',   scale: 1 },
+  { slug: 'meet',     label: 'Meet',     scale: 1 },
+  { slug: 'forms',    label: 'Forms',    scale: 1 },
+  { slug: 'chat',     label: 'Chat',     scale: 0.92 },
+  { slug: 'keep',     label: 'Keep',     scale: 1 },
+  { slug: 'maps',     label: 'Maps',     scale: 1 },
+  { slug: 'photos',   label: 'Photos',   scale: 0.9 },
+];
 ---
 
 <Base>
@@ -872,6 +890,25 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
               </div>
             ))}
           </div>
+
+          <h4 class="sg-subsection-title">Google products</h4>
+          <div class="sg-gp-grid">
+            {googleProducts.map(({ slug, label, scale = 1 }) => (
+              <div class="sg-pcard sg-pcard--gp">
+                <div class="sg-pv__box sg-pv__box--icon" data-section="always-light">
+                  <img src={`${base}/logos/partners/google/products/${slug}.svg`} alt={`Google ${label} icon`} class="sg-gpicon" style={`--gp:${scale}`} />
+                </div>
+                <span class="sg-pcard__label text-meta">{label}</span>
+                <button class="sg-copy-link" type="button" aria-label={`Copy Google ${label} icon link`} data-copy={`${CDN}/logos/partners/google/products/${slug}.png`}>
+                  <ion-icon name="link-outline" class="copy-icon"></ion-icon>
+                  <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+                  <span class="sg-copy-link__label">Copy icon link</span>
+                  <span class="sg-copy-link__done">Copied!</span>
+                </button>
+              </div>
+            ))}
+          </div>
+          <p class="sg-logo-group-note"><strong>Color only</strong> — Google's guidelines forbid monochrome or recolored product icons, so these ship without a 1-color variant. Official 2020-generation artwork; each keeps its intrinsic shape (envelope, page, pin). “Copy icon link” gives the hosted PNG (Notion-icon ready).</p>
         </section>
 
         <!-- AFFILIATIONS / ORG MARKS (openmined.org logos) -->
@@ -1447,6 +1484,19 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     border-radius: var(--border-radius-S);
     background: var(--surface-foreground-lowest);
   }
+  /* Google products: denser grid, color-only single-box cards */
+  .sg-gp-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--spacing-M);
+  }
+  .sg-pcard--gp { padding: var(--spacing-M); gap: var(--spacing-XS); align-items: center; }
+  .sg-gpicon {
+    width: auto; height: auto;
+    max-height: calc(40px * var(--gp, 1));
+    max-width: calc(56px * var(--gp, 1));
+    object-fit: contain; display: block;
+  }
   .sg-pcard__icon   { height: 34px; width: auto; }                 /* icons: uniform square */
   .sg-pcard__lockup { height: var(--lk-h, 22px); width: auto; max-width: 100%; } /* lockups: per-mark optical height */
   /* 1-color boxes: dark surface, mark inlined so currentColor renders light/white */
@@ -1567,6 +1617,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     .sg-surface-grid--5 { grid-template-columns: repeat(3, 1fr); }
     .sg-gradient-strip { width: 200px; }
     .sg-logo-grid { grid-template-columns: repeat(2, 1fr); }
+    .sg-gp-grid { grid-template-columns: repeat(4, 1fr); }
 
     /* Grid spans demo: .grid-12 collapses to one column here, so inline
        span / line placements must reset to full width (override inline styles). */
@@ -1606,6 +1657,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
 
     /* Logos */
     .sg-logo-grid { grid-template-columns: 1fr; }
+    .sg-gp-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 479px) {
