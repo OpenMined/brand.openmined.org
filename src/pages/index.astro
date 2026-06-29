@@ -16,6 +16,8 @@ import StreamEmbed from '@brand/StreamEmbed.astro';
 import { readFileSync } from 'node:fs';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Canonical production host for copyable asset links (paste-anywhere, e.g. Notion).
+const CDN = 'https://design.openmined.org';
 
 // Inline a mono SVG so currentColor inherits the (light) text color of an
 // always-dark box — i.e. the 1-color mark renders white on dark.
@@ -839,9 +841,16 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
                   </div>
                 </div>
                 <span class="sg-pcard__label text-meta">{label}</span>
+                <button class="sg-copy-link" type="button" aria-label={`Copy ${label} icon link`} data-copy={`${CDN}/logos/partners/${brand}/icon.png`}>
+                  <ion-icon name="link-outline" class="copy-icon"></ion-icon>
+                  <ion-icon name="checkmark-outline" class="check-icon"></ion-icon>
+                  <span class="sg-copy-link__label">Copy icon link</span>
+                  <span class="sg-copy-link__done">Copied!</span>
+                </button>
               </div>
             ))}
           </div>
+          <p class="sg-logo-group-note">“Copy icon link” gives a hosted <strong>PNG</strong> URL (e.g. for a Notion callout icon — paste under <em>Add icon → Custom → Link</em>). PNG because Notion doesn’t reliably render SVG icons. The <code>.svg</code> at the same path is the vector for web use.</p>
 
           <h4 class="sg-subsection-title">Lockups</h4>
           <div class="sg-logo-grid">
@@ -1448,6 +1457,18 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
   .sg-pv__tag { font-size: 11px; font-weight: 500; color: var(--text-subtle); }
   .sg-pv__na  { font-size: 11px; color: var(--text-subtle); text-align: center; }
   .sg-pcard__label { text-align: center; }
+  .sg-copy-link {
+    display: inline-flex; align-items: center; gap: var(--spacing-2XS);
+    margin-top: var(--spacing-2XS); padding: 0;
+    background: transparent; border: none; cursor: pointer;
+    font-family: inherit; font-size: 11px; font-weight: 500; color: var(--text-subtle);
+    transition: color var(--transition-base);
+  }
+  .sg-copy-link:hover { color: var(--color-interactive-hover); }
+  .sg-copy-link .check-icon, .sg-copy-link__done { display: none; }
+  .sg-copy-link.copied .copy-icon, .sg-copy-link.copied .sg-copy-link__label { display: none; }
+  .sg-copy-link.copied .check-icon, .sg-copy-link.copied .sg-copy-link__done { display: inline-block; }
+  .sg-copy-link.copied { color: var(--color-green-600); }
 
   .sg-logo-download {
     color: var(--text-subtle);
@@ -1607,9 +1628,9 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
 </style>
 
 <script>
-  // Graphic copy buttons
+  // Copy-to-clipboard buttons: graphic embed snippets + asset link copy
   document.addEventListener('click', (e: MouseEvent) => {
-    const btn = (e.target as HTMLElement).closest('.sg-graphic-copy') as HTMLElement | null;
+    const btn = (e.target as HTMLElement).closest('.sg-graphic-copy, .sg-copy-link') as HTMLElement | null;
     if (!btn) return;
     const text = (btn as HTMLElement).dataset.copy ?? '';
     navigator.clipboard.writeText(text).then(() => {
