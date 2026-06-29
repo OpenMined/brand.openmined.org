@@ -893,10 +893,10 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
 
           <h4 class="sg-subsection-title">Google products</h4>
           <div class="sg-gp-grid">
-            {googleProducts.map(({ slug, label, scale = 1 }) => (
+            {googleProducts.map(({ slug, label }) => (
               <div class="sg-pcard sg-pcard--gp">
                 <div class="sg-pv__box sg-pv__box--icon" data-section="always-light">
-                  <img src={`${base}/logos/partners/google/products/${slug}.svg`} alt={`Google ${label} icon`} class="sg-gpicon" style={`--gp:${scale}`} />
+                  <img src={`${base}/logos/partners/google/products/${slug}.svg`} alt={`Google ${label} icon`} class="sg-gpicon" />
                 </div>
                 <span class="sg-pcard__label text-meta">{label}</span>
                 <button class="sg-copy-link" type="button" aria-label={`Copy Google ${label} icon link`} data-copy={`${CDN}/logos/partners/google/products/${slug}.png`}>
@@ -908,7 +908,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
               </div>
             ))}
           </div>
-          <p class="sg-logo-group-note"><strong>Color only</strong> — Google's guidelines forbid monochrome or recolored product icons, so these ship without a 1-color variant. Official 2020-generation artwork. The <code>.svg</code> keeps each mark's intrinsic shape (envelope, page, pin) for web use; “Copy icon link” gives a <strong>square, padded PNG</strong> that drops into any square slot — Notion page/callout icon, Slack, favicon — without cropping.</p>
+          <p class="sg-logo-group-note"><strong>Color only</strong> — Google's guidelines forbid monochrome or recolored product icons, so these ship without a 1-color variant. Official 2020-generation artwork, normalized to a <strong>square, padded canvas</strong> (both <code>.svg</code> and <code>.png</code>) so every mark drops into a square slot — Notion page/callout icon, Slack, favicon — without cropping. “Copy icon link” copies the PNG (what Notion needs).</p>
         </section>
 
         <!-- AFFILIATIONS / ORG MARKS (openmined.org logos) -->
@@ -1491,12 +1491,9 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
     gap: var(--spacing-M);
   }
   .sg-pcard--gp { padding: var(--spacing-M); gap: var(--spacing-XS); align-items: center; }
-  .sg-gpicon {
-    width: auto; height: auto;
-    max-height: calc(40px * var(--gp, 1));
-    max-width: calc(56px * var(--gp, 1));
-    object-fit: contain; display: block;
-  }
+  /* square preview tile — matches the square, padded asset you copy (svg + png) */
+  .sg-pcard--gp .sg-pv__box { aspect-ratio: 1 / 1; min-height: 0; padding: 0; }
+  .sg-gpicon { width: 82%; height: 82%; object-fit: contain; display: block; }
   .sg-pcard__icon   { height: 34px; width: auto; }                 /* icons: uniform square */
   .sg-pcard__lockup { height: var(--lk-h, 22px); width: auto; max-width: 100%; } /* lockups: per-mark optical height */
   /* 1-color boxes: dark surface, mark inlined so currentColor renders light/white */
