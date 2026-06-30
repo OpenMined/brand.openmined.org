@@ -160,6 +160,20 @@
       },
       "notes": "Single-color mark (the aperture/burst logomark). icon-color = the mark in brand purple #625DF5; icon.svg = same geometry as currentColor. Mark from Simple Icons (CC0, canonical 0 0 24 24, normalized to ~86% like the other icons). lockup = mark + 'loom' wordmark (purple + near-black; mono = currentColor knockout).",
       "gaps": []
+    },
+    "figma": {
+      "name": "Figma",
+      "trademark": "Figma, Inc.",
+      "source": "https://www.figma.com/community/file/brand",
+      "brandColor": "#F24E1E",
+      "icon": "figma/icon.svg",
+      "iconColor": "figma/icon-color.svg",
+      "lockup": {
+        "main": "figma/logo.svg",
+        "mono": "figma/logo-mono.svg"
+      },
+      "notes": "Multicolor mark (the 5-shape logo: #F24E1E #FF7262 #A259FF #1ABCFE #0ACF83 — never recolor the color variant). icon-color = the official 5-color mark fit to a 0 0 24 24 box at ~86% (Slack technique) so it swaps in place with icon.svg, the currentColor 1-color knockout (Simple Icons silhouette). lockup = mark + 'Figma' wordmark; mono = full currentColor knockout.",
+      "gaps": []
     }
   }
 }
