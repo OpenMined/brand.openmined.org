@@ -146,6 +146,20 @@
         "main": "rippling/logo.svg",
         "mono": "rippling/logo-mono.svg"
       }
+    },
+    "loom": {
+      "name": "Loom",
+      "trademark": "Loom, Inc. (Atlassian)",
+      "source": "https://www.loom.com/press",
+      "brandColor": "#625DF5",
+      "icon": "loom/icon.svg",
+      "iconColor": "loom/icon-color.svg",
+      "lockup": {
+        "main": "loom/logo.svg",
+        "mono": "loom/logo-mono.svg"
+      },
+      "notes": "Single-color mark (the aperture/burst logomark). icon-color = the mark in brand purple #625DF5; icon.svg = same geometry as currentColor. Mark from Simple Icons (CC0, canonical 0 0 24 24, normalized to ~86% like the other icons). lockup = mark + 'loom' wordmark (purple + near-black; mono = currentColor knockout).",
+      "gaps": []
     }
   }
 }
