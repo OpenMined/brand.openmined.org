@@ -42,9 +42,24 @@
       },
       "notes": "icon-color = the official 4-color 'G' (DO NOT recolor — Google guidelines). icon.svg = a 1-color knockout of that same G geometry (currentColor). Lockups: 'Google Workspace' wordmark + plain 'Google' 4-color wordmark (Wikimedia, PD-textlogo), each with a currentColor knockout (Google discourages recoloring — prefer color externally). Individual Workspace product icons (Gmail/Drive/Calendar/…) live under `products/` — see the `products` block below.",
       "products": {
-        "_comment": "Google Workspace product icons — official 2020-generation multicolor artwork (Wikimedia Commons). COLOR-ONLY by Google's guidelines (no monochrome/recolored product icons), so no 1-color variant. Each keeps its intrinsic aspect ratio. <product>.svg = vector (web); <product>.png = 512px-tall transparent raster (for Notion/doc icons via link). Used nominatively to identify the product; never imply endorsement; never recolor.",
+        "_comment": "Google product icons (Workspace + Analytics + Cloud) — official 2020-generation multicolor artwork (Wikimedia Commons). COLOR-ONLY by Google's guidelines (no monochrome/recolored product icons), so no 1-color variant. Each keeps its intrinsic aspect ratio. <product>.svg = vector (web); <product>.png = 512px-tall transparent raster (for Notion/doc icons via link). Used nominatively to identify the product; never imply endorsement; never recolor.",
         "dir": "google/products",
-        "items": ["gmail", "drive", "calendar", "docs", "sheets", "slides", "meet", "forms", "chat", "keep", "maps", "photos"]
+        "items": [
+          "gmail",
+          "drive",
+          "calendar",
+          "docs",
+          "sheets",
+          "slides",
+          "meet",
+          "forms",
+          "chat",
+          "keep",
+          "maps",
+          "photos",
+          "analytics",
+          "cloud"
+        ]
       },
       "gaps": []
     },
@@ -188,6 +203,242 @@
       },
       "notes": "Single-color brand (LinkedIn blue #0A66C2). icon = the 'in' bug (the 'in' knocked out of the rounded square); icon-color = same in brand blue, icon.svg = currentColor. Mark from Simple Icons (CC0, canonical 0 0 24 24, ~86%). lockup = the one-color 'Linked·in' logo in blue; mono = currentColor knockout. Per LinkedIn brand: don't alter the bug's proportions or recolor the color variant.",
       "gaps": []
+    },
+    "bluesky": {
+      "name": "Bluesky",
+      "trademark": "Bluesky Social, PBC",
+      "source": "https://bsky.social",
+      "brandColor": "#1185FE",
+      "icon": "bluesky/icon.svg",
+      "iconColor": "bluesky/icon-color.svg",
+      "notes": "Single-color butterfly mark (#1185FE). Simple Icons geometry, canonical 24-box @86%.",
+      "gaps": [
+        "no official wordmark-lockup vector published"
+      ]
+    },
+    "x": {
+      "name": "X (Twitter)",
+      "trademark": "X Corp.",
+      "source": "https://about.x.com/en/who-we-are/brand-toolkit",
+      "brandColor": "#000000",
+      "icon": "x/icon.svg",
+      "notes": "Monochrome by design — the X mark IS the logo (black/white only per X brand toolkit); no wordmark lockup exists. Covers the former Twitter accounts.",
+      "gaps": []
+    },
+    "adobe": {
+      "name": "Adobe",
+      "trademark": "Adobe Inc.",
+      "source": "https://www.adobe.com/about-adobe/brand-center.html",
+      "brandColor": "#FA0F00",
+      "icon": "adobe/icon.svg",
+      "iconColor": "adobe/icon-color.svg",
+      "lockup": {
+        "main": "adobe/logo.svg",
+        "mono": "adobe/logo-mono.svg"
+      },
+      "notes": "Single-color 'A' mark in Adobe red (#FA0F00). Covers Adobe Creative Suite/Cloud references. lockup = A + 'Adobe' wordmark; mono = currentColor knockout.",
+      "gaps": []
+    },
+    "aws": {
+      "name": "AWS",
+      "trademark": "Amazon Web Services, Inc. (Amazon)",
+      "source": "https://aws.amazon.com",
+      "brandColor": "#232F3E",
+      "icon": "aws/icon.svg",
+      "iconColor": "aws/icon-color.svg",
+      "lockup": {
+        "main": "aws/logo.svg",
+        "mono": "aws/logo-mono.svg"
+      },
+      "notes": "Two-tone mark ('aws' squid-ink #232F3E + smile #FF9900). icon-color = official two-tone fit to the 24-box (Slack technique); icon.svg = currentColor silhouette. Covers the AWS / Route 53 rows. lockup = same official logo at natural aspect.",
+      "gaps": []
+    },
+    "godaddy": {
+      "name": "GoDaddy",
+      "trademark": "GoDaddy Operating Company, LLC",
+      "source": "https://aboutus.godaddy.net/newsroom",
+      "brandColor": "#1BDBDB",
+      "icon": "godaddy/icon.svg",
+      "iconColor": "godaddy/icon-color.svg",
+      "notes": "Single-color 'GO' mark in GoDaddy teal (#1BDBDB).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "wpengine": {
+      "name": "WP Engine",
+      "trademark": "WPEngine, Inc.",
+      "source": "https://wpengine.com",
+      "brandColor": "#0ECAD4",
+      "icon": "wpengine/icon.svg",
+      "iconColor": "wpengine/icon-color.svg",
+      "notes": "Single-color boxed-W mark (#0ECAD4).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "plausible": {
+      "name": "Plausible Analytics",
+      "trademark": "Plausible Insights OÜ",
+      "source": "https://plausible.io",
+      "brandColor": "#5850EC",
+      "icon": "plausible/icon.svg",
+      "iconColor": "plausible/icon-color.svg",
+      "notes": "Single-color mark (#5850EC). Open-source (AGPL) project brand.",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "bitly": {
+      "name": "Bitly",
+      "trademark": "Bitly, Inc.",
+      "source": "https://bitly.com/pages/press",
+      "brandColor": "#EE6123",
+      "icon": "bitly/icon.svg",
+      "iconColor": "bitly/icon-color.svg",
+      "notes": "Single-color 'b' mark in Bitly orange (#EE6123).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "zapier": {
+      "name": "Zapier",
+      "trademark": "Zapier, Inc.",
+      "source": "https://brand.zapier.com",
+      "brandColor": "#FF4F00",
+      "icon": "zapier/icon.svg",
+      "iconColor": "zapier/icon-color.svg",
+      "lockup": {
+        "main": "zapier/logo.svg",
+        "mono": "zapier/logo-mono.svg"
+      },
+      "notes": "icon = the official post-2022 app badge (orange box + white wordmark — matches zapier.com favicon); icon-color in Zapier orange #FF4F00. lockup = the '_zapier' brandmark (orange underscore + near-black wordmark); mono = currentColor knockout.",
+      "gaps": []
+    },
+    "wordpress": {
+      "name": "WordPress",
+      "trademark": "WordPress Foundation",
+      "source": "https://wordpressfoundation.org/trademark-policy/",
+      "brandColor": "#21759B",
+      "icon": "wordpress/icon.svg",
+      "iconColor": "wordpress/icon-color.svg",
+      "lockup": {
+        "main": "wordpress/logo.svg",
+        "mono": "wordpress/logo-mono.svg"
+      },
+      "notes": "Single-color 'W' circle mark in WordPress blue (#21759B). lockup = mark + 'WordPress' wordmark; mono = currentColor knockout. Trademark note: 'WordPress' (capital P) per foundation policy.",
+      "gaps": []
+    },
+    "excalidraw": {
+      "name": "Excalidraw",
+      "trademark": "Excalidraw (open source, MIT)",
+      "source": "https://github.com/excalidraw/excalidraw",
+      "brandColor": "#6965DB",
+      "icon": "excalidraw/icon.svg",
+      "iconColor": "excalidraw/icon-color.svg",
+      "notes": "Single-color mark (#6965DB).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "azure": {
+      "name": "Microsoft Azure",
+      "trademark": "Microsoft Corporation",
+      "source": "https://azure.microsoft.com",
+      "brandColor": "#0078D4",
+      "icon": "azure/icon.svg",
+      "iconColor": "azure/icon-color.svg",
+      "notes": "icon-color = the official gradient 'A' mark fit to the 24-box (never recolor); icon.svg = currentColor silhouette (Simple Icons geometry).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "openrouter": {
+      "name": "OpenRouter",
+      "trademark": "OpenRouter, Inc.",
+      "source": "https://openrouter.ai",
+      "brandColor": "#94A3B8",
+      "icon": "openrouter/icon.svg",
+      "iconColor": "openrouter/icon-color.svg",
+      "notes": "Single-color mark (#94A3B8, the brand's slate).",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "readthedocs": {
+      "name": "Read the Docs",
+      "trademark": "Read the Docs, Inc.",
+      "source": "https://about.readthedocs.com",
+      "brandColor": "#000000",
+      "icon": "readthedocs/icon.svg",
+      "notes": "Monochrome by design (post-2023 simplified brand) — use black or theme via currentColor.",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "cursor": {
+      "name": "Cursor",
+      "trademark": "Anysphere Inc.",
+      "source": "https://cursor.com",
+      "brandColor": "#000000",
+      "icon": "cursor/icon.svg",
+      "notes": "Monochrome cube mark — black/white by design; theme via currentColor.",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
+    },
+    "pypi": {
+      "name": "PyPI",
+      "trademark": "Python Software Foundation",
+      "source": "https://pypi.org",
+      "brandColor": "#3775A9",
+      "icon": "pypi/icon.svg",
+      "iconColor": "pypi/icon-color.svg",
+      "notes": "icon = the official isometric package-boxes mark (dense — prefer >=32px display); icon-color in PyPI blue #3775A9.",
+      "gaps": [
+        "no official wordmark-lockup vector (community file is the bare mark only)"
+      ]
+    },
+    "miro": {
+      "name": "Miro",
+      "trademark": "RealtimeBoard, Inc. (Miro)",
+      "source": "https://miro.com/brand-guidelines/",
+      "brandColor": "#050038",
+      "icon": "miro/icon.svg",
+      "iconColor": "miro/icon-color.svg",
+      "lockup": {
+        "main": "miro/logo.svg"
+      },
+      "notes": "icon-color = the official yellow tile (#FFDD33) with the negative-space M, fit to the 24-box; icon.svg = currentColor silhouette. lockup color-only (mark is negative space on yellow — no clean 1-color knockout).",
+      "gaps": [
+        "lockup is color-only (negative-space mark, no clean mono)"
+      ]
+    },
+    "docker": {
+      "name": "Docker",
+      "trademark": "Docker, Inc.",
+      "source": "https://www.docker.com/company/newsroom/media-resources/",
+      "brandColor": "#2496ED",
+      "icon": "docker/icon.svg",
+      "iconColor": "docker/icon-color.svg",
+      "lockup": {
+        "main": "docker/logo.svg",
+        "mono": "docker/logo-mono.svg"
+      },
+      "notes": "Single-color whale mark in Docker blue (#2496ED). lockup = whale + 'docker' wordmark; mono = currentColor knockout.",
+      "gaps": []
+    },
+    "artifacthub": {
+      "name": "Artifact Hub",
+      "trademark": "CNCF (The Linux Foundation)",
+      "source": "https://artifacthub.io",
+      "brandColor": "#417598",
+      "icon": "artifacthub/icon.svg",
+      "iconColor": "artifacthub/icon-color.svg",
+      "notes": "Single-color mark (#417598). CNCF project brand.",
+      "gaps": [
+        "no official wordmark-lockup vector fetched"
+      ]
     }
   }
 }

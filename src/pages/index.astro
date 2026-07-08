@@ -219,6 +219,25 @@ const partnerIcons = [
   { brand: 'loom',      label: 'Loom',      color: 'icon-color.svg' },
   { brand: 'figma',     label: 'Figma',     color: 'icon-color.svg' },
   { brand: 'linkedin',  label: 'LinkedIn',  color: 'icon-color.svg' },
+  { brand: 'bluesky',     label: 'Bluesky',      color: 'icon-color.svg' },
+  { brand: 'x',           label: 'X (Twitter)',  color: 'icon.svg', monoBrand: true },
+  { brand: 'adobe',       label: 'Adobe',        color: 'icon-color.svg' },
+  { brand: 'aws',         label: 'AWS',          color: 'icon-color.svg' },
+  { brand: 'azure',       label: 'Azure',        color: 'icon-color.svg' },
+  { brand: 'godaddy',     label: 'GoDaddy',      color: 'icon-color.svg' },
+  { brand: 'wpengine',    label: 'WP Engine',    color: 'icon-color.svg' },
+  { brand: 'wordpress',   label: 'WordPress',    color: 'icon-color.svg' },
+  { brand: 'plausible',   label: 'Plausible',    color: 'icon-color.svg' },
+  { brand: 'bitly',       label: 'Bitly',        color: 'icon-color.svg' },
+  { brand: 'zapier',      label: 'Zapier',       color: 'icon-color.svg' },
+  { brand: 'excalidraw',  label: 'Excalidraw',   color: 'icon-color.svg' },
+  { brand: 'miro',        label: 'Miro',         color: 'icon-color.svg' },
+  { brand: 'openrouter',  label: 'OpenRouter',   color: 'icon-color.svg' },
+  { brand: 'cursor',      label: 'Cursor',       color: 'icon.svg', monoBrand: true },
+  { brand: 'readthedocs', label: 'Read the Docs', color: 'icon.svg', monoBrand: true },
+  { brand: 'pypi',        label: 'PyPI',         color: 'icon-color.svg' },
+  { brand: 'docker',      label: 'Docker',       color: 'icon-color.svg' },
+  { brand: 'artifacthub', label: 'Artifact Hub', color: 'icon-color.svg' },
 ];
 // color = primary lockup; mono = 1-color (currentColor). `scale` is an optical
 // size multiplier (some marks have tall icons that inflate their bbox, so a flat
@@ -238,6 +257,12 @@ const partnerLockups = [
   { brand: 'loom',      label: 'Loom',      color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
   { brand: 'figma',     label: 'Figma',     color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1.8 },
   { brand: 'linkedin',  label: 'LinkedIn',  color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'adobe',     label: 'Adobe',     color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'aws',       label: 'AWS',       color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'zapier',    label: 'Zapier',    color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'wordpress', label: 'WordPress', color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'docker',    label: 'Docker',    color: 'logo.svg',       mono: 'logo-mono.svg', scale: 1 },
+  { brand: 'miro',      label: 'Miro',      color: 'logo.svg',       mono: null,            scale: 1 },
 ];
 // Google Workspace product icons — official multicolor marks (Wikimedia, 2020+
 // artwork). COLOR-ONLY: Google forbids monochrome/recolored product icons, so no
@@ -256,6 +281,8 @@ const googleProducts = [
   { slug: 'keep',     label: 'Keep',     scale: 1 },
   { slug: 'maps',     label: 'Maps',     scale: 1 },
   { slug: 'photos',   label: 'Photos',   scale: 0.9 },
+  { slug: 'analytics', label: 'Analytics', scale: 1 },
+  { slug: 'cloud',     label: 'Cloud',     scale: 1 },
 ];
 ---
 
@@ -846,7 +873,7 @@ model.fit(dataset.features, dataset.labels)`}</CodeBlock>
         <!-- PARTNER / INTEGRATION MARKS -->
         <section class="sg-section" id="partners">
           <h2 class="sg-section__title">Partner marks</h2>
-          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Icons are normalized to a uniform square; each ships in color (<code>icon-color.svg</code>) and 1-color (<code>icon.svg</code>, <code>currentColor</code>). Only gap: Rippling has no combined wordmark lockup (separate icon + wordmark by design).</p>
+          <p class="sg-section__desc">Third-party tool logos for integrations — <strong>not</strong> OpenMined assets. Each is the trademark of its owner, used nominatively and governed by that owner's guidelines, <strong>never</strong> OMDS tokens. Source of truth: <code>public/logos/partners/partners.json</code>. Icons are normalized to a uniform square; each ships in color (<code>icon-color.svg</code>) and 1-color (<code>icon.svg</code>, <code>currentColor</code>). Lockups exist where the owner publishes a wordmark-lockup vector — per-brand gaps are recorded in the manifest. Pending official vectors: Microsoft Clarity, Workable.</p>
 
           <p class="sg-logo-group-note">Each card pairs the <strong>color</strong> variant (on light) with the <strong>1-color</strong> knockout (<code>currentColor</code>, shown white on dark). Every icon shares a <code>0 0 24 24</code> box and every brand's color/1-color share a viewBox, so variants swap in place. 1-color marks recolor the official artwork (Google's own guidelines discourage recoloring its logo). Ramp publishes no standalone icon, and Rippling no combined lockup (separate icon + wordmark by design).</p>
 
