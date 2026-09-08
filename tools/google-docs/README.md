@@ -52,6 +52,13 @@ token. The header logo needs a hosted **raster** logo (Docs can't inline SVG) �
 Until then `make_template.py letterhead` warns and skips the header; re-run with
 `--doc <ID>` won't add it — recreate or pass `--logo-url`.
 
+## Published spec
+
+`python3 omds_docs.py --json ../../src/tokens/google-docs.json` regenerates the
+machine-readable spec; `prebuild` copies it to `/tokens/google-docs.json` on
+design.openmined.org (CORS on), and the reference page's **Google Docs** section
+renders from the same file. Run it after any change to `DOC_PT` or the token CSS.
+
 ## What comes from where
 
 | Property | Source |
@@ -61,7 +68,7 @@ Until then `make_template.py letterhead` warns and skips the header; re-run with
 | Colors | `--text-headline`, `--text-body`, `--text-subtle` (light values; paper is light) |
 | Paragraph spacing | `.prose` rhythm tokens (`--spacing-3XL/2XL/L/S`) scaled by (Normal pt ÷ body px) |
 | Margins | 1" (Docs default; `PAGE_MARGIN_PT`) |
-| **Point sizes** | **`DOC_PT` in `omds_docs.py` — the one Docs-specific judgment call.** Web headings (61/47/36/27px) are a display scale; on paper: Title 30 · H1 24 · H2 18 · H3 14 · H4 12 · H5 11 · H6 10 · Normal 11 · Subtitle 14. |
+| **Point sizes** | **`DOC_PT` in `omds_docs.py` — the one Docs-specific table.** OpenMined's print scale, taken from the 2025 gallery templates (Bennett, adopted 2026-09-08): Normal 10 · Title 26 · Subtitle 13 · H1 20 · H2 16 · H3 14 · H4 12 · H5 11 · H6 10. Web headings (61/47/36/27px) are a display scale and are not used on paper. |
 
 Headings get `keepWithNext` + `keepLinesTogether`; every style gets
 `avoidWidowAndOrphan`.

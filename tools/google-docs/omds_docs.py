@@ -39,14 +39,18 @@ DEFAULT_LOGO_URL = "https://design.openmined.org/logos/raster/OpenMined-Logo-Dar
 LOGO_ASPECT = 300 / 76  # canonical SVG viewBox
 
 # ── The one Docs-specific decision: point sizes per named style ─────────────
-# Web headings (61/47/36/27px) are a display scale for screens. On a page they
-# read as posters. These are the OMDS *print* sizes; everything else (family,
-# weight, line-height, color, spacing rhythm) is derived from the CSS.
+# Web headings (61/47/36/27px) are a display scale for screens; on a page they
+# read as posters. These are OpenMined's *print* sizes — the calibration Bennett
+# set in the 2025 gallery templates (OpenMined Doc / Pageless / Letterhead / Bet
+# Idea: 10pt body, 26pt title, 20/16 H1/H2), adopted as canon 2026-09-08.
+# Subtitle and H6 were undefined in those templates (Docs fell back to Arial);
+# Subtitle follows the web ratio (.text-subtitle 21px ÷ body 16px × 10pt ≈ 13pt).
+# Everything else (family, weight, line-height, color, spacing) derives from CSS.
 DOC_PT = {
-    "TITLE": 30, "SUBTITLE": 14,
-    "HEADING_1": 24, "HEADING_2": 18, "HEADING_3": 14, "HEADING_4": 12,
+    "TITLE": 26, "SUBTITLE": 13,
+    "HEADING_1": 20, "HEADING_2": 16, "HEADING_3": 14, "HEADING_4": 12,
     "HEADING_5": 11, "HEADING_6": 10,
-    "NORMAL_TEXT": 11,
+    "NORMAL_TEXT": 10,
 }
 PAGE_MARGIN_PT = 72  # 1 inch
 
@@ -143,6 +147,14 @@ def build_style_map(css: dict | None = None) -> dict:
     lh = lambda r, d="1.5": round(float(r.get("line-height", d)) * 100)
 
     headline, body_c, subtle = V["--text-headline"], V["--text-body"], V["--text-subtle"]
+    # token names (semantic → palette) for documentation; values stay resolved above
+    raw = {}
+    for f in ("tokens.css",):
+        for sel, decls in _rules((TOKENS_DIR / f).read_text()):
+            if sel == ":root":
+                raw.update(decls)
+    tok = lambda name: {"semantic": name, "palette": raw.get(name, "").strip()}
+    TOK = {headline: tok("--text-headline"), body_c: tok("--text-body"), subtle: tok("--text-subtle")}
 
     # prose rhythm (global.css .prose scope) — margin-top / margin-bottom tokens
     p_rule = rule(".prose p")
@@ -184,8 +196,45 @@ def build_style_map(css: dict | None = None) -> dict:
     }
     for k, v in m.items():
         v["pt"] = DOC_PT[k]
-    m["_meta"] = {"subtle": subtle, "headline": headline, "body": body_c, "scale": scale}
+    m["_meta"] = {"subtle": subtle, "headline": headline, "body": body_c, "scale": scale, "tokens": TOK,
+                  "margin_pt": PAGE_MARGIN_PT}
     return m
+
+
+def to_json(style_map: dict | None = None) -> dict:
+    """Machine-readable spec of the Docs named styles — published at /tokens/google-docs.json."""
+    import datetime
+    m = style_map or build_style_map()
+    meta = m["_meta"]
+    order = ["NORMAL_TEXT", "TITLE", "SUBTITLE", "HEADING_1", "HEADING_2", "HEADING_3",
+             "HEADING_4", "HEADING_5", "HEADING_6"]
+    label = {"NORMAL_TEXT": "Normal text", "TITLE": "Title", "SUBTITLE": "Subtitle",
+             **{f"HEADING_{i}": f"Heading {i}" for i in range(1, 7)}}
+    styles = {}
+    for k in order:
+        s = m[k]
+        t = meta["tokens"][s["color"]]
+        styles[k] = {
+            "label": label[k],
+            "fontFamily": s["font"], "fontWeight": s["weight"], "fontSizePt": s["pt"],
+            "lineSpacingPercent": s["line"],
+            "color": {"hex": s["color"], "token": t["semantic"], "palette": t["palette"]},
+            "spaceAbovePt": s["above"], "spaceBelowPt": s["below"],
+            "alignment": "START",
+            "keepWithNext": k != "NORMAL_TEXT",
+        }
+    return {
+        "$schema": "https://design.openmined.org/tokens/google-docs.schema.json",
+        "name": "OpenMined Design System — Google Docs named styles",
+        "generated": datetime.date.today().isoformat(),
+        "generator": "tools/google-docs/omds_docs.py",
+        "sources": ["src/tokens/tokens.css", "src/tokens/global.css", "src/tokens/typography.css"],
+        "fonts": {"display": "Rubik", "text": "Inter", "note": "Both are Google Fonts; available in the Docs font picker without add-ons."},
+        "page": {"marginPt": meta["margin_pt"], "size": "LETTER"},
+        "footer": {"text": "OpenMined Foundation · openmined.org", "fontSizePt": 9, "color": {"hex": meta["subtle"], "token": "--text-subtle"}},
+        "webToPrintScale": round(meta["scale"], 4),
+        "namedStyles": styles,
+    }
 
 
 # ── Docs API request builders ───────────────────────────────────────────────
@@ -319,7 +368,14 @@ def url(doc_id: str) -> str:
     return f"https://docs.google.com/document/d/{doc_id}/edit"
 
 
-if __name__ == "__main__":  # `python3 omds_docs.py` → print the derived style map
+if __name__ == "__main__":  # `python3 omds_docs.py [--json [PATH]]` → print / write the style map
+    if len(sys.argv) > 1 and sys.argv[1] == "--json":
+        out = json.dumps(to_json(), indent=2) + "\n"
+        if len(sys.argv) > 2:
+            pathlib.Path(sys.argv[2]).write_text(out); print(f"wrote {sys.argv[2]}")
+        else:
+            print(out)
+        sys.exit(0)
     m = build_style_map()
     meta = m.pop("_meta")
     print(f"scale {meta['scale']:.4f} pt/px · headline {meta['headline']} · body {meta['body']} · subtle {meta['subtle']}")
