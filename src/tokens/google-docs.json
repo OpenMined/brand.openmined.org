@@ -56,7 +56,7 @@
       },
       "spaceAbovePt": 0,
       "spaceBelowPt": 5.0,
-      "alignment": "START",
+      "alignment": "CENTER",
       "keepWithNext": true
     },
     "SUBTITLE": {
@@ -72,7 +72,7 @@
       },
       "spaceAbovePt": 0,
       "spaceBelowPt": 20.0,
-      "alignment": "START",
+      "alignment": "CENTER",
       "keepWithNext": true
     },
     "HEADING_1": {
