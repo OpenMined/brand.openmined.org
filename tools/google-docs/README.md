@@ -39,7 +39,8 @@ python3 omds_docs.py                         # print the derived style map (no A
 python3 make_template.py blank               # create a template; prints the doc URL
 python3 make_template.py memo --doc <ID>     # re-sync an existing template's styles in place
 python3 restyle.py <doc URL or ID>           # apply OMDS named styles to any existing doc
-python3 restyle.py <doc> --icon              # …and add the templates' header mark (OpenMined icon, centered)
+python3 restyle.py <doc> --icon              # …and add the templates' header mark (OpenMined icon, centered, first page)
+python3 restyle.py <doc> --icon --footer     # …and pages 2+: title right-aligned + a line for page numbers
 python3 inspect_doc.py <doc> --readonly      # diff a doc's named styles against the OMDS map
 ```
 
@@ -67,7 +68,7 @@ renders from the same file. Run it after any change to `DOC_PT` or the token CSS
 | Font family, weight | `global.css` `body`, `h1`–`h6`; `.prose h5/h6` (Inter 600); `.text-subtitle` |
 | Line spacing | headings: the CSS `line-height` (1.2 → 120%, h4 1.3 → 130%). Body, H5, H6: **`DOC_LINE` = 130%** — the web 1.5 is a screen value and reads loose at 10pt on paper (Bennett, 2026-09-08). |
 | Colors | `--text-headline`, `--text-body`, `--text-subtle` (light values; paper is light) |
-| Paragraph spacing | `.prose` rhythm tokens (`--spacing-3XL/2XL/L/S`) scaled by (Normal pt ÷ body px) |
+| Paragraph spacing | `.prose` rhythm tokens (`--spacing-3XL/2XL/L/S`) scaled by (Normal pt ÷ body px). Heading space-*below* is overridden to `--spacing-S` (5pt) for print — more air above a heading than below (`DOC_HEADING_BELOW_TOKEN`). |
 | Margins | 1" (Docs default; `PAGE_MARGIN_PT`) |
 | List rhythm | `.prose li` margin (spacing-S → 5pt between items), `.prose ul` margin (spacing-L → 10pt after a list), body leading inside an item; `spacingMode: NEVER_COLLAPSE` per list paragraph since Docs has no list named style |
 | **Point sizes** | **`DOC_PT` in `omds_docs.py` — the one Docs-specific table.** OpenMined's print scale, taken from the 2025 gallery templates (Bennett, adopted 2026-09-08): Normal 10 · Title 26 · Subtitle 13 · H1 20 · H2 16 · H3 14 · H4 12 · H5 11 · H6 10. Web headings (61/47/36/27px) are a display scale and are not used on paper. |
@@ -84,6 +85,10 @@ Title-styled paragraph); Normal and Heading 1–6 are left-aligned. Headings get
   sections the doc instead — a CONTINUOUS section break right after the masthead
   (leading Title/Subtitle paragraphs) gives page 1 its own header; the rest gets an
   empty one. Invisible in the rendered doc; visible under View → Show section breaks.
+- `--footer` writes the title into the section-2 footer but **cannot add page numbers**:
+  no Docs API request inserts `PAGE_NUMBER` / `PAGE_COUNT` auto-text (checked in the
+  discovery doc). It leaves a right-aligned empty line — put the cursor there and use
+  Insert → Page numbers (number, type " of ", then page count).
 - Pasted-in headings usually carry direct formatting (size, bold, colour) that beats
   the named style. `restyle.py` leaves it; clear it with an `updateTextStyle` over the
   heading ranges using an empty `textStyle` and a field mask (see the 2026-09-08
