@@ -6,3 +6,7 @@ dist/
 
 # Generated at build (prebuild) from src/tokens/ — served at /tokens/*.css
 public/tokens/
+
+# Python bytecode (tools/)
+__pycache__/
+*.pyc
