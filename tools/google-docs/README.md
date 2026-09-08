@@ -39,6 +39,7 @@ python3 omds_docs.py                         # print the derived style map (no A
 python3 make_template.py blank               # create a template; prints the doc URL
 python3 make_template.py memo --doc <ID>     # re-sync an existing template's styles in place
 python3 restyle.py <doc URL or ID>           # apply OMDS named styles to any existing doc
+python3 inspect_doc.py <doc> --readonly      # diff a doc's named styles against the OMDS map
 ```
 
 Templates: `blank` · `meeting-notes` · `memo` · `letterhead`.
