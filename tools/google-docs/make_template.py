@@ -138,7 +138,7 @@ def header_footer(docs: om.Docs, doc_id: str, style_map: dict, logo_url: str | N
                 "objectSize": {"height": om._pt(h_pt), "width": om._pt(round(h_pt * om.LOGO_ASPECT, 1))}}})
             fill.append({"updateParagraphStyle": {
                 "range": {"segmentId": hid, "startIndex": 0, "endIndex": 1},
-                "paragraphStyle": {"spaceBelow": om._pt(12)}, "fields": "spaceBelow"}})
+                "paragraphStyle": {"spaceBelow": om._pt(12), "alignment": "CENTER"}, "fields": "spaceBelow,alignment"}})
         if "createFooter" in rep:
             fid = rep["createFooter"]["footerId"]
             fill.append({"insertText": {"location": {"segmentId": fid, "index": 0}, "text": FOOTER_TEXT}})

@@ -220,7 +220,7 @@ def to_json(style_map: dict | None = None) -> dict:
             "lineSpacingPercent": s["line"],
             "color": {"hex": s["color"], "token": t["semantic"], "palette": t["palette"]},
             "spaceAbovePt": s["above"], "spaceBelowPt": s["below"],
-            "alignment": "START",
+            "alignment": "CENTER" if k in ("TITLE", "SUBTITLE") else "START",
             "keepWithNext": k != "NORMAL_TEXT",
         }
     return {
@@ -257,7 +257,9 @@ def named_style_requests(style_map: dict, tab_id: str | None = None) -> list[dic
                 "bold": False, "italic": False, "underline": False,
             },
             "paragraphStyle": {
-                "alignment": "START",  # Docs centers Title/Subtitle by default; OMDS is left-aligned
+                # Title + Subtitle centered (the doc's masthead, and the logo in the page header
+                # sits in a Title-styled paragraph); body and Heading 1–6 left. Bennett 2026-09-08.
+                "alignment": "CENTER" if typ in ("TITLE", "SUBTITLE") else "START",
                 "lineSpacing": s["line"],
                 "spaceAbove": _pt(s["above"]),
                 "spaceBelow": _pt(s["below"]),

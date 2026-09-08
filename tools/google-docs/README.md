@@ -70,8 +70,9 @@ renders from the same file. Run it after any change to `DOC_PT` or the token CSS
 | Margins | 1" (Docs default; `PAGE_MARGIN_PT`) |
 | **Point sizes** | **`DOC_PT` in `omds_docs.py` — the one Docs-specific table.** OpenMined's print scale, taken from the 2025 gallery templates (Bennett, adopted 2026-09-08): Normal 10 · Title 26 · Subtitle 13 · H1 20 · H2 16 · H3 14 · H4 12 · H5 11 · H6 10. Web headings (61/47/36/27px) are a display scale and are not used on paper. |
 
-Headings get `keepWithNext` + `keepLinesTogether`; every style gets
-`avoidWidowAndOrphan`.
+Title and Subtitle are centered (the masthead; the page-header logo lives in a
+Title-styled paragraph); Normal and Heading 1–6 are left-aligned. Headings get
+`keepWithNext` + `keepLinesTogether`; every style gets `avoidWidowAndOrphan`.
 
 ## Limits
 
