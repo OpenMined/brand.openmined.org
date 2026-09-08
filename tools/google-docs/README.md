@@ -77,11 +77,12 @@ Title-styled paragraph); Normal and Heading 1–6 are left-aligned. Headings get
 
 ## Limits
 
-- `--icon` puts the mark in the *default* header (every page). The gallery templates
-  show it on the first page only, but the Docs API cannot create a first-page header
-  (`createHeader` accepts only `DEFAULT`, and flipping `useFirstPageHeaderFooter` does
-  not materialise one) — to get first-page-only, tick *Different first page* in the
-  Docs header options and move the mark there by hand.
+- `--icon` matches the templates: the mark (44pt rendered, 36pt header margin) on the
+  first page only. The Docs API cannot create a first-page header (`createHeader` takes
+  only `DEFAULT`, and `useFirstPageHeaderFooter` does not materialise one), so the tool
+  sections the doc instead — a CONTINUOUS section break right after the masthead
+  (leading Title/Subtitle paragraphs) gives page 1 its own header; the rest gets an
+  empty one. Invisible in the rendered doc; visible under View → Show section breaks.
 - Pasted-in headings usually carry direct formatting (size, bold, colour) that beats
   the named style. `restyle.py` leaves it; clear it with an `updateTextStyle` over the
   heading ranges using an empty `textStyle` and a field mask (see the 2026-09-08

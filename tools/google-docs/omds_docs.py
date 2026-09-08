@@ -37,7 +37,7 @@ DOCS = "https://docs.googleapis.com/v1/documents"
 # Source: public/logos/raster/*.png (rendered from the canonical SVGs with rsvg-convert).
 DEFAULT_LOGO_URL = "https://design.openmined.org/logos/raster/OpenMined-Logo-Dark.png"
 DEFAULT_ICON_URL = "https://design.openmined.org/logos/raster/OpenMined-Icon.png"
-ICON_PT = 71.25  # the templates' first-page header mark (square)
+ICON_PT = 44  # rendered size of the templates' header mark (their 71pt object has transparent padding)
 LOGO_ASPECT = 300 / 76  # canonical SVG viewBox
 
 # ── The one Docs-specific decision: point sizes per named style ─────────────
@@ -368,42 +368,81 @@ def apply_styles(docs: Docs, doc_id: str, style_map: dict | None = None, margins
     return len(reqs)
 
 
-def add_icon_header(docs: Docs, doc_id: str, icon_url: str = DEFAULT_ICON_URL, size_pt: float = ICON_PT) -> bool:
-    """First-page header carrying the OpenMined mark, centered, as in the gallery templates.
-    No-op if the doc already has a first-page header. Returns True if created."""
+def add_icon_header(docs: Docs, doc_id: str, icon_url: str = DEFAULT_ICON_URL, size_pt: float = ICON_PT,
+                    first_page_only: bool = True) -> bool:
+    """The gallery templates' header: the OpenMined mark, centered, first page only.
+
+    The Docs API can only create DEFAULT headers (no first-page header), so "first page
+    only" is done with sections: a CONTINUOUS section break right after the masthead
+    (the leading Title/Subtitle paragraphs) gives page 1 its own section whose header
+    carries the mark, and the rest of the doc gets its own empty header. Idempotent:
+    an existing mark is replaced at the current size; an existing break is reused.
+    Returns True if anything changed.
+    """
     doc = docs.get(doc_id)
     tab = (doc.get("tabs") or [{"documentTab": doc, "tabProperties": {}}])[0]
-    ds = tab["documentTab"]["documentStyle"]
-    tid = tab["tabProperties"].get("tabId")
-    if ds.get("firstPageHeaderId"):
-        return False
+    dt, tid = tab["documentTab"], tab["tabProperties"].get("tabId")
     t = {"tabId": tid} if tid else {}
-    # The API can only *create* DEFAULT headers; a first-page header is materialised by
-    # Docs itself when useFirstPageHeaderFooter flips on. Flip, re-read, and use it if
-    # it appeared — otherwise fall back to the default header (mark on every page).
-    docs.batch(doc_id, [{"updateDocumentStyle": {
-        "documentStyle": {"useFirstPageHeaderFooter": True, "marginHeader": _pt(36)},
-        "fields": "useFirstPageHeaderFooter,marginHeader", **t}}])
-    doc = docs.get(doc_id)
-    ds = (doc.get("tabs") or [{"documentTab": doc}])[0]["documentTab"]["documentStyle"]
-    hid = ds.get("firstPageHeaderId")
+    ds = dt["documentStyle"]
+
+    # 1. default header, single-page-style (no first-page flag), 36pt header margin
+    reqs = [{"updateDocumentStyle": {"documentStyle": {"useFirstPageHeaderFooter": False, "marginHeader": _pt(36)},
+                                     "fields": "useFirstPageHeaderFooter,marginHeader", **t}}]
+    hid = ds.get("defaultHeaderId")
     if not hid:
-        # No first-page header → the mark goes in the default header (every page) and the
-        # first-page flag must come back off, or page 1 would render an empty header.
-        docs.batch(doc_id, [{"updateDocumentStyle": {"documentStyle": {"useFirstPageHeaderFooter": False},
-                                                     "fields": "useFirstPageHeaderFooter", **t}}])
-        hid = ds.get("defaultHeaderId")
+        reqs.append({"createHeader": {"type": "DEFAULT", **({"sectionBreakLocation": {"index": 0, "tabId": tid}} if tid else {})}})
+    rep = docs.batch(doc_id, reqs)
     if not hid:
-        rep = docs.batch(doc_id, [{"createHeader": {"type": "DEFAULT",
-                                   **({"sectionBreakLocation": {"index": 0, "tabId": tid}} if tid else {})}}])
-        hid = rep["replies"][0]["createHeader"]["headerId"]
-    loc = {"segmentId": hid, "index": 0, **t}
-    docs.batch(doc_id, [
-        {"insertInlineImage": {"location": loc, "uri": icon_url, "objectSize": {"height": _pt(size_pt), "width": _pt(size_pt)}}},
+        hid = rep["replies"][1]["createHeader"]["headerId"]
+        header = {"content": [{"startIndex": 0, "endIndex": 1, "paragraph": {"elements": []}}]}
+    else:
+        header = dt["headers"][hid]
+
+    # 2. replace any existing mark, then insert at size_pt in a centered Title paragraph
+    reqs = []
+    for el in header["content"]:
+        for e in el.get("paragraph", {}).get("elements", []):
+            if "inlineObjectElement" in e:
+                reqs.append({"deleteContentRange": {"range": {"segmentId": hid, "startIndex": e.get("startIndex", 0), "endIndex": e["endIndex"], **t}}})
+    reqs += [
+        {"insertInlineImage": {"location": {"segmentId": hid, "index": 0, **t}, "uri": icon_url,
+                               "objectSize": {"height": _pt(size_pt), "width": _pt(size_pt)}}},
         {"updateParagraphStyle": {"range": {"segmentId": hid, "startIndex": 0, "endIndex": 1, **t},
-                                  "paragraphStyle": {"namedStyleType": "TITLE", "alignment": "CENTER", "spaceBelow": _pt(3)},
-                                  "fields": "namedStyleType,alignment,spaceBelow"}},
-    ])
+                                  "paragraphStyle": {"namedStyleType": "TITLE", "alignment": "CENTER",
+                                                     "spaceAbove": _pt(14), "spaceBelow": _pt(3)},
+                                  "fields": "namedStyleType,alignment,spaceAbove,spaceBelow"}},
+    ]
+    docs.batch(doc_id, reqs)
+    if not first_page_only:
+        return True
+
+    # 3. page-1 section: break after the masthead, own empty header for the rest
+    dt = docs.get(doc_id)
+    dt = (dt.get("tabs") or [{"documentTab": dt}])[0]["documentTab"]
+    content = dt["body"]["content"]
+    paras = [el for el in content if "paragraph" in el]
+    text = lambda el: "".join(x.get("textRun", {}).get("content", "") for x in el["paragraph"]["elements"])
+    last = paras[0]
+    for el in paras:
+        st = el["paragraph"].get("paragraphStyle", {}).get("namedStyleType")
+        if st in ("TITLE", "SUBTITLE") or not text(el).strip():
+            last = el
+        else:
+            break
+    following = [el for el in content if el.get("startIndex", -1) >= last["endIndex"]]
+    if following and "sectionBreak" in following[0]:
+        sb = following[0]  # already sectioned (re-run)
+        if sb["sectionBreak"]["sectionStyle"].get("defaultHeaderId"):
+            return True
+    else:
+        docs.batch(doc_id, [{"insertSectionBreak": {"location": {"index": last["endIndex"] - 1, **t}, "sectionType": "CONTINUOUS"}}])
+        dt = docs.get(doc_id); dt = (dt.get("tabs") or [{"documentTab": dt}])[0]["documentTab"]
+        content = dt["body"]["content"]
+        sb = next(el for el in content if "sectionBreak" in el and el.get("startIndex", 0) >= last["endIndex"] - 1)
+        after = next((el for el in content if el.get("startIndex") == sb["endIndex"]), None)
+        if after and "paragraph" in after and text(after) == "\n":  # the stray newline the API adds
+            docs.batch(doc_id, [{"deleteContentRange": {"range": {"startIndex": after["startIndex"], "endIndex": after["endIndex"], **t}}}])
+    docs.batch(doc_id, [{"createHeader": {"type": "DEFAULT", "sectionBreakLocation": {"index": sb["startIndex"], **t}}}])
     return True
 
 
