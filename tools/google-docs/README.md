@@ -39,6 +39,7 @@ python3 omds_docs.py                         # print the derived style map (no A
 python3 make_template.py blank               # create a template; prints the doc URL
 python3 make_template.py memo --doc <ID>     # re-sync an existing template's styles in place
 python3 restyle.py <doc URL or ID>           # apply OMDS named styles to any existing doc
+python3 restyle.py <doc> --icon              # …and add the templates' header mark (OpenMined icon, centered)
 python3 inspect_doc.py <doc> --readonly      # diff a doc's named styles against the OMDS map
 ```
 
@@ -75,6 +76,16 @@ Title-styled paragraph); Normal and Heading 1–6 are left-aligned. Headings get
 `keepWithNext` + `keepLinesTogether`; every style gets `avoidWidowAndOrphan`.
 
 ## Limits
+
+- `--icon` puts the mark in the *default* header (every page). The gallery templates
+  show it on the first page only, but the Docs API cannot create a first-page header
+  (`createHeader` accepts only `DEFAULT`, and flipping `useFirstPageHeaderFooter` does
+  not materialise one) — to get first-page-only, tick *Different first page* in the
+  Docs header options and move the mark there by hand.
+- Pasted-in headings usually carry direct formatting (size, bold, colour) that beats
+  the named style. `restyle.py` leaves it; clear it with an `updateTextStyle` over the
+  heading ranges using an empty `textStyle` and a field mask (see the 2026-09-08
+  Fellowship packet run in the vault), or Format → Clear formatting in the UI.
 
 - Direct formatting wins over named styles (as in the Docs UI). `restyle.py` leaves
   it alone — select the text and Format → Clear formatting to fall back.
