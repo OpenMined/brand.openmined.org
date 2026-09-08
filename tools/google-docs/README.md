@@ -65,10 +65,11 @@ renders from the same file. Run it after any change to `DOC_PT` or the token CSS
 | Property | Source |
 |---|---|
 | Font family, weight | `global.css` `body`, `h1`–`h6`; `.prose h5/h6` (Inter 600); `.text-subtitle` |
-| Line spacing | the same rules' `line-height` (1.5 body → 150%, 1.2 headings → 120%) |
+| Line spacing | headings: the CSS `line-height` (1.2 → 120%, h4 1.3 → 130%). Body, H5, H6: **`DOC_LINE` = 130%** — the web 1.5 is a screen value and reads loose at 10pt on paper (Bennett, 2026-09-08). |
 | Colors | `--text-headline`, `--text-body`, `--text-subtle` (light values; paper is light) |
 | Paragraph spacing | `.prose` rhythm tokens (`--spacing-3XL/2XL/L/S`) scaled by (Normal pt ÷ body px) |
 | Margins | 1" (Docs default; `PAGE_MARGIN_PT`) |
+| List rhythm | `.prose li` margin (spacing-S → 5pt between items), `.prose ul` margin (spacing-L → 10pt after a list), body leading inside an item; `spacingMode: NEVER_COLLAPSE` per list paragraph since Docs has no list named style |
 | **Point sizes** | **`DOC_PT` in `omds_docs.py` — the one Docs-specific table.** OpenMined's print scale, taken from the 2025 gallery templates (Bennett, adopted 2026-09-08): Normal 10 · Title 26 · Subtitle 13 · H1 20 · H2 16 · H3 14 · H4 12 · H5 11 · H6 10. Web headings (61/47/36/27px) are a display scale and are not used on paper. |
 
 Title and Subtitle are centered (the masthead; the page-header logo lives in a

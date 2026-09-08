@@ -54,6 +54,9 @@ DOC_PT = {
     "HEADING_5": 11, "HEADING_6": 10,
     "NORMAL_TEXT": 10,
 }
+# Print leading. The web body line-height (1.5) is a screen value; at 10pt on paper it
+# reads loose (Bennett, 2026-09-08). Headings keep their CSS leading (1.2 / 1.3).
+DOC_LINE = {"NORMAL_TEXT": 130, "HEADING_5": 130, "HEADING_6": 130}
 PAGE_MARGIN_PT = 72  # 1 inch
 
 
@@ -163,6 +166,8 @@ def build_style_map(css: dict | None = None) -> dict:
     h23 = rule(".prose h2", ".prose h3")
     h456 = rule(".prose h4", ".prose h5", ".prose h6")
     p_below = sp(re.search(r"--[\w-]+", p_rule["margin-bottom"]).group(0))
+    li_gap = sp(re.search(r"--[\w-]+", rule(".prose li")["margin-bottom"]).group(0))
+    list_after = sp(re.search(r"--[\w-]+", rule(".prose ul", ".prose ol")["margin-bottom"]).group(0))
     h23_above = sp(re.search(r"--[\w-]+", h23["margin-top"]).group(0))
     h23_below = sp(re.search(r"--[\w-]+", h23["margin-bottom"]).group(0))
     h456_above = sp(re.search(r"--[\w-]+", h456["margin-top"]).group(0))
@@ -198,8 +203,12 @@ def build_style_map(css: dict | None = None) -> dict:
     }
     for k, v in m.items():
         v["pt"] = DOC_PT[k]
+        if k in DOC_LINE:
+            v["line"] = DOC_LINE[k]
     m["_meta"] = {"subtle": subtle, "headline": headline, "body": body_c, "scale": scale, "tokens": TOK,
-                  "margin_pt": PAGE_MARGIN_PT}
+                  "margin_pt": PAGE_MARGIN_PT,
+                  # lists have no named style in Docs → applied as paragraph formatting per item
+                  "list": {"gap": li_gap, "after": list_after, "line": m["NORMAL_TEXT"]["line"]}}
     return m
 
 
@@ -234,6 +243,9 @@ def to_json(style_map: dict | None = None) -> dict:
         "fonts": {"display": "Rubik", "text": "Inter", "note": "Both are Google Fonts; available in the Docs font picker without add-ons."},
         "page": {"marginPt": meta["margin_pt"], "size": "LETTER"},
         "footer": {"text": "OpenMined Foundation · openmined.org", "fontSizePt": 9, "color": {"hex": meta["subtle"], "token": "--text-subtle"}},
+        "lists": {"itemGapPt": meta["list"]["gap"], "afterListPt": meta["list"]["after"],
+                  "lineSpacingPercent": meta["list"]["line"], "spacingMode": "NEVER_COLLAPSE",
+                  "note": "Docs has no list named style; restyle.py applies this per list paragraph. Derived from .prose li / .prose ul margins."},
         "webToPrintScale": round(meta["scale"], 4),
         "namedStyles": styles,
     }
@@ -355,15 +367,54 @@ def tab_ids(doc: dict) -> list[str]:
     return out
 
 
-def apply_styles(docs: Docs, doc_id: str, style_map: dict | None = None, margins: bool = True) -> int:
-    """Redefine named styles (+ margins) on every tab of an existing doc. Content untouched."""
+def list_spacing_requests(document_tab: dict, style_map: dict, tab_id: str | None = None) -> list[dict]:
+    """Per-item spacing for every bulleted paragraph: body leading inside an item, the
+    li gap between items (collapse off), the paragraph gap after a list's last item."""
+    L = style_map["_meta"]["list"]
+    content = document_tab["body"]["content"]
+    reqs = []
+    for i, el in enumerate(content):
+        p = el.get("paragraph")
+        if not p or "bullet" not in p:
+            continue
+        nxt = content[i + 1].get("paragraph") if i + 1 < len(content) else None
+        last = not (nxt and "bullet" in nxt)
+        rng = {"startIndex": el["startIndex"], "endIndex": el["endIndex"]}
+        if tab_id:
+            rng["tabId"] = tab_id
+        reqs.append({"updateParagraphStyle": {
+            "range": rng,
+            "paragraphStyle": {"spacingMode": "NEVER_COLLAPSE", "lineSpacing": L["line"],
+                               "spaceAbove": _pt(0), "spaceBelow": _pt(L["after"] if last else L["gap"])},
+            "fields": "spacingMode,lineSpacing,spaceAbove,spaceBelow"}})
+    return reqs
+
+
+def _tabs(doc: dict):
+    """Yield (tabId or None, documentTab) depth-first; legacy docs yield (None, doc)."""
+    if not doc.get("tabs"):
+        yield None, doc
+        return
+    def walk(tabs):
+        for t in tabs:
+            yield t["tabProperties"]["tabId"], t["documentTab"]
+            yield from walk(t.get("childTabs") or [])
+    yield from walk(doc["tabs"])
+
+
+def apply_styles(docs: Docs, doc_id: str, style_map: dict | None = None, margins: bool = True,
+                 lists: bool = True) -> int:
+    """Redefine named styles (+ margins, + list spacing) on every tab of an existing doc.
+    Content untouched."""
     style_map = style_map or build_style_map()
     doc = docs.get(doc_id)
     reqs = []
-    for tid in tab_ids(doc) or [None]:
+    for tid, dt in _tabs(doc):
         reqs += named_style_requests(style_map, tid)
         if margins:
             reqs.append(document_style_request(tid))
+        if lists:
+            reqs += list_spacing_requests(dt, style_map, tid)
     docs.batch(doc_id, reqs)
     return len(reqs)
 

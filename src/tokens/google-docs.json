@@ -25,6 +25,13 @@
       "token": "--text-subtle"
     }
   },
+  "lists": {
+    "itemGapPt": 5.0,
+    "afterListPt": 10.0,
+    "lineSpacingPercent": 130,
+    "spacingMode": "NEVER_COLLAPSE",
+    "note": "Docs has no list named style; restyle.py applies this per list paragraph. Derived from .prose li / .prose ul margins."
+  },
   "webToPrintScale": 0.625,
   "namedStyles": {
     "NORMAL_TEXT": {
@@ -32,7 +39,7 @@
       "fontFamily": "Inter",
       "fontWeight": 400,
       "fontSizePt": 10,
-      "lineSpacingPercent": 150,
+      "lineSpacingPercent": 130,
       "color": {
         "hex": "#353243",
         "token": "--text-body",
@@ -144,7 +151,7 @@
       "fontFamily": "Inter",
       "fontWeight": 600,
       "fontSizePt": 11,
-      "lineSpacingPercent": 150,
+      "lineSpacingPercent": 130,
       "color": {
         "hex": "#272532",
         "token": "--text-headline",
@@ -160,7 +167,7 @@
       "fontFamily": "Inter",
       "fontWeight": 600,
       "fontSizePt": 10,
-      "lineSpacingPercent": 150,
+      "lineSpacingPercent": 130,
       "color": {
         "hex": "#272532",
         "token": "--text-headline",
