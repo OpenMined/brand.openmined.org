@@ -36,6 +36,8 @@ DOCS = "https://docs.googleapis.com/v1/documents"
 # Where the raster logo lives once the brand site deploys (Docs can't inline SVG).
 # Source: public/logos/raster/*.png (rendered from the canonical SVGs with rsvg-convert).
 DEFAULT_LOGO_URL = "https://design.openmined.org/logos/raster/OpenMined-Logo-Dark.png"
+DEFAULT_ICON_URL = "https://design.openmined.org/logos/raster/OpenMined-Icon.png"
+ICON_PT = 71.25  # the templates' first-page header mark (square)
 LOGO_ASPECT = 300 / 76  # canonical SVG viewBox
 
 # ── The one Docs-specific decision: point sizes per named style ─────────────
@@ -364,6 +366,45 @@ def apply_styles(docs: Docs, doc_id: str, style_map: dict | None = None, margins
             reqs.append(document_style_request(tid))
     docs.batch(doc_id, reqs)
     return len(reqs)
+
+
+def add_icon_header(docs: Docs, doc_id: str, icon_url: str = DEFAULT_ICON_URL, size_pt: float = ICON_PT) -> bool:
+    """First-page header carrying the OpenMined mark, centered, as in the gallery templates.
+    No-op if the doc already has a first-page header. Returns True if created."""
+    doc = docs.get(doc_id)
+    tab = (doc.get("tabs") or [{"documentTab": doc, "tabProperties": {}}])[0]
+    ds = tab["documentTab"]["documentStyle"]
+    tid = tab["tabProperties"].get("tabId")
+    if ds.get("firstPageHeaderId"):
+        return False
+    t = {"tabId": tid} if tid else {}
+    # The API can only *create* DEFAULT headers; a first-page header is materialised by
+    # Docs itself when useFirstPageHeaderFooter flips on. Flip, re-read, and use it if
+    # it appeared — otherwise fall back to the default header (mark on every page).
+    docs.batch(doc_id, [{"updateDocumentStyle": {
+        "documentStyle": {"useFirstPageHeaderFooter": True, "marginHeader": _pt(36)},
+        "fields": "useFirstPageHeaderFooter,marginHeader", **t}}])
+    doc = docs.get(doc_id)
+    ds = (doc.get("tabs") or [{"documentTab": doc}])[0]["documentTab"]["documentStyle"]
+    hid = ds.get("firstPageHeaderId")
+    if not hid:
+        # No first-page header → the mark goes in the default header (every page) and the
+        # first-page flag must come back off, or page 1 would render an empty header.
+        docs.batch(doc_id, [{"updateDocumentStyle": {"documentStyle": {"useFirstPageHeaderFooter": False},
+                                                     "fields": "useFirstPageHeaderFooter", **t}}])
+        hid = ds.get("defaultHeaderId")
+    if not hid:
+        rep = docs.batch(doc_id, [{"createHeader": {"type": "DEFAULT",
+                                   **({"sectionBreakLocation": {"index": 0, "tabId": tid}} if tid else {})}}])
+        hid = rep["replies"][0]["createHeader"]["headerId"]
+    loc = {"segmentId": hid, "index": 0, **t}
+    docs.batch(doc_id, [
+        {"insertInlineImage": {"location": loc, "uri": icon_url, "objectSize": {"height": _pt(size_pt), "width": _pt(size_pt)}}},
+        {"updateParagraphStyle": {"range": {"segmentId": hid, "startIndex": 0, "endIndex": 1, **t},
+                                  "paragraphStyle": {"namedStyleType": "TITLE", "alignment": "CENTER", "spaceBelow": _pt(3)},
+                                  "fields": "namedStyleType,alignment,spaceBelow"}},
+    ])
+    return True
 
 
 def url(doc_id: str) -> str:
