@@ -2,7 +2,7 @@
 """
 restyle.py — apply OMDS named styles to an EXISTING Google Doc, in place.
 
-  python3 restyle.py <DOC_ID or URL> [--entity openmined] [--no-margins] [--no-lists] [--icon [URL]]
+  python3 restyle.py <DOC_ID or URL> [--entity openmined] [--no-margins] [--no-lists] [--icon [URL]] [--footer [TITLE]]
 
 Redefines Normal text / Title / Subtitle / Heading 1–6 (font, size, color, spacing)
 on every tab, sets 1" margins, and gives list items their rhythm (body leading
@@ -27,6 +27,7 @@ def main():
     ap.add_argument("--no-margins", action="store_true")
     ap.add_argument("--no-lists", action="store_true", help="skip the per-item list spacing pass")
     ap.add_argument("--icon", nargs="?", const=om.DEFAULT_ICON_URL, help="add the first-page icon header (optional custom PNG URL)")
+    ap.add_argument("--footer", nargs="?", const="", help="pages 2+: title right-aligned + a line for page numbers (optional custom title)")
     a = ap.parse_args()
     m = re.search(r"/d/([\w-]+)", a.doc)
     doc_id = m.group(1) if m else a.doc
@@ -34,6 +35,9 @@ def main():
     n = om.apply_styles(docs, doc_id, margins=not a.no_margins, lists=not a.no_lists)
     if a.icon:
         print("icon header:", "added" if om.add_icon_header(docs, doc_id, a.icon) else "already present")
+    if a.footer is not None:
+        made = om.add_running_footer(docs, doc_id, a.footer or None)
+        print("running footer:", "added — now click its second line and Insert → Page numbers (number, ' of ', page count)" if made else "already present")
     print(f"applied {n} requests → {om.url(doc_id)}")
 
 

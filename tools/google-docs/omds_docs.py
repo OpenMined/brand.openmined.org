@@ -57,6 +57,9 @@ DOC_PT = {
 # Print leading. The web body line-height (1.5) is a screen value; at 10pt on paper it
 # reads loose (Bennett, 2026-09-08). Headings keep their CSS leading (1.2 / 1.3).
 DOC_LINE = {"NORMAL_TEXT": 130, "HEADING_5": 130, "HEADING_6": 130}
+# Space *below* a heading on paper: tighter than the web prose margin (spacing-L), so a
+# heading hugs its text — more space above than below (Bennett, 2026-09-08).
+DOC_HEADING_BELOW_TOKEN = "--spacing-S"
 PAGE_MARGIN_PT = 72  # 1 inch
 
 
@@ -205,6 +208,8 @@ def build_style_map(css: dict | None = None) -> dict:
         v["pt"] = DOC_PT[k]
         if k in DOC_LINE:
             v["line"] = DOC_LINE[k]
+        if k.startswith("HEADING_"):
+            v["below"] = sp(DOC_HEADING_BELOW_TOKEN)
     m["_meta"] = {"subtle": subtle, "headline": headline, "body": body_c, "scale": scale, "tokens": TOK,
                   "margin_pt": PAGE_MARGIN_PT,
                   # lists have no named style in Docs → applied as paragraph formatting per item
@@ -494,6 +499,52 @@ def add_icon_header(docs: Docs, doc_id: str, icon_url: str = DEFAULT_ICON_URL, s
         if after and "paragraph" in after and text(after) == "\n":  # the stray newline the API adds
             docs.batch(doc_id, [{"deleteContentRange": {"range": {"startIndex": after["startIndex"], "endIndex": after["endIndex"], **t}}}])
     docs.batch(doc_id, [{"createHeader": {"type": "DEFAULT", "sectionBreakLocation": {"index": sb["startIndex"], **t}}}])
+    return True
+
+
+def add_running_footer(docs: Docs, doc_id: str, title: str | None = None, style_map: dict | None = None) -> bool:
+    """Footer for every page after the first (the section that add_icon_header created):
+    the document title, right-aligned, subtle 9pt; below it a right-aligned line for the
+    page numbers. The Docs API cannot insert PAGE_NUMBER / PAGE_COUNT fields — place the
+    cursor on that line and use Insert → Page numbers (number, ' of ', page count).
+    No-op if that section already has a footer. Returns True if created."""
+    style_map = style_map or build_style_map()
+    subtle = style_map["_meta"]["subtle"]
+    doc = docs.get(doc_id)
+    tab = (doc.get("tabs") or [{"documentTab": doc, "tabProperties": {}}])[0]
+    dt, tid = tab["documentTab"], tab["tabProperties"].get("tabId")
+    t = {"tabId": tid} if tid else {}
+    content = dt["body"]["content"]
+    sbs = [el for el in content if "sectionBreak" in el and el.get("startIndex")]
+    if not sbs:
+        raise SystemExit("no masthead section — run add_icon_header first (restyle.py --icon)")
+    sb = sbs[0]
+    if sb["sectionBreak"]["sectionStyle"].get("defaultFooterId"):
+        return False
+    if not title:
+        for el in content:
+            p = el.get("paragraph")
+            if p and p.get("paragraphStyle", {}).get("namedStyleType") == "TITLE":
+                title = "".join(x.get("textRun", {}).get("content", "") for x in p["elements"]).strip()
+                break
+        title = title or doc["title"]
+    rep = docs.batch(doc_id, [
+        {"updateDocumentStyle": {"documentStyle": {"marginFooter": _pt(36)}, "fields": "marginFooter", **t}},
+        {"createFooter": {"type": "DEFAULT", "sectionBreakLocation": {"index": sb["startIndex"], **t}}},
+    ])
+    fid = rep["replies"][1]["createFooter"]["footerId"]
+    text = title + "\n"  # line 2 (empty, right-aligned) is for the page-number fields
+    seg = lambda a, b: {"segmentId": fid, "startIndex": a, "endIndex": b, **t}
+    docs.batch(doc_id, [
+        {"insertText": {"location": {"segmentId": fid, "index": 0, **t}, "text": text}},
+        {"updateParagraphStyle": {"range": seg(0, len(text) + 1),
+                                  "paragraphStyle": {"namedStyleType": "NORMAL_TEXT", "alignment": "END",
+                                                     "spaceAbove": _pt(0), "spaceBelow": _pt(0), "lineSpacing": 115},
+                                  "fields": "namedStyleType,alignment,spaceAbove,spaceBelow,lineSpacing"}},
+        {"updateTextStyle": {"range": seg(0, len(text) + 1),
+                             "textStyle": {"fontSize": _pt(9), "foregroundColor": _rgb(subtle), "bold": False, "italic": False},
+                             "fields": "fontSize,foregroundColor,bold,italic"}},
+    ])
     return True
 
 
