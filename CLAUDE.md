@@ -15,8 +15,10 @@ src/
   components/   — brand UI primitives (Button, Input, ThemeToggle, etc.)
   tokens/       — CSS custom properties and base styles
 public/
-  logos/        — all approved logo SVGs
+  logos/        — all approved logo SVGs (+ logos/raster/ PNG renders for surfaces that can't inline SVG)
   icons/        — custom SVG icons (currently empty)
+tools/
+  google-docs/  — OMDS → Google Docs named styles (template generator + restyle); see its README
 astro.config.mjs
 package.json
 ```
@@ -105,6 +107,17 @@ Standard Astro build — no special config needed for GitHub Pages or Cloudflare
 - Output directory: `dist/`
 
 For a subdirectory GitHub Pages deployment (e.g. `username.github.io/repo/`), add `base: '/repo-name/'` to `astro.config.mjs`.
+
+## Google Docs (Workspace)
+
+`tools/google-docs/` derives Google Docs named styles (Normal, Title, Subtitle, H1–H6),
+margins and header/footer from `src/tokens/` and writes them via the Docs API — it is
+how the OpenMined template gallery stays on-brand. Fonts, weights, line-heights,
+colors and spacing come from the CSS; the only Docs-specific table is the print
+point-size scale (`DOC_PT`). Re-run against a template's doc ID after a token change.
+Docs cannot inline SVG, so `public/logos/raster/` holds 1200 px PNG renders of the
+canonical logos (`rsvg-convert -w 1200`) for the letterhead header. Full notes in
+`tools/google-docs/README.md`.
 
 ## Using in a project
 

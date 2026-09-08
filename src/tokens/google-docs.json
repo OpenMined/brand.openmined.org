@@ -1,0 +1,175 @@
+{
+  "$schema": "https://design.openmined.org/tokens/google-docs.schema.json",
+  "name": "OpenMined Design System \u2014 Google Docs named styles",
+  "generated": "2026-09-08",
+  "generator": "tools/google-docs/omds_docs.py",
+  "sources": [
+    "src/tokens/tokens.css",
+    "src/tokens/global.css",
+    "src/tokens/typography.css"
+  ],
+  "fonts": {
+    "display": "Rubik",
+    "text": "Inter",
+    "note": "Both are Google Fonts; available in the Docs font picker without add-ons."
+  },
+  "page": {
+    "marginPt": 72,
+    "size": "LETTER"
+  },
+  "footer": {
+    "text": "OpenMined Foundation \u00b7 openmined.org",
+    "fontSizePt": 9,
+    "color": {
+      "hex": "#868394",
+      "token": "--text-subtle"
+    }
+  },
+  "webToPrintScale": 0.625,
+  "namedStyles": {
+    "NORMAL_TEXT": {
+      "label": "Normal text",
+      "fontFamily": "Inter",
+      "fontWeight": 400,
+      "fontSizePt": 10,
+      "lineSpacingPercent": 150,
+      "color": {
+        "hex": "#353243",
+        "token": "--text-body",
+        "palette": "var(--color-grayscale-750)"
+      },
+      "spaceAbovePt": 0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": false
+    },
+    "TITLE": {
+      "label": "Title",
+      "fontFamily": "Rubik",
+      "fontWeight": 400,
+      "fontSizePt": 26,
+      "lineSpacingPercent": 120,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 0,
+      "spaceBelowPt": 5.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "SUBTITLE": {
+      "label": "Subtitle",
+      "fontFamily": "Inter",
+      "fontWeight": 400,
+      "fontSizePt": 13,
+      "lineSpacingPercent": 140,
+      "color": {
+        "hex": "#868394",
+        "token": "--text-subtle",
+        "palette": "var(--color-grayscale-550)"
+      },
+      "spaceAbovePt": 0,
+      "spaceBelowPt": 20.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_1": {
+      "label": "Heading 1",
+      "fontFamily": "Rubik",
+      "fontWeight": 400,
+      "fontSizePt": 20,
+      "lineSpacingPercent": 120,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 20.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_2": {
+      "label": "Heading 2",
+      "fontFamily": "Rubik",
+      "fontWeight": 400,
+      "fontSizePt": 16,
+      "lineSpacingPercent": 120,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 20.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_3": {
+      "label": "Heading 3",
+      "fontFamily": "Rubik",
+      "fontWeight": 400,
+      "fontSizePt": 14,
+      "lineSpacingPercent": 120,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 20.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_4": {
+      "label": "Heading 4",
+      "fontFamily": "Rubik",
+      "fontWeight": 400,
+      "fontSizePt": 12,
+      "lineSpacingPercent": 130,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 15.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_5": {
+      "label": "Heading 5",
+      "fontFamily": "Inter",
+      "fontWeight": 600,
+      "fontSizePt": 11,
+      "lineSpacingPercent": 150,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 15.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    },
+    "HEADING_6": {
+      "label": "Heading 6",
+      "fontFamily": "Inter",
+      "fontWeight": 600,
+      "fontSizePt": 10,
+      "lineSpacingPercent": 150,
+      "color": {
+        "hex": "#272532",
+        "token": "--text-headline",
+        "palette": "var(--color-grayscale-850)"
+      },
+      "spaceAbovePt": 15.0,
+      "spaceBelowPt": 10.0,
+      "alignment": "START",
+      "keepWithNext": true
+    }
+  }
+}
