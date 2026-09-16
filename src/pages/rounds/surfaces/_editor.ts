@@ -193,15 +193,16 @@ export function shadowCss(set: ShadowSet, size: ShadowSize, gray: Record<Step, s
 /* ── State ──────────────────────────────────────────────────────────── */
 
 export interface State {
-  /** Per-step OKLCH overrides. A step present here is "pinned" — the global
-   *  cast no longer moves it, and its revert button becomes active. */
-  gray: Partial<Record<Step, { L: number; C: number; H: number }>>;
+  /** Per-step edits. Lightness is ABSOLUTE (it is the ladder itself, and a
+   *  value you want to set and read back directly). Hue and saturation are
+   *  NUDGES from the global cast, so moving the cast carries your per-step
+   *  tweaks with it instead of fighting them. */
+  gray: Partial<Record<Step, StepEdit>>;
   /** Slot → step overrides, per palette. */
   assign: Partial<Record<PaletteKey, Partial<Record<Slot, Step>>>>;
-  /** Global cast. `amount` multiplies each step's BRAND chroma (1 = brand,
-   *  0 = fully neutral); `hue` replaces every step's hue. Applies only to
-   *  steps that have not been individually pinned. */
-  cast: { hue: number | null; amount: number | null };
+  /** Global cast: the ramp's base hue, and its tint strength as a percentage
+   *  where 100% = SAT_MAX_C chroma at the ramp's peak. Both absolute. */
+  cast: { hue: number | null; sat: number | null };
   /** Outline policy. `selective` is the interesting one: outlines only where
    *  they do structural work (recessed controls, dividers inside a card) and
    *  NOT as a default ring around every card. */
@@ -215,11 +216,59 @@ export interface State {
 }
 
 export const newState = (): State => ({
-  gray: {}, assign: {}, cast: { hue: null, amount: null },
+  gray: {}, assign: {}, cast: { hue: null, sat: null },
   borders: 'selective',
   shadow: structuredClone(DEFAULT_SHADOW),
   theme: 'light', elev: 'lighter',
 });
+
+/* ── The ramp's own shape ────────────────────────────────────────────
+   Measured from the brand hex at boot, never hardcoded. Three facts drive
+   the control model:
+
+   · hue is 292–301° across every meaningful step, i.e. ONE value, not 17
+   · chroma ARCS — near-zero at white, peaking at step 600 (0.0385),
+     falling again toward black
+   · lightness is the only quantity that genuinely varies per step
+
+   So the global cast owns hue and overall tint strength, each step keeps
+   the arc's shape, and per-step hue/sat are offsets on top. */
+
+/** 100% saturation. Tuned to neutrals: the brand's most chromatic step sits
+ *  at 0.0385, so it lands near 77% and the whole slider stays usable. */
+export const SAT_MAX_C = 0.05;
+
+export interface StepEdit { L?: number; dh?: number; ds?: number }
+export interface RampShape {
+  hue: number;                        // the ramp's base hue
+  satPct: number;                     // brand tint strength, 0–100
+  norm: Record<Step, number>;         // each step's share of the arc, 0–1
+  L: Record<Step, number>;            // brand lightness per step
+}
+
+export function readRampShape(brand: Record<Step, string>): RampShape {
+  const oklch = {} as Record<Step, { L: number; C: number; H: number }>;
+  for (const s of STEPS) oklch[s] = hexToOklch(brand[s]);
+
+  const peak = Math.max(...STEPS.map(s => oklch[s].C));
+  // Hue is only meaningful where there is chroma to carry it — pure white and
+  // pure black report arbitrary angles. Weight by chroma so they cannot skew it.
+  let x = 0, y = 0;
+  for (const s of STEPS) {
+    const r = (oklch[s].H * Math.PI) / 180;
+    x += Math.cos(r) * oklch[s].C;
+    y += Math.sin(r) * oklch[s].C;
+  }
+  const hue = ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+
+  const norm = {} as Record<Step, number>;
+  const L = {} as Record<Step, number>;
+  for (const s of STEPS) {
+    norm[s] = peak ? oklch[s].C / peak : 0;
+    L[s] = oklch[s].L;
+  }
+  return { hue, satPct: (peak / SAT_MAX_C) * 100, norm, L };
+}
 
 /** Brand values, read from the live stylesheet at boot — never hardcoded. */
 export function readBrandGrayscale(): Record<Step, string> {
@@ -232,26 +281,37 @@ export function readBrandGrayscale(): Record<Step, string> {
   return out;
 }
 
-/** Resolve the effective hex for every step under the current state. */
-export function resolveGrayscale(brand: Record<Step, string>, st: State): Record<Step, string> {
-  const out = {} as Record<Step, string>;
+/** The three values behind a step's sliders, in human units. */
+export function stepValues(shape: RampShape, st: State, s: Step) {
+  const e = st.gray[s] ?? {};
+  const baseHue = st.cast.hue ?? shape.hue;
+  const baseSat = (st.cast.sat ?? shape.satPct) * shape.norm[s];
+  return {
+    L: e.L ?? shape.L[s],
+    dh: e.dh ?? 0,
+    ds: e.ds ?? 0,
+    hue: (baseHue + (e.dh ?? 0) + 360) % 360,
+    sat: Math.max(0, baseSat + (e.ds ?? 0)),
+    baseSat,
+  };
+}
+
+/** Resolve the effective hex for every step, plus which ones sRGB clamped. */
+export function resolveGrayscale(
+  brand: Record<Step, string>, st: State, shape: RampShape,
+): { hex: Record<Step, string>; clamped: Set<Step> } {
+  const hex = {} as Record<Step, string>;
+  const clamped = new Set<Step>();
   for (const s of STEPS) {
-    const pinned = st.gray[s];
-    if (pinned) {
-      out[s] = oklchToHex(pinned.L, pinned.C, pinned.H);
-      continue;
-    }
-    const hasCast = st.cast.hue !== null || st.cast.amount !== null;
-    if (hasCast) {
-      const b = hexToOklch(brand[s]);
-      const H = st.cast.hue ?? b.H;
-      const C = b.C * (st.cast.amount ?? 1);
-      out[s] = oklchToHex(b.L, C, H);
-    } else {
-      out[s] = brand[s];
-    }
+    const v = stepValues(shape, st, s);
+    const want = (v.sat / 100) * SAT_MAX_C;
+    const out = oklchToHex(v.L, want, v.hue);
+    hex[s] = out;
+    // A step whose requested chroma could not be rendered — the slider will
+    // appear to stop responding, so it has to say why.
+    if (want > 0.0005 && hexToOklch(out).C < want - 0.0008) clamped.add(s);
   }
-  return out;
+  return { hex, clamped };
 }
 
 export const paletteKey = (st: State): PaletteKey => `${st.theme}-${st.elev}` as PaletteKey;
@@ -350,7 +410,7 @@ export function exportJson(brand: Record<Step, string>, gray: Record<Step, strin
   return JSON.stringify({
     grayscale: grayDiff,
     assignments: assign,
-    cast: st.cast.hue !== null || st.cast.amount !== null ? st.cast : undefined,
+    cast: st.cast.hue !== null || st.cast.sat !== null ? st.cast : undefined,
     resolved: Object.fromEntries(
       PALETTES.map(p => [p, Object.fromEntries(SLOTS.map(s => [s, gray[assignedStep(st, p, s)]]))]),
     ),
@@ -364,9 +424,18 @@ export function encodeUrl(brand: Record<Step, string>, gray: Record<Step, string
   if (st.theme !== 'light') p.set('t', st.theme);
   if (st.elev !== 'lighter') p.set('s', st.elev);
 
-  const g = STEPS
-    .filter(s => st.gray[s])
-    .map(s => `${s}:${gray[s].replace('#', '')}`);
+  // step:L_dh_ds — trailing zero fields dropped, so a lightness-only edit
+  // stays short. Underscores keep negative offsets readable.
+  const g = STEPS.filter(s => st.gray[s]).map(s => {
+    const e = st.gray[s]!;
+    const parts = [
+      e.L !== undefined ? e.L.toFixed(1) : '',
+      e.dh ? String(Math.round(e.dh)) : '',
+      e.ds ? String(Math.round(e.ds)) : '',
+    ];
+    while (parts.length && parts[parts.length - 1] === '') parts.pop();
+    return `${s}:${parts.join('_')}`;
+  });
   if (g.length) p.set('g', g.join(','));
 
   const a: string[] = [];
@@ -379,7 +448,7 @@ export function encodeUrl(brand: Record<Step, string>, gray: Record<Step, string
   if (a.length) p.set('a', a.join(','));
 
   if (st.cast.hue !== null) p.set('ch', String(Math.round(st.cast.hue)));
-  if (st.cast.amount !== null) p.set('ca', st.cast.amount.toFixed(2));
+  if (st.cast.sat !== null) p.set('cs', String(Math.round(st.cast.sat)));
 
   if (st.borders !== 'selective') p.set('b', st.borders);
 
@@ -411,10 +480,14 @@ export function decodeUrl(st: State, search: string): State {
   const g = p.get('g');
   if (g) {
     for (const pair of g.split(',')) {
-      const [step, hex] = pair.split(':');
-      if ((STEPS as readonly string[]).includes(step) && /^[0-9a-f]{6}$/i.test(hex || '')) {
-        st.gray[step as Step] = hexToOklch(`#${hex}`);
-      }
+      const [step, spec] = pair.split(':');
+      if (!(STEPS as readonly string[]).includes(step)) continue;
+      const [L, dh, ds] = (spec || '').split('_').map(v => (v === '' ? undefined : Number(v)));
+      const e: StepEdit = {};
+      if (L !== undefined && !Number.isNaN(L)) e.L = L;
+      if (dh !== undefined && !Number.isNaN(dh)) e.dh = dh;
+      if (ds !== undefined && !Number.isNaN(ds)) e.ds = ds;
+      if (Object.keys(e).length) st.gray[step as Step] = e;
     }
   }
 
@@ -435,8 +508,8 @@ export function decodeUrl(st: State, search: string): State {
 
   const ch = p.get('ch');
   if (ch !== null && !Number.isNaN(Number(ch))) st.cast.hue = Number(ch);
-  const ca = p.get('ca');
-  if (ca !== null && !Number.isNaN(Number(ca))) st.cast.amount = Number(ca);
+  const cs = p.get('cs');
+  if (cs !== null && !Number.isNaN(Number(cs))) st.cast.sat = Number(cs);
 
   const b = p.get('b');
   if (b && (BORDER_MODES as readonly string[]).includes(b)) st.borders = b as BorderMode;

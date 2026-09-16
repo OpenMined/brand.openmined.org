@@ -385,7 +385,7 @@ const LEVELS = [
             <li><b>00</b> sample stat</li>
             <li><b>0.00</b> sample stat</li>
             <li><b>00%</b> sample stat</li>
-            <li><b>Sample</b> label</li>
+            <li class="inv__meta-hi"><b>Sample</b> highlighted · +2</li>
           </ul>
         </div>
       </section>
@@ -442,15 +442,17 @@ const LEVELS = [
     import {
       STEPS, SLOTS, PALETTES, SLOT_LABEL, PALETTE_LABEL, DEFAULT_ASSIGN,
       BORDER_MODES, BORDER_LABEL, BORDER_HELP, SHADOW_SIZES, DEFAULT_SHADOW,
-      newState, readBrandGrayscale, resolveGrayscale, paletteKey, assignedStep,
-      emitCss, exportCss, exportJson, encodeUrl, decodeUrl, hexToOklch, oklchToHex,
-      type Step, type Slot,
+      newState, readBrandGrayscale, readRampShape, resolveGrayscale, stepValues,
+      paletteKey, assignedStep, SAT_MAX_C,
+      emitCss, exportCss, exportJson, encodeUrl, decodeUrl,
+      type Step, type Slot, type StepEdit,
     } from './_editor.ts';
 
     const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
     const mock = document.querySelector<HTMLElement>('.mock')!;
     const brand = readBrandGrayscale();
 
+    const shape = readRampShape(brand);
     const st = decodeUrl(newState(), location.search);
     // Base.astro's inline script has already resolved the theme from
     // localStorage / system preference. Adopt it unless the URL names one —
@@ -460,7 +462,8 @@ const LEVELS = [
       const initial = document.documentElement.getAttribute('data-theme');
       if (initial === 'dark' || initial === 'light') st.theme = initial;
     }
-    let gray = resolveGrayscale(brand, st);
+    let resolved = resolveGrayscale(brand, st, shape);
+    let gray = resolved.hex;
 
     // Live stylesheet the editor owns. _surfaces.css stays the no-JS default.
     const live = document.createElement('style');
@@ -479,28 +482,23 @@ const LEVELS = [
      * `change`, i.e. once the drag ends.
      */
     function applyLive(src?: HTMLInputElement) {
-      gray = resolveGrayscale(brand, st);
+      resolved = resolveGrayscale(brand, st, shape); gray = resolved.hex;
       live.textContent = emitCss(gray, st);
       document.querySelectorAll<HTMLElement>('[data-swatch]').forEach(el => {
         el.style.background = gray[el.dataset.swatch as Step];
       });
+      // Keep the slider and its number input in lockstep, updating only the
+      // one the user is NOT currently interacting with.
       if (src) {
-        const out = src.parentElement?.querySelector('b');
-        if (out) {
-          const v = Number(src.value);
-          out.textContent = src.dataset.ch === 'C' ? v.toFixed(3)
-            : src.dataset.ch === 'H' ? `${Math.round(v)}°`
-            : src.dataset.cast === 'hue' ? `${Math.round(v)}°`
-            : src.dataset.cast === 'amount' ? `×${v.toFixed(2)}`
-            : src.dataset.k === 'alpha' ? v.toFixed(2)
-            : String(v);
-        }
+        src.closest('.sl')?.querySelectorAll('input').forEach(i => {
+          if (i !== src) (i as HTMLInputElement).value = src.value;
+        });
       }
       history.replaceState(null, '', encodeUrl(brand, gray, st));
     }
 
     function apply() {
-      gray = resolveGrayscale(brand, st);
+      resolved = resolveGrayscale(brand, st, shape); gray = resolved.hex;
       live.textContent = emitCss(gray, st);
       document.documentElement.setAttribute('data-theme', st.theme);
       // On <body>, NOT <html>. `[data-theme="dark"] [data-elev]` is a DESCENDANT
@@ -517,6 +515,34 @@ const LEVELS = [
       history.replaceState(null, '', encodeUrl(brand, gray, st));
       renderAll();
     }
+
+    /**
+     * Slider + paired number input.
+     *
+     * Precision comes from four routes, three of them free:
+     *  · drag            — coarse, the base step
+     *  · SHIFT + drag    — fine, one tenth of the step (handled below)
+     *  · arrow keys      — native to <input type=range>, moves by `step`;
+     *                      Home/End jump to the ends, PageUp/Dn move x10
+     *  · type a value    — the number input, for an exact figure
+     *
+     * Both inputs carry the same data-* hooks, so the existing read path
+     * handles either without branching.
+     */
+    const ctrl = (
+      label: string, hooks: string, value: number,
+      o: { min: number; max: number; step: number; unit?: string; lead?: boolean },
+    ) => `
+      <label class="sl${o.lead ? ' sl--lead' : ''}">
+        <span>${label}</span>
+        <input type="range" min="${o.min}" max="${o.max}" step="${o.step}"
+               data-coarse="${o.step}" data-fine="${o.step / 10}" value="${value}" ${hooks}>
+        <span class="sl__val">
+          <input type="number" class="sl__num" min="${o.min}" max="${o.max}" step="${o.step}"
+                 value="${value}" ${hooks} aria-label="${label}">
+          ${o.unit ? `<i>${o.unit}</i>` : ''}
+        </span>
+      </label>`;
 
     const swatch = (hex: string, extra = '') =>
       `<i class="sw ${extra}" style="background:${hex}"></i>`;
@@ -589,8 +615,9 @@ const LEVELS = [
 
       if (!selStep) { $('ed-stepedit').innerHTML = ''; return; }
       const step = selStep;
-      const c = st.gray[step] ?? hexToOklch(gray[step]);
+      const v = stepValues(shape, st, step);
       const changed = gray[step].toLowerCase() !== brand[step].toLowerCase();
+      const dL = v.L - shape.L[step];
       $('ed-stepedit').innerHTML = `
         <div class="pick">
           <div class="pick__head">
@@ -600,28 +627,38 @@ const LEVELS = [
             <button type="button" class="row__rev ${changed ? 'is-dirty' : ''}" data-revert-step="${step}" ${changed ? '' : 'disabled'} title="Revert to brand ${brand[step]}">↺</button>
             <button type="button" class="pick__x" data-step-pick="">✕</button>
           </div>
-          <label class="sl"><span>L</span><input type="range" min="0" max="100" step="0.5" value="${c.L.toFixed(1)}" data-step="${step}" data-ch="L"><b>${c.L.toFixed(1)}</b></label>
-          <label class="sl"><span>C</span><input type="range" min="0" max="0.08" step="0.001" value="${c.C.toFixed(3)}" data-step="${step}" data-ch="C"><b>${c.C.toFixed(3)}</b></label>
-          <label class="sl"><span>H</span><input type="range" min="0" max="360" step="1" value="${Math.round(c.H)}" data-step="${step}" data-ch="H"><b>${Math.round(c.H)}°</b></label>
-          <p class="ed__note">Brand ${brand[step]}. Used by ${[...inUse].includes(step) ? 'the active palette' : 'no slot in this palette'}.</p>
+
+          ${ctrl('lightness', `data-step="${step}" data-ch="L"`, Number(v.L.toFixed(1)), { min: 0, max: 100, step: 0.5, lead: true })}
+          <p class="ed__note">
+            Brand ${shape.L[step].toFixed(1)}${Math.abs(dL) >= 0.05 ? ` · ${dL > 0 ? '+' : ''}${dL.toFixed(1)}` : ''}
+            ${resolved.clamped.has(step) ? ' · tint clipped by sRGB at this lightness' : ''}
+          </p>
+
+          ${ctrl('hue', `data-step="${step}" data-ch="dh"`, v.dh, { min: -40, max: 40, step: 1, unit: '°' })}
+          ${ctrl('tint', `data-step="${step}" data-ch="ds"`, v.ds, { min: -40, max: 40, step: 1, unit: '%' })}
+          <p class="ed__note">
+            Hue and tint are offsets from the global cast, so moving the cast
+            carries them along. Resolves to ${Math.round(v.hue)}° / ${v.sat.toFixed(0)}%.
+          </p>
         </div>`;
     }
 
     function renderCast() {
-      const h = st.cast.hue ?? 0, a = st.cast.amount ?? 1;
-      const on = st.cast.hue !== null || st.cast.amount !== null;
+      const h = st.cast.hue ?? shape.hue;
+      const sat = st.cast.sat ?? shape.satPct;
+      const on = st.cast.hue !== null || st.cast.sat !== null;
       $('ed-cast-wrap').classList.toggle('is-on', on);
       $('ed-cast').innerHTML = `
-        <label class="sl"><span>hue</span>
-          <input type="range" min="0" max="360" step="1" value="${Math.round(h)}" data-cast="hue">
-          <b>${st.cast.hue === null ? '—' : Math.round(h) + '°'}</b></label>
-        <label class="sl"><span>chroma</span>
-          <input type="range" min="0" max="3" step="0.05" value="${a}" data-cast="amount">
-          <b>${st.cast.amount === null ? '—' : '×' + a.toFixed(2)}</b></label>
+        ${ctrl('hue', 'data-cast="hue"', Math.round(h), { min: 0, max: 360, step: 1, unit: '°' })}
+        ${ctrl('tint', 'data-cast="sat"', Math.round(sat), { min: 0, max: 100, step: 1, unit: '%' })}
         <div class="ed__actions">
-          <button type="button" class="ed__btn" data-reset="cast" ${on ? '' : 'disabled'}>Clear cast</button>
+          <button type="button" class="ed__btn" data-reset="cast" ${on ? '' : 'disabled'}>Reset cast</button>
         </div>
-        <p class="ed__note">Moves every step you haven't edited individually. Chroma 0 neutralises the ramp while keeping lightness — the fastest way to test whether the purple cast earns its place.</p>`;
+        <p class="ed__note">
+          The whole ramp's hue and tint strength. Every step keeps its share of the
+          arc — light steps stay near-neutral — so tint 0% neutralises the ramp
+          without touching lightness. Brand sits at ${Math.round(shape.hue)}° / ${Math.round(shape.satPct)}%.
+        </p>`;
     }
 
     function renderBorders() {
@@ -644,10 +681,10 @@ const LEVELS = [
           ${SHADOW_SIZES.map(sz => `<button type="button" class="segctl__b ${selShadow === sz ? 'is-on' : ''}" data-shadow-pick="${sz}">${sz}</button>`).join('')}
         </div>
         <div class="shdprev"><i style="box-shadow: var(--s-shadow-${selShadow})"></i></div>
-        <label class="sl"><span>y</span><input type="range" min="0" max="48" step="1" value="${v.y}" data-shd="${selShadow}" data-k="y"><b>${v.y}</b></label>
-        <label class="sl"><span>blur</span><input type="range" min="0" max="96" step="1" value="${v.blur}" data-shd="${selShadow}" data-k="blur"><b>${v.blur}</b></label>
-        <label class="sl"><span>spread</span><input type="range" min="-24" max="24" step="1" value="${v.spread}" data-shd="${selShadow}" data-k="spread"><b>${v.spread}</b></label>
-        <label class="sl"><span>alpha</span><input type="range" min="0" max="1" step="0.01" value="${v.alpha}" data-shd="${selShadow}" data-k="alpha"><b>${v.alpha.toFixed(2)}</b></label>
+        ${ctrl('y', `data-shd="${selShadow}" data-k="y"`, v.y, { min: 0, max: 48, step: 1 })}
+        ${ctrl('blur', `data-shd="${selShadow}" data-k="blur"`, v.blur, { min: 0, max: 96, step: 1 })}
+        ${ctrl('spread', `data-shd="${selShadow}" data-k="spread"`, v.spread, { min: -24, max: 24, step: 1 })}
+        ${ctrl('alpha', `data-shd="${selShadow}" data-k="alpha"`, v.alpha, { min: 0, max: 1, step: 0.01 })}
         <div class="row">
           <span class="row__label">colour</span>
           ${swatch(gray[set.step])}
@@ -667,8 +704,9 @@ const LEVELS = [
         (st.cast as any)[t.dataset.cast] = Number(t.value);
       } else if (t.dataset.step && t.dataset.ch) {
         const step = t.dataset.step as Step;
-        const base = st.gray[step] ?? hexToOklch(gray[step]);
-        st.gray[step] = { ...base, [t.dataset.ch]: Number(t.value) } as any;
+        const e: StepEdit = { ...(st.gray[step] ?? {}) };
+        (e as any)[t.dataset.ch] = Number(t.value);
+        st.gray[step] = e;
       } else if (t.dataset.shd) {
         const size = t.dataset.shd as 'sm' | 'md' | 'lg';
         (st.shadow[st.theme][size] as any)[t.dataset.k!] = Number(t.value);
@@ -737,9 +775,9 @@ const LEVELS = [
         st.shadow[st.theme].step = DEFAULT_SHADOW[st.theme].step;
         apply(); return;
       }
-      if (t.dataset.reset === 'cast') { st.cast = { hue: null, amount: null }; apply(); return; }
+      if (t.dataset.reset === 'cast') { st.cast = { hue: null, sat: null }; apply(); return; }
       if (t.dataset.reset === 'all') {
-        st.gray = {}; st.assign = {}; st.cast = { hue: null, amount: null };
+        st.gray = {}; st.assign = {}; st.cast = { hue: null, sat: null };
         st.borders = 'selective'; st.shadow = structuredClone(DEFAULT_SHADOW);
         apply(); return;
       }
@@ -1118,7 +1156,7 @@ const LEVELS = [
      the inverse levels are judged against the normal surfaces surrounding
      them, which is how an inverse block actually appears on the site. */
   .cta {
-    background: var(--s-raise-1);                 /* inverse +1 on the normal base */
+    background: var(--s-base);                    /* the inverse BASE, on the page's normal base */
     border: 1px solid var(--s-line);
     border-radius: var(--border-radius-L); padding: var(--spacing-full);
     display: grid; gap: var(--spacing-3XL);
@@ -1135,8 +1173,8 @@ const LEVELS = [
     align-items: center;
   }
   .cta__text { max-width: 44ch; }
-  .cta__badge {                                    /* +2 inside the +1 card */
-    display: inline-block; background: var(--s-raise-2); color: var(--s-text-body);
+  .cta__badge {                                    /* +1 on the inverse base */
+    display: inline-block; background: var(--s-raise-1); color: var(--s-text-body);
     font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase;
     padding: 4px 10px; border-radius: var(--border-radius-full);
     margin-bottom: var(--spacing-L);
@@ -1150,30 +1188,61 @@ const LEVELS = [
   .cta__form .btn { justify-content: center; }
   .cta__field { display: flex; align-items: center; }
 
-  /* Stat row as a nested card one level ABOVE the newsletter card — inverse
-     +2 sitting on inverse +1 — so the nested step is visible inside inverse
-     too, not only on the normal page. */
+  /* Stat row as a card one level above the inverse base, holding a +2 element
+     of its own — so the full base → +1 → +2 chain is present inside inverse,
+     not just on the ordinary page. */
   .inv__meta {
     list-style: none; margin: 0;
     /* width:auto — sized by its own content and left-aligned, so the card
        reads as a component sitting on the +1 surface rather than a full-width
        band. justify-self keeps it from stretching as a grid item. */
     width: auto; justify-self: start;
-    background: var(--s-raise-2);
+    background: var(--s-raise-1);
     border-radius: var(--border-radius-S);
-    padding: var(--spacing-XL) var(--spacing-2XL);
+    /* The card owns its padding, so the dividers stop at the inner edge
+       rather than running the full height to the border. */
+    /* center, not stretch — items size to their own content, so a divider is
+       as tall as the stat it sits beside rather than the whole row. The taller
+       promoted tile then centres itself against them. */
+    padding: var(--spacing-2XL);
     display: flex; flex-wrap: wrap; align-items: center;
     font-size: 0.9375rem;
     color: var(--s-text-headline);
   }
   /* 1.5x the 2XL step. Derived from the scale rather than a raw value, so it
      still tracks if the spacing tokens move. */
-  .inv__meta li { color: var(--s-text-headline); padding-inline: calc(var(--spacing-2XL) * 1.5); }
+  .inv__meta li {
+    color: var(--s-text-headline);
+    padding-inline: calc(var(--spacing-2XL) * 1.5);
+    /* A little block padding so the divider reads as a deliberate rule rather
+       than a hairline clipped to the cap height of the text. */
+    padding-block: var(--spacing-XS);
+    display: flex; align-items: center;
+  }
   .inv__meta li:first-child { padding-inline-start: 0; }
-  .inv__meta li:last-child { padding-inline-end: 0; }
+  /* One stat promoted to +2 — a plausible "featured figure" treatment, and the
+     only place the third level appears inside inverse. Sits on the +1 stat
+     card, which sits on the inverse base. */
+  /* Promoted tile: its own box, so it sets its own padding on all four sides
+     rather than inheriting the row's asymmetric inline rhythm. */
+  .inv__meta-hi {
+    background: var(--s-raise-2);
+    border-radius: var(--border-radius-S);
+    padding-block: var(--spacing-3XL) !important;
+    padding-inline: var(--spacing-XL) !important;
+    margin-inline-start: calc(var(--spacing-2XL) * 0.5);
+  }
+
   /* Vertical rules between stats, in the strong weight — a second live example
-     of --s-line-strong, and one that survives `outlines: selective`. */
-  .inv__meta li + li { border-left: 1px solid var(--s-line-strong); }
+     of --s-line-strong, and one that survives `outlines: selective`.
+     Scoped with :not() rather than overridden afterwards: Astro appends its
+     [data-astro-cid] to every compound, so `li[cid] + li[cid]` lands at (0,4,2)
+     and no sane override beats it. Excluding the promoted tile up front says
+     what is meant — dividers separate ordinary stats — and cannot be lost to
+     a specificity race. */
+  .inv__meta li:not(.inv__meta-hi) + li:not(.inv__meta-hi) {
+    border-left: 1px solid var(--s-line-strong);
+  }
   .inv__meta b { font-weight: 600; margin-right: var(--spacing-2XS); }
 
   /* shadows */

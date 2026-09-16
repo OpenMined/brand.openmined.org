@@ -179,9 +179,49 @@
   .pick__x { font: inherit; font-size: 0.6875rem; cursor: pointer; border: none; background: none; color: var(--text-body); padding: 0; }
   .pick__x:hover { color: var(--text-headline); }
 
-  .sl { display: grid; grid-template-columns: 2.4rem 1fr 2.8rem; align-items: center; gap: var(--spacing-XS); font-size: 0.625rem; color: var(--text-body); margin-top: 3px; }
-  .sl input { width: 100%; accent-color: var(--text-headline); }
+  .sl { display: grid; grid-template-columns: 3.4rem 1fr 3.4rem; align-items: center; gap: var(--spacing-XS); font-size: 0.625rem; color: var(--text-body); margin-top: 3px; }
+  /* global.css line 243 styles `input, textarea, select` as a form field:
+     48px tall, its own background, radius-S and --shadow-md. That applies to
+     input[type=range] too, wrapping every slider in a shadowed card. Reset the
+     box so the track is the only thing drawn.
+     (Sixth bug this round from global.css binding style to a bare element.) */
+  .sl input[type="range"] {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    accent-color: var(--text-headline);
+  }
   .sl b { text-align: right; font-weight: 500; color: var(--text-body); font-variant-numeric: tabular-nums; }
+
+  /* Lightness is the primary per-step control; hue and tint are nudges. */
+  .sl--lead { margin-top: var(--spacing-XS); }
+  .sl--lead > span { color: var(--text-headline); font-weight: 500; font-size: 0.6875rem; }
+
+  /* Paired number input — type an exact value when a drag cannot land it. */
+  .sl__val { display: flex; align-items: baseline; gap: 1px; justify-content: flex-end; }
+  .sl__val i { font-style: normal; color: var(--text-body); font-size: 0.5625rem; }
+  /* Same global.css reset as the range: without it this is a 48px shadowed
+     form field rather than a compact numeric readout. */
+  .sl__num {
+    width: 2.6rem; height: auto; padding: 1px 2px;
+    border: 1px solid transparent; border-radius: 3px;
+    background: transparent; box-shadow: none;
+    font: inherit; font-size: 0.625rem; text-align: right;
+    color: var(--text-headline); font-variant-numeric: tabular-nums;
+    appearance: textfield; -moz-appearance: textfield;
+  }
+  .sl__num::-webkit-outer-spin-button,
+  .sl__num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .sl__num:hover { border-color: var(--surface-foreground-high); }
+  .sl__num:focus { border-color: var(--color-interactive-focus); outline: none; background: var(--surface-background-dim); }
+  .sl--lead .sl__num { font-size: 0.8125rem; width: 3rem; }
+
+  /* SHIFT held — every slider is in fine mode, one tenth of its step. */
+  body.is-fine .sl input[type="range"] { accent-color: var(--color-interactive-focus); }
 
   .dis { margin-top: var(--spacing-M); }
   .dis summary { font-size: 0.6875rem; color: var(--text-body); cursor: pointer; padding: var(--spacing-2XS) 0; }
