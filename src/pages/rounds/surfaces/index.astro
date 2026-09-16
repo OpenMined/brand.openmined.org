@@ -37,26 +37,26 @@ import './_editor.css';
 
 const SOLUTIONS = [
   {
-    title: 'Publishers',
-    body: 'License archives to AI labs without surrendering the underlying corpus.',
+    title: 'Sample card one',
+    body: 'Placeholder body at about the length real copy would run, so wrapping behaves.',
     icon: 'M4 5h16M4 12h16M4 19h10',
   },
   {
-    title: 'Genomics',
-    body: 'Run cohort studies across institutions that cannot pool patient data.',
+    title: 'Sample card two',
+    body: 'A second card, same level, so the +1 step can be judged across a row.',
     icon: 'M6 3v4a6 6 0 0 0 12 0V3M6 21v-4a6 6 0 0 1 12 0v4M7 8h10M7 16h10',
   },
   {
-    title: 'AI auditors',
-    body: 'Evaluate a model against held-out data neither party can see in full.',
+    title: 'Sample card three',
+    body: 'Third card. Icons sit on the card surface with no chip behind them.',
     icon: 'M12 3l8 4v5c0 4.4-3.4 8.2-8 9-4.6-.8-8-4.6-8-9V7l8-4Z',
   },
 ];
 
 const CAPABILITIES = [
-  'Data never leaves the owner’s infrastructure',
-  'Results are verifiable without re-running the job',
-  'Approval stays with the institution, not the network',
+  'This panel is +2, nested inside the +1 card',
+  'The list sits directly on it — no further container',
+  'The block below is −1, recessed into the +2',
 ];
 
 /**
@@ -184,16 +184,16 @@ const LEVELS = [
 
     <header class="nav">
       <div class="nav__inner">
-        <span class="nav__logo"><span class="nav__dot"></span> OpenMined</span>
+        <span class="nav__logo"><span class="nav__dot"></span> Surface Test</span>
         <nav class="nav__links">
-          <a href="#mock" aria-current="page">Home</a>
-          <a href="#mock">Foundation</a>
-          <a href="#mock">Solutions</a>
-          <a href="#mock">Blog</a>
-          <a href="#mock">Careers</a>
+          <a href="#mock" aria-current="page">Overview</a>
+          <a href="#mock">Levels</a>
+          <a href="#mock">Components</a>
+          <a href="#mock">Shadows</a>
+          <a href="#mock">Notes</a>
         </nav>
-        <a href="#mock" class="btn btn--outline btn--sm">Donate</a>
-        <a href="#mock" class="btn btn--sm">Get involved</a>
+        <a href="#mock" class="btn btn--outline btn--sm">Secondary</a>
+        <a href="#mock" class="btn btn--sm">Primary</a>
       </div>
     </header>
 
@@ -201,16 +201,16 @@ const LEVELS = [
 
       <!-- hero — content on the base surface -->
       <section class="wrap hero">
-        <p class="eyebrow">The federated AI network</p>
-        <h1 class="hero__h">The missing layer for collective intelligence</h1>
+        <p class="eyebrow">Mockup · not a live page</p>
+        <h1 class="hero__h">A test page for surface and colour options</h1>
         <p class="hero__sub">
-          Unlock insights from data that can never be centralised. Researchers get
-          answers; institutions keep custody of everything they hold.
+          Placeholder copy, held at roughly the length real copy would run so line
+          breaks and vertical rhythm still behave like a page that ships.
         </p>
         <div class="hero__actions">
-          <a href="#mock" class="btn">Get started</a>
-          <a href="#mock" class="btn btn--outline">Talk to us</a>
-          <a href="#mock" class="link">Read the protocol →</a>
+          <a href="#mock" class="btn">Primary action</a>
+          <a href="#mock" class="btn btn--outline">Secondary action</a>
+          <a href="#mock" class="link">Sample link →</a>
         </div>
       </section>
 
@@ -218,13 +218,13 @@ const LEVELS = [
       <section class="wrap">
         <div class="feature">
           <div class="feature__body">
-            <h2 class="feature__h">Compute travels to the data</h2>
+            <h2 class="feature__h">Three levels, nested</h2>
             <p>
-              A job is submitted, reviewed by the data owner, executed inside their
-              enclave, and only the approved result is released. Nothing is copied,
-              and nothing leaves without a decision behind it.
+              Sample section. This card is +1 on the page, the panel beside it is +2,
+              and the block inside that is −1 — so the whole stack can be read in one
+              glance without hunting for each level separately.
             </p>
-            <a href="#mock" class="link">How approval works →</a>
+            <a href="#mock" class="link">Sample link →</a>
           </div>
 
           <aside class="nested">
@@ -238,7 +238,7 @@ const LEVELS = [
               ))}
             </ul>
             <div class="well">
-              <code>syftbox job submit ./study.py</code>
+              <code>sample code block · surface −1</code>
             </div>
           </aside>
         </div>
@@ -246,7 +246,7 @@ const LEVELS = [
 
       <!-- solution cards — +1 on base -->
       <section class="wrap">
-        <h2 class="band__h">Who it’s for</h2>
+        <h2 class="band__h">Sample cards · +1 on base</h2>
         <div class="cards">
           {SOLUTIONS.map(s => (
             <a href="#mock" class="card card-float">
@@ -290,16 +290,16 @@ const LEVELS = [
         <div class="panel">
           <div class="panel__head">
             <div>
-              <h3 class="panel__h">Network preferences</h3>
+              <h3 class="panel__h">Sample preferences</h3>
               <p class="panel__b">Controls sit <em>below</em> the surface they live on.</p>
             </div>
-            <span class="pill"><i class="pill__dot"></i>Connected</span>
+            <span class="pill"><i class="pill__dot"></i>Sample state</span>
           </div>
 
           <div class="setting">
             <div class="setting__text">
-              <span class="setting__label">Auto-approve</span>
-              <span class="setting__help">Run jobs from trusted researchers without manual review.</span>
+              <span class="setting__label">Sample toggle, on</span>
+              <span class="setting__help">Track is −1; the knob is +2. Helper text is the body ink.</span>
             </div>
             <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve">
               <span class="switch__knob"></span>
@@ -308,8 +308,8 @@ const LEVELS = [
 
           <div class="setting">
             <div class="setting__text">
-              <span class="setting__label">Public listing</span>
-              <span class="setting__help">Show this node in the public dataset directory.</span>
+              <span class="setting__label">Sample toggle, off</span>
+              <span class="setting__help">Same control in its resting state, for comparison.</span>
             </div>
             <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing">
               <span class="switch__knob"></span>
@@ -318,8 +318,8 @@ const LEVELS = [
 
           <div class="setting">
             <div class="setting__text">
-              <span class="setting__label">Default view</span>
-              <span class="setting__help">How the catalogue is arranged when it opens.</span>
+              <span class="setting__label">Sample segmented control</span>
+              <span class="setting__help">Sunken track, with the active segment raised to +2.</span>
             </div>
             <div class="seg" role="group" aria-label="Default view">
               <button type="button" class="seg__btn is-on">Grid</button>
@@ -330,14 +330,14 @@ const LEVELS = [
 
           <div class="setting setting--stack">
             <div class="setting__text">
-              <span class="setting__label">Node name</span>
-              <span class="setting__help">Shown to researchers browsing the network.</span>
+              <span class="setting__label">Sample text field</span>
+              <span class="setting__help">Inset into the card, bordered with the strong rule.</span>
             </div>
-            <span class="field__input">research-cluster-01</span>
+            <span class="field__input">placeholder value</span>
           </div>
 
           <div class="panel__foot">
-            <span class="panel__meta">Last saved 4 minutes ago</span>
+            <span class="panel__meta">Sample footer · recessed strip</span>
             <div class="panel__actions">
               <a href="#mock" class="btn btn--outline btn--sm">Reset</a>
               <a href="#mock" class="btn btn--sm">Save changes</a>
@@ -347,7 +347,7 @@ const LEVELS = [
       </section>
 
       <section class="wrap">
-        <h2 class="band__h">Integrations</h2>
+        <h2 class="band__h">Third-party marks · sample</h2>
         <div class="press">
           {PRESS.map(p => (
             <a href="#mock" class="press__item card-float" aria-label={p.name}>
@@ -367,23 +367,25 @@ const LEVELS = [
         <div class="cta" data-inverse>
           <div class="cta__top">
             <div class="cta__text">
-              <span class="cta__badge">Newsletter</span>
-              <h2 class="cta__h">Keep your data. Get the insight.</h2>
-              <p class="cta__b">Monthly, no noise. Unsubscribe whenever.</p>
+              <span class="cta__badge">Inverse sample</span>
+              <h2 class="cta__h">This card runs opposite the page</h2>
+              <p class="cta__b">Same four levels, flipped. Placeholder copy.</p>
             </div>
             <div class="cta__form">
               <label class="field">
-                <span class="field__label">Work email</span>
-                <span class="field__input field__input--mute cta__field">you@institution.edu</span>
+                <span class="field__label">Sample field</span>
+                <span class="field__input field__input--mute cta__field">placeholder@example.com</span>
               </label>
-              <a href="#mock" class="btn">Subscribe</a>
+              <a href="#mock" class="btn">Primary</a>
             </div>
           </div>
 
           <ul class="inv__meta">
-            <li><b>2,400+</b> researchers</li>
-            <li><b>38</b> institutions</li>
-            <li><b>Monthly</b> cadence</li>
+            <li><b>000</b> sample stat</li>
+            <li><b>00</b> sample stat</li>
+            <li><b>0.00</b> sample stat</li>
+            <li><b>00%</b> sample stat</li>
+            <li><b>Sample</b> label</li>
           </ul>
         </div>
       </section>
@@ -419,18 +421,18 @@ const LEVELS = [
     <footer class="foot">
       <div class="wrap">
         <div class="foot__cols">
-          {['Learn more', 'Solutions', 'Programs', 'Support'].map(h => (
+          {['Column one', 'Column two', 'Column three', 'Column four'].map(h => (
             <div>
               <span class="foot__h">{h}</span>
-              <a href="#mock" class="link-quiet">Documentation</a>
-              <a href="#mock" class="link-quiet">Community</a>
-              <a href="#mock" class="link-quiet">Contact</a>
+              <a href="#mock" class="link-quiet">Sample link</a>
+              <a href="#mock" class="link-quiet">Sample link</a>
+              <a href="#mock" class="link-quiet">Sample link</a>
             </div>
           ))}
         </div>
         <div class="foot__base">
-          <span>OpenMined is a 501(c)(3) non-profit.</span>
-          <a href="#mock" class="link-quiet">Privacy policy</a>
+          <span>Mockup for surface review — not an OpenMined page.</span>
+          <a href="#mock" class="link-quiet">Sample link</a>
         </div>
       </div>
     </footer>
@@ -1122,11 +1124,17 @@ const LEVELS = [
     display: grid; gap: var(--spacing-3XL);
     box-shadow: var(--s-shadow-md);
   }
+  /* Two columns on desktop. flex + wrap collapsed to a stack once the form
+     grew to three fields — the two children simply could not both fit their
+     content width. An explicit grid holds the split and lets the FORM wrap
+     internally instead, which is the part that should give. */
   .cta__top {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: var(--spacing-3XL); flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--spacing-full);
+    align-items: center;
   }
-  .cta__text { max-width: 34ch; }
+  .cta__text { max-width: 44ch; }
   .cta__badge {                                    /* +2 inside the +1 card */
     display: inline-block; background: var(--s-raise-2); color: var(--s-text-body);
     font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase;
@@ -1135,9 +1143,12 @@ const LEVELS = [
   }
   .cta__h { margin-bottom: var(--spacing-S) !important; }
   .cta__b { margin: 0; font-size: 1rem; color: var(--s-text-body); }
-  .cta__form { display: flex; gap: var(--spacing-M); align-items: flex-end; }
+  /* Stacked: two fields over a full-width button, so the inset −1 surface is
+     read as a column of controls rather than a row of stubs. */
+  .cta__form { display: grid; gap: var(--spacing-M); }
   .cta__form .field { margin-bottom: 0; }
-  .cta__field { min-width: 260px; display: flex; align-items: center; }
+  .cta__form .btn { justify-content: center; }
+  .cta__field { display: flex; align-items: center; }
 
   /* Stat row as a nested card one level ABOVE the newsletter card — inverse
      +2 sitting on inverse +1 — so the nested step is visible inside inverse
@@ -1155,7 +1166,9 @@ const LEVELS = [
     font-size: 0.9375rem;
     color: var(--s-text-headline);
   }
-  .inv__meta li { color: var(--s-text-headline); padding-inline: var(--spacing-2XL); }
+  /* 1.5x the 2XL step. Derived from the scale rather than a raw value, so it
+     still tracks if the spacing tokens move. */
+  .inv__meta li { color: var(--s-text-headline); padding-inline: calc(var(--spacing-2XL) * 1.5); }
   .inv__meta li:first-child { padding-inline-start: 0; }
   .inv__meta li:last-child { padding-inline-end: 0; }
   /* Vertical rules between stats, in the strong weight — a second live example
@@ -1226,6 +1239,7 @@ const LEVELS = [
     .nav__links { order: 3; width: 100%; margin-left: 0; gap: var(--spacing-L); }
     .feature { grid-template-columns: 1fr; gap: var(--spacing-2XL); padding: var(--spacing-2XL); }
     .press { grid-template-columns: repeat(4, 1fr); }
+    .cta__top { grid-template-columns: 1fr; gap: var(--spacing-2XL); }
     .cards { grid-template-columns: 1fr; }
     .prefs { grid-template-columns: 1fr; gap: var(--spacing-2XL); }
     .setting { flex-direction: column; align-items: stretch; gap: var(--spacing-M); padding: var(--spacing-L); }
