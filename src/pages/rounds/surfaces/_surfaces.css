@@ -1,0 +1,192 @@
+/* ════════════════════════════════════════════════════════════════════
+   ROUND — SURFACE SYSTEM · candidate values
+   ════════════════════════════════════════════════════════════════════
+   THE single place surface values are tuned. Everything the mock renders
+   reads from these tokens, so the live-tuning UI (next step) only has to
+   drive this block — nothing in the layout reaches into the palette.
+
+   FOUR LEVELS, replacing the current eight:
+
+     --s-sunken    one level BELOW default  (wells, toggle tracks, inset)
+     --s-base      the page background       (default)
+     --s-raise-1   one level ABOVE default   (cards, nav, footer)
+     --s-raise-2   two levels above          (nested cards, popovers)
+
+   GRAYSCALE ONLY for this pass. No hue anywhere — this round is about
+   whether the surface structure works. Colour comes after, and buttons
+   here use the site's real neutral button (grayscale-850 on light), not
+   a brand accent.
+
+   DIRECTION IS AN OPEN QUESTION, so it is a switch, not an assumption:
+     [data-elev="lighter"]  raised surfaces get LIGHTER than the page
+     [data-elev="darker"]   raised surfaces get DARKER than the page
+   Both are defined for light AND dark mode.
+
+   Values reference the brand grayscale (tokens.css) by var(), never raw
+   hex — so if the grayscale itself is adjusted during discovery, this
+   file follows automatically.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── LIGHT MODE ─────────────────────────────────────────────────── */
+
+/* raised = lighter (page sits on a tinted ground, cards lift toward white) */
+[data-elev="lighter"] {
+  --s-sunken:   var(--color-grayscale-200);
+  --s-base:     var(--color-grayscale-150);
+  --s-raise-1:  var(--color-grayscale-50);
+  --s-raise-2:  var(--color-grayscale-00);
+
+  --s-line:          var(--color-grayscale-300);
+  --s-line-strong:   var(--color-grayscale-400);
+  --s-text-headline: var(--color-grayscale-850);
+  --s-text-body:     var(--color-grayscale-750);
+}
+
+/* raised = darker (today's OM behaviour: near-white page, cards recede) */
+[data-elev="darker"] {
+  --s-sunken:   var(--color-grayscale-00);
+  --s-base:     var(--color-grayscale-50);
+  --s-raise-1:  var(--color-grayscale-150);
+  --s-raise-2:  var(--color-grayscale-200);
+
+  --s-line:          var(--color-grayscale-300);
+  --s-line-strong:   var(--color-grayscale-400);
+  --s-text-headline: var(--color-grayscale-850);
+  --s-text-body:     var(--color-grayscale-750);
+}
+
+/* ── DARK MODE ──────────────────────────────────────────────────── */
+/* Deliberately tighter steps than the current system. The complaint that
+   started this round was that dark cards read far too light: today's
+   --surface-background-bright jumps grayscale-800 → 700 (#2e2b3b →
+   #464257), a 24-point lightness move. These stay within ~6 points. */
+
+[data-theme="dark"] [data-elev="lighter"] {
+  --s-sunken:   var(--color-grayscale-950);
+  --s-base:     var(--color-grayscale-900);
+  --s-raise-1:  var(--color-grayscale-850);
+  --s-raise-2:  var(--color-grayscale-800);
+
+  --s-line:          var(--color-grayscale-750);
+  --s-line-strong:   var(--color-grayscale-700);
+  --s-text-headline: var(--color-grayscale-50);
+  --s-text-body:     var(--color-grayscale-400);
+}
+
+[data-theme="dark"] [data-elev="darker"] {
+  --s-sunken:   var(--color-grayscale-750);
+  --s-base:     var(--color-grayscale-800);
+  --s-raise-1:  var(--color-grayscale-850);
+  --s-raise-2:  var(--color-grayscale-900);
+
+  --s-line:          var(--color-grayscale-750);
+  --s-line-strong:   var(--color-grayscale-700);
+  --s-text-headline: var(--color-grayscale-50);
+  --s-text-body:     var(--color-grayscale-400);
+}
+
+/* ── TEXT ───────────────────────────────────────────────────────────
+   Two colours only, matching the brand's own type system
+   (--text-headline / --text-body). `body` also drives any monocolour
+   element — icons, partner marks, rules that follow currentColor — so a
+   single token governs "ink" across the page. Assignable per palette
+   alongside the surfaces, since text contrast is a function of whatever
+   ground it lands on. */
+
+/* ── BUTTONS (neutral, from the live site) ──────────────────────── */
+/* openmined-org src/components/ui/Button.astro: the resting button is
+   --button-dark-color on --button-light-color — grayscale, not an accent.
+   Its hover/focus states DO use green/teal; those are held back until the
+   colour pass so nothing here introduces hue. */
+
+[data-elev] {
+  --s-btn-bg:       var(--color-grayscale-850);
+  --s-btn-fg:       var(--color-grayscale-50);
+  --s-btn-bg-hover: var(--color-grayscale-750);
+}
+
+[data-theme="dark"] [data-elev] {
+  --s-btn-bg:       var(--color-grayscale-50);
+  --s-btn-fg:       var(--color-grayscale-850);
+  --s-btn-bg-hover: var(--color-grayscale-200);
+}
+
+/* ── SHADOWS ────────────────────────────────────────────────────── */
+/* The brand ships three (--shadow-sm/md/lg), all tuned on #464257 for a
+   light ground. Whether they survive a dark ground is an open question
+   this round exists to answer, so the mock keeps them addressable. */
+
+[data-elev] {
+  --s-shadow-sm: var(--shadow-sm);
+  --s-shadow-md: var(--shadow-md);
+  --s-shadow-lg: var(--shadow-lg);
+}
+
+/* ── INVERSE ────────────────────────────────────────────────────────
+   A section that runs opposite the page, so a light page carries a dark
+   band and a dark page carries a light one. Mirrors the brand's
+   `data-section="invert"` idea (CLAUDE.md § Color mode system) but built
+   on the four levels, so an inverse band gets the SAME structure as the
+   rest of the page rather than a flat block of colour.
+
+   --s-inv-* for a given mode are simply the opposite mode's levels, so
+   they stay in lockstep with whatever the palettes are tuned to. The
+   editor emits these alongside the normal set. */
+
+[data-elev="lighter"] {
+  --s-inv-sunken:  var(--color-grayscale-950);
+  --s-inv-base:    var(--color-grayscale-900);
+  --s-inv-raise-1: var(--color-grayscale-850);
+  --s-inv-raise-2: var(--color-grayscale-800);
+  --s-inv-line:    var(--color-grayscale-750);
+}
+[data-elev="darker"] {
+  --s-inv-sunken:  var(--color-grayscale-750);
+  --s-inv-base:    var(--color-grayscale-800);
+  --s-inv-raise-1: var(--color-grayscale-850);
+  --s-inv-raise-2: var(--color-grayscale-900);
+  --s-inv-line:    var(--color-grayscale-750);
+}
+[data-theme="dark"] [data-elev="lighter"] {
+  --s-inv-sunken:  var(--color-grayscale-200);
+  --s-inv-base:    var(--color-grayscale-150);
+  --s-inv-raise-1: var(--color-grayscale-50);
+  --s-inv-raise-2: var(--color-grayscale-00);
+  --s-inv-line:    var(--color-grayscale-300);
+}
+[data-theme="dark"] [data-elev="darker"] {
+  --s-inv-sunken:  var(--color-grayscale-00);
+  --s-inv-base:    var(--color-grayscale-50);
+  --s-inv-raise-1: var(--color-grayscale-150);
+  --s-inv-raise-2: var(--color-grayscale-200);
+  --s-inv-line:    var(--color-grayscale-300);
+}
+
+/* Inverse buttons — the opposite mode's values. Inverse TEXT is emitted
+   with the inverse surfaces so it tracks the palette assignments. */
+[data-elev] {
+  --s-inv-text-headline: var(--color-grayscale-50);
+  --s-inv-text-body:     var(--color-grayscale-400);
+  --s-inv-btn-bg:        var(--color-grayscale-50);
+  --s-inv-btn-fg:        var(--color-grayscale-850);
+}
+[data-theme="dark"] [data-elev] {
+  --s-inv-text-headline: var(--color-grayscale-850);
+  --s-inv-text-body:     var(--color-grayscale-750);
+  --s-inv-btn-bg:        var(--color-grayscale-850);
+  --s-inv-btn-fg:        var(--color-grayscale-50);
+}
+
+/* Anything inside an inverse band reads the inverse levels under the
+   normal names, so components need no inverse-aware CSS of their own. */
+[data-inverse] {
+  --s-sunken:  var(--s-inv-sunken);
+  --s-base:    var(--s-inv-base);
+  --s-raise-1: var(--s-inv-raise-1);
+  --s-raise-2: var(--s-inv-raise-2);
+  --s-line:    var(--s-inv-line);
+  --s-text-headline: var(--s-inv-text-headline);
+  --s-text-body:     var(--s-inv-text-body);
+  --s-btn-bg:      var(--s-inv-btn-bg);
+  --s-btn-fg:      var(--s-inv-btn-fg);
+}

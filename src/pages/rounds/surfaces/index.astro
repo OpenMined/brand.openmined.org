@@ -1,0 +1,1238 @@
+---
+/**
+ * ROUND — SURFACE SYSTEM
+ * ════════════════════════════════════════════════════════════════════
+ * Testing ground for consolidating OMDS surfaces from eight tokens to
+ * four levels: one below default, the default, and two above.
+ *
+ * NOT canon, NOT a brand surface. Sits in stylelint's ignoreFiles with
+ * /diamond, /stream and /rounds. tokens.css is untouched — every value
+ * lives in _surfaces.css, the only file the live-tuning UI will drive.
+ *
+ * FULL-BLEED: the mock IS the page, so it is judged the way a real page
+ * is judged rather than as a picture of one. The only chrome is a thin
+ * sticky bar; the narrative lives in a drawer behind the Info button,
+ * which is also where the colour controls will go.
+ *
+ * TYPE / BUTTONS / LINKS are ported from the live site (openmined-org),
+ * not invented here:
+ *   type    → src/styles/global/typography.css + tokens.css (h1–h6 clamps,
+ *             Rubik display / Inter body)
+ *   button  → src/components/ui/Button.astro (.btn, .btn--outline)
+ *   links   → src/styles/global/components.css (.link-hover-line)
+ *   cards   → .card-float (lift + swell + shadow step)
+ * The brand repo has no fluid type tokens of its own — that gap is Track
+ * 1B. Until it lands, the mock carries the site's scale locally so the
+ * surfaces are judged under real type rather than the brand repo's
+ * static fallback.
+ *
+ * GRAYSCALE ONLY this pass. No hue anywhere.
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import Button from '@brand/Button.astro';
+import { readFileSync } from 'node:fs';
+import './_surfaces.css';
+import './_editor.css';
+
+const SOLUTIONS = [
+  {
+    title: 'Publishers',
+    body: 'License archives to AI labs without surrendering the underlying corpus.',
+    icon: 'M4 5h16M4 12h16M4 19h10',
+  },
+  {
+    title: 'Genomics',
+    body: 'Run cohort studies across institutions that cannot pool patient data.',
+    icon: 'M6 3v4a6 6 0 0 0 12 0V3M6 21v-4a6 6 0 0 1 12 0v4M7 8h10M7 16h10',
+  },
+  {
+    title: 'AI auditors',
+    body: 'Evaluate a model against held-out data neither party can see in full.',
+    icon: 'M12 3l8 4v5c0 4.4-3.4 8.2-8 9-4.6-.8-8-4.6-8-9V7l8-4Z',
+  },
+];
+
+const CAPABILITIES = [
+  'Data never leaves the owner’s infrastructure',
+  'Results are verifiable without re-running the job',
+  'Approval stays with the institution, not the network',
+];
+
+/**
+ * Real partner marks from public/logos/partners/, INLINED rather than rendered
+ * through the PartnerLogo atom — that atom uses <img>, which cannot inherit
+ * currentColor. Inlining is the documented route for a themeable 1-color mark
+ * (see PartnerLogo.astro's header), and it is the point of the exercise: these
+ * are foreign shapes, drawn to their owners' proportions, and the question is
+ * whether they sit correctly on our surfaces.
+ *
+ * NOT OpenMined assets. Each is its owner's trademark, used nominatively and
+ * unmodified in form — only inheriting a neutral colour, which the monochrome
+ * icon variants exist for. See public/logos/partners/README.md.
+ */
+const PARTNER_BRANDS = ['github', 'docker', 'aws', 'google', 'slack', 'notion', 'figma', 'pypi'];
+// process.cwd() is the project root during both dev and build. import.meta.url
+// is NOT usable here — under SSR it resolves to the compiled chunk, not this file.
+const partnerDir = `${process.cwd()}/public/logos/partners/`;
+// partners.json is the source of truth for the display name — several icon.svg
+// files carry no <title> (Google's sanctioned 1-colour knockout among them).
+const PARTNERS_META = JSON.parse(readFileSync(`${partnerDir}partners.json`, 'utf8'));
+const PRESS = PARTNER_BRANDS.map(brand => ({
+  brand,
+  name: PARTNERS_META[brand]?.name ?? PARTNERS_META.brands?.[brand]?.name ?? brand,
+  svg: readFileSync(`${partnerDir}${brand}/icon.svg`, 'utf8'),
+}));
+
+const SHADOWS = [
+  { name: 'none',        token: 'none' },
+  { name: '--shadow-sm', token: 'var(--s-shadow-sm)' },
+  { name: '--shadow-md', token: 'var(--s-shadow-md)' },
+  { name: '--shadow-lg', token: 'var(--s-shadow-lg)' },
+];
+
+const LEVELS = [
+  { k: '−1', n: 'sunken',  d: 'wells, toggle tracks, inset fields, segmented track' },
+  { k: '0',  n: 'base',    d: 'the page itself' },
+  { k: '+1', n: 'raise-1', d: 'cards, nav, footer, panels' },
+  { k: '+2', n: 'raise-2', d: 'nested cards, toggle knob, active segment' },
+];
+---
+
+<Base title="Round — surface system" description="Full-page testing ground for a consolidated four-level surface system.">
+
+  <!-- ── Thin sticky bar — the only chrome ─────────────────────────── -->
+  <div class="bar">
+    <div class="bar__inner">
+      <a class="bar__back" href="/">←</a>
+      <span class="bar__title">Surface system</span>
+
+      <div class="bar__seg" role="group" aria-label="Elevation direction">
+        <button type="button" class="bar__segbtn is-on" data-elev-set="lighter">Lighter</button>
+        <button type="button" class="bar__segbtn" data-elev-set="darker">Darker</button>
+      </div>
+
+      <!-- live swatches for the ACTIVE palette; click one to jump to its row -->
+      <div class="bar__pal" id="bar-pal" aria-label="Active surface palette"></div>
+
+      <ThemeToggle />
+
+      <button type="button" class="bar__info" id="info-toggle" aria-expanded="false" aria-controls="drawer">
+        Info
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Editor rail ───────────────────────────────────────────────
+       Fixed to the right and the page reflows beside it rather than
+       being covered, so you can nudge a value and watch the section you
+       were already looking at respond. Overview first, one editor at a
+       time — never a wall of identical sliders. -->
+  <aside class="rail" id="drawer" hidden aria-label="Surface editor">
+    <div class="rail__scroll">
+
+      <section class="grp">
+        <h3 class="grp__h">Surface palette <span class="grp__tag" id="ed-pal-name"></span></h3>
+        <div class="tiles" id="ed-slots"></div>
+        <div id="ed-assign"></div>
+      </section>
+
+      <section class="grp">
+        <h3 class="grp__h">Grayscale <span class="grp__tag">click a step to edit</span></h3>
+        <div class="ramp" id="ed-steps"></div>
+        <div id="ed-stepedit"></div>
+        <details class="dis" id="ed-cast-wrap">
+          <summary>Global cast</summary>
+          <div id="ed-cast"></div>
+        </details>
+      </section>
+
+      <section class="grp">
+        <h3 class="grp__h">Outlines</h3>
+        <div id="ed-borders"></div>
+      </section>
+
+      <section class="grp">
+        <details class="dis">
+          <summary>Shadows <span class="grp__tag" id="ed-shadow-mode"></span></summary>
+          <div id="ed-shadows"></div>
+        </details>
+      </section>
+
+      <section class="grp grp--last">
+        <!-- The brand Button takes no arbitrary props (no ...rest spread), so
+             the hook sits on a wrapper rather than patching a canonical
+             component. Click delegation uses closest(), so it still resolves. -->
+        <div class="ed__actions">
+          <span data-copy="link"><Button>Link</Button></span>
+          <span data-copy="css"><Button>CSS</Button></span>
+          <span data-copy="json"><Button variant="outline">JSON</Button></span>
+          <span data-reset="all"><Button variant="outline">Reset</Button></span>
+        </div>
+        <p class="ed__note" id="ed-status">URL updates as you edit — paste it to share this exact state.</p>
+        <details class="dis"><summary>Export preview</summary>
+          <textarea class="ed__out" id="ed-out" readonly rows="10" aria-label="Export preview"></textarea>
+        </details>
+      </section>
+
+    </div>
+  </aside>
+
+  <!-- ══ THE PAGE (full bleed) ═════════════════════════════════════ -->
+  <div class="mock" data-elev="lighter" id="mock">
+
+    <header class="nav">
+      <div class="nav__inner">
+        <span class="nav__logo"><span class="nav__dot"></span> OpenMined</span>
+        <nav class="nav__links">
+          <a href="#mock" aria-current="page">Home</a>
+          <a href="#mock">Foundation</a>
+          <a href="#mock">Solutions</a>
+          <a href="#mock">Blog</a>
+          <a href="#mock">Careers</a>
+        </nav>
+        <a href="#mock" class="btn btn--outline btn--sm">Donate</a>
+        <a href="#mock" class="btn btn--sm">Get involved</a>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <!-- hero — content on the base surface -->
+      <section class="wrap hero">
+        <p class="eyebrow">The federated AI network</p>
+        <h1 class="hero__h">The missing layer for collective intelligence</h1>
+        <p class="hero__sub">
+          Unlock insights from data that can never be centralised. Researchers get
+          answers; institutions keep custody of everything they hold.
+        </p>
+        <div class="hero__actions">
+          <a href="#mock" class="btn">Get started</a>
+          <a href="#mock" class="btn btn--outline">Talk to us</a>
+          <a href="#mock" class="link">Read the protocol →</a>
+        </div>
+      </section>
+
+      <!-- feature (+1) with nested panel (+2) containing a well (−1) -->
+      <section class="wrap">
+        <div class="feature">
+          <div class="feature__body">
+            <h2 class="feature__h">Compute travels to the data</h2>
+            <p>
+              A job is submitted, reviewed by the data owner, executed inside their
+              enclave, and only the approved result is released. Nothing is copied,
+              and nothing leaves without a decision behind it.
+            </p>
+            <a href="#mock" class="link">How approval works →</a>
+          </div>
+
+          <aside class="nested">
+            <span class="nested__cap">Capabilities</span>
+            <ul class="nested__list">
+              {CAPABILITIES.map(c => (
+                <li>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                  {c}
+                </li>
+              ))}
+            </ul>
+            <div class="well">
+              <code>syftbox job submit ./study.py</code>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- solution cards — +1 on base -->
+      <section class="wrap">
+        <h2 class="band__h">Who it’s for</h2>
+        <div class="cards">
+          {SOLUTIONS.map(s => (
+            <a href="#mock" class="card card-float">
+              <span class="card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={s.icon} />
+                </svg>
+              </span>
+              <h3 class="card__h">{s.title}</h3>
+              <p class="card__b">{s.body}</p>
+              <span class="card__more">Learn more →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- controls — heading/copy on the BASE surface (no card), controls in a
+           +1 panel beside it. Puts base, +1 and −1 in one horizontal read. -->
+      <section class="wrap prefs">
+        <!-- Body copy on the BASE surface, so running text is judged against the
+             page itself rather than against a card. -->
+        <div class="prefs__intro">
+          <h2 class="prefs__h">Lorem ipsum dolor sit amet</h2>
+          <p class="prefs__b">
+            Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p class="prefs__b">
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+          <a href="#mock" class="link">Lorem ipsum dolor →</a>
+        </div>
+
+        <!-- A real settings card: one rhythm — label + help on the left, control
+             on the right — separated by rules, with a recessed action footer.
+             Every level appears: +1 card, −1 footer/fields/tracks, +2 knob and
+             active segment. -->
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h3 class="panel__h">Network preferences</h3>
+              <p class="panel__b">Controls sit <em>below</em> the surface they live on.</p>
+            </div>
+            <span class="pill"><i class="pill__dot"></i>Connected</span>
+          </div>
+
+          <div class="setting">
+            <div class="setting__text">
+              <span class="setting__label">Auto-approve</span>
+              <span class="setting__help">Run jobs from trusted researchers without manual review.</span>
+            </div>
+            <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve">
+              <span class="switch__knob"></span>
+            </button>
+          </div>
+
+          <div class="setting">
+            <div class="setting__text">
+              <span class="setting__label">Public listing</span>
+              <span class="setting__help">Show this node in the public dataset directory.</span>
+            </div>
+            <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing">
+              <span class="switch__knob"></span>
+            </button>
+          </div>
+
+          <div class="setting">
+            <div class="setting__text">
+              <span class="setting__label">Default view</span>
+              <span class="setting__help">How the catalogue is arranged when it opens.</span>
+            </div>
+            <div class="seg" role="group" aria-label="Default view">
+              <button type="button" class="seg__btn is-on">Grid</button>
+              <button type="button" class="seg__btn">List</button>
+              <button type="button" class="seg__btn">Map</button>
+            </div>
+          </div>
+
+          <div class="setting setting--stack">
+            <div class="setting__text">
+              <span class="setting__label">Node name</span>
+              <span class="setting__help">Shown to researchers browsing the network.</span>
+            </div>
+            <span class="field__input">research-cluster-01</span>
+          </div>
+
+          <div class="panel__foot">
+            <span class="panel__meta">Last saved 4 minutes ago</span>
+            <div class="panel__actions">
+              <a href="#mock" class="btn btn--outline btn--sm">Reset</a>
+              <a href="#mock" class="btn btn--sm">Save changes</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap">
+        <h2 class="band__h">Integrations</h2>
+        <div class="press">
+          {PRESS.map(p => (
+            <a href="#mock" class="press__item card-float" aria-label={p.name}>
+              <span class="press__mark" set:html={p.svg} />
+              <span class="press__name">{p.name}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Inverse CARD floating on the normal base. The card is the mode
+           change, not the section — so the inverse levels are judged against
+           the ordinary page around them, which is how an inverse block
+           actually appears on the site. Layered inside: +1 card, +2 badge,
+           −1 field, plus body text and a rule directly on the card. -->
+      <section class="wrap">
+        <div class="cta" data-inverse>
+          <div class="cta__top">
+            <div class="cta__text">
+              <span class="cta__badge">Newsletter</span>
+              <h2 class="cta__h">Keep your data. Get the insight.</h2>
+              <p class="cta__b">Monthly, no noise. Unsubscribe whenever.</p>
+            </div>
+            <div class="cta__form">
+              <label class="field">
+                <span class="field__label">Work email</span>
+                <span class="field__input field__input--mute cta__field">you@institution.edu</span>
+              </label>
+              <a href="#mock" class="btn">Subscribe</a>
+            </div>
+          </div>
+
+          <ul class="inv__meta">
+            <li><b>2,400+</b> researchers</li>
+            <li><b>38</b> institutions</li>
+            <li><b>Monthly</b> cadence</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- shadow assessment, inside the page so it sits on the real surface -->
+      <section class="wrap">
+        <h2 class="band__h">Shadow tokens</h2>
+        <p class="band__note">
+          The same card at each shadow token — on the base surface, and again on +1.
+          Flip direction and theme above: a shadow tuned for a light ground can read
+          as grime on a dark one, and when raised surfaces are <em>darker</em> than the
+          page a drop shadow argues with the value step instead of reinforcing it.
+        </p>
+        <div class="shadows">
+          {SHADOWS.map(s => (
+            <div class="shadows__card" style={`box-shadow: ${s.token}`}>
+              <span class="shadows__name">{s.name}</span>
+              <span class="shadows__sub">+1 on base</span>
+            </div>
+          ))}
+        </div>
+        <div class="shadows shadows--onraise">
+          {SHADOWS.map(s => (
+            <div class="shadows__card shadows__card--2" style={`box-shadow: ${s.token}`}>
+              <span class="shadows__name">{s.name}</span>
+              <span class="shadows__sub">+2 on +1</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">
+        <div class="foot__cols">
+          {['Learn more', 'Solutions', 'Programs', 'Support'].map(h => (
+            <div>
+              <span class="foot__h">{h}</span>
+              <a href="#mock" class="link-quiet">Documentation</a>
+              <a href="#mock" class="link-quiet">Community</a>
+              <a href="#mock" class="link-quiet">Contact</a>
+            </div>
+          ))}
+        </div>
+        <div class="foot__base">
+          <span>OpenMined is a 501(c)(3) non-profit.</span>
+          <a href="#mock" class="link-quiet">Privacy policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    import {
+      STEPS, SLOTS, PALETTES, SLOT_LABEL, PALETTE_LABEL, DEFAULT_ASSIGN,
+      BORDER_MODES, BORDER_LABEL, BORDER_HELP, SHADOW_SIZES, DEFAULT_SHADOW,
+      newState, readBrandGrayscale, resolveGrayscale, paletteKey, assignedStep,
+      emitCss, exportCss, exportJson, encodeUrl, decodeUrl, hexToOklch, oklchToHex,
+      type Step, type Slot,
+    } from './_editor.ts';
+
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const mock = document.querySelector<HTMLElement>('.mock')!;
+    const brand = readBrandGrayscale();
+
+    const st = decodeUrl(newState(), location.search);
+    // Base.astro's inline script has already resolved the theme from
+    // localStorage / system preference. Adopt it unless the URL names one —
+    // otherwise the editor would stomp a shared dark-mode link back to light
+    // and fight the brand ThemeToggle on every apply().
+    if (!new URLSearchParams(location.search).has('t')) {
+      const initial = document.documentElement.getAttribute('data-theme');
+      if (initial === 'dark' || initial === 'light') st.theme = initial;
+    }
+    let gray = resolveGrayscale(brand, st);
+
+    // Live stylesheet the editor owns. _surfaces.css stays the no-JS default.
+    const live = document.createElement('style');
+    live.id = 'live-surfaces';
+    document.head.appendChild(live);
+
+    /* ── render ─────────────────────────────────────────────────────── */
+
+    /**
+     * Drag-safe update. renderAll() replaces innerHTML, which destroys the very
+     * <input type="range"> being dragged — the browser loses the pointer
+     * capture and the drag dies after one frame. That is why sliders responded
+     * to a click (one discrete event) but not to a drag.
+     * So during input we touch only the live stylesheet, the existing swatch
+     * nodes, and the slider's own numeric readout. The full re-render runs on
+     * `change`, i.e. once the drag ends.
+     */
+    function applyLive(src?: HTMLInputElement) {
+      gray = resolveGrayscale(brand, st);
+      live.textContent = emitCss(gray, st);
+      document.querySelectorAll<HTMLElement>('[data-swatch]').forEach(el => {
+        el.style.background = gray[el.dataset.swatch as Step];
+      });
+      if (src) {
+        const out = src.parentElement?.querySelector('b');
+        if (out) {
+          const v = Number(src.value);
+          out.textContent = src.dataset.ch === 'C' ? v.toFixed(3)
+            : src.dataset.ch === 'H' ? `${Math.round(v)}°`
+            : src.dataset.cast === 'hue' ? `${Math.round(v)}°`
+            : src.dataset.cast === 'amount' ? `×${v.toFixed(2)}`
+            : src.dataset.k === 'alpha' ? v.toFixed(2)
+            : String(v);
+        }
+      }
+      history.replaceState(null, '', encodeUrl(brand, gray, st));
+    }
+
+    function apply() {
+      gray = resolveGrayscale(brand, st);
+      live.textContent = emitCss(gray, st);
+      document.documentElement.setAttribute('data-theme', st.theme);
+      // On <body>, NOT <html>. `[data-theme="dark"] [data-elev]` is a DESCENDANT
+      // selector — with both attributes on the same element it can never match,
+      // so dark-mode values silently failed to reach anything resolving from the
+      // document root (the rail, and the inverse ink tokens). body is a
+      // descendant of html, so the pairing resolves.
+      document.body.dataset.elev = st.elev;
+      document.querySelectorAll<HTMLElement>('[data-elev]').forEach(el => { el.dataset.elev = st.elev; });
+      mock.dataset.borders = st.borders;
+      document.querySelectorAll<HTMLElement>('[data-elev-set]').forEach(b => {
+        b.classList.toggle('is-on', b.dataset.elevSet === st.elev);
+      });
+      history.replaceState(null, '', encodeUrl(brand, gray, st));
+      renderAll();
+    }
+
+    const swatch = (hex: string, extra = '') =>
+      `<i class="sw ${extra}" style="background:${hex}"></i>`;
+
+    // Selection state — UI only, never encoded in the URL.
+    let selSlot: Slot | null = null;
+    let selStep: Step | null = null;
+    let selShadow: 'sm' | 'md' | 'lg' = 'md';
+
+    function renderBarPal() {
+      const pal = paletteKey(st);
+      $('bar-pal').innerHTML = SLOTS.map(slot => {
+        const step = assignedStep(st, pal, slot);
+        return `<button type="button" class="bar__sw" data-goto="${slot}"
+                  title="${SLOT_LABEL[slot]} → grayscale-${step} (${gray[step]})">
+                  <i class="sw" data-swatch="${step}" style="background:${gray[step]}"></i></button>`;
+      }).join('');
+    }
+
+    /* Overview grid: one tile per slot. Click a tile to assign a step. */
+    function renderSlots() {
+      const pal = paletteKey(st);
+      $('ed-pal-name').textContent = PALETTE_LABEL[pal];
+      $('ed-slots').innerHTML = SLOTS.map(slot => {
+        const step = assignedStep(st, pal, slot);
+        const dirty = step !== DEFAULT_ASSIGN[pal][slot];
+        return `<button type="button" class="sw-card sw-card--tile ${selSlot === slot ? 'is-sel' : ''}"
+          data-slot-pick="${slot}" title="${SLOT_LABEL[slot]} → grayscale-${step} (${gray[step]})">
+          <span class="sw-card__color" data-swatch="${step}" style="background:${gray[step]}"></span>
+          <span class="sw-card__info">
+            <span class="sw-card__label">${SLOT_LABEL[slot]}</span>
+            <span class="sw-card__hex">${step}${dirty ? ' •' : ''}</span>
+          </span>
+        </button>`;
+      }).join('');
+
+      if (!selSlot) { $('ed-assign').innerHTML = ''; return; }
+      const cur = assignedStep(st, pal, selSlot);
+      const dirty = cur !== DEFAULT_ASSIGN[pal][selSlot];
+      $('ed-assign').innerHTML = `
+        <div class="pick">
+          <div class="pick__head">
+            <b>${SLOT_LABEL[selSlot]}</b>
+            <code>grayscale-${cur}</code>
+            <button type="button" class="row__rev ${dirty ? 'is-dirty' : ''}" data-revert-slot="${selSlot}" ${dirty ? '' : 'disabled'} title="Revert to brand default">↺</button>
+            <button type="button" class="pick__x" data-slot-pick="">✕</button>
+          </div>
+          <div class="ramp ramp--pick">
+            ${STEPS.map(s2 => `<button type="button" class="sw-card ${s2 === cur ? 'is-sel' : ''}"
+              data-assign="${s2}" title="grayscale-${s2} ${gray[s2]}">
+              <span class="sw-card__color" data-swatch="${s2}" style="background:${gray[s2]}"></span>
+              <span class="sw-card__info"><span class="sw-card__label">${s2}</span></span>
+            </button>`).join('')}
+          </div>
+        </div>`;
+    }
+
+    /* The ramp stays small. Only the selected step opens an editor. */
+    function renderSteps() {
+      const pal = paletteKey(st);
+      const inUse = new Set(SLOTS.map(sl => assignedStep(st, pal, sl)));
+      $('ed-steps').innerHTML = STEPS.map(step => {
+        const changed = gray[step].toLowerCase() !== brand[step].toLowerCase();
+        return `<button type="button" class="sw-card ${selStep === step ? 'is-sel' : ''} ${inUse.has(step) ? 'is-used' : ''} ${changed ? 'is-changed' : ''}"
+          data-step-pick="${step}" title="grayscale-${step} ${gray[step]}${inUse.has(step) ? ' · in use' : ''}">
+          <span class="sw-card__color" data-swatch="${step}" style="background:${gray[step]}"></span>
+          <span class="sw-card__info"><span class="sw-card__label">${step}${changed ? ' •' : ''}</span></span>
+        </button>`;
+      }).join('');
+
+      if (!selStep) { $('ed-stepedit').innerHTML = ''; return; }
+      const step = selStep;
+      const c = st.gray[step] ?? hexToOklch(gray[step]);
+      const changed = gray[step].toLowerCase() !== brand[step].toLowerCase();
+      $('ed-stepedit').innerHTML = `
+        <div class="pick">
+          <div class="pick__head">
+            ${swatch(gray[step])}
+            <b>grayscale-${step}</b>
+            <code>${gray[step]}</code>
+            <button type="button" class="row__rev ${changed ? 'is-dirty' : ''}" data-revert-step="${step}" ${changed ? '' : 'disabled'} title="Revert to brand ${brand[step]}">↺</button>
+            <button type="button" class="pick__x" data-step-pick="">✕</button>
+          </div>
+          <label class="sl"><span>L</span><input type="range" min="0" max="100" step="0.5" value="${c.L.toFixed(1)}" data-step="${step}" data-ch="L"><b>${c.L.toFixed(1)}</b></label>
+          <label class="sl"><span>C</span><input type="range" min="0" max="0.08" step="0.001" value="${c.C.toFixed(3)}" data-step="${step}" data-ch="C"><b>${c.C.toFixed(3)}</b></label>
+          <label class="sl"><span>H</span><input type="range" min="0" max="360" step="1" value="${Math.round(c.H)}" data-step="${step}" data-ch="H"><b>${Math.round(c.H)}°</b></label>
+          <p class="ed__note">Brand ${brand[step]}. Used by ${[...inUse].includes(step) ? 'the active palette' : 'no slot in this palette'}.</p>
+        </div>`;
+    }
+
+    function renderCast() {
+      const h = st.cast.hue ?? 0, a = st.cast.amount ?? 1;
+      const on = st.cast.hue !== null || st.cast.amount !== null;
+      $('ed-cast-wrap').classList.toggle('is-on', on);
+      $('ed-cast').innerHTML = `
+        <label class="sl"><span>hue</span>
+          <input type="range" min="0" max="360" step="1" value="${Math.round(h)}" data-cast="hue">
+          <b>${st.cast.hue === null ? '—' : Math.round(h) + '°'}</b></label>
+        <label class="sl"><span>chroma</span>
+          <input type="range" min="0" max="3" step="0.05" value="${a}" data-cast="amount">
+          <b>${st.cast.amount === null ? '—' : '×' + a.toFixed(2)}</b></label>
+        <div class="ed__actions">
+          <button type="button" class="ed__btn" data-reset="cast" ${on ? '' : 'disabled'}>Clear cast</button>
+        </div>
+        <p class="ed__note">Moves every step you haven't edited individually. Chroma 0 neutralises the ramp while keeping lightness — the fastest way to test whether the purple cast earns its place.</p>`;
+    }
+
+    function renderBorders() {
+      $('ed-borders').innerHTML = `
+        <div class="segctl">
+          ${BORDER_MODES.map(m => `<button type="button" class="segctl__b ${st.borders === m ? 'is-on' : ''}" data-border="${m}">${BORDER_LABEL[m]}</button>`).join('')}
+        </div>
+        <p class="ed__note">${BORDER_HELP[st.borders]}</p>`;
+    }
+
+    /* Same drill-down as colours: pick one size, edit only that one. */
+    function renderShadows() {
+      const mode = st.theme;
+      $('ed-shadow-mode').textContent = mode;
+      const set = st.shadow[mode], d = DEFAULT_SHADOW[mode];
+      const v = set[selShadow], dv = d[selShadow];
+      const dirty = v.y !== dv.y || v.blur !== dv.blur || v.spread !== dv.spread || v.alpha !== dv.alpha;
+      $('ed-shadows').innerHTML = `
+        <div class="segctl">
+          ${SHADOW_SIZES.map(sz => `<button type="button" class="segctl__b ${selShadow === sz ? 'is-on' : ''}" data-shadow-pick="${sz}">${sz}</button>`).join('')}
+        </div>
+        <div class="shdprev"><i style="box-shadow: var(--s-shadow-${selShadow})"></i></div>
+        <label class="sl"><span>y</span><input type="range" min="0" max="48" step="1" value="${v.y}" data-shd="${selShadow}" data-k="y"><b>${v.y}</b></label>
+        <label class="sl"><span>blur</span><input type="range" min="0" max="96" step="1" value="${v.blur}" data-shd="${selShadow}" data-k="blur"><b>${v.blur}</b></label>
+        <label class="sl"><span>spread</span><input type="range" min="-24" max="24" step="1" value="${v.spread}" data-shd="${selShadow}" data-k="spread"><b>${v.spread}</b></label>
+        <label class="sl"><span>alpha</span><input type="range" min="0" max="1" step="0.01" value="${v.alpha}" data-shd="${selShadow}" data-k="alpha"><b>${v.alpha.toFixed(2)}</b></label>
+        <div class="row">
+          <span class="row__label">colour</span>
+          ${swatch(gray[set.step])}
+          <select class="row__sel" data-shadow-step>${STEPS.map(s2 => `<option value="${s2}" ${s2 === set.step ? 'selected' : ''}>${s2}</option>`).join('')}</select>
+          <button type="button" class="row__rev ${dirty || set.step !== d.step ? 'is-dirty' : ''}" data-revert-shadow="${selShadow}">↺</button>
+        </div>`;
+    }
+
+    function renderAll() {
+      renderBarPal(); renderSlots(); renderCast(); renderSteps(); renderBorders(); renderShadows();
+    }
+
+    /* ── events ─────────────────────────────────────────────────────── */
+
+    const readSlider = (t: HTMLInputElement) => {
+      if (t.dataset.cast) {
+        (st.cast as any)[t.dataset.cast] = Number(t.value);
+      } else if (t.dataset.step && t.dataset.ch) {
+        const step = t.dataset.step as Step;
+        const base = st.gray[step] ?? hexToOklch(gray[step]);
+        st.gray[step] = { ...base, [t.dataset.ch]: Number(t.value) } as any;
+      } else if (t.dataset.shd) {
+        const size = t.dataset.shd as 'sm' | 'md' | 'lg';
+        (st.shadow[st.theme][size] as any)[t.dataset.k!] = Number(t.value);
+      } else {
+        return false;
+      }
+      return true;
+    };
+
+    // Continuous: no re-render, so the drag survives.
+    document.addEventListener('input', e => {
+      const t = e.target as HTMLInputElement;
+      if (t.tagName === 'INPUT' && readSlider(t)) applyLive(t);
+    });
+
+    // Settled: full re-render so revert buttons, dots and labels catch up.
+    document.addEventListener('change', e => {
+      const t = e.target as HTMLInputElement;
+      if (t.tagName === 'INPUT' && t.type === 'range' && readSlider(t)) apply();
+    });
+
+    document.addEventListener('change', e => {
+      const t = e.target as HTMLSelectElement;
+      if (t.dataset.slot) {
+        const pal = paletteKey(st);
+        (st.assign[pal] ||= {})[t.dataset.slot as Slot] = t.value as Step;
+        apply();
+      } else if (t.hasAttribute('data-shadow-step')) {
+        st.shadow[st.theme].step = t.value as Step;
+        apply();
+      }
+    });
+
+    document.addEventListener('click', async e => {
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-border],[data-revert-slot],[data-revert-step],[data-revert-shadow],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-shadow-pick]');
+      if (!t) return;
+
+      if (t.hasAttribute('data-slot-pick')) {
+        const v = t.dataset.slotPick!;
+        selSlot = v && v !== selSlot ? (v as Slot) : null;
+        renderAll(); return;
+      }
+      if (t.hasAttribute('data-step-pick')) {
+        const v = t.dataset.stepPick!;
+        selStep = v && v !== selStep ? (v as Step) : null;
+        renderAll(); return;
+      }
+      if (t.dataset.assign && selSlot) {
+        const pal = paletteKey(st);
+        (st.assign[pal] ||= {})[selSlot] = t.dataset.assign as Step;
+        apply(); return;
+      }
+      if (t.dataset.shadowPick) { selShadow = t.dataset.shadowPick as 'sm' | 'md' | 'lg'; renderAll(); return; }
+
+      if (t.dataset.elevSet) { st.elev = t.dataset.elevSet as 'lighter' | 'darker'; apply(); return; }
+      if (t.dataset.border)  { st.borders = t.dataset.border as any; apply(); return; }
+      if (t.dataset.revertSlot) {
+        const pal = paletteKey(st);
+        delete st.assign[pal]?.[t.dataset.revertSlot as Slot];
+        apply(); return;
+      }
+      if (t.dataset.revertStep) { delete st.gray[t.dataset.revertStep as Step]; apply(); return; }
+      if (t.dataset.revertShadow) {
+        const k = t.dataset.revertShadow as 'sm' | 'md' | 'lg';
+        st.shadow[st.theme][k] = { ...DEFAULT_SHADOW[st.theme][k] };
+        st.shadow[st.theme].step = DEFAULT_SHADOW[st.theme].step;
+        apply(); return;
+      }
+      if (t.dataset.reset === 'cast') { st.cast = { hue: null, amount: null }; apply(); return; }
+      if (t.dataset.reset === 'all') {
+        st.gray = {}; st.assign = {}; st.cast = { hue: null, amount: null };
+        st.borders = 'selective'; st.shadow = structuredClone(DEFAULT_SHADOW);
+        apply(); return;
+      }
+      if (t.dataset.goto) {
+        if ($('drawer').hidden) $('info-toggle').click();
+        $(`slot-${t.dataset.goto}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+      if (t.dataset.copy) {
+        const text = t.dataset.copy === 'css' ? exportCss(brand, gray, st)
+                   : t.dataset.copy === 'json' ? exportJson(brand, gray, st)
+                   : location.href;
+        $<HTMLTextAreaElement>('ed-out').value = text;
+        try { await navigator.clipboard.writeText(text); $('ed-status').textContent = `Copied ${t.dataset.copy}.`; }
+        catch { $('ed-status').textContent = 'Clipboard blocked — copy from the box above.'; }
+      }
+    });
+
+    // Theme toggle is the brand component, so watch the attribute rather than
+    // reaching into it — shadows and the palette strip are per-mode.
+    new MutationObserver(() => {
+      const t = document.documentElement.getAttribute('data-theme');
+      if ((t === 'dark' || t === 'light') && t !== st.theme) { st.theme = t; apply(); }
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    /* ── page chrome ────────────────────────────────────────────────── */
+
+    const infoBtn = $('info-toggle'), rail = $('drawer');
+    infoBtn.addEventListener('click', () => {
+      const open = infoBtn.getAttribute('aria-expanded') === 'true';
+      infoBtn.setAttribute('aria-expanded', String(!open));
+      rail.hidden = open;
+      infoBtn.classList.toggle('is-open', !open);
+      // Reflow the page beside the rail rather than letting it cover the
+      // thing you are trying to judge.
+      document.documentElement.classList.toggle('has-rail', !open);
+    });
+
+    document.querySelectorAll<HTMLElement>('.switch__track').forEach(tr => {
+      tr.addEventListener('click', () => {
+        const on = tr.classList.toggle('is-on');
+        tr.setAttribute('aria-checked', String(on));
+      });
+    });
+    document.querySelectorAll<HTMLElement>('.seg').forEach(seg => {
+      seg.querySelectorAll<HTMLElement>('.seg__btn').forEach(b => {
+        b.addEventListener('click', () => {
+          seg.querySelectorAll('.seg__btn').forEach(x => x.classList.remove('is-on'));
+          b.classList.add('is-on');
+        });
+      });
+    });
+
+    apply();
+  </script>
+</Base>
+
+<style is:global>
+  /* The mock is the page, so the document surface must be the mock surface —
+     otherwise a seam shows above the nav and below the footer. */
+  body { background-color: var(--s-base, var(--surface-background-default)); }
+  /* global.css line 409 paints EVERY <section> with --surface-background-default,
+     which leaks the real page's surface into the mock and clashes with --s-base.
+     Worth flagging beyond this page: a <section> nested inside any differently
+     surfaced container clashes by default, on the live site too. */
+  .mock section, .mock main { background-color: transparent; }
+</style>
+
+<style>
+  /* ══ THE MOCK ═══════════════════════════════════════════════════════
+     Reads ONLY from --s-* levels + the site's real type/component rules.
+     No grayscale step is referenced directly. ═══════════════════════ */
+
+  .mock {
+    background: var(--s-base);
+    color: var(--s-text-body);
+    /* Type ported from openmined-org (the brand repo has no fluid type yet —
+       Track 1B). Rubik display h1–h4, Inter body, site clamps. */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-secondary: 'Rubik', 'Inter', sans-serif;
+    --h1-min: 36px; --h1-max: 61px;
+    --h2-min: 28px; --h2-max: 47px;
+    --h3-min: 24px; --h3-max: 36px;
+    --h4-min: 22px; --h4-max: 27px;
+    font-family: var(--font-primary);
+    /* site link seam */
+    --link-hover-line-gap: 2px;
+    --link-hover-line-pad: 2px;
+  }
+
+  /* global.css line 29 — `p, li, td, th, label { color: var(--text-body) }` —
+     is a DIRECT rule, so it beats inherited colour and these elements take the
+     brand's ink token rather than the mock's. Inside an inverse block that is
+     the wrong ink entirely. Re-point them at our token, using :where() so the
+     rule stays at (0,1,0) and every component's own colour still wins on order.
+     (Fifth bug this round from global.css binding style to a bare element.) */
+  .mock :where(p, li, td, th, label) { color: var(--s-text-body); }
+
+  .mock h1, .mock h2, .mock h3, .mock h4 { color: var(--s-text-headline); letter-spacing: 0; font-weight: 400; line-height: 1.2; margin: 0; }
+  .mock h1 { font-family: var(--font-secondary); font-size: clamp(var(--h1-min), 4.69vw, var(--h1-max)); }
+  .mock h2 { font-family: var(--font-secondary); font-size: clamp(var(--h2-min), 3.62vw, var(--h2-max)); }
+  .mock h3 { font-family: var(--font-secondary); font-size: clamp(var(--h3-min), 2.77vw, var(--h3-max)); }
+  .mock h4 { font-family: var(--font-secondary); font-size: clamp(var(--h4-min), 2.08vw, var(--h4-max)); }
+
+  /* width:100% is load-bearing. .page is a grid, and in grid layout an auto
+     margin OVERRIDES stretch — the item collapses to fit-content and the
+     margins eat the free space. Without it every section sized itself to its
+     own content, so the hero, the prefs split, the integrations row and the
+     newsletter card all ended up different widths while appearing centred. */
+  .wrap { width: 100%; max-width: 1300px; margin-inline: auto; padding-inline: var(--spacing-3XL); }
+
+  /* nav — +1 */
+  .nav { background: var(--s-raise-1); border-bottom: 1px solid var(--s-line); }
+  .nav__inner {
+    width: 100%; max-width: 1300px; margin-inline: auto;
+    padding: var(--spacing-M) var(--spacing-3XL);
+    display: flex; align-items: center; gap: var(--spacing-L);
+  }
+  .nav__logo { display: flex; align-items: center; gap: var(--spacing-S); font-weight: 600; color: var(--s-text-headline); font-size: 1rem; }
+  .nav__dot { width: 18px; height: 18px; border-radius: 5px; background: var(--s-text-headline); }
+  .nav__links { display: flex; gap: var(--spacing-XL); margin-right: auto; margin-left: var(--spacing-XL); }
+
+  /* ── Links: the site's .link-hover-line ─────────────────────────── */
+  .nav__links a, .link, .card__more, .link-quiet {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: left 0 bottom calc(var(--link-hover-line-pad) - var(--link-hover-line-gap));
+    padding-bottom: var(--link-hover-line-pad);
+    text-decoration: none;
+    color: var(--s-text-body);
+    transition: background-size var(--transition-base), color var(--transition-base);
+  }
+  .nav__links a:hover, .link:hover, .link-quiet:hover,
+  .card:hover .card__more { background-size: 100% 1px; }
+  .nav__links a[aria-current="page"] { background-size: 100% 1px; color: var(--s-text-headline); }
+  .nav__links a { font-size: 0.9375rem; }
+  .link { font-size: 0.9375rem; color: var(--s-text-headline); }
+  .link-quiet { font-size: 0.875rem; color: var(--s-text-body); }
+  .link-quiet:hover { color: var(--s-text-headline); }
+
+  /* ── Buttons: the site's .btn / .btn--outline (neutral only) ────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background-color: var(--s-btn-bg);
+    color: var(--s-btn-fg);
+    padding: 11px 19px;
+    min-height: 48px;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-S);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  }
+  .btn:hover { background-color: var(--s-btn-bg-hover); }
+  .btn--outline { background-color: transparent; color: var(--s-text-headline); border-color: var(--s-text-headline); }
+  .btn--outline:hover { background-color: transparent; border-color: var(--s-line-strong); color: var(--s-text-body); }
+  .btn--sm { min-height: 38px; padding: 8px 14px; font-size: 0.875rem; }
+
+  .page { padding-block: var(--spacing-full) var(--spacing-full); display: grid; gap: var(--spacing-full); }
+
+  /* hero */
+  .hero { max-width: 1300px; }
+  .hero__h { max-width: 18ch; margin-bottom: var(--spacing-L); }
+  .eyebrow { font-size: 1rem; color: var(--s-text-body); margin: 0 0 var(--spacing-M); }
+  .hero__sub { font-size: 21px; line-height: 1.4; color: var(--s-text-body); max-width: 44ch; margin: 0 0 var(--spacing-3XL); }
+  .hero__actions { display: flex; gap: var(--spacing-L); flex-wrap: wrap; align-items: center; }
+
+  .band__h { font-size: 0.8125rem !important; font-family: var(--font-primary) !important; letter-spacing: 0.08em; text-transform: uppercase; color: var(--s-text-body) !important; margin-bottom: var(--spacing-XL) !important; font-weight: 500 !important; }
+  .band__note { font-size: 0.9375rem; line-height: 1.6; color: var(--s-text-body); max-width: 62ch; margin: 0 0 var(--spacing-XL); }
+
+  /* ── Card float: the site's hover language ──────────────────────── */
+  .card-float {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .card-float:hover, .card-float:focus-visible {
+    transform: translateY(-2px) scale(1.005);
+    box-shadow: var(--s-shadow-md);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-float { transition: none; }
+    .card-float:hover, .card-float:focus-visible { transform: none; }
+  }
+
+  /* solution cards — +1 on base */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-2XL); }
+  .card {
+    display: block; text-decoration: none;
+    background: var(--s-raise-1);
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-S);
+    padding: var(--spacing-3XL);
+  }
+  /* Icon sits directly on the card surface — no chip, no container. One less
+     nested level means the card's own surface has to carry the icon on its own,
+     which is a truer test of the +1 step. */
+  .card__icon {
+    display: block;
+    color: var(--s-text-headline);
+    margin-bottom: var(--spacing-XL);
+  }
+  .card__h { margin-bottom: var(--spacing-S) !important; }
+  .card__b { font-size: 1rem; line-height: 1.5; color: var(--s-text-body); margin: 0 0 var(--spacing-L); }
+  .card__more { font-size: 0.9375rem; color: var(--s-text-headline); display: inline-block; }
+
+  /* feature (+1) with nested (+2) */
+  .feature {
+    background: var(--s-raise-1);
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-L);
+    padding: var(--spacing-full);
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--spacing-full);
+  }
+  .feature__h { margin-bottom: var(--spacing-L) !important; max-width: 14ch; }
+  .feature__body p { font-size: 1rem; line-height: 1.6; color: var(--s-text-body); margin: 0 0 var(--spacing-L); }
+
+  .nested {
+    background: var(--s-raise-2);
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-S);
+    padding: var(--spacing-2XL);
+  }
+  .nested__cap { display: block; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--s-text-body); margin-bottom: var(--spacing-L); }
+  .nested__list { list-style: none; padding: 0; margin: 0 0 var(--spacing-XL); display: grid; gap: var(--spacing-M); }
+  .nested__list li { display: flex; gap: var(--spacing-S); font-size: 0.875rem; line-height: 1.45; color: var(--s-text-body); }
+  .nested__list svg { color: var(--s-text-headline); flex: none; margin-top: 3px; }
+
+  /* −1 well inside +2 */
+  .well {
+    background: var(--s-sunken);
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-XS);
+    padding: var(--spacing-M) var(--spacing-L);
+    font-size: 0.8125rem; color: var(--s-text-body);
+    overflow-x: auto;
+  }
+
+  /* ── Settings card — +1 holding −1 elements ──────────────────────
+     Padding lives on the rows, not the card, so the dividers run edge to
+     edge. One rhythm throughout: text left, control right, rule between. */
+  .panel {
+    background: var(--s-raise-1);
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-S);
+    overflow: hidden;
+  }
+
+  .panel__head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: var(--spacing-L);
+    padding: var(--spacing-2XL);
+    border-bottom: 1px solid var(--s-line);
+  }
+  .panel__h { margin-bottom: var(--spacing-2XS) !important; }
+  .panel__b { margin: 0; font-size: 0.875rem; color: var(--s-text-body); }
+
+  /* status pill — neutral, on the recessed level */
+  .pill {
+    display: inline-flex; align-items: center; gap: var(--spacing-XS);
+    background: var(--s-sunken); border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-full);
+    padding: 0.35em 0.8em;
+    font-size: 0.75rem; color: var(--s-text-body); white-space: nowrap;
+  }
+  .pill__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--s-text-headline); }
+
+  /* the repeating row */
+  .setting {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--spacing-2XL);
+    padding: var(--spacing-XL) var(--spacing-2XL);
+    border-bottom: 1px solid var(--s-line);
+  }
+  .setting--stack { flex-direction: column; align-items: stretch; gap: var(--spacing-M); }
+  .setting__text { display: grid; gap: 3px; }
+  .setting__label { font-size: 0.9375rem; font-weight: 500; color: var(--s-text-headline); }
+  .setting__help { font-size: 0.8125rem; line-height: 1.45; color: var(--s-text-body); max-width: 44ch; }
+
+  /* recessed action footer — the −1 level closing the card */
+  .setting:last-of-type { border-bottom: none; }
+  .panel__foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--spacing-L); flex-wrap: wrap;
+    padding: var(--spacing-L) var(--spacing-2XL);
+    background: var(--s-sunken);
+  }
+  .panel__meta { font-size: 0.8125rem; color: var(--s-text-body); }
+  .panel__actions { display: flex; gap: var(--spacing-S); }
+
+  /* Heading column on the BASE surface, card column at +1 beside it. */
+  .prefs { display: grid; grid-template-columns: 1fr 1.15fr; gap: var(--spacing-full); align-items: start; }
+  .prefs__intro { padding-block: var(--spacing-S); }
+  .prefs__h { margin-bottom: var(--spacing-L) !important; max-width: 16ch; }
+  .prefs__b { font-size: 1rem; line-height: 1.6; color: var(--s-text-body); margin: 0 0 var(--spacing-L); max-width: 46ch; }
+
+  .switch__track {
+    position: relative; width: 46px; height: 26px; flex: none; cursor: pointer;
+    border-radius: var(--border-radius-full);
+    background: var(--s-sunken);
+    border: 1px solid var(--s-line-strong);
+    padding: 0;
+    transition: background-color var(--transition-base);
+  }
+  .switch__track.is-on { background: var(--s-text-headline); border-color: var(--s-text-headline); }
+  .switch__knob {
+    position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--s-raise-2);
+    box-shadow: var(--s-shadow-sm);
+    transition: transform var(--transition-base);
+  }
+  .switch__track.is-on .switch__knob { transform: translateX(20px); }
+
+  /* inset fields — −1.
+     global.css gives every <label> padding-left:5px and margin-bottom:8px.
+     .field IS a label, so that margin pushed the input 8px below the button
+     beside it. Reset both — the field owns its own spacing. */
+  .field { display: grid; gap: var(--spacing-2XS); margin-bottom: 0; padding-left: 0; }
+  .field__label { font-size: 0.75rem; color: var(--s-text-body); }
+  /* Inset controls carry --s-line-strong; dividers inside cards carry
+     --s-line. Both survive `outlines: selective`, so the two rule weights
+     always have a live example on the page. */
+  .field__input {
+    display: block;
+    background: var(--s-sunken);
+    border: 1px solid var(--s-line-strong);
+    border-radius: var(--border-radius-S);
+    padding: 0.75em 0.9em;
+    font-size: 0.9375rem; color: var(--s-text-headline);
+  }
+  .field__input--mute { color: var(--s-text-body); }
+
+  /* segmented control — sunken track, raised active segment */
+  .seg {
+    display: inline-flex; gap: 2px; padding: 3px;
+    background: var(--s-sunken);
+    border: 1px solid var(--s-line-strong);
+    border-radius: var(--border-radius-S);
+  }
+  .seg__btn {
+    font: inherit; font-size: 0.875rem; cursor: pointer;
+    padding: 0.5em 1em; border: 1px solid transparent; border-radius: var(--border-radius-XS);
+    background: transparent; color: var(--s-text-body);
+  }
+  .seg__btn.is-on { background: var(--s-raise-2); color: var(--s-text-headline); border-color: var(--s-line); box-shadow: var(--s-shadow-sm); }
+
+  /* Partner marks — foreign shapes on our surfaces, which is the test.
+     Inherit currentColor so they take the surface's own text token rather
+     than any brand colour; the monochrome icon variants exist for this. */
+  /* One row, equal columns, full container width. The mark scales with the
+     viewport so the row holds together as the container narrows (including
+     when the editor rail reflows the page) rather than wrapping early. */
+  .press { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--spacing-M); }
+  .press__item {
+    background: var(--s-raise-1); border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-S);
+    padding: var(--spacing-XL) var(--spacing-S);
+    text-decoration: none; min-width: 0;
+    display: flex; flex-direction: column; align-items: center; gap: var(--spacing-M);
+    color: var(--s-text-body);
+  }
+  .press__item:hover { color: var(--s-text-headline); }
+  .press__mark { display: block; line-height: 0; }
+  .press__mark :global(svg) {
+    width: clamp(28px, 3.4vw, 52px); height: clamp(28px, 3.4vw, 52px); display: block;
+  }
+  .press__name {
+    font-size: 0.8125rem; text-align: center;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  /* ── Inverse CARD ────────────────────────────────────────────────
+     The card is the mode change, floating on the ordinary page base — so
+     the inverse levels are judged against the normal surfaces surrounding
+     them, which is how an inverse block actually appears on the site. */
+  .cta {
+    background: var(--s-raise-1);                 /* inverse +1 on the normal base */
+    border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-L); padding: var(--spacing-full);
+    display: grid; gap: var(--spacing-3XL);
+    box-shadow: var(--s-shadow-md);
+  }
+  .cta__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--spacing-3XL); flex-wrap: wrap;
+  }
+  .cta__text { max-width: 34ch; }
+  .cta__badge {                                    /* +2 inside the +1 card */
+    display: inline-block; background: var(--s-raise-2); color: var(--s-text-body);
+    font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: var(--border-radius-full);
+    margin-bottom: var(--spacing-L);
+  }
+  .cta__h { margin-bottom: var(--spacing-S) !important; }
+  .cta__b { margin: 0; font-size: 1rem; color: var(--s-text-body); }
+  .cta__form { display: flex; gap: var(--spacing-M); align-items: flex-end; }
+  .cta__form .field { margin-bottom: 0; }
+  .cta__field { min-width: 260px; display: flex; align-items: center; }
+
+  /* Stat row as a nested card one level ABOVE the newsletter card — inverse
+     +2 sitting on inverse +1 — so the nested step is visible inside inverse
+     too, not only on the normal page. */
+  .inv__meta {
+    list-style: none; margin: 0;
+    /* width:auto — sized by its own content and left-aligned, so the card
+       reads as a component sitting on the +1 surface rather than a full-width
+       band. justify-self keeps it from stretching as a grid item. */
+    width: auto; justify-self: start;
+    background: var(--s-raise-2);
+    border-radius: var(--border-radius-S);
+    padding: var(--spacing-XL) var(--spacing-2XL);
+    display: flex; flex-wrap: wrap; align-items: center;
+    font-size: 0.9375rem;
+    color: var(--s-text-headline);
+  }
+  .inv__meta li { color: var(--s-text-headline); padding-inline: var(--spacing-2XL); }
+  .inv__meta li:first-child { padding-inline-start: 0; }
+  .inv__meta li:last-child { padding-inline-end: 0; }
+  /* Vertical rules between stats, in the strong weight — a second live example
+     of --s-line-strong, and one that survives `outlines: selective`. */
+  .inv__meta li + li { border-left: 1px solid var(--s-line-strong); }
+  .inv__meta b { font-weight: 600; margin-right: var(--spacing-2XS); }
+
+  /* shadows */
+  .shadows { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--spacing-2XL); margin-bottom: var(--spacing-2XL); }
+  .shadows--onraise { background: var(--s-raise-1); border: 1px solid var(--s-line); border-radius: var(--border-radius-S); padding: var(--spacing-2XL); margin-bottom: 0; }
+  .shadows__card {
+    background: var(--s-raise-1); border: 1px solid var(--s-line);
+    border-radius: var(--border-radius-S); padding: var(--spacing-XL);
+    display: grid; gap: 2px;
+  }
+  .shadows__card--2 { background: var(--s-raise-2); }
+  .shadows__name { font-family: monospace; font-size: 0.8125rem; color: var(--s-text-headline); }
+  .shadows__sub { font-size: 0.6875rem; color: var(--s-text-body); }
+
+  /* footer — +1, like the nav */
+  .foot { background: var(--s-raise-1); border-top: 1px solid var(--s-line); padding-block: var(--spacing-full) var(--spacing-3XL); }
+  .foot__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--spacing-3XL); margin-bottom: var(--spacing-full); }
+  .foot__cols div { display: grid; gap: var(--spacing-M); align-content: start; }
+  .foot__h { font-size: 0.875rem; font-weight: 600; color: var(--s-text-headline); }
+  .foot__base { border-top: 1px solid var(--s-line); padding-top: var(--spacing-XL); display: flex; justify-content: space-between; gap: var(--spacing-M); font-size: 0.875rem; color: var(--s-text-body); flex-wrap: wrap; }
+
+  /* ── Outline policy ──────────────────────────────────────────────
+     "selective" keeps outlines only where they do structural work:
+     recessed controls (which need an edge to read as cut in) and the
+     dividers inside a card. Card outlines come off, so the +1 step has
+     to carry the card on value alone — which is the honest test. */
+  /* `selective` strips CARD outlines only. Recessed controls keep
+     --s-line-strong and card dividers keep --s-line, so both rule tokens
+     stay demonstrated whichever mode is chosen. */
+  .mock[data-borders="selective"] .card,
+  .mock[data-borders="selective"] .feature,
+  .mock[data-borders="selective"] .nested,
+  .mock[data-borders="selective"] .panel,
+  .mock[data-borders="selective"] .press__item,
+  .mock[data-borders="selective"] .cta,
+  .mock[data-borders="selective"] .shadows__card,
+  .mock[data-borders="selective"] .shadows--onraise,
+  .mock[data-borders="selective"] .seg__btn.is-on { border-color: transparent; }
+
+  .mock[data-borders="none"] *,
+  .mock[data-borders="none"] *::before,
+  .mock[data-borders="none"] *::after { border-color: transparent !important; }
+
+  @media (max-width: 620px) {
+    .press { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 1100px) and (min-width: 901px) {
+    .cards { grid-template-columns: repeat(3, 1fr); gap: var(--spacing-L); }
+    .card { padding: var(--spacing-2XL); }
+  }
+
+  @media (max-width: 1024px) {
+    /* Too narrow to push: the rail overlays and the page keeps full width. */
+    :global(html.has-rail) .mock { margin-right: 0; }
+    :global(html.has-rail) .bar__inner { padding-right: var(--spacing-L); }
+    .rail { width: 280px; box-shadow: var(--shadow-lg); }
+  }
+
+  @media (max-width: 900px) {
+    .wrap { padding-inline: var(--spacing-L); }
+    .nav__inner { padding-inline: var(--spacing-L); flex-wrap: wrap; }
+    .nav__links { order: 3; width: 100%; margin-left: 0; gap: var(--spacing-L); }
+    .feature { grid-template-columns: 1fr; gap: var(--spacing-2XL); padding: var(--spacing-2XL); }
+    .press { grid-template-columns: repeat(4, 1fr); }
+    .cards { grid-template-columns: 1fr; }
+    .prefs { grid-template-columns: 1fr; gap: var(--spacing-2XL); }
+    .setting { flex-direction: column; align-items: stretch; gap: var(--spacing-M); padding: var(--spacing-L); }
+    .panel__head, .panel__foot { padding: var(--spacing-L); }
+    .setting .switch__track, .setting .seg { align-self: flex-start; }
+    .drawer { max-height: calc(100vh - 41px); }
+    .panel { padding: var(--spacing-2XL); }
+    .page { padding-block: var(--spacing-3XL); gap: var(--spacing-3XL); }
+  }
+</style>

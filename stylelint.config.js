@@ -41,6 +41,10 @@ export default {
     // brand surface. Known, tracked exception (see CLAUDE.md › Enforcement).
     'src/pages/diamond/**',
     'src/pages/stream/**',
+    // brand-v2 review rounds: candidate values shown side by side for a
+    // decision. Exploration needs raw values the gate would block; whatever
+    // is chosen graduates into tokens.css and the round page is removed.
+    'src/pages/rounds/**',
   ],
 
   // Lint <style> blocks inside .astro components/pages.

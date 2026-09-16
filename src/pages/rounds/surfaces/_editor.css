@@ -1,0 +1,211 @@
+/* ════════════════════════════════════════════════════════════════════
+   ROUND — editor chrome (bar + rail)
+   ════════════════════════════════════════════════════════════════════
+   GLOBAL ON PURPOSE. Most of the rail's markup is generated at runtime
+   via innerHTML, and Astro's scoped <style> only reaches elements that
+   exist in the template — a runtime node never receives the scope
+   attribute, so scoped rules silently do nothing to it. That is what
+   left the swatches unstyled: .sw-card__color had no height and
+   collapsed, and the colour only ever showed because it happened to be
+   an inline background on the button itself.
+
+   Everything here is prefixed (.bar, .rail, .grp, .sw-card, .pick, .sl,
+   .row, .segctl, .ed) so going global stays contained.
+
+   Styled with the STABLE brand tokens (--surface-*, --text-*), never the
+   --s-* levels being edited. The chrome must not move while you tune: the
+   swatches need an unchanging ground to be judged against, and no edit
+   should be able to make the controls that would undo it unreadable.
+   Swatch anatomy is the brand guide's own .sg-swatch (index.astro), ported.
+   ══════════════════════════════════════════════════════════════════ */
+
+  /* ── Tooling chrome, styled in OMDS ──────────────────────────────
+     Bar and rail use the stable brand tokens, never the levels being edited.
+     Component language is the brand's
+     (radius-S, Inter, the .btn treatment, sunken fields) at tool scale —
+     the shipped 48px controls would leave room for about four of them in
+     a 300px rail.
+     Escape hatch if an edit makes this unreadable: reload the bare path.
+     Every edit lives in the URL, so dropping the query resets to brand. */
+
+  .bar {
+    position: sticky; top: 0; z-index: 60;
+    background: var(--surface-background-default);
+    border-bottom: 1px solid var(--surface-foreground-default);
+    color: var(--text-body);
+  }
+  .bar__inner {
+    display: flex; align-items: center; gap: var(--spacing-M);
+    padding: var(--spacing-2XS) var(--spacing-L);
+    min-height: 40px;
+  }
+  .bar__back { font-size: 1rem; text-decoration: none; color: var(--text-headline); }
+  .bar__title { font-size: 0.75rem; color: var(--text-body); margin-right: auto; }
+
+  /* segmented controls follow the mock's own .seg: sunken track, raised active */
+  .bar__seg, .segctl {
+    display: flex; gap: 2px; padding: 3px;
+    background: var(--surface-background-dim);
+    border-radius: var(--border-radius-S);
+  }
+  .bar__segbtn, .segctl__b {
+    font: inherit; font-size: 0.6875rem; cursor: pointer;
+    padding: 0.35em 0.7em; border: none; border-radius: var(--border-radius-XS);
+    background: transparent; color: var(--text-body);
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+  .segctl__b { flex: 1; }
+  .bar__segbtn.is-on, .segctl__b.is-on {
+    background: var(--surface-background-bright); color: var(--text-headline);
+  }
+
+  /* Info takes the brand .btn--outline treatment at bar scale. */
+  .bar__info {
+    font: inherit; font-size: 0.8125rem; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; min-height: 32px;
+    border: 1px solid var(--text-headline);
+    border-radius: var(--border-radius-S);
+    background: transparent; color: var(--text-headline);
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  }
+  .bar__info:hover { background: var(--text-headline); color: var(--surface-background-default); }
+  .bar__info svg { transition: transform var(--transition-base); }
+  .bar__info.is-open { background: var(--text-headline); color: var(--surface-background-default); }
+  .bar__info.is-open svg { transform: rotate(180deg); }
+
+  /* Real <Button> components — two per row so the shipped 48px height fits
+     a 300px rail without stacking into a column. */
+  .ed__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-S); margin-top: var(--spacing-S); }
+  .ed__actions > span { display: block; }
+  .ed__actions .btn { width: 100%; justify-content: center; min-height: 40px; padding: 8px 14px; font-size: 0.875rem; }
+
+  .bar__pal { display: flex; gap: 3px; }
+  .bar__sw { padding: 0; border: none; background: none; cursor: pointer; line-height: 0; }
+  .sw {
+    display: block; width: 20px; height: 20px;
+    border-radius: var(--border-radius-S);
+    outline: 1px solid var(--surface-foreground-default); outline-offset: -1px;
+  }
+  .bar__sw:hover .sw { outline: 2px solid var(--text-headline); outline-offset: 0; }
+
+  /* ── Editor rail ─────────────────────────────────────────────────── */
+  .rail {
+    position: fixed; top: 41px; right: 0; bottom: 0; width: 300px;
+    z-index: 58;
+    background: var(--surface-background-default);
+    border-left: 1px solid var(--surface-foreground-default);
+    color: var(--text-body);
+    display: flex; flex-direction: column;
+  }
+  /* MUST come after the display declaration above. `[hidden]` only gets
+     `display: none` from the UA stylesheet, which any author `display` rule
+     outranks — so without this the rail renders on load despite the attribute. */
+  .rail[hidden] { display: none; }
+  .rail__scroll { overflow-y: auto; padding: var(--spacing-L); }
+  html.has-rail .mock { margin-right: 300px; transition: margin-right var(--transition-base); }
+  html.has-rail .bar__inner { padding-right: calc(300px + var(--spacing-L)); }
+
+  /* global.css line 409 paints EVERY <section> with --surface-background-default.
+     The rail's groups are sections, so without this they carry the page token
+     instead of the rail's own surface. Invisible in light mode (that token and
+     the rail's own surface both land on grayscale-50) but obvious in dark. Same fix as .mock section — the bug is that a global rule binds a
+     surface to an HTML element, which this round should probably undo. */
+  .rail section,
+  .rail__scroll section { background-color: transparent; }
+  /* Same trap as the mock: global.css colours p/li/td/th/label directly with
+     the brand ink token, overriding inheritance. Point them at the rail's. */
+  .rail :where(p, li, td, th, label) { color: var(--text-body); }
+
+  .grp { padding-bottom: var(--spacing-L); margin-bottom: var(--spacing-L); border-bottom: 1px solid var(--surface-foreground-default); }
+  .grp--last { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .grp__h {
+    font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--text-headline); margin: 0 0 var(--spacing-M);
+    display: flex; align-items: baseline; gap: var(--spacing-XS);
+  }
+  .grp__tag { text-transform: none; letter-spacing: 0; font-size: 0.625rem; color: var(--text-body); font-weight: 400; }
+
+  /* ── Swatches — the brand guide's own .sg-swatch, ported ─────────
+     src/pages/index.astro: a card with the colour block on top and a
+     solid info area beneath it, radius-S, shadow-md, lift on hover.
+     Same anatomy here so the rail reads as the brand's colour UI rather
+     than a bespoke one. */
+  .sw-card {
+    display: flex; flex-direction: column; align-items: stretch; gap: 0;
+    cursor: pointer; border: none; padding: 0; text-align: center;
+    background: var(--surface-background-default);
+    border-radius: var(--border-radius-S);
+    overflow: hidden;
+    font-family: inherit;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .sw-card:hover { transform: translateY(-3px); }
+  .sw-card:focus-visible { outline: 2px solid var(--text-headline); outline-offset: 2px; }
+  .sw-card.is-sel { box-shadow: 0 0 0 2px var(--text-headline), var(--shadow-md); }
+
+  .sw-card__color { width: 100%; height: 34px; display: block; flex-shrink: 0; }
+  .sw-card--tile .sw-card__color { height: 44px; }
+
+  .sw-card__info {
+    padding: 4px 5px;
+    background: var(--surface-background-bright);
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  .sw-card__label { font-size: 0.5625rem; font-weight: 500; color: var(--text-body); line-height: 1.2; }
+  .sw-card__hex {
+    font-size: 0.5625rem; font-weight: 400; color: var(--text-body); line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: monospace;
+  }
+  .sw-card.is-used .sw-card__label { color: var(--text-headline); font-weight: 600; }
+
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-S); }
+  .ramp { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-S); }
+  .ramp--pick { margin-top: var(--spacing-M); }
+
+  /* the one open editor */
+  /* A popped-open editor sits on the RECESSED level, a clear step away from
+     the rail's own +1 surface, so it reads as something that opened rather
+     than as more panel. Controls inside it step back up to +1. */
+  .pick {
+    background: var(--surface-background-dim);
+    border-radius: var(--border-radius-S);
+    padding: var(--spacing-M); margin-top: var(--spacing-M);
+  }
+  .pick .row__sel, .pick .ed__out { background: var(--surface-background-default); }
+  .pick__head { display: flex; align-items: center; gap: var(--spacing-XS); font-size: 0.6875rem; color: var(--text-headline); margin-bottom: var(--spacing-S); }
+  .pick__head code { font-size: 0.625rem; color: var(--text-body); margin-left: auto; }
+  .pick__x { font: inherit; font-size: 0.6875rem; cursor: pointer; border: none; background: none; color: var(--text-body); padding: 0; }
+  .pick__x:hover { color: var(--text-headline); }
+
+  .sl { display: grid; grid-template-columns: 2.4rem 1fr 2.8rem; align-items: center; gap: var(--spacing-XS); font-size: 0.625rem; color: var(--text-body); margin-top: 3px; }
+  .sl input { width: 100%; accent-color: var(--text-headline); }
+  .sl b { text-align: right; font-weight: 500; color: var(--text-body); font-variant-numeric: tabular-nums; }
+
+  .dis { margin-top: var(--spacing-M); }
+  .dis summary { font-size: 0.6875rem; color: var(--text-body); cursor: pointer; padding: var(--spacing-2XS) 0; }
+  .dis summary:hover { color: var(--text-headline); }
+
+  .row { display: flex; align-items: center; gap: var(--spacing-XS); font-size: 0.6875rem; margin-top: var(--spacing-M); }
+  .row__label { flex: 0 0 3.5rem; color: var(--text-body); }
+  .row__sel {
+    font: inherit; font-size: 0.6875rem; padding: 5px 8px;
+    border: none; border-radius: var(--border-radius-S);
+    background: var(--surface-background-dim); color: var(--text-body);
+  }
+  .row__rev { font: inherit; font-size: 0.8125rem; cursor: pointer; border: none; background: none; color: var(--text-body); padding: 0 2px; opacity: 0.35; }
+  .row__rev.is-dirty { opacity: 1; color: var(--text-headline); }
+  .row__rev[disabled] { cursor: default; }
+
+  .shdprev { padding: var(--spacing-L) 0; display: grid; place-items: center; }
+  .shdprev i { display: block; width: 80px; height: 44px; border-radius: var(--border-radius-S); background: var(--surface-background-bright); }
+
+  .ed__note { font-size: 0.625rem; line-height: 1.5; color: var(--text-body); margin: var(--spacing-S) 0 0; }
+  .ed__out {
+    width: 100%; font-family: monospace; font-size: 0.5625rem; line-height: 1.4;
+    padding: var(--spacing-S); border: none; border-radius: var(--border-radius-S);
+    background: var(--surface-background-dim); color: var(--text-body);
+    resize: vertical; margin-top: var(--spacing-S);
+  }
+
