@@ -28,6 +28,12 @@
      Escape hatch if an edit makes this unreadable: reload the bare path.
      Every edit lives in the URL, so dropping the query resets to brand. */
 
+  /* The bar's own height, named once. The mock's sticky nav has to park
+     directly beneath it, so this is a genuine shared measurement rather than
+     a number that happened to match — and the tooling/mock coupling is
+     stated in one place instead of being a magic 41 in two files. */
+  :root { --bar-h: 41px; }
+
   .bar {
     position: sticky; top: 0; z-index: 60;
     background: var(--surface-background-default);
@@ -35,7 +41,10 @@
     color: var(--text-body);
   }
   .bar__inner {
-    display: flex; align-items: center; gap: var(--spacing-M);
+    /* 2XL is exactly 2x the M this used to be. Only the TOP-level gap doubles:
+       a label stays tight to its own control (.bar__field keeps XS), so wider
+       spacing between items strengthens the pairing rather than dissolving it. */
+    display: flex; align-items: center; gap: var(--spacing-2XL);
     padding: var(--spacing-2XS) var(--spacing-L);
     min-height: 40px;
   }
@@ -54,10 +63,51 @@
     background: transparent; color: var(--text-body);
     transition: background-color var(--transition-base), color var(--transition-base);
   }
-  .segctl__b { flex: 1; }
+  /* flex:1 means every button is the same width regardless of its padding,
+     so trimming the inline padding buys overflow headroom and costs nothing.
+     The Outlines ladder is 4-up in a 300px rail: ~64px a button, and
+     "Selective" at the shared 0.7em would not have fitted — which is part
+     of why that rung reads "Controls" now. nowrap so a squeeze shows up as
+     an obvious overflow rather than a quietly two-line button. */
+  .segctl__b { flex: 1; min-width: 0; padding-inline: 0.4em; white-space: nowrap; }
   .bar__segbtn.is-on, .segctl__b.is-on {
     background: var(--surface-background-bright); color: var(--text-headline);
   }
+
+  /* The outlined seg needs its OWN active treatment. `-bright` only reads as
+     "selected" against the sunken `-dim` track it used to sit on; with the
+     track gone it lands on `-default` instead, and in LIGHT mode those are
+     grayscale-00 on grayscale-50 — a ~1-point lightness difference, i.e.
+     invisible. (Dark mode was fine: 700 on 800 is ~9 points.)
+
+     So it takes the bar's existing outlined-control language instead — the
+     same fill .bar__info uses when open, which is the brand's .btn--outline
+     active state. Outline at rest, solid when chosen, in both modes. */
+  .bar__seg--minor .bar__segbtn.is-on {
+    background: var(--text-headline);
+    color: var(--surface-background-default);
+  }
+
+  /* A label + its control. Both bar switches are fields now — neither says
+     what it governs on its own. The elevation one is additionally held quieter
+     than the theme toggle (no sunken track), but its active state still
+     carries the raised fill so it reads as secondary without becoming hard
+     to use. */
+  .bar__field { display: flex; align-items: center; gap: var(--spacing-XS); }
+  .bar__seglab {
+    font-size: 0.625rem; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--text-body); white-space: nowrap;
+  }
+  /* Outlined rather than filled, matching ThemeToggle's track ring
+     (`box-shadow: 0 0 0 1px var(--text-body)`) so the two bar controls read as
+     one family. A ring rather than a border so it costs no layout width and
+     the segment padding stays symmetrical. The active segment's raised fill
+     still shows inside it. */
+  .bar__seg--minor {
+    background: none;
+    box-shadow: 0 0 0 1px var(--text-body);
+  }
+  .bar__seg--minor .bar__segbtn { padding: 0.35em 0.5em; }
 
   /* Info takes the brand .btn--outline treatment at bar scale. */
   .bar__info {
@@ -91,7 +141,7 @@
 
   /* ── Editor rail ─────────────────────────────────────────────────── */
   .rail {
-    position: fixed; top: 41px; right: 0; bottom: 0; width: 300px;
+    position: fixed; top: var(--bar-h); right: 0; bottom: 0; width: 300px;
     z-index: 58;
     background: var(--surface-background-default);
     border-left: 1px solid var(--surface-foreground-default);
@@ -238,8 +288,52 @@
   .row__rev.is-dirty { opacity: 1; color: var(--text-headline); }
   .row__rev[disabled] { cursor: default; }
 
-  .shdprev { padding: var(--spacing-L) 0; display: grid; place-items: center; }
-  .shdprev i { display: block; width: 80px; height: 44px; border-radius: var(--border-radius-S); background: var(--surface-background-bright); }
+  /* global.css:243 forces `input, textarea, select` to 48px tall, 100% wide,
+     with a background, a radius and --shadow-md. It caught input[type=range]
+     earlier this round and now input[type=checkbox], which rendered as a 48px
+     shadowed block with its label knocked onto the next line. Seventh instance
+     of a global rule binding style to a bare HTML element.
+     `label` also carries padding-left:5px and margin-bottom:8px from
+     global.css:280, hence the explicit zeroing. */
+  .rail input[type="checkbox"] {
+    flex: none;
+    width: 14px; height: 14px; min-height: 0;
+    padding: 0; margin: 0;
+    background: none; box-shadow: none; border-radius: 0;
+    accent-color: var(--text-headline);
+  }
+  .row__check {
+    display: inline-flex; align-items: center; gap: var(--spacing-XS);
+    margin: 0 auto 0 0; padding: 0; cursor: pointer;
+    font-size: 0.6875rem; color: var(--text-body);
+  }
+
+  /* Posture shortcuts. Not a ladder — the five kinds are independent, so these
+     are just three positions worth one click, not an ordered sequence. */
+  .shk__presets { display: flex; gap: var(--spacing-XS); margin-top: var(--spacing-S); }
+
+  /* The preview is the ONE place the chrome shows the values being edited:
+     a shadow is only judgeable against its own ground, so the well takes the
+     rung's surface and the tile takes it too. Everything else in the rail
+     stays on the stable brand tokens. */
+  .shdprev { padding: var(--spacing-L); display: grid; place-items: center; border-radius: var(--border-radius-S); }
+  .shdprev i { display: block; width: 80px; height: 44px; border-radius: var(--border-radius-S); }
+
+  /* Applied-to: one block per kind, its question, and a control per trigger. */
+  .shk { padding: var(--spacing-M) 0; border-top: 1px solid var(--surface-foreground-default); }
+  .shk__h { display: flex; align-items: center; gap: var(--spacing-XS); font-size: 0.75rem; color: var(--text-headline); }
+  .shk__h b { font-weight: 500; margin-right: auto; }
+  .shk__ts { display: grid; gap: var(--spacing-XS); margin-top: var(--spacing-S); }
+  .shk__t { display: flex; align-items: center; gap: var(--spacing-S); font-size: 0.6875rem; }
+  .shk__t > span { flex: 1; color: var(--text-body); }
+  .shk__t .row__sel { width: 5.5rem; flex: none; }
+  .shk__sec {
+    font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--text-headline); margin: var(--spacing-L) 0 var(--spacing-XS);
+  }
+  /* A rung button that has been moved off its default says so, the same way a
+     step swatch does — otherwise a tweak two rungs away is invisible. */
+  .segctl__b.is-dirty::after { content: '•'; margin-left: 3px; color: var(--text-headline); }
 
   .ed__note { font-size: 0.625rem; line-height: 1.5; color: var(--text-body); margin: var(--spacing-S) 0 0; }
   .ed__out {

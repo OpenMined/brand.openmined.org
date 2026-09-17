@@ -111,16 +111,106 @@
   --s-btn-bg-hover: var(--color-grayscale-200);
 }
 
-/* ── SHADOWS ────────────────────────────────────────────────────── */
-/* The brand ships three (--shadow-sm/md/lg), all tuned on #464257 for a
-   light ground. Whether they survive a dark ground is an open question
-   this round exists to answer, so the mock keeps them addressable. */
+/* ── SHADOWS ────────────────────────────────────────────────────────
+   Bound to the LEVELS, not to a t-shirt scale. The brand ships
+   --shadow-sm/md/lg, which say nothing about which surface they belong on;
+   here --shadow-sm becomes the +1 rung and --shadow-md the +2, so "which
+   shadow does this card take" finally has an answer.
 
-[data-elev] {
-  --s-shadow-sm: var(--shadow-sm);
-  --s-shadow-md: var(--shadow-md);
-  --s-shadow-lg: var(--shadow-lg);
+   `base` is nothing: an element sitting ON the page is not above anything.
+   `sunken` is the only inset rung — which is also what makes a pressed state
+   work later for free, since sinking to −1 lands on an inner shadow.
+
+   Held per PALETTE, not per colour mode. Under `darker` a raised surface is
+   darker than the page, so the same shadow can mean the opposite thing. The
+   two directions carry identical values today; they are keyed separately so
+   the editor can pull them apart.
+
+   Dark uses near-black at ~2.8× the alpha, because a #464257 shadow on a
+   #23202c ground is invisible. The brand never defined a dark shadow at all.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Ordinary ink: what an element casts onto the page's own surfaces. */
+[data-elev="lighter"],
+[data-elev="darker"] {
+  --s-shadow-sunken:  inset 0 1px 3px 0 rgba(70, 66, 87, 0.13);
+  --s-shadow-base:    none;
+  --s-shadow-raise-1: 0 2px 4px 0 rgba(70, 66, 87, 0.16);
+  --s-shadow-raise-2: 0 16px 32px -4px rgba(70, 66, 87, 0.1), 0 2px 4px rgba(70, 66, 87, 0.04);
+
+  /* INVERSE INK — the opposite palette's ladder, mirroring --s-inv-* for
+     surfaces. A +1 card inside a light page's inverse block is a +1 on a DARK
+     ground, so it wants the shadow tuned for dark mode, not the page's. */
+  --s-inv-shadow-sunken:  inset 0 1px 3px 0 rgba(0, 0, 0, 0.364);
+  --s-inv-shadow-base:    none;
+  --s-inv-shadow-raise-1: 0 2px 4px 0 rgba(0, 0, 0, 0.448);
+  --s-inv-shadow-raise-2: 0 16px 32px -4px rgba(0, 0, 0, 0.28), 0 2px 4px rgba(0, 0, 0, 0.112);
 }
+
+[data-theme="dark"] [data-elev="lighter"],
+[data-theme="dark"] [data-elev="darker"] {
+  --s-shadow-sunken:  inset 0 1px 3px 0 rgba(0, 0, 0, 0.364);
+  --s-shadow-base:    none;
+  --s-shadow-raise-1: 0 2px 4px 0 rgba(0, 0, 0, 0.448);
+  --s-shadow-raise-2: 0 16px 32px -4px rgba(0, 0, 0, 0.28), 0 2px 4px rgba(0, 0, 0, 0.112);
+
+  --s-inv-shadow-sunken:  inset 0 1px 3px 0 rgba(70, 66, 87, 0.13);
+  --s-inv-shadow-base:    none;
+  --s-inv-shadow-raise-1: 0 2px 4px 0 rgba(70, 66, 87, 0.16);
+  --s-inv-shadow-raise-2: 0 16px 32px -4px rgba(70, 66, 87, 0.1), 0 2px 4px rgba(70, 66, 87, 0.04);
+}
+
+/* Each level publishes the ladder AS SEEN FROM ITSELF, clamping already
+   applied — so a kind's rule names a DIRECTION rather than a level, and one
+   rule serves elements sitting at different levels. */
+[data-lvl="sunken"]  { --sh-dn1: var(--s-shadow-sunken);  --sh-self: var(--s-shadow-sunken);  --sh-up1: var(--s-shadow-base); }
+[data-lvl="base"]    { --sh-dn1: var(--s-shadow-sunken);  --sh-self: var(--s-shadow-base);    --sh-up1: var(--s-shadow-raise-1); }
+[data-lvl="raise-1"] { --sh-dn1: var(--s-shadow-base);    --sh-self: var(--s-shadow-raise-1); --sh-up1: var(--s-shadow-raise-2); }
+[data-lvl="raise-2"] { --sh-dn1: var(--s-shadow-raise-1); --sh-self: var(--s-shadow-raise-2); --sh-up1: var(--s-shadow-raise-2); }
+
+/* INSIDE AN INVERSE BLOCK, SWAP TO THE INVERSE INK.
+
+   A shadow falls on the ground BENEATH an element, not on the element's own
+   surface — so its ink belongs to whatever it is casting onto. That settles
+   inverse without a special case:
+
+     · the block ITSELF sits on the ordinary page, so it keeps ordinary ink.
+       At `base` it casts nothing at all, which is the right answer for a
+       boundary the value step has already drawn as hard as it can be drawn.
+     · everything INSIDE sits on inverse surfaces — the opposite mode's levels
+       — so it casts with the opposite palette's ink.
+
+   DESCENDANTS ONLY, hence the space: `[data-inverse] [data-lvl]`, never
+   `[data-inverse][data-lvl]`. At (0,2,0) it outranks the [data-lvl] bindings'
+   (0,1,0), and because --sh-* substitute lazily at the point of use, the swap
+   reaches them without their needing to know inverse exists. */
+[data-inverse] [data-lvl] {
+  --s-shadow-sunken:  var(--s-inv-shadow-sunken);
+  --s-shadow-base:    var(--s-inv-shadow-base);
+  --s-shadow-raise-1: var(--s-inv-shadow-raise-1);
+  --s-shadow-raise-2: var(--s-inv-shadow-raise-2);
+}
+
+/* Which kinds take their rung. Mirrors DEFAULT_APPLY in _editor.ts — the two
+   are kept in step by hand, as the surface assignments are.
+
+   A surface carries its rung AT REST. That is the proposal being judged, so it
+   is what the page shows on load; hover adds +1 on top rather than being the
+   only way a shadow ever appears. Header is the exception — a full-bleed band
+   casts only once it is covering content. */
+[data-sh="card"],
+[data-sh="nested"],
+[data-sh="inset"],
+[data-sh="knob"] { box-shadow: var(--sh-self); }
+
+/* Hover MODIFIES the resting shadow, and only where the element can actually
+   be hovered — a static <div> panel changing on mouseover is a bug, not an
+   option. The guard is a selector rather than a bespoke attribute so it stays
+   true in a consuming project with nothing to maintain. */
+[data-sh="card"]:is(a, button, [role="button"]):hover,
+[data-sh="card"]:is(a, button, [role="button"]):focus-visible { box-shadow: var(--sh-up1); }
+
+[data-stuck="true"] [data-sh="header"] { box-shadow: var(--sh-self); }
 
 /* ── INVERSE ────────────────────────────────────────────────────────
    A section that runs opposite the page, so a light page carries a dark

@@ -84,11 +84,14 @@ const PRESS = PARTNER_BRANDS.map(brand => ({
   svg: readFileSync(`${partnerDir}${brand}/icon.svg`, 'utf8'),
 }));
 
-const SHADOWS = [
-  { name: 'none',        token: 'none' },
-  { name: '--shadow-sm', token: 'var(--s-shadow-sm)' },
-  { name: '--shadow-md', token: 'var(--s-shadow-md)' },
-  { name: '--shadow-lg', token: 'var(--s-shadow-lg)' },
+// The specimen band shows the LADDER, one card per rung — not a t-shirt
+// scale. It is deliberately exempt from the kind/trigger policy: it exists to
+// show what each rung IS, so it always shows all of them.
+const RUNGS = [
+  { name: 'sunken',  sub: 'inset',  token: 'var(--s-shadow-sunken)' },
+  { name: 'base',    sub: 'none',   token: 'var(--s-shadow-base)' },
+  { name: 'raise-1', sub: '+1',     token: 'var(--s-shadow-raise-1)' },
+  { name: 'raise-2', sub: '+2',     token: 'var(--s-shadow-raise-2)' },
 ];
 
 const LEVELS = [
@@ -107,15 +110,31 @@ const LEVELS = [
       <a class="bar__back" href="/">←</a>
       <span class="bar__title">Surface system</span>
 
-      <div class="bar__seg" role="group" aria-label="Elevation direction">
-        <button type="button" class="bar__segbtn is-on" data-elev-set="lighter">Lighter</button>
-        <button type="button" class="bar__segbtn" data-elev-set="darker">Darker</button>
-      </div>
-
       <!-- live swatches for the ACTIVE palette; click one to jump to its row -->
       <div class="bar__pal" id="bar-pal" aria-label="Active surface palette"></div>
 
-      <ThemeToggle />
+      <!-- Both switches are labelled with their subject. Neither control says
+           what it governs on its own, and side by side they read as two
+           colour-mode switches — "lighter / darker" next to light / dark is
+           genuinely ambiguous. The label is the fix; "Color mode" is the
+           repo's own term for this axis (CLAUDE.md § Color mode system).
+           Colour mode is the primary axis, so it comes first. -->
+      <div class="bar__field">
+        <span class="bar__seglab">Color mode:</span>
+        <ThemeToggle />
+      </div>
+
+      <!-- Elevation direction, deliberately secondary: "lighter" is the
+           expected answer, so this reads as a check rather than a headline
+           choice — hence no sunken track on its segmented control. -->
+      <div class="bar__field">
+        <span class="bar__seglab">Cards:</span>
+        <div class="bar__seg bar__seg--minor" role="group"
+             aria-label="Do raised surfaces sit lighter or darker than the page">
+          <button type="button" class="bar__segbtn is-on" data-elev-set="lighter">lighter</button>
+          <button type="button" class="bar__segbtn" data-elev-set="darker">darker</button>
+        </div>
+      </div>
 
       <button type="button" class="bar__info" id="info-toggle" aria-expanded="false" aria-controls="drawer">
         Info
@@ -133,7 +152,7 @@ const LEVELS = [
     <div class="rail__scroll">
 
       <section class="grp">
-        <h3 class="grp__h">Surface palette <span class="grp__tag" id="ed-pal-name"></span></h3>
+        <h3 class="grp__h">Surface palette: <span class="grp__tag" id="ed-pal-name"></span></h3>
         <div class="tiles" id="ed-slots"></div>
         <div id="ed-assign"></div>
       </section>
@@ -155,7 +174,7 @@ const LEVELS = [
 
       <section class="grp">
         <details class="dis">
-          <summary>Shadows <span class="grp__tag" id="ed-shadow-mode"></span></summary>
+          <summary>Shadows: <span class="grp__tag" id="ed-shadow-mode"></span></summary>
           <div id="ed-shadows"></div>
         </details>
       </section>
@@ -182,15 +201,25 @@ const LEVELS = [
   <!-- ══ THE PAGE (full bleed) ═════════════════════════════════════ -->
   <div class="mock" data-elev="lighter" id="mock">
 
-    <header class="nav">
+    <!-- Sticky-state sentinel. A 1px marker directly above the nav, watched by
+         IntersectionObserver: the moment it passes under the editor bar the nav
+         is stuck, and `data-stuck` goes true on .mock. An observer rather than a
+         scroll listener so there is no per-frame work and nothing to throttle. -->
+    <span class="nav__sentinel" id="nav-sentinel" aria-hidden="true"></span>
+
+    <header class="nav" id="top" data-lvl="raise-1" data-sh="header">
       <div class="nav__inner">
         <span class="nav__logo"><span class="nav__dot"></span> Surface Test</span>
+        <!-- Real in-page anchors, named for the bands that actually exist. The
+             nav has to do real work for the sticky shadow to be judged: you have
+             to be able to click through and watch it cross content. -->
         <nav class="nav__links">
-          <a href="#mock" aria-current="page">Overview</a>
-          <a href="#mock">Levels</a>
-          <a href="#mock">Components</a>
-          <a href="#mock">Shadows</a>
-          <a href="#mock">Notes</a>
+          <a href="#top" aria-current="page">Overview</a>
+          <a href="#levels">Levels</a>
+          <a href="#cards">Cards</a>
+          <a href="#settings">Settings</a>
+          <a href="#inverse">Inverse</a>
+          <a href="#shadows">Shadows</a>
         </nav>
         <a href="#mock" class="btn btn--outline btn--sm">Secondary</a>
         <a href="#mock" class="btn btn--sm">Primary</a>
@@ -202,7 +231,7 @@ const LEVELS = [
       <!-- hero — content on the base surface -->
       <section class="wrap hero">
         <p class="eyebrow">Mockup · not a live page</p>
-        <h1 class="hero__h">A test page for surface and colour options</h1>
+        <h1 class="hero__h">A test page for surface and color options</h1>
         <p class="hero__sub">
           Placeholder copy, held at roughly the length real copy would run so line
           breaks and vertical rhythm still behave like a page that ships.
@@ -215,8 +244,8 @@ const LEVELS = [
       </section>
 
       <!-- feature (+1) with nested panel (+2) containing a well (−1) -->
-      <section class="wrap">
-        <div class="feature">
+      <section class="wrap" id="levels">
+        <div class="feature" data-lvl="raise-1" data-sh="card">
           <div class="feature__body">
             <h2 class="feature__h">Three levels, nested</h2>
             <p>
@@ -227,7 +256,7 @@ const LEVELS = [
             <a href="#mock" class="link">Sample link →</a>
           </div>
 
-          <aside class="nested">
+          <aside class="nested" data-lvl="raise-2" data-sh="nested">
             <span class="nested__cap">Capabilities</span>
             <ul class="nested__list">
               {CAPABILITIES.map(c => (
@@ -237,7 +266,7 @@ const LEVELS = [
                 </li>
               ))}
             </ul>
-            <div class="well">
+            <div class="well" data-lvl="sunken" data-sh="inset">
               <code>sample code block · surface −1</code>
             </div>
           </aside>
@@ -245,11 +274,11 @@ const LEVELS = [
       </section>
 
       <!-- solution cards — +1 on base -->
-      <section class="wrap">
+      <section class="wrap" id="cards">
         <h2 class="band__h">Sample cards · +1 on base</h2>
         <div class="cards">
           {SOLUTIONS.map(s => (
-            <a href="#mock" class="card card-float">
+            <a href="#mock" class="card card-float" data-lvl="raise-1" data-sh="card">
               <span class="card__icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d={s.icon} />
@@ -265,7 +294,7 @@ const LEVELS = [
 
       <!-- controls — heading/copy on the BASE surface (no card), controls in a
            +1 panel beside it. Puts base, +1 and −1 in one horizontal read. -->
-      <section class="wrap prefs">
+      <section class="wrap prefs" id="settings">
         <!-- Body copy on the BASE surface, so running text is judged against the
              page itself rather than against a card. -->
         <div class="prefs__intro">
@@ -287,13 +316,13 @@ const LEVELS = [
              on the right — separated by rules, with a recessed action footer.
              Every level appears: +1 card, −1 footer/fields/tracks, +2 knob and
              active segment. -->
-        <div class="panel">
+        <div class="panel" data-lvl="raise-1" data-sh="card">
           <div class="panel__head">
             <div>
               <h3 class="panel__h">Sample preferences</h3>
               <p class="panel__b">Controls sit <em>below</em> the surface they live on.</p>
             </div>
-            <span class="pill"><i class="pill__dot"></i>Sample state</span>
+            <span class="pill" data-lvl="sunken" data-sh="inset"><i class="pill__dot"></i>Sample state</span>
           </div>
 
           <div class="setting">
@@ -301,8 +330,8 @@ const LEVELS = [
               <span class="setting__label">Sample toggle, on</span>
               <span class="setting__help">Track is −1; the knob is +2. Helper text is the body ink.</span>
             </div>
-            <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve">
-              <span class="switch__knob"></span>
+            <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve" data-lvl="sunken" data-sh="inset">
+              <span class="switch__knob" data-lvl="raise-2" data-sh="knob"></span>
             </button>
           </div>
 
@@ -311,8 +340,8 @@ const LEVELS = [
               <span class="setting__label">Sample toggle, off</span>
               <span class="setting__help">Same control in its resting state, for comparison.</span>
             </div>
-            <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing">
-              <span class="switch__knob"></span>
+            <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing" data-lvl="sunken" data-sh="inset">
+              <span class="switch__knob" data-lvl="raise-2" data-sh="knob"></span>
             </button>
           </div>
 
@@ -321,8 +350,8 @@ const LEVELS = [
               <span class="setting__label">Sample segmented control</span>
               <span class="setting__help">Sunken track, with the active segment raised to +2.</span>
             </div>
-            <div class="seg" role="group" aria-label="Default view">
-              <button type="button" class="seg__btn is-on">Grid</button>
+            <div class="seg" role="group" aria-label="Default view" data-lvl="sunken" data-sh="inset">
+              <button type="button" class="seg__btn is-on" data-lvl="raise-2" data-sh="knob">Grid</button>
               <button type="button" class="seg__btn">List</button>
               <button type="button" class="seg__btn">Map</button>
             </div>
@@ -333,10 +362,10 @@ const LEVELS = [
               <span class="setting__label">Sample text field</span>
               <span class="setting__help">Inset into the card, bordered with the strong rule.</span>
             </div>
-            <span class="field__input">placeholder value</span>
+            <span class="field__input" data-lvl="sunken" data-sh="inset">placeholder value</span>
           </div>
 
-          <div class="panel__foot">
+          <div class="panel__foot" data-lvl="sunken" data-sh="inset">
             <span class="panel__meta">Sample footer · recessed strip</span>
             <div class="panel__actions">
               <a href="#mock" class="btn btn--outline btn--sm">Reset</a>
@@ -346,11 +375,11 @@ const LEVELS = [
         </div>
       </section>
 
-      <section class="wrap">
+      <section class="wrap" id="marks">
         <h2 class="band__h">Third-party marks · sample</h2>
         <div class="press">
           {PRESS.map(p => (
-            <a href="#mock" class="press__item card-float" aria-label={p.name}>
+            <a href="#mock" class="press__item card-float" aria-label={p.name} data-lvl="raise-1" data-sh="card">
               <span class="press__mark" set:html={p.svg} />
               <span class="press__name">{p.name}</span>
             </a>
@@ -363,62 +392,64 @@ const LEVELS = [
            the ordinary page around them, which is how an inverse block
            actually appears on the site. Layered inside: +1 card, +2 badge,
            −1 field, plus body text and a rule directly on the card. -->
-      <section class="wrap">
-        <div class="cta" data-inverse>
+      <section class="wrap" id="inverse">
+        <div class="cta" data-inverse data-lvl="base" data-sh="card">
           <div class="cta__top">
             <div class="cta__text">
-              <span class="cta__badge">Inverse sample</span>
+              <span class="cta__badge" data-lvl="raise-1" data-sh="nested">Inverse sample</span>
               <h2 class="cta__h">This card runs opposite the page</h2>
               <p class="cta__b">Same four levels, flipped. Placeholder copy.</p>
             </div>
             <div class="cta__form">
               <label class="field">
                 <span class="field__label">Sample field</span>
-                <span class="field__input field__input--mute cta__field">placeholder@example.com</span>
+                <span class="field__input field__input--mute cta__field" data-lvl="sunken" data-sh="inset">placeholder@example.com</span>
               </label>
               <a href="#mock" class="btn">Primary</a>
             </div>
           </div>
 
-          <ul class="inv__meta">
+          <ul class="inv__meta" data-lvl="raise-1" data-sh="card">
             <li><b>000</b> sample stat</li>
             <li><b>00</b> sample stat</li>
             <li><b>0.00</b> sample stat</li>
             <li><b>00%</b> sample stat</li>
-            <li class="inv__meta-hi"><b>Sample</b> highlighted · +2</li>
+            <li class="inv__meta-hi" data-lvl="raise-2" data-sh="nested"><b>Sample</b> highlighted · +2</li>
           </ul>
         </div>
       </section>
 
       <!-- shadow assessment, inside the page so it sits on the real surface -->
-      <section class="wrap">
-        <h2 class="band__h">Shadow tokens</h2>
+      <section class="wrap" id="shadows">
+        <h2 class="band__h">The shadow ladder</h2>
         <p class="band__note">
-          The same card at each shadow token — on the base surface, and again on +1.
-          Flip direction and theme above: a shadow tuned for a light ground can read
+          Every rung of the ladder — on the base surface, and again on +1. Flip
+          direction and theme above: a shadow tuned for a light ground can read
           as grime on a dark one, and when raised surfaces are <em>darker</em> than the
           page a drop shadow argues with the value step instead of reinforcing it.
+          Which components actually <em>take</em> their rung is the Shadows panel's
+          second half; this band always shows all four.
         </p>
         <div class="shadows">
-          {SHADOWS.map(s => (
-            <div class="shadows__card" style={`box-shadow: ${s.token}`}>
+          {RUNGS.map(s => (
+            <div class="shadows__card" data-lvl="raise-1" style={`box-shadow: ${s.token}`}>
               <span class="shadows__name">{s.name}</span>
-              <span class="shadows__sub">+1 on base</span>
+              <span class="shadows__sub">{s.sub} · on base</span>
             </div>
           ))}
         </div>
-        <div class="shadows shadows--onraise">
-          {SHADOWS.map(s => (
-            <div class="shadows__card shadows__card--2" style={`box-shadow: ${s.token}`}>
+        <div class="shadows shadows--onraise" data-lvl="raise-1">
+          {RUNGS.map(s => (
+            <div class="shadows__card shadows__card--2" data-lvl="raise-2" style={`box-shadow: ${s.token}`}>
               <span class="shadows__name">{s.name}</span>
-              <span class="shadows__sub">+2 on +1</span>
+              <span class="shadows__sub">{s.sub} · on +1</span>
             </div>
           ))}
         </div>
       </section>
     </main>
 
-    <footer class="foot">
+    <footer class="foot" data-lvl="raise-1">
       <div class="wrap">
         <div class="foot__cols">
           {['Column one', 'Column two', 'Column three', 'Column four'].map(h => (
@@ -441,11 +472,13 @@ const LEVELS = [
   <script>
     import {
       STEPS, SLOTS, PALETTES, SLOT_LABEL, PALETTE_LABEL, DEFAULT_ASSIGN,
-      BORDER_MODES, BORDER_LABEL, BORDER_HELP, SHADOW_SIZES, DEFAULT_SHADOW,
+      BORDER_MODES, BORDER_LABEL, BORDER_HELP,
+      LEVELS, KINDS, TRIGGERS, DELTAS, deltaLabel, trigger, PRESETS, PRESET_LABEL,
+      DEFAULT_LADDER, DEFAULT_INK, DEFAULT_APPLY, rungCss,
       newState, readBrandGrayscale, readRampShape, resolveGrayscale, stepValues,
       paletteKey, assignedStep, SAT_MAX_C,
       emitCss, exportCss, exportJson, encodeUrl, decodeUrl,
-      type Step, type Slot, type StepEdit,
+      type Step, type Slot, type StepEdit, type Level, type Delta,
     } from './_editor.ts';
 
     const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -550,7 +583,7 @@ const LEVELS = [
     // Selection state — UI only, never encoded in the URL.
     let selSlot: Slot | null = null;
     let selStep: Step | null = null;
-    let selShadow: 'sm' | 'md' | 'lg' = 'md';
+    let selRung: Level = 'raise-1';
 
     function renderBarPal() {
       const pal = paletteKey(st);
@@ -670,27 +703,76 @@ const LEVELS = [
     }
 
     /* Same drill-down as colours: pick one size, edit only that one. */
+    /* Shadows — three tables, in the order the model reads:
+       the LADDER (shared), the INK (per palette), and which kinds APPLY it. */
     function renderShadows() {
-      const mode = st.theme;
-      $('ed-shadow-mode').textContent = mode;
-      const set = st.shadow[mode], d = DEFAULT_SHADOW[mode];
-      const v = set[selShadow], dv = d[selShadow];
-      const dirty = v.y !== dv.y || v.blur !== dv.blur || v.spread !== dv.spread || v.alpha !== dv.alpha;
+      const pal = paletteKey(st);
+      $('ed-shadow-mode').textContent = PALETTE_LABEL[pal];
+
+      const r = st.shadow.ladder[selRung], dr = DEFAULT_LADDER[selRung];
+      const ink = st.shadow.ink[pal], dink = DEFAULT_INK[pal];
+      const rungDirty = (l: Level) => JSON.stringify(st.shadow.ladder[l]) !== JSON.stringify(DEFAULT_LADDER[l]);
+
+      // A rung is previewed on the surface it belongs to, because a shadow is
+      // only judgeable against its own ground.
+      const preview = `<div class="shdprev" style="background: var(--s-${selRung === 'base' ? 'base' : selRung})">
+          <i style="box-shadow: ${rungCss(r, ink, gray)}; background: var(--s-${selRung})"></i></div>`;
+
+      const applyRows = KINDS.map(k => {
+        const row = k.triggers.map(tk => {
+          const t = trigger(tk)!;
+          const cur = st.shadow.apply[k.key]?.[tk] ?? null;
+          const opts = DELTAS.map(d =>
+            `<option value="${d === null ? 'x' : d}" ${d === cur ? 'selected' : ''}>${deltaLabel(d)}</option>`).join('');
+          return `<label class="shk__t"><span>${t.label}</span>
+                    <select class="row__sel" data-apply="${k.key}.${tk}">${opts}</select></label>`;
+        }).join('');
+        const dirty = k.triggers.some(tk => (st.shadow.apply[k.key]?.[tk] ?? null) !== (DEFAULT_APPLY[k.key]?.[tk] ?? null));
+        return `<div class="shk">
+            <div class="shk__h"><b>${k.label}</b>
+              <button type="button" class="row__rev ${dirty ? 'is-dirty' : ''}" data-revert-kind="${k.key}">↺</button>
+            </div>
+            <p class="ed__note">${k.note}</p>
+            <div class="shk__ts">${row}</div>
+          </div>`;
+      }).join('');
+
       $('ed-shadows').innerHTML = `
-        <div class="segctl">
-          ${SHADOW_SIZES.map(sz => `<button type="button" class="segctl__b ${selShadow === sz ? 'is-on' : ''}" data-shadow-pick="${sz}">${sz}</button>`).join('')}
+        <p class="ed__note">The ladder is shared by all four palettes — geometry is
+          distance off the page. Only the ink changes with the ground.</p>
+
+        <div class="segctl" role="group" aria-label="Rung">
+          ${LEVELS.map(l => `<button type="button" class="segctl__b ${selRung === l ? 'is-on' : ''} ${rungDirty(l) ? 'is-dirty' : ''}" data-rung-pick="${l}">${l === 'raise-1' ? '+1' : l === 'raise-2' ? '+2' : l === 'sunken' ? '−1' : '0'}</button>`).join('')}
         </div>
-        <div class="shdprev"><i style="box-shadow: var(--s-shadow-${selShadow})"></i></div>
-        ${ctrl('y', `data-shd="${selShadow}" data-k="y"`, v.y, { min: 0, max: 48, step: 1 })}
-        ${ctrl('blur', `data-shd="${selShadow}" data-k="blur"`, v.blur, { min: 0, max: 96, step: 1 })}
-        ${ctrl('spread', `data-shd="${selShadow}" data-k="spread"`, v.spread, { min: -24, max: 24, step: 1 })}
-        ${ctrl('alpha', `data-shd="${selShadow}" data-k="alpha"`, v.alpha, { min: 0, max: 1, step: 0.01 })}
+        ${preview}
+        ${ctrl('y', `data-shd="${selRung}" data-k="y"`, r.y, { min: -24, max: 48, step: 1 })}
+        ${ctrl('blur', `data-shd="${selRung}" data-k="blur"`, r.blur, { min: 0, max: 96, step: 1 })}
+        ${ctrl('spread', `data-shd="${selRung}" data-k="spread"`, r.spread, { min: -24, max: 24, step: 1 })}
+        ${ctrl('alpha', `data-shd="${selRung}" data-k="alpha"`, r.alpha, { min: 0, max: 1, step: 0.01 })}
         <div class="row">
-          <span class="row__label">colour</span>
-          ${swatch(gray[set.step])}
-          <select class="row__sel" data-shadow-step>${STEPS.map(s2 => `<option value="${s2}" ${s2 === set.step ? 'selected' : ''}>${s2}</option>`).join('')}</select>
-          <button type="button" class="row__rev ${dirty || set.step !== d.step ? 'is-dirty' : ''}" data-revert-shadow="${selShadow}">↺</button>
-        </div>`;
+          <label class="row__check"><input type="checkbox" data-rung-inset ${r.inset ? 'checked' : ''}><span>inset</span></label>
+          <button type="button" class="row__rev ${rungDirty(selRung) ? 'is-dirty' : ''}" data-revert-rung="${selRung}">↺</button>
+        </div>
+
+        <h4 class="shk__sec">Ink: ${PALETTE_LABEL[pal]}</h4>
+        <div class="row">
+          <span class="row__label">color</span>
+          ${swatch(gray[ink.step])}
+          <select class="row__sel" data-ink-step>${STEPS.map(x => `<option value="${x}" ${x === ink.step ? 'selected' : ''}>${x}</option>`).join('')}</select>
+        </div>
+        ${ctrl('strength', 'data-ink-strength', ink.strength, { min: 0, max: 5, step: 0.05 })}
+        <div class="row">
+          <span class="ed__note">Multiplies every rung's alpha on this palette.</span>
+          <button type="button" class="row__rev ${ink.step !== dink.step || ink.strength !== dink.strength ? 'is-dirty' : ''}" data-revert-ink="${pal}">↺</button>
+        </div>
+
+        <h4 class="shk__sec">Applied to</h4>
+        <p class="ed__note">A trigger moves an element along the ladder — never to
+          some other shadow. <b>Off</b> means no shadow at that trigger.</p>
+        <div class="shk__presets">
+          ${Object.keys(PRESETS).map(k => `<button type="button" class="segctl__b" data-preset="${k}">${PRESET_LABEL[k]}</button>`).join('')}
+        </div>
+        ${applyRows}`;
     }
 
     function renderAll() {
@@ -708,8 +790,9 @@ const LEVELS = [
         (e as any)[t.dataset.ch] = Number(t.value);
         st.gray[step] = e;
       } else if (t.dataset.shd) {
-        const size = t.dataset.shd as 'sm' | 'md' | 'lg';
-        (st.shadow[st.theme][size] as any)[t.dataset.k!] = Number(t.value);
+        (st.shadow.ladder[t.dataset.shd as Level] as any)[t.dataset.k!] = Number(t.value);
+      } else if (t.hasAttribute('data-ink-strength')) {
+        st.shadow.ink[paletteKey(st)].strength = Number(t.value);
       } else {
         return false;
       }
@@ -734,14 +817,21 @@ const LEVELS = [
         const pal = paletteKey(st);
         (st.assign[pal] ||= {})[t.dataset.slot as Slot] = t.value as Step;
         apply();
-      } else if (t.hasAttribute('data-shadow-step')) {
-        st.shadow[st.theme].step = t.value as Step;
+      } else if (t.hasAttribute('data-rung-inset')) {
+        st.shadow.ladder[selRung].inset = (t as HTMLInputElement).checked;
+        apply();
+      } else if (t.hasAttribute('data-ink-step')) {
+        st.shadow.ink[paletteKey(st)].step = t.value as Step;
+        apply();
+      } else if (t.dataset.apply) {
+        const [kind, tk] = t.dataset.apply.split('.');
+        (st.shadow.apply[kind] ||= {})[tk] = t.value === 'x' ? null : Number(t.value);
         apply();
       }
     });
 
     document.addEventListener('click', async e => {
-      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-border],[data-revert-slot],[data-revert-step],[data-revert-shadow],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-shadow-pick]');
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-border],[data-revert-slot],[data-revert-step],[data-revert-rung],[data-revert-ink],[data-revert-kind],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-rung-pick],[data-preset]');
       if (!t) return;
 
       if (t.hasAttribute('data-slot-pick')) {
@@ -759,7 +849,8 @@ const LEVELS = [
         (st.assign[pal] ||= {})[selSlot] = t.dataset.assign as Step;
         apply(); return;
       }
-      if (t.dataset.shadowPick) { selShadow = t.dataset.shadowPick as 'sm' | 'md' | 'lg'; renderAll(); return; }
+      if (t.dataset.rungPick) { selRung = t.dataset.rungPick as Level; renderAll(); return; }
+      if (t.dataset.preset) { st.shadow.apply = structuredClone(PRESETS[t.dataset.preset]); apply(); return; }
 
       if (t.dataset.elevSet) { st.elev = t.dataset.elevSet as 'lighter' | 'darker'; apply(); return; }
       if (t.dataset.border)  { st.borders = t.dataset.border as any; apply(); return; }
@@ -769,16 +860,27 @@ const LEVELS = [
         apply(); return;
       }
       if (t.dataset.revertStep) { delete st.gray[t.dataset.revertStep as Step]; apply(); return; }
-      if (t.dataset.revertShadow) {
-        const k = t.dataset.revertShadow as 'sm' | 'md' | 'lg';
-        st.shadow[st.theme][k] = { ...DEFAULT_SHADOW[st.theme][k] };
-        st.shadow[st.theme].step = DEFAULT_SHADOW[st.theme].step;
+      if (t.dataset.revertRung) {
+        st.shadow.ladder[t.dataset.revertRung as Level] = { ...DEFAULT_LADDER[t.dataset.revertRung as Level] };
+        apply(); return;
+      }
+      if (t.dataset.revertInk) {
+        st.shadow.ink[t.dataset.revertInk as keyof typeof DEFAULT_INK] = { ...DEFAULT_INK[t.dataset.revertInk as keyof typeof DEFAULT_INK] };
+        apply(); return;
+      }
+      if (t.dataset.revertKind) {
+        st.shadow.apply[t.dataset.revertKind] = { ...DEFAULT_APPLY[t.dataset.revertKind] };
         apply(); return;
       }
       if (t.dataset.reset === 'cast') { st.cast = { hue: null, sat: null }; apply(); return; }
       if (t.dataset.reset === 'all') {
         st.gray = {}; st.assign = {}; st.cast = { hue: null, sat: null };
-        st.borders = 'selective'; st.shadow = structuredClone(DEFAULT_SHADOW);
+        st.borders = 'selective';
+        st.shadow = {
+          ladder: structuredClone(DEFAULT_LADDER),
+          ink: structuredClone(DEFAULT_INK),
+          apply: structuredClone(DEFAULT_APPLY),
+        };
         apply(); return;
       }
       if (t.dataset.goto) {
@@ -825,11 +927,81 @@ const LEVELS = [
     document.querySelectorAll<HTMLElement>('.seg').forEach(seg => {
       seg.querySelectorAll<HTMLElement>('.seg__btn').forEach(b => {
         b.addEventListener('click', () => {
-          seg.querySelectorAll('.seg__btn').forEach(x => x.classList.remove('is-on'));
+          seg.querySelectorAll('.seg__btn').forEach(x => {
+            x.classList.remove('is-on');
+            // The knob IS the active segment, so its tag travels with the
+            // state rather than being pinned to whichever button shipped on.
+            x.removeAttribute('data-sh');
+            x.removeAttribute('data-lvl');
+          });
           b.classList.add('is-on');
+          b.setAttribute('data-lvl', 'raise-2');
+          b.setAttribute('data-sh', 'knob');
         });
       });
     });
+
+    /* ── Dev audit: a surface must declare the level it is painted with ──
+       `background: var(--s-raise-1)` and `data-lvl="raise-1"` are two halves
+       of one statement, and nothing holds them together — four sunken surfaces
+       shipped untagged before this existed, so their inset shadow silently
+       never appeared.
+
+       Walks the CSSOM for rules that paint a level, then checks the elements
+       those rules ACTUALLY match, so it uses the browser's own selector
+       matching rather than a guess at which markup a class reaches. */
+    function auditLevels() {
+      const paints = new Map<string, string>();
+      for (const sheet of Array.from(document.styleSheets)) {
+        let rules: CSSRuleList;
+        try { rules = sheet.cssRules; } catch { continue; } // cross-origin (fonts)
+        for (const rule of Array.from(rules)) {
+          if (!(rule instanceof CSSStyleRule)) continue;
+          const bg = rule.style.getPropertyValue('background') || rule.style.getPropertyValue('background-color');
+          const m = bg.match(/var\(--s-(sunken|base|raise-1|raise-2)\)/);
+          if (m) paints.set(rule.selectorText, m[1]);
+        }
+      }
+      const bad: { el: Element; expected: string; got: string }[] = [];
+      for (const [sel, lvl] of paints) {
+        let els: NodeListOf<HTMLElement>;
+        try { els = mock.querySelectorAll<HTMLElement>(sel); } catch { continue; }
+        for (const el of Array.from(els)) {
+          if (el.dataset.lvl !== lvl) bad.push({ el, expected: lvl, got: el.dataset.lvl ?? '(none)' });
+        }
+      }
+      if (bad.length) console.warn(`[surfaces] ${bad.length} element(s) painted with a level but not declaring it:`, bad);
+      else console.info(`[surfaces] level audit clean — ${paints.size} painting rules checked`);
+    }
+    auditLevels();
+
+    /* ── Sticky header state ──────────────────────────────────────────
+       `data-stuck` on .mock the moment the sentinel passes under the editor
+       bar. An IntersectionObserver rather than a scroll listener: no work
+       per frame, nothing to throttle, and the browser does the maths.
+
+       rootMargin pulls the root's top edge down by the bar height, so
+       "stuck" means "the nav has reached its parked position" rather than
+       "the nav has reached the top of the window" — which would fire late
+       by exactly the height of the bar.
+
+       --nav-h is published for the anchors' scroll-margin, measured rather
+       than guessed so it stays right if the nav ever changes height. */
+    {
+      const mockEl = document.getElementById('mock')!;
+      const navEl = mockEl.querySelector<HTMLElement>('.nav')!;
+      const sentinel = document.getElementById('nav-sentinel')!;
+      const barH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bar-h')) || 41;
+
+      const publishNavH = () => document.documentElement.style.setProperty('--nav-h', `${navEl.offsetHeight}px`);
+      publishNavH();
+      if ('ResizeObserver' in window) new ResizeObserver(publishNavH).observe(navEl);
+
+      new IntersectionObserver(
+        ([e]) => { mockEl.dataset.stuck = e.isIntersecting ? 'false' : 'true'; },
+        { rootMargin: `-${barH}px 0px 0px 0px`, threshold: 0 },
+      ).observe(sentinel);
+    }
 
     apply();
   </script>
@@ -890,7 +1062,34 @@ const LEVELS = [
   .wrap { width: 100%; max-width: 1300px; margin-inline: auto; padding-inline: var(--spacing-3XL); }
 
   /* nav — +1 */
-  .nav { background: var(--s-raise-1); border-bottom: 1px solid var(--s-line); }
+  /* ── Sticky header ──────────────────────────────────
+     The one case where a full-bleed band plausibly earns a shadow: once it
+     stops sitting in the flow and starts covering content, value alone no
+     longer says which layer is on top. Parks under the editor bar, below it
+     in the stack (bar 60, rail 58, nav 40) so tooling always wins.
+
+     The shadow is a SCROLL STATE, not a resting property — nothing at the
+     top of the page, shadow once content runs beneath. That is a third
+     trigger alongside rest and hover, and it belongs to this element alone. */
+  .nav__sentinel { display: block; height: 1px; margin-bottom: -1px; }
+  .nav {
+    background: var(--s-raise-1);
+    border-bottom: 1px solid var(--s-line);
+    position: sticky; top: var(--bar-h); z-index: 40;
+    transition: box-shadow var(--transition-base);
+  }
+  /* The stuck shadow is emitted by the editor from the Header kind's `stuck`
+     trigger. Nothing in component CSS names a shadow token any more — an
+     element declares the level it sits on and the kind of thing it is, and
+     the system decides the rest. */
+
+  /* Anchor targets clear both the bar and the nav. --nav-h is measured at
+     runtime rather than guessed, so it survives the nav changing height. */
+  /* `.page > [id]` missed #top, which is the <header> and sits OUTSIDE <main>
+     — so the Overview link landed with the nav tucked under the editor bar.
+     Scoping to the mock covers every anchorable target instead of the ones
+     that happen to be sections. */
+  .mock [id] { scroll-margin-top: calc(var(--bar-h) + var(--nav-h, 64px) + var(--spacing-L)); }
   .nav__inner {
     width: 100%; max-width: 1300px; margin-inline: auto;
     padding: var(--spacing-M) var(--spacing-3XL);
@@ -958,7 +1157,6 @@ const LEVELS = [
   }
   .card-float:hover, .card-float:focus-visible {
     transform: translateY(-2px) scale(1.005);
-    box-shadow: var(--s-shadow-md);
   }
   @media (prefers-reduced-motion: reduce) {
     .card-float { transition: none; }
@@ -1088,7 +1286,6 @@ const LEVELS = [
   .switch__knob {
     position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
     border-radius: 50%; background: var(--s-raise-2);
-    box-shadow: var(--s-shadow-sm);
     transition: transform var(--transition-base);
   }
   .switch__track.is-on .switch__knob { transform: translateX(20px); }
@@ -1124,7 +1321,7 @@ const LEVELS = [
     padding: 0.5em 1em; border: 1px solid transparent; border-radius: var(--border-radius-XS);
     background: transparent; color: var(--s-text-body);
   }
-  .seg__btn.is-on { background: var(--s-raise-2); color: var(--s-text-headline); border-color: var(--s-line); box-shadow: var(--s-shadow-sm); }
+  .seg__btn.is-on { background: var(--s-raise-2); color: var(--s-text-headline); border-color: var(--s-line); }
 
   /* Partner marks — foreign shapes on our surfaces, which is the test.
      Inherit currentColor so they take the surface's own text token rather
@@ -1160,7 +1357,6 @@ const LEVELS = [
     border: 1px solid var(--s-line);
     border-radius: var(--border-radius-L); padding: var(--spacing-full);
     display: grid; gap: var(--spacing-3XL);
-    box-shadow: var(--s-shadow-md);
   }
   /* Two columns on desktop. flex + wrap collapsed to a stack once the form
      grew to three fields — the two children simply could not both fit their
@@ -1265,13 +1461,19 @@ const LEVELS = [
   .foot__base { border-top: 1px solid var(--s-line); padding-top: var(--spacing-XL); display: flex; justify-content: space-between; gap: var(--spacing-M); font-size: 0.875rem; color: var(--s-text-body); flex-wrap: wrap; }
 
   /* ── Outline policy ──────────────────────────────────────────────
-     "selective" keeps outlines only where they do structural work:
-     recessed controls (which need an edge to read as cut in) and the
-     dividers inside a card. Card outlines come off, so the +1 step has
-     to carry the card on value alone — which is the honest test. */
-  /* `selective` strips CARD outlines only. Recessed controls keep
+     A ladder of four, each rung named for the highest thing that still
+     keeps an outline:
+
+       All        every card, panel and control — today's behaviour
+       Controls   recessed controls + dividers; cards go
+       Dividers   nothing enclosed; only single-edge separating rules
+       None       nothing anywhere
+
+     `Controls` strips CARD outlines only. Recessed controls keep
      --s-line-strong and card dividers keep --s-line, so both rule tokens
-     stay demonstrated whichever mode is chosen. */
+     stay demonstrated whichever mode is chosen. Card outlines coming off
+     is the honest test: the +1 step then has to carry the card on value
+     alone. */
   .mock[data-borders="selective"] .card,
   .mock[data-borders="selective"] .feature,
   .mock[data-borders="selective"] .nested,
@@ -1281,6 +1483,41 @@ const LEVELS = [
   .mock[data-borders="selective"] .shadows__card,
   .mock[data-borders="selective"] .shadows--onraise,
   .mock[data-borders="selective"] .seg__btn.is-on { border-color: transparent; }
+
+  /* `dividers` goes one rung further: nothing is ENCLOSED. Cards, panels,
+     wells, inputs, pills, segmented controls and the outline button all lose
+     their box; only the single-edge rules that separate one thing from the
+     next survive.
+
+     Written as strip-then-restore rather than as another list of exceptions.
+     The exception list would have to name every bordered thing on the page
+     and would silently leak an outline the day a new component lands; the
+     restore list names the six dividers, which is the shorter, more stable
+     and more honest statement — it says what a divider IS rather than
+     leaving it to whatever happened not to be caught.
+
+     Restoring border-COLOR only is what keeps `.setting:last-of-type`'s
+     `border-bottom: none` intact: that rule kills the style, and a colour
+     cannot resurrect an edge that has no style to draw. */
+  .mock[data-borders="dividers"] *,
+  .mock[data-borders="dividers"] *::before,
+  .mock[data-borders="dividers"] *::after { border-color: transparent !important; }
+
+  /* The six dividers. Each is a single edge on an element that has no other
+     border, so setting all four colours only ever paints the one that has a
+     style — no need to restore per side. */
+  .mock[data-borders="dividers"] .nav,          /* nav  → page          */
+  .mock[data-borders="dividers"] .panel__head,  /* head → settings list */
+  .mock[data-borders="dividers"] .setting,      /* row  → row           */
+  .mock[data-borders="dividers"] .foot,         /* page → footer        */
+  .mock[data-borders="dividers"] .foot__base {  /* footer cols → legal  */
+    border-color: var(--s-line) !important;
+  }
+  /* Stat-to-stat, in the strong weight — so both rule tokens stay
+     demonstrated in this mode too, as they are under `Controls`. */
+  .mock[data-borders="dividers"] .inv__meta li:not(.inv__meta-hi) + li:not(.inv__meta-hi) {
+    border-color: var(--s-line-strong) !important;
+  }
 
   .mock[data-borders="none"] *,
   .mock[data-borders="none"] *::before,

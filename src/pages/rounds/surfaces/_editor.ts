@@ -102,11 +102,17 @@ export type Slot = typeof SLOTS[number];
 export const PALETTES = ['light-lighter', 'light-darker', 'dark-lighter', 'dark-darker'] as const;
 export type PaletteKey = typeof PALETTES[number];
 
+/**
+ * Worded exactly as the bar's two switches word it, so a panel title reads as
+ * "what the bar is currently set to". One vocabulary for the four states, not
+ * two — a second name for the same thing is the problem this round exists to
+ * remove, and it would be poor form to reintroduce it in the tool.
+ */
 export const PALETTE_LABEL: Record<PaletteKey, string> = {
-  'light-lighter': 'Light · raised lighter',
-  'light-darker':  'Light · raised darker',
-  'dark-lighter':  'Dark · raised lighter',
-  'dark-darker':   'Dark · raised darker',
+  'light-lighter': 'light, cards lighter',
+  'light-darker':  'light, cards darker',
+  'dark-lighter':  'dark, cards lighter',
+  'dark-darker':   'dark, cards darker',
 };
 
 /** MUST mirror _surfaces.css. Verified against the stylesheet at boot. */
@@ -130,65 +136,216 @@ export const SLOT_LABEL: Record<Slot, string> = {
 
 /* ── Outlines ───────────────────────────────────────────────────────── */
 
-export const BORDER_MODES = ['all', 'selective', 'none'] as const;
+/**
+ * A ladder, not a set of flavours — every rung takes an outline away, and is
+ * named for the highest thing that still keeps one. `dividers` is the rung
+ * where nothing is ENCLOSED any more: only the single-edge rules that
+ * separate one thing from the next survive.
+ */
+export const BORDER_MODES = ['all', 'selective', 'dividers', 'none'] as const;
 export type BorderMode = typeof BORDER_MODES[number];
 
 export const BORDER_LABEL: Record<BorderMode, string> = {
   all: 'All',
-  selective: 'Selective',
+  selective: 'Controls',
+  dividers: 'Dividers',
   none: 'None',
 };
 export const BORDER_HELP: Record<BorderMode, string> = {
   all: 'Every card, panel and control outlined — today\u2019s behaviour.',
   selective: 'Outlines only on recessed controls and dividers. Cards rely on surface value alone.',
+  dividers: 'Nothing is enclosed — no card, input, pill or outline-button box. Only dividing rules survive: the nav, the footer, and the rules inside a card.',
   none: 'No outlines anywhere. The purest read of whether the value steps carry the hierarchy.',
 };
 
-/* ── Shadows ────────────────────────────────────────────────────────── */
+/* ── Shadows ────────────────────────────────────────────
+   Four tables and one rule. Everything about shadows is data here, so the
+   open questions (a pressed state, a focus state, a modal tier, a new kind
+   of component) are entries to add rather than code to restructure.
 
-export interface ShadowSpec { y: number; blur: number; spread: number; alpha: number }
-export interface ShadowSet { step: Step; sm: ShadowSpec; md: ShadowSpec; lg: ShadowSpec }
-export const SHADOW_SIZES = ['sm', 'md', 'lg'] as const;
-export type ShadowSize = typeof SHADOW_SIZES[number];
+     LADDER   what a shadow IS at each level        — shared by all palettes
+     INK      what it is made of, per palette       — colour step + strength
+     KINDS    which components ask the question
+     TRIGGERS when a shadow applies
+
+   THE RULE: a trigger may only move an element ALONG the ladder — never to
+   an arbitrary shadow. That is what stops this becoming the eight-token
+   surface system again, where anything could be anything and so nobody knew
+   what to pick. Extensible in every dimension except the one that would rot.
+   ════════════════════════════════════════════════════════════─ */
+
+/** ORDERED, because a trigger moves you along it: +1 means "the next rung
+ *  up". Index arithmetic is the point, so this is an array, not a map.
+ *  Adding a rung (an overlay/modal tier, say) is one entry here. */
+export const LEVELS = ['sunken', 'base', 'raise-1', 'raise-2'] as const;
+export type Level = typeof LEVELS[number];
+
+export interface Rung { y: number; blur: number; spread: number; alpha: number; inset: boolean }
 
 /**
- * Light defaults are the brand's shipped tokens, decomposed:
- *   --shadow-sm: 0 2px 4px #46425729                     (grayscale-700 @ .16)
- *   --shadow-md: 0 16px 32px -4px #4642571a, 0 2px 4px #4642570a
- *   --shadow-lg: 0 24px 48px -8px #4642571f, 0 2px 4px #4642570a
- * Dark has no shipped equivalent — the brand never defined one, which is
- * part of why dark elevation reads inconsistently. These are a starting
- * proposal: near-black and far more opaque, because a #464257 shadow on a
- * #23202c ground is effectively invisible.
+ * Derived from the brand's shipped tokens rather than invented: --shadow-sm
+ * becomes the +1 rung and --shadow-md the +2. `base` is pinned at nothing —
+ * an element sitting ON the page is not above anything, so it has nothing to
+ * cast onto. It stays editable so that can be disproved rather than assumed.
+ * `sunken` is the one inset rung, which is also what makes a PRESSED state
+ * work later for free: sinking to −1 lands on an inner shadow with no
+ * special rule.
  */
-export const DEFAULT_SHADOW: Record<'light' | 'dark', ShadowSet> = {
-  light: {
-    step: '700',
-    sm: { y: 2,  blur: 4,  spread: 0,  alpha: 0.16 },
-    md: { y: 16, blur: 32, spread: -4, alpha: 0.10 },
-    lg: { y: 24, blur: 48, spread: -8, alpha: 0.12 },
-  },
-  dark: {
-    step: '1000',
-    sm: { y: 2,  blur: 4,  spread: 0,  alpha: 0.40 },
-    md: { y: 16, blur: 32, spread: -4, alpha: 0.45 },
-    lg: { y: 24, blur: 48, spread: -8, alpha: 0.50 },
+export const DEFAULT_LADDER: Record<Level, Rung> = {
+  sunken:    { y: 1,  blur: 3,  spread: 0,  alpha: 0.13, inset: true },
+  base:      { y: 0,  blur: 0,  spread: 0,  alpha: 0,    inset: false },
+  'raise-1': { y: 2,  blur: 4,  spread: 0,  alpha: 0.16, inset: false },
+  'raise-2': { y: 16, blur: 32, spread: -4, alpha: 0.10, inset: false },
+};
+
+/**
+ * Per palette, because this is the half that genuinely cannot be shared: a
+ * #464257 shadow on a #23202c ground is invisible. `strength` multiplies the
+ * ladder's alpha, so the ladder keeps its SHAPE and the palette sets only how
+ * hard it lands — the same split as the grayscale cast.
+ *
+ * `step` is any grayscale step, light ones included. That matters most under
+ * `darker`, where raised surfaces are DARKER than the page and a dark shadow
+ * may do nothing at all; the answer there may be a light shadow, or none.
+ */
+export interface Ink { step: Step; strength: number }
+export const DEFAULT_INK: Record<PaletteKey, Ink> = {
+  'light-lighter': { step: '700',  strength: 1 },
+  'light-darker':  { step: '700',  strength: 1 },
+  'dark-lighter':  { step: '1000', strength: 2.8 },
+  'dark-darker':   { step: '1000', strength: 2.8 },
+};
+
+/**
+ * WHEN a shadow applies. `sel` wraps a kind's selector, and it is the entire
+ * extension point: a pseudo-class, an ancestor state attribute, anything CSS
+ * can express. The commented entries are the ones already anticipated — each
+ * is one line, with no change to the model.
+ */
+const HOVERABLE = ':is(a, button, [role="button"])';
+
+export interface Trigger { key: string; label: string; sel: (kind: string) => string }
+export const TRIGGERS: readonly Trigger[] = [
+  { key: 'rest',  label: 'Rest',      sel: k => `.mock ${k}` },
+  // Guarded to elements that can ACTUALLY be hovered. Without it, a static
+  // <div> panel changes on mouseover — a bug, not a design option. The guard
+  // is `:is(a, button, [role="button"])` rather than a bespoke attribute so it
+  // stays true in a consuming project without anything to maintain, and so
+  // `active`/`focus` can reuse the same shape when they arrive.
+  { key: 'hover', label: 'Hover',     sel: k => `.mock ${k}${HOVERABLE}:hover, .mock ${k}${HOVERABLE}:focus-visible` },
+  { key: 'stuck', label: 'On scroll', sel: k => `.mock[data-stuck="true"] ${k}` },
+  // { key: 'active', label: 'Pressed', sel: k => `.mock ${k}:active` },
+  // { key: 'focus',  label: 'Focus',   sel: k => `.mock ${k}:focus-within` },
+];
+export const trigger = (key: string) => TRIGGERS.find(t => t.key === key);
+
+/**
+ * WHICH components ask the question. A kind is a question, not a category —
+ * and it declares the triggers it offers, which is how "most elements have no
+ * hover" stays true without hover becoming a special global.
+ *
+ * Adding a kind: one entry here, plus `data-sh` on the elements.
+ */
+export interface Kind { key: string; label: string; note: string; triggers: readonly string[] }
+export const KINDS: readonly Kind[] = [
+  { key: 'header',  label: 'Header',  note: 'Sticky band — nothing at rest, or a shadow once it covers content?', triggers: ['rest', 'stuck'] },
+  { key: 'card',    label: 'Card',    note: 'Carries its rung at rest. Hover modifies it — on the links only, not the static panels.', triggers: ['rest', 'hover'] },
+  { key: 'nested',  label: 'Nested',  note: '+2 inside +1 — needed, or is the value step enough this close?',     triggers: ['rest'] },
+  { key: 'inset',   label: 'Inset',   note: 'Does sunken want an inner shadow?',                                     triggers: ['rest'] },
+  { key: 'knob',    label: 'Knob',    note: 'Riding in a track — where shadow does real work today.',              triggers: ['rest'] },
+];
+
+/**
+ * INVERSE INK.
+ *
+ * A shadow falls on the ground BENEATH an element, not on the element's own
+ * surface — so its ink belongs to whatever it is casting onto.
+ *
+ * That answers inverse exactly. The block itself sits on the ordinary page, so
+ * it casts with the ordinary ink (and at `base` it casts nothing at all, which
+ * is the right answer for a boundary the value step has already drawn).
+ * Everything INSIDE it sits on inverse surfaces — the opposite mode's levels —
+ * so it must cast with the opposite palette's ink. A +1 card inside a light
+ * page's inverse block is a +1 on a dark ground, and wants exactly the shadow
+ * that was tuned for dark mode.
+ *
+ * So `--s-inv-shadow-*` is the opposite palette's ladder, mirroring `--s-inv-*`
+ * for surfaces, and `[data-inverse] [data-lvl]` swaps to it — descendants only,
+ * never the boundary element itself. No suppression switch and no kind needs an
+ * inverse-aware rule: ink follows the ground, and the rest falls out.
+ */
+
+/** null = no shadow. A number is a delta along LEVELS from the element's own
+ *  level, clamped at both ends. */
+export type Delta = number | null;
+export const DELTAS: readonly Delta[] = [null, -1, 0, 1, 2];
+export const deltaLabel = (d: Delta) => (d === null ? 'Off' : d === 0 ? 'On' : d > 0 ? `+${d}` : String(d));
+
+/**
+ * THE PROPOSAL, not the status quo: a surface carries its rung AT REST. That
+ * is the thing being judged — whether four value steps plus a matched shadow
+ * ladder read as elevation — so it has to be what you see on load.
+ *
+ * An earlier version defaulted to `today` instead, reasoning that the default
+ * should be the thing to argue against. That was wrong for this round: today's
+ * page has no resting card shadow at all, so the default rendered the ladder
+ * invisible and the system looked broken when it was merely switched off.
+ * `today` is still one click away, which is the right place for it.
+ *
+ * Header stays scroll-only — a full-bleed band casting at rest is ruled out.
+ * Hover keeps +1 ON TOP of the resting shadow, so the card-float lift the live
+ * site already does still has somewhere to go.
+ */
+export const DEFAULT_APPLY: Record<string, Record<string, Delta>> = {
+  header: { rest: null, stuck: 0 },
+  card:   { rest: 0, hover: 1 },
+  nested: { rest: 0 },
+  inset:  { rest: 0 },
+  knob:   { rest: 0 },
+};
+
+/** The page as the live site behaves today, kept for comparison. */
+export const TODAY_APPLY: Record<string, Record<string, Delta>> = {
+  header: { rest: null, stuck: 0 },
+  card:   { rest: null, hover: 1 },
+  nested: { rest: null },
+  inset:  { rest: 0 },
+  knob:   { rest: 0 },
+};
+
+export const PRESETS: Record<string, Record<string, Record<string, Delta>>> = {
+  rest: DEFAULT_APPLY,
+  today: TODAY_APPLY,
+  none: {
+    header: { rest: null, stuck: null },
+    card:   { rest: null, hover: null },
+    nested: { rest: null },
+    inset:  { rest: null },
+    knob:   { rest: null },
   },
 };
+export const PRESET_LABEL: Record<string, string> = { rest: 'At rest', today: 'Today', none: 'None' };
 
 const rgba = (hex: string, a: number) => {
   const [r, g, b] = hexToRgb(hex).map(c => Math.round(c * 255));
-  return `rgba(${r}, ${g}, ${b}, ${a.toFixed(3)})`;
+  return `rgba(${r}, ${g}, ${b}, ${Math.min(1, a).toFixed(3)})`;
 };
 
-/** md and lg carry a second tight "contact" layer, as the brand tokens do. */
-export function shadowCss(set: ShadowSet, size: ShadowSize, gray: Record<Step, string>): string {
-  const c = gray[set.step] ?? '#000000';
-  const s = set[size];
-  const main = `0 ${s.y}px ${s.blur}px ${s.spread}px ${rgba(c, s.alpha)}`;
-  if (size === 'sm') return main;
-  return `${main}, 0 2px 4px ${rgba(c, s.alpha * 0.4)}`;
+/** A rung rendered with a palette's ink. Drop shadows past a soft blur carry
+ *  a second tight "contact" layer, as the brand tokens do; inset ones do not. */
+export function rungCss(r: Rung, ink: Ink, gray: Record<Step, string>): string {
+  if (r.alpha <= 0) return 'none';
+  const hex = gray[ink.step] ?? '#000000';
+  const a = r.alpha * ink.strength;
+  const main = `${r.inset ? 'inset ' : ''}0 ${r.y}px ${r.blur}px ${r.spread}px ${rgba(hex, a)}`;
+  if (r.inset || r.blur < 12) return main;
+  return `${main}, 0 2px 4px ${rgba(hex, a * 0.4)}`;
 }
+
+/** The ladder as seen FROM a level: itself, and the rungs either side.
+ *  Clamping lives here, so a delta can never fall off the end. */
+export const rungAt = (level: Level, delta: number): Level =>
+  LEVELS[Math.max(0, Math.min(LEVELS.length - 1, LEVELS.indexOf(level) + delta))];
 
 /* ── State ──────────────────────────────────────────────────────────── */
 
@@ -207,10 +364,16 @@ export interface State {
    *  they do structural work (recessed controls, dividers inside a card) and
    *  NOT as a default ring around every card. */
   borders: BorderMode;
-  /** Shadows are held PER COLOUR MODE. A shadow tuned on a light ground is
-   *  almost never right on a dark one — it needs a different colour and a
-   *  much higher alpha to register at all. */
-  shadow: Record<'light' | 'dark', ShadowSet>;
+  /** Shadows, in the four tables above. `ladder` is shared across palettes
+   *  (geometry is distance off the page, and should not need to change with
+   *  the ground); `ink` is per palette, because a shadow's colour and
+   *  strength is exactly what the ground does change. */
+  shadow: {
+    ladder: Record<Level, Rung>;
+    ink: Record<PaletteKey, Ink>;
+    /** kind → trigger → delta. */
+    apply: Record<string, Record<string, Delta>>;
+  };
   theme: 'light' | 'dark';
   elev: 'lighter' | 'darker';
 }
@@ -218,7 +381,11 @@ export interface State {
 export const newState = (): State => ({
   gray: {}, assign: {}, cast: { hue: null, sat: null },
   borders: 'selective',
-  shadow: structuredClone(DEFAULT_SHADOW),
+  shadow: {
+    ladder: structuredClone(DEFAULT_LADDER),
+    ink: structuredClone(DEFAULT_INK),
+    apply: structuredClone(DEFAULT_APPLY),
+  },
   theme: 'light', elev: 'lighter',
 });
 
@@ -352,14 +519,62 @@ export function emitCss(gray: Record<Step, string>, st: State): string {
     lines.push('}');
   }
 
-  for (const mode of ['light', 'dark'] as const) {
-    const sel = mode === 'dark' ? '[data-theme="dark"] .mock' : '.mock';
+  // Shadows, per palette — all four, not just the two colour modes. Under
+  // `darker` a raised surface is DARKER than the page, so the same shadow can
+  // mean the opposite thing; keying only to light/dark made that untestable.
+  for (const pal of PALETTES) {
+    const [theme, elev] = pal.split('-') as ['light' | 'dark', 'lighter' | 'darker'];
+    const sel = theme === 'dark'
+      ? `[data-theme="dark"] .mock[data-elev="${elev}"]`
+      : `.mock[data-elev="${elev}"]`;
     lines.push(`${sel} {`);
-    for (const size of SHADOW_SIZES) {
-      lines.push(`  --s-shadow-${size}: ${shadowCss(st.shadow[mode], size, gray)};`);
+    // `--s-inv-shadow-*` is the opposite palette's ladder, exactly as
+    // `--s-inv-*` is the opposite palette's surfaces — so an inverse block's
+    // interior casts onto the ground it actually has.
+    const invPal = `${theme === 'dark' ? 'light' : 'dark'}-${elev}` as PaletteKey;
+    for (const lvl of LEVELS) {
+      lines.push(`  --s-shadow-${lvl}: ${rungCss(st.shadow.ladder[lvl], st.shadow.ink[pal], gray)};`);
+    }
+    for (const lvl of LEVELS) {
+      lines.push(`  --s-inv-shadow-${lvl}: ${rungCss(st.shadow.ladder[lvl], st.shadow.ink[invPal], gray)};`);
     }
     lines.push('}');
   }
+
+  // Each level publishes the ladder AS SEEN FROM ITSELF, with the clamping
+  // already applied. A kind's rule is then one line that names a direction
+  // rather than a level, which is what lets one rule serve elements sitting
+  // at different levels.
+  for (const lvl of LEVELS) {
+    lines.push(`.mock [data-lvl="${lvl}"] {`);
+    for (const d of [-2, -1, 0, 1, 2]) {
+      const name = d === 0 ? '--sh-self' : d < 0 ? `--sh-dn${-d}` : `--sh-up${d}`;
+      lines.push(`  ${name}: var(--s-shadow-${rungAt(lvl, d)});`);
+    }
+    lines.push('}');
+  }
+
+  // DESCENDANTS ONLY — `[data-inverse] [data-lvl]`, not `[data-inverse][data-lvl]`.
+  // The boundary element casts onto the ordinary page and keeps ordinary ink;
+  // only its interior sits on inverse ground. Emitted before the level
+  // bindings would resolve, and at (0,2,0) it outranks their (0,1,0).
+  lines.push('.mock [data-inverse] [data-lvl] {');
+  for (const lvl of LEVELS) lines.push(`  --s-shadow-${lvl}: var(--s-inv-shadow-${lvl});`);
+  lines.push('}');
+
+  // One rule per kind × trigger. `null` emits nothing at all rather than
+  // `box-shadow: none`, so a kind that is off cannot win a cascade race
+  // against something else that wants to set a shadow.
+  for (const kind of KINDS) {
+    for (const tk of kind.triggers) {
+      const t = trigger(tk);
+      const d = st.shadow.apply[kind.key]?.[tk];
+      if (!t || d === null || d === undefined) continue;
+      const name = d === 0 ? '--sh-self' : d < 0 ? `--sh-dn${-d}` : `--sh-up${d}`;
+      lines.push(`${t.sel(`[data-sh="${kind.key}"]`)} { box-shadow: var(${name}); }`);
+    }
+  }
+
   return lines.join('\n');
 }
 
@@ -390,6 +605,56 @@ export function exportCss(brand: Record<Step, string>, gray: Record<Step, string
     }
     out.push('}');
   }
+
+  // Shadows: the per-palette rungs, then the level bindings, then one rule per
+  // kind × trigger. Emitted in the same shape the mock consumes, so what is
+  // copied out is what was judged.
+  out.push('');
+  out.push('/* Shadow ladder — per palette */');
+  for (const pal of PALETTES) {
+    const [theme, elev] = pal.split('-') as ['light' | 'dark', 'lighter' | 'darker'];
+    const sel = theme === 'dark' ? `[data-theme="dark"] [data-elev="${elev}"]` : `[data-elev="${elev}"]`;
+    const invPal = `${theme === 'dark' ? 'light' : 'dark'}-${elev}` as PaletteKey;
+    out.push(`${sel} {`);
+    for (const lvl of LEVELS) out.push(`  --s-shadow-${lvl}: ${rungCss(st.shadow.ladder[lvl], st.shadow.ink[pal], gray)};`);
+    for (const lvl of LEVELS) out.push(`  --s-inv-shadow-${lvl}: ${rungCss(st.shadow.ladder[lvl], st.shadow.ink[invPal], gray)};`);
+    out.push('}');
+  }
+  out.push('');
+  out.push('/* Each level, as seen from itself — clamping already applied */');
+  // Only the deltas actually in use. A hardcoded -1/0/+1 exported CSS that
+  // referenced --sh-up2 without defining it the moment any kind was set to +2,
+  // which DELTAS offers. Deriving the set cannot drift.
+  const usedDeltas = [...new Set([0, ...Object.values(st.shadow.apply)
+    .flatMap(t => Object.values(t))
+    .filter((d): d is number => typeof d === 'number')])].sort((a, b) => a - b);
+  for (const lvl of LEVELS) {
+    out.push(`[data-lvl="${lvl}"] {`);
+    for (const d of usedDeltas) {
+      const name = d === 0 ? '--sh-self' : d < 0 ? `--sh-dn${-d}` : `--sh-up${d}`;
+      out.push(`  ${name}: var(--s-shadow-${rungAt(lvl, d)});`);
+    }
+    out.push('}');
+  }
+  out.push('');
+  out.push('/* Inside an inverse block, cast with the opposite palette\'s ink — a');
+  out.push('   shadow falls on the ground BENEATH the element. Descendants only: the');
+  out.push('   block itself sits on the ordinary page and keeps ordinary ink. */');
+  out.push('[data-inverse] [data-lvl] {');
+  for (const lvl of LEVELS) out.push(`  --s-shadow-${lvl}: var(--s-inv-shadow-${lvl});`);
+  out.push('}');
+  out.push('');
+  out.push('/* Applied to */');
+  for (const kind of KINDS) {
+    for (const tk of kind.triggers) {
+      const t = trigger(tk);
+      const d = st.shadow.apply[kind.key]?.[tk];
+      if (!t || d === null || d === undefined) continue;
+      const name = d === 0 ? '--sh-self' : d < 0 ? `--sh-dn${-d}` : `--sh-up${d}`;
+      out.push(`${t.sel(`[data-sh="${kind.key}"]`).replace(/\.mock ?/g, '')} { box-shadow: var(${name}); }`);
+    }
+  }
+
   return out.join('\n');
 }
 
@@ -414,6 +679,16 @@ export function exportJson(brand: Record<Step, string>, gray: Record<Step, strin
     resolved: Object.fromEntries(
       PALETTES.map(p => [p, Object.fromEntries(SLOTS.map(s => [s, gray[assignedStep(st, p, s)]]))]),
     ),
+    shadow: {
+      ladder: st.shadow.ladder,
+      ink: st.shadow.ink,
+      apply: st.shadow.apply,
+      resolved: Object.fromEntries(
+        PALETTES.map(p => [p, Object.fromEntries(
+          LEVELS.map(l => [l, rungCss(st.shadow.ladder[l], st.shadow.ink[p], gray)]),
+        )]),
+      ),
+    },
   }, null, 2);
 }
 
@@ -452,18 +727,38 @@ export function encodeUrl(brand: Record<Step, string>, gray: Record<Step, string
 
   if (st.borders !== 'selective') p.set('b', st.borders);
 
-  // Shadows: mode.size:y.blur.spread.alpha — only what differs from default.
-  const sh: string[] = [];
-  for (const mode of ['light', 'dark'] as const) {
-    if (st.shadow[mode].step !== DEFAULT_SHADOW[mode].step) sh.push(`${mode}.step:${st.shadow[mode].step}`);
-    for (const size of SHADOW_SIZES) {
-      const a = st.shadow[mode][size], d = DEFAULT_SHADOW[mode][size];
-      if (a.y !== d.y || a.blur !== d.blur || a.spread !== d.spread || a.alpha !== d.alpha) {
-        sh.push(`${mode}.${size}:${a.y}.${a.blur}.${a.spread}.${a.alpha}`);
-      }
+  // Shadows, three keys so each table stays independently readable in a link.
+  // Diffs only — a one-value tweak stays short.
+  const shl = LEVELS.filter(l => {
+    const a = st.shadow.ladder[l], d = DEFAULT_LADDER[l];
+    return a.y !== d.y || a.blur !== d.blur || a.spread !== d.spread || a.alpha !== d.alpha || a.inset !== d.inset;
+  }).map(l => {
+    const a = st.shadow.ladder[l];
+    // UNDERSCORE, not dot. `alpha` and `strength` are decimals, so a dot
+    // separator collides with their own decimal point: 0.5 encoded into a
+    // dot-joined tuple splits into two fields and decodes as 0 — i.e. every
+    // shared link silently lost its alpha, which for a shadow means it
+    // vanished. Matches the grayscale encoding, which already uses `_`.
+    return `${l}:${a.y}_${a.blur}_${a.spread}_${a.alpha}_${a.inset ? 1 : 0}`;
+  });
+  if (shl.length) p.set('shl', shl.join(','));
+
+  const shi = PALETTES.filter(pal => {
+    const a = st.shadow.ink[pal], d = DEFAULT_INK[pal];
+    return a.step !== d.step || a.strength !== d.strength;
+  }).map(pal => `${pal}:${st.shadow.ink[pal].step}_${st.shadow.ink[pal].strength}`);
+  if (shi.length) p.set('shi', shi.join(','));
+
+  const sha: string[] = [];
+  for (const kind of KINDS) {
+    for (const tk of kind.triggers) {
+      const a = st.shadow.apply[kind.key]?.[tk];
+      const d = DEFAULT_APPLY[kind.key]?.[tk];
+      if (a !== d) sha.push(`${kind.key}.${tk}:${a === null ? 'x' : a}`);
     }
   }
-  if (sh.length) p.set('sh', sh.join(','));
+  if (sha.length) p.set('sha', sha.join(','));
+
 
   const q = p.toString();
   return q ? `${location.pathname}?${q}` : location.pathname;
@@ -514,20 +809,42 @@ export function decodeUrl(st: State, search: string): State {
   const b = p.get('b');
   if (b && (BORDER_MODES as readonly string[]).includes(b)) st.borders = b as BorderMode;
 
-  const sh = p.get('sh');
-  if (sh) {
-    for (const item of sh.split(',')) {
-      const [path, val] = item.split(':');
-      const [mode, key] = (path || '').split('.');
-      if (mode !== 'light' && mode !== 'dark') continue;
-      if (key === 'step') {
-        if ((STEPS as readonly string[]).includes(val)) st.shadow[mode].step = val as Step;
-        continue;
-      }
-      if (!(SHADOW_SIZES as readonly string[]).includes(key)) continue;
-      const [y, blur, spread, alpha] = (val || '').split('.').map(Number);
+  // Every branch below SKIPS what it does not recognise rather than throwing.
+  // That is deliberate: links get passed back and forth while the tables are
+  // still growing, so a link written before a kind or trigger existed must
+  // still load, and one written after must degrade rather than break.
+  const shl = p.get('shl');
+  if (shl) {
+    for (const item of shl.split(',')) {
+      const [lvl, val] = item.split(':');
+      if (!(LEVELS as readonly string[]).includes(lvl)) continue;
+      const [y, blur, spread, alpha, inset] = (val || '').split('_').map(Number);
       if ([y, blur, spread, alpha].some(Number.isNaN)) continue;
-      st.shadow[mode][key as ShadowSize] = { y, blur, spread, alpha };
+      st.shadow.ladder[lvl as Level] = { y, blur, spread, alpha, inset: inset === 1 };
+    }
+  }
+
+  const shi = p.get('shi');
+  if (shi) {
+    for (const item of shi.split(',')) {
+      const [pal, val] = item.split(':');
+      if (!(PALETTES as readonly string[]).includes(pal)) continue;
+      const [step, strength] = (val || '').split('_');
+      if (!(STEPS as readonly string[]).includes(step) || Number.isNaN(Number(strength))) continue;
+      st.shadow.ink[pal as PaletteKey] = { step: step as Step, strength: Number(strength) };
+    }
+  }
+
+  const sha = p.get('sha');
+  if (sha) {
+    for (const item of sha.split(',')) {
+      const [path, val] = item.split(':');
+      const [kind, tk] = (path || '').split('.');
+      const k = KINDS.find(x => x.key === kind);
+      if (!k || !k.triggers.includes(tk)) continue;
+      if (val === 'x') { (st.shadow.apply[kind] ||= {})[tk] = null; continue; }
+      if (Number.isNaN(Number(val))) continue;
+      (st.shadow.apply[kind] ||= {})[tk] = Number(val);
     }
   }
 
