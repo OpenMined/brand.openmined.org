@@ -200,8 +200,14 @@
    casts only once it is covering content. */
 [data-sh="card"],
 [data-sh="nested"],
-[data-sh="inset"],
+[data-sh="control"],
 [data-sh="knob"] { box-shadow: var(--sh-self); }
+
+/* `recess` — a sunken region you do not operate (footer strip, well, badge) —
+   is deliberately absent: it never casts. `field` is flat until you are in it,
+   so the recess IS the focus state. Both used to be lumped in with the
+   controls under a single kind defined by LEVEL rather than by behaviour. */
+[data-sh="field"]:focus-within { box-shadow: var(--sh-self); }
 
 /* Hover MODIFIES the resting shadow, and only where the element can actually
    be hovered — a static <div> panel changing on mouseover is a bug, not an

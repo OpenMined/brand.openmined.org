@@ -134,30 +134,6 @@ export const SLOT_LABEL: Record<Slot, string> = {
   'text-body': 'body / ink',
 };
 
-/* ── Outlines ───────────────────────────────────────────────────────── */
-
-/**
- * A ladder, not a set of flavours — every rung takes an outline away, and is
- * named for the highest thing that still keeps one. `dividers` is the rung
- * where nothing is ENCLOSED any more: only the single-edge rules that
- * separate one thing from the next survive.
- */
-export const BORDER_MODES = ['all', 'selective', 'dividers', 'none'] as const;
-export type BorderMode = typeof BORDER_MODES[number];
-
-export const BORDER_LABEL: Record<BorderMode, string> = {
-  all: 'All',
-  selective: 'Controls',
-  dividers: 'Dividers',
-  none: 'None',
-};
-export const BORDER_HELP: Record<BorderMode, string> = {
-  all: 'Every card, panel and control outlined — today\u2019s behaviour.',
-  selective: 'Outlines only on recessed controls and dividers. Cards rely on surface value alone.',
-  dividers: 'Nothing is enclosed — no card, input, pill or outline-button box. Only dividing rules survive: the nav, the footer, and the rules inside a card.',
-  none: 'No outlines anywhere. The purest read of whether the value steps carry the hierarchy.',
-};
-
 /* ── Shadows ────────────────────────────────────────────
    Four tables and one rule. Everything about shadows is data here, so the
    open questions (a pressed state, a focus state, a modal tier, a new kind
@@ -234,8 +210,11 @@ export const TRIGGERS: readonly Trigger[] = [
   // `active`/`focus` can reuse the same shape when they arrive.
   { key: 'hover', label: 'Hover',     sel: k => `.mock ${k}${HOVERABLE}:hover, .mock ${k}${HOVERABLE}:focus-visible` },
   { key: 'stuck', label: 'On scroll', sel: k => `.mock[data-stuck="true"] ${k}` },
+  // `:focus-within` rather than `:focus-visible`: a field should show its
+  // recess when you click into it, not only on keyboard focus, and the
+  // -within form also covers a real <input> nested inside a wrapper.
+  { key: 'focus', label: 'On focus', sel: k => `.mock ${k}:focus-within` },
   // { key: 'active', label: 'Pressed', sel: k => `.mock ${k}:active` },
-  // { key: 'focus',  label: 'Focus',   sel: k => `.mock ${k}:focus-within` },
 ];
 export const trigger = (key: string) => TRIGGERS.find(t => t.key === key);
 
@@ -251,7 +230,13 @@ export const KINDS: readonly Kind[] = [
   { key: 'header',  label: 'Header',  note: 'Sticky band — nothing at rest, or a shadow once it covers content?', triggers: ['rest', 'stuck'] },
   { key: 'card',    label: 'Card',    note: 'Carries its rung at rest. Hover modifies it — on the links only, not the static panels.', triggers: ['rest', 'hover'] },
   { key: 'nested',  label: 'Nested',  note: '+2 inside +1 — needed, or is the value step enough this close?',     triggers: ['rest'] },
-  { key: 'inset',   label: 'Inset',   note: 'Does sunken want an inner shadow?',                                     triggers: ['rest'] },
+  // The old single `inset` kind was defined by its LEVEL — everything sitting
+  // at sunken. That was the mistake: three things share that level and want
+  // three different answers, so they are three kinds. A kind is a question,
+  // and "is it recessed?" was never the question being asked.
+  { key: 'control', label: 'Control',  note: 'Toggle tracks and segmented tracks — a recess you operate.',            triggers: ['rest'] },
+  { key: 'recess',  label: 'Recess',   note: 'A sunken region you do not touch: footer strip, well, badge.',           triggers: ['rest'] },
+  { key: 'field',   label: 'Field',    note: 'An input. Flat until you are in it — the recess is the focus state.',   triggers: ['rest', 'focus'] },
   { key: 'knob',    label: 'Knob',    note: 'Riding in a track — where shadow does real work today.',              triggers: ['rest'] },
 ];
 
@@ -299,18 +284,22 @@ export const deltaLabel = (d: Delta) => (d === null ? 'Off' : d === 0 ? 'On' : d
 export const DEFAULT_APPLY: Record<string, Record<string, Delta>> = {
   header: { rest: null, stuck: 0 },
   card:   { rest: 0, hover: 1 },
-  nested: { rest: 0 },
-  inset:  { rest: 0 },
-  knob:   { rest: 0 },
+  nested:  { rest: 0 },
+  control: { rest: 0 },
+  recess:  { rest: null },
+  field:   { rest: null, focus: 0 },
+  knob:    { rest: 0 },
 };
 
 /** The page as the live site behaves today, kept for comparison. */
 export const TODAY_APPLY: Record<string, Record<string, Delta>> = {
   header: { rest: null, stuck: 0 },
-  card:   { rest: null, hover: 1 },
-  nested: { rest: null },
-  inset:  { rest: 0 },
-  knob:   { rest: 0 },
+  card:    { rest: null, hover: 1 },
+  nested:  { rest: null },
+  control: { rest: null },
+  recess:  { rest: null },
+  field:   { rest: null, focus: null },
+  knob:    { rest: 0 },
 };
 
 export const PRESETS: Record<string, Record<string, Record<string, Delta>>> = {
@@ -318,10 +307,12 @@ export const PRESETS: Record<string, Record<string, Record<string, Delta>>> = {
   today: TODAY_APPLY,
   none: {
     header: { rest: null, stuck: null },
-    card:   { rest: null, hover: null },
-    nested: { rest: null },
-    inset:  { rest: null },
-    knob:   { rest: null },
+    card:    { rest: null, hover: null },
+    nested:  { rest: null },
+    control: { rest: null },
+    recess:  { rest: null },
+    field:   { rest: null, focus: null },
+    knob:    { rest: null },
   },
 };
 export const PRESET_LABEL: Record<string, string> = { rest: 'At rest', today: 'Today', none: 'None' };
@@ -360,10 +351,6 @@ export interface State {
   /** Global cast: the ramp's base hue, and its tint strength as a percentage
    *  where 100% = SAT_MAX_C chroma at the ramp's peak. Both absolute. */
   cast: { hue: number | null; sat: number | null };
-  /** Outline policy. `selective` is the interesting one: outlines only where
-   *  they do structural work (recessed controls, dividers inside a card) and
-   *  NOT as a default ring around every card. */
-  borders: BorderMode;
   /** Shadows, in the four tables above. `ladder` is shared across palettes
    *  (geometry is distance off the page, and should not need to change with
    *  the ground); `ink` is per palette, because a shadow's colour and
@@ -380,7 +367,6 @@ export interface State {
 
 export const newState = (): State => ({
   gray: {}, assign: {}, cast: { hue: null, sat: null },
-  borders: 'selective',
   shadow: {
     ladder: structuredClone(DEFAULT_LADDER),
     ink: structuredClone(DEFAULT_INK),
@@ -725,8 +711,6 @@ export function encodeUrl(brand: Record<Step, string>, gray: Record<Step, string
   if (st.cast.hue !== null) p.set('ch', String(Math.round(st.cast.hue)));
   if (st.cast.sat !== null) p.set('cs', String(Math.round(st.cast.sat)));
 
-  if (st.borders !== 'selective') p.set('b', st.borders);
-
   // Shadows, three keys so each table stays independently readable in a link.
   // Diffs only — a one-value tweak stays short.
   const shl = LEVELS.filter(l => {
@@ -805,9 +789,6 @@ export function decodeUrl(st: State, search: string): State {
   if (ch !== null && !Number.isNaN(Number(ch))) st.cast.hue = Number(ch);
   const cs = p.get('cs');
   if (cs !== null && !Number.isNaN(Number(cs))) st.cast.sat = Number(cs);
-
-  const b = p.get('b');
-  if (b && (BORDER_MODES as readonly string[]).includes(b)) st.borders = b as BorderMode;
 
   // Every branch below SKIPS what it does not recognise rather than throwing.
   // That is deliberate: links get passed back and forth while the tables are

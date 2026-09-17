@@ -87,6 +87,22 @@ const PRESS = PARTNER_BRANDS.map(brand => ({
 // The specimen band shows the LADDER, one card per rung — not a t-shirt
 // scale. It is deliberately exempt from the kind/trigger policy: it exists to
 // show what each rung IS, so it always shows all of them.
+/* The form lab. Structure deliberately mirrors what the HubSpot embed emits
+   — label, description, a wrapper around the control, an error list — so the
+   styling maps onto `.hs-*` later instead of being rewritten. Nothing in the
+   CSS keys on sibling order or nesting depth, which is the actual portability
+   requirement; class names are trivially aliased, DOM shape is not. */
+const TEXT_FIELDS = [
+  { id: 'name',  type: 'text',   label: 'Full name',     req: true,
+    desc: 'Single-line text — the default field type.', ph: 'Jane Doe' },
+  { id: 'email', type: 'email',  label: 'Email address', req: true,
+    desc: 'Same skin; the error state is demonstrated below.', ph: 'you@example.com' },
+  { id: 'tel',   type: 'tel',    label: 'Phone',         req: false,
+    desc: 'Different keyboard on mobile, identical surface.', ph: '+44 20 7946 0000' },
+  { id: 'size',  type: 'number', label: 'Team size',     req: false,
+    desc: 'Number input, UA stepper left in place on purpose.', ph: '12' },
+];
+
 const RUNGS = [
   { name: 'sunken',  sub: 'inset',  token: 'var(--s-shadow-sunken)' },
   { name: 'base',    sub: 'none',   token: 'var(--s-shadow-base)' },
@@ -167,10 +183,6 @@ const LEVELS = [
         </details>
       </section>
 
-      <section class="grp">
-        <h3 class="grp__h">Outlines</h3>
-        <div id="ed-borders"></div>
-      </section>
 
       <section class="grp">
         <details class="dis">
@@ -218,6 +230,7 @@ const LEVELS = [
           <a href="#levels">Levels</a>
           <a href="#cards">Cards</a>
           <a href="#settings">Settings</a>
+          <a href="#forms">Forms</a>
           <a href="#inverse">Inverse</a>
           <a href="#shadows">Shadows</a>
         </nav>
@@ -266,7 +279,7 @@ const LEVELS = [
                 </li>
               ))}
             </ul>
-            <div class="well" data-lvl="sunken" data-sh="inset">
+            <div class="well" data-lvl="sunken" data-sh="recess">
               <code>sample code block · surface −1</code>
             </div>
           </aside>
@@ -322,16 +335,16 @@ const LEVELS = [
               <h3 class="panel__h">Sample preferences</h3>
               <p class="panel__b">Controls sit <em>below</em> the surface they live on.</p>
             </div>
-            <span class="pill" data-lvl="sunken" data-sh="inset"><i class="pill__dot"></i>Sample state</span>
+            <span class="pill" data-lvl="sunken" data-sh="recess"><i class="pill__dot"></i>Sample state</span>
           </div>
 
           <div class="setting">
             <div class="setting__text">
               <span class="setting__label">Sample toggle, on</span>
-              <span class="setting__help">Track is −1; the knob is +2. Helper text is the body ink.</span>
+              <span class="setting__help">Track is −1; the knob is +1. Helper text is the body ink.</span>
             </div>
-            <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve" data-lvl="sunken" data-sh="inset">
-              <span class="switch__knob" data-lvl="raise-2" data-sh="knob"></span>
+            <button type="button" class="switch__track is-on" role="switch" aria-checked="true" aria-label="Auto-approve" data-lvl="sunken" data-sh="control">
+              <span class="switch__knob" data-lvl="raise-1" data-sh="knob"></span>
             </button>
           </div>
 
@@ -340,18 +353,18 @@ const LEVELS = [
               <span class="setting__label">Sample toggle, off</span>
               <span class="setting__help">Same control in its resting state, for comparison.</span>
             </div>
-            <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing" data-lvl="sunken" data-sh="inset">
-              <span class="switch__knob" data-lvl="raise-2" data-sh="knob"></span>
+            <button type="button" class="switch__track" role="switch" aria-checked="false" aria-label="Public listing" data-lvl="sunken" data-sh="control">
+              <span class="switch__knob" data-lvl="raise-1" data-sh="knob"></span>
             </button>
           </div>
 
           <div class="setting">
             <div class="setting__text">
               <span class="setting__label">Sample segmented control</span>
-              <span class="setting__help">Sunken track, with the active segment raised to +2.</span>
+              <span class="setting__help">Sunken track, with the active segment on the card's own surface.</span>
             </div>
-            <div class="seg" role="group" aria-label="Default view" data-lvl="sunken" data-sh="inset">
-              <button type="button" class="seg__btn is-on" data-lvl="raise-2" data-sh="knob">Grid</button>
+            <div class="seg" role="group" aria-label="Default view" data-lvl="sunken" data-sh="control">
+              <button type="button" class="seg__btn is-on" data-lvl="raise-1" data-sh="knob">Grid</button>
               <button type="button" class="seg__btn">List</button>
               <button type="button" class="seg__btn">Map</button>
             </div>
@@ -360,18 +373,150 @@ const LEVELS = [
           <div class="setting setting--stack">
             <div class="setting__text">
               <span class="setting__label">Sample text field</span>
-              <span class="setting__help">Inset into the card, bordered with the strong rule.</span>
+              <span class="setting__help">Flat at rest. Click or tab into it: the recess is the focus state.</span>
             </div>
-            <span class="field__input" data-lvl="sunken" data-sh="inset">placeholder value</span>
+            <span class="field__input" data-lvl="sunken" data-sh="field" tabindex="0">placeholder value</span>
           </div>
 
-          <div class="panel__foot" data-lvl="sunken" data-sh="inset">
+          <div class="panel__foot" data-lvl="sunken" data-sh="recess">
             <span class="panel__meta">Sample footer · recessed strip</span>
             <div class="panel__actions">
               <a href="#mock" class="btn btn--outline btn--sm">Reset</a>
               <a href="#mock" class="btn btn--sm">Save changes</a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ── Form lab ─────────────────────────────────────────────────
+           Generic markup and our own class names. A HubSpot-shaped replica
+           and the adapter that maps between them come next; styling only the
+           generic side first means we are not maintaining two sets of markup
+           while the design is still moving. -->
+      <section class="wrap" id="forms">
+        <h2 class="band__h">Form controls · generic markup</h2>
+        <p class="band__note">
+          Every control the embed can render, in our own markup. Fields are −1 on
+          the card they sit in and stay flat until focus; the small operable
+          recesses — checkbox and radio boxes — carry theirs at rest, like a
+          toggle track. Error styling is grayscale placeholder: it wants a colour
+          this round deliberately does not have.
+        </p>
+
+        <div class="fm-card" data-lvl="raise-1" data-sh="card">
+          <form class="fm" onsubmit="return false">
+
+            <div class="fm-grid">
+              {TEXT_FIELDS.map(f => (
+                <div class="fld">
+                  <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>
+                  <p class="fld__desc">{f.desc}</p>
+                  <div class="fld__ctl">
+                    <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph}
+                           data-lvl="sunken" data-sh="field" />
+                  </div>
+                </div>
+              ))}
+
+              <div class="fld">
+                <label class="fld__label" for="f-role">Role</label>
+                <p class="fld__desc">Select — native control, our surface.</p>
+                <div class="fld__ctl fld__ctl--select">
+                  <select class="ctl" id="f-role" data-lvl="sunken" data-sh="field">
+                    <option>Choose an option</option>
+                    <option>Researcher</option>
+                    <option>Engineer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="fld">
+                <label class="fld__label" for="f-date">Start date</label>
+                <p class="fld__desc">Date input, with the UA picker intact.</p>
+                <div class="fld__ctl">
+                  <input class="ctl" id="f-date" type="date" data-lvl="sunken" data-sh="field" />
+                </div>
+              </div>
+
+              <div class="fld fld--full">
+                <label class="fld__label" for="f-msg">Message</label>
+                <p class="fld__desc">Textarea — resizes vertically only.</p>
+                <div class="fld__ctl">
+                  <textarea class="ctl" id="f-msg" rows="3" placeholder="Placeholder copy"
+                            data-lvl="sunken" data-sh="field"></textarea>
+                </div>
+              </div>
+
+              <div class="fld">
+                <span class="fld__label">Interests</span>
+                <p class="fld__desc">Checkbox list. Boxes are −1 and cast at rest.</p>
+                <ul class="opts">
+                  {['Federated learning', 'Secure enclaves', 'Differential privacy'].map((o, i) => (
+                    <li><label class="opt">
+                      <input class="opt__box" type="checkbox" checked={i === 0}
+                             data-lvl="sunken" data-sh="control" />
+                      <span>{o}</span>
+                    </label></li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="fld">
+                <span class="fld__label">Contact preference</span>
+                <p class="fld__desc">Radio list — same recess, round.</p>
+                <ul class="opts">
+                  {['Email', 'No contact'].map((o, i) => (
+                    <li><label class="opt">
+                      <input class="opt__box" type="radio" name="pref" checked={i === 0}
+                             data-lvl="sunken" data-sh="control" />
+                      <span>{o}</span>
+                    </label></li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="fld fld--full">
+                <label class="fld__label" for="f-file">Attachment</label>
+                <p class="fld__desc">File input — the button is the only part we can skin.</p>
+                <div class="fld__ctl">
+                  <input class="ctl ctl--file" id="f-file" type="file" data-lvl="sunken" data-sh="field" />
+                </div>
+              </div>
+            </div>
+
+            <!-- states, on one field type so the difference is the state -->
+            <h3 class="fm-sub">States</h3>
+            <div class="fm-grid">
+              <div class="fld">
+                <label class="fld__label" for="f-filled">Filled</label>
+                <div class="fld__ctl">
+                  <input class="ctl" id="f-filled" type="text" value="A completed value"
+                         data-lvl="sunken" data-sh="field" />
+                </div>
+              </div>
+              <div class="fld">
+                <label class="fld__label" for="f-dis">Disabled</label>
+                <div class="fld__ctl">
+                  <input class="ctl" id="f-dis" type="text" value="Not editable" disabled
+                         data-lvl="sunken" data-sh="field" />
+                </div>
+              </div>
+              <div class="fld is-error fld--full">
+                <label class="fld__label" for="f-err">Error <span class="fld__req">*</span></label>
+                <div class="fld__ctl">
+                  <input class="ctl" id="f-err" type="email" value="not-an-email"
+                         data-lvl="sunken" data-sh="field" />
+                </div>
+                <ul class="fld__errs" data-lvl="raise-2" data-sh="nested"><li>Please enter a valid email address.</li></ul>
+              </div>
+            </div>
+
+            <!-- one solid button per group; the rest carry no outline -->
+            <div class="fm-actions">
+              <button type="submit" class="btn">Submit</button>
+              <button type="button" class="btn btn--outline">Cancel</button>
+            </div>
+          </form>
         </div>
       </section>
 
@@ -403,7 +548,7 @@ const LEVELS = [
             <div class="cta__form">
               <label class="field">
                 <span class="field__label">Sample field</span>
-                <span class="field__input field__input--mute cta__field" data-lvl="sunken" data-sh="inset">placeholder@example.com</span>
+                <span class="field__input field__input--mute cta__field" data-lvl="sunken" data-sh="field" tabindex="0">placeholder@example.com</span>
               </label>
               <a href="#mock" class="btn">Primary</a>
             </div>
@@ -472,7 +617,6 @@ const LEVELS = [
   <script>
     import {
       STEPS, SLOTS, PALETTES, SLOT_LABEL, PALETTE_LABEL, DEFAULT_ASSIGN,
-      BORDER_MODES, BORDER_LABEL, BORDER_HELP,
       LEVELS, KINDS, TRIGGERS, DELTAS, deltaLabel, trigger, PRESETS, PRESET_LABEL,
       DEFAULT_LADDER, DEFAULT_INK, DEFAULT_APPLY, rungCss,
       newState, readBrandGrayscale, readRampShape, resolveGrayscale, stepValues,
@@ -541,7 +685,6 @@ const LEVELS = [
       // descendant of html, so the pairing resolves.
       document.body.dataset.elev = st.elev;
       document.querySelectorAll<HTMLElement>('[data-elev]').forEach(el => { el.dataset.elev = st.elev; });
-      mock.dataset.borders = st.borders;
       document.querySelectorAll<HTMLElement>('[data-elev-set]').forEach(b => {
         b.classList.toggle('is-on', b.dataset.elevSet === st.elev);
       });
@@ -694,13 +837,6 @@ const LEVELS = [
         </p>`;
     }
 
-    function renderBorders() {
-      $('ed-borders').innerHTML = `
-        <div class="segctl">
-          ${BORDER_MODES.map(m => `<button type="button" class="segctl__b ${st.borders === m ? 'is-on' : ''}" data-border="${m}">${BORDER_LABEL[m]}</button>`).join('')}
-        </div>
-        <p class="ed__note">${BORDER_HELP[st.borders]}</p>`;
-    }
 
     /* Same drill-down as colours: pick one size, edit only that one. */
     /* Shadows — three tables, in the order the model reads:
@@ -776,7 +912,7 @@ const LEVELS = [
     }
 
     function renderAll() {
-      renderBarPal(); renderSlots(); renderCast(); renderSteps(); renderBorders(); renderShadows();
+      renderBarPal(); renderSlots(); renderCast(); renderSteps(); renderShadows();
     }
 
     /* ── events ─────────────────────────────────────────────────────── */
@@ -831,7 +967,7 @@ const LEVELS = [
     });
 
     document.addEventListener('click', async e => {
-      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-border],[data-revert-slot],[data-revert-step],[data-revert-rung],[data-revert-ink],[data-revert-kind],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-rung-pick],[data-preset]');
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-revert-slot],[data-revert-step],[data-revert-rung],[data-revert-ink],[data-revert-kind],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-rung-pick],[data-preset]');
       if (!t) return;
 
       if (t.hasAttribute('data-slot-pick')) {
@@ -853,7 +989,6 @@ const LEVELS = [
       if (t.dataset.preset) { st.shadow.apply = structuredClone(PRESETS[t.dataset.preset]); apply(); return; }
 
       if (t.dataset.elevSet) { st.elev = t.dataset.elevSet as 'lighter' | 'darker'; apply(); return; }
-      if (t.dataset.border)  { st.borders = t.dataset.border as any; apply(); return; }
       if (t.dataset.revertSlot) {
         const pal = paletteKey(st);
         delete st.assign[pal]?.[t.dataset.revertSlot as Slot];
@@ -875,7 +1010,6 @@ const LEVELS = [
       if (t.dataset.reset === 'cast') { st.cast = { hue: null, sat: null }; apply(); return; }
       if (t.dataset.reset === 'all') {
         st.gray = {}; st.assign = {}; st.cast = { hue: null, sat: null };
-        st.borders = 'selective';
         st.shadow = {
           ladder: structuredClone(DEFAULT_LADDER),
           ink: structuredClone(DEFAULT_INK),
@@ -935,7 +1069,7 @@ const LEVELS = [
             x.removeAttribute('data-lvl');
           });
           b.classList.add('is-on');
-          b.setAttribute('data-lvl', 'raise-2');
+          b.setAttribute('data-lvl', 'raise-1');
           b.setAttribute('data-sh', 'knob');
         });
       });
@@ -1135,8 +1269,14 @@ const LEVELS = [
     transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
   }
   .btn:hover { background-color: var(--s-btn-bg-hover); }
-  .btn--outline { background-color: transparent; color: var(--s-text-headline); border-color: var(--s-text-headline); }
-  .btn--outline:hover { background-color: transparent; border-color: var(--s-line-strong); color: var(--s-text-body); }
+  /* SECONDARY = no outline at all. Design decision, 2026-09-17: a group of
+     buttons carries exactly ONE solid button; the rest are unoutlined, even
+     though they still occupy full button space. `.btn`'s transparent 1px
+     border is what keeps them the same size — the one legitimate use of a
+     transparent border left on the page.
+     Hover is deliberately unstyled pending the hover strategy; the old rule
+     dimmed the label to --s-text-body on hover, which read backwards. */
+  .btn--outline { background-color: transparent; color: var(--s-text-headline); border-color: transparent; }
   .btn--sm { min-height: 38px; padding: 8px 14px; font-size: 0.875rem; }
 
   .page { padding-block: var(--spacing-full) var(--spacing-full); display: grid; gap: var(--spacing-full); }
@@ -1168,7 +1308,6 @@ const LEVELS = [
   .card {
     display: block; text-decoration: none;
     background: var(--s-raise-1);
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-S);
     padding: var(--spacing-3XL);
   }
@@ -1187,7 +1326,6 @@ const LEVELS = [
   /* feature (+1) with nested (+2) */
   .feature {
     background: var(--s-raise-1);
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-L);
     padding: var(--spacing-full);
     display: grid; grid-template-columns: 1.15fr 1fr; gap: var(--spacing-full);
@@ -1197,7 +1335,6 @@ const LEVELS = [
 
   .nested {
     background: var(--s-raise-2);
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-S);
     padding: var(--spacing-2XL);
   }
@@ -1209,7 +1346,6 @@ const LEVELS = [
   /* −1 well inside +2 */
   .well {
     background: var(--s-sunken);
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-XS);
     padding: var(--spacing-M) var(--spacing-L);
     font-size: 0.8125rem; color: var(--s-text-body);
@@ -1221,7 +1357,6 @@ const LEVELS = [
      edge. One rhythm throughout: text left, control right, rule between. */
   .panel {
     background: var(--s-raise-1);
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-S);
     overflow: hidden;
   }
@@ -1238,7 +1373,7 @@ const LEVELS = [
   /* status pill — neutral, on the recessed level */
   .pill {
     display: inline-flex; align-items: center; gap: var(--spacing-XS);
-    background: var(--s-sunken); border: 1px solid var(--s-line);
+    background: var(--s-sunken);
     border-radius: var(--border-radius-full);
     padding: 0.35em 0.8em;
     font-size: 0.75rem; color: var(--s-text-body); white-space: nowrap;
@@ -1250,7 +1385,6 @@ const LEVELS = [
     display: flex; align-items: center; justify-content: space-between;
     gap: var(--spacing-2XL);
     padding: var(--spacing-XL) var(--spacing-2XL);
-    border-bottom: 1px solid var(--s-line);
   }
   .setting--stack { flex-direction: column; align-items: stretch; gap: var(--spacing-M); }
   .setting__text { display: grid; gap: 3px; }
@@ -1258,7 +1392,15 @@ const LEVELS = [
   .setting__help { font-size: 0.8125rem; line-height: 1.45; color: var(--s-text-body); max-width: 44ch; }
 
   /* recessed action footer — the −1 level closing the card */
-  .setting:last-of-type { border-bottom: none; }
+  /* BETWEEN settings, not after each one. Was `border-bottom` plus a
+     `:last-of-type` reset — but :last-of-type means "last element of this TAG",
+     and .panel's children are all <div>, so the last div is .panel__foot. The
+     compound `.setting:last-of-type` therefore matched NOTHING and the final
+     setting kept its border, leaving a hairline above the recessed strip.
+     The adjacent-sibling form cannot have that failure: there is no rule to
+     undo. Same preference for exclusion over override as the stat dividers
+     (findings §4). */
+  .setting + .setting { border-top: 1px solid var(--s-line); }
   .panel__foot {
     display: flex; align-items: center; justify-content: space-between;
     gap: var(--spacing-L); flex-wrap: wrap;
@@ -1276,16 +1418,22 @@ const LEVELS = [
 
   .switch__track {
     position: relative; width: 46px; height: 26px; flex: none; cursor: pointer;
+    /* <button>. `border: none` is a RESET, not a style: with no border
+       declaration at all the UA draws its own (2px outset in Chrome), which is
+       what put an outline back on every form control. */
+    border: none;
+    /* 3px inset, knob 20px → 26px tall. Same figure the brand's shipped
+       ThemeToggle already uses (--tt-pad: 3px), which is a useful
+       corroboration rather than a coincidence. */
     border-radius: var(--border-radius-full);
     background: var(--s-sunken);
-    border: 1px solid var(--s-line-strong);
     padding: 0;
     transition: background-color var(--transition-base);
   }
-  .switch__track.is-on { background: var(--s-text-headline); border-color: var(--s-text-headline); }
+  .switch__track.is-on { background: var(--s-text-headline); }
   .switch__knob {
-    position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
-    border-radius: 50%; background: var(--s-raise-2);
+    position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--s-raise-1);
     transition: transform var(--transition-base);
   }
   .switch__track.is-on .switch__knob { transform: translateX(20px); }
@@ -1296,32 +1444,148 @@ const LEVELS = [
      beside it. Reset both — the field owns its own spacing. */
   .field { display: grid; gap: var(--spacing-2XS); margin-bottom: 0; padding-left: 0; }
   .field__label { font-size: 0.75rem; color: var(--s-text-body); }
-  /* Inset controls carry --s-line-strong; dividers inside cards carry
-     --s-line. Both survive `outlines: selective`, so the two rule weights
-     always have a live example on the page. */
+  /* No rule of its own: the field is read as inset by its surface alone.
+     The shadow arrives on focus (the Field kind), so it is worth easing —
+     otherwise the recess snaps in on click. */
   .field__input {
     display: block;
+    transition: box-shadow var(--transition-base);
     background: var(--s-sunken);
-    border: 1px solid var(--s-line-strong);
     border-radius: var(--border-radius-S);
     padding: 0.75em 0.9em;
     font-size: 0.9375rem; color: var(--s-text-headline);
   }
+  .field__input:focus, .field__input:focus-visible { outline: none; }
   .field__input--mute { color: var(--s-text-body); }
 
   /* segmented control — sunken track, raised active segment */
+  /* Same 3px inner-to-outer gap as the toggle, so every recessed form control
+     on the page sets its content in by the same amount. The gap BETWEEN
+     segments matches the inset for the same reason — otherwise the track
+     reads 3px at its edges and 2px between its children. */
   .seg {
-    display: inline-flex; gap: 2px; padding: 3px;
+    display: inline-flex; gap: 3px; padding: 3px;
     background: var(--s-sunken);
-    border: 1px solid var(--s-line-strong);
     border-radius: var(--border-radius-S);
   }
   .seg__btn {
     font: inherit; font-size: 0.875rem; cursor: pointer;
-    padding: 0.5em 1em; border: 1px solid transparent; border-radius: var(--border-radius-XS);
+    padding: 0.5em 1em; border: none; border-radius: var(--border-radius-XS);
     background: transparent; color: var(--s-text-body);
   }
-  .seg__btn.is-on { background: var(--s-raise-2); color: var(--s-text-headline); border-color: var(--s-line); }
+  .seg__btn.is-on { background: var(--s-raise-1); color: var(--s-text-headline); }
+
+  /* ── Form lab ─────────────────────────────────────────────────────
+     PORTABILITY RULE: every rule below keys on the control or its own
+     wrapper — never on sibling order or nesting depth. Class names alias
+     trivially (`:is(.ctl, .hs-input)`); DOM shape does not, and HubSpot wraps
+     its controls in an extra `<div class="input">` with the label before it.
+     Styles written against structure would not survive that. */
+
+  /* NO BLANKET RESET. The obvious `.fm :where(input, textarea, select)` form
+     lands at (0,3,0) once Astro appends its cid to each compound, which
+     outranks `.ctl` at (0,2,0) — so the reset stripped the styling it was
+     meant to make room for, and matched `button` hard enough to flatten
+     `.btn` as well. Each control class carries its own reset instead: a class
+     at (0,2,0) beats global.css's bare `input` at (0,0,1) with no fight, and
+     nothing here can outrank anything else. */
+
+  .fm-card { background: var(--s-raise-1); border-radius: var(--border-radius-L); padding: var(--spacing-3XL); }
+  .fm { display: grid; gap: var(--spacing-3XL); }
+  .fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2XL); align-items: start; }
+  .fld--full { grid-column: 1 / -1; }
+  .fm-sub {
+    font-size: 0.8125rem !important; font-family: var(--font-primary) !important;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500 !important;
+    color: var(--s-text-body) !important; margin: 0 !important;
+  }
+  .fm-actions { display: flex; gap: var(--spacing-M); flex-wrap: wrap; }
+
+  .fld { display: grid; gap: var(--spacing-XS); align-content: start; }
+  /* global.css:280 gives every <label> padding-left:5px and margin-bottom:8px */
+  .fld__label { font-size: 0.875rem; font-weight: 500; color: var(--s-text-headline); padding-left: 0; margin-bottom: 0; }
+  .fld__req { color: var(--s-text-body); margin-left: 0.25em; }
+  .fld__desc { font-size: 0.8125rem; line-height: 1.45; color: var(--s-text-body); margin: 0; }
+
+  .ctl {
+    /* reset — global.css:243 forces 48px tall, 100% wide, a background, a
+       radius and --shadow-md onto every input/textarea/select */
+    height: auto; margin: 0; border: none; box-shadow: none;
+    font: inherit;
+    /* then the actual field */
+    display: block; width: 100%;
+    background: var(--s-sunken); color: var(--s-text-headline);
+    border-radius: var(--border-radius-S);
+    padding: 0.7em 0.9em; font-size: 0.9375rem;
+    transition: box-shadow var(--transition-base);
+  }
+  /* The UA ring goes: Chrome draws a two-tone outline (light inner, blue
+     outer), which is the "double outline" — the focus recess from the Field
+     kind then reads as a third. The inset shadow IS the focus indicator now.
+     Kept off `.opt__box`: checkbox and radio cast at REST, so removing their
+     ring would leave a keyboard user with no focus signal at all. */
+  .ctl:focus, .ctl:focus-visible { outline: none; }
+  .ctl::placeholder { color: var(--s-text-body); }
+  .ctl:disabled { color: var(--s-text-body); cursor: not-allowed; opacity: 0.55; }
+  textarea.ctl { resize: vertical; min-height: 5em; }
+
+  /* appearance:none removes the native arrow, so the wrapper draws one. The
+     wrapper is the control's OWN box, not a sibling — still portable. */
+  select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
+  .fld__ctl--select { position: relative; }
+  .fld__ctl--select::after {
+    content: ''; position: absolute; right: 1em; top: 50%;
+    width: 7px; height: 7px; pointer-events: none;
+    border-right: 2px solid var(--s-text-body);
+    border-bottom: 2px solid var(--s-text-body);
+    transform: translateY(-70%) rotate(45deg);
+  }
+
+  .ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
+  .ctl--file::file-selector-button {
+    font: inherit; font-size: 0.875rem; cursor: pointer;
+    margin-right: var(--spacing-M); padding: 0.45em 1em;
+    border: none; border-radius: var(--border-radius-XS);
+    background: var(--s-raise-1); color: var(--s-text-headline);
+  }
+
+  /* Checkbox + radio: small operable recesses, so they take the Control kind
+     and cast at rest, exactly like a toggle track. */
+  .opts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--spacing-S); }
+  .opt { display: flex; align-items: center; gap: var(--spacing-S); cursor: pointer; font-size: 0.9375rem; color: var(--s-text-body); padding-left: 0; margin-bottom: 0; }
+  .opt__box {
+    appearance: none; flex: none; position: relative;
+    width: 18px; height: 18px; margin: 0; padding: 0; cursor: pointer;
+    border: none; box-shadow: none;
+    background: var(--s-sunken); border-radius: var(--border-radius-XS);
+  }
+  .opt__box[type="radio"] { border-radius: 50%; }
+  .opt__box:checked { background: var(--s-text-headline); }
+  .opt__box[type="checkbox"]:checked::after {
+    content: ''; position: absolute; left: 6px; top: 3px; width: 4px; height: 8px;
+    border-right: 2px solid var(--s-raise-1); border-bottom: 2px solid var(--s-raise-1);
+    transform: rotate(45deg);
+  }
+  .opt__box[type="radio"]:checked::after {
+    content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--s-raise-1);
+  }
+
+  /* Error is a solid card one level above the form, not a rule around the
+     field — so it reads as a thing that appeared rather than a state painted
+     onto the input. Still grayscale: it wants a colour this round does not
+     have, so weight and the surface step carry it for now. Track 1A. */
+  .fld__errs {
+    list-style: none; margin: 0;
+    padding: var(--spacing-S) var(--spacing-M);
+    background: var(--s-raise-2);
+    border-radius: var(--border-radius-S);
+    display: grid; gap: 2px;
+  }
+  .fld__errs li { font-size: 0.8125rem; line-height: 1.45; color: var(--s-text-headline); font-weight: 500; }
+
+  @media (max-width: 720px) {
+    .fm-grid { grid-template-columns: 1fr; }
+  }
 
   /* Partner marks — foreign shapes on our surfaces, which is the test.
      Inherit currentColor so they take the surface's own text token rather
@@ -1331,7 +1595,7 @@ const LEVELS = [
      when the editor rail reflows the page) rather than wrapping early. */
   .press { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--spacing-M); }
   .press__item {
-    background: var(--s-raise-1); border: 1px solid var(--s-line);
+    background: var(--s-raise-1);
     border-radius: var(--border-radius-S);
     padding: var(--spacing-XL) var(--spacing-S);
     text-decoration: none; min-width: 0;
@@ -1354,7 +1618,6 @@ const LEVELS = [
      them, which is how an inverse block actually appears on the site. */
   .cta {
     background: var(--s-base);                    /* the inverse BASE, on the page's normal base */
-    border: 1px solid var(--s-line);
     border-radius: var(--border-radius-L); padding: var(--spacing-full);
     display: grid; gap: var(--spacing-3XL);
   }
@@ -1445,7 +1708,7 @@ const LEVELS = [
   .shadows { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--spacing-2XL); margin-bottom: var(--spacing-2XL); }
   .shadows--onraise { background: var(--s-raise-1); border: 1px solid var(--s-line); border-radius: var(--border-radius-S); padding: var(--spacing-2XL); margin-bottom: 0; }
   .shadows__card {
-    background: var(--s-raise-1); border: 1px solid var(--s-line);
+    background: var(--s-raise-1);
     border-radius: var(--border-radius-S); padding: var(--spacing-XL);
     display: grid; gap: 2px;
   }
@@ -1460,68 +1723,19 @@ const LEVELS = [
   .foot__h { font-size: 0.875rem; font-weight: 600; color: var(--s-text-headline); }
   .foot__base { border-top: 1px solid var(--s-line); padding-top: var(--spacing-XL); display: flex; justify-content: space-between; gap: var(--spacing-M); font-size: 0.875rem; color: var(--s-text-body); flex-wrap: wrap; }
 
-  /* ── Outline policy ──────────────────────────────────────────────
-     A ladder of four, each rung named for the highest thing that still
-     keeps an outline:
+  /* ── Dividers only ───────────────────────────────────────────────
+     Settled 2026-09-17. Nothing on this page is enclosed by a rule; the only
+     borders left are the six single edges that separate one thing from the
+     next, and they are declared directly on the elements that own them.
 
-       All        every card, panel and control — today's behaviour
-       Controls   recessed controls + dividers; cards go
-       Dividers   nothing enclosed; only single-edge separating rules
-       None       nothing anywhere
-
-     `Controls` strips CARD outlines only. Recessed controls keep
-     --s-line-strong and card dividers keep --s-line, so both rule tokens
-     stay demonstrated whichever mode is chosen. Card outlines coming off
-     is the honest test: the +1 step then has to carry the card on value
-     alone. */
-  .mock[data-borders="selective"] .card,
-  .mock[data-borders="selective"] .feature,
-  .mock[data-borders="selective"] .nested,
-  .mock[data-borders="selective"] .panel,
-  .mock[data-borders="selective"] .press__item,
-  .mock[data-borders="selective"] .cta,
-  .mock[data-borders="selective"] .shadows__card,
-  .mock[data-borders="selective"] .shadows--onraise,
-  .mock[data-borders="selective"] .seg__btn.is-on { border-color: transparent; }
-
-  /* `dividers` goes one rung further: nothing is ENCLOSED. Cards, panels,
-     wells, inputs, pills, segmented controls and the outline button all lose
-     their box; only the single-edge rules that separate one thing from the
-     next survive.
-
-     Written as strip-then-restore rather than as another list of exceptions.
-     The exception list would have to name every bordered thing on the page
-     and would silently leak an outline the day a new component lands; the
-     restore list names the six dividers, which is the shorter, more stable
-     and more honest statement — it says what a divider IS rather than
-     leaving it to whatever happened not to be caught.
-
-     Restoring border-COLOR only is what keeps `.setting:last-of-type`'s
-     `border-bottom: none` intact: that rule kills the style, and a colour
-     cannot resurrect an edge that has no style to draw. */
-  .mock[data-borders="dividers"] *,
-  .mock[data-borders="dividers"] *::before,
-  .mock[data-borders="dividers"] *::after { border-color: transparent !important; }
-
-  /* The six dividers. Each is a single edge on an element that has no other
-     border, so setting all four colours only ever paints the one that has a
-     style — no need to restore per side. */
-  .mock[data-borders="dividers"] .nav,          /* nav  → page          */
-  .mock[data-borders="dividers"] .panel__head,  /* head → settings list */
-  .mock[data-borders="dividers"] .setting,      /* row  → row           */
-  .mock[data-borders="dividers"] .foot,         /* page → footer        */
-  .mock[data-borders="dividers"] .foot__base {  /* footer cols → legal  */
-    border-color: var(--s-line) !important;
-  }
-  /* Stat-to-stat, in the strong weight — so both rule tokens stay
-     demonstrated in this mode too, as they are under `Controls`. */
-  .mock[data-borders="dividers"] .inv__meta li:not(.inv__meta-hi) + li:not(.inv__meta-hi) {
-    border-color: var(--s-line-strong) !important;
-  }
-
-  .mock[data-borders="none"] *,
-  .mock[data-borders="none"] *::before,
-  .mock[data-borders="none"] *::after { border-color: transparent !important; }
+     The outline policy (all / controls / dividers / none) is gone with them.
+     It was a switch, and switching it could never be honest: a border
+     RESERVES 1px of layout whether or not its colour is visible, so "outlines
+     off" still sat inside a 1px inset. That is what showed up as a hairline
+     tracing the sides and bottom of the recessed strip — .panel's transparent
+     border, with the page visible through the gap between the panel edge and
+     its sunken child. Deleting the borders rather than hiding them is the only
+     version of "no outlines" that is actually no outlines. */
 
   @media (max-width: 620px) {
     .press { grid-template-columns: repeat(2, 1fr); }
