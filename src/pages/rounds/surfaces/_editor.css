@@ -6,7 +6,7 @@
    exist in the template — a runtime node never receives the scope
    attribute, so scoped rules silently do nothing to it. That is what
    left the swatches unstyled: .sw-card__color had no height and
-   collapsed, and the colour only ever showed because it happened to be
+   collapsed, and the color only ever showed because it happened to be
    an inline background on the button itself.
 
    Everything here is prefixed (.bar, .rail, .grp, .sw-card, .pick, .sl,
@@ -163,7 +163,7 @@
      surface to an HTML element, which this round should probably undo. */
   .rail section,
   .rail__scroll section { background-color: transparent; }
-  /* Same trap as the mock: global.css colours p/li/td/th/label directly with
+  /* Same trap as the mock: global.css colors p/li/td/th/label directly with
      the brand ink token, overriding inheritance. Point them at the rail's. */
   .rail :where(p, li, td, th, label) { color: var(--text-body); }
 
@@ -177,9 +177,9 @@
   .grp__tag { text-transform: none; letter-spacing: 0; font-size: 0.625rem; color: var(--text-body); font-weight: 400; }
 
   /* ── Swatches — the brand guide's own .sg-swatch, ported ─────────
-     src/pages/index.astro: a card with the colour block on top and a
+     src/pages/index.astro: a card with the color block on top and a
      solid info area beneath it, radius-S, shadow-md, lift on hover.
-     Same anatomy here so the rail reads as the brand's colour UI rather
+     Same anatomy here so the rail reads as the brand's color UI rather
      than a bespoke one. */
   .sw-card {
     display: flex; flex-direction: column; align-items: stretch; gap: 0;
@@ -343,3 +343,62 @@
     resize: vertical; margin-top: var(--spacing-S);
   }
 
+
+  /* ── Screen-share luma stability ─────────────────────────────────
+     A hex cannot show you this. Y'CbCr quantizes luma to integers on a
+     16–235 scale, and a large flat surface landing midway between two of
+     them flips between them under any perturbation — the "color jumping
+     between two values" reported in presentations.
+
+     Styled in the stable brand tokens like the rest of the chrome, and
+     deliberately quiet: this is a diagnostic, not a level being judged. */
+  .luma {
+    margin-top: var(--spacing-M);
+    padding: var(--spacing-S) var(--spacing-M) var(--spacing-M);
+    background: var(--surface-background-dim);
+    border-radius: var(--border-radius-S);
+  }
+  .luma__row {
+    display: flex; align-items: baseline; gap: var(--spacing-XS);
+    flex-wrap: wrap;
+  }
+  .luma__k {
+    font-size: 0.5625rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--text-body);
+  }
+  .luma__v {
+    font-family: monospace; font-size: 0.6875rem;
+    color: var(--text-headline); font-weight: 600;
+  }
+  .luma__m { font-size: 0.5625rem; color: var(--text-body); margin-left: auto; }
+  .luma.is-bad .luma__m { color: var(--color-red-600, var(--text-headline)); font-weight: 600; }
+
+  /* The bar reads left-to-right as "distance from a whole value": empty is
+     rock solid, full is a coin flip. Cheaper to scan than the number. */
+  .luma__bar {
+    height: 3px; margin-top: var(--spacing-XS);
+    background: var(--surface-foreground-default);
+    border-radius: 2px; overflow: hidden;
+  }
+  .luma__bar i {
+    display: block; height: 100%;
+    background: var(--text-body);
+    transition: width var(--transition-base);
+  }
+  .luma.is-bad .luma__bar i { background: var(--color-red-600, var(--text-headline)); }
+  .luma__note { margin-top: var(--spacing-XS) !important; }
+
+  .luma__snap {
+    display: inline-block; margin-left: var(--spacing-XS);
+    padding: 2px var(--spacing-S);
+    font: inherit; font-size: 0.5625rem; font-weight: 600;
+    color: var(--surface-background-default);
+    background: var(--text-headline);
+    border: 1px solid transparent; border-radius: var(--border-radius-S);
+    cursor: pointer;
+  }
+  .luma__snap:hover { opacity: 0.85; }
+  .luma__snap:focus-visible { outline: 2px solid var(--text-headline); outline-offset: 2px; }
+
+  /* Only marked on steps a slot actually points at — see renderSteps(). */
+  .sw-card.is-unstable .sw-card__label { color: var(--color-red-600, var(--text-headline)); }

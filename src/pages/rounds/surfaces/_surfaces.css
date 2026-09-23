@@ -13,7 +13,7 @@
      --s-raise-2   two levels above          (nested cards, popovers)
 
    GRAYSCALE ONLY for this pass. No hue anywhere — this round is about
-   whether the surface structure works. Colour comes after, and buttons
+   whether the surface structure works. Color comes after, and buttons
    here use the site's real neutral button (grayscale-850 on light), not
    a brand accent.
 
@@ -42,7 +42,7 @@
   --s-text-body:     var(--color-grayscale-750);
 }
 
-/* raised = darker (today's OM behaviour: near-white page, cards recede) */
+/* raised = darker (today's OM behavior: near-white page, cards recede) */
 [data-elev="darker"] {
   --s-sunken:   var(--color-grayscale-00);
   --s-base:     var(--color-grayscale-50);
@@ -86,8 +86,8 @@
 }
 
 /* ── TEXT ───────────────────────────────────────────────────────────
-   Two colours only, matching the brand's own type system
-   (--text-headline / --text-body). `body` also drives any monocolour
+   Two colors only, matching the brand's own type system
+   (--text-headline / --text-body). `body` also drives any monocolor
    element — icons, partner marks, rules that follow currentColor — so a
    single token governs "ink" across the page. Assignable per palette
    alongside the surfaces, since text contrast is a function of whatever
@@ -97,7 +97,7 @@
 /* openmined-org src/components/ui/Button.astro: the resting button is
    --button-dark-color on --button-light-color — grayscale, not an accent.
    Its hover/focus states DO use green/teal; those are held back until the
-   colour pass so nothing here introduces hue. */
+   color pass so nothing here introduces hue. */
 
 [data-elev] {
   --s-btn-bg:       var(--color-grayscale-850);
@@ -121,7 +121,7 @@
    `sunken` is the only inset rung — which is also what makes a pressed state
    work later for free, since sinking to −1 lands on an inner shadow.
 
-   Held per PALETTE, not per colour mode. Under `darker` a raised surface is
+   Held per PALETTE, not per color mode. Under `darker` a raised surface is
    darker than the page, so the same shadow can mean the opposite thing. The
    two directions carry identical values today; they are keyed separately so
    the editor can pull them apart.
@@ -206,7 +206,7 @@
 /* `recess` — a sunken region you do not operate (footer strip, well, badge) —
    is deliberately absent: it never casts. `field` is flat until you are in it,
    so the recess IS the focus state. Both used to be lumped in with the
-   controls under a single kind defined by LEVEL rather than by behaviour. */
+   controls under a single kind defined by LEVEL rather than by behavior. */
 [data-sh="field"]:focus-within { box-shadow: var(--sh-self); }
 
 /* Hover MODIFIES the resting shadow, and only where the element can actually
@@ -223,7 +223,7 @@
    band and a dark page carries a light one. Mirrors the brand's
    `data-section="invert"` idea (CLAUDE.md § Color mode system) but built
    on the four levels, so an inverse band gets the SAME structure as the
-   rest of the page rather than a flat block of colour.
+   rest of the page rather than a flat block of color.
 
    --s-inv-* for a given mode are simply the opposite mode's levels, so
    they stay in lockstep with whatever the palettes are tuned to. The

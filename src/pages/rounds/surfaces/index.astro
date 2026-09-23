@@ -12,7 +12,7 @@
  * FULL-BLEED: the mock IS the page, so it is judged the way a real page
  * is judged rather than as a picture of one. The only chrome is a thin
  * sticky bar; the narrative lives in a drawer behind the Info button,
- * which is also where the colour controls will go.
+ * which is also where the color controls will go.
  *
  * TYPE / BUTTONS / LINKS are ported from the live site (openmined-org),
  * not invented here:
@@ -68,7 +68,7 @@ const CAPABILITIES = [
  * whether they sit correctly on our surfaces.
  *
  * NOT OpenMined assets. Each is its owner's trademark, used nominatively and
- * unmodified in form — only inheriting a neutral colour, which the monochrome
+ * unmodified in form — only inheriting a neutral color, which the monochrome
  * icon variants exist for. See public/logos/partners/README.md.
  */
 const PARTNER_BRANDS = ['github', 'docker', 'aws', 'google', 'slack', 'notion', 'figma', 'pypi'];
@@ -76,7 +76,7 @@ const PARTNER_BRANDS = ['github', 'docker', 'aws', 'google', 'slack', 'notion', 
 // is NOT usable here — under SSR it resolves to the compiled chunk, not this file.
 const partnerDir = `${process.cwd()}/public/logos/partners/`;
 // partners.json is the source of truth for the display name — several icon.svg
-// files carry no <title> (Google's sanctioned 1-colour knockout among them).
+// files carry no <title> (Google's sanctioned 1-color knockout among them).
 const PARTNERS_META = JSON.parse(readFileSync(`${partnerDir}partners.json`, 'utf8'));
 const PRESS = PARTNER_BRANDS.map(brand => ({
   brand,
@@ -131,10 +131,10 @@ const LEVELS = [
 
       <!-- Both switches are labelled with their subject. Neither control says
            what it governs on its own, and side by side they read as two
-           colour-mode switches — "lighter / darker" next to light / dark is
+           color-mode switches — "lighter / darker" next to light / dark is
            genuinely ambiguous. The label is the fix; "Color mode" is the
            repo's own term for this axis (CLAUDE.md § Color mode system).
-           Colour mode is the primary axis, so it comes first. -->
+           Color mode is the primary axis, so it comes first. -->
       <div class="bar__field">
         <span class="bar__seglab">Color mode:</span>
         <ThemeToggle />
@@ -399,7 +399,7 @@ const LEVELS = [
           Every control the embed can render, in our own markup. Fields are −1 on
           the card they sit in and stay flat until focus; the small operable
           recesses — checkbox and radio boxes — carry theirs at rest, like a
-          toggle track. Error styling is grayscale placeholder: it wants a colour
+          toggle track. Error styling is grayscale placeholder: it wants a color
           this round deliberately does not have.
         </p>
 
@@ -621,6 +621,7 @@ const LEVELS = [
       DEFAULT_LADDER, DEFAULT_INK, DEFAULT_APPLY, rungCss,
       newState, readBrandGrayscale, readRampShape, resolveGrayscale, stepValues,
       paletteKey, assignedStep, SAT_MAX_C,
+      lumaCode, lumaMargin, LUMA_UNSTABLE, nearestStableL,
       emitCss, exportCss, exportJson, encodeUrl, decodeUrl,
       type Step, type Slot, type StepEdit, type Level, type Delta,
     } from './_editor.ts';
@@ -776,16 +777,62 @@ const LEVELS = [
         </div>`;
     }
 
+    /**
+     * SCREEN-SHARE STABILITY.
+     *
+     * A screen share re-encodes the page as Y'CbCr, whose luma is integers on a
+     * 16–235 scale. A large flat surface landing halfway between two of them
+     * flips between them under any small perturbation — which is exactly the
+     * "color jumping between two values" the team reports in presentations.
+     *
+     * This is invisible in a hex, so the editor has to surface it. Snapping
+     * holds hue and tint and moves lightness only, by less than the eye can
+     * see, so it costs nothing visually.
+     */
+    function lumaPanel(step: Step) {
+      const hex = gray[step];
+      const y = lumaCode(hex);
+      const m = lumaMargin(hex);
+      const bad = m > LUMA_UNSTABLE;
+      const snapTo = nearestStableL(st, shape, step);
+      const pct = Math.min(100, (m / 0.5) * 100);
+      return `
+        <div class="luma ${bad ? 'is-bad' : ''}">
+          <div class="luma__row">
+            <span class="luma__k">screen-share luma</span>
+            <code class="luma__v">${y.toFixed(2)}</code>
+            <span class="luma__m">${bad ? 'unstable' : 'stable'} · ${m.toFixed(2)} from a whole value</span>
+          </div>
+          <div class="luma__bar"><i style="width:${pct.toFixed(0)}%"></i></div>
+          <p class="ed__note luma__note">
+            ${bad
+              ? `A flat field at this value sits near the midpoint between two encoder steps, so it can flip between them frame to frame.`
+              : `Lands close enough to a whole encoder value to hold steady when re-encoded.`}
+            ${snapTo !== null
+              ? `<button type="button" class="luma__snap" data-luma-snap="${step}" data-luma-l="${snapTo}">Snap to ${snapTo.toFixed(2)}</button>`
+              : ''}
+          </p>
+        </div>`;
+    }
+
     /* The ramp stays small. Only the selected step opens an editor. */
     function renderSteps() {
       const pal = paletteKey(st);
       const inUse = new Set(SLOTS.map(sl => assignedStep(st, pal, sl)));
+      // Instability is a LARGE FLAT FIELD problem, so only the four surface
+      // levels can suffer it. A 1px rule or a glyph is never a flat field, so
+      // flagging `line` or the ink slots would be noise — they are in use, but
+      // not in a way this failure mode can reach.
+      const surfaceSteps = new Set(LEVELS.map(l => assignedStep(st, pal, l as unknown as Slot)));
       $('ed-steps').innerHTML = STEPS.map(step => {
         const changed = gray[step].toLowerCase() !== brand[step].toLowerCase();
-        return `<button type="button" class="sw-card ${selStep === step ? 'is-sel' : ''} ${inUse.has(step) ? 'is-used' : ''} ${changed ? 'is-changed' : ''}"
-          data-step-pick="${step}" title="grayscale-${step} ${gray[step]}${inUse.has(step) ? ' · in use' : ''}">
+        // Only flag instability on steps a slot actually points at: it matters
+        // for a large flat surface, not for a step sitting unused in the ramp.
+        const shaky = surfaceSteps.has(step) && resolved.unstable.has(step);
+        return `<button type="button" class="sw-card ${selStep === step ? 'is-sel' : ''} ${inUse.has(step) ? 'is-used' : ''} ${changed ? 'is-changed' : ''} ${shaky ? 'is-unstable' : ''}"
+          data-step-pick="${step}" title="grayscale-${step} ${gray[step]}${inUse.has(step) ? ' · in use' : ''}${shaky ? ` · unstable in a screen share (luma ${lumaCode(gray[step]).toFixed(2)})` : ''}">
           <span class="sw-card__color" data-swatch="${step}" style="background:${gray[step]}"></span>
-          <span class="sw-card__info"><span class="sw-card__label">${step}${changed ? ' •' : ''}</span></span>
+          <span class="sw-card__info"><span class="sw-card__label">${step}${changed ? ' •' : ''}${shaky ? ' ⚡' : ''}</span></span>
         </button>`;
       }).join('');
 
@@ -804,11 +851,13 @@ const LEVELS = [
             <button type="button" class="pick__x" data-step-pick="">✕</button>
           </div>
 
-          ${ctrl('lightness', `data-step="${step}" data-ch="L"`, Number(v.L.toFixed(1)), { min: 0, max: 100, step: 0.5, lead: true })}
+          ${ctrl('lightness', `data-step="${step}" data-ch="L"`, Number(v.L.toFixed(2)), { min: 0, max: 100, step: 0.5, lead: true })}
           <p class="ed__note">
-            Brand ${shape.L[step].toFixed(1)}${Math.abs(dL) >= 0.05 ? ` · ${dL > 0 ? '+' : ''}${dL.toFixed(1)}` : ''}
-            ${resolved.clamped.has(step) ? ' · tint clipped by sRGB at this lightness' : ''}
+            Brand ${shape.L[step].toFixed(1)}${Math.abs(dL) >= 0.005 ? ` · ${dL > 0 ? '+' : ''}${dL.toFixed(2)}` : ''}
+            ${resolved.clamped.has(step) ? ' · tint outside sRGB at this lightness' : ''}
+            ${resolved.quantized.has(step) ? ' · tint lost to 8-bit rounding (in gamut, but too fine for 8 bits this dark)' : ''}
           </p>
+          ${lumaPanel(step)}
 
           ${ctrl('hue', `data-step="${step}" data-ch="dh"`, v.dh, { min: -40, max: 40, step: 1, unit: '°' })}
           ${ctrl('tint', `data-step="${step}" data-ch="ds"`, v.ds, { min: -40, max: 40, step: 1, unit: '%' })}
@@ -838,7 +887,7 @@ const LEVELS = [
     }
 
 
-    /* Same drill-down as colours: pick one size, edit only that one. */
+    /* Same drill-down as colors: pick one size, edit only that one. */
     /* Shadows — three tables, in the order the model reads:
        the LADDER (shared), the INK (per palette), and which kinds APPLY it. */
     function renderShadows() {
@@ -967,8 +1016,16 @@ const LEVELS = [
     });
 
     document.addEventListener('click', async e => {
-      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-revert-slot],[data-revert-step],[data-revert-rung],[data-revert-ink],[data-revert-kind],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-rung-pick],[data-preset]');
+      const t = (e.target as HTMLElement).closest<HTMLElement>('[data-elev-set],[data-revert-slot],[data-revert-step],[data-revert-rung],[data-revert-ink],[data-revert-kind],[data-reset],[data-copy],[data-goto],[data-slot-pick],[data-step-pick],[data-assign],[data-rung-pick],[data-preset],[data-luma-snap]');
       if (!t) return;
+
+      // Snapping writes an absolute lightness, exactly as the slider does, so
+      // it stays one undoable edit and the step's ↺ revert still clears it.
+      if (t.dataset.lumaSnap) {
+        const step = t.dataset.lumaSnap as Step;
+        (st.gray[step] ||= {}).L = Number(t.dataset.lumaL);
+        apply(); return;
+      }
 
       if (t.hasAttribute('data-slot-pick')) {
         const v = t.dataset.slotPick!;
@@ -1175,10 +1232,10 @@ const LEVELS = [
   }
 
   /* global.css line 29 — `p, li, td, th, label { color: var(--text-body) }` —
-     is a DIRECT rule, so it beats inherited colour and these elements take the
+     is a DIRECT rule, so it beats inherited color and these elements take the
      brand's ink token rather than the mock's. Inside an inverse block that is
      the wrong ink entirely. Re-point them at our token, using :where() so the
-     rule stays at (0,1,0) and every component's own colour still wins on order.
+     rule stays at (0,1,0) and every component's own color still wins on order.
      (Fifth bug this round from global.css binding style to a bare element.) */
   .mock :where(p, li, td, th, label) { color: var(--s-text-body); }
 
@@ -1192,7 +1249,7 @@ const LEVELS = [
      margin OVERRIDES stretch — the item collapses to fit-content and the
      margins eat the free space. Without it every section sized itself to its
      own content, so the hero, the prefs split, the integrations row and the
-     newsletter card all ended up different widths while appearing centred. */
+     newsletter card all ended up different widths while appearing centerd. */
   .wrap { width: 100%; max-width: 1300px; margin-inline: auto; padding-inline: var(--spacing-3XL); }
 
   /* nav — +1 */
@@ -1572,7 +1629,7 @@ const LEVELS = [
 
   /* Error is a solid card one level above the form, not a rule around the
      field — so it reads as a thing that appeared rather than a state painted
-     onto the input. Still grayscale: it wants a colour this round does not
+     onto the input. Still grayscale: it wants a color this round does not
      have, so weight and the surface step carry it for now. Track 1A. */
   .fld__errs {
     list-style: none; margin: 0;
@@ -1589,7 +1646,7 @@ const LEVELS = [
 
   /* Partner marks — foreign shapes on our surfaces, which is the test.
      Inherit currentColor so they take the surface's own text token rather
-     than any brand colour; the monochrome icon variants exist for this. */
+     than any brand color; the monochrome icon variants exist for this. */
   /* One row, equal columns, full container width. The mark scales with the
      viewport so the row holds together as the container narrows (including
      when the editor rail reflows the page) rather than wrapping early. */
@@ -1662,7 +1719,7 @@ const LEVELS = [
        rather than running the full height to the border. */
     /* center, not stretch — items size to their own content, so a divider is
        as tall as the stat it sits beside rather than the whole row. The taller
-       promoted tile then centres itself against them. */
+       promoted tile then centers itself against them. */
     padding: var(--spacing-2XL);
     display: flex; flex-wrap: wrap; align-items: center;
     font-size: 0.9375rem;
@@ -1730,7 +1787,7 @@ const LEVELS = [
 
      The outline policy (all / controls / dividers / none) is gone with them.
      It was a switch, and switching it could never be honest: a border
-     RESERVES 1px of layout whether or not its colour is visible, so "outlines
+     RESERVES 1px of layout whether or not its color is visible, so "outlines
      off" still sat inside a 1px inset. That is what showed up as a hairline
      tracing the sides and bottom of the recessed strip — .panel's transparent
      border, with the page visible through the gap between the panel edge and

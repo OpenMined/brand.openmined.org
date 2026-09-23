@@ -1,12 +1,12 @@
 /**
- * SURFACE ROUND — live colour editor
+ * SURFACE ROUND — live color editor
  * ════════════════════════════════════════════════════════════════════
  * Two layers of state, deliberately kept separate:
  *
  *   1. GRAYSCALE  — what hex each of the 17 brand steps actually is.
- *                   This is the only place a real colour value is chosen.
+ *                   This is the only place a real color value is chosen.
  *   2. ASSIGNMENT — which step each surface slot points at.
- *                   Slots can only ever hold a step, never a raw colour,
+ *                   Slots can only ever hold a step, never a raw color,
  *                   so "surfaces always pull from the grayscale" is
  *                   structurally guaranteed rather than a convention.
  *
@@ -24,7 +24,7 @@
  * :root override moves the chrome too, however the chrome is written.
  */
 
-/* ── Colour maths (sRGB ↔ OKLCH), ported from the round-1A derivation ── */
+/* ── Color maths (sRGB ↔ OKLCH), ported from the round-1A derivation ── */
 
 const s2l = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
 const l2s = (c: number) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
@@ -140,7 +140,7 @@ export const SLOT_LABEL: Record<Slot, string> = {
    of component) are entries to add rather than code to restructure.
 
      LADDER   what a shadow IS at each level        — shared by all palettes
-     INK      what it is made of, per palette       — colour step + strength
+     INK      what it is made of, per palette       — color step + strength
      KINDS    which components ask the question
      TRIGGERS when a shadow applies
 
@@ -353,7 +353,7 @@ export interface State {
   cast: { hue: number | null; sat: number | null };
   /** Shadows, in the four tables above. `ladder` is shared across palettes
    *  (geometry is distance off the page, and should not need to change with
-   *  the ground); `ink` is per palette, because a shadow's colour and
+   *  the ground); `ink` is per palette, because a shadow's color and
    *  strength is exactly what the ground does change. */
   shadow: {
     ladder: Record<Level, Rung>;
@@ -449,22 +449,88 @@ export function stepValues(shape: RampShape, st: State, s: Step) {
   };
 }
 
-/** Resolve the effective hex for every step, plus which ones sRGB clamped. */
+/* ── Screen robustness ──────────────────────────────────────────────
+   A screen share re-encodes the page as BT.709 Y'CbCr, which quantizes luma
+   to integers on a 16–235 scale. A large flat surface whose luma lands halfway
+   between two of those integers is UNSTABLE: any small perturbation — a
+   different capture path, a re-quantize, a dithered composite — tips it one way
+   or the other, and the whole background visibly shifts.
+
+   That is measurable per color, so the editor shows it rather than leaving it
+   to be discovered in a presentation. Luma is computed on the GAMMA-ENCODED
+   channels, not linearised ones — that is what Y'CbCr actually uses. */
+
+const REC709 = [0.2126, 0.7152, 0.0722] as const;
+
+/** BT.709 luma on the limited (studio) 16–235 scale a screen share encodes to. */
+export function lumaCode(hex: string): number {
+  const rgb = hexToRgb(hex);
+  return 16 + 219 * (REC709[0] * rgb[0] + REC709[1] * rgb[1] + REC709[2] * rgb[2]);
+}
+
+/** Distance to the nearest integer luma code. 0 = rock solid, 0.5 = coin flip. */
+export const lumaMargin = (hex: string): number => {
+  const y = lumaCode(hex);
+  return Math.abs(y - Math.round(y));
+};
+
+/** Over this, a flat field of that color is liable to flip between two values. */
+export const LUMA_UNSTABLE = 0.35;
+
+/**
+ * The nearest lightness that lands this step on a stable luma code, searched on
+ * the same 0.01 grid the URL can round-trip. Hue and tint are held, so snapping
+ * never changes the color's character — only where it sits on the encoder's
+ * grid. Returns null when the step is already stable.
+ */
+export function nearestStableL(
+  st: State, shape: RampShape, s: Step, reach = 0.6,
+): number | null {
+  const v = stepValues(shape, st, s);
+  const want = (v.sat / 100) * SAT_MAX_C;
+  if (lumaMargin(oklchToHex(v.L, want, v.hue)) <= 0.08) return null;
+  let best: { L: number; m: number } | null = null;
+  for (let d = -reach; d <= reach + 1e-9; d += 0.01) {
+    const L = Math.round((v.L + d) * 100) / 100;
+    if (L < 0 || L > 100) continue;
+    const m = lumaMargin(oklchToHex(L, want, v.hue));
+    if (!best || m < best.m - 1e-9 || (Math.abs(m - best.m) < 1e-9 && Math.abs(L - v.L) < Math.abs(best.L - v.L))) {
+      best = { L, m };
+    }
+  }
+  return best && best.L !== v.L ? best.L : null;
+}
+
+/**
+ * Resolve the effective hex for every step.
+ *
+ * `clamped` and `quantized` are DIFFERENT failures and were previously reported
+ * as one, which told the user "sRGB won't go there" when the truth was usually
+ * "8-bit won't go there". At the dark end one code value is worth ~0.43 OKLCH L,
+ * so a perfectly in-gamut chroma can still be rounded away.
+ *   · clamped   — genuinely outside sRGB; no bit depth would render it
+ *   · quantized — inside sRGB as a float, lost to 8-bit rounding
+ */
 export function resolveGrayscale(
   brand: Record<Step, string>, st: State, shape: RampShape,
-): { hex: Record<Step, string>; clamped: Set<Step> } {
+): { hex: Record<Step, string>; clamped: Set<Step>; quantized: Set<Step>; unstable: Set<Step> } {
   const hex = {} as Record<Step, string>;
   const clamped = new Set<Step>();
+  const quantized = new Set<Step>();
+  const unstable = new Set<Step>();
   for (const s of STEPS) {
     const v = stepValues(shape, st, s);
     const want = (v.sat / 100) * SAT_MAX_C;
     const out = oklchToHex(v.L, want, v.hue);
     hex[s] = out;
     // A step whose requested chroma could not be rendered — the slider will
-    // appear to stop responding, so it has to say why.
-    if (want > 0.0005 && hexToOklch(out).C < want - 0.0008) clamped.add(s);
+    // appear to stop responding, so it has to say why, and say which reason.
+    if (want > 0.0005 && hexToOklch(out).C < want - 0.0008) {
+      (inGamut(oklchToRgbRaw(v.L, want, v.hue)) ? quantized : clamped).add(s);
+    }
+    if (lumaMargin(out) > LUMA_UNSTABLE) unstable.add(s);
   }
-  return { hex, clamped };
+  return { hex, clamped, quantized, unstable };
 }
 
 export const paletteKey = (st: State): PaletteKey => `${st.theme}-${st.elev}` as PaletteKey;
@@ -505,7 +571,7 @@ export function emitCss(gray: Record<Step, string>, st: State): string {
     lines.push('}');
   }
 
-  // Shadows, per palette — all four, not just the two colour modes. Under
+  // Shadows, per palette — all four, not just the two color modes. Under
   // `darker` a raised surface is DARKER than the page, so the same shadow can
   // mean the opposite thing; keying only to light/dark made that untestable.
   for (const pal of PALETTES) {
@@ -687,10 +753,16 @@ export function encodeUrl(brand: Record<Step, string>, gray: Record<Step, string
 
   // step:L_dh_ds — trailing zero fields dropped, so a lightness-only edit
   // stays short. Underscores keep negative offsets readable.
+  //
+  // TWO decimals on lightness, not one. SHIFT+drag already produced 0.05
+  // increments and `toFixed(1)` silently rounded them away on re-encode, so a
+  // fine-tuned value could not survive being shared — or even the editor's own
+  // next edit. That matters most for luma snapping, where the whole point is a
+  // sub-0.1 offset. Trailing zeros are trimmed, so ordinary values stay short.
   const g = STEPS.filter(s => st.gray[s]).map(s => {
     const e = st.gray[s]!;
     const parts = [
-      e.L !== undefined ? e.L.toFixed(1) : '',
+      e.L !== undefined ? String(Math.round(e.L * 100) / 100) : '',
       e.dh ? String(Math.round(e.dh)) : '',
       e.ds ? String(Math.round(e.ds)) : '',
     ];
