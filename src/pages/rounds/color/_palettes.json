@@ -19,15 +19,17 @@
   "roles": {
     "light": {
       "fg": "500",
-      "solid": "400",
-      "hover": "500",
+      "solid": "500",
+      "hover": "600",
+      "key": "400",
       "tint": "100",
       "soft": "200"
     },
     "dark": {
       "fg": "300",
-      "solid": "400",
-      "hover": "300",
+      "solid": "300",
+      "hover": "200",
+      "key": "400",
       "tint": "700",
       "soft": "600"
     }
@@ -35,8 +37,8 @@
   "surfaces": {
     "light": {
       "sunken": "#dddde2",
-      "base": "#edecf0",
-      "raise-1": "#f8f8fb",
+      "base": "#f3f3f6",
+      "raise-1": "#fafafc",
       "raise-2": "#ffffff"
     },
     "dark": {
@@ -183,77 +185,89 @@
         "light": {
           "violet": {
             "fg_min": 5.02,
-            "solid_base": 3.56,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 4.36
+            "solid_base": 6.13,
+            "key_base": 3.78,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.79
           },
           "blue": {
             "fg_min": 4.89,
-            "solid_base": 3.72,
+            "solid_base": 5.98,
+            "key_base": 3.95,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 4.37
+            "on_solid_ratio": 6.62
           },
           "teal": {
             "fg_min": 4.69,
-            "solid_base": 2.3,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 6.75
+            "solid_base": 5.74,
+            "key_base": 2.44,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.35
           },
           "green": {
             "fg_min": 4.63,
-            "solid_base": 1.92,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 8.09
+            "solid_base": 5.66,
+            "key_base": 2.04,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.27
           },
           "amber": {
             "fg_min": 4.94,
-            "solid_base": 1.77,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 8.77
+            "solid_base": 6.03,
+            "key_base": 1.88,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.68
           },
           "red": {
             "fg_min": 5.14,
-            "solid_base": 3.08,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 5.04
+            "solid_base": 6.29,
+            "key_base": 3.27,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.96
           }
         },
         "dark": {
           "violet": {
             "fg_min": 7.75,
-            "solid_base": 4.17,
+            "solid_base": 9.15,
+            "key_base": 4.17,
             "on_solid": "#16141b",
-            "on_solid_ratio": 4.36
+            "on_solid_ratio": 9.57
           },
           "blue": {
             "fg_min": 7.89,
-            "solid_base": 3.99,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 4.37
+            "solid_base": 9.31,
+            "key_base": 3.99,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.73
           },
           "teal": {
             "fg_min": 8.07,
-            "solid_base": 6.46,
+            "solid_base": 9.52,
+            "key_base": 6.46,
             "on_solid": "#16141b",
-            "on_solid_ratio": 6.75
+            "on_solid_ratio": 9.96
           },
           "green": {
             "fg_min": 8.18,
-            "solid_base": 7.74,
+            "solid_base": 9.65,
+            "key_base": 7.74,
             "on_solid": "#16141b",
-            "on_solid_ratio": 8.09
+            "on_solid_ratio": 10.09
           },
           "amber": {
             "fg_min": 8.51,
-            "solid_base": 8.39,
+            "solid_base": 10.04,
+            "key_base": 8.39,
             "on_solid": "#16141b",
-            "on_solid_ratio": 8.77
+            "on_solid_ratio": 10.5
           },
           "red": {
             "fg_min": 7.61,
-            "solid_base": 4.82,
+            "solid_base": 8.97,
+            "key_base": 4.82,
             "on_solid": "#16141b",
-            "on_solid_ratio": 5.04
+            "on_solid_ratio": 9.38
           }
         }
       },
@@ -397,77 +411,89 @@
         "light": {
           "violet": {
             "fg_min": 5.57,
-            "solid_base": 4.54,
+            "solid_base": 6.8,
+            "key_base": 4.82,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.34
+            "on_solid_ratio": 7.54
           },
           "blue": {
             "fg_min": 5.02,
-            "solid_base": 4.1,
+            "solid_base": 6.13,
+            "key_base": 4.35,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 4.82
+            "on_solid_ratio": 6.79
           },
           "teal": {
             "fg_min": 4.67,
-            "solid_base": 3.12,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 4.98
+            "solid_base": 5.71,
+            "key_base": 3.31,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.32
           },
           "green": {
             "fg_min": 4.58,
-            "solid_base": 2.78,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 5.59
+            "solid_base": 5.6,
+            "key_base": 2.95,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.2
           },
           "amber": {
             "fg_min": 4.98,
-            "solid_base": 2.73,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 5.68
+            "solid_base": 6.09,
+            "key_base": 2.9,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.74
           },
           "red": {
             "fg_min": 5.33,
-            "solid_base": 3.86,
+            "solid_base": 6.51,
+            "key_base": 4.1,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 4.54
+            "on_solid_ratio": 7.22
           }
         },
         "dark": {
           "violet": {
             "fg_min": 7.63,
-            "solid_base": 3.27,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.34
+            "solid_base": 9.0,
+            "key_base": 3.27,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.42
           },
           "blue": {
             "fg_min": 7.92,
-            "solid_base": 3.63,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 4.82
+            "solid_base": 9.34,
+            "key_base": 3.63,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.77
           },
           "teal": {
             "fg_min": 8.14,
-            "solid_base": 4.76,
+            "solid_base": 9.6,
+            "key_base": 4.76,
             "on_solid": "#16141b",
-            "on_solid_ratio": 4.98
+            "on_solid_ratio": 10.04
           },
           "green": {
             "fg_min": 8.26,
-            "solid_base": 5.34,
+            "solid_base": 9.74,
+            "key_base": 5.34,
             "on_solid": "#16141b",
-            "on_solid_ratio": 5.59
+            "on_solid_ratio": 10.19
           },
           "amber": {
             "fg_min": 7.77,
-            "solid_base": 5.43,
+            "solid_base": 9.17,
+            "key_base": 5.43,
             "on_solid": "#16141b",
-            "on_solid_ratio": 5.68
+            "on_solid_ratio": 9.59
           },
           "red": {
             "fg_min": 7.57,
-            "solid_base": 3.85,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 4.54
+            "solid_base": 8.94,
+            "key_base": 3.85,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.35
           }
         }
       },
@@ -603,77 +629,89 @@
         "light": {
           "violet": {
             "fg_min": 5.59,
-            "solid_base": 4.58,
+            "solid_base": 6.83,
+            "key_base": 4.87,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.39
+            "on_solid_ratio": 7.56
           },
           "blue": {
             "fg_min": 5.35,
-            "solid_base": 4.34,
+            "solid_base": 6.54,
+            "key_base": 4.61,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.1
+            "on_solid_ratio": 7.24
           },
           "teal": {
             "fg_min": 4.7,
-            "solid_base": 3.12,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 4.97
+            "solid_base": 5.74,
+            "key_base": 3.32,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.36
           },
           "green": {
             "fg_min": 4.57,
-            "solid_base": 2.79,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 5.56
+            "solid_base": 5.59,
+            "key_base": 2.97,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.19
           },
           "amber": {
             "fg_min": 4.94,
-            "solid_base": 2.73,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 5.69
+            "solid_base": 6.03,
+            "key_base": 2.9,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.68
           },
           "red": {
             "fg_min": 5.34,
-            "solid_base": 4.2,
+            "solid_base": 6.52,
+            "key_base": 4.46,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 4.94
+            "on_solid_ratio": 7.23
           }
         },
         "dark": {
           "violet": {
             "fg_min": 7.48,
-            "solid_base": 3.24,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.39
+            "solid_base": 8.83,
+            "key_base": 3.24,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.23
           },
           "blue": {
             "fg_min": 7.85,
-            "solid_base": 3.42,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.1
+            "solid_base": 9.26,
+            "key_base": 3.42,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.68
           },
           "teal": {
             "fg_min": 8.12,
-            "solid_base": 4.75,
+            "solid_base": 9.58,
+            "key_base": 4.75,
             "on_solid": "#16141b",
-            "on_solid_ratio": 4.97
+            "on_solid_ratio": 10.02
           },
           "green": {
             "fg_min": 8.27,
-            "solid_base": 5.31,
+            "solid_base": 9.75,
+            "key_base": 5.31,
             "on_solid": "#16141b",
-            "on_solid_ratio": 5.56
+            "on_solid_ratio": 10.2
           },
           "amber": {
             "fg_min": 7.78,
-            "solid_base": 5.44,
+            "solid_base": 9.18,
+            "key_base": 5.44,
             "on_solid": "#16141b",
-            "on_solid_ratio": 5.69
+            "on_solid_ratio": 9.6
           },
           "red": {
             "fg_min": 7.53,
-            "solid_base": 3.54,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 4.94
+            "solid_base": 8.88,
+            "key_base": 3.54,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.29
           }
         }
       },
@@ -811,77 +849,89 @@
         "light": {
           "violet": {
             "fg_min": 6.13,
-            "solid_base": 5.01,
+            "solid_base": 7.49,
+            "key_base": 5.32,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.89
+            "on_solid_ratio": 8.3
           },
           "blue": {
             "fg_min": 5.61,
-            "solid_base": 4.59,
+            "solid_base": 6.85,
+            "key_base": 4.87,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.4
+            "on_solid_ratio": 7.59
           },
           "teal": {
             "fg_min": 4.67,
-            "solid_base": 3.68,
+            "solid_base": 5.71,
+            "key_base": 3.91,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 4.32
+            "on_solid_ratio": 6.32
           },
           "green": {
             "fg_min": 4.58,
-            "solid_base": 3.29,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 4.72
+            "solid_base": 5.6,
+            "key_base": 3.49,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.2
           },
           "amber": {
             "fg_min": 4.98,
-            "solid_base": 3.19,
-            "on_solid": "#16141b",
-            "on_solid_ratio": 4.87
+            "solid_base": 6.09,
+            "key_base": 3.39,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.74
           },
           "red": {
             "fg_min": 5.42,
-            "solid_base": 4.44,
+            "solid_base": 6.63,
+            "key_base": 4.71,
             "on_solid": "#ffffff",
-            "on_solid_ratio": 5.22
+            "on_solid_ratio": 7.34
           }
         },
         "dark": {
           "violet": {
             "fg_min": 7.67,
-            "solid_base": 2.97,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.89
+            "solid_base": 9.04,
+            "key_base": 2.97,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.46
           },
           "blue": {
             "fg_min": 7.92,
-            "solid_base": 3.24,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.4
+            "solid_base": 9.34,
+            "key_base": 3.24,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.77
           },
           "teal": {
             "fg_min": 8.09,
-            "solid_base": 4.04,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 4.32
+            "solid_base": 9.55,
+            "key_base": 4.04,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.99
           },
           "green": {
             "fg_min": 8.16,
-            "solid_base": 4.51,
+            "solid_base": 9.63,
+            "key_base": 4.51,
             "on_solid": "#16141b",
-            "on_solid_ratio": 4.72
+            "on_solid_ratio": 10.07
           },
           "amber": {
             "fg_min": 7.77,
-            "solid_base": 4.65,
+            "solid_base": 9.17,
+            "key_base": 4.65,
             "on_solid": "#16141b",
-            "on_solid_ratio": 4.87
+            "on_solid_ratio": 9.59
           },
           "red": {
             "fg_min": 7.6,
-            "solid_base": 3.34,
-            "on_solid": "#ffffff",
-            "on_solid_ratio": 5.22
+            "solid_base": 8.97,
+            "key_base": 3.34,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.38
           }
         }
       },

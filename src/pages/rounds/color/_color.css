@@ -91,13 +91,28 @@ body:has(.cr) { background: var(--c-base); }
 .cr h3 { font-family: var(--font-b); font-weight: 600; font-size: 1rem; line-height: 1.3; }
 
 /* ── Hero ───────────────────────────────────────────────────────── */
-.hero { padding-top: 88px; padding-bottom: 0; }
+.hero { position: relative; padding-top: 88px; padding-bottom: 0; }
 @media (max-width: 900px) { .hero { padding-top: 48px; } }
+
+/* Colorflow band, placed as openmined.org's HomeHero stream: full-bleed,
+   anchored to the hero's bottom, its bottom 30% of its height (100vw / 2)
+   below it, so it rises behind the copy and bleeds into the next section.
+   z-index -1 puts it under all in-flow content; .cr isolates so it stays
+   above the page background. The hero's padding reserves the band. */
+.cr { isolation: isolate; overflow-x: clip; }
+.hero:has(.hero__stream) { padding-bottom: calc(100vw / 2 * 0.55); }
+.hero__stream {
+  position: absolute; bottom: calc(-100vw / 2 * 0.3);
+  left: 50%; width: 100vw; margin-left: -50vw;
+  z-index: var(--z-below); pointer-events: none;
+}
 /* The first section follows the intro directly rather than starting a new band. */
 .hero + .band { padding-top: 56px; }
 .hero h1 { max-width: 13em; }
 .cr h1, .cr h2 { text-wrap: balance; }
 .hero__copy { display: grid; gap: var(--spacing-2XL); justify-items: start; }
+/* The logo, inline so its stops follow the palette (_logo.ts). */
+.hero__logo { display: block; width: auto; height: 52px; margin-bottom: var(--spacing-L); }
 .lead { font-size: 1.1rem; line-height: 1.6; max-width: 34em; }
 
 .eyebrow {
@@ -106,7 +121,7 @@ body:has(.cr) { background: var(--c-base); }
   background: var(--c-raise-1); box-shadow: var(--c-shadow-1);
   color: var(--c-h); font-size: 0.8rem;
 }
-.eyebrow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-solid); box-shadow: 0 0 0 3px var(--accent-tint); }
+.eyebrow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-key); box-shadow: 0 0 0 3px var(--accent-tint); }
 
 /* ── Buttons ────────────────────────────────────────────────────── */
 .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-M); }
@@ -128,8 +143,15 @@ body:has(.cr) { background: var(--c-base); }
 .btn--quiet:hover { background: var(--c-sunken); }
 
 /* ── Bands, sections, cards ─────────────────────────────────────── */
+/* Sections are never told apart by a slight background change, and sunken
+   is never a large or content background (DECISIONS 2026-09-24). Every band
+   sits on base; where two meet, a divider marks the boundary. */
 .band { padding: 88px 0; }
-.band--alt { background: var(--c-sunken); }
+.band + .band { padding-top: 0; }
+.band + .band > .wrap::before {
+  content: ''; display: block; height: 1px; background: var(--c-line);
+  margin-bottom: 88px;
+}
 .sec { display: grid; grid-template-columns: auto 1fr; gap: 6px var(--spacing-XL); margin-bottom: var(--spacing-3XL); max-width: 60em; }
 .sec__n { font-family: var(--font-m); font-size: 0.8rem; color: var(--accent-fg); padding-top: 0.9em; }
 .sec p { grid-column: 2; line-height: 1.6; }
@@ -216,7 +238,7 @@ body:has(.cr) { background: var(--c-base); }
 .tabs { display: flex; gap: var(--spacing-XL); box-shadow: inset 0 -1px 0 var(--c-line); }
 .tabs a { color: var(--c-m); text-decoration: none; font-size: 0.88rem; padding: 4px 0 10px; box-shadow: inset 0 -2px 0 transparent; transition: color 0.2s, box-shadow 0.2s; }
 .tabs a:hover { color: var(--c-h); }
-.tabs a.is-on { color: var(--c-h); box-shadow: inset 0 -2px 0 var(--accent-solid); }
+.tabs a.is-on { color: var(--c-h); box-shadow: inset 0 -2px 0 var(--accent-key); }
 .tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 .tbl th { text-align: left; font-weight: 500; font-size: 0.74rem; color: var(--c-m); padding: 8px 10px; border-bottom: 1px solid var(--c-line); }
 .tbl td { padding: 10px; border-bottom: 1px solid var(--c-line); color: var(--c-b); }
@@ -240,7 +262,11 @@ body:has(.cr) { background: var(--c-base); }
 .ex__on-sunken { background: var(--c-sunken); font-size: 0.78rem; }
 .tbl--roles td, .tbl--audit td { vertical-align: middle; }
 .card:has(> .tbl--roles), .card:has(> .tbl--audit) { overflow-x: auto; }
-.tbl--roles, .tbl--audit { min-width: 640px; }
+.tbl--roles { min-width: 640px; }
+/* Contrast sits at half width beside Chart series: headers wrap, figures don't. */
+.tbl--audit th, .tbl--audit td { padding-inline: 6px; }
+.tbl--audit th { vertical-align: bottom; }
+.tbl--audit .num { white-space: nowrap; }
 .tbl__group td { font-size: 0.72rem; color: var(--c-m); padding-top: 16px; }
 .tbl--series td { padding: 6px 10px; }
 .chip { display: block; width: 100%; min-width: 36px; height: 22px; border-radius: 3px; }
@@ -258,7 +284,7 @@ body:has(.cr) { background: var(--c-base); }
 .t-f { color: var(--info-fg); }
 .t-c { color: var(--c-m); font-style: italic; }
 .progress { height: 6px; border-radius: 3px; background: var(--c-sunken); overflow: hidden; }
-.progress span { display: block; height: 100%; border-radius: 3px; background: var(--accent-solid); }
+.progress span { display: block; height: 100%; border-radius: 3px; background: var(--accent-key); }
 .steps { display: flex; gap: var(--spacing-S); list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
 .steps li { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--c-m); flex: 1; min-width: 110px; }
 .steps i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.72rem; font-weight: 600; background: var(--c-sunken); color: var(--c-m); }
@@ -278,7 +304,7 @@ body:has(.cr) { background: var(--c-base); }
 .delta--bad { color: var(--danger-fg); }
 .delta__lab { color: var(--c-m); font-weight: 400; }
 .spark { width: 100%; height: 34px; margin-top: 4px; overflow: visible; }
-.spark path { fill: none; stroke: var(--accent-solid); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.spark path { fill: none; stroke: var(--accent-key); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; list-style: none; margin: 0; padding: 0; font-size: 0.76rem; color: var(--c-b); }
 .legend li { display: flex; align-items: center; gap: 6px; }
@@ -379,8 +405,11 @@ body:has(.cr) { background: var(--c-base); }
 .spec__head .card__sub { margin-top: 0 !important; max-width: 60em; }
 .spec__bar { display: block; height: 14px; border-radius: 999px; }
 .spec__stops { display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; }
-.spec__stops span { height: 58px; border-radius: 3px; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 5px; font-size: 0.64rem; font-weight: 600; overflow: hidden; text-transform: capitalize; }
-.spec__stops code { text-transform: none; font-size: 0.58rem; font-weight: 400; color: inherit; opacity: 0.85; }
+/* Stop name and hex sit below each swatch, on the card. */
+.spec__stops span { display: grid; gap: 2px; min-width: 0; }
+.spec__stops i { display: block; height: 58px; border-radius: 3px; margin-bottom: 6px; }
+.spec__stops b { font-size: 0.72rem; font-weight: 600; color: var(--c-h); text-transform: capitalize; }
+.spec__stops code { font-size: 0.66rem; color: var(--c-m); }
 .spec__ref { display: inline-block; width: 160px; height: 8px; border-radius: 999px; vertical-align: 1px; }
 
 /* ── 01 From → to ───────────────────────────────────────────────── */
@@ -400,6 +429,8 @@ body:has(.cr) { background: var(--c-base); }
 .moves__head, .moves__row { display: grid; grid-template-columns: 200px 200px 1fr; gap: var(--spacing-XL); }
 .moves__head { font-size: 0.72rem; color: var(--c-m); padding: 0 0 var(--spacing-S); border-bottom: 1px solid var(--c-line-strong); }
 .moves__row { padding: var(--spacing-XL) 0; border-bottom: 1px solid var(--c-line-strong); }
+/* The section divider follows; a closing rule here would double it. */
+.moves__row:last-child { border-bottom: 0; }
 .moves__from { color: var(--c-m); font-size: 0.95rem; }
 .moves__to { color: var(--c-h); font-size: 0.95rem; font-weight: 600; }
 .moves__why { display: grid; gap: 4px; max-width: 40em; }
@@ -415,3 +446,70 @@ body:has(.cr) { background: var(--c-base); }
 @media (prefers-reduced-motion: reduce) {
   .cr *, .cr *::before { animation: none !important; transition: none !important; }
 }
+
+/* ── Gradient map CTA ───────────────────────────────────────────────
+   openmined.org's CtaSection (gradient variant): a centered card on a
+   full-bleed field, 500px minimum, card 510px wide with 88px above and
+   below. The field is <om-mesh>, filling the band behind the card. */
+.cta {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  min-height: 500px; padding-inline: var(--spacing-XL);
+}
+.cta__bg { position: absolute; inset: 0; }
+.cta__card {
+  position: relative; width: 100%; max-width: 510px; margin-block: 88px;
+  padding: var(--spacing-4XL); border-radius: var(--border-radius-L);
+  background: var(--c-raise-1); box-shadow: var(--c-shadow-2);
+  display: flex; flex-direction: column; align-items: center; gap: var(--spacing-2XL);
+  text-align: center;
+}
+.cta__icon { width: 40px; height: 40px; }
+.cr .cta__h { font-family: var(--font-d); font-weight: 400; font-size: 1.9rem; line-height: 1.15; }
+.cta__sub { font-size: 0.92rem; color: var(--c-m); margin-top: calc(-1 * var(--spacing-M)) !important; }
+.cta__fields { width: 100%; display: grid; gap: var(--spacing-L); text-align: left; }
+.cta__fields textarea { resize: vertical; }
+.cta__btn { width: 100%; justify-content: center; }
+.cta__fine { font-size: 0.8rem; color: var(--c-m); }
+
+/* ── Mock page: content section ─────────────────────────────────────
+   openmined.org's "Federated AI Network", condensed. One raise-1 card on
+   base; its rows are split by dividers, never by fills; the subnet cards
+   step up once more to raise-2. */
+.fed-sec { padding-bottom: 96px; }
+.fed { background: var(--c-raise-1); border-radius: var(--border-radius-L); box-shadow: var(--c-shadow-1); }
+.fed__row { padding: 48px; }
+.fed__row + .fed__row { border-top: 1px solid var(--c-line); }
+.fed__head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-3XL); align-items: end; }
+.fed__eyebrow { color: var(--accent-fg); font-weight: 600; font-size: 0.92rem; margin-bottom: var(--spacing-S) !important; }
+.fed__lede { line-height: 1.6; }
+.fed__label { font-size: 0.78rem; font-weight: 500; color: var(--c-m); margin-bottom: var(--spacing-XL) !important; }
+.fed__subs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
+.fed__sub {
+  background: var(--c-raise-2); border-radius: var(--border-radius-M); box-shadow: var(--c-shadow-2);
+  padding: var(--spacing-2XL); display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-M);
+}
+.cr .fed__sub h3 { font-size: 1.15rem; }
+.fed__sub p { font-size: 0.9rem; line-height: 1.55; }
+.fed__sub .lnk { margin-top: auto; padding-top: var(--spacing-S); font-weight: 500; font-size: 0.9rem; }
+.fed__cta { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-2XL); }
+.cr .fed__cta h3 { font-family: var(--font-d); font-weight: 400; font-size: 1.5rem; margin-bottom: 6px; }
+.fed__cta p { color: var(--c-m); }
+.fed__cta .btn { flex: none; }
+@media (max-width: 900px) {
+  .fed__head, .fed__subs { grid-template-columns: 1fr; }
+  .fed__row { padding: 32px 24px; }
+  .fed__cta { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Mock page: footer, and where the mock ends ──────────────────── */
+.mfoot { border-top: 1px solid var(--c-line); }
+.mfoot__in { display: flex; align-items: center; gap: var(--spacing-2XL); flex-wrap: wrap; padding-block: 28px; }
+.mfoot__brand { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--c-h); font-size: 0.92rem; }
+.mfoot__icon { width: 24px; height: 24px; }
+.mfoot__nav { display: flex; gap: var(--spacing-XL); font-size: 0.88rem; }
+.mfoot__fine { margin-left: auto !important; font-size: 0.8rem; color: var(--c-m); }
+.mock-end {
+  display: flex; align-items: center; gap: var(--spacing-L); padding-block: 72px 0;
+  font: 500 0.72rem var(--font-m); letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-m);
+}
+.mock-end::before, .mock-end::after { content: ''; flex: 1; height: 1px; background: var(--c-line-strong); }

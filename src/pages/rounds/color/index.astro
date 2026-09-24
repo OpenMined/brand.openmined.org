@@ -30,6 +30,7 @@ import ThemeToggle from '@brand/ThemeToggle.astro';
 import data from './_palettes.json';
 import { readFileSync } from 'node:fs';
 import './_color.css';
+import { logoCss, logoSvg, iconSvg } from './_logo';
 
 type Hue = 'violet' | 'blue' | 'teal' | 'green' | 'amber' | 'red';
 const HUES = data.hues as Hue[];
@@ -71,21 +72,20 @@ for (const k of PKEYS) {
   const d: string[] = [];
   for (const h of HUES) {
     for (const s of STEPS) d.push(`--${h}-${s}:${p.ramps[h][s]}`);
-    d.push(`--${h}-on:${p.audit.light[h].on_solid}`);
     // A boundary (focus ring, toggle edge) needs 3:1 on its ground. Where the
     // key can't reach it, the ring takes the fg step instead.
-    d.push(`--${h}-ring-l:var(--${h}-${p.audit.light[h].solid_base >= 3 ? 400 : 500})`);
-    d.push(`--${h}-ring-d:var(--${h}-${p.audit.dark[h].solid_base >= 3 ? 400 : 300})`);
+    d.push(`--${h}-ring-l:var(--${h}-${p.audit.light[h].key_base >= 3 ? 400 : 500})`);
+    d.push(`--${h}-ring-d:var(--${h}-${p.audit.dark[h].key_base >= 3 ? 400 : 300})`);
   }
   d.push(`--spectrum-own:${p.gradient.join(',')}`);
-  p.gradient.forEach((h: string, i: number) => d.push(`--spec-${i + 1}:${h};--spec-${i + 1}-on:${p.gradient_on[i]}`));
+  p.gradient.forEach((h: string, i: number) => d.push(`--spec-${i + 1}:${h}`));
   css.push(`:root[data-p="${k}"]{${d.join(';')}}`);
 }
 css.push(`:root{--spectrum:var(--spectrum-own)}`);
 
 const alias = (role: string, h: string) => [
   ...STEPS.map(s => `--${role}-${s}:var(--${h}-${s})`),
-  `--${role}-on:var(--${h}-on)`, `--${role}-ring-l:var(--${h}-ring-l)`, `--${role}-ring-d:var(--${h}-ring-d)`,
+  `--${role}-on:var(--on-solid)`, `--${role}-ring-l:var(--${h}-ring-l)`, `--${role}-ring-d:var(--${h}-ring-d)`,
 ].join(';');
 for (const a of ACCENTS) css.push(`:root[data-a="${a}"]{${alias('accent', a)}}`);
 /* Accent "none": the accent roles resolve to the settled grayscale
@@ -93,19 +93,22 @@ for (const a of ACCENTS) css.push(`:root[data-a="${a}"]{${alias('accent', a)}}`)
    spent only on status and data. The ramp steps (sequential charts) are a
    monotone gray ladder; the roles are set per mode because a neutral solid
    is ink — dark on light, light on dark — which no single step can be. */
-const GRAY_STEPS = ['#edecf0', '#dddde2', '#cfcdd6', '#b3b0bf', '#868394', '#5f5a72', '#353243'];
-css.push(`:root[data-a="none"]{${STEPS.map((s, i) => `--accent-${s}:${GRAY_STEPS[i]}`).join(';')};--accent-fg:#221f2c;--accent-solid:#221f2c;--accent-hover:#353243;--accent-on:#fcfcfd;--accent-tint:#dddde2;--accent-soft:#cfcdd6;--accent-ring:#221f2c}`);
-css.push(`:root[data-a="none"][data-theme="dark"]{--accent-fg:#fcfcfd;--accent-solid:#fcfcfd;--accent-hover:#cfcdd6;--accent-on:#16141b;--accent-tint:#353243;--accent-soft:#464257;--accent-ring:#fcfcfd}`);
+const GRAY_STEPS = ['#e6e5e9', '#dddde2', '#cfcdd6', '#b3b0bf', '#868394', '#5f5a72', '#353243'];
+css.push(`:root[data-a="none"]{${STEPS.map((s, i) => `--accent-${s}:${GRAY_STEPS[i]}`).join(';')};--accent-fg:#221f2c;--accent-solid:#221f2c;--accent-key:#221f2c;--accent-hover:#353243;--accent-on:#fcfcfd;--accent-tint:#dddde2;--accent-soft:#cfcdd6;--accent-ring:#221f2c}`);
+css.push(`:root[data-a="none"][data-theme="dark"]{--accent-fg:#fcfcfd;--accent-solid:#fcfcfd;--accent-key:#fcfcfd;--accent-hover:#cfcdd6;--accent-on:#16141b;--accent-tint:#353243;--accent-soft:#464257;--accent-ring:#fcfcfd}`);
 css.push(`:root{${Object.entries(ROLE_HUE).filter(([, h]) => h).map(([r, h]) => alias(r, h!)).join(';')}}`);
 
 // Per-hue roles, so examples can show any hue in the current mode.
+// One on-color per step: the key (400) is for marks and never carries text;
+// a fill holding a label is `solid` — 500 under white (light), 300 under ink
+// (dark). `--on-solid` is set per mode with the surfaces, never per hue.
 const hueRoles = (mode: 'light' | 'dark') => HUES.map(h => mode === 'light'
-  ? `--${h}-fg:var(--${h}-500);--${h}-solid:var(--${h}-400);--${h}-tint:var(--${h}-100);--${h}-soft:var(--${h}-200);--${h}-ring:var(--${h}-ring-l)`
-  : `--${h}-fg:var(--${h}-300);--${h}-solid:var(--${h}-400);--${h}-tint:var(--${h}-700);--${h}-soft:var(--${h}-600);--${h}-ring:var(--${h}-ring-d)`
+  ? `--${h}-key:var(--${h}-400);--${h}-on:var(--on-solid);--${h}-fg:var(--${h}-500);--${h}-solid:var(--${h}-500);--${h}-tint:var(--${h}-100);--${h}-soft:var(--${h}-200);--${h}-ring:var(--${h}-ring-l)`
+  : `--${h}-key:var(--${h}-400);--${h}-on:var(--on-solid);--${h}-fg:var(--${h}-300);--${h}-solid:var(--${h}-300);--${h}-tint:var(--${h}-700);--${h}-soft:var(--${h}-600);--${h}-ring:var(--${h}-ring-d)`
 ).join(';');
 const roleDecl = (mode: 'light' | 'dark') => Object.keys(ROLE_HUE).map(r => mode === 'light'
-  ? `--${r}-fg:var(--${r}-500);--${r}-solid:var(--${r}-400);--${r}-tint:var(--${r}-100);--${r}-soft:var(--${r}-200);--${r}-ring:var(--${r}-ring-l);--${r}-hover:color-mix(in oklab,var(--${r}-400),var(--${r}-500) 45%)`
-  : `--${r}-fg:var(--${r}-300);--${r}-solid:var(--${r}-400);--${r}-tint:var(--${r}-700);--${r}-soft:var(--${r}-600);--${r}-ring:var(--${r}-ring-d);--${r}-hover:color-mix(in oklab,var(--${r}-400),var(--${r}-300) 40%)`
+  ? `--${r}-key:var(--${r}-400);--${r}-fg:var(--${r}-500);--${r}-solid:var(--${r}-500);--${r}-tint:var(--${r}-100);--${r}-soft:var(--${r}-200);--${r}-ring:var(--${r}-ring-l);--${r}-hover:color-mix(in oklab,var(--${r}-500),var(--${r}-600) 45%)`
+  : `--${r}-key:var(--${r}-400);--${r}-fg:var(--${r}-300);--${r}-solid:var(--${r}-300);--${r}-tint:var(--${r}-700);--${r}-soft:var(--${r}-600);--${r}-ring:var(--${r}-ring-d);--${r}-hover:color-mix(in oklab,var(--${r}-300),var(--${r}-200) 45%)`
 ).join(';');
 // Dataviz. Series are one set for both modes — the validator passes Deep's
 // keys in both bands, so there is no separate dark categorical set.
@@ -114,7 +117,7 @@ const series = CAT.map((h, i) => `--series-${i + 1}:var(--${h}-400)`).join(';');
 // several strengths (the deck's Bob / Ana / Charlie). Pointers only: no new values.
 const seriesRoles = (mode: 'light' | 'dark') => CAT.map((h, i) => {
   const [t, so, f] = mode === 'light' ? [100, 200, 500] : [700, 600, 300];
-  return `--series-${i + 1}-tint:var(--${h}-${t});--series-${i + 1}-soft:var(--${h}-${so});--series-${i + 1}-solid:var(--${h}-400);--series-${i + 1}-fg:var(--${h}-${f})`;
+  return `--series-${i + 1}-tint:var(--${h}-${t});--series-${i + 1}-soft:var(--${h}-${so});--series-${i + 1}-key:var(--${h}-400);--series-${i + 1}-fg:var(--${h}-${f})`;
 }).join(';');
 // R2 — diagram neutrals, named so nobody types #868394 by hand again.
 //   ink        objects: icons, boxes, model marks   light grayscale-700 · dark 400
@@ -127,15 +130,25 @@ const divL = '--div-n3:var(--red-500);--div-n2:var(--red-400);--div-n1:var(--red
 const divD = '--div-n3:var(--red-300);--div-n2:var(--red-400);--div-n1:var(--red-600);--div-p1:var(--blue-600);--div-p2:var(--blue-400);--div-p3:var(--blue-300)';
 
 const S = data.surfaces as any;
-const surfL = `--c-sunken:${S.light.sunken};--c-base:${S.light.base};--c-raise-1:${S.light['raise-1']};--c-raise-2:${S.light['raise-2']};--c-line:#dddde2;--c-line-strong:#cfcdd6;--c-h:#221f2c;--c-b:#353243;--c-m:#5e5a72;--c-ink:#221f2c;--c-on-ink:#fcfcfd;--c-shadow-1:0 2px 10px -4px rgb(70 66 87 / 0.05);--c-shadow-2:0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048);--c-shadow-in:inset 0 1px 5px 0 rgb(70 66 87 / 0.07);color-scheme:light`;
-const surfD = `--c-sunken:${S.dark.sunken};--c-base:${S.dark.base};--c-raise-1:${S.dark['raise-1']};--c-raise-2:${S.dark['raise-2']};--c-line:#353243;--c-line-strong:#464257;--c-h:#fcfcfd;--c-b:#cfcdd6;--c-m:#9591a3;--c-ink:#fcfcfd;--c-on-ink:#16141b;--c-shadow-1:0 2px 10px -4px rgb(0 0 0 / 0.14);--c-shadow-2:0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134);--c-shadow-in:inset 0 1px 5px 0 rgb(0 0 0 / 0.196);color-scheme:dark`;
+const surfL = `--on-solid:#ffffff;--c-sunken:${S.light.sunken};--c-base:${S.light.base};--c-raise-1:${S.light['raise-1']};--c-raise-2:${S.light['raise-2']};--c-line:#dddde2;--c-line-strong:#cfcdd6;--c-h:#221f2c;--c-b:#353243;--c-m:#5e5a72;--c-ink:#221f2c;--c-on-ink:#fcfcfd;--c-shadow-1:0 2px 10px -4px rgb(70 66 87 / 0.05);--c-shadow-2:0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048);--c-shadow-in:inset 0 1px 5px 0 rgb(70 66 87 / 0.07);color-scheme:light`;
+const surfD = `--on-solid:#16141b;--c-sunken:${S.dark.sunken};--c-base:${S.dark.base};--c-raise-1:${S.dark['raise-1']};--c-raise-2:${S.dark['raise-2']};--c-line:#353243;--c-line-strong:#464257;--c-h:#fcfcfd;--c-b:#cfcdd6;--c-m:#9591a3;--c-ink:#fcfcfd;--c-on-ink:#16141b;--c-shadow-1:0 2px 10px -4px rgb(0 0 0 / 0.14);--c-shadow-2:0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134);--c-shadow-in:inset 0 1px 5px 0 rgb(0 0 0 / 0.196);color-scheme:dark`;
 
 css.push(`:root{${surfL};${roleDecl('light')};${hueRoles('light')};${series};${seriesRoles('light')};${diagL};${seqL};${divL};--div-mid:var(--c-line)}`);
 css.push(`:root[data-theme="dark"]{${surfD};${roleDecl('dark')};${hueRoles('dark')};${seriesRoles('dark')};${diagD};${seqD};${divD};--div-mid:var(--c-line)}`);
 
 // Per-palette readouts (hex, contrast) — all three are rendered, CSS shows one.
 css.push(`[data-for]{display:none}` + PKEYS.map(k => `:root[data-p="${k}"] [data-for="${k}"]{display:inline}`).join(''));
+// The logo, recolored per palette from its own hand-tuned stops (see _logo.ts).
+css.push(logoCss(PAL));
+
 const TOKEN_CSS = css.join('\n');
+
+// Mock page — condensed from openmined.org's HomeFederatedNetwork.
+const FED_SUBS = [
+  { tag: 'Beta', title: 'Publishers', body: 'Make your assets AI-ready and queryable, with guaranteed attribution and fair compensation — without losing custody.', link: 'Join the Beta' },
+  { tag: 'Beta', title: 'Genomics', body: 'Run collaborative genomic research without centralizing raw data. Sensitive files stay on participants’ devices.', link: 'Join the Beta' },
+  { tag: 'Early access', title: 'Creators', body: 'Turn everything you’ve created into a knowledge base your audience can explore, and unlock new revenue from it.', link: 'Get early access' },
+];
 
 /* ── Seeded data, so every reload shows the same charts ───────────── */
 let seed = 7;
@@ -216,7 +229,8 @@ const ROLE_ROWS = [
   { role: 'tint', light: 100, dark: 700, use: 'Badge, callout, selected-row background' },
   { role: 'soft', light: 200, dark: 600, use: 'Decorative rule, selected outline, area fill' },
   { role: 'fg', light: 500, dark: 300, use: 'Colored text, links, icons — AA on every surface' },
-  { role: 'solid', light: 400, dark: 400, use: 'Fills carrying a label, chart marks, the key' },
+  { role: 'key', light: 400, dark: 400, use: 'Marks with no text: chart series, dots, progress, strokes' },
+  { role: 'solid', light: 500, dark: 300, use: 'Fills carrying a label: white in light, ink in dark, every hue' },
 ];
 const roleAt = (mode: 'light' | 'dark', s: number) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
 
@@ -296,11 +310,98 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
       <!-- ── Hero ──────────────────────────────────────────────────── -->
       <section class="hero wrap">
         <div class="hero__copy">
+          <Fragment set:html={logoSvg('hero-logo', 'hero__logo')} />
           <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · Round 1A · color</span>
           <h1>Fewer colors, each with a&nbsp;job.</h1>
           <p class="lead">The color palette consolidated: keep what works, give every color a role, and tune the values toward the desired register.</p>
         </div>
+        <!-- Colorflow, laid out as openmined.org's home hero: full-bleed, behind
+             the copy, bleeding into the section below. Its six stops are the
+             palette's gradient stops in the site ribbon's order (red, gold,
+             violet, blue, teal, green); data-follow names them. -->
+        <div class="hero__stream" aria-hidden="true">
+          <om-stream aspect-ratio="2" data-follow="spec-3,spec-1,spec-4,spec-5,spec-6,spec-7"></om-stream>
+        </div>
+        <script type="module" src="/embeds/om-stream.js" is:inline></script>
       </section>
+
+      <!-- ══ Mock page ═══════════════════════════════════════════════
+           A page in the round's colors, before the notes: the hero above,
+           then a content section, the CTA and a footer. The section is
+           openmined.org's "Federated AI Network", condensed. It shows the
+           levels nesting (base → raise-1 card → raise-2 cards, dividers
+           between rows) and the accent at work (eyebrow, badges, links,
+           the primary button). -->
+      <section class="fed-sec" aria-label="Example content section">
+        <div class="wrap">
+          <div class="fed">
+            <div class="fed__row fed__head">
+              <div>
+                <p class="fed__eyebrow">Meet Syft:</p>
+                <h2>The Federated AI Network</h2>
+              </div>
+              <p class="fed__lede">The network coordinates secure, governed computation across silos — without moving data — making it possible to study information that would otherwise remain private.</p>
+            </div>
+            <div class="fed__row">
+              <p class="fed__label">Supported subnets</p>
+              <div class="fed__subs">
+                {FED_SUBS.map(f => (
+                  <article class="fed__sub">
+                    <span class="badge badge--accent">{f.tag}</span>
+                    <h3>{f.title}</h3>
+                    <p>{f.body}</p>
+                    <a class="lnk" href="#" onclick="return false">{f.link} →</a>
+                  </article>
+                ))}
+              </div>
+            </div>
+            <div class="fed__row fed__cta">
+              <div>
+                <h3>Start your own federated sub-network</h3>
+                <p>Launch a privacy-preserving network for your domain — climate, healthcare, finance, or beyond.</p>
+              </div>
+              <a class="btn btn--accent" href="#" onclick="return false">Get started →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ── Gradient map CTA ──────────────────────────────────────── -->
+      <!-- The site's CTA band (openmined.org CtaSection, gradient variant)
+           with the raster replaced by <om-mesh>. Its eight points are the
+           palette's gradient stops, gold through lime, in spectrum order. -->
+      <section class="cta" id="gradient-map" aria-label="Gradient map example">
+        <om-mesh class="cta__bg" aria-hidden="true" data-follow="spec-1,spec-2,spec-3,spec-4,spec-5,spec-6,spec-7,spec-8" data-follow-haze="c-base"></om-mesh>
+        <form class="cta__card" onsubmit="return false">
+          <Fragment set:html={iconSvg('cta-icon', 'cta__icon')} />
+          <h3 class="cta__h">Talk to Our Team</h3>
+          <p class="cta__sub">Find out more about OpenMined</p>
+          <div class="cta__fields">
+            <input class="ctl" type="text" placeholder="First name*" aria-label="First name" />
+            <input class="ctl" type="text" placeholder="Last name*" aria-label="Last name" />
+            <input class="ctl" type="email" placeholder="Email*" aria-label="Email" />
+            <textarea class="ctl" rows="3" placeholder="Provide a brief description of the problem you are trying to solve" aria-label="Problem description"></textarea>
+            <label class="chk"><input type="checkbox" /><span>Get an OpenMined Slack Community invite</span></label>
+          </div>
+          <button class="btn btn--ink cta__btn" type="submit">Request a Conversation</button>
+          <p class="cta__fine">Subscribing confirms you agree with our <a class="lnk" href="#">privacy policy</a>.</p>
+        </form>
+        <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+      </section>
+
+      <footer class="mfoot">
+        <div class="wrap mfoot__in">
+          <div class="mfoot__brand">
+            <Fragment set:html={iconSvg('foot-icon', 'mfoot__icon')} />
+            <span>OpenMined Foundation</span>
+          </div>
+          <nav class="mfoot__nav" aria-label="Example footer">
+            {['About', 'Blog', 'Careers', 'Donate'].map(l => <a class="lnk" href="#" onclick="return false">{l}</a>)}
+          </nav>
+          <p class="mfoot__fine">© 2026 OpenMined Foundation</p>
+        </div>
+      </footer>
+      <!-- ══ End of mock page ═══════════════════════════════════════ -->
+      <div class="wrap mock-end"><span>End of mock page · the round’s notes follow</span></div>
 
       <!-- ── 01 How we got here ────────────────────────────────────── -->
       <section class="band" id="story">
@@ -355,12 +456,12 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
       </section>
 
       <!-- ── 02 The system ─────────────────────────────────────────── -->
-      <section class="band band--alt" id="system">
+      <section class="band" id="system">
         <div class="wrap">
           <header class="sec">
             <span class="sec__n">02</span>
             <h2>The system</h2>
-            <p>6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to.</p>
+            <p>6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to. <b>Each step has one label color</b> in every hue: ink on 100–300, white from 400 up. Interface labels never sit on the key, which is for marks.</p>
           </header>
 
           <article class="card ramps">
@@ -368,7 +469,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
               <span></span>
               {STEPS.map(s => (
                 <span class="ramps__step">
-                  <b>{s}{s === 400 ? ' · key' : ''}</b>
+                  <b>{s}</b>
                   <em class="only-light">{roleAt('light', s).join(' · ') || '—'}</em>
                   <em class="only-dark">{roleAt('dark', s).join(' · ') || '—'}</em>
                 </span>
@@ -381,7 +482,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
                   <small>{Object.entries(ROLE_HUE).filter(([, v]) => v === h).map(([r]) => r).join(' · ') || ''}{ACCENTS.includes(h) ? <span class="ramps__acc" data-acc={h}> accent</span> : ''}</small>
                 </span>
                 {STEPS.map(s => (
-                  <span class="sw" style={`background:var(--${h}-${s});color:${s <= 300 ? '#221f2c' : s === 400 ? `var(--${h}-on)` : '#fcfcfd'}`}>
+                  <span class="sw" style={`background:var(--${h}-${s});color:${s <= 300 ? '#221f2c' : '#fcfcfd'}`}>
                     {PKEYS.map(k => <code data-for={k}>{PAL[k].ramps[h][s]}</code>)}
                   </span>
                 ))}
@@ -401,6 +502,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
                       <td><span class="ex">{HUES.map(h => (
                         r.role === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
                         : r.role === 'solid' ? <span class="ex__chip" style={`background:var(--${h}-solid);color:var(--${h}-on)`}>Aa</span>
+                        : r.role === 'key' ? <span class="ex__chip" style={`background:var(--${h}-key)`}></span>
                         : r.role === 'tint' ? <span class="ex__chip" style={`background:var(--${h}-tint);color:var(--${h}-fg)`}>Aa</span>
                         : <span class="ex__chip" style={`background:var(--${h}-soft)`}></span>
                       ))}</span></td>
@@ -410,7 +512,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
                   <tr><td><code>ring</code></td><td>400 / 500</td><td>400 / 300</td>
                     <td><span class="ex">{HUES.map(h => <span class="ex__ring" style={`box-shadow:0 0 0 2px var(--${h}-ring)`}></span>)}</span></td>
                     <td>Focus, toggle edge — key if it reaches 3:1 on base, else fg</td></tr>
-                  <tr><td><code>hover</code></td><td colspan="2">solid → fg, 45%</td>
+                  <tr><td><code>hover</code></td><td>500 → 600, 45%</td><td>300 → 200, 45%</td>
                     <td><span class="ex"><span class="ex__chip ex__chip--w" style="background:var(--accent-solid);color:var(--accent-on)">rest</span><span class="ex__chip ex__chip--w" style="background:var(--accent-hover);color:var(--accent-on)">hover</span></span></td>
                     <td>Solid hover (shown on the accent)</td></tr>
                   <tr class="tbl__group"><td colspan="5">Diagram neutrals — grayscale, no hue</td></tr>
@@ -424,48 +526,48 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
               </table>
               <p class="card__note">Status: success = green · warning = amber · danger = red · info = blue. Each carries the same roles.</p>
             </article>
-
-            <article class="card">
-              <h3 class="card__h">Contrast, this palette</h3>
-              <table class="tbl tbl--audit">
-                <thead><tr><th>Hue</th><th>Example</th><th class="num">fg, worst surface</th><th class="num">solid vs base</th><th class="num">label on solid</th></tr></thead>
-                <tbody>
-                  {HUES.map(h => (
-                    <tr>
-                      <td><i class="dot" style={`background:var(--${h}-400)`}></i>{h}</td>
-                      <td><span class="ex">
-                        <span class="ex__chip ex__chip--w ex__on-sunken" title="fg on the recessed surface, the worst case"><b style={`color:var(--${h}-fg)`}>Text</b></span>
-                        <span class="ex__chip ex__chip--sq" style={`background:var(--${h}-solid)`} title="solid on the page base"></span>
-                        <span class="ex__chip ex__chip--w" style={`background:var(--${h}-solid);color:var(--${h}-on)`} title="label on solid">Label</span>
-                      </span></td>
-                      {(['fg_min', 'solid_base', 'on_solid_ratio'] as const).map((f, fi) => (
-                        <td class="num">
-                          {PKEYS.map(k => {
-                            const L = PAL[k].audit.light[h][f], D = PAL[k].audit.dark[h][f];
-                            const min = fi === 0 ? 4.5 : fi === 1 ? 3 : 4.5;
-                            return <span data-for={k}><span class={L < min ? 'bad' : ''}>{L}</span> / <span class={D < min ? 'bad' : ''}>{D}</span></span>;
-                          })}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <p class="card__note">light / dark. <span class="bad">Marked</span> = below its threshold (4.5 text, 3.0 boundary). A key that can’t reach 3:1 takes <code>fg</code> for boundaries.</p>
-            </article>
           </div>
         
           <div class="grid grid--2">
           <article class="card">
+            <h3 class="card__h">Contrast, this palette</h3>
+            <table class="tbl tbl--audit">
+              <thead><tr><th>Hue</th><th>Example</th><th class="num">fg, worst surface</th><th class="num">key vs base</th><th class="num">label on solid</th></tr></thead>
+              <tbody>
+                {HUES.map(h => (
+                  <tr>
+                    <td><i class="dot" style={`background:var(--${h}-400)`}></i>{h}</td>
+                    <td><span class="ex">
+                      <span class="ex__chip ex__chip--w ex__on-sunken" title="fg on the recessed surface, the worst case"><b style={`color:var(--${h}-fg)`}>Text</b></span>
+                      <span class="ex__chip ex__chip--sq" style={`background:var(--${h}-key)`} title="key on the page base"></span>
+                      <span class="ex__chip ex__chip--w" style={`background:var(--${h}-solid);color:var(--${h}-on)`} title="label on solid">Label</span>
+                    </span></td>
+                    {(['fg_min', 'key_base', 'on_solid_ratio'] as const).map((f, fi) => (
+                      <td class="num">
+                        {PKEYS.map(k => {
+                          const L = PAL[k].audit.light[h][f], D = PAL[k].audit.dark[h][f];
+                          const min = fi === 0 ? 4.5 : fi === 1 ? 3 : 4.5;
+                          return <span data-for={k}><span class={L < min ? 'bad' : ''}>{L}</span> / <span class={D < min ? 'bad' : ''}>{D}</span></span>;
+                        })}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="card__note">light / dark. <span class="bad">Marked</span> = below its threshold (4.5 text, 3.0 boundary). A key that can’t reach 3:1 takes <code>fg</code> for boundaries.</p>
+          </article>
+
+          <article class="card">
             <h3 class="card__h">Chart series</h3>
             <p class="card__sub">Each series owns a hue at four strengths, so an entity keeps its color from a faint panel to a label. Validated order; violet and blue are never adjacent.</p>
             <table class="tbl tbl--series">
-              <thead><tr><th>Series</th><th>tint</th><th>soft</th><th>solid</th><th>fg</th></tr></thead>
+              <thead><tr><th>Series</th><th>tint</th><th>soft</th><th>key</th><th>fg</th></tr></thead>
               <tbody>
                 {CAT.map((h, i) => (
                   <tr>
                     <td><code>series-{i + 1}</code> <span class="muted">{h}</span></td>
-                    {['tint', 'soft', 'solid', 'fg'].map(r => <td><i class="chip" style={`background:var(--series-${i + 1}-${r})`}></i></td>)}
+                    {['tint', 'soft', 'key', 'fg'].map(r => <td><i class="chip" style={`background:var(--series-${i + 1}-${r})`}></i></td>)}
                   </tr>
                 ))}
               </tbody>
@@ -480,7 +582,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
             </div>
             <i class="spec__bar" style="background:linear-gradient(90deg in oklab,var(--spectrum))"></i>
             <div class="spec__stops">
-              {data.spectrum.map((n: string, i: number) => <span style={`background:var(--spec-${i + 1});color:var(--spec-${i + 1}-on)`}>{n}{PKEYS.map(k => <code data-for={k}>{PAL[k].gradient[i]}</code>)}</span>)}
+              {data.spectrum.map((n: string, i: number) => <span><i style={`background:var(--spec-${i + 1})`}></i><b>{n}</b>{PKEYS.map(k => <code data-for={k}>{PAL[k].gradient[i]}</code>)}</span>)}
             </div>
             <p class="card__note">Today’s pastel, for reference: <i class="spec__ref" style={`background:linear-gradient(90deg,${PAL.brand.gradient.join(',')})`}></i></p>
           </article>
@@ -591,7 +693,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
       </section>
 
       <!-- ── 04 App-like interfaces ──────────────────────────────────────────── -->
-      <section class="band band--alt" id="interface">
+      <section class="band" id="interface">
         <div class="wrap">
           <header class="sec">
             <span class="sec__n">04</span>
@@ -739,6 +841,28 @@ result = client.<span class="t-f">submit</span>(median_income, census)  <span cl
           </div>
         </div>
       </section>
+
+      <script is:inline>
+        // Palette-following assets: every [data-follow] element gets its
+        // `colors` (and `haze`, from data-follow-haze) from the named custom
+        // properties. Inline and after the
+        // last embed, so the first colors are set before the embed modules
+        // boot (no flash of the default gradient). Re-reads on palette or
+        // mode change.
+        (() => {
+          const h = document.documentElement;
+          const sync = () => {
+            const cs = getComputedStyle(h);
+            const read = v => cs.getPropertyValue(`--${v}`).trim();
+            document.querySelectorAll('[data-follow]').forEach(el => {
+              el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
+              if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
+            });
+          };
+          sync();
+          new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-p', 'data-theme'] });
+        })();
+      </script>
     </main>
 
     <div class="tip" role="tooltip" hidden><b></b><span></span></div>

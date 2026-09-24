@@ -16,6 +16,8 @@
  *   rot-speed="0"                  gradient rotation speed
  *   rot-axis="along"               along | across | spiral
  *
+ * `colors` and `gradient` can change at any time; the ribbon recolors live.
+ *
  * Each element is independent and cleans itself up on removal. Colors come
  * from brand-colors.js — never hand-typed here.
  * ════════════════════════════════════════════════════════════════════
@@ -29,12 +31,13 @@ const VS_SOURCE = [
   'void main() { vUV = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }',
 ].join('\n');
 
-const FS_TEMPLATE = [
+const FS_SOURCE = [
   'precision highp float;',
   'varying vec2 vUV;',
   'uniform float uTime; uniform vec2 uRes; uniform vec2 uMouse;',
   'uniform float uMouseStr;',
   'uniform float uRotSpeed, uRotAlong, uRotAcross;',
+  'uniform vec3 uColors[6];',
   'const float clusters   = 2.0;',
   'const float alongMix   = 0.46;',
   'const float acrossMix  = 0.11;',
@@ -93,12 +96,7 @@ const FS_TEMPLATE = [
   'vec3 sampleGrad(float t) {',
   '  t = clamp(t, 0.0, 1.0);',
   '  vec3 colors[6];',
-  '  colors[0] = {{G0}};',
-  '  colors[1] = {{G1}};',
-  '  colors[2] = {{G2}};',
-  '  colors[3] = {{G3}};',
-  '  colors[4] = {{G4}};',
-  '  colors[5] = {{G5}};',
+  '  for (int i = 0; i < 6; i++) colors[i] = uColors[i];',
   '  float stops[6];',
   '  stops[0] = 0.000; stops[1] = 0.333; stops[2] = 0.500;',
   '  stops[3] = 0.667; stops[4] = 0.833; stops[5] = 1.000;',
@@ -151,20 +149,15 @@ const FS_TEMPLATE = [
   '}',
 ].join('\n');
 
-function hexToVec3Literal(hex) {
-  const h = hex.replace('#', '');
-  const r = (parseInt(h.substring(0, 2), 16) / 255).toFixed(4);
-  const g = (parseInt(h.substring(2, 4), 16) / 255).toFixed(4);
-  const b = (parseInt(h.substring(4, 6), 16) / 255).toFixed(4);
-  return 'vec3(' + r + ',' + g + ',' + b + ')';
-}
-
-function buildFSSource(gradient) {
-  let src = FS_TEMPLATE;
-  for (let i = 0; i < 6; i++) {
-    src = src.replace('{{G' + i + '}}', hexToVec3Literal(gradient[i] || '#ffffff'));
-  }
-  return src;
+// The six gradient stops as one flat vec3[6] upload. Colors are a uniform, not
+// baked into the shader source, so a `colors` change repaints without a recompile.
+function toStops(hexes) {
+  const out = new Float32Array(18);
+  resample(hexes, 6).forEach((hex, i) => {
+    const h = hex.replace('#', '');
+    for (let c = 0; c < 3; c++) out[i * 3 + c] = parseInt(h.substring(c * 2, c * 2 + 2), 16) / 255;
+  });
+  return out;
 }
 
 function createShader(gl, type, source) {
@@ -183,14 +176,27 @@ function numAttr(el, name, fallback) {
 }
 
 class OmStream extends HTMLElement {
-  connectedCallback() {
-    if (this._booted) return;
-    this._booted = true;
+  static get observedAttributes() { return ['colors', 'gradient']; }
 
+  // Live recolor: a page can swap `colors` or `gradient` at any time (the color
+  // round follows its palette dropdown this way) and the next frame uses them.
+  attributeChangedCallback() {
+    if (!this._booted) return;
+    this._cfg.gradient = this._readStops();
+    if (!this._rafId) this._drawFrame();
+  }
+
+  _readStops() {
     const colorsAttr = this.getAttribute('colors');
     const hexes = colorsAttr
       ? colorsAttr.split(',').map((s) => s.trim()).filter(Boolean)
       : resolveGradient(this.getAttribute('gradient') || 'stream');
+    return toStops(hexes);
+  }
+
+  connectedCallback() {
+    if (this._booted) return;
+    this._booted = true;
 
     this._cfg = {
       aspectRatio: numAttr(this, 'aspect-ratio', 2.420),
@@ -198,7 +204,7 @@ class OmStream extends HTMLElement {
       cropBottom:  numAttr(this, 'crop-bottom', 0.01),
       rotSpeed:    numAttr(this, 'rot-speed', 0),
       rotAxis:     this.getAttribute('rot-axis') || 'along',
-      gradient:    resample(hexes, 6),
+      gradient:    this._readStops(),
     };
 
     this._mx = -9999; this._my = -9999; this._smx = -9999; this._smy = -9999;
@@ -248,7 +254,7 @@ class OmStream extends HTMLElement {
     this._gl = gl;
 
     const vs = createShader(gl, gl.VERTEX_SHADER, VS_SOURCE);
-    const fs = createShader(gl, gl.FRAGMENT_SHADER, buildFSSource(this._cfg.gradient));
+    const fs = createShader(gl, gl.FRAGMENT_SHADER, FS_SOURCE);
     if (!vs || !fs) return;
 
     const prog = gl.createProgram();
@@ -278,6 +284,7 @@ class OmStream extends HTMLElement {
     u.rotSpeed = gl.getUniformLocation(prog, 'uRotSpeed');
     u.rotAlong = gl.getUniformLocation(prog, 'uRotAlong');
     u.rotAcross = gl.getUniformLocation(prog, 'uRotAcross');
+    u.colors = gl.getUniformLocation(prog, 'uColors');
   }
 
   _applySize() {
@@ -339,6 +346,7 @@ class OmStream extends HTMLElement {
     gl.uniform1f(u.rotSpeed, this._cfg.rotSpeed);
     gl.uniform1f(u.rotAlong, (ra === 'along' || ra === 'spiral') ? 1.0 : 0.0);
     gl.uniform1f(u.rotAcross, (ra === 'across' || ra === 'spiral') ? 1.0 : 0.0);
+    gl.uniform3fv(u.colors, this._cfg.gradient);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
