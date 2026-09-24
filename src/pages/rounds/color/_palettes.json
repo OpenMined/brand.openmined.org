@@ -1,0 +1,906 @@
+{
+  "hues": [
+    "violet",
+    "blue",
+    "teal",
+    "green",
+    "amber",
+    "red"
+  ],
+  "steps": [
+    100,
+    200,
+    300,
+    400,
+    500,
+    600,
+    700
+  ],
+  "roles": {
+    "light": {
+      "fg": "500",
+      "solid": "400",
+      "hover": "500",
+      "tint": "100",
+      "soft": "200"
+    },
+    "dark": {
+      "fg": "300",
+      "solid": "400",
+      "hover": "300",
+      "tint": "700",
+      "soft": "600"
+    }
+  },
+  "surfaces": {
+    "light": {
+      "sunken": "#dddde2",
+      "base": "#edecf0",
+      "raise-1": "#f8f8fb",
+      "raise-2": "#ffffff"
+    },
+    "dark": {
+      "sunken": "#16141b",
+      "base": "#1b1824",
+      "raise-1": "#221f2c",
+      "raise-2": "#282635"
+    }
+  },
+  "spectrum": [
+    "gold",
+    "orange",
+    "red",
+    "violet",
+    "blue",
+    "teal",
+    "green",
+    "lime",
+    "yellow"
+  ],
+  "categorical": [
+    "violet",
+    "green",
+    "blue",
+    "amber",
+    "teal",
+    "red"
+  ],
+  "palettes": {
+    "brand": {
+      "label": "Brand",
+      "note": "Today's hues, re-cut into 6 families \u00d7 7 steps. Structure only.",
+      "params": {
+        "violet": {
+          "H": 322.2,
+          "C": 0.072,
+          "L": 59.4
+        },
+        "blue": {
+          "H": 273.4,
+          "C": 0.088,
+          "L": 57.8
+        },
+        "teal": {
+          "H": 222.8,
+          "C": 0.093,
+          "L": 69.0
+        },
+        "green": {
+          "H": 178.3,
+          "C": 0.104,
+          "L": 73.3
+        },
+        "amber": {
+          "H": 69.5,
+          "C": 0.155,
+          "L": 77.7
+        },
+        "red": {
+          "H": 8.9,
+          "C": 0.129,
+          "L": 63.8
+        }
+      },
+      "ramps": {
+        "violet": {
+          "100": "#f7f1f8",
+          "200": "#e7d8e9",
+          "300": "#ceb3d2",
+          "400": "#937098",
+          "500": "#705075",
+          "600": "#49394b",
+          "700": "#2d262e"
+        },
+        "blue": {
+          "100": "#f0f3fd",
+          "200": "#d6ddf5",
+          "300": "#b0bce7",
+          "400": "#6976ae",
+          "500": "#4e5a8d",
+          "600": "#383e57",
+          "700": "#252834"
+        },
+        "teal": {
+          "100": "#e9f6fb",
+          "200": "#c6e4ef",
+          "300": "#8ec8dd",
+          "400": "#52a8c5",
+          "500": "#036882",
+          "600": "#214552",
+          "700": "#1b2c32"
+        },
+        "green": {
+          "100": "#e8f7f3",
+          "200": "#c3e7de",
+          "300": "#87cebe",
+          "400": "#53bea9",
+          "500": "#006d5e",
+          "600": "#1c4940",
+          "700": "#1a2d29"
+        },
+        "amber": {
+          "100": "#fff1e2",
+          "200": "#f8d8b4",
+          "300": "#f5b973",
+          "400": "#f5a22e",
+          "500": "#835100",
+          "600": "#5a3704",
+          "700": "#362512"
+        },
+        "red": {
+          "100": "#ffeff1",
+          "200": "#fcd1d7",
+          "300": "#f2a5b1",
+          "400": "#cc677b",
+          "500": "#953b4f",
+          "600": "#5c3039",
+          "700": "#372225"
+        }
+      },
+      "gradient": [
+        "#f8c073",
+        "#f79763",
+        "#cc677b",
+        "#937098",
+        "#6976ae",
+        "#52a8c5",
+        "#53bea9",
+        "#96d195",
+        "#f2d98c"
+      ],
+      "gradient_on": [
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#ffffff",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b"
+      ],
+      "audit": {
+        "light": {
+          "violet": {
+            "fg_min": 5.02,
+            "solid_base": 3.56,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.36
+          },
+          "blue": {
+            "fg_min": 4.89,
+            "solid_base": 3.72,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.37
+          },
+          "teal": {
+            "fg_min": 4.69,
+            "solid_base": 2.3,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 6.75
+          },
+          "green": {
+            "fg_min": 4.63,
+            "solid_base": 1.92,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 8.09
+          },
+          "amber": {
+            "fg_min": 4.94,
+            "solid_base": 1.77,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 8.77
+          },
+          "red": {
+            "fg_min": 5.14,
+            "solid_base": 3.08,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.04
+          }
+        },
+        "dark": {
+          "violet": {
+            "fg_min": 7.75,
+            "solid_base": 4.17,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.36
+          },
+          "blue": {
+            "fg_min": 7.89,
+            "solid_base": 3.99,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.37
+          },
+          "teal": {
+            "fg_min": 8.07,
+            "solid_base": 6.46,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 6.75
+          },
+          "green": {
+            "fg_min": 8.18,
+            "solid_base": 7.74,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 8.09
+          },
+          "amber": {
+            "fg_min": 8.51,
+            "solid_base": 8.39,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 8.77
+          },
+          "red": {
+            "fg_min": 7.61,
+            "solid_base": 4.82,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.04
+          }
+        }
+      },
+      "charts": {
+        "light": {
+          "ok": false,
+          "fails": [
+            "Lightness band outside band: [[\"#f5a22e\",0.777]]",
+            "Chroma floor below floor (reads gray): [[\"#937098\",0.072],[\"#6976ae\",0.088],[\"#52a8c5\",0.093]]"
+          ],
+          "warns": [
+            "Contrast vs surface below 3:1 \u2014 relief required (visible labels or table view): [[\"#53bea9\",2.26],[\"#f5a22e\",2.08],[\"#52a8c5\",2.7]]"
+          ],
+          "cvd": 10.7
+        },
+        "dark": {
+          "ok": false,
+          "fails": [
+            "Lightness band outside band: [[\"#53bea9\",0.733],[\"#f5a22e\",0.777],[\"#52a8c5\",0.69]]",
+            "Chroma floor below floor (reads gray): [[\"#937098\",0.072],[\"#6976ae\",0.088],[\"#52a8c5\",0.093]]"
+          ],
+          "warns": [],
+          "cvd": 10.7
+        }
+      }
+    },
+    "deep": {
+      "label": "Deep",
+      "note": "Cool saturation + warm side follows + keys lowered into the ink band + depth gradient.",
+      "params": {
+        "violet": {
+          "H": 300.0,
+          "C": 0.205,
+          "L": 55.0
+        },
+        "blue": {
+          "H": 260.0,
+          "C": 0.2,
+          "L": 56.0
+        },
+        "teal": {
+          "H": 218.0,
+          "C": 0.135,
+          "L": 61.0
+        },
+        "green": {
+          "H": 165.0,
+          "C": 0.145,
+          "L": 63.0
+        },
+        "amber": {
+          "H": 66.0,
+          "C": 0.165,
+          "L": 66.0
+        },
+        "red": {
+          "H": 24.0,
+          "C": 0.195,
+          "L": 59.0
+        }
+      },
+      "ramps": {
+        "violet": {
+          "100": "#f5f1ff",
+          "200": "#e3d6ff",
+          "300": "#c9acff",
+          "400": "#8749d4",
+          "500": "#6e32b5",
+          "600": "#49306d",
+          "700": "#2d223f"
+        },
+        "blue": {
+          "100": "#edf4ff",
+          "200": "#ccdfff",
+          "300": "#98bfff",
+          "400": "#206ce7",
+          "500": "#0754c6",
+          "600": "#1e3e74",
+          "700": "#192942"
+        },
+        "teal": {
+          "100": "#e4f7fd",
+          "200": "#b9e7f5",
+          "300": "#6ecde7",
+          "400": "#0092af",
+          "500": "#00697e",
+          "600": "#004857",
+          "700": "#122d34"
+        },
+        "green": {
+          "100": "#e6f9f0",
+          "200": "#bdead5",
+          "300": "#78d3ad",
+          "400": "#00a275",
+          "500": "#006f4f",
+          "600": "#0b4c36",
+          "700": "#152f24"
+        },
+        "amber": {
+          "100": "#fff1e3",
+          "200": "#fbd7b3",
+          "300": "#f2ae67",
+          "400": "#cd7d00",
+          "500": "#854f00",
+          "600": "#5c3500",
+          "700": "#372410"
+        },
+        "red": {
+          "100": "#ffefee",
+          "200": "#ffd1cd",
+          "300": "#ffa09a",
+          "400": "#d93a3f",
+          "500": "#ae1223",
+          "600": "#6a2625",
+          "700": "#3e1e1c"
+        }
+      },
+      "gradient": [
+        "#fec766",
+        "#fa8233",
+        "#d93a3f",
+        "#6022a2",
+        "#002472",
+        "#0088a3",
+        "#0bc18d",
+        "#a2e37c",
+        "#f8e68e"
+      ],
+      "gradient_on": [
+        "#16141b",
+        "#16141b",
+        "#ffffff",
+        "#ffffff",
+        "#ffffff",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b"
+      ],
+      "audit": {
+        "light": {
+          "violet": {
+            "fg_min": 5.57,
+            "solid_base": 4.54,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.34
+          },
+          "blue": {
+            "fg_min": 5.02,
+            "solid_base": 4.1,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.82
+          },
+          "teal": {
+            "fg_min": 4.67,
+            "solid_base": 3.12,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.98
+          },
+          "green": {
+            "fg_min": 4.58,
+            "solid_base": 2.78,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.59
+          },
+          "amber": {
+            "fg_min": 4.98,
+            "solid_base": 2.73,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.68
+          },
+          "red": {
+            "fg_min": 5.33,
+            "solid_base": 3.86,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.54
+          }
+        },
+        "dark": {
+          "violet": {
+            "fg_min": 7.63,
+            "solid_base": 3.27,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.34
+          },
+          "blue": {
+            "fg_min": 7.92,
+            "solid_base": 3.63,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.82
+          },
+          "teal": {
+            "fg_min": 8.14,
+            "solid_base": 4.76,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.98
+          },
+          "green": {
+            "fg_min": 8.26,
+            "solid_base": 5.34,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.59
+          },
+          "amber": {
+            "fg_min": 7.77,
+            "solid_base": 5.43,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.68
+          },
+          "red": {
+            "fg_min": 7.57,
+            "solid_base": 3.85,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.54
+          }
+        }
+      },
+      "charts": {
+        "light": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 17.0
+        },
+        "dark": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 17.0
+        }
+      }
+    },
+    "heritage": {
+      "label": "Heritage",
+      "note": "Deep's strength on today's hue angles \u2014 evolve, don't rebrand, taken literally.",
+      "params": {
+        "violet": {
+          "H": 322.0,
+          "C": 0.195,
+          "L": 55.0
+        },
+        "blue": {
+          "H": 273.0,
+          "C": 0.19,
+          "L": 55.0
+        },
+        "teal": {
+          "H": 223.0,
+          "C": 0.125,
+          "L": 61.0
+        },
+        "green": {
+          "H": 178.0,
+          "C": 0.13,
+          "L": 63.0
+        },
+        "amber": {
+          "H": 69.0,
+          "C": 0.16,
+          "L": 66.0
+        },
+        "red": {
+          "H": 9.0,
+          "C": 0.185,
+          "L": 57.0
+        }
+      },
+      "ramps": {
+        "violet": {
+          "100": "#fdeeff",
+          "200": "#f6cefc",
+          "300": "#e89ef3",
+          "400": "#a33eb3",
+          "500": "#882796",
+          "600": "#572b5e",
+          "700": "#342038"
+        },
+        "blue": {
+          "100": "#eff3ff",
+          "200": "#d3ddff",
+          "300": "#a8baff",
+          "400": "#5161de",
+          "500": "#3e49be",
+          "600": "#303a71",
+          "700": "#212741"
+        },
+        "teal": {
+          "100": "#e6f7fd",
+          "200": "#bde6f5",
+          "300": "#79cbe8",
+          "400": "#0091b5",
+          "500": "#006882",
+          "600": "#0e4758",
+          "700": "#162c35"
+        },
+        "green": {
+          "100": "#e6f8f3",
+          "200": "#bce9de",
+          "300": "#76d2be",
+          "400": "#00a089",
+          "500": "#006e5e",
+          "600": "#074b40",
+          "700": "#152e29"
+        },
+        "amber": {
+          "100": "#fff1e2",
+          "200": "#f9d8b3",
+          "300": "#eeb068",
+          "400": "#ca7f00",
+          "500": "#835100",
+          "600": "#5b3701",
+          "700": "#362511"
+        },
+        "red": {
+          "100": "#ffeff1",
+          "200": "#ffd0d6",
+          "300": "#ff9dae",
+          "400": "#cb3760",
+          "500": "#a81a48",
+          "600": "#672735",
+          "700": "#3d1e24"
+        }
+      },
+      "gradient": [
+        "#fec766",
+        "#fa8233",
+        "#d63865",
+        "#790d88",
+        "#002472",
+        "#0088a3",
+        "#00bfa5",
+        "#a2e37c",
+        "#f8e68e"
+      ],
+      "gradient_on": [
+        "#16141b",
+        "#16141b",
+        "#ffffff",
+        "#ffffff",
+        "#ffffff",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b"
+      ],
+      "audit": {
+        "light": {
+          "violet": {
+            "fg_min": 5.59,
+            "solid_base": 4.58,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.39
+          },
+          "blue": {
+            "fg_min": 5.35,
+            "solid_base": 4.34,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.1
+          },
+          "teal": {
+            "fg_min": 4.7,
+            "solid_base": 3.12,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.97
+          },
+          "green": {
+            "fg_min": 4.57,
+            "solid_base": 2.79,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.56
+          },
+          "amber": {
+            "fg_min": 4.94,
+            "solid_base": 2.73,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.69
+          },
+          "red": {
+            "fg_min": 5.34,
+            "solid_base": 4.2,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.94
+          }
+        },
+        "dark": {
+          "violet": {
+            "fg_min": 7.48,
+            "solid_base": 3.24,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.39
+          },
+          "blue": {
+            "fg_min": 7.85,
+            "solid_base": 3.42,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.1
+          },
+          "teal": {
+            "fg_min": 8.12,
+            "solid_base": 4.75,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.97
+          },
+          "green": {
+            "fg_min": 8.27,
+            "solid_base": 5.31,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.56
+          },
+          "amber": {
+            "fg_min": 7.78,
+            "solid_base": 5.44,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 5.69
+          },
+          "red": {
+            "fg_min": 7.53,
+            "solid_base": 3.54,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.94
+          }
+        }
+      },
+      "charts": {
+        "light": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 13.3
+        },
+        "dark": {
+          "ok": true,
+          "fails": [],
+          "warns": [
+            "Contrast vs surface below 3:1 \u2014 relief required (visible labels or table view): [[\"#a33eb3\",3]]"
+          ],
+          "cvd": 13.3
+        }
+      }
+    },
+    "ink": {
+      "label": "Ink",
+      "note": "Deep's hues, darker and calmer \u2014 tests depth over saturation at speakeasy's chroma.",
+      "params": {
+        "violet": {
+          "H": 300.0,
+          "C": 0.15,
+          "L": 52.0
+        },
+        "blue": {
+          "H": 260.0,
+          "C": 0.15,
+          "L": 53.0
+        },
+        "teal": {
+          "H": 218.0,
+          "C": 0.105,
+          "L": 57.0
+        },
+        "green": {
+          "H": 165.0,
+          "C": 0.11,
+          "L": 59.0
+        },
+        "amber": {
+          "H": 66.0,
+          "C": 0.135,
+          "L": 62.0
+        },
+        "red": {
+          "H": 24.0,
+          "C": 0.15,
+          "L": 55.0
+        }
+      },
+      "ramps": {
+        "violet": {
+          "100": "#f5f1ff",
+          "200": "#e3d6ff",
+          "300": "#c8aef9",
+          "400": "#7750b1",
+          "500": "#603a94",
+          "600": "#463661",
+          "700": "#2c2439"
+        },
+        "blue": {
+          "100": "#edf4ff",
+          "200": "#ccdfff",
+          "300": "#98bfff",
+          "400": "#3368c1",
+          "500": "#2051a3",
+          "600": "#273f67",
+          "700": "#1d293c"
+        },
+        "teal": {
+          "100": "#e8f7fb",
+          "200": "#c2e5f0",
+          "300": "#84cade",
+          "400": "#00859f",
+          "500": "#00697e",
+          "600": "#194652",
+          "700": "#192c32"
+        },
+        "green": {
+          "100": "#e9f7f0",
+          "200": "#c5e7d7",
+          "300": "#8cceb1",
+          "400": "#29926d",
+          "500": "#006f4f",
+          "600": "#204938",
+          "700": "#1b2d25"
+        },
+        "amber": {
+          "100": "#fef1e5",
+          "200": "#f6d8bb",
+          "300": "#e9b179",
+          "400": "#bc730c",
+          "500": "#854f00",
+          "600": "#583814",
+          "700": "#352516"
+        },
+        "red": {
+          "100": "#ffefee",
+          "200": "#ffd1cd",
+          "300": "#fca29c",
+          "400": "#b94644",
+          "500": "#9b3031",
+          "600": "#612e2c",
+          "700": "#3a211f"
+        }
+      },
+      "gradient": [
+        "#f1cb89",
+        "#e5905e",
+        "#c35653",
+        "#5a368b",
+        "#0f2a5f",
+        "#36869b",
+        "#5aba94",
+        "#afde96",
+        "#f2e6a9"
+      ],
+      "gradient_on": [
+        "#16141b",
+        "#16141b",
+        "#ffffff",
+        "#ffffff",
+        "#ffffff",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b"
+      ],
+      "audit": {
+        "light": {
+          "violet": {
+            "fg_min": 6.13,
+            "solid_base": 5.01,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.89
+          },
+          "blue": {
+            "fg_min": 5.61,
+            "solid_base": 4.59,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.4
+          },
+          "teal": {
+            "fg_min": 4.67,
+            "solid_base": 3.68,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.32
+          },
+          "green": {
+            "fg_min": 4.58,
+            "solid_base": 3.29,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.72
+          },
+          "amber": {
+            "fg_min": 4.98,
+            "solid_base": 3.19,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.87
+          },
+          "red": {
+            "fg_min": 5.42,
+            "solid_base": 4.44,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.22
+          }
+        },
+        "dark": {
+          "violet": {
+            "fg_min": 7.67,
+            "solid_base": 2.97,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.89
+          },
+          "blue": {
+            "fg_min": 7.92,
+            "solid_base": 3.24,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.4
+          },
+          "teal": {
+            "fg_min": 8.09,
+            "solid_base": 4.04,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 4.32
+          },
+          "green": {
+            "fg_min": 8.16,
+            "solid_base": 4.51,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.72
+          },
+          "amber": {
+            "fg_min": 7.77,
+            "solid_base": 4.65,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 4.87
+          },
+          "red": {
+            "fg_min": 7.6,
+            "solid_base": 3.34,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 5.22
+          }
+        }
+      },
+      "charts": {
+        "light": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 14.3
+        },
+        "dark": {
+          "ok": true,
+          "fails": [],
+          "warns": [
+            "Contrast vs surface below 3:1 \u2014 relief required (visible labels or table view): [[\"#7750b1\",2.74],[\"#3368c1\",2.99]]"
+          ],
+          "cvd": 14.3
+        }
+      }
+    }
+  }
+}

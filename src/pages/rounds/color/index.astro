@@ -1,0 +1,750 @@
+---
+/**
+ * ROUND — COLOR SYSTEM
+ * ════════════════════════════════════════════════════════════════════
+ * Consolidates OMDS color from 10 families × 11 steps to 6 hues × 7
+ * steps, adds the role layer the palette never had (accent, status,
+ * dataviz), and puts three candidate palettes on the same page.
+ *
+ * NOT canon, NOT a brand surface. Sits in stylelint's ignoreFiles with
+ * the other rounds. tokens.css is untouched.
+ *
+ * EVERY chromatic value comes from _palettes.json, which is written by
+ * brand-v2-lab/research/2026-09-23-color-system/generate.py. Never edit
+ * the JSON by hand — change the generator's parameters and re-run it.
+ *
+ * Surfaces are the settled 2026-09-23 values ("working surface colors,
+ * display adjusted" — brand-v2-lab/rounds/working-surface-colors.md),
+ * hard-set here so color is judged on the ground it will actually sit on.
+ * Verified 2026-09-23 against the surfaces preview's computed values:
+ * all 8 surface/line/text slots per mode and the shadow ladder match.
+ *
+ * URL params, mirroring the surfaces round:
+ *   t  = light | dark
+ *   p  = brand | heritage | deep | ink   (palette; deep is the default)
+ *   a  = none | violet | blue | teal (accent hue; none = grayscale)
+ * The brand gradient has no param — it follows the palette.
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import data from './_palettes.json';
+import { readFileSync } from 'node:fs';
+import './_color.css';
+
+type Hue = 'violet' | 'blue' | 'teal' | 'green' | 'amber' | 'red';
+const HUES = data.hues as Hue[];
+const STEPS = data.steps as number[];
+const PAL = data.palettes as Record<string, any>;
+const PKEYS = Object.keys(PAL);
+const CAT = data.categorical as Hue[];
+const ACCENTS: Hue[] = ['violet', 'blue', 'teal'];
+// Bar dropdowns. The gradient has no control of its own — it follows the palette.
+const P_OPTS = [
+  { v: 'brand', label: 'Brand', desc: 'Today’s colors, re-cut into the new structure' },
+  { v: 'heritage', label: 'Heritage', desc: 'Deep’s strength on today’s hue angles — orchid, rose, mint' },
+  { v: 'deep', label: 'Deep', desc: 'Stronger hues stepped apart, deeper keys, gradient with depth' },
+  { v: 'ink', label: 'Ink', desc: 'Deep’s hues, darker and calmer — depth over saturation' },
+];
+// Display order runs weakest → strongest change; Ink sits after Deep as its
+// quieter sibling.
+const ORDER = P_OPTS.map(o => o.v);
+const A_OPTS = [
+  { v: 'none', label: 'None', desc: 'Grayscale — color only for status and data' },
+  { v: 'violet', label: 'Violet', desc: 'The brand’s historic color' },
+  { v: 'blue', label: 'Blue', desc: 'The category default for tech products' },
+  { v: 'teal', label: 'Teal', desc: 'Today’s de facto interactive color' },
+];
+const ROLE_HUE: Record<string, Hue | null> = {
+  accent: null, success: 'green', warning: 'amber', danger: 'red', info: 'blue',
+};
+
+/* ── Token CSS, generated from the JSON ─────────────────────────────
+   Three layers, exactly as the proposed architecture:
+     primitives  --violet-100 … --red-700          per palette  (data-p)
+     aliases     --accent-*, --success-* …         per accent   (data-a)
+     roles       --accent-fg, --danger-tint …      per mode     (data-theme)
+   Components only ever read the role layer. */
+const css: string[] = [];
+
+for (const k of PKEYS) {
+  const p = PAL[k];
+  const d: string[] = [];
+  for (const h of HUES) {
+    for (const s of STEPS) d.push(`--${h}-${s}:${p.ramps[h][s]}`);
+    d.push(`--${h}-on:${p.audit.light[h].on_solid}`);
+    // A boundary (focus ring, toggle edge) needs 3:1 on its ground. Where the
+    // key can't reach it, the ring takes the fg step instead.
+    d.push(`--${h}-ring-l:var(--${h}-${p.audit.light[h].solid_base >= 3 ? 400 : 500})`);
+    d.push(`--${h}-ring-d:var(--${h}-${p.audit.dark[h].solid_base >= 3 ? 400 : 300})`);
+  }
+  d.push(`--spectrum-own:${p.gradient.join(',')}`);
+  p.gradient.forEach((h: string, i: number) => d.push(`--spec-${i + 1}:${h};--spec-${i + 1}-on:${p.gradient_on[i]}`));
+  css.push(`:root[data-p="${k}"]{${d.join(';')}}`);
+}
+css.push(`:root{--spectrum:var(--spectrum-own)}`);
+
+const alias = (role: string, h: string) => [
+  ...STEPS.map(s => `--${role}-${s}:var(--${h}-${s})`),
+  `--${role}-on:var(--${h}-on)`, `--${role}-ring-l:var(--${h}-ring-l)`, `--${role}-ring-d:var(--${h}-ring-d)`,
+].join(';');
+for (const a of ACCENTS) css.push(`:root[data-a="${a}"]{${alias('accent', a)}}`);
+/* Accent "none": the accent roles resolve to the settled grayscale
+   (working-surface-colors.md), so the interface is neutral and color is
+   spent only on status and data. The ramp steps (sequential charts) are a
+   monotone gray ladder; the roles are set per mode because a neutral solid
+   is ink — dark on light, light on dark — which no single step can be. */
+const GRAY_STEPS = ['#edecf0', '#dddde2', '#cfcdd6', '#b3b0bf', '#868394', '#5f5a72', '#353243'];
+css.push(`:root[data-a="none"]{${STEPS.map((s, i) => `--accent-${s}:${GRAY_STEPS[i]}`).join(';')};--accent-fg:#221f2c;--accent-solid:#221f2c;--accent-hover:#353243;--accent-on:#fcfcfd;--accent-tint:#dddde2;--accent-soft:#cfcdd6;--accent-ring:#221f2c}`);
+css.push(`:root[data-a="none"][data-theme="dark"]{--accent-fg:#fcfcfd;--accent-solid:#fcfcfd;--accent-hover:#cfcdd6;--accent-on:#16141b;--accent-tint:#353243;--accent-soft:#464257;--accent-ring:#fcfcfd}`);
+css.push(`:root{${Object.entries(ROLE_HUE).filter(([, h]) => h).map(([r, h]) => alias(r, h!)).join(';')}}`);
+
+// Per-hue roles, so examples can show any hue in the current mode.
+const hueRoles = (mode: 'light' | 'dark') => HUES.map(h => mode === 'light'
+  ? `--${h}-fg:var(--${h}-500);--${h}-solid:var(--${h}-400);--${h}-tint:var(--${h}-100);--${h}-soft:var(--${h}-200);--${h}-ring:var(--${h}-ring-l)`
+  : `--${h}-fg:var(--${h}-300);--${h}-solid:var(--${h}-400);--${h}-tint:var(--${h}-700);--${h}-soft:var(--${h}-600);--${h}-ring:var(--${h}-ring-d)`
+).join(';');
+const roleDecl = (mode: 'light' | 'dark') => Object.keys(ROLE_HUE).map(r => mode === 'light'
+  ? `--${r}-fg:var(--${r}-500);--${r}-solid:var(--${r}-400);--${r}-tint:var(--${r}-100);--${r}-soft:var(--${r}-200);--${r}-ring:var(--${r}-ring-l);--${r}-hover:color-mix(in oklab,var(--${r}-400),var(--${r}-500) 45%)`
+  : `--${r}-fg:var(--${r}-300);--${r}-solid:var(--${r}-400);--${r}-tint:var(--${r}-700);--${r}-soft:var(--${r}-600);--${r}-ring:var(--${r}-ring-d);--${r}-hover:color-mix(in oklab,var(--${r}-400),var(--${r}-300) 40%)`
+).join(';');
+// Dataviz. Series are one set for both modes — the validator passes Deep's
+// keys in both bands, so there is no separate dark categorical set.
+const series = CAT.map((h, i) => `--series-${i + 1}:var(--${h}-400)`).join(';');
+// R1 — each series carries the full role set, so an entity can own a hue at
+// several strengths (the deck's Bob / Ana / Charlie). Pointers only: no new values.
+const seriesRoles = (mode: 'light' | 'dark') => CAT.map((h, i) => {
+  const [t, so, f] = mode === 'light' ? [100, 200, 500] : [700, 600, 300];
+  return `--series-${i + 1}-tint:var(--${h}-${t});--series-${i + 1}-soft:var(--${h}-${so});--series-${i + 1}-solid:var(--${h}-400);--series-${i + 1}-fg:var(--${h}-${f})`;
+}).join(';');
+// R2 — diagram neutrals, named so nobody types #868394 by hand again.
+//   ink        objects: icons, boxes, model marks   light grayscale-700 · dark 400
+//   connector  lines and arrows                     grayscale-550 both modes
+const diagL = '--ink:#464257;--connector:#868394';
+const diagD = '--ink:#cfcdd6;--connector:#868394';
+const seqL = STEPS.map((s, i) => `--seq-${i + 1}:var(--accent-${s})`).join(';');
+const seqD = [...STEPS].reverse().map((s, i) => `--seq-${i + 1}:var(--accent-${s})`).join(';');
+const divL = '--div-n3:var(--red-500);--div-n2:var(--red-400);--div-n1:var(--red-200);--div-p1:var(--blue-200);--div-p2:var(--blue-400);--div-p3:var(--blue-500)';
+const divD = '--div-n3:var(--red-300);--div-n2:var(--red-400);--div-n1:var(--red-600);--div-p1:var(--blue-600);--div-p2:var(--blue-400);--div-p3:var(--blue-300)';
+
+const S = data.surfaces as any;
+const surfL = `--c-sunken:${S.light.sunken};--c-base:${S.light.base};--c-raise-1:${S.light['raise-1']};--c-raise-2:${S.light['raise-2']};--c-line:#dddde2;--c-line-strong:#cfcdd6;--c-h:#221f2c;--c-b:#353243;--c-m:#5e5a72;--c-ink:#221f2c;--c-on-ink:#fcfcfd;--c-shadow-1:0 2px 10px -4px rgb(70 66 87 / 0.05);--c-shadow-2:0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048);--c-shadow-in:inset 0 1px 5px 0 rgb(70 66 87 / 0.07);color-scheme:light`;
+const surfD = `--c-sunken:${S.dark.sunken};--c-base:${S.dark.base};--c-raise-1:${S.dark['raise-1']};--c-raise-2:${S.dark['raise-2']};--c-line:#353243;--c-line-strong:#464257;--c-h:#fcfcfd;--c-b:#cfcdd6;--c-m:#9591a3;--c-ink:#fcfcfd;--c-on-ink:#16141b;--c-shadow-1:0 2px 10px -4px rgb(0 0 0 / 0.14);--c-shadow-2:0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134);--c-shadow-in:inset 0 1px 5px 0 rgb(0 0 0 / 0.196);color-scheme:dark`;
+
+css.push(`:root{${surfL};${roleDecl('light')};${hueRoles('light')};${series};${seriesRoles('light')};${diagL};${seqL};${divL};--div-mid:var(--c-line)}`);
+css.push(`:root[data-theme="dark"]{${surfD};${roleDecl('dark')};${hueRoles('dark')};${seriesRoles('dark')};${diagD};${seqD};${divD};--div-mid:var(--c-line)}`);
+
+// Per-palette readouts (hex, contrast) — all three are rendered, CSS shows one.
+css.push(`[data-for]{display:none}` + PKEYS.map(k => `:root[data-p="${k}"] [data-for="${k}"]{display:inline}`).join(''));
+const TOKEN_CSS = css.join('\n');
+
+/* ── Seeded data, so every reload shows the same charts ───────────── */
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+
+// Stacked bars — six series, four rows.
+const PROJECTS = ['PySyft', 'Syft Hub', 'Courses', 'Research', 'Policy', 'Community'];
+const QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4'];
+const STACK = QUARTERS.map(() => PROJECTS.map(() => Math.round(8 + rnd() * 30)));
+
+// Line chart — three series over twelve months.
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const LINES = [0, 1, 2].map(i => {
+  let v = 30 + i * 12; return MONTHS.map(() => (v = Math.max(8, v + (rnd() - 0.38) * 14)));
+});
+const LSERIES = ['Remote queries', 'Datasets connected', 'Active researchers'];
+const LW = 560, LH = 220, LP = { l: 34, r: 12, t: 12, b: 26 };
+const lmax = Math.ceil(Math.max(...LINES.flat()) / 20) * 20;
+const lx = (i: number) => LP.l + (i * (LW - LP.l - LP.r)) / (MONTHS.length - 1);
+const ly = (v: number) => LH - LP.b - (v / lmax) * (LH - LP.t - LP.b);
+const LPATHS = LINES.map(s => s.map((v, i) => `${i ? 'L' : 'M'}${lx(i).toFixed(1)},${ly(v).toFixed(1)}`).join(''));
+const LTICKS = [0, 0.25, 0.5, 0.75, 1].map(f => Math.round(f * lmax));
+
+// Heatmap — sequential, one hue.
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const HEAT = DAYS.map((_, r) => Array.from({ length: 24 }, (_, c) => {
+  const work = Math.exp(-((c - 14) ** 2) / 30) * (r < 5 ? 1 : 0.35);
+  return Math.min(6, Math.max(0, Math.round(work * 6 + (rnd() - 0.5) * 1.6)));
+}));
+
+// Diverging — change vs last year.
+const DIV = [
+  ['Europe', 42], ['North America', 28], ['UK', 17], ['Asia-Pacific', 9],
+  ['Latin America', -6], ['Middle East', -14], ['Africa', -22], ['Other', -35],
+] as [string, number][];
+const divBucket = (v: number) => v <= -25 ? 'n3' : v <= -10 ? 'n2' : v < 0 ? 'n1' : v < 15 ? 'p1' : v < 30 ? 'p2' : 'p3';
+
+// Sparkline for the stat tiles.
+const spark = (n: number, up: boolean) => {
+  let v = 20; const pts = Array.from({ length: n }, () => (v = Math.max(2, v + (rnd() - (up ? 0.35 : 0.65)) * 8)));
+  const mx = Math.max(...pts), mn = Math.min(...pts);
+  return pts.map((p, i) => `${i ? 'L' : 'M'}${(i * 120 / (n - 1)).toFixed(1)},${(30 - ((p - mn) / (mx - mn || 1)) * 26 - 2).toFixed(1)}`).join('');
+};
+const STATS = [
+  { k: 'Remote queries answered', v: '1.28M', d: '+18.4%', up: true, path: spark(20, true) },
+  { k: 'Median time to answer', v: '2.4s', d: '−0.6s', up: true, path: spark(20, false) },
+  { k: 'Failed policy checks', v: '312', d: '+9.1%', up: false, path: spark(20, true) },
+];
+
+/* ── Today's palette, read from tokens.css ──────────────────────────
+   The narrative section shows the palette being replaced beside the one
+   replacing it. Read from the file, not re-typed, so it can't drift from
+   what ships. */
+const TOKENS = readFileSync(`${process.cwd()}/src/tokens/tokens.css`, 'utf8');
+const OLD_FAMILIES = ['gold', 'orange', 'red', 'violet', 'blue', 'teal', 'green', 'lime', 'yellow'];
+const OLD_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+const OLD: Record<string, Record<number, string>> = {};
+for (const m of TOKENS.matchAll(/--color-([a-z]+)-(\d+):\s*(#[0-9a-fA-F]{6})/g)) {
+  if (OLD_FAMILIES.includes(m[1])) (OLD[m[1]] ??= {})[+m[2]] = m[3];
+}
+const FATE: Record<string, string> = {
+  gold: '→ amber', orange: '→ amber + gradient', red: '→ red',
+  violet: '→ violet', blue: '→ blue', teal: '→ teal', green: '→ green',
+  lime: '→ gradient only', yellow: '→ gradient only',
+};
+
+const MOVES = [
+  { from: '9 hue families', to: '6 hues', why: 'Six hues cover every job: an accent, four status meanings, six chart series. Gold and orange merge into amber.', src: 'Needed uses · Radix, Carbon, Primer size hue sets by job' },
+  { from: '11 steps, chosen by eye', to: '7 steps, one per role', why: 'Four jobs per hue — tint, soft, text, solid — each mirrored for dark mode.', src: 'Material 3 exposes ~5 roles from 13 tones · Radix defines steps by use' },
+  { from: 'A lightness ladder per family', to: 'One ladder for every hue', why: 'Same step, same contrast in every hue, so colored text passes AA by construction.', src: 'Stripe accessible palettes · Radix · Carbon · WCAG 2 (4.5:1 text, 3:1 UI)' },
+  { from: 'Pick a step', to: 'Pick a role', why: 'Components name a role, so palettes and modes change without touching their code.', src: 'Three-tier tokens: primitive → semantic → component (Primer, Atlassian, Material)' },
+  { from: 'Low-chroma pastels', to: 'Deep', why: 'Today’s hues read gray in charts. Deep passes every chart check and matches the team’s hand-mixed blues.', src: 'Dataviz standard: chroma ≥ 0.10, lightness bands, colorblind ΔE ≥ 8 · Live Graphics deck' },
+  { from: 'A pastel gradient', to: 'A gradient with depth', why: 'Its own nine stops, since ramp steps go dusty. Depth comes from lightness range, not saturation.', src: 'Measured from speakeasy.com’s CSS · a ramps-only prototype' },
+];
+
+
+const ROLE_ROWS = [
+  { role: 'tint', light: 100, dark: 700, use: 'Badge, callout, selected-row background' },
+  { role: 'soft', light: 200, dark: 600, use: 'Decorative rule, selected outline, area fill' },
+  { role: 'fg', light: 500, dark: 300, use: 'Colored text, links, icons — AA on every surface' },
+  { role: 'solid', light: 400, dark: 400, use: 'Fills carrying a label, chart marks, the key' },
+];
+const roleAt = (mode: 'light' | 'dark', s: number) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
+
+/* Chart verdicts come from generate.py, which runs the dataviz validator on
+   the series order. Summarized here in plain words. */
+const FAIL_WORDS: [RegExp, string][] = [[/^Chroma floor/, 'some hues read gray'], [/^Lightness band/, 'some hues off-band'], [/^CVD/, 'colorblind pairs too close'], [/^Normal-vision/, 'neighbors too close']];
+const summarize = (v: any) => {
+  if (!v) return 'not validated';
+  if (!v.ok) return 'Fails — ' + v.fails.map((f: string) => FAIL_WORDS.find(([re]) => re.test(f))?.[1] ?? f).join(', ');
+  return `Passes — colorblind ΔE ${v.cvd}` + (v.warns.length ? '; some marks under 3:1, needs visible labels' : '; every mark ≥ 3:1');
+};
+const VERDICT = Object.fromEntries(ORDER.map(k => {
+  const c = PAL[k].charts;
+  return [k, { light: summarize(c?.light), dark: summarize(c?.dark), ok: !!(c?.light.ok && c?.dark.ok), clean: !!(c?.light.ok && c?.dark.ok && !c.light.warns.length && !c.dark.warns.length) }];
+}));
+---
+<Base title="Color system" description="brand-v2 round: consolidating OMDS color into 6 hues × 7 steps with a role layer, three candidate palettes.">
+  <Fragment set:html={`<style>${TOKEN_CSS}</style>`} />
+  <script is:inline>
+    // Before paint: palette, accent and gradient from the URL, so the first
+    // frame is already the requested combination (no flash of the default).
+    (() => {
+      const q = new URLSearchParams(location.search), h = document.documentElement;
+      const pick = (k, ok, d) => (ok.includes(q.get(k)) ? q.get(k) : d);
+      h.dataset.p = pick('p', ['brand', 'heritage', 'deep', 'ink'], 'deep');
+      h.dataset.a = pick('a', ['none', 'violet', 'blue', 'teal'], 'none');
+      const t = q.get('t'); if (t === 'light' || t === 'dark') h.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <div class="cr">
+    <!-- ── Bar ─────────────────────────────────────────────────────── -->
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="bar__back" href="/" aria-label="Back to the brand reference">←</a>
+        <span class="bar__title">Color system</span>
+        <div class="bar__field">
+          <span class="bar__lab" id="dd-p-lab">Palette</span>
+          <div class="dd" data-dd="p">
+            <button type="button" class="dd__btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="dd-p-lab dd-p-val">
+              <span class="dd__val" id="dd-p-val"></span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <ul class="dd__list" role="listbox" aria-labelledby="dd-p-lab" hidden>
+              {P_OPTS.map(o => (
+                <li role="option" data-v={o.v} data-label={o.label} tabindex="-1" aria-selected="false">
+                  <span class="dd__txt"><b>{o.label}</b><span>{o.desc}</span></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="bar__field">
+          <span class="bar__lab" id="dd-a-lab">Accent</span>
+          <div class="dd" data-dd="a">
+            <button type="button" class="dd__btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="dd-a-lab dd-a-val">
+              <span class="dd__val" id="dd-a-val"></span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <ul class="dd__list" role="listbox" aria-labelledby="dd-a-lab" hidden>
+              {A_OPTS.map(o => (
+                <li role="option" data-v={o.v} data-label={o.label} tabindex="-1" aria-selected="false">
+                  <i class="dot" style={o.v === 'none' ? 'background:var(--c-h)' : `background:var(--${o.v}-400)`}></i><span class="dd__txt"><b>{o.label}</b><span>{o.desc}</span></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="bar__field">
+          <span class="bar__lab">Color mode</span>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ── Hero ──────────────────────────────────────────────────── -->
+      <section class="hero wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · Round 1A · color</span>
+          <h1>Fewer colors, each with a&nbsp;job.</h1>
+          <p class="lead">The color palette consolidated: keep what works, give every color a role, and tune the values toward the desired register.</p>
+        </div>
+      </section>
+
+      <!-- ── 01 How we got here ────────────────────────────────────── -->
+      <section class="band" id="story">
+        <div class="wrap">
+          <header class="sec">
+            <span class="sec__n">01</span>
+            <h2>From today’s palette to this one</h2>
+            <p>Every change is deliberate, backed by how working color systems are built — for the website first, then graphics, data vis and apps.</p>
+          </header>
+
+          <article class="card fromto">
+            <div class="fromto__side">
+              <h3 class="card__h">From · 9 hues × 11 steps</h3>
+              <div class="fromto__old">
+                {OLD_FAMILIES.map(f => (
+                  <>
+                    <span class="fromto__fam">{f}</span>
+                    <span class="fromto__ramp">{OLD_STEPS.map(st => <i style={`background:${OLD[f]?.[st]}`} title={`${f}-${st} ${OLD[f]?.[st]}`}></i>)}</span>
+                    <span class="fromto__fate">{FATE[f]}</span>
+                  </>
+                ))}
+              </div>
+            </div>
+            <div class="fromto__side">
+              <h3 class="card__h">To · 6 hues × 7 steps <span class="muted">— palette in the bar</span></h3>
+              <div class="fromto__new">
+                {HUES.map(h => (
+                  <>
+                    <span class="fromto__fam">{h}</span>
+                    <span class="fromto__ramp">{STEPS.map(st => <i style={`background:var(--${h}-${st})`}></i>)}</span>
+                  </>
+                ))}
+              </div>
+            </div>
+          </article>
+
+          <div class="moves">
+            <div class="moves__head"><span>From</span><span>To</span><span>Why</span></div>
+            {MOVES.map(m => (
+              <div class="moves__row">
+                <span class="moves__from">{m.from}</span>
+                <span class="moves__to">{m.to}</span>
+                <div class="moves__why">
+                  <p set:html={m.why} />
+                  <span class="moves__src">{m.src}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── 02 The system ─────────────────────────────────────────── -->
+      <section class="band band--alt" id="system">
+        <div class="wrap">
+          <header class="sec">
+            <span class="sec__n">02</span>
+            <h2>The system</h2>
+            <p>6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to.</p>
+          </header>
+
+          <article class="card ramps">
+            <div class="ramps__head">
+              <span></span>
+              {STEPS.map(s => (
+                <span class="ramps__step">
+                  <b>{s}{s === 400 ? ' · key' : ''}</b>
+                  <em class="only-light">{roleAt('light', s).join(' · ') || '—'}</em>
+                  <em class="only-dark">{roleAt('dark', s).join(' · ') || '—'}</em>
+                </span>
+              ))}
+            </div>
+            {HUES.map(h => (
+              <div class="ramps__row">
+                <span class="ramps__hue">
+                  {h}
+                  <small>{Object.entries(ROLE_HUE).filter(([, v]) => v === h).map(([r]) => r).join(' · ') || ''}{ACCENTS.includes(h) ? <span class="ramps__acc" data-acc={h}> accent</span> : ''}</small>
+                </span>
+                {STEPS.map(s => (
+                  <span class="sw" style={`background:var(--${h}-${s});color:${s <= 300 ? '#221f2c' : s === 400 ? `var(--${h}-on)` : '#fcfcfd'}`}>
+                    {PKEYS.map(k => <code data-for={k}>{PAL[k].ramps[h][s]}</code>)}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </article>
+
+          <div class="grid">
+            <article class="card">
+              <h3 class="card__h">Roles</h3>
+              <table class="tbl tbl--roles">
+                <thead><tr><th>Role</th><th>Light</th><th>Dark</th><th>Example</th><th>Used for</th></tr></thead>
+                <tbody>
+                  {ROLE_ROWS.map(r => (
+                    <tr>
+                      <td><code>{r.role}</code></td><td>{r.light}</td><td>{r.dark}</td>
+                      <td><span class="ex">{HUES.map(h => (
+                        r.role === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
+                        : r.role === 'solid' ? <span class="ex__chip" style={`background:var(--${h}-solid);color:var(--${h}-on)`}>Aa</span>
+                        : r.role === 'tint' ? <span class="ex__chip" style={`background:var(--${h}-tint);color:var(--${h}-fg)`}>Aa</span>
+                        : <span class="ex__chip" style={`background:var(--${h}-soft)`}></span>
+                      ))}</span></td>
+                      <td>{r.use}</td>
+                    </tr>
+                  ))}
+                  <tr><td><code>ring</code></td><td>400 / 500</td><td>400 / 300</td>
+                    <td><span class="ex">{HUES.map(h => <span class="ex__ring" style={`box-shadow:0 0 0 2px var(--${h}-ring)`}></span>)}</span></td>
+                    <td>Focus, toggle edge — key if it reaches 3:1 on base, else fg</td></tr>
+                  <tr><td><code>hover</code></td><td colspan="2">solid → fg, 45%</td>
+                    <td><span class="ex"><span class="ex__chip ex__chip--w" style="background:var(--accent-solid);color:var(--accent-on)">rest</span><span class="ex__chip ex__chip--w" style="background:var(--accent-hover);color:var(--accent-on)">hover</span></span></td>
+                    <td>Solid hover (shown on the accent)</td></tr>
+                  <tr class="tbl__group"><td colspan="5">Diagram neutrals — grayscale, no hue</td></tr>
+                  <tr><td><code>ink</code></td><td>gray 700</td><td>gray 400</td>
+                    <td><span class="ex"><svg width="84" height="26" viewBox="0 0 84 26" aria-hidden="true"><rect x="1.5" y="3.5" width="30" height="19" rx="4" fill="none" stroke="var(--ink)" stroke-width="1.5" /><path d="M46 13l6-6 6 6-6 6Z" fill="var(--ink)" /><circle cx="74" cy="13" r="7" fill="none" stroke="var(--ink)" stroke-width="1.5" /></svg></span></td>
+                    <td>Diagram objects: icons, boxes, model marks</td></tr>
+                  <tr><td><code>connector</code></td><td>gray 550</td><td>gray 550</td>
+                    <td><span class="ex"><svg width="84" height="26" viewBox="0 0 84 26" aria-hidden="true"><path d="M4 18 C 26 18, 30 8, 52 8" fill="none" stroke="var(--connector)" stroke-width="1.5" stroke-dasharray="4 3" /><path d="M56 13h20m-4-4 4 4-4 4" fill="none" stroke="var(--connector)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></span></td>
+                    <td>Diagram lines and arrows — ≥ 3:1 on base and raised, not on sunken</td></tr>
+                </tbody>
+              </table>
+              <p class="card__note">Status: success = green · warning = amber · danger = red · info = blue. Each carries the same roles.</p>
+            </article>
+
+            <article class="card">
+              <h3 class="card__h">Contrast, this palette</h3>
+              <table class="tbl tbl--audit">
+                <thead><tr><th>Hue</th><th>Example</th><th class="num">fg, worst surface</th><th class="num">solid vs base</th><th class="num">label on solid</th></tr></thead>
+                <tbody>
+                  {HUES.map(h => (
+                    <tr>
+                      <td><i class="dot" style={`background:var(--${h}-400)`}></i>{h}</td>
+                      <td><span class="ex">
+                        <span class="ex__chip ex__chip--w ex__on-sunken" title="fg on the recessed surface, the worst case"><b style={`color:var(--${h}-fg)`}>Text</b></span>
+                        <span class="ex__chip ex__chip--sq" style={`background:var(--${h}-solid)`} title="solid on the page base"></span>
+                        <span class="ex__chip ex__chip--w" style={`background:var(--${h}-solid);color:var(--${h}-on)`} title="label on solid">Label</span>
+                      </span></td>
+                      {(['fg_min', 'solid_base', 'on_solid_ratio'] as const).map((f, fi) => (
+                        <td class="num">
+                          {PKEYS.map(k => {
+                            const L = PAL[k].audit.light[h][f], D = PAL[k].audit.dark[h][f];
+                            const min = fi === 0 ? 4.5 : fi === 1 ? 3 : 4.5;
+                            return <span data-for={k}><span class={L < min ? 'bad' : ''}>{L}</span> / <span class={D < min ? 'bad' : ''}>{D}</span></span>;
+                          })}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p class="card__note">light / dark. <span class="bad">Marked</span> = below its threshold (4.5 text, 3.0 boundary). A key that can’t reach 3:1 takes <code>fg</code> for boundaries.</p>
+            </article>
+          </div>
+        
+          <div class="grid grid--2">
+          <article class="card">
+            <h3 class="card__h">Chart series</h3>
+            <p class="card__sub">Each series owns a hue at four strengths, so an entity keeps its color from a faint panel to a label. Validated order; violet and blue are never adjacent.</p>
+            <table class="tbl tbl--series">
+              <thead><tr><th>Series</th><th>tint</th><th>soft</th><th>solid</th><th>fg</th></tr></thead>
+              <tbody>
+                {CAT.map((h, i) => (
+                  <tr>
+                    <td><code>series-{i + 1}</code> <span class="muted">{h}</span></td>
+                    {['tint', 'soft', 'solid', 'fg'].map(r => <td><i class="chip" style={`background:var(--series-${i + 1}-${r})`}></i></td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </article>
+
+          </div>
+          <article class="card spec">
+            <div class="spec__head">
+              <h3 class="card__h">Brand gradient</h3>
+              <p class="card__sub">Nine custom stops, same order in every palette. They exist for the gradient only — a gradient built from ramp steps goes dusty, because interface tints are quiet on purpose. How the gradient is applied (halos, glows, dark stages, bands) belongs to graphics styles, a later push.</p>
+            </div>
+            <i class="spec__bar" style="background:linear-gradient(90deg in oklab,var(--spectrum))"></i>
+            <div class="spec__stops">
+              {data.spectrum.map((n: string, i: number) => <span style={`background:var(--spec-${i + 1});color:var(--spec-${i + 1}-on)`}>{n}{PKEYS.map(k => <code data-for={k}>{PAL[k].gradient[i]}</code>)}</span>)}
+            </div>
+            <p class="card__note">Today’s pastel, for reference: <i class="spec__ref" style={`background:linear-gradient(90deg,${PAL.brand.gradient.join(',')})`}></i></p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── 03 Data vis & presentations ─────────────────────────────────── -->
+      <section class="band" id="info">
+        <div class="wrap">
+          <header class="sec">
+            <span class="sec__n">03</span>
+            <h2>Data vis &amp; presentations</h2>
+            <p>Four color jobs, each with one rule: <b>categorical</b> (identity, fixed order), <b>sequential</b> (magnitude, one hue), <b>diverging</b> (polarity, neutral midpoint), <b>status</b> (reserved). Hover any mark.</p>
+          </header>
+
+          <div class="stats">
+            {STATS.map((s, i) => (
+              <article class="card stat">
+                <span class="stat__k">{s.k}</span>
+                <span class="stat__v">{s.v}</span>
+                <span class={`delta ${s.up ? 'delta--good' : 'delta--bad'}`}>
+                  <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d={s.up ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6'} fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  {s.d} <span class="delta__lab">{s.up ? 'better' : 'worse'}</span>
+                </span>
+                <svg class="spark" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><path d={s.path} /></svg>
+              </article>
+            ))}
+          </div>
+
+          <div class="grid grid--2">
+            <!-- Stacked bars -->
+            <article class="card viz">
+              <h3 class="card__h">Compute hours by project</h3>
+              <p class="card__sub">Categorical · six series in the validated order</p>
+              <ul class="legend">
+                {PROJECTS.map((p, i) => <li><i style={`background:var(--series-${i + 1})`}></i>{p}</li>)}
+              </ul>
+              <div class="stack">
+                {STACK.map((row, r) => {
+                  const tot = row.reduce((a, b) => a + b, 0);
+                  return (
+                    <div class="stack__row">
+                      <span class="stack__lab">{QUARTERS[r]}</span>
+                      <div class="stack__bar">
+                        {row.map((v, i) => (
+                          <span style={`flex:${v};background:var(--series-${i + 1})`} data-tip={`${PROJECTS[i]} · ${QUARTERS[r]}|${v}k hours (${Math.round(v / tot * 100)}%)`}></span>
+                        ))}
+                      </div>
+                      <span class="stack__tot">{tot}k</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </article>
+
+            <!-- Line chart -->
+            <article class="card viz">
+              <h3 class="card__h">Network activity, 2026</h3>
+              <p class="card__sub">Categorical · three lines, crosshair on hover</p>
+              <ul class="legend">
+                {LSERIES.map((s, i) => <li><i style={`background:var(--series-${i + 1})`}></i>{s}</li>)}
+              </ul>
+              <div class="line" data-line={JSON.stringify({ x: MONTHS, s: LSERIES, v: LINES.map(l => l.map(n => Math.round(n))), px: MONTHS.map((_, i) => lx(i) / LW), w: LW })}>
+                <svg viewBox={`0 0 ${LW} ${LH}`} role="img" aria-label="Line chart of three activity series across 2026">
+                  {LTICKS.map(t => (<g class="axis"><line x1={LP.l} x2={LW - LP.r} y1={ly(t)} y2={ly(t)} /><text x={LP.l - 6} y={ly(t) + 3.5} text-anchor="end">{t}</text></g>))}
+                  {MONTHS.map((m, i) => i % 2 === 0 && <text class="axis" x={lx(i)} y={LH - 8} text-anchor="middle">{m}</text>)}
+                  {LPATHS.map((d, i) => <path class="line__path" d={d} style={`stroke:var(--series-${i + 1})`} />)}
+                  <line class="line__x" x1="0" x2="0" y1={LP.t} y2={LH - LP.b} />
+                  {LINES.map((_, i) => <circle class="line__dot" r="4.5" style={`fill:var(--series-${i + 1})`} />)}
+                </svg>
+              </div>
+            </article>
+
+            <!-- Heatmap -->
+            <article class="card viz">
+              <h3 class="card__h">Queries by hour</h3>
+              <p class="card__sub">Sequential · the accent, 100 → 700 (anchor flips in dark)</p>
+              <div class="heat">
+                {HEAT.map((row, r) => (
+                  <div class="heat__row">
+                    <span class="heat__lab">{DAYS[r]}</span>
+                    {row.map((v, c) => <span class="heat__cell" style={`background:var(--seq-${v + 1})`} data-tip={`${DAYS[r]} ${String(c).padStart(2, '0')}:00|${v * 180 + 40} queries`}></span>)}
+                  </div>
+                ))}
+              </div>
+              <div class="scale"><span>fewer</span>{STEPS.map((_, i) => <i style={`background:var(--seq-${i + 1})`}></i>)}<span>more</span></div>
+            </article>
+
+            <!-- Diverging -->
+            <article class="card viz">
+              <h3 class="card__h">Change in data partners vs 2025</h3>
+              <p class="card__sub">Diverging · red ↔ blue through the neutral</p>
+              <div class="div">
+                {DIV.map(([k, v]) => (
+                  <div class="div__row">
+                    <span class="div__lab">{k}</span>
+                    <div class="div__track">
+                      <span class="div__bar" style={`--w:${Math.abs(v) / 45 * 50}%;background:var(--div-${divBucket(v)})`} data-neg={v < 0 ? '' : undefined} data-tip={`${k}|${v > 0 ? '+' : ''}${v}% partners`}></span>
+                    </div>
+                    <span class="div__v">{v > 0 ? '+' : ''}{v}%</span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── 04 App-like interfaces ──────────────────────────────────────────── -->
+      <section class="band band--alt" id="interface">
+        <div class="wrap">
+          <header class="sec">
+            <span class="sec__n">04</span>
+            <h2>App-like interfaces</h2>
+            <p>Last in priority, and the densest use of state. Every component reads a <em>role</em> — <code>accent-fg</code>, <code>danger-tint</code> — never a step. Switch the palette or the accent and nothing here is re-authored.</p>
+          </header>
+
+          <div class="grid grid--3">
+            <!-- Buttons -->
+            <article class="card">
+              <h3 class="card__h">Buttons</h3>
+              <p class="card__sub">One solid button per group. Two candidates for what “solid” is:</p>
+              <div class="row">
+                <span class="row__lab">A · accent</span>
+                <button class="btn btn--accent" type="button">Deploy</button>
+                <button class="btn btn--quiet" type="button">Cancel</button>
+              </div>
+              <div class="row">
+                <span class="row__lab">B · ink</span>
+                <button class="btn btn--ink" type="button">Deploy</button>
+                <button class="btn btn--quiet" type="button">Cancel</button>
+              </div>
+              <div class="row">
+                <span class="row__lab">Danger</span>
+                <button class="btn btn--danger" type="button">Revoke access</button>
+                <button class="btn btn--quiet" type="button">Keep</button>
+              </div>
+              <p class="card__note">A spends the accent on the primary action; B keeps buttons neutral and saves color for state and data.</p>
+            </article>
+
+            <!-- Form -->
+            <article class="card">
+              <h3 class="card__h">Form</h3>
+              <label class="fld">
+                <span class="fld__lab">Dataset name</span>
+                <input class="ctl" type="text" value="census-2021-eu" />
+              </label>
+              <label class="fld">
+                <span class="fld__lab">Email</span>
+                <input class="ctl ctl--err" type="email" value="researcher@" aria-invalid="true" />
+                <span class="fld__err"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><path d="M12 7v6M12 16.5v.5" stroke="var(--c-raise-1)" stroke-width="2.2" stroke-linecap="round" /></svg>Enter a complete email address.</span>
+              </label>
+              <div class="checks">
+                <label class="chk"><input type="checkbox" checked /><span>Allow remote queries</span></label>
+                <label class="chk"><input type="checkbox" /><span>Publish metadata</span></label>
+                <label class="tgl"><input type="checkbox" role="switch" checked /><span class="tgl__track"><span class="tgl__knob"></span></span><span>Differential privacy</span></label>
+              </div>
+              <p class="card__note">Click into a field — the focus ring is the accent’s <code>ring</code> role (the key where it reaches 3:1, otherwise <code>fg</code>).</p>
+            </article>
+
+            <!-- Status -->
+            <article class="card">
+              <h3 class="card__h">Status</h3>
+              <div class="badges">
+                <span class="badge badge--accent">Beta</span>
+                <span class="badge badge--success"><i></i>Healthy</span>
+                <span class="badge badge--warning"><i></i>Degraded</span>
+                <span class="badge badge--danger"><i></i>Offline</span>
+                <span class="badge badge--info"><i></i>Syncing</span>
+                <span class="badge">Draft</span>
+              </div>
+              {[
+                ['success', 'Query approved', 'The data owner approved your request. Results arrive within 24h.', 'M5 12.5l4.5 4.5L19 7.5'],
+                ['warning', 'Budget at 82%', 'Your privacy budget for this dataset resets on 1 October.', 'M12 7v6M12 16.5v.5'],
+                ['danger', 'Policy check failed', 'This query would reveal individual records. Aggregate first.', 'M8 8l8 8M16 8l-8 8'],
+                ['info', 'New dataset available', 'EU Labour Force Survey 2025 is now connected.', 'M12 11v6M12 7.5v.5'],
+              ].map(([k, t, b, d]) => (
+                <div class={`alert alert--${k}`} role="status">
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor" /><path d={d} fill="none" stroke="var(--c-raise-1)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <div><strong>{t}</strong><span>{b}</span></div>
+                </div>
+              ))}
+            </article>
+          </div>
+
+          <div class="grid grid--2">
+            <!-- Table + tabs -->
+            <article class="card">
+              <nav class="tabs" aria-label="Datasets view">
+                <a class="is-on" href="#interface">Datasets</a><a href="#interface">Requests</a><a href="#interface">Audit log</a>
+              </nav>
+              <table class="tbl">
+                <thead><tr><th>Dataset</th><th>Owner</th><th>Status</th><th class="num">Queries</th></tr></thead>
+                <tbody>
+                  <tr><td>census-2021-eu</td><td>Eurostat</td><td><span class="badge badge--success"><i></i>Live</span></td><td class="num">48,210</td></tr>
+                  <tr class="is-sel"><td>nhs-outcomes</td><td>NHS Digital</td><td><span class="badge badge--warning"><i></i>Review</span></td><td class="num">12,904</td></tr>
+                  <tr><td>labour-force-25</td><td>ONS</td><td><span class="badge badge--info"><i></i>Syncing</span></td><td class="num">3,118</td></tr>
+                  <tr><td>clinical-trials-x</td><td>Private</td><td><span class="badge badge--danger"><i></i>Revoked</span></td><td class="num">—</td></tr>
+                </tbody>
+              </table>
+              <p class="prose">Selected row is <code>accent-tint</code>. Inline links <a class="lnk" href="#interface">read the accent’s fg role</a> with a <code>soft</code> underline that draws to full on hover.</p>
+            </article>
+
+            <!-- Code -->
+            <article class="card">
+              <h3 class="card__h">Code</h3>
+              <pre class="code"><code><span class="t-c"># Ask a question of data you can't see</span>
+<span class="t-k">import</span> syft <span class="t-k">as</span> sy
+
+client = sy.<span class="t-f">login</span>(url=<span class="t-s">"https://datasite.eurostat.eu"</span>)
+census = client.datasets[<span class="t-s">"census-2021-eu"</span>]
+
+<span class="t-k">@sy.syft_function</span>(budget=<span class="t-n">0.5</span>)
+<span class="t-k">def</span> <span class="t-f">median_income</span>(df):
+    <span class="t-k">return</span> df[<span class="t-s">"income"</span>].<span class="t-f">median</span>()
+
+result = client.<span class="t-f">submit</span>(median_income, census)  <span class="t-c"># → pending</span></code></pre>
+              <div class="progress" aria-label="Privacy budget used"><span style="width:62%"></span></div>
+              <ol class="steps">
+                <li class="is-done"><i>1</i>Submit</li>
+                <li class="is-done"><i>2</i>Policy check</li>
+                <li class="is-now"><i>3</i>Owner review</li>
+                <li><i>4</i>Result</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 05 Compare ────────────────────────────────────────────── -->
+      <section class="band" id="compare">
+        <div class="wrap">
+          <header class="sec">
+            <span class="sec__n">05</span>
+            <h2>Compare</h2>
+            <p>All four candidates at once, same structure. Literal values — this section ignores the switches. Chart verdicts are the dataviz validator’s, run on the series order above.</p>
+          </header>
+          <div class="grid grid--cmp">
+            {ORDER.map(k => (
+              <article class={`card cmp ${VERDICT[k].clean ? 'cmp--ok' : ''}`}>
+                <h3 class="card__h">{PAL[k].label}</h3>
+                <p class="card__sub">{PAL[k].note}</p>
+                <div class="cmp__ramps">
+                  {HUES.map(h => <div class="cmp__ramp">{STEPS.map(s => <i style={`background:${PAL[k].ramps[h][s]}`} title={`${h}-${s} ${PAL[k].ramps[h][s]}`}></i>)}</div>)}
+                </div>
+                <i class="cmp__grad" style={`background:linear-gradient(90deg,${PAL[k].gradient.join(',')})`}></i>
+                <div class="cmp__series">{CAT.map(h => <i style={`background:${PAL[k].ramps[h]['400']}`}></i>)}</div>
+                <dl class="cmp__v">
+                  <dt>Charts, light</dt><dd>{VERDICT[k].light}</dd>
+                  <dt>Charts, dark</dt><dd>{VERDICT[k].dark}</dd>
+                </dl>
+                <a class="lnk" href={`?p=${k}`} data-jump={k}>View in context →</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="tip" role="tooltip" hidden><b></b><span></span></div>
+  </div>
+
+  <script>
+    import './_color.ts';
+  </script>
+</Base>
