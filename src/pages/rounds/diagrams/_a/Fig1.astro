@@ -13,14 +13,11 @@ import { spread, hcurve, arc } from '../_geo';
 
 const N = 15, X0 = 22, XU = 398, CY = 190;
 const Y = spread(N, 50, 330);
-// Node colors follow the color mode. Dark walks the whole gradient; light
-// walks only its family stops (the red → green 400 keys), since the pale
-// ends (gold, lime, yellow) vanish on a light ground. Both stay in the palette.
-const COL = Y.map((_, i) => `var(--a1-n${i})`);
-const NODE_CSS = [
-  `:root{${Y.map((_, i) => `--a1-n${i}:${along(i / (N - 1), 2, 6)}`).join(';')}}`,
-  `:root[data-theme="dark"]{${Y.map((_, i) => `--a1-n${i}:${along(i / (N - 1))}`).join(';')}}`,
-].join('');
+// Node colors walk the gradient's family stops — the red → green 400 keys —
+// the same stops in both color modes (each mode differs only by its
+// saturation offset). The pale ends (gold, lime, yellow) are left out: they
+// vanish on a light ground.
+const COL = Y.map((_, i) => along(i / (N - 1), 2, 6));
 const ASK = 7; // the person asking, mid-column
 const AI1 = 180, AI2 = 242, R = 19;
 // Sources this asker relies on (the rest stay dim) — as the original.
@@ -28,7 +25,6 @@ const USED = [0, 1, 2, 3, 6, 7, 9, 10, 11];
 const GAP = 7, SEG = 360 / USED.length;
 ---
 
-<Fragment set:html={`<style>${NODE_CSS}</style>`} />
 <div class="fig fig-a">
   <div class="panels">
     <div>

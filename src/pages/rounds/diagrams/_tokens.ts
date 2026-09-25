@@ -79,15 +79,16 @@ function ramps(mode: Mode): string {
     const ref = P.gradient_ref[i];
     d.push(`--spec-${i + 1}:${ref ? `var(--${ref})` : saturate(hex, SAT[mode])}`);
   });
-  // Per-hue roles, as the color round: fg is text, key is a mark with no text.
-  const [fg, tint, soft] = mode === 'light' ? [500, 100, 200] : [300, 700, 600];
-  for (const h of HUES) d.push(`--${h}-key:var(--${h}-400)`, `--${h}-fg:var(--${h}-${fg})`, `--${h}-tint:var(--${h}-${tint})`, `--${h}-soft:var(--${h}-${soft})`);
+  // Diagrams use fixed ramp steps, never roles (fg / tint / soft point at a
+  // different step per mode, so a color would change shade on a mode switch).
+  // `key` is only a name for 400, the same step in both modes.
+  for (const h of HUES) d.push(`--${h}-key:var(--${h}-400)`);
   return d.join(';');
 }
 
 const SURF: Record<Mode, string> = {
-  light: `--c-sunken:${S.light.sunken};--c-base:${S.light.base};--c-raise-1:${S.light['raise-1']};--c-raise-2:${S.light['raise-2']};--c-line:#dddde2;--c-line-strong:#cfcdd6;--c-h:#221f2c;--c-b:#353243;--c-m:#5e5a72;--c-ink:#221f2c;--c-on-ink:#fcfcfd;--connector:#868394;--c-shadow-1:0 2px 10px -4px rgb(70 66 87 / 0.05);--c-shadow-2:0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048);color-scheme:light`,
-  dark: `--c-sunken:${S.dark.sunken};--c-base:${S.dark.base};--c-raise-1:${S.dark['raise-1']};--c-raise-2:${S.dark['raise-2']};--c-line:#353243;--c-line-strong:#464257;--c-h:#fcfcfd;--c-b:#cfcdd6;--c-m:#9591a3;--c-ink:#fcfcfd;--c-on-ink:#16141b;--connector:#868394;--c-shadow-1:0 2px 10px -4px rgb(0 0 0 / 0.14);--c-shadow-2:0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134);color-scheme:dark`,
+  light: `--c-white:#ffffff;--c-sunken:${S.light.sunken};--c-base:${S.light.base};--c-raise-1:${S.light['raise-1']};--c-raise-2:${S.light['raise-2']};--c-line:#dddde2;--c-line-strong:#cfcdd6;--c-h:#221f2c;--c-b:#353243;--c-m:#5e5a72;--c-ink:#221f2c;--c-on-ink:#fcfcfd;--connector:#868394;--c-shadow-1:0 2px 10px -4px rgb(70 66 87 / 0.05);--c-shadow-2:0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048);color-scheme:light`,
+  dark: `--c-white:#ffffff;--c-sunken:${S.dark.sunken};--c-base:${S.dark.base};--c-raise-1:${S.dark['raise-1']};--c-raise-2:${S.dark['raise-2']};--c-line:#353243;--c-line-strong:#464257;--c-h:#fcfcfd;--c-b:#cfcdd6;--c-m:#9591a3;--c-ink:#fcfcfd;--c-on-ink:#16141b;--connector:#868394;--c-shadow-1:0 2px 10px -4px rgb(0 0 0 / 0.14);--c-shadow-2:0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134);color-scheme:dark`,
 };
 
 export const TOKEN_CSS = [
