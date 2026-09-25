@@ -87,7 +87,7 @@ const FS_SOURCE = [
   'uniform float uMode, uEdge;',
   'uniform float uDrift, uWarp, uSize, uCover, uSoft, uBillow, uOpMin;',
   // Point homes, read off the raster (y up). Spectrum order, matching uColors.
-  'const float spread   = 0.25;',   // blend radius — how far each color reaches
+  'const float spread   = 0.25;',   // shape size for layers and clouds (the field uses reach())
   'const float driftSpd = 0.16;',
   'const float warpSpd  = 0.14;',
   'const float pullStr  = 0.18;',   // cursor pull
@@ -112,15 +112,29 @@ const FS_SOURCE = [
   '  vec3 g; g.x = a0.x*x0.x + h.x*x0.y; g.yz = a0.yz*x12.xz + h.yz*x12.yw;',
   '  return 130.0 * dot(m, g);',
   '}',
+  // Point homes and reach, fitted to the site's gradient raster (2026-09-25):
+  // the placement that best reproduces its color distribution with the
+  // palette's own stops (mean ΔE .052 → .023 frozen). Some sit just outside
+  // the box, so a color reaches in from the edge as the raster's do.
   'vec2 home(int i) {',
-  '  if (i == 0) return vec2(0.56, 0.99);', // gold
-  '  if (i == 1) return vec2(0.02, 0.98);', // orange
-  '  if (i == 2) return vec2(0.03, 0.55);', // red
-  '  if (i == 3) return vec2(0.08, 0.14);', // violet
-  '  if (i == 4) return vec2(0.26, 0.00);', // blue
-  '  if (i == 5) return vec2(0.72, 0.00);', // teal
-  '  if (i == 6) return vec2(0.98, 0.22);', // green
-  '  return vec2(1.00, 0.70);',             // lime
+  '  if (i == 0) return vec2(0.71, 1.07);', // gold
+  '  if (i == 1) return vec2(0.03, 1.18);', // orange
+  '  if (i == 2) return vec2(0.06, 0.39);', // red
+  '  if (i == 3) return vec2(-0.05, -0.09);', // violet
+  '  if (i == 4) return vec2(0.06, -0.03);', // blue
+  '  if (i == 5) return vec2(0.53, -0.11);', // teal
+  '  if (i == 6) return vec2(0.61, -0.25);', // green
+  '  return vec2(1.12, 0.48);', // lime
+  '}',
+  'float reach(int i) {',
+  '  if (i == 0) return 0.30;', // gold
+  '  if (i == 1) return 0.10;', // orange
+  '  if (i == 2) return 0.24;', // red
+  '  if (i == 3) return 0.11;', // violet
+  '  if (i == 4) return 0.24;', // blue
+  '  if (i == 5) return 0.21;', // teal
+  '  if (i == 6) return 0.25;', // green
+  '  return 0.26;', // lime
   '}',
   // Depth: each point gets a z that drifts over time. Near points (z > 0)
   // take over and cover far ones instead of averaging with them.
@@ -142,7 +156,8 @@ const FS_SOURCE = [
   '  float sharp = 1.0 + uDepth * 1.2;',
   '  for (int i = 0; i < 8; i++) {',
   '    vec2 d = p - C[i];',
-  '    float w = exp(-dot(d, d) * sharp / (2.0 * spread * spread) + Z[i] * zPush * uDepth);',
+  '    float rc = reach(i);',
+  '    float w = exp(-dot(d, d) * sharp / (2.0 * rc * rc) + Z[i] * zPush * uDepth);',
   '    acc += uColors[i] * w; zacc += Z[i] * w; wsum += w;',
   '  }',
   '  wsum = max(wsum, 1e-5);',
@@ -166,7 +181,8 @@ const FS_SOURCE = [
   '  float lw[8]; float mx = -1e9;',
   '  for (int i = 0; i < 8; i++) {',
   '    vec2 d = p - C[i];',
-  '    lw[i] = (-dot(d, d) / (2.0 * spread * spread) + Z[i] * 0.9) * sharp;',
+  '    float rc = reach(i);',
+  '    lw[i] = (-dot(d, d) / (2.0 * rc * rc) + Z[i] * 0.9) * sharp;',
   '    mx = max(mx, lw[i]);',
   '  }',
   '  vec3 acc = vec3(0.0); float wsum = 0.0;',
