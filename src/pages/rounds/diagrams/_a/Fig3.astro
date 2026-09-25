@@ -8,7 +8,7 @@
  * non-fixes are labeled where they act. ABC: the journals' teal reaches the
  * student intact, and the student's ring says which sources answered.
  */
-import { spread, hcurve, arc } from '../_geo';
+import { spread, hcurve } from '../_geo';
 
 const GROUPS = [
   { label: ['Peer-reviewed', 'journals'], hue: 'teal' },
@@ -26,7 +26,7 @@ const ZX = 226, ZR = 48;
 const AI1 = 300, AI2 = 350, R = 17;
 ---
 
-<div class="fig fig-a" data-stage="dark">
+<div class="fig fig-a">
   <div class="panels">
     <div>
       <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
@@ -98,7 +98,7 @@ const AI1 = 300, AI2 = 350, R = 17;
         {Y.map((y, i) => i < PER && <path d={hcurve(XS, y, XU - 14, CY, 0.6)} style={`stroke:${col(i)}`} class="line-kept" />)}
         {Y.map((y, i) => <circle cx={XS} cy={y} r="4.5" style={`fill:${col(i)}`} class={i < PER ? '' : 'idle'} />)}
 
-        <path d={arc(XU, CY, 10, 0, 359.9)} class="ring" style="stroke:var(--teal-key)" />
+        <circle cx={XU} cy={CY} r="10" class="ring" style="stroke:var(--teal-key)" />
         <circle cx={XU} cy={CY} r="4.5" class="ask" />
         <text x={XU + 12} y={CY - 3} class="who"><tspan x={XU + 12}>Medical</tspan><tspan x={XU + 12} dy="15">student</tspan></text>
 
@@ -110,7 +110,7 @@ const AI1 = 300, AI2 = 350, R = 17;
 </div>
 
 <style>
-  .fig-a { background: var(--c-raise-1); border-radius: var(--border-radius-L); padding: 28px 28px 20px; }
+  .fig-a { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-L); padding: 28px 28px 20px; }
   .col-label { font-size: 12.5px; fill: var(--c-b); }
   .grp { font-size: 11.5px; fill: var(--c-b); }
   .bracket { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }

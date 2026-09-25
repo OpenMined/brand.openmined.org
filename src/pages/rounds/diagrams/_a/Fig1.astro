@@ -13,7 +13,14 @@ import { spread, hcurve, arc } from '../_geo';
 
 const N = 15, X0 = 22, XU = 398, CY = 190;
 const Y = spread(N, 50, 330);
-const COL = Y.map((_, i) => along(i / (N - 1)));
+// Node colors follow the color mode. Dark walks the whole gradient; light
+// walks only its family stops (the red → green 400 keys), since the pale
+// ends (gold, lime, yellow) vanish on a light ground. Both stay in the palette.
+const COL = Y.map((_, i) => `var(--a1-n${i})`);
+const NODE_CSS = [
+  `:root{${Y.map((_, i) => `--a1-n${i}:${along(i / (N - 1), 2, 6)}`).join(';')}}`,
+  `:root[data-theme="dark"]{${Y.map((_, i) => `--a1-n${i}:${along(i / (N - 1))}`).join(';')}}`,
+].join('');
 const ASK = 7; // the person asking, mid-column
 const AI1 = 180, AI2 = 242, R = 19;
 // Sources this asker relies on (the rest stay dim) — as the original.
@@ -21,7 +28,8 @@ const USED = [0, 1, 2, 3, 6, 7, 9, 10, 11];
 const GAP = 7, SEG = 360 / USED.length;
 ---
 
-<div class="fig fig-a" data-stage="dark">
+<Fragment set:html={`<style>${NODE_CSS}</style>`} />
+<div class="fig fig-a">
   <div class="panels">
     <div>
       <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
@@ -82,7 +90,7 @@ const GAP = 7, SEG = 360 / USED.length;
 </div>
 
 <style>
-  .fig-a { background: var(--c-raise-1); color: var(--c-b); border-radius: var(--border-radius-L); padding: 28px 28px 20px; }
+  .fig-a { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); color: var(--c-b); border-radius: var(--border-radius-L); padding: 28px 28px 20px; }
   .col-label { font-size: 12.5px; fill: var(--c-b); }
   .stage { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--c-m); }
   .line-src { fill: none; stroke-width: 1.25; opacity: 0.9; }

@@ -24,7 +24,7 @@ const LEVELS = [
 const R = LEVELS.map((_, i) => 62 + i * 46);
 ---
 
-<div class="fig fig-a" data-stage="dark">
+<div class="fig fig-a">
   <svg viewBox="0 0 640 312" role="img" aria-label="Five rings spread outward from a missing attribution-based control: individual, institutional, societal, geopolitical, and philosophical (centralization).">
     <line x1="40" x2="600" y1={CY} y2={CY} class="base" />
     {LEVELS.map((l, i) => (
@@ -49,7 +49,7 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
 </div>
 
 <style>
-  .fig-a { background: var(--c-raise-1); border-radius: var(--border-radius-L); padding: 32px 28px 28px; }
+  .fig-a { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-L); padding: 32px 28px 28px; }
   svg { max-width: 640px; margin: 0 auto; }
   .base { stroke: var(--c-line); stroke-width: 1; }
   .ring { fill: none; stroke-width: 1.75; }
