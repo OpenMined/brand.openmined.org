@@ -1,0 +1,99 @@
+/* ════════════════════════════════════════════════════════════════════
+   DIAGRAM ROUND — page shell and shared figure mechanics.
+   Round page: stylelint-exempt, but every color is still a token from
+   _tokens.ts. Direction-specific figure styling lives with each figure.
+   ════════════════════════════════════════════════════════════════════ */
+
+.dg {
+  --font-d: 'Rubik', system-ui, sans-serif;
+  --font-b: 'Inter', system-ui, sans-serif;
+  --font-m: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  min-height: 100vh;
+  background: var(--c-base);
+  color: var(--c-b);
+  font-family: var(--font-b);
+  padding: 0 16px 96px;
+}
+
+/* ── Review bar ──────────────────────────────────────────────────── */
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
+  margin: 0 -16px; padding: 10px 16px;
+  background: var(--c-raise-1);
+  box-shadow: var(--c-shadow-1);
+  font-size: 13px;
+}
+.bar__home { color: var(--c-h); font-weight: 600; text-decoration: none; }
+.bar__dirs { display: flex; flex-wrap: wrap; gap: 4px; }
+.bar__dir {
+  padding: 4px 10px; border-radius: var(--border-radius-full);
+  color: var(--c-m); text-decoration: none;
+}
+.bar__dir:hover { color: var(--c-h); }
+.bar__dir[aria-current='page'] { background: var(--c-ink); color: var(--c-on-ink); }
+.bar__mode { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; color: var(--c-m); }
+
+.dg__note {
+  max-width: var(--col-8); margin: 20px auto 0;
+  font-size: 13px; line-height: 1.5; color: var(--c-m);
+}
+.dg__note strong { color: var(--c-h); font-weight: 600; }
+.dg__end {
+  max-width: var(--col-6); margin: 64px auto 0; padding-top: 16px;
+  border-top: 1px solid var(--c-line);
+  font-size: 13px; color: var(--c-m);
+}
+
+/* ── Article: mirrors openmined.org's ArticleHero + .prose-article ── */
+.hero { max-width: var(--col-8); margin: 0 auto; padding: 72px 0 40px; text-align: center; }
+.hero__icon { display: block; width: 52px; height: 52px; margin: 0 auto 24px; }
+.hero__h {
+  font-family: var(--font-d); font-weight: 400; line-height: 1.2;
+  font-size: clamp(32px, 4.69vw, 53px); color: var(--c-h); margin: 0 0 24px;
+}
+.hero__sub { font-size: 20px; line-height: 1.5; margin: 0; }
+
+.art {
+  display: grid;
+  grid-template-columns: [wide-start] minmax(0, 1fr) [content-start] min(var(--col-6), 100%) [content-end] minmax(0, 1fr) [wide-end];
+  max-width: var(--col-8); margin-inline: auto;
+  font-size: 17px; line-height: 1.65;
+}
+.art > * { grid-column: content; margin: 0 0 20px; }
+.art > .breakout { grid-column: wide; margin: 28px 0 40px; }
+.art h3, .art h4 { font-family: var(--font-d); font-weight: 400; color: var(--c-h); line-height: 1.25; }
+.art h3 { font-size: clamp(24px, 2.77vw, 33px); margin-top: 28px; }
+.art h4 { font-size: clamp(20px, 2.08vw, 25px); margin-top: 20px; }
+.art strong { color: var(--c-h); font-weight: 600; }
+.art > ul { padding-left: 22px; }
+.art > ul li + li { margin-top: 6px; }
+/* global.css colors bare p/li directly; re-inherit so stages and figures resolve their own ink */
+.dg p, .dg li { color: inherit; }
+.art figcaption {
+  font-size: 14px; font-weight: 500; line-height: 1.5;
+  color: var(--c-m); padding-top: 12px; max-width: var(--col-6);
+}
+
+/* ── Shared figure mechanics ──────────────────────────────────────── */
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fig text { font-family: var(--font-b); }
+.fig .mono { font-family: var(--font-m); }
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) {
+  .panels { grid-template-columns: 1fr; }
+}
+.panel__head { margin: 0 0 12px; }
+.panel__eyebrow {
+  display: block; font-family: var(--font-m); font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-m);
+}
+.panel__title { display: block; font-size: 15px; font-weight: 600; color: var(--c-h); margin-top: 2px; }
+
+/* Level marks (direction A): each consequence heading carries its ring's hue. */
+[data-marks] .art h4[data-level]::before {
+  content: ''; display: inline-block; width: 0.42em; height: 0.42em;
+  margin: 0 0.5em 0.12em 0; transform: rotate(45deg);
+}
+[data-marks] .art h4[data-level='1']::before { background: var(--violet-key); }
+[data-marks] .art h4[data-level='2']::before { background: var(--teal-key); }

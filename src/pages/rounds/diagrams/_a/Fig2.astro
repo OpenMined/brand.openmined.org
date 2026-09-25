@@ -1,0 +1,68 @@
+---
+/**
+ * A2 — The levels of society ABC reaches, drawn as a ripple.
+ *
+ * The article calls them "cascading consequences across society at
+ * multiple levels", and the levels widen — a person, an institution, a
+ * society, nations, the shape of AI itself. So the tree becomes rings
+ * spreading from one missing property. Each ring owns a hue, and the
+ * article's consequence headings carry the same mark.
+ *
+ * Hues run around the wheel (violet → teal → green → amber → red) and
+ * skip blue, so violet and blue never sit side by side.
+ */
+import { arc } from '../_geo';
+
+const CX = 320, CY = 292;
+const LEVELS = [
+  { name: 'Individual', hue: 'violet' },
+  { name: 'Institutional', hue: 'teal' },
+  { name: 'Societal', hue: 'green' },
+  { name: 'Geopolitical', hue: 'amber' },
+  { name: 'Philosophical (centralization)', hue: 'red' },
+];
+const R = LEVELS.map((_, i) => 62 + i * 46);
+---
+
+<div class="fig fig-a" data-stage="dark">
+  <svg viewBox="0 0 640 312" role="img" aria-label="Five rings spread outward from a missing attribution-based control: individual, institutional, societal, geopolitical, and philosophical (centralization).">
+    <line x1="40" x2="600" y1={CY} y2={CY} class="base" />
+    {LEVELS.map((l, i) => (
+      <g>
+        <path d={arc(CX, CY, R[i], -90, 90)} class="ring" style={`stroke:var(--${l.hue}-key)`} />
+        <circle cx={CX - R[i]} cy={CY} r="3" style={`fill:var(--${l.hue}-key)`} />
+        <circle cx={CX + R[i]} cy={CY} r="3" style={`fill:var(--${l.hue}-key)`} />
+        <text x={CX} y={CY - R[i] + 4.5} class="lvl" text-anchor="middle">{l.name}</text>
+      </g>
+    ))}
+    <circle cx={CX} cy={CY} r="26" class="core" />
+    <text x={CX} y={CY + 4} class="core-t mono" text-anchor="middle">No ABC</text>
+  </svg>
+
+  <div class="root">
+    <p class="root__h">No attribution-based control</p>
+    <ul class="root__list">
+      <li>Data owners can&rsquo;t control which AI predictions to support</li>
+      <li>AI users can&rsquo;t control which data sources to rely upon</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .fig-a { background: var(--c-raise-1); border-radius: var(--border-radius-L); padding: 32px 28px 28px; }
+  svg { max-width: 640px; margin: 0 auto; }
+  .base { stroke: var(--c-line); stroke-width: 1; }
+  .ring { fill: none; stroke-width: 1.75; }
+  .lvl {
+    font-size: 13px; font-weight: 500; fill: var(--c-h);
+    paint-order: stroke; stroke: var(--c-raise-1); stroke-width: 8px; stroke-linejoin: round;
+  }
+  .core { fill: var(--c-ink); }
+  .core-t { font-size: 10.5px; font-weight: 600; fill: var(--c-on-ink); }
+  @media (max-width: 600px) { .lvl { font-size: 19px; } }
+
+  .root { display: grid; justify-items: center; gap: 10px; margin-top: 18px; text-align: center; }
+  .root__h { margin: 0; font-size: 16px; font-weight: 600; color: var(--c-h); }
+  .root__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 28px; font-size: 14px; color: var(--c-b); }
+  .root__list li::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 10px; transform: rotate(45deg) translateY(-2px); background: var(--c-m); }
+</style>

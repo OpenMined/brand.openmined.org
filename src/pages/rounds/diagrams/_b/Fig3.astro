@@ -1,0 +1,136 @@
+---
+/**
+ * B3 — The medical student, as a technical plate.
+ *
+ * Same color jobs as B1, plus red for the problem. Only the peer-reviewed
+ * journals are teal — the source the student would want to know about;
+ * the rest are gray. Traditional: sources pool into a collector, then into
+ * a hatched red block where attribution is erased. The three non-fixes are
+ * numbered markers with a key under the plate, so the drawing stays clean.
+ * ABC: separate wires, the journals arrive in teal.
+ */
+import { spread, hcurve } from '../_geo';
+
+const GROUPS = [['Peer-reviewed', 'journals'], ['Blogs'], ['Fantasy novel'], ['TV shows']];
+const PER = 4, XS = 124, CY = 176, XU = 392;
+const Y = spread(GROUPS.length * PER, 36, 316);
+const mid = (g: number) => (Y[g * PER] + Y[g * PER + PER - 1]) / 2;
+const BUS = 150;
+const EX = 172, EW = 70, EH = 52; // the erased block
+const M1 = 262, M2 = 322, MW = 40, MH = 32;
+const NOTES_L = [
+  'RLHF just adds more data… not the core problem.',
+  'Influence functions look for data that’s already gone.',
+  'Oversight just watches what comes out… not the core problem.',
+];
+---
+
+<div class="fig fig-b">
+  <div class="panels">
+    <div class="card">
+      <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
+      <svg viewBox="0 20 420 310" role="img" aria-label="Journals, blogs, a fantasy novel and TV shows pool into one collector and a red block where attribution is erased, then through two AI models to the medical student. Three numbered markers: RLHF, influence functions, and oversight.">
+        <defs>
+          <pattern id="b3-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" class="hatch" />
+          </pattern>
+          <marker id="b3-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="fill-conn" /></marker>
+        </defs>
+
+        {GROUPS.map((g, k) => (
+          <g>
+            <path d={`M${XS - 12},${Y[k * PER]} h-4 V${Y[k * PER + PER - 1]} h4`} class="bracket" />
+            {g.map((t, j) => <text x={XS - 22} y={mid(k) + 4 + (j - (g.length - 1) / 2) * 14} class="grp" text-anchor="end">{t}</text>)}
+          </g>
+        ))}
+
+        {Y.map(y => <path d={`M${XS + 4},${y} H${BUS}`} class="wire" />)}
+        <path d={`M${BUS},${Y[0]} V${Y[Y.length - 1]}`} class="wire" />
+        <path d={`M${BUS},${CY} H${EX}`} class="trunk" />
+
+        <rect x={EX} y={CY - EH / 2} width={EW} height={EH} rx="4" class="erased" />
+        <rect x={EX} y={CY - EH / 2} width={EW} height={EH} rx="4" fill="url(#b3-hatch)" />
+        <text x={EX + EW / 2} y={CY - 3} class="erased-t" text-anchor="middle"><tspan x={EX + EW / 2}>Attribution</tspan><tspan x={EX + EW / 2} dy="13">erased</tspan></text>
+        <text x={EX + EW / 2} y={CY + EH / 2 + 16} class="erased-k mono" text-anchor="middle">core problem</text>
+
+        <path d={`M${EX + EW},${CY} H${M1 - 3}`} class="wire" marker-end="url(#b3-arrow)" />
+        <rect x={M1} y={CY - MH / 2} width={MW} height={MH} rx="4" class="model" />
+        <text x={M1 + MW / 2} y={CY + 4} class="model-t mono" text-anchor="middle">AI</text>
+        <path d={`M${M1 + MW},${CY} H${M2 - 3}`} class="wire" marker-end="url(#b3-arrow)" />
+        <rect x={M2} y={CY - MH / 2} width={MW} height={MH} rx="4" class="model" />
+        <text x={M2 + MW / 2} y={CY + 4} class="model-t mono" text-anchor="middle">AI</text>
+        <path d={`M${M2 + MW},${CY} H${XU - 6}`} class="wire" />
+        <circle cx={XU} cy={CY} r="5" class="ask" />
+        <text x={XU + 16} y={CY + 24} class="who" text-anchor="end"><tspan x={XU + 16}>Medical</tspan><tspan x={XU + 16} dy="14">student</tspan></text>
+
+        {/* ① RLHF: more data joining the pool */}
+        <rect x={EX + EW / 2 - 4} y="84" width="8" height="8" rx="1.5" class="added" />
+        <path d={`M${EX + EW / 2},94 V${CY - EH / 2 - 2}`} class="wire wire--dash" />
+        <g class="pin"><circle cx={EX + EW / 2 - 16} cy="88" r="7" /><text x={EX + EW / 2 - 16} y="91.5" text-anchor="middle" class="mono">1</text></g>
+        {/* ② influence functions: looking back for what's gone */}
+        <path d={`M${M1 + MW / 2},${CY - MH / 2 - 2} C${M1 + MW / 2},${CY - 62} ${EX + EW - 4},${CY - 64} ${EX + EW - 8},${CY - EH / 2 - 4}`} class="wire wire--dash" marker-end="url(#b3-arrow)" />
+        <g class="pin"><circle cx={M1 + 2} cy={CY - 62} r="7" /><text x={M1 + 2} y={CY - 58.5} text-anchor="middle" class="mono">2</text></g>
+        {/* ③ oversight: watching the output */}
+        <path d={`M${(M2 + MW + XU) / 2},${CY - 3} V${CY - 18}`} class="wire" />
+        <g class="pin"><circle cx={(M2 + MW + XU) / 2} cy={CY - 26} r="7" /><text x={(M2 + MW + XU) / 2} y={CY - 22.5} text-anchor="middle" class="mono">3</text></g>
+
+        {Y.map((y, i) => <rect x={XS - 4} y={y - 4} width="8" height="8" rx="1.5" class={i < PER ? 'src' : 'src src--other'} />)}
+      </svg>
+      <ol class="key">{NOTES_L.map((n, i) => <li><span class="key__n mono">{i + 1}</span>{n}</li>)}</ol>
+    </div>
+
+    <div class="card">
+      <p class="panel__head"><span class="panel__eyebrow">With ABC</span><span class="panel__title">ABC-enabled AI</span></p>
+      <svg viewBox="0 20 420 310" role="img" aria-label="The same sources each keep a separate wire to the medical student. The peer-reviewed journals arrive in teal; the student's ring is teal too.">
+        {GROUPS.map((g, k) => (
+          <g>
+            <path d={`M${XS - 12},${Y[k * PER]} h-4 V${Y[k * PER + PER - 1]} h4`} class="bracket" />
+            {g.map((t, j) => <text x={XS - 22} y={mid(k) + 4 + (j - (g.length - 1) / 2) * 14} class="grp" text-anchor="end">{t}</text>)}
+          </g>
+        ))}
+        {Y.map((y, i) => i >= PER && <path d={`M${XS + 4},${y} H170 ${hcurve(170, y, XU - 10, CY, 0.55).replace(/^M[^C]+/, '')}`} class="wire-idle" />)}
+        {Y.map((y, i) => i < PER && <path d={`M${XS + 4},${y} H170 ${hcurve(170, y, XU - 10, CY, 0.55).replace(/^M[^C]+/, '')}`} class="wire-kept" />)}
+        {Y.map((y, i) => <rect x={XS - 4} y={y - 4} width="8" height="8" rx="1.5" class={i < PER ? 'src' : 'src src--other'} />)}
+        <circle cx={XU} cy={CY} r="9" class="ring" />
+        <circle cx={XU} cy={CY} r="5" class="ask" />
+        <text x={XU + 16} y={CY + 28} class="who" text-anchor="end"><tspan x={XU + 16}>Medical</tspan><tspan x={XU + 16} dy="14">student</tspan></text>
+        <path d={`M${XU},${CY - 12} V${CY - 26}`} class="wire" />
+        <g class="pin"><circle cx={XU} cy={CY - 34} r="7" /><text x={XU} y={CY - 30.5} text-anchor="middle" class="mono">4</text></g>
+      </svg>
+      <ol class="key" start="4"><li><span class="key__n mono">4</span>Solution is clarity here: the student can see which sources the answer rests on.</li></ol>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-S); padding: 20px 20px 16px; }
+  .grp { font-size: 11.5px; fill: var(--c-b); }
+  .bracket { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }
+  .src { fill: var(--teal-key); }
+  .src--other { fill: var(--connector); }
+  .wire { fill: none; stroke: var(--connector); stroke-width: 1; }
+  .wire--dash { stroke-dasharray: 3 3; }
+  .trunk { fill: none; stroke: var(--connector); stroke-width: 3.5; }
+  .fill-conn { fill: var(--connector); }
+  .erased { fill: var(--red-tint); }
+  .hatch { stroke: var(--red-soft); stroke-width: 1.5; }
+  .erased-t { font-size: 10.5px; font-weight: 600; fill: var(--red-fg); paint-order: stroke; stroke: var(--red-tint); stroke-width: 4px; stroke-linejoin: round; }
+  .erased-k { font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--red-fg); }
+  .model { fill: var(--c-ink); }
+  .model-t { font-size: 11px; font-weight: 600; fill: var(--c-on-ink); }
+  .ask { fill: var(--violet-key); }
+  .ring { fill: none; stroke: var(--teal-key); stroke-width: 1.5; }
+  .who { font-size: 12px; font-weight: 600; fill: var(--c-h); }
+  .added { fill: var(--c-raise-1); stroke: var(--connector); stroke-width: 1; stroke-dasharray: 2 1.5; }
+  .pin circle { fill: var(--c-ink); }
+  .pin text { font-size: 9px; font-weight: 600; fill: var(--c-on-ink); }
+  .wire-kept { fill: none; stroke: var(--teal-key); stroke-width: 1.75; }
+  .wire-idle { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }
+
+  .key { list-style: none; margin: 8px 0 0; padding: 12px 0 0; border-top: 1px solid var(--c-line); display: grid; gap: 6px; font-size: 12.5px; line-height: 1.45; color: var(--c-b); }
+  .key li { display: flex; gap: 8px; }
+  .key__n {
+    flex: none; display: inline-grid; place-items: center; width: 16px; height: 16px; margin-top: 1px;
+    border-radius: var(--border-radius-full); background: var(--c-ink); color: var(--c-on-ink); font-size: 9px; font-weight: 600;
+  }
+</style>

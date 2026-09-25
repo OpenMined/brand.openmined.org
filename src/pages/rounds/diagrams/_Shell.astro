@@ -1,0 +1,128 @@
+---
+/**
+ * DIAGRAM ROUND — the article shell every direction shares.
+ *
+ * The opening of openmined.org/attribution-based-control/, verbatim, up to
+ * the end of "Institutional Consequences: Data Sharing & Control". Layout
+ * mirrors the live page: ArticleHero, a col-6 reading column, figures broken
+ * out to col-8 with captions. Only the three figures change between pages,
+ * passed in as the fig1 / fig2 / fig3 slots.
+ *
+ * URL: t = light | dark (the page's color mode; a figure may pin its own
+ * stage regardless).
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import { TOKEN_CSS } from './_tokens';
+import './_diagrams.css';
+
+interface Props {
+  dir: 'original' | 'a' | 'b';
+  name: string;
+  note: string;
+  /** Mark each consequence heading with the hue its level carries in fig 2. */
+  levelMarks?: boolean;
+}
+const { dir, name, note, levelMarks = false } = Astro.props;
+
+const DIRS = [
+  { v: 'original', label: 'Original', href: '/rounds/diagrams/original/' },
+  { v: 'a', label: 'A · Attribution in color', href: '/rounds/diagrams/a/' },
+  { v: 'b', label: 'B · Technical plate', href: '/rounds/diagrams/b/' },
+];
+---
+
+<Base title={`Diagram round — ${name}`}>
+  <script is:inline>
+    // ?t= wins over the stored theme, so a shared link opens as sent.
+    (() => {
+      const t = new URLSearchParams(location.search).get('t');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <Fragment set:html={`<style>${TOKEN_CSS}</style>`} />
+
+  <div class="dg" data-dir={dir} data-marks={levelMarks ? '' : undefined}>
+    <header class="bar">
+      <a class="bar__home" href="/rounds/diagrams/">Diagram round</a>
+      <nav class="bar__dirs" aria-label="Direction">
+        {DIRS.map(d => (
+          <a class="bar__dir" href={d.href} data-keep-t aria-current={d.v === dir ? 'page' : undefined}>{d.label}</a>
+        ))}
+      </nav>
+      <span class="bar__mode">Color mode <ThemeToggle /></span>
+    </header>
+
+    <p class="dg__note"><strong>{name}.</strong> {note}</p>
+
+    <div class="hero">
+      <img class="hero__icon" src="https://openmined.org/images/abc/ABC-Icon.svg" alt="" width="52" height="52" />
+      <h1 class="hero__h">Introduction to Attribution-Based Control (ABC)</h1>
+      <p class="hero__sub">A New Paradigm for Safe, Trustworthy, Responsible AI</p>
+    </div>
+
+    <article class="art">
+      <p>Many of AI&rsquo;s risks in areas like AI evaluations, privacy, value alignment, copyright, concentration of power, loss of control, and hallucinations can be reduced to the lack of attribution-based control in AI systems, which itself can be reduced to the overuse of addition and copying within AI algorithms.</p>
+
+      <p>OpenMined&rsquo;s primary technical goal is to synthesize a handful of recently proposed techniques in deep learning, cryptography, and distributed systems into a viable path to reduce addition and copying, provide attribution-based control, and address many of AI&rsquo;s primary risks while maximizing its benefits &mdash; unlocking 6+ orders of magnitude more data, compute, and associated AI evaluations and capability in the process.</p>
+
+      <p>This article details the fundamental problem of attribution-based control, and the ways it underpins other problems like privacy, value alignment, copyright, concentration of power, loss of control, hallucinations, and AI evaluations.</p>
+
+      <figure class="breakout">
+        <slot name="fig1" />
+        <figcaption>Traditional open/closed-source AI systems (left) centralize data collection and decision-making, while ABC-enabled AI systems (right) enable direct communication between those with data and those seeking insights.</figcaption>
+      </figure>
+
+      <h3>The Problem of Attribution-Based Control (ABC)</h3>
+
+      <p>Attribution-based control (ABC) describes a relationship between sources of AI-related data, compute, and talent and the AI users receiving predictions. These two groups of people have ABC when two things are true:</p>
+
+      <ul>
+        <li><strong>Resource owners:</strong> dynamically control how much intelligence to give each AI prediction they support</li>
+        <li><strong>AI users:</strong> dynamically control which resource providers they want to rely upon for each AI prediction.</li>
+      </ul>
+
+      <p>While AI systems learn from data, current AI architectures fail to offer resource owners and users attribution-based control&mdash;meaning they cannot verify or manage which data sources influence which AI predictions. This has cascading consequences across society at multiple levels: individual, institutional, societal, and geopolitical.</p>
+
+      <figure class="breakout">
+        <slot name="fig2" />
+        <figcaption>ABC presents problems at several levels of society.</figcaption>
+      </figure>
+
+      <h4 data-level="1">Individual Consequences: Authenticity and Trust</h4>
+
+      <p>At an individual level, missing ABC leads to authenticity issues&mdash;hallucinations, deepfakes, and disinformation. Unlike traditional research methods, AI-generated content typically offers no bibliography or verification mechanism. For instance, a medical student researching rare diseases cannot verify if the AI-sourced information originates from peer-reviewed journals or less reliable sources.</p>
+
+      <p>AI &ldquo;hallucinates&rdquo; by combining unrelated data points to produce plausible yet incorrect outputs, a problem inherent to the lack of attribution. Similarly, disinformation occurs when AI merges unrelated concepts, like combining celebrity images with controversial acts to produce misleading deepfakes. Without ABC, users cannot identify or correct such misinformation.</p>
+
+      <figure class="breakout">
+        <slot name="fig3" />
+        <figcaption>Traditional open/closed-source AI systems (left) mathematically delete information linking source and prediction. Once this information is gone, neither adding more data (RLHF), looking for source information (influence functions), or providing oversight over AI systems addresses the core issue. Instead, ABC-enabled AI systems (right) enable direct communication between those with data and those seeking insights. In ABC-enabled AI, attribution and control flow with the information, enabling verification of sources and protection of contributor interests.</figcaption>
+      </figure>
+
+      <h4 data-level="2">Institutional Consequences: Data Sharing &amp; Control</h4>
+
+      <p>For institutions holding valuable data, the absence of ABC creates an incentive problem. Institutions must choose between contributing to AI development&mdash;risking loss of control and privacy&mdash;or withholding data, limiting AI&rsquo;s capabilities. Major medical institutions, for instance, often decline AI partnerships due to privacy and control concerns, significantly hindering advancements in fields like cancer detection.</p>
+
+      <p>Privacy-enhancing technologies (PETs), such as federated learning and secure multi-party computation, address privacy but still fail to deliver precise control over data usage. Without attribution, institutions cannot selectively support or withdraw from specific AI predictions, perpetuating data siloing.</p>
+    </article>
+
+    <p class="dg__end">End of the rebuilt section. The live page continues with graphic 4.</p>
+  </div>
+
+  <script>
+    // Keep the color mode in the URL and on the direction links, so any view
+    // is a link that opens as sent.
+    const html = document.documentElement;
+    const sync = () => {
+      const t = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const q = new URLSearchParams(location.search); q.set('t', t);
+      history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
+      document.querySelectorAll<HTMLAnchorElement>('[data-keep-t]').forEach(a => {
+        const u = new URL(a.href); u.searchParams.set('t', t); a.href = u.toString();
+      });
+    };
+    sync();
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
+</Base>

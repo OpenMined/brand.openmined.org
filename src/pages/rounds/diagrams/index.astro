@@ -1,0 +1,63 @@
+---
+/**
+ * ROUND — DIAGRAM STYLE (landing)
+ * ════════════════════════════════════════════════════════════════════
+ * First "solve a design problem" round: redraw the first three graphics
+ * of openmined.org/attribution-based-control/ in the new color system,
+ * as distinct directions on the same content.
+ *
+ * NOT canon, NOT a brand surface. Sits in stylelint's ignoreFiles with the
+ * other rounds. Colors: the color round's working favorite (Ink, per-mode
+ * saturation offsets), derived from ../color/_palettes.json in _tokens.ts.
+ *
+ * Pages: /original/ (the live graphics) · /a/ · /b/ — each is the article's
+ * opening, verbatim, with only the figures swapped.
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import { TOKEN_CSS } from './_tokens';
+import './_diagrams.css';
+
+const PAGES = [
+  { href: 'original/', name: 'Original', body: 'The live page’s three graphics, for comparison.' },
+  { href: 'a/', name: 'A · Attribution in color', body: 'Color carries the argument. Every source keeps a hue from the palette; where attribution is lost the colors drain to gray, and where it is kept they arrive intact. The tree becomes a ripple of widening rings. Dark stage in both color modes.' },
+  { href: 'b/', name: 'B · Technical plate', body: 'Restrained and exact, like a spec sheet. A few colors with one job each: teal for people with data, violet for people seeking insight, ink for the model, red for the problem. Pooling is drawn as a collector and trunk, and notes are numbered markers with a key. Follows the page’s color mode.' },
+];
+---
+
+<Base title="Diagram round">
+  <script is:inline>
+    (() => {
+      const t = new URLSearchParams(location.search).get('t');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <Fragment set:html={`<style>${TOKEN_CSS}</style>`} />
+  <div class="dg">
+    <header class="bar">
+      <span class="bar__home">Diagram round</span>
+      <span class="bar__mode">Color mode <ThemeToggle /></span>
+    </header>
+    <div class="land">
+      <h1>Diagram style — first pass</h1>
+      <p>The opening of <a href="https://openmined.org/attribution-based-control/">openmined.org/attribution-based-control</a>, through “Institutional Consequences”, with its first three graphics redrawn. Article text is verbatim on every page; only the figures change. Colors are the working values: Ink, light saturation ×1.10, dark ×0.95.</p>
+      <ul>
+        {PAGES.map(p => (<li><a href={p.href}><strong>{p.name}</strong><span>{p.body}</span></a></li>))}
+      </ul>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .land { max-width: var(--col-6); margin: 64px auto 0; font-size: 16px; line-height: 1.6; }
+  .land h1 { font-family: var(--font-d); font-weight: 400; font-size: 36px; line-height: 1.2; color: var(--c-h); margin: 0 0 16px; }
+  .land a { color: var(--c-h); }
+  .land ul { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 12px; }
+  .land li a {
+    display: grid; gap: 4px; padding: 18px 20px; text-decoration: none;
+    background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-S);
+  }
+  .land li a:hover { box-shadow: var(--c-shadow-2); }
+  .land strong { color: var(--c-h); font-weight: 600; }
+  .land span { font-size: 14px; color: var(--c-m); }
+</style>

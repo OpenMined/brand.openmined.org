@@ -1,0 +1,106 @@
+---
+/**
+ * B1 — Traditional AI vs ABC-enabled AI, as a technical plate.
+ *
+ * A few colors, each with one job: teal is people with data, violet is
+ * people seeking insight, ink is the model. Traditional: every source runs
+ * into one collector and a single thick trunk — the pooling is the point.
+ * ABC: every source keeps its own wire to the asker, and the ones in use
+ * arrive in teal. A stage track under each panel names the steps, the way
+ * a spec sheet would.
+ */
+import { spread, hcurve } from '../_geo';
+
+const N = 15, XS = 24, XU = 396, CY = 184;
+const Y = spread(N, 44, 324);
+const ASK = 7;
+const USED = [0, 1, 2, 3, 6, 7, 9, 10, 11];
+const BUS = 100, M1 = 150, M2 = 236, MW = 48, MH = 36;
+const TRACK = 340;
+---
+
+<div class="fig fig-b">
+  <div class="panels">
+    <div class="card">
+      <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
+      <svg viewBox="0 0 420 362" role="img" aria-label="People with data feed one collector and a single trunk into an AI model. After deployment, a second model answers people seeking insight; one answer is highlighted.">
+        <defs>
+          <marker id="b1-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 z" class="fill-conn" /></marker>
+        </defs>
+        <rect x="12" y="11" width="8" height="8" rx="1.5" class="src" />
+        <text x="26" y="19" class="col-label">People with data</text>
+        <text x="388" y="19" class="col-label" text-anchor="end">People seeking insight</text>
+        <circle cx="400" cy="15" r="4" class="ask" />
+
+        {Y.map(y => <path d={`M${XS + 4},${y} H${BUS}`} class="wire" />)}
+        <path d={`M${BUS},${Y[0]} V${Y[N - 1]}`} class="wire" />
+        <path d={`M${BUS},${CY} H${M1}`} class="trunk" />
+
+        <rect x={M1} y={CY - MH / 2} width={MW} height={MH} rx="4" class="model" />
+        <text x={M1 + MW / 2} y={CY + 4} class="model-t mono" text-anchor="middle">AI</text>
+        <path d={`M${M1 + MW + 2},${CY} H${M2 - 3}`} class="wire" marker-end="url(#b1-arrow)" />
+        <rect x={M2} y={CY - MH / 2} width={MW} height={MH} rx="4" class="model" />
+        <text x={M2 + MW / 2} y={CY + 4} class="model-t mono" text-anchor="middle">AI</text>
+
+        {Y.map((y, i) => i !== ASK && <path d={`M${M2 + MW},${CY} L${XU - 4},${y}`} class="fan" />)}
+        <path d={`M${M2 + MW},${CY} L${XU - 5},${Y[ASK]}`} class="fan-ask" />
+
+        {Y.map(y => <rect x={XS - 4} y={y - 4} width="8" height="8" rx="1.5" class="src" />)}
+        {Y.map((y, i) => i === ASK ? <circle cx={XU} cy={y} r="5" class="ask" /> : <circle cx={XU} cy={y} r="3.5" class="user" />)}
+
+        <g class="track">
+          <path d={`M${XS},${TRACK} H${XU}`} />
+          {[XS, M1, M2 + MW, XU].map(x => <path d={`M${x},${TRACK - 4} V${TRACK + 4}`} />)}
+        </g>
+        <text x={(XS + M1) / 2} y={TRACK + 16} class="stage mono" text-anchor="middle">training</text>
+        <text x={M1 + (M2 + MW - M1) / 2} y={TRACK + 16} class="stage mono" text-anchor="middle">deployment</text>
+        <text x={(M2 + MW + XU) / 2} y={TRACK + 16} class="stage mono" text-anchor="middle">inference</text>
+      </svg>
+    </div>
+
+    <div class="card">
+      <p class="panel__head"><span class="panel__eyebrow">With ABC</span><span class="panel__title">ABC-enabled AI</span></p>
+      <svg viewBox="0 0 420 362" role="img" aria-label="Every person with data keeps a separate wire to the person seeking insight. The sources in use are teal; the rest are gray.">
+        <rect x="12" y="11" width="8" height="8" rx="1.5" class="src" />
+        <text x="26" y="19" class="col-label">People with data</text>
+        <text x="388" y="19" class="col-label" text-anchor="end">People seeking insight</text>
+        <circle cx="400" cy="15" r="4" class="ask" />
+
+        {Y.map((y, i) => !USED.includes(i) && <path d={`M${XS + 4},${y} H130 ${hcurve(130, y, XU - 10, CY, 0.55).replace(/^M[^C]+/, '')}`} class="wire-idle" />)}
+        {Y.map((y, i) => USED.includes(i) && <path d={`M${XS + 4},${y} H130 ${hcurve(130, y, XU - 10, CY, 0.55).replace(/^M[^C]+/, '')}`} class="wire-kept" />)}
+
+        {Y.map((y, i) => <rect x={XS - 4} y={y - 4} width="8" height="8" rx="1.5" class={USED.includes(i) ? 'src' : 'src src--idle'} />)}
+        {Y.map((y, i) => i !== ASK && <circle cx={XU} cy={y} r="3.5" class="user" />)}
+        <circle cx={XU} cy={CY} r="9" class="ring" />
+        <circle cx={XU} cy={CY} r="5" class="ask" />
+
+        <g class="track">
+          <path d={`M${XS},${TRACK} H${XU}`} />
+          {[XS, XU].map(x => <path d={`M${x},${TRACK - 4} V${TRACK + 4}`} />)}
+        </g>
+        <text x={(XS + XU) / 2} y={TRACK + 16} class="stage mono" text-anchor="middle">training, deployment, and inference</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-S); padding: 20px 20px 14px; }
+  .col-label { font-size: 12px; font-weight: 500; fill: var(--c-b); }
+  .stage { font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--c-m); }
+  .track path { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }
+  .src { fill: var(--teal-key); }
+  .src--idle { fill: var(--c-line-strong); }
+  .wire { fill: none; stroke: var(--connector); stroke-width: 1; }
+  .trunk { fill: none; stroke: var(--connector); stroke-width: 3.5; }
+  .fill-conn { fill: var(--connector); }
+  .model { fill: var(--c-ink); }
+  .model-t { font-size: 12px; font-weight: 600; fill: var(--c-on-ink); }
+  .fan { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }
+  .fan-ask { fill: none; stroke: var(--violet-key); stroke-width: 1.75; }
+  .user { fill: var(--c-raise-1); stroke: var(--connector); stroke-width: 1; }
+  .ask { fill: var(--violet-key); }
+  .ring { fill: none; stroke: var(--teal-key); stroke-width: 1.5; }
+  .wire-kept { fill: none; stroke: var(--teal-key); stroke-width: 1.5; }
+  .wire-idle { fill: none; stroke: var(--c-line-strong); stroke-width: 1; }
+</style>

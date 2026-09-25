@@ -1,0 +1,101 @@
+---
+/**
+ * A1 — Traditional AI vs ABC-enabled AI, drawn as attribution in color.
+ *
+ * Each person with data carries a color, walked along the brand gradient.
+ * Traditional: every color drains to gray as it enters the model — what
+ * comes out carries no trace of where it came from. ABC: each color runs
+ * unbroken to the person asking, and their answer is ringed with the
+ * sources it rests on. Dim lines are sources the asker chose not to use.
+ */
+import { along } from '../_tokens';
+import { spread, hcurve, arc } from '../_geo';
+
+const N = 15, X0 = 22, XU = 398, CY = 190;
+const Y = spread(N, 50, 330);
+const COL = Y.map((_, i) => along(i / (N - 1)));
+const ASK = 7; // the person asking, mid-column
+const AI1 = 180, AI2 = 242, R = 19;
+// Sources this asker relies on (the rest stay dim) — as the original.
+const USED = [0, 1, 2, 3, 6, 7, 9, 10, 11];
+const GAP = 7, SEG = 360 / USED.length;
+---
+
+<div class="fig fig-a" data-stage="dark">
+  <div class="panels">
+    <div>
+      <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
+      <svg viewBox="0 0 420 380" role="img" aria-label="People with data train one AI model; their colors fade to gray inside it. After deployment, the model answers people seeking insight with no trace of its sources.">
+        <defs>
+          {Y.map((y, i) => (
+            <linearGradient id={`a1-drain-${i}`} gradientUnits="userSpaceOnUse" x1={X0} y1={y} x2={AI1 - R} y2={CY}>
+              <stop offset="0" style={`stop-color:${COL[i]}`} />
+              <stop offset="0.45" style={`stop-color:${COL[i]}`} />
+              <stop offset="1" style="stop-color:var(--connector)" />
+            </linearGradient>
+          ))}
+          <marker id="a1-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L8,4 L0,8 z" class="fill-m" />
+          </marker>
+        </defs>
+
+        <text class="col-label" x={X0 - 6} y="26">People with data</text>
+        <text class="col-label" x={XU + 6} y="26" text-anchor="end">People seeking insight</text>
+
+        {Y.map((y, i) => <path d={hcurve(X0, y, AI1 - R, CY, 0.55)} style={`stroke:url(#a1-drain-${i})`} class="line-src" />)}
+        {Y.map((y, i) => <path d={`M${AI2 + R},${CY} L${XU - 5},${y}`} class={i === ASK ? 'line-ask' : 'line-out'} />)}
+
+        <path d={`M${AI1 + 4},${CY - R - 2} C${AI1 + 14},${CY - 58} ${AI2 - 14},${CY - 58} ${AI2 - 4},${CY - R - 3}`} class="line-deploy" marker-end="url(#a1-arrow)" />
+
+        {[AI1, AI2].map(x => (<g><circle cx={x} cy={CY} r={R} class="ai" /><text x={x} y={CY + 4} class="ai-t mono" text-anchor="middle">AI</text></g>))}
+
+        {Y.map((y, i) => <circle cx={X0} cy={y} r="4.5" style={`fill:${COL[i]}`} />)}
+        {Y.map((y, i) => i === ASK
+          ? <circle cx={XU} cy={y} r="5.5" class="ask" />
+          : <circle cx={XU} cy={y} r="4" class="user" />)}
+
+        <text class="stage mono" x="96" y="362" text-anchor="middle">training</text>
+        <text class="stage mono" x={(AI1 + AI2) / 2} y={CY - 64} text-anchor="middle">deployment</text>
+        <text class="stage mono" x="324" y="362" text-anchor="middle">inference</text>
+      </svg>
+    </div>
+
+    <div>
+      <p class="panel__head"><span class="panel__eyebrow">With ABC</span><span class="panel__title">ABC-enabled AI</span></p>
+      <svg viewBox="0 0 420 380" role="img" aria-label="Each person with data connects directly to the person seeking insight, keeping their color. The answer is ringed with the colors of the sources it used; unused sources stay dim.">
+        <text class="col-label" x={X0 - 6} y="26">People with data</text>
+        <text class="col-label" x={XU + 6} y="26" text-anchor="end">People seeking insight</text>
+
+        {Y.map((y, i) => !USED.includes(i) && <path d={hcurve(X0, y, XU - 12, CY, 0.6)} style={`stroke:${COL[i]}`} class="line-idle" />)}
+        {Y.map((y, i) => USED.includes(i) && <path d={hcurve(X0, y, XU - 12, CY, 0.6)} style={`stroke:${COL[i]}`} class="line-kept" />)}
+
+        {Y.map((y, i) => <circle cx={X0} cy={y} r="4.5" style={`fill:${COL[i]}`} class={USED.includes(i) ? '' : 'idle'} />)}
+        {Y.map((y, i) => i !== ASK && <circle cx={XU} cy={y} r="4" class="user" />)}
+
+        {USED.map((s, k) => <path d={arc(XU, CY, 10, k * SEG + GAP / 2, (k + 1) * SEG - GAP / 2)} style={`stroke:${COL[s]}`} class="ring" />)}
+        <circle cx={XU} cy={CY} r="4.5" class="ask" />
+
+        <text class="stage mono" x="210" y="362" text-anchor="middle">training, deployment, and inference</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fig-a { background: var(--c-raise-1); color: var(--c-b); border-radius: var(--border-radius-L); padding: 28px 28px 20px; }
+  .col-label { font-size: 12.5px; fill: var(--c-b); }
+  .stage { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; fill: var(--c-m); }
+  .line-src { fill: none; stroke-width: 1.25; opacity: 0.9; }
+  .line-out { fill: none; stroke: var(--connector); stroke-width: 1; opacity: 0.35; }
+  .line-ask { fill: none; stroke: var(--c-h); stroke-width: 1.75; }
+  .line-deploy { fill: none; stroke: var(--c-m); stroke-width: 1.25; }
+  .fill-m { fill: var(--c-m); }
+  .ai { fill: var(--c-line-strong); stroke: var(--connector); stroke-width: 1; }
+  .ai-t { font-size: 12px; font-weight: 600; fill: var(--c-h); }
+  .user { fill: var(--c-raise-1); stroke: var(--connector); stroke-width: 1.25; }
+  .ask { fill: var(--c-h); }
+  .line-kept { fill: none; stroke-width: 1.5; }
+  .line-idle { fill: none; stroke-width: 1; opacity: 0.16; }
+  .idle { opacity: 0.35; }
+  .ring { fill: none; stroke-width: 3; stroke-linecap: round; }
+</style>

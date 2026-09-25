@@ -1,0 +1,11 @@
+---
+/** The live graphics, loaded from openmined.org, for side-by-side comparison. */
+import Shell from '../_Shell.astro';
+const SRC = 'https://openmined.org/images/abc/';
+---
+<Shell dir="original" name="Original" note="The live page's graphics, loaded from openmined.org, for comparison. The article text is the same on every page; only the figures change.">
+  <img slot="fig1" class="orig" src={`${SRC}ABC-Graphic-1.svg`} width="3840" height="2160" alt="Diagram contrasting traditional centralized AI with ABC-enabled AI, for people with data and people seeking insight." />
+  <img slot="fig2" class="orig" src={`${SRC}ABC-Graphic-2.svg`} width="3840" height="2160" alt="Diagram showing the absence of ABC creating problems at the individual, institutional, societal, geopolitical, and centralization levels." />
+  <img slot="fig3" class="orig" src={`${SRC}ABC-Graphic-3-2.svg`} width="3840" height="2160" alt="Diagram of a medical student showing how ABC-enabled AI preserves the link between source and prediction." />
+</Shell>
+<style is:global>.orig { display: block; width: 100%; height: auto; }</style>

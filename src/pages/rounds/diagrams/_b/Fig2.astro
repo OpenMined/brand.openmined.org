@@ -1,0 +1,78 @@
+---
+/**
+ * B2 — The levels of society ABC reaches, as a technical plate.
+ *
+ * Kept as a tree — the plate's job is order, not metaphor — but each level
+ * becomes a card with an index, the subtitle its article section carries,
+ * and a scale mark: concentric rings, one more per level, so the widening
+ * reach reads without a legend. Red marks the missing property; teal marks
+ * each level's reach. Built in HTML so the cards reflow on a phone.
+ */
+const LEVELS = [
+  { name: 'Individual', sub: 'Authenticity and trust' },
+  { name: 'Institutional', sub: 'Data sharing & control' },
+  { name: 'Societal', sub: 'Governance & representation' },
+  { name: 'Geopolitical', sub: 'Democracy vs. centralization' },
+  { name: 'Philosophical', sub: 'Central intelligence or communication tool' },
+];
+---
+
+<div class="fig fig-b2">
+  <div class="root card">
+    <span class="root__badge mono">No ABC</span>
+    <p class="root__h">No attribution-based control</p>
+    <ul class="root__list">
+      <li>Data owners can&rsquo;t control which AI predictions to support</li>
+      <li>AI users can&rsquo;t control which data sources to rely upon</li>
+    </ul>
+  </div>
+
+  <svg class="bus" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M50,0 V16 M10,16 H90 M10,16 V32 M30,16 V32 M50,16 V32 M70,16 V32 M90,16 V32" />
+  </svg>
+
+  <ol class="levels">
+    {LEVELS.map((l, i) => (
+      <li class="card lvl">
+        <svg class="scale" viewBox="0 0 36 36" aria-hidden="true">
+          {LEVELS.map((_, k) => k <= i && <circle cx="18" cy="18" r={3 + k * 3.4} class={k === i ? 'reach' : 'inner'} />)}
+        </svg>
+        <span class="lvl__i mono">{String(i + 1).padStart(2, '0')}</span>
+        <span class="lvl__name">{l.name}</span>
+        <span class="lvl__sub">{l.sub}</span>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .card { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); border-radius: var(--border-radius-S); }
+  .root { max-width: 460px; margin: 0 auto; padding: 18px 22px; text-align: center; }
+  .root__badge {
+    display: inline-block; padding: 2px 8px; border-radius: var(--border-radius-full);
+    background: var(--red-tint); color: var(--red-fg);
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .root__h { margin: 8px 0 10px; font-size: 16px; font-weight: 600; color: var(--c-h); }
+  .root__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13.5px; line-height: 1.45; color: var(--c-b); }
+  .root__list li::before { content: '×'; margin-right: 8px; font-weight: 600; color: var(--red-fg); }
+
+  .bus { display: block; width: 100%; height: 32px; }
+  .bus path { fill: none; stroke: var(--connector); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+  .levels { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .lvl { display: grid; align-content: start; gap: 2px; padding: 14px 14px 16px; }
+  .scale { width: 36px; height: 36px; margin-bottom: 10px; }
+  .scale circle { fill: none; stroke-width: 1; }
+  .scale .inner { stroke: var(--c-line-strong); }
+  .scale .reach { stroke: var(--teal-key); stroke-width: 1.5; }
+  .lvl__i { font-size: 10.5px; letter-spacing: 0.06em; color: var(--c-m); }
+  .lvl__name { font-size: 14.5px; font-weight: 600; color: var(--c-h); }
+  .lvl__sub { font-size: 12.5px; line-height: 1.4; color: var(--c-m); }
+
+  @media (max-width: 760px) {
+    .bus { display: none; }
+    .root { margin-bottom: 12px; }
+    .levels { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
