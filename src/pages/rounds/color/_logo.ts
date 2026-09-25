@@ -105,6 +105,9 @@ export function logoCss(palettes: Record<string, { gradient: string[] }>): strin
     const pal = p.gradient.map(toLab);
     return `:root[data-p="${k}"]{${recipes.map(([h, r]) => `${v(h)}:${apply(r, pal)}`).join(';')}}`;
   });
+  // Logo toggle "Original": the canonical colors, whatever the palette. The
+  // extra attribute outranks the per-palette rules above.
+  out.push(`:root[data-l="og"][data-p]{${MARK.map(h => `${v(h)}:${h}`).join(';')}}`);
   out.push(`:root{--lg-word:${WORD_LIGHT}}`, `:root[data-theme="dark"]{--lg-word:${WORD_DARK}}`);
   return out.join('');
 }

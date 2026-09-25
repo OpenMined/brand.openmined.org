@@ -170,6 +170,17 @@
         "#96d195",
         "#f2d98c"
       ],
+      "gradient_ref": [
+        null,
+        null,
+        "red-400",
+        "violet-400",
+        "blue-400",
+        "teal-400",
+        "green-400",
+        null,
+        null
+      ],
       "gradient_on": [
         "#16141b",
         "#16141b",
@@ -389,12 +400,23 @@
         "#fec766",
         "#fa8233",
         "#d93a3f",
-        "#6022a2",
-        "#002472",
-        "#0088a3",
-        "#0bc18d",
+        "#8749d4",
+        "#206ce7",
+        "#0092af",
+        "#00a275",
         "#a2e37c",
         "#f8e68e"
+      ],
+      "gradient_ref": [
+        null,
+        null,
+        "red-400",
+        "violet-400",
+        "blue-400",
+        "teal-400",
+        "green-400",
+        null,
+        null
       ],
       "gradient_on": [
         "#16141b",
@@ -604,15 +626,26 @@
         }
       },
       "gradient": [
-        "#fec766",
-        "#fa8233",
-        "#d63865",
-        "#790d88",
-        "#002472",
-        "#0088a3",
-        "#00bfa5",
-        "#a2e37c",
-        "#f8e68e"
+        "#f8ca6d",
+        "#f78347",
+        "#cb3760",
+        "#a33eb3",
+        "#5161de",
+        "#0091b5",
+        "#00a089",
+        "#89e798",
+        "#f3e795"
+      ],
+      "gradient_ref": [
+        null,
+        null,
+        "red-400",
+        "violet-400",
+        "blue-400",
+        "teal-400",
+        "green-400",
+        null,
+        null
       ],
       "gradient_on": [
         "#16141b",
@@ -824,15 +857,26 @@
         }
       },
       "gradient": [
-        "#f1cb89",
-        "#e5905e",
-        "#c35653",
-        "#5a368b",
-        "#0f2a5f",
-        "#36869b",
-        "#5aba94",
-        "#afde96",
-        "#f2e6a9"
+        "#f3ca84",
+        "#e88e58",
+        "#b94644",
+        "#7750b1",
+        "#3368c1",
+        "#00859f",
+        "#29926d",
+        "#addf92",
+        "#f3e6a5"
+      ],
+      "gradient_ref": [
+        null,
+        null,
+        "red-400",
+        "violet-400",
+        "blue-400",
+        "teal-400",
+        "green-400",
+        null,
+        null
       ],
       "gradient_on": [
         "#16141b",
@@ -840,7 +884,7 @@
         "#ffffff",
         "#ffffff",
         "#ffffff",
-        "#16141b",
+        "#ffffff",
         "#16141b",
         "#16141b",
         "#16141b"
@@ -949,6 +993,235 @@
             "Contrast vs surface below 3:1 \u2014 relief required (visible labels or table view): [[\"#7750b1\",2.74],[\"#3368c1\",2.99]]"
           ],
           "cvd": 14.3
+        }
+      }
+    },
+    "shallow": {
+      "label": "Deep, calm blue",
+      "note": "Deep with calmer blue and violet: blue key #2f69c7, violet desaturated to match (\u221221% chroma).",
+      "params": {
+        "violet": {
+          "H": 300.0,
+          "C": 0.162,
+          "L": 55.0
+        },
+        "blue": {
+          "H": 259.7,
+          "C": 0.159,
+          "L": 53.4
+        },
+        "teal": {
+          "H": 218.0,
+          "C": 0.135,
+          "L": 61.0
+        },
+        "green": {
+          "H": 165.0,
+          "C": 0.145,
+          "L": 63.0
+        },
+        "amber": {
+          "H": 66.0,
+          "C": 0.165,
+          "L": 66.0
+        },
+        "red": {
+          "H": 24.0,
+          "C": 0.195,
+          "L": 59.0
+        }
+      },
+      "ramps": {
+        "violet": {
+          "100": "#f5f1ff",
+          "200": "#e3d6ff",
+          "300": "#c9acfe",
+          "400": "#8156c0",
+          "500": "#6a40a3",
+          "600": "#473564",
+          "700": "#2c243b"
+        },
+        "blue": {
+          "100": "#edf4ff",
+          "200": "#cbdfff",
+          "300": "#97bfff",
+          "400": "#2f69c7",
+          "500": "#1b52a8",
+          "600": "#253f69",
+          "700": "#1d293d"
+        },
+        "teal": {
+          "100": "#e4f7fd",
+          "200": "#b9e7f5",
+          "300": "#6ecde7",
+          "400": "#0092af",
+          "500": "#00697e",
+          "600": "#004857",
+          "700": "#122d34"
+        },
+        "green": {
+          "100": "#e6f9f0",
+          "200": "#bdead5",
+          "300": "#78d3ad",
+          "400": "#00a275",
+          "500": "#006f4f",
+          "600": "#0b4c36",
+          "700": "#152f24"
+        },
+        "amber": {
+          "100": "#fff1e3",
+          "200": "#fbd7b3",
+          "300": "#f2ae67",
+          "400": "#cd7d00",
+          "500": "#854f00",
+          "600": "#5c3500",
+          "700": "#372410"
+        },
+        "red": {
+          "100": "#ffefee",
+          "200": "#ffd1cd",
+          "300": "#ffa09a",
+          "400": "#d93a3f",
+          "500": "#ae1223",
+          "600": "#6a2625",
+          "700": "#3e1e1c"
+        }
+      },
+      "gradient": [
+        "#fac871",
+        "#f48642",
+        "#d93a3f",
+        "#8156c0",
+        "#2f69c7",
+        "#0092af",
+        "#00a275",
+        "#a6e284",
+        "#f6e696"
+      ],
+      "gradient_ref": [
+        null,
+        null,
+        "red-400",
+        "violet-400",
+        "blue-400",
+        "teal-400",
+        "green-400",
+        null,
+        null
+      ],
+      "gradient_on": [
+        "#16141b",
+        "#16141b",
+        "#ffffff",
+        "#ffffff",
+        "#ffffff",
+        "#16141b",
+        "#16141b",
+        "#16141b",
+        "#16141b"
+      ],
+      "audit": {
+        "light": {
+          "violet": {
+            "fg_min": 5.4,
+            "solid_base": 6.6,
+            "key_base": 4.71,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 7.3
+          },
+          "blue": {
+            "fg_min": 5.5,
+            "solid_base": 6.73,
+            "key_base": 4.78,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 7.45
+          },
+          "teal": {
+            "fg_min": 4.67,
+            "solid_base": 5.71,
+            "key_base": 3.31,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.32
+          },
+          "green": {
+            "fg_min": 4.58,
+            "solid_base": 5.6,
+            "key_base": 2.95,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.2
+          },
+          "amber": {
+            "fg_min": 4.98,
+            "solid_base": 6.09,
+            "key_base": 2.9,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 6.74
+          },
+          "red": {
+            "fg_min": 5.33,
+            "solid_base": 6.51,
+            "key_base": 4.1,
+            "on_solid": "#ffffff",
+            "on_solid_ratio": 7.22
+          }
+        },
+        "dark": {
+          "violet": {
+            "fg_min": 7.62,
+            "solid_base": 8.99,
+            "key_base": 3.35,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.4
+          },
+          "blue": {
+            "fg_min": 7.9,
+            "solid_base": 9.32,
+            "key_base": 3.3,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.75
+          },
+          "teal": {
+            "fg_min": 8.14,
+            "solid_base": 9.6,
+            "key_base": 4.76,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 10.04
+          },
+          "green": {
+            "fg_min": 8.26,
+            "solid_base": 9.74,
+            "key_base": 5.34,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 10.19
+          },
+          "amber": {
+            "fg_min": 7.77,
+            "solid_base": 9.17,
+            "key_base": 5.43,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.59
+          },
+          "red": {
+            "fg_min": 7.57,
+            "solid_base": 8.94,
+            "key_base": 3.85,
+            "on_solid": "#16141b",
+            "on_solid_ratio": 9.35
+          }
+        }
+      },
+      "charts": {
+        "light": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 17.0
+        },
+        "dark": {
+          "ok": true,
+          "fails": [],
+          "warns": [],
+          "cvd": 17.0
         }
       }
     }

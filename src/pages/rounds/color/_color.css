@@ -473,12 +473,11 @@ body:has(.cr) { background: var(--c-base); }
 
 /* ── Mock page: content section ─────────────────────────────────────
    openmined.org's "Federated AI Network", condensed. One raise-1 card on
-   base; its rows are split by dividers, never by fills; the subnet cards
-   step up once more to raise-2. */
+   base; its rows are separated by spacing alone; the subnet cards step up
+   once more to raise-2. */
 .fed-sec { padding-bottom: 96px; }
 .fed { background: var(--c-raise-1); border-radius: var(--border-radius-L); box-shadow: var(--c-shadow-1); }
 .fed__row { padding: 48px; }
-.fed__row + .fed__row { border-top: 1px solid var(--c-line); }
 .fed__head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-3XL); align-items: end; }
 .fed__eyebrow { color: var(--accent-fg); font-weight: 600; font-size: 0.92rem; margin-bottom: var(--spacing-S) !important; }
 .fed__lede { line-height: 1.6; }
@@ -513,3 +512,34 @@ body:has(.cr) { background: var(--c-base); }
   font: 500 0.72rem var(--font-m); letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-m);
 }
 .mock-end::before, .mock-end::after { content: ''; flex: 1; height: 1px; background: var(--c-line-strong); }
+
+/* Temporary review controls for how the mesh's colors meet. */
+.cta__tune {
+  position: absolute; right: var(--spacing-L); bottom: var(--spacing-L);
+  display: grid; gap: var(--spacing-M); padding: var(--spacing-M) var(--spacing-L);
+  background: var(--c-raise-1); border-radius: var(--border-radius-S); box-shadow: var(--c-shadow-2);
+  font-size: 0.78rem; color: var(--c-h);
+}
+.cta__modes { display: flex; gap: 4px; }
+.cta__modes button {
+  font: 500 0.78rem var(--font-b); color: var(--c-b); cursor: pointer;
+  padding: 6px 10px; border: 0; border-radius: 3px; background: transparent;
+}
+.cta__modes button:hover { background: var(--c-sunken); }
+.cta__modes button[aria-checked="true"] { background: var(--c-ink); color: var(--c-on-ink); }
+.cta__modes button:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 2px; }
+.cta__sliders { display: grid; gap: 6px; }
+.cta__tune label {
+  display: grid; grid-template-columns: 84px 132px 34px; align-items: center; gap: var(--spacing-S);
+  margin: 0; font-size: 0.76rem; line-height: 1.2; white-space: nowrap; color: var(--c-h);
+}
+.cta__tune label.is-off { opacity: 0.4; }
+.cta__copy {
+  font: 500 0.78rem var(--font-b); color: var(--c-h); cursor: pointer;
+  padding: 7px 10px; border: 0; border-radius: 3px; background: var(--c-sunken);
+}
+.cta__copy:hover { background: var(--c-line); }
+.cta__copy:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 2px; }
+.cta__tune input { width: 100%; height: 16px; margin: 0; padding: 0; accent-color: var(--c-ink); }
+.cta__tune output { font: 0.72rem var(--font-m); color: var(--c-m); text-align: right; }
+@media (max-width: 760px) { .cta { flex-direction: column; } .cta__tune { position: relative; right: auto; bottom: auto; margin-bottom: var(--spacing-L); } }

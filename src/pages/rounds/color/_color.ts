@@ -1,14 +1,14 @@
 /**
  * COLOR ROUND — controls, URL state, and the hover layer.
  *
- * State lives on <html> as data-p / data-a / data-gr / data-theme, set
+ * State lives on <html> as data-p / data-a / data-l / data-theme, set
  * before paint by the inline script in index.astro. This module only
  * changes those attributes and mirrors them into the URL, so any
  * combination is a link that can be passed back and forth for review.
  */
 
 const html = document.documentElement;
-const AXES = ['p', 'a'] as const;
+const AXES = ['p', 'a', 'l'] as const;
 type Axis = (typeof AXES)[number];
 
 /* ── URL sync ─────────────────────────────────────────────────────── */
@@ -143,4 +143,58 @@ document.querySelectorAll<HTMLElement>('[data-line]').forEach(box => {
   box.addEventListener('pointerleave', () => {
     box.classList.remove('is-hover'); delete tip.dataset.owner; tip.hidden = true;
   });
+});
+
+/* ── Gradient map tuning (temporary review controls) ─────────────── */
+// Labels, steps and which modes use each parameter. Ranges and defaults come
+// from the embed itself (PARAMS), so the sliders can't drift from it.
+const TUNE: Record<string, { label: string; step: number; modes?: string[] }> = {
+  speed:   { label: 'Speed', step: 0.05 },
+  drift:   { label: 'Drift', step: 0.01 },
+  flow:    { label: 'Flow', step: 0.01 },
+  edge:    { label: 'Edge', step: 0.05, modes: ['overlap', 'layers', 'clouds'] },
+  size:    { label: 'Size', step: 0.05, modes: ['layers', 'clouds'] },
+  cover:   { label: 'Cover', step: 0.5, modes: ['layers', 'clouds'] },
+  soft:    { label: 'Soft share', step: 0.05, modes: ['clouds'] },
+  billow:  { label: 'Billow', step: 0.1, modes: ['clouds'] },
+  opacity: { label: 'Min opacity', step: 0.05, modes: ['clouds'] },
+};
+
+document.querySelectorAll<HTMLElement>('[data-tune]').forEach(async panel => {
+  const mesh = panel.parentElement!.querySelector('om-mesh')!;
+  // Read off the element class: Vite can't import from /public.
+  await customElements.whenDefined('om-mesh');
+  const PARAMS = (customElements.get('om-mesh') as unknown as { PARAMS: Record<string, { min: number; max: number; def: number }> }).PARAMS;
+  const modes = [...panel.querySelectorAll<HTMLButtonElement>('[data-mode]')];
+  const host = panel.querySelector<HTMLElement>('[data-sliders]')!;
+  const fmt = (v: number, step: number) => v.toFixed(step < 0.1 ? 2 : 1);
+
+  const rows = Object.entries(TUNE).map(([k, t]) => {
+    const d = PARAMS[k];
+    const cur = parseFloat(mesh.getAttribute(k) ?? '');
+    const v = Number.isFinite(cur) ? cur : d.def;
+    const label = document.createElement('label');
+    label.innerHTML = `<span>${t.label}</span><input type="range" min="${d.min}" max="${d.max}" step="${t.step}" value="${v}"><output>${fmt(v, t.step)}</output>`;
+    const input = label.querySelector('input')!, out = label.querySelector('output')!;
+    input.addEventListener('input', () => { mesh.setAttribute(k, input.value); out.value = fmt(Number(input.value), t.step); });
+    host.append(label);
+    return { k, t, input, label };
+  });
+
+  const paint = () => {
+    const m = mesh.getAttribute('mode') ?? 'smooth';
+    modes.forEach(b => b.setAttribute('aria-checked', String(b.dataset.mode === m)));
+    rows.forEach(r => { const off = !!r.t.modes && !r.t.modes.includes(m); r.input.disabled = off; r.label.classList.toggle('is-off', off); });
+  };
+  modes.forEach(b => b.addEventListener('click', () => { mesh.setAttribute('mode', b.dataset.mode!); paint(); }));
+
+  // The current look as element attributes, ready to paste back.
+  const copy = panel.querySelector<HTMLButtonElement>('[data-copy]')!;
+  copy.addEventListener('click', async () => {
+    const attrs = [`mode="${mesh.getAttribute('mode') ?? 'smooth'}"`, ...rows.map(r => `${r.k}="${r.input.value}"`)].join(' ');
+    try { await navigator.clipboard.writeText(attrs); copy.textContent = 'Copied'; }
+    catch { window.prompt('Copy these settings:', attrs); }
+    setTimeout(() => { copy.textContent = 'Copy settings'; }, 1500);
+  });
+  paint();
 });

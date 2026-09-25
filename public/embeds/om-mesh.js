@@ -16,7 +16,7 @@
  *   colors="#f8c073,#f79763,…"     eight hex stops, spectrum order (gold, orange,
  *                                  red, violet, blue, teal, green, lime); fewer
  *                                  are resampled to eight
- *   speed="1"                      animation speed multiplier
+ *   speed="1"                      animation speed multiplier, 0–3
  *   depth="0"                      0–1, off by default. Colors pass over and
  *                                  under each other: near ones cover far ones,
  *                                  far ones recede into `haze`
@@ -25,9 +25,25 @@
  *                                  ever lightens
  *   haze="#f5f4f7"                 the ground far colors fall back toward —
  *                                  the page background, so it flips with the mode
+ *   mode="smooth"                  smooth | overlap | layers | clouds. Overlap:
+ *                                  each color claims territory and pushes into
+ *                                  its neighbors along moving borders. Layers:
+ *                                  soft-edged color shapes layered by a changing
+ *                                  depth. Clouds: layers whose edges are crisp
+ *                                  in places and fading in others, and whose
+ *                                  opacity breathes — covering or mixing
+ *   edge="0.5"                     0–1, how crisp the borders are (crisp parts
+ *                                  only, in clouds)
+ *   drift="0.22"                   0–0.4, how far each color wanders from home
+ *   flow="0.13"                    0–0.3, the simplex flow warp (as <om-stream>)
+ *   size="1"                       0.5–1.8, shape size (layers, clouds)
+ *   cover="4"                      0–12, how firmly a nearer shape wins where
+ *                                  shapes overlap: low mixes, high covers
+ *   soft="0.5"                     0–1, share of each cloud edge that fades
+ *   billow="1"                     0–3, how rippled cloud edges are
+ *   opacity="0.55"                 0–0.96, a cloud's thinnest opacity (clouds)
  *
- * `colors`, `depth`, `sheen` and `haze` can change at any time; the field
- * updates live. Size it with CSS: it fills its box, and the field stretches
+ * Every attribute can change at any time; the field updates live. Size it with CSS: it fills its box, and the field stretches
  * with it, like the raster did.
  * Reduced-motion visitors get one still frame.
  * ════════════════════════════════════════════════════════════════════
@@ -40,6 +56,21 @@ const DEFAULT = [P.gold, P.orange, P.red, P.violet, P.blue, P.teal, P.green, P.l
 const DEFAULT_DEPTH = 0;
 const DEFAULT_SHEEN = 0;
 const DEFAULT_HAZE = '#f5f4f7'; // far colors recede toward this; set it to the page ground
+const MODES = { smooth: 0, overlap: 1, layers: 2, clouds: 3 };
+// Every tunable number: attribute, range, default, and the uniform it feeds
+// (speed has none — it scales the clock). Exposed on the element class
+// (OmMesh.PARAMS) so a tuning panel can build its sliders from the same table.
+const PARAMS = {
+  speed:   { min: 0,   max: 3,    def: 1,    u: null },
+  edge:    { min: 0,   max: 1,    def: 0.5,  u: 'uEdge' },
+  drift:   { min: 0,   max: 0.4,  def: 0.22, u: 'uDrift' },
+  flow:    { min: 0,   max: 0.3,  def: 0.13, u: 'uWarp' },
+  size:    { min: 0.5, max: 1.8,  def: 1,    u: 'uSize' },
+  cover:   { min: 0,   max: 12,   def: 4,    u: 'uCover' },
+  soft:    { min: 0,   max: 1,    def: 0.5,  u: 'uSoft' },
+  billow:  { min: 0,   max: 3,    def: 1,    u: 'uBillow' },
+  opacity: { min: 0,   max: 0.96, def: 0.55, u: 'uOpMin' },
+};
 
 const VS_SOURCE = [
   'attribute vec2 aPos;',
@@ -53,11 +84,11 @@ const FS_SOURCE = [
   'uniform float uTime; uniform vec2 uMouse; uniform float uMouseStr;',
   'uniform vec3 uColors[8];',
   'uniform float uDepth, uSheen; uniform vec3 uHaze;',
+  'uniform float uMode, uEdge;',
+  'uniform float uDrift, uWarp, uSize, uCover, uSoft, uBillow, uOpMin;',
   // Point homes, read off the raster (y up). Spectrum order, matching uColors.
   'const float spread   = 0.25;',   // blend radius — how far each color reaches
-  'const float drift    = 0.22;',   // how far a point wanders from home
   'const float driftSpd = 0.16;',
-  'const float warpAmp  = 0.13;',   // simplex flow, as <om-stream>
   'const float warpSpd  = 0.14;',
   'const float pullStr  = 0.18;',   // cursor pull
   'vec3 mod289v3(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }',
@@ -126,25 +157,100 @@ const FS_SOURCE = [
   '  }',
   '  return zacc / max(wsum, 1e-5) + 0.6 * snoise(p * 1.6 + vec2(t * 0.09, -t * 0.06));',
   '}',
+  // Mode 1, overlap: each point claims territory and pushes into its
+  // neighbours. A sharpened softmax of the same weights — a power diagram
+  // whose borders move as each point's z swells and recedes. Regions keep a
+  // little of the smooth field inside, so they are not flat fills.
+  'vec3 overlapField(vec2 p, vec3 base) {',
+  '  float sharp = mix(2.0, 26.0, uEdge);',
+  '  float lw[8]; float mx = -1e9;',
+  '  for (int i = 0; i < 8; i++) {',
+  '    vec2 d = p - C[i];',
+  '    lw[i] = (-dot(d, d) / (2.0 * spread * spread) + Z[i] * 0.9) * sharp;',
+  '    mx = max(mx, lw[i]);',
+  '  }',
+  '  vec3 acc = vec3(0.0); float wsum = 0.0;',
+  '  for (int i = 0; i < 8; i++) {',
+  '    float w = exp(lw[i] - mx);',
+  '    acc += uColors[i] * w; wsum += w;',
+  '  }',
+  '  return mix(acc / wsum, base, 0.3);',
+  '}',
+  // Shapes over the smooth field, composited WITHOUT a strict stacking order
+  // (weighted blended order-independent transparency, McGuire & Bavoil 2013).
+  // A ranked back-to-front stack swaps two shapes in a single frame when their
+  // z values cross, so an overlap visibly pops. Here each shape's color is
+  // weighted by exp(cover · z): where shapes overlap, the nearer dominates
+  // in proportion to how much nearer it is, and a crossing passes smoothly
+  // through an even mix. Coverage is order-independent by construction.
+  'vec3 composite(vec3 base, vec3 cs[8], float al[8]) {',
+  '  vec3 acc = vec3(0.0); float wsum = 0.0; float clear = 1.0;',
+  '  for (int i = 0; i < 8; i++) {',
+  '    float w = al[i] * exp(uCover * Z[i]);',
+  '    acc += cs[i] * w; wsum += w; clear *= 1.0 - al[i];',
+  '  }',
+  '  vec3 over = wsum > 1e-5 ? acc / wsum : base;',
+  '  return mix(over, base, clear);',
+  '}',
+  // Mode 2, layers: each point is a soft-edged shape; near shapes grow a
+  // little, and one color visibly passes over another.
+  'vec3 layerField(vec2 p, vec3 base) {',
+  '  float ew = mix(0.22, 0.012, uEdge);',
+  '  vec3 cs[8]; float al[8];',
+  '  for (int i = 0; i < 8; i++) {',
+  '    float R = spread * 1.25 * uSize * (1.0 + 0.3 * Z[i]);',
+  '    al[i] = (1.0 - smoothstep(R - ew, R + ew, length(p - C[i]))) * 0.88;',
+  '    cs[i] = mix(uColors[i], base, 0.18);',
+  '  }',
+  '  return composite(base, cs, al);',
+  '}',
+  // Mode 3, clouds: layers whose character varies. Along each shape's
+  // boundary a slow noise decides where the edge is crisp and where it fades
+  // (Edge sets how crisp "crisp" is); each cloud's opacity breathes, so it
+  // sometimes covers what is beneath and sometimes mixes with it; and the
+  // boundaries billow rather than run as smooth curves.
+  'vec3 cloudField(vec2 p, vec3 base, float t) {',
+  '  float crispW = mix(0.08, 0.004, uEdge);',
+  '  vec3 cs[8]; float al[8];',
+  '  for (int i = 0; i < 8; i++) {',
+  '    float fi = float(i) * 3.17;',
+  // soft share: where the threshold sits on the noise decides how much of
+  // each edge fades (1) versus stays crisp (0).
+  '    float sc = mix(0.85, -0.85, uSoft);',
+  '    float soft = smoothstep(sc - 0.4, sc + 0.4, snoise(p * 1.6 + vec2(fi * 2.3, t * 0.16)));',
+  '    float ew = mix(crispW, 0.26, soft);',
+  '    float billow = uBillow * (0.055 * snoise(p * 3.2 + vec2(t * 0.22, fi))',
+  '                           + 0.025 * snoise(p * 6.5 - vec2(fi, t * 0.3)));',
+  '    float R = spread * 1.2 * uSize * (1.0 + 0.3 * Z[i]);',
+  '    float a = 1.0 - smoothstep(R - ew, R + ew, length(p - C[i]) + billow);',
+  '    float op = mix(uOpMin, 0.96, 0.5 + 0.5 * snoise(vec2(fi + 13.0, t * 0.12)));',
+  '    al[i] = a * op;',
+  '    cs[i] = mix(uColors[i], base, 0.15);',
+  '  }',
+  '  return composite(base, cs, al);',
+  '}',
   'void main() {',
   '  float t = uTime;',
   '  vec2 p = vUV;',
   // Two octaves: a broad swell, and a finer layer that travels, as the stream flows.
-  '  p += warpAmp * vec2(snoise(p * 1.3 + vec2(0.0,  t * warpSpd)),',
+  '  p += uWarp * vec2(snoise(p * 1.3 + vec2(0.0,  t * warpSpd)),',
   '                      snoise(p * 1.3 + vec2(7.3, -t * warpSpd)));',
-  '  p += warpAmp * 0.45 * vec2(snoise(p * 3.1 + vec2(-t * warpSpd * 1.6, 3.0)),',
+  '  p += uWarp * 0.45 * vec2(snoise(p * 3.1 + vec2(-t * warpSpd * 1.6, 3.0)),',
   '                             snoise(p * 3.1 + vec2(11.0, t * warpSpd * 1.3)));',
   '  vec2 md = p - uMouse;',
   '  p -= md * pullStr * exp(-dot(md, md) / 0.06) * uMouseStr;',
   '  for (int i = 0; i < 8; i++) {',
   '    float fi = float(i) * 3.17;',
-  '    C[i] = home(i) + drift * vec2(snoise(vec2(fi, t * driftSpd)),',
+  '    C[i] = home(i) + uDrift * vec2(snoise(vec2(fi, t * driftSpd)),',
   '                                  snoise(vec2(fi + 41.0, t * driftSpd)));',
   '    Z[i] = snoise(vec2(fi + 90.0, t * zSpd));',
   '  }',
   '  vec4 f = field(p);',
   '  vec3 color = f.rgb;',
   '  float z = f.a;',
+  '  if (uMode > 2.5) color = cloudField(p, color, t);',
+  '  else if (uMode > 1.5) color = layerField(p, color);',
+  '  else if (uMode > 0.5) color = overlapField(p, color);',
   // Atmosphere: far recedes into the ground, near steps forward.
   '  color = mix(color, uHaze, uDepth * hazeAmt * clamp(0.5 - 0.5 * z, 0.0, 1.0));',
   '  color = mix(color, vec3(1.0), uDepth * lift * max(z, 0.0));',
@@ -186,7 +292,11 @@ function createShader(gl, type, source) {
 }
 
 class OmMesh extends HTMLElement {
-  static get observedAttributes() { return ['colors', 'depth', 'sheen', 'haze']; }
+  // The parameter table, readable by pages without importing the module:
+  // customElements.get('om-mesh').PARAMS
+  static PARAMS = PARAMS;
+
+  static get observedAttributes() { return ['colors', 'depth', 'sheen', 'haze', 'mode', ...Object.keys(PARAMS)]; }
 
   attributeChangedCallback() {
     if (!this._booted) return;
@@ -200,6 +310,13 @@ class OmMesh extends HTMLElement {
     this._depth = num('depth', DEFAULT_DEPTH);
     this._sheen = num('sheen', DEFAULT_SHEEN);
     this._haze = toStops([this.getAttribute('haze') || DEFAULT_HAZE]).subarray(0, 3);
+    this._mode = MODES[this.getAttribute('mode')] ?? 0;
+    this._p = {};
+    for (const [k, d] of Object.entries(PARAMS)) {
+      const v = parseFloat(this.getAttribute(k));
+      this._p[k] = Number.isFinite(v) ? Math.min(Math.max(v, d.min), d.max) : d.def;
+    }
+    this._speed = this._p.speed;
   }
 
   _readStops() {
@@ -213,8 +330,6 @@ class OmMesh extends HTMLElement {
     this._booted = true;
 
     this._readAttrs();
-    const sp = parseFloat(this.getAttribute('speed'));
-    this._speed = Number.isFinite(sp) ? sp : 1;
     this._static = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
     this._mx = 0.5; this._my = 0.5; this._smx = 0.5; this._smy = 0.5;
     this._mouseStr = 0; this._tMouseStr = 0;
@@ -274,6 +389,8 @@ class OmMesh extends HTMLElement {
       depth: gl.getUniformLocation(prog, 'uDepth'),
       sheen: gl.getUniformLocation(prog, 'uSheen'),
       haze: gl.getUniformLocation(prog, 'uHaze'),
+      mode: gl.getUniformLocation(prog, 'uMode'),
+      params: Object.entries(PARAMS).filter(([, d]) => d.u).map(([k, d]) => [k, gl.getUniformLocation(prog, d.u)]),
     };
   }
 
@@ -313,6 +430,8 @@ class OmMesh extends HTMLElement {
     gl.uniform1f(u.depth, this._depth);
     gl.uniform1f(u.sheen, this._sheen);
     gl.uniform3fv(u.haze, this._haze);
+    gl.uniform1f(u.mode, this._mode);
+    for (const [k, loc] of u.params) gl.uniform1f(loc, this._p[k]);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 

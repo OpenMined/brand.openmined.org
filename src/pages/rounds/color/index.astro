@@ -21,8 +21,10 @@
  *
  * URL params, mirroring the surfaces round:
  *   t  = light | dark
- *   p  = brand | heritage | deep | ink   (palette; deep is the default)
+ *   p  = brand | heritage | deep | shallow | ink
+ *        (palette; deep is the default)
  *   a  = none | violet | blue | teal (accent hue; none = grayscale)
+ *   l  = og | pal (logo: its own colors, or recolored per palette; og default)
  * The brand gradient has no param — it follows the palette.
  */
 import Base from '../../../layouts/Base.astro';
@@ -44,11 +46,18 @@ const P_OPTS = [
   { v: 'brand', label: 'Brand', desc: 'Today’s colors, re-cut into the new structure' },
   { v: 'heritage', label: 'Heritage', desc: 'Deep’s strength on today’s hue angles — orchid, rose, mint' },
   { v: 'deep', label: 'Deep', desc: 'Stronger hues stepped apart, deeper keys, gradient with depth' },
+  { v: 'shallow', label: 'Deep, calm blue', desc: 'Deep with calmer blue and violet — blue key #2f69c7' },
   { v: 'ink', label: 'Ink', desc: 'Deep’s hues, darker and calmer — depth over saturation' },
 ];
-// Display order runs weakest → strongest change; Ink sits after Deep as its
-// quieter sibling.
+// Display order runs weakest → strongest change; Deep's calm-blue variant
+// sits directly under it, then Ink as its quieter sibling.
 const ORDER = P_OPTS.map(o => o.v);
+// The logo keeps its own colors by default (Bennett, 2026-09-24); following
+// the palette is kept as a comparison.
+const L_OPTS = [
+  { v: 'og', label: 'Original', desc: 'The logo’s own colors, in every palette' },
+  { v: 'pal', label: 'Follows palette', desc: 'Recolored from each palette’s gradient' },
+];
 const A_OPTS = [
   { v: 'none', label: 'None', desc: 'Grayscale — color only for status and data' },
   { v: 'violet', label: 'Violet', desc: 'The brand’s historic color' },
@@ -77,8 +86,10 @@ for (const k of PKEYS) {
     d.push(`--${h}-ring-l:var(--${h}-${p.audit.light[h].key_base >= 3 ? 400 : 500})`);
     d.push(`--${h}-ring-d:var(--${h}-${p.audit.dark[h].key_base >= 3 ? 400 : 300})`);
   }
-  d.push(`--spectrum-own:${p.gradient.join(',')}`);
-  p.gradient.forEach((h: string, i: number) => d.push(`--spec-${i + 1}:${h}`));
+  // The gradient draws from the palette: a stop with a family IS that ramp
+  // step (var(--blue-500)); only the four invented stops carry their own value.
+  p.gradient.forEach((h: string, i: number) => d.push(`--spec-${i + 1}:${p.gradient_ref[i] ? `var(--${p.gradient_ref[i]})` : h}`));
+  d.push(`--spectrum-own:${p.gradient.map((_: string, i: number) => `var(--spec-${i + 1})`).join(',')}`);
   css.push(`:root[data-p="${k}"]{${d.join(';')}}`);
 }
 css.push(`:root{--spectrum:var(--spectrum-own)}`);
@@ -255,7 +266,8 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
     (() => {
       const q = new URLSearchParams(location.search), h = document.documentElement;
       const pick = (k, ok, d) => (ok.includes(q.get(k)) ? q.get(k) : d);
-      h.dataset.p = pick('p', ['brand', 'heritage', 'deep', 'ink'], 'deep');
+      h.dataset.p = pick('p', ['brand', 'heritage', 'deep', 'ink', 'shallow'], 'deep');
+      h.dataset.l = pick('l', ['og', 'pal'], 'og');
       h.dataset.a = pick('a', ['none', 'violet', 'blue', 'teal'], 'none');
       const t = q.get('t'); if (t === 'light' || t === 'dark') h.setAttribute('data-theme', t);
     })();
@@ -300,6 +312,22 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
           </div>
         </div>
         <div class="bar__field">
+          <span class="bar__lab" id="dd-l-lab">Logo</span>
+          <div class="dd" data-dd="l">
+            <button type="button" class="dd__btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="dd-l-lab dd-l-val">
+              <span class="dd__val" id="dd-l-val"></span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+            </button>
+            <ul class="dd__list" role="listbox" aria-labelledby="dd-l-lab" hidden>
+              {L_OPTS.map(o => (
+                <li role="option" data-v={o.v} data-label={o.label} tabindex="-1" aria-selected="false">
+                  <span class="dd__txt"><b>{o.label}</b><span>{o.desc}</span></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="bar__field">
           <span class="bar__lab">Color mode</span>
           <ThemeToggle />
         </div>
@@ -312,7 +340,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
         <div class="hero__copy">
           <Fragment set:html={logoSvg('hero-logo', 'hero__logo')} />
           <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · Round 1A · color</span>
-          <h1>Fewer colors, each with a&nbsp;job.</h1>
+          <h1>OpenMined Color Exploration</h1>
           <p class="lead">The color palette consolidated: keep what works, give every color a role, and tune the values toward the desired register.</p>
         </div>
         <!-- Colorflow, laid out as openmined.org's home hero: full-bleed, behind
@@ -329,8 +357,7 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
            A page in the round's colors, before the notes: the hero above,
            then a content section, the CTA and a footer. The section is
            openmined.org's "Federated AI Network", condensed. It shows the
-           levels nesting (base → raise-1 card → raise-2 cards, dividers
-           between rows) and the accent at work (eyebrow, badges, links,
+           levels nesting (base → raise-1 card → raise-2 cards) and the accent at work (eyebrow, badges, links,
            the primary button). -->
       <section class="fed-sec" aria-label="Example content section">
         <div class="wrap">
@@ -370,7 +397,20 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
            with the raster replaced by <om-mesh>. Its eight points are the
            palette's gradient stops, gold through lime, in spectrum order. -->
       <section class="cta" id="gradient-map" aria-label="Gradient map example">
-        <om-mesh class="cta__bg" aria-hidden="true" data-follow="spec-1,spec-2,spec-3,spec-4,spec-5,spec-6,spec-7,spec-8" data-follow-haze="c-base"></om-mesh>
+        <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="0.6" drift="0.22" flow="0.16" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" data-follow="spec-1,spec-2,spec-3,spec-4,spec-5,spec-6,spec-7,spec-8" data-follow-haze="c-base"></om-mesh>
+        <!-- Temporary review controls: how the colors meet and move. Sliders are
+             built from the embed's own PARAMS table; "Copy settings" copies the
+             attributes, to bake into the embed's defaults once chosen. -->
+        <div class="cta__tune" data-tune>
+          <div class="cta__modes" role="radiogroup" aria-label="Mesh mode">
+            <button type="button" role="radio" aria-checked="false" data-mode="smooth">Smooth</button>
+            <button type="button" role="radio" aria-checked="false" data-mode="overlap">Overlap</button>
+            <button type="button" role="radio" aria-checked="false" data-mode="layers">Layers</button>
+            <button type="button" role="radio" aria-checked="true" data-mode="clouds">Clouds</button>
+          </div>
+          <div class="cta__sliders" data-sliders></div>
+          <button type="button" class="cta__copy" data-copy>Copy settings</button>
+        </div>
         <form class="cta__card" onsubmit="return false">
           <Fragment set:html={iconSvg('cta-icon', 'cta__icon')} />
           <h3 class="cta__h">Talk to Our Team</h3>
@@ -578,11 +618,11 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
           <article class="card spec">
             <div class="spec__head">
               <h3 class="card__h">Brand gradient</h3>
-              <p class="card__sub">Nine custom stops, same order in every palette. They exist for the gradient only — a gradient built from ramp steps goes dusty, because interface tints are quiet on purpose. How the gradient is applied (halos, glows, dark stages, bands) belongs to graphics styles, a later push.</p>
+              <p class="card__sub">Nine stops, same order in every palette, drawn from the palette itself. Every family stop is its key (400) — red, violet, blue, teal, green. Gold, orange, lime and yellow have no family, so they are fitted to the palette: hues from their neighbors, strength from the palette’s own. Every graphic built on the gradient — the colorflow, the gradient map — inherits this.</p>
             </div>
             <i class="spec__bar" style="background:linear-gradient(90deg in oklab,var(--spectrum))"></i>
             <div class="spec__stops">
-              {data.spectrum.map((n: string, i: number) => <span><i style={`background:var(--spec-${i + 1})`}></i><b>{n}</b>{PKEYS.map(k => <code data-for={k}>{PAL[k].gradient[i]}</code>)}</span>)}
+              {data.spectrum.map((n: string, i: number) => <span><i style={`background:var(--spec-${i + 1})`}></i><b>{n}</b>{PKEYS.map(k => <code data-for={k}>{PAL[k].gradient[i]}<br />{PAL[k].gradient_ref[i] ?? 'fitted'}</code>)}</span>)}
             </div>
             <p class="card__note">Today’s pastel, for reference: <i class="spec__ref" style={`background:linear-gradient(90deg,${PAL.brand.gradient.join(',')})`}></i></p>
           </article>
