@@ -543,3 +543,49 @@ body:has(.cr) { background: var(--c-base); }
 .cta__tune input { width: 100%; height: 16px; margin: 0; padding: 0; accent-color: var(--c-ink); }
 .cta__tune output { font: 0.72rem var(--font-m); color: var(--c-m); text-align: right; }
 @media (max-width: 760px) { .cta { flex-direction: column; } .cta__tune { position: relative; right: auto; bottom: auto; margin-bottom: var(--spacing-L); } }
+
+/* ── Mode adjust panel ──────────────────────────────────────────────
+   Whole-palette offsets per color mode (_adjust.ts). Floats under the bar
+   and edits whichever mode is on screen. */
+.adj-open {
+  font: 500 0.8rem var(--font-b); color: var(--c-h); cursor: pointer;
+  padding: 6px 10px; border: 0; border-radius: 3px; background: var(--c-sunken);
+}
+.adj-open[aria-expanded="true"] { background: var(--c-ink); color: var(--c-on-ink); }
+.adj-open:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 2px; }
+.adj {
+  position: fixed; top: 64px; right: var(--spacing-L); z-index: var(--z-dropdown);
+  width: 320px; max-height: calc(100vh - 88px); overflow-y: auto;
+  display: grid; gap: var(--spacing-M); padding: var(--spacing-L);
+  background: var(--c-raise-2); border-radius: var(--border-radius-M); box-shadow: var(--c-shadow-2);
+  font-size: 0.8rem; color: var(--c-b);
+}
+.adj[hidden] { display: none; }
+.adj__head { display: flex; align-items: center; justify-content: space-between; color: var(--c-h); font-size: 0.9rem; }
+.adj__x { border: 0; background: none; color: var(--c-m); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 2px 6px; border-radius: 3px; }
+.adj__x:hover { background: var(--c-sunken); color: var(--c-h); }
+.adj__mode, .adj__other, .adj__note { margin: 0; line-height: 1.45; }
+.adj__mode b { color: var(--c-h); text-transform: capitalize; }
+.adj__other, .adj__note { font-size: 0.74rem; color: var(--c-m); }
+.adj__seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.adj__seg button, .adj__actions button {
+  font: 500 0.76rem var(--font-b); color: var(--c-b); cursor: pointer;
+  padding: 6px 10px; border: 0; border-radius: 3px; background: var(--c-sunken);
+}
+.adj__seg button[aria-checked="true"], .adj__actions button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-on-ink); }
+.adj__seg button:focus-visible, .adj__actions button:focus-visible, .adj__x:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 2px; }
+.adj__sliders { display: grid; gap: 8px; }
+.adj__sliders label {
+  display: grid; grid-template-columns: 76px 1fr 52px; align-items: center; gap: var(--spacing-S);
+  margin: 0; padding: 0; font-size: 0.78rem; line-height: 1.2; color: var(--c-h);
+}
+.adj__sliders input { width: 100%; height: 16px; margin: 0; padding: 0; box-shadow: none; background: none; accent-color: var(--c-ink); }
+.adj__sliders output { font: 0.74rem var(--font-m); color: var(--c-m); text-align: right; }
+.adj__actions { display: flex; gap: 4px; flex-wrap: wrap; }
+.adj__audit { width: 100%; border-collapse: collapse; font-size: 0.74rem; }
+.adj__audit th { text-align: left; font-weight: 500; color: var(--c-m); padding: 4px 6px; border-bottom: 1px solid var(--c-line); }
+.adj__audit td { padding: 4px 6px; border-bottom: 1px solid var(--c-line); font-variant-numeric: tabular-nums; text-transform: capitalize; }
+.adj__audit tr:last-child td { border-bottom: 0; }
+.adj__audit td:not(:first-child), .adj__audit th:not(:first-child) { text-align: right; }
+.adj__audit .bad { color: var(--danger-fg); font-weight: 600; }
+@media (max-width: 600px) { .adj { left: var(--spacing-L); width: auto; } }

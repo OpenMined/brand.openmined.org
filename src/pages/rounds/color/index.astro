@@ -331,6 +331,9 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
           <span class="bar__lab">Color mode</span>
           <ThemeToggle />
         </div>
+        <div class="bar__field">
+          <button type="button" class="adj-open" data-adj-open aria-expanded="false" aria-controls="adj">Adjust</button>
+        </div>
       </div>
     </header>
 
@@ -888,7 +891,7 @@ result = client.<span class="t-f">submit</span>(median_income, census)  <span cl
         // properties. Inline and after the
         // last embed, so the first colors are set before the embed modules
         // boot (no flash of the default gradient). Re-reads on palette or
-        // mode change.
+        // mode change, and whenever mode adjust calls window.__omFollow.
         (() => {
           const h = document.documentElement;
           const sync = () => {
@@ -901,11 +904,22 @@ result = client.<span class="t-f">submit</span>(median_income, census)  <span cl
           };
           sync();
           new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-p', 'data-theme'] });
+          // Mode adjust rewrites palette properties without touching an
+          // attribute, so it calls this directly.
+          window.__omFollow = sync;
         })();
       </script>
     </main>
 
     <div class="tip" role="tooltip" hidden><b></b><span></span></div>
+
+    <!-- Mode adjust: whole-palette offsets per color mode (_adjust.ts). Built
+         by _color.ts; the palette data it shifts is embedded below. -->
+    <aside class="adj" id="adj" data-adj aria-label="Mode adjust" hidden></aside>
+    <script type="application/json" id="pal-data" set:html={JSON.stringify({
+      hues: HUES, steps: STEPS,
+      palettes: Object.fromEntries(PKEYS.map(k => [k, { ramps: PAL[k].ramps, gradient: PAL[k].gradient, gradient_ref: PAL[k].gradient_ref }])),
+    })} />
   </div>
 
   <script>

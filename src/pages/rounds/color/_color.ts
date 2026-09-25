@@ -7,6 +7,8 @@
  * combination is a link that can be passed back and forth for review.
  */
 
+import { initAdjust, SCOPES, SLIDERS } from './_adjust';
+
 const html = document.documentElement;
 const AXES = ['p', 'a', 'l'] as const;
 type Axis = (typeof AXES)[number];
@@ -198,3 +200,73 @@ document.querySelectorAll<HTMLElement>('[data-tune]').forEach(async panel => {
   });
   paint();
 });
+
+/* ── Mode adjust panel ────────────────────────────────────────────── */
+
+{
+  const panel = document.querySelector<HTMLElement>('[data-adj]')!;
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-adj-open]')!;
+  const data = JSON.parse(document.getElementById('pal-data')!.textContent!);
+  const follow = () => (window as unknown as { __omFollow?: () => void }).__omFollow?.();
+  const adj = initAdjust(data, () => { follow(); render(); });
+  const other = (m: 'light' | 'dark') => (m === 'light' ? 'dark' : 'light');
+
+  panel.innerHTML = `
+    <div class="adj__head"><b>Mode adjust</b><button type="button" class="adj__x" data-adj-close aria-label="Close">×</button></div>
+    <p class="adj__mode"></p>
+    <div class="adj__seg" role="radiogroup" aria-label="Scope">${SCOPES.map(sc => `<button type="button" role="radio" data-scope="${sc.id}">${sc.label}</button>`).join('')}</div>
+    <div class="adj__sliders">${SLIDERS.map(sl => `<label><span>${sl.label}</span><input type="range" data-k="${sl.k}" min="${sl.min}" max="${sl.max}" step="${sl.step}"><output></output></label>`).join('')}</div>
+    <div class="adj__actions">
+      <button type="button" data-adj-compare aria-pressed="false">Show original</button>
+      <button type="button" data-adj-reset>Reset this mode</button>
+      <button type="button" data-adj-copy>Copy settings</button>
+    </div>
+    <p class="adj__other"></p>
+    <table class="adj__audit"><thead><tr><th>Hue</th><th>Text</th><th>Key</th><th>Label</th></tr></thead><tbody></tbody></table>
+    <p class="adj__note">Live contrast in this mode. Text: fg on its worst surface (4.5). Key: vs base (3.0). Label: on solid (4.5).</p>`;
+
+  const inputs = [...panel.querySelectorAll<HTMLInputElement>('input[data-k]')];
+  const scopes = [...panel.querySelectorAll<HTMLButtonElement>('[data-scope]')];
+
+  function render() {
+    if (panel.hidden) return;
+    const m = adj.mode(), a = adj.state[m];
+    panel.querySelector('.adj__mode')!.innerHTML = `Adjusting <b>${m}</b> mode${m === 'dark' ? ' — the reference; usually left at zero' : ' — dark is the reference'}.`;
+    inputs.forEach(inp => {
+      const sl = SLIDERS.find(x => x.k === inp.dataset.k)!;
+      inp.value = String(a[sl.k]);
+      (inp.nextElementSibling as HTMLOutputElement).value = sl.fmt(a[sl.k]);
+    });
+    scopes.forEach(b => b.setAttribute('aria-checked', String(b.dataset.scope === a.scope)));
+    panel.querySelector('.adj__other')!.textContent = `${other(m)[0].toUpperCase() + other(m).slice(1)} mode: ${adj.describe(adj.state[other(m)])}`;
+    const cmp = panel.querySelector<HTMLButtonElement>('[data-adj-compare]')!;
+    cmp.setAttribute('aria-pressed', String(adj.showOriginal));
+    cmp.textContent = adj.showOriginal ? 'Show adjusted' : 'Show original';
+    panel.querySelector('tbody')!.innerHTML = adj.audit().map(r =>
+      `<tr><td>${r.hue}</td>${[[r.fg, 4.5], [r.key, 3], [r.label, 4.5]].map(([v, min]) => `<td class="${v < min ? 'bad' : ''}">${v.toFixed(2)}</td>`).join('')}</tr>`).join('');
+  }
+
+  inputs.forEach(inp => inp.addEventListener('input', () => {
+    // Read first: leaving "show original" re-renders the panel from state.
+    const v = Number(inp.value);
+    if (adj.showOriginal) adj.showOriginal = false;
+    adj.set(adj.mode(), { [inp.dataset.k!]: v });
+  }));
+  scopes.forEach(b => b.addEventListener('click', () => { if (adj.showOriginal) adj.showOriginal = false; adj.set(adj.mode(), { scope: b.dataset.scope! }); }));
+  panel.querySelector('[data-adj-compare]')!.addEventListener('click', () => { adj.showOriginal = !adj.showOriginal; });
+  panel.querySelector('[data-adj-reset]')!.addEventListener('click', () => adj.reset(adj.mode()));
+  const copy = panel.querySelector<HTMLButtonElement>('[data-adj-copy]')!;
+  copy.addEventListener('click', async () => {
+    const text = `${adj.copyText()}\n${location.href}`;
+    try { await navigator.clipboard.writeText(text); copy.textContent = 'Copied'; } catch { window.prompt('Copy these settings:', text); }
+    setTimeout(() => { copy.textContent = 'Copy settings'; }, 1500);
+  });
+
+  const setOpen = (open: boolean) => { panel.hidden = !open; openBtn.setAttribute('aria-expanded', String(open)); if (open) render(); };
+  openBtn.addEventListener('click', () => setOpen(panel.hidden));
+  panel.querySelector('[data-adj-close]')!.addEventListener('click', () => { setOpen(false); openBtn.focus(); });
+  // The panel edits whichever mode is on screen; follow the toggle.
+  new MutationObserver(render).observe(html, { attributes: true, attributeFilter: ['data-theme', 'data-p'] });
+  // Arriving with offsets in the link: open the panel so they're visible.
+  if (new URLSearchParams(location.search).has('ml') || new URLSearchParams(location.search).has('md')) setOpen(true);
+}
