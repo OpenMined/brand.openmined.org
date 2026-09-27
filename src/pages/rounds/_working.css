@@ -131,3 +131,9 @@
 /* Principles: one column, the bold lead-in and its line run together */
 .points { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-M); max-width: 60em; }
 .points b { display: inline; margin: 0 0.3em 0 0; }
+
+/* global.css fades bg and text color over 0.4s on body/header/footer/section/
+   main/nav. Nested, those fades chase each other while text with its own color
+   switches at once — the "switch, flash, settle" on a mode change. Switch
+   everything at once instead. */
+body:has(.wf), .wf :is(header, footer, section, main, nav) { transition: none; }
