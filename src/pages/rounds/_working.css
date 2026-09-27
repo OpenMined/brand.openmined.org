@@ -54,10 +54,6 @@
 .wf :is(.sw--copy, .spec__stop, .ladder__val):focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
 .is-copied code { font-weight: 700; }
 
-/* Surfaces: the ramps grid, nine slots wide; an edge where a slot meets the card */
-.ramps--surf .ramps__head, .ramps--surf .ramps__row { grid-template-columns: 90px repeat(9, minmax(78px, 1fr)); }
-.ramps--surf .ramps__step b { font-weight: 500; }
-.ramps--surf .sw { box-shadow: inset 0 0 0 1px var(--c-line); line-height: 1.35; }
 
 /* Shadow ladder: one tile per rung on the card, its values beneath */
 .ladder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-2XL); }
@@ -65,7 +61,7 @@
 .ladder__rung { display: grid; gap: 6px; align-content: start; }
 .ladder__tile { height: 96px; border-radius: var(--border-radius-S); display: grid; place-items: center; margin-bottom: 8px; font-family: var(--font-m); font-size: 0.8rem; color: var(--c-m); }
 .ladder__tile--sunken { background: var(--c-sunken); box-shadow: var(--c-shadow-in); }
-.ladder__tile--raise-1 { background: var(--c-raise-1); box-shadow: var(--c-shadow-1), 0 0 0 1px var(--c-line); }
+.ladder__tile--raise-1 { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); }
 .ladder__tile--raise-2 { background: var(--c-raise-2); box-shadow: var(--c-shadow-2); }
 .wf .ladder__val { display: grid; gap: 1px; padding: 4px 6px; margin: 0 -6px; border-radius: var(--border-radius-XS); background: none; color: var(--c-b); font-size: 0.72rem; }
 .wf .ladder__val:hover { background: var(--c-sunken); }
@@ -137,3 +133,37 @@
    switches at once — the "switch, flash, settle" on a mode change. Switch
    everything at once instead. */
 body:has(.wf), .wf :is(header, footer, section, main, nav) { transition: none; }
+
+/* Surfaces card: grouped — the four levels, then lines, then text */
+.surf { flex-direction: row; flex-wrap: wrap; gap: var(--spacing-3XL); align-items: flex-start; }
+.surf__group { display: grid; gap: var(--spacing-S); flex: var(--grow, 1) 1 auto; min-width: 0; }
+.surf__group:first-child { --grow: 4; }
+.surf__group:nth-child(2) { --grow: 2; }
+.surf__group:nth-child(3) { --grow: 3; }
+.surf__h { font-size: 0.85rem !important; color: var(--c-h); }
+.surf__grid { display: grid; grid-template-columns: 44px repeat(var(--n), minmax(78px, 1fr)); gap: 6px; }
+.surf__grid .ramps__hue { font-size: 0.78rem; }
+.surf__grid .ramps__step b { font-weight: 500; }
+.surf .sw { line-height: 1.35; }
+/* Mode labels only on the first group; the others line up beside it */
+.surf__group--rest .surf__grid { grid-template-columns: repeat(var(--n), minmax(78px, 1fr)); }
+.surf__group--rest .surf__m { display: none; }
+
+/* The four levels together: tiles on a base panel, each with its own shadow */
+/* The one outline on the page, on purpose: a base panel on a base page has
+   no other edge, so the hairline is what makes the base level visible. */
+.levels { box-shadow: 0 0 0 1px var(--c-line); border-radius: var(--border-radius-L); padding: var(--spacing-XL); display: grid; gap: var(--spacing-L); }
+.levels__base, .levels__tile { display: grid; gap: 4px; align-content: start; font-size: 0.85rem; color: var(--c-b); }
+.levels__base { padding: 4px 4px 0; }
+.levels__base code, .levels__tile code { font-family: var(--font-m); font-size: 0.82rem; color: var(--c-h); }
+.levels__hex { font-family: var(--font-m); font-size: 0.72rem; color: var(--c-m); }
+.levels__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-L); }
+@media (max-width: 700px) { .levels__row { grid-template-columns: minmax(0, 1fr); } }
+.levels__tile { min-height: 96px; padding: 16px 18px; border-radius: var(--border-radius-S); }
+.levels__tile--sunken { background: var(--c-sunken); box-shadow: var(--c-shadow-in); border-radius: 3px; }
+.levels__tile--raise-1 { background: var(--c-raise-1); box-shadow: var(--c-shadow-1); }
+.levels__tile--raise-2 { background: var(--c-raise-2); box-shadow: var(--c-shadow-2); }
+
+/* Ladder values: the tiles live in the levels panel, on the page where they belong */
+.ladder__name { font-size: 0.88rem; margin: 0 0 4px; }
+.ladder__name code { color: var(--c-h); }
