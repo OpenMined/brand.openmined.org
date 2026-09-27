@@ -1,0 +1,374 @@
+---
+/**
+ * BRAND-V2 — WORKING FAVORITES
+ * ════════════════════════════════════════════════════════════════════
+ * The rounds' work bundled into one reference, readable at a glance:
+ * the working values, the rules that go with them, and a link to the
+ * round where each one is shown in use.
+ *
+ * Built from the rounds' own visual elements rather than new ones: the
+ * color round's layout, bar, "The system" ramps, Roles, Chart series and
+ * Brand gradient blocks (color/_color.css), rendered for the working
+ * palette only. Everything is a WORKING FAVORITE, not approved; "Watch"
+ * notes appear only where they belong to a specific value.
+ *
+ * Every value is read from ./_working.ts — the module the diagram round
+ * and the token downloads read too.
+ *
+ * NOT canon: stylelint-exempt with the other rounds; tokens.css untouched.
+ */
+import Base from '../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import {
+  TOKEN_CSS, roleCss, MODES, SAT, HUES, STEPS, ramp, gradient, SURFACES, LINES_TEXT, SHADOWS,
+  ROLE_HUE, ROLE_ROWS, SERIES, contrast, oklchOf,
+} from './_working';
+import './color/_color.css';
+import './_working.css';
+import FigA from './diagrams/_a/Fig1.astro';
+
+const R = { light: ramp('light'), dark: ramp('dark') };
+const G = { light: gradient('light'), dark: gradient('dark') };
+const roleAt = (mode: 'light' | 'dark', s: number) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
+// A readout on a swatch: ink on light swatches, white on dark ones.
+const readout = (hex: string) => (oklchOf(hex)[0] > 62 ? '#221f2c' : '#fcfcfd');
+
+// Keys under 3:1 on a ground they're drawn on (sunken is never a ground).
+const LOW = MODES.flatMap(m => HUES.flatMap(h => {
+  const on = SURFACES[m].filter(s => s.token !== 'sunken' && contrast(R[m][h][400], s.hex) < 3);
+  return on.length ? [`${h} in ${m} (${on.map(s => `${s.token} ${contrast(R[m][h][400], s.hex).toFixed(2)}`).join(', ')})`] : [];
+}));
+
+const SLOTS = { light: [...SURFACES.light, ...LINES_TEXT.light], dark: [...SURFACES.dark, ...LINES_TEXT.dark] };
+const RUNGS = ['sunken', 'raise-1', 'raise-2'] as const;
+
+const LINKS = {
+  surfaces: '/rounds/surfaces/?g=100:98.5__-2,150:96.5,200:92.5,300:89.85__4,800:27.77_-2_-1,850:24.75,900:21.77,950:19.67&a=light-lighter.sunken:300,light-lighter.raise-1:100&shl=sunken:1_5_0_0.07_1,raise-1:2_10_-4_0.05_0,raise-2:6_16_-4_0.12_0',
+  color: '/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all',
+  diagrams: '/rounds/diagrams/',
+};
+const TOC = [['principles', 'Principles'], ['surfaces', 'Surfaces & shadows'], ['color', 'Color'], ['gradient', 'Gradient & graphics'], ['diagrams', 'Diagrams'], ['files', 'Rounds & tokens']];
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+---
+
+<Base title="brand-v2 — working favorites">
+  <script is:inline>
+    (() => {
+      const t = new URLSearchParams(location.search).get('t');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <Fragment set:html={`<style>${TOKEN_CSS}\n${roleCss()}</style>`} />
+
+  <div class="cr wf">
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="bar__back" href="/" aria-label="Back to the brand reference">←</a>
+        <span class="bar__title">Working favorites</span>
+        <nav class="bar__field" aria-label="Rounds">
+          <span class="bar__lab">Rounds</span>
+          <a class="bar__link" href={LINKS.surfaces} data-keep-t>Surfaces</a>
+          <a class="bar__link" href={LINKS.color} data-keep-t>Color</a>
+          <a class="bar__link" href={LINKS.diagrams} data-keep-t>Diagrams</a>
+        </nav>
+        <div class="bar__field">
+          <span class="bar__lab">Color mode</span>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ── Hero ──────────────────────────────────────────────────── -->
+      <section class="hero wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · working favorites</span>
+          <h1>Brand v2 Working Favorites</h1>
+          <p class="lead">The rounds so far, in one place: the working values, the rules that go with them, and where to see each one in use. <strong>Everything here is a working favorite</strong> &mdash; the current best answer, not a final approval.</p>
+          <p class="meta">Updated 2026-09-27 · Palette: Ink · Both color modes &mdash; use the toggle · Click any swatch to copy it</p>
+        </div>
+        <nav class="toc" aria-label="Contents">
+          <ol>{TOC.map(([id, t]) => <li><a href={`#${id}`}><span class="toc__t">{t}</span><ion-icon class="toc__i" name="arrow-down-outline" aria-hidden="true"></ion-icon></a></li>)}</ol>
+        </nav>
+      </section>
+
+      <!-- ── 01 Principles ─────────────────────────────────────────── -->
+      <section class="band" id="principles">
+        <div class="wrap">
+          <header class="sec"><h2>Principles</h2><p>What every value below is judged against.</p></header>
+          <ul class="points">
+            <li><b>Evolve, don&rsquo;t rebrand.</b> Build on the existing tokens and components.</li>
+            <li><b>Web and graphics first.</b> Pages and graphics outrank app interfaces when a choice trades one for the other.</li>
+            <li><b>Fewer, clearer choices.</b> Eight surfaces become four levels; 99 chromatic values become 42.</li>
+            <li><b>Graphics take their colors from the palette.</b> No second color set to keep in step.</li>
+            <li><b>Both color modes are first-class.</b> Every value is defined and judged in light and dark.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── 02 Surfaces & shadows ─────────────────────────────────── -->
+      <section class="band" id="surfaces">
+        <div class="wrap">
+          <header class="sec"><h2>Surfaces &amp; shadows</h2><p>Four levels &mdash; one below the page, the page, two above &mdash; lighter as they rise in both modes. Display-adjusted, so each surface renders consistently in screen shares and recordings.</p></header>
+
+          <article class="card ramps ramps--surf">
+            <div class="ramps__head">
+              <span></span>
+              {SLOTS.light.map(s => <span class="ramps__step"><b>{s.token}</b></span>)}
+            </div>
+            {MODES.map(m => (
+              <div class="ramps__row">
+                <span class="ramps__hue">{m}</span>
+                {SLOTS[m].map(s => (
+                  <button class="sw sw--copy" type="button" data-copy={s.hex} aria-label={`Copy ${s.token}, ${m}: ${s.hex}`} style={`background:${s.hex};color:${readout(s.hex)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                    <code>{s.hex}{s.step && <><br />gray {s.step}</>}</code>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </article>
+
+          <article class="card">
+            <h3 class="card__h">The shadow ladder</h3>
+            <p class="card__sub">One shadow per level; <code>base</code> casts nothing. The geometry is shared across modes, only the ink changes. Click a value to copy it.</p>
+            <div class="ladder">
+              {RUNGS.map(k => (
+                <div class="ladder__rung">
+                  <div class={`ladder__tile ladder__tile--${k}`}><span>{k}</span></div>
+                  {MODES.map(m => (
+                    <button class="ladder__val" type="button" data-copy={SHADOWS[m][k]} aria-label={`Copy ${k} shadow, ${m}`}><span class="muted">{m}</span><code>{SHADOWS[m][k]}</code><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span></button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <div class="notes">
+            <div>
+              <h3>Rules</h3>
+              <ul>
+                <li>Sections aren&rsquo;t marked by a background change; use a divider if a boundary needs marking.</li>
+                <li><code>sunken</code> is never a ground &mdash; only a recess inside a surface, sized to a control.</li>
+                <li>Dividers only: nothing is enclosed by a border.</li>
+                <li>White is the light <code>raise-2</code>, so light mode tops out at four levels.</li>
+                <li>Shadows apply at rest; hover modifies them, and only on links and buttons.</li>
+                <li>Keep blurs at 16px or less &mdash; the outermost blur sets the widest band, and wide bands show as banding.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="notes__watch"><ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>Watch</h3>
+              <ul>
+                <li>The display adjustment is standard encoding arithmetic, not yet confirmed against a captured screen share.</li>
+                <li>In light mode <code>line</code> and <code>sunken</code> share gray 300, so a divider inside a recess disappears.</li>
+                <li>Dark mode&rsquo;s level separation fades in a bright room or on a projector; light mode holds.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="see"><ion-icon class="see__i" name="eye-outline" aria-hidden="true"></ion-icon>See it: <a href={LINKS.surfaces} data-keep-t>Surfaces round, with the working values loaded<Fragment set:html={ARR} /></a></p>
+        </div>
+      </section>
+
+      <!-- ── 03 Color ──────────────────────────────────────────────── -->
+      <section class="band" id="color">
+        <div class="wrap">
+          <header class="sec"><h2>Color</h2><p>Ink: 6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to. Saturation is offset per mode &mdash; light ×{SAT.light.toFixed(2)}, dark ×{SAT.dark.toFixed(2)}.</p></header>
+
+          <article class="card ramps">
+            <div class="ramps__head">
+              <span></span>
+              {STEPS.map(s => (
+                <span class="ramps__step">
+                  <b>{s}</b>
+                  <em class="only-light">{roleAt('light', s).join(' · ') || '—'}</em>
+                  <em class="only-dark">{roleAt('dark', s).join(' · ') || '—'}</em>
+                </span>
+              ))}
+            </div>
+            {HUES.map(h => (
+              <div class="ramps__row">
+                <span class="ramps__hue">
+                  {h}
+                  <small>{Object.entries(ROLE_HUE).filter(([, v]) => v === h).map(([r]) => r).join(' · ')}</small>
+                </span>
+                {STEPS.map(s => (
+                  <button class="sw sw--copy" type="button" data-var={`--${h}-${s}`} aria-label={`Copy ${h} ${s}`} style={`background:var(--${h}-${s});color:${s <= 300 ? '#221f2c' : '#fcfcfd'}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                    <code class="only-light">{R.light[h][s]}</code><code class="only-dark">{R.dark[h][s]}</code>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </article>
+
+          <div class="grid grid--2">
+            <article class="card">
+              <h3 class="card__h">Roles</h3>
+              <table class="tbl">
+                <thead><tr><th>Role</th><th>Light</th><th>Dark</th><th>Example</th></tr></thead>
+                <tbody>
+                  {ROLE_ROWS.map(r => (
+                    <tr>
+                      <td><code>{r.role}</code><br /><span class="muted tbl__use">{r.use}</span></td><td>{r.light}</td><td>{r.dark}</td>
+                      <td><span class="ex">{HUES.map(h => (
+                        r.role === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
+                        : r.role === 'solid' ? <span class="ex__chip" style={`background:var(--${h}-solid);color:var(--${h}-on)`}>Aa</span>
+                        : r.role === 'key' ? <span class="ex__chip" style={`background:var(--${h}-key)`}></span>
+                        : r.role === 'tint' ? <span class="ex__chip" style={`background:var(--${h}-tint);color:var(--${h}-fg)`}>Aa</span>
+                        : <span class="ex__chip" style={`background:var(--${h}-soft)`}></span>
+                      ))}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p class="card__note">Status: success = green · warning = amber · danger = red · info = blue. Accent: none &mdash; the interface stays grayscale and spends color on status and data.</p>
+            </article>
+
+            <article class="card">
+              <h3 class="card__h">Chart series</h3>
+              <p class="card__sub">Each series owns a hue at four strengths, so an entity keeps its color from a faint panel to a label. Validated order; violet and blue are never adjacent.</p>
+              <table class="tbl tbl--series">
+                <thead><tr><th>Series</th><th>tint</th><th>soft</th><th>key</th><th>fg</th></tr></thead>
+                <tbody>
+                  {SERIES.map((h, i) => (
+                    <tr>
+                      <td><code>series-{i + 1}</code> <span class="muted">{h}</span></td>
+                      {['tint', 'soft', 'key', 'fg'].map(r => <td><i class="chip" style={`background:var(--series-${i + 1}-${r})`}></i></td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </article>
+          </div>
+
+          <div class="notes">
+            <div>
+              <h3>Rules</h3>
+              <ul>
+                <li><b>One label color per step</b>, in every hue: ink on 100&ndash;300, white on 500&ndash;700, <b>no text on 400</b>. The key is for marks.</li>
+                <li>A fill that carries a label is <code>solid</code>: 500 under white in light mode, 300 under ink in dark.</li>
+                <li><b>Violet and blue never pair</b> &mdash; never adjacent in a chart, never opposite sides of a comparison.</li>
+                <li><b>Graphics use fixed steps, never roles</b>, so their colors hold across a mode switch.</li>
+              </ul>
+            </div>
+            {LOW.length > 0 && (
+              <div>
+                <h3 class="notes__watch"><ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>Watch</h3>
+                <ul><li>Keys under 3:1 on a ground: {LOW.join('; ')}. Chart marks there need labels or another cue; focus rings take the <code>fg</code> step.</li></ul>
+              </div>
+            )}
+          </div>
+          <p class="see"><ion-icon class="see__i" name="eye-outline" aria-hidden="true"></ion-icon>See it: <a href={LINKS.color} data-keep-t>Color round, set to Ink<Fragment set:html={ARR} /></a><a href={`${LINKS.color}#info`} data-keep-t>data vis &amp; presentations<Fragment set:html={ARR} /></a><a href={`${LINKS.color}#interface`} data-keep-t>interfaces<Fragment set:html={ARR} /></a></p>
+        </div>
+      </section>
+
+      <!-- ── 04 Gradient & graphics ────────────────────────────────── -->
+      <section class="band" id="gradient">
+        <div class="wrap">
+          <header class="sec"><h2>Gradient &amp; graphics</h2><p>One gradient, drawn from the palette, feeding every graphic built on it.</p></header>
+
+          <article class="card spec">
+            <div class="spec__head">
+              <h3 class="card__h">Brand gradient</h3>
+              <p class="card__sub">Nine stops, same order in every palette, drawn from the palette itself. Every family stop is its key (400) — red, violet, blue, teal, green. Gold, orange, lime and yellow have no family, so they are fitted to the palette: hues from their neighbors, strength from the palette’s own. Every graphic built on the gradient — the colorflow, the gradient map — inherits this.</p>
+            </div>
+            <i class="spec__bar" style="background:linear-gradient(90deg in oklab,var(--spectrum))"></i>
+            <div class="spec__stops">
+              {G.light.map((g, i) => (
+                <button class="spec__stop" type="button" data-var={`--spec-${i + 1}`} aria-label={`Copy ${g.name}`}>
+                  <i style={`background:var(--spec-${i + 1})`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span></i><b>{g.name}</b>
+                  <code class="only-light">{g.hex}<br />{g.ref ?? 'fitted'}</code><code class="only-dark">{G.dark[i].hex}<br />{g.ref ?? 'fitted'}</code>
+                </button>
+              ))}
+            </div>
+          </article>
+
+          <div class="notes">
+            <div>
+              <h3>Rules</h3>
+              <ul>
+                <li>The logo keeps its own colors in every palette.</li>
+                <li>The colorflow (<code>&lt;om-stream&gt;</code>) and gradient map (<code>&lt;om-mesh&gt;</code>) read the gradient, so they change when it does.</li>
+                <li>Graphic sections may pin a mode (<code>always-dark</code> / <code>always-light</code>) when they need a specific ground.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="notes__watch"><ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>Watch</h3>
+              <ul><li>The site&rsquo;s current gradient image has a deep magenta no palette reaches; the gradient map approximates it.</li></ul>
+            </div>
+          </div>
+          <p class="see"><ion-icon class="see__i" name="eye-outline" aria-hidden="true"></ion-icon>See it: <a href={LINKS.color} data-keep-t>the colorflow, in the color round&rsquo;s hero<Fragment set:html={ARR} /></a><a href={`${LINKS.color}#gradient-map`} data-keep-t>the gradient map<Fragment set:html={ARR} /></a></p>
+        </div>
+      </section>
+
+      <!-- ── 05 Diagrams ───────────────────────────────────────────── -->
+      <section class="band" id="diagrams">
+        <div class="wrap">
+          <header class="sec"><h2>Diagrams</h2><p>The system applied to the first three graphics of <a href="https://openmined.org/attribution-based-control/">openmined.org/attribution-based-control</a>, in two directions beside the originals. No favorite yet. The one rule so far: <b>graphics use fixed palette steps, never roles</b> &mdash; each mode differs only by its saturation offset, and neutrals follow the mode.</p></header>
+          <figure class="dex">
+            <FigA />
+            <figcaption class="dex__cap">Direction A · Attribution in color — each source keeps its hue from the palette; where attribution is lost the colors drain to gray, and where it&rsquo;s kept they reach the person asking.</figcaption>
+          </figure>
+          <div class="grid grid--3">
+            <a class="card card--link" href="/rounds/diagrams/original/" data-keep-t><h3 class="card__h">Original <Fragment set:html={ARR} /></h3><p>The live page&rsquo;s graphics, for comparison.</p></a>
+            <a class="card card--link" href="/rounds/diagrams/a/" data-keep-t><h3 class="card__h">A · Attribution in color <Fragment set:html={ARR} /></h3><p>Each source keeps a hue; attribution lost drains to gray.</p></a>
+            <a class="card card--link" href="/rounds/diagrams/b/" data-keep-t><h3 class="card__h">B · Technical plate <Fragment set:html={ARR} /></h3><p>A few colors with one job each, spec-sheet restraint.</p></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 06 Rounds & tokens ────────────────────────────────────── -->
+      <section class="band" id="files">
+        <div class="wrap">
+          <header class="sec"><h2>Rounds &amp; tokens</h2><p>Each round opens with the working values loaded. The tokens are the same values as files &mdash; not in the brand&rsquo;s shipped <code>tokens.css</code> yet.</p></header>
+          <div class="grid grid--3">
+            <a class="card card--link" href={LINKS.surfaces} data-keep-t><h3 class="card__h">Surfaces round <Fragment set:html={ARR} /></h3><p>Levels, shadows, borders and a form lab, with a live editor.</p></a>
+            <a class="card card--link" href={LINKS.color} data-keep-t><h3 class="card__h">Color round <Fragment set:html={ARR} /></h3><p>Palette, roles, charts, interface and graphics on a mock page.</p></a>
+            <a class="card card--link" href={LINKS.diagrams} data-keep-t><h3 class="card__h">Diagram round <Fragment set:html={ARR} /></h3><p>The ABC article&rsquo;s opening, with its graphics redrawn.</p></a>
+          </div>
+          <div class="actions">
+            <a class="btn btn--ink" href="/rounds/working-tokens.css" download="brand-v2-working-tokens.css"><ion-icon name="download-outline" aria-hidden="true"></ion-icon>tokens.css</a>
+            <a class="btn btn--quiet" href="/rounds/working-tokens.json" download="brand-v2-working-tokens.json"><ion-icon name="download-outline" aria-hidden="true"></ion-icon>tokens.json</a>
+            <span class="muted dl__note">JSON: W3C design-tokens format, one set per color mode (e.g. for Tokens Studio in Figma).</span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // Keep the color mode in the URL and on every round link.
+    const html = document.documentElement;
+    const sync = () => {
+      const t = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const q = new URLSearchParams(location.search); q.set('t', t);
+      history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
+      document.querySelectorAll<HTMLAnchorElement>('[data-keep-t]').forEach(a => {
+        const u = new URL(a.href); u.searchParams.set('t', t); a.href = u.toString();
+      });
+    };
+    sync();
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+
+    // Click to copy: [data-copy] carries its value; [data-var] copies the
+    // custom property as resolved for the current color mode.
+    const toast = document.querySelector<HTMLElement>('.toast')!;
+    let timer = 0;
+    const copy = async (text: string) => {
+      try { await navigator.clipboard.writeText(text); }
+      catch {
+        const t = Object.assign(document.createElement('textarea'), { value: text });
+        document.body.append(t); t.select(); document.execCommand('copy'); t.remove();
+      }
+    };
+    document.addEventListener('click', async e => {
+      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-copy], [data-var]');
+      if (!el) return;
+      const v = el.dataset.copy ?? getComputedStyle(html).getPropertyValue(el.dataset.var!).trim();
+      await copy(v);
+      toast.textContent = `Copied ${v}`;
+      toast.classList.add('is-on'); el.classList.add('is-copied');
+      clearTimeout(timer);
+      timer = window.setTimeout(() => { toast.classList.remove('is-on'); el.classList.remove('is-copied'); }, 1400);
+    });
+  </script>
+</Base>

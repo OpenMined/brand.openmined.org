@@ -1,0 +1,133 @@
+/* ════════════════════════════════════════════════════════════════════
+   BRAND-V2 — working favorites. The layout and blocks come from the
+   color round (color/_color.css); this file only adds what the page
+   needs on top: the contents list, plain-text notes, the surfaces and
+   shadow blocks, copy feedback and a few bar links.
+   Round page: stylelint-exempt, but every color is a token.
+   ════════════════════════════════════════════════════════════════════ */
+
+.wf strong, .wf b { color: var(--c-h); font-weight: 600; }
+.wf a { color: var(--c-h); text-decoration-color: var(--c-line-strong); text-underline-offset: 3px; }
+.wf a:hover { text-decoration-color: currentColor; }
+.hero { display: grid; gap: var(--spacing-4XL); }
+.hero + .band { padding-top: 72px; }
+.meta { font-size: 0.82rem; color: var(--c-m); }
+.band > .wrap { display: grid; gap: var(--spacing-XL); }
+.band .sec { margin-bottom: var(--spacing-S); }
+
+/* Bar: round links, as quiet chips beside the color round's fields */
+.wf .bar__link { padding: 5px 10px; border-radius: var(--border-radius-S); font-size: 0.82rem; font-weight: 500; color: var(--c-h); text-decoration: none; background: var(--c-sunken); }
+.wf .bar__link:hover { background: var(--c-line-strong); }
+
+/* ── Contents: numbered, each with a down arrow ──────────────────── */
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px var(--spacing-3XL); max-width: 52em; }
+@media (max-width: 760px) { .toc ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.wf .toc a { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 0.92rem; color: var(--c-b); text-decoration: none; border-bottom: 1px solid var(--c-line); }
+.wf .toc a:hover { color: var(--c-h); }
+.toc__t { flex: 1; }
+.toc__i { font-size: 14px; color: var(--c-m); transition: transform 0.2s; }
+.wf .toc a:hover .toc__i { transform: translateY(2px); color: var(--c-h); }
+
+/* ── Principles and notes: plain text, no boxes ──────────────────── */
+.points { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--spacing-XL) var(--spacing-3XL); font-size: 0.92rem; line-height: 1.55; }
+.points b { display: block; margin-bottom: 4px; }
+.notes { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--spacing-XL) var(--spacing-4XL); font-size: 0.92rem; line-height: 1.55; margin-top: var(--spacing-S); }
+@media (max-width: 760px) { .notes { grid-template-columns: minmax(0, 1fr); } }
+.notes > div { display: grid; align-content: start; gap: var(--spacing-S); }
+.notes ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.notes__watch { display: flex; align-items: center; gap: 6px; }
+.notes__watch ion-icon { font-size: 17px; color: var(--c-m); }
+
+.see { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 0.86rem; color: var(--c-m); }
+.see__i { font-size: 16px; margin-right: -10px; }
+.wf .see a { display: inline-flex; align-items: center; gap: 4px; }
+.see a ion-icon, .card--link ion-icon { font-size: 13px; transition: transform 0.2s; }
+.see a:hover ion-icon, .card--link:hover ion-icon { transform: translateX(2px); }
+
+/* ── Copyable swatches: the color round's .sw, as buttons ────────── */
+.wf .sw--copy, .wf .spec__stop, .wf .ladder__val { border: 0; margin: 0; font: inherit; text-align: left; cursor: pointer; }
+.wf .sw--copy { padding: 6px 8px; transition: transform 0.15s; }
+.wf .sw--copy:hover { transform: translateY(-2px); }
+.wf .spec__stop { display: grid; gap: 2px; min-width: 0; padding: 0; background: none; color: inherit; align-content: start; }
+.wf .spec__stop:hover i { transform: translateY(-2px); }
+.spec__stop i { transition: transform 0.15s; }
+.wf :is(.sw--copy, .spec__stop, .ladder__val):focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.is-copied code { font-weight: 700; }
+
+/* Surfaces: the ramps grid, nine slots wide; an edge where a slot meets the card */
+.ramps--surf .ramps__head, .ramps--surf .ramps__row { grid-template-columns: 90px repeat(9, minmax(78px, 1fr)); }
+.ramps--surf .ramps__step b { font-weight: 500; }
+.ramps--surf .sw { box-shadow: inset 0 0 0 1px var(--c-line); line-height: 1.35; }
+
+/* Shadow ladder: one tile per rung on the card, its values beneath */
+.ladder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-2XL); }
+@media (max-width: 760px) { .ladder { grid-template-columns: minmax(0, 1fr); } }
+.ladder__rung { display: grid; gap: 6px; align-content: start; }
+.ladder__tile { height: 96px; border-radius: var(--border-radius-S); display: grid; place-items: center; margin-bottom: 8px; font-family: var(--font-m); font-size: 0.8rem; color: var(--c-m); }
+.ladder__tile--sunken { background: var(--c-sunken); box-shadow: var(--c-shadow-in); }
+.ladder__tile--raise-1 { background: var(--c-raise-1); box-shadow: var(--c-shadow-1), 0 0 0 1px var(--c-line); }
+.ladder__tile--raise-2 { background: var(--c-raise-2); box-shadow: var(--c-shadow-2); }
+.wf .ladder__val { display: grid; gap: 1px; padding: 4px 6px; margin: 0 -6px; border-radius: var(--border-radius-XS); background: none; color: var(--c-b); font-size: 0.72rem; }
+.wf .ladder__val:hover { background: var(--c-sunken); }
+.ladder__val code { font-size: 0.72rem; }
+
+.tbl__use { font-size: 0.72rem; }
+.wf a.card--link { text-decoration: none; }
+.wf a.card--link:hover { box-shadow: var(--c-shadow-2); }
+.card--link .card__h { display: flex; align-items: center; gap: 6px; }
+.card--link p { color: var(--c-m); font-size: 0.88rem; }
+.actions { align-items: center; }
+.dl__note { font-size: 0.8rem; }
+
+/* ── Copy toast ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 20; transform: translate(-50%, 8px);
+  padding: 8px 14px; border-radius: var(--border-radius-S); background: var(--c-ink); color: var(--c-on-ink);
+  font-family: var(--font-m); font-size: 12.5px; box-shadow: var(--c-shadow-2);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+}
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* No section numbers: the heading and intro share one column */
+.wf .sec { grid-template-columns: minmax(0, 1fr); }
+.wf .sec p { grid-column: 1; }
+
+/* Principles in two columns */
+.points { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 60em; }
+@media (max-width: 640px) { .points { grid-template-columns: minmax(0, 1fr); } }
+
+/* The ink button keeps its own label color (the page's link color would win otherwise) */
+.wf a.btn--ink { color: var(--c-on-ink); }
+
+/* ── Copy affordance: a copy icon on hover, a check once copied ──── */
+.wf .sw--copy { position: relative; }
+.spec__stop i { position: relative; display: grid; place-items: center; }
+.cpi {
+  display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: var(--border-radius-XS);
+  background: var(--c-raise-2); color: var(--c-h); box-shadow: var(--c-shadow-1);
+  font-size: 13px; opacity: 0; transition: opacity 0.15s; pointer-events: none;
+}
+.sw--copy .cpi { position: absolute; top: 6px; right: 6px; }
+.cpi ion-icon { grid-area: 1 / 1; }
+.cpi__done { visibility: hidden; }
+:is(.sw--copy, .spec__stop, .ladder__val):is(:hover, :focus-visible) .cpi, .is-copied .cpi { opacity: 1; }
+.is-copied .cpi__copy { visibility: hidden; }
+.is-copied .cpi__done { visibility: visible; }
+.wf .ladder__val { position: relative; padding-right: 30px; }
+.ladder__val .cpi { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; font-size: 12px; box-shadow: none; }
+
+/* ── Diagram example: the diagram round's figure mechanics ───────── */
+.dex { margin: 0; display: grid; gap: var(--spacing-M); }
+.dex__cap { font-size: 0.86rem; color: var(--c-m); max-width: 60em; }
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fig text { font-family: var(--font-b); }
+.fig .mono { font-family: var(--font-m); }
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) { .panels { grid-template-columns: 1fr; } }
+.wf .panel__head { margin: 0 0 12px; }
+.panel__eyebrow { display: block; font-family: var(--font-m); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-m); }
+.panel__title { display: block; font-size: 15px; font-weight: 600; color: var(--c-h); margin-top: 2px; }
+
+/* Principles: one column, the bold lead-in and its line run together */
+.points { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-M); max-width: 60em; }
+.points b { display: inline; margin: 0 0.3em 0 0; }
