@@ -217,7 +217,7 @@ const TOC = [['ramp', 'The ramp today'], ['count', 'How many grays'], ['names', 
 
     .ramp { display: grid; gap: 0; }
     .ramp__row { display: grid; grid-template-columns: 96px 80px 56px 1fr 1fr; gap: var(--spacing-M); align-items: center; font-size: 0.85rem; }
-    .ramp__row.is-idle { opacity: 0.55; }
+    .ramp__row.is-idle :is(.ramp__name, .ramp__use) { color: var(--c-m); font-weight: 400; }
     .ramp__sw { display: flex; align-items: center; padding: 0 8px; height: 30px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--c-line); }
     .ramp__sw code { font-size: 0.66rem; color: inherit; }
     .ramp__name { color: var(--c-h); font-weight: 600; }
@@ -244,7 +244,7 @@ const TOC = [['ramp', 'The ramp today'], ['count', 'How many grays'], ['names', 
     :root[data-opt="keep"] .on-keep, :root[data-opt="prune"] .on-prune, :root[data-opt="even"] .on-even,
     :root[data-opt="index"] .on-index, :root[data-opt="bands"] .on-bands { display: block; }
     .opt { align-items: start; }
-    .names tr.is-gone td { opacity: 0.5; }
+    .names tr.is-gone code { color: var(--c-m); }
     .chg { margin-left: 8px; font-size: 0.68rem; color: var(--amber-fg); }
 
     .tlist { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--spacing-S); font-size: 0.88rem; line-height: 1.5; }
