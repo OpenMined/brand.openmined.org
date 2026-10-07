@@ -1,0 +1,280 @@
+---
+/**
+ * BRAND-V2 — NAMING ROUND
+ * ════════════════════════════════════════════════════════════════════
+ * Two linked questions about the gray ramp: how many steps to offer, and
+ * what to call them. Gray has 17 inherited steps (00–1000); the hues have
+ * 7 (100–700). Both already number light → dark.
+ *
+ * Naming and count only: every value comes from ../_working.ts and none
+ * changes. No new graphics; the swatches are the working values themselves.
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_working';
+import { GRAYS, GAPS, OPTIONS, meaningChanges, renamed, offered, ROLES_PICK, stepOf, FIELD, fmtL } from './_naming';
+import '../color/_color.css';
+import '../_working.css';
+
+const ink = (hex: string) => (oklchOf(hex)[0] > 62 ? LABEL_INK.onLight : LABEL_INK.onDark);
+const maxGap = Math.max(...GAPS.map(g => g.d));
+const unused = GRAYS.filter(g => !g.used).map(g => g.cur);
+const TOC = [['ramp', 'The ramp today'], ['count', 'How many grays'], ['names', 'Naming options'], ['rec', 'Recommendation']];
+---
+
+<Base title="brand-v2 — naming round">
+  <script is:inline>
+    (() => {
+      const q = new URLSearchParams(location.search);
+      const t = q.get('t');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.dataset.opt = q.get('o') || 'prune';
+    })();
+  </script>
+  <Fragment set:html={`<style>${TOKEN_CSS}\n${roleCss()}</style>`} />
+
+  <div class="cr wf nm">
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="bar__back" href="/rounds/" data-keep-t aria-label="Back to working favorites">←</a>
+        <span class="bar__title">Naming round</span>
+        <div class="bar__field">
+          <span class="bar__lab">Color mode</span>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · naming round</span>
+          <h1>How many grays, and what to call them?</h1>
+          <p class="lead">Gray has 17 inherited steps; each hue has 7. Both already number <strong>light to dark</strong> (gray 00 is white, blue 100 is the lightest blue). The question is how many grays to offer and how to name them so someone with little design knowledge can pick one. Every value here is the agreed working value; only names and the number on offer change.</p>
+          <p class="meta">2026-10-07 · Lightness is OKLCH L, 0–100 · Use the toggle to see both color modes</p>
+        </div>
+        <div class="crit">
+          <b>What a good answer has to do</b>
+          <ol>
+            <li>Number gray and hues the same way: low = light.</li>
+            <li>Keep every agreed value exactly.</li>
+            <li>Let a non-designer pick the right gray without knowing color theory.</li>
+            <li>Not depend on gray matching the hue lightness levels (the agreed values don’t).</li>
+            <li>Leave room for the steps later rounds will need (hover, pressed, disabled).</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ── 01 The ramp today ───────────────────────────────────────── -->
+      <section class="band" id="ramp">
+        <div class="wrap">
+          <header class="sec"><h2>The ramp today</h2><p>All 17 grays, light to dark, with what uses each. The bars between rows show the lightness gap to the next step: the ends are dense because the eight surfaces live there; the middle is thin. <strong>{unused.map(u => `gray ${u}`).join(' and ')} have no job.</strong></p></header>
+          <article class="card ramp">
+            {GRAYS.map((g, i) => (
+              <>
+                <div class={`ramp__row${g.used ? '' : ' is-idle'}`}>
+                  <span class="ramp__sw" style={`background:var(--gray-${g.cur});color:${ink(g.hex)}`}><code>{g.hex}</code></span>
+                  <b class="ramp__name">gray {g.cur}</b>
+                  <span class="ramp__l">L {fmtL(g.l)}</span>
+                  <span class="ramp__use"><em>light</em> {g.use.light.join(', ') || '—'}</span>
+                  <span class="ramp__use"><em>dark</em> {g.use.dark.join(', ') || '—'}</span>
+                </div>
+                {GAPS[i] && (
+                  <div class="ramp__gap" aria-label={`Gap ${fmtL(GAPS[i].d)} L`}>
+                    <span class="ramp__bar" style={`width:${(GAPS[i].d / maxGap) * 100}%`}></span><span class="ramp__d">ΔL {fmtL(GAPS[i].d)}</span>
+                  </div>
+                )}
+              </>
+            ))}
+          </article>
+          <p class="muted note">Most steps do double duty: gray 850 is the light-mode headline and the dark-mode card; gray 400 is the light-mode strong line and the dark-mode body text. One ramp serving both modes is why gray needs more steps than a hue. Gray 550 (dark muted text) is a placeholder until the type round.</p>
+        </div>
+      </section>
+
+      <!-- ── 02 How many ─────────────────────────────────────────────── -->
+      <section class="band" id="count">
+        <div class="wrap">
+          <header class="sec"><h2>How many grays</h2><p>The count is really two numbers: the steps the system needs, and the choices a person is asked to make.</p></header>
+          <article class="card">
+            <h3 class="card__h">What the big systems do</h3>
+            <p class="card__sub">Read from each system’s published token files.</p>
+            <table class="tbl">
+              <thead><tr><th>System</th><th>Gray steps</th><th>Hue steps</th><th>Note</th></tr></thead>
+              <tbody>{FIELD.map(f => <tr><td><b>{f.sys}</b></td><td>{f.gray}</td><td>{f.hue}</td><td class="muted">{f.note}</td></tr>)}</tbody>
+            </table>
+          </article>
+          <div class="grid grid--2">
+            <article class="card">
+              <h3 class="card__h">The steps the system needs: {GRAYS.filter(g => g.used).length}</h3>
+              <p>Count the jobs, not a preferred round number. Four surfaces and five line and text colors per mode, plus label ink, the diagram connector and shadow ink, land on {GRAYS.filter(g => g.used).length} distinct grays. 17 is that plus {unused.length} inherited steps nobody uses. Layered surfaces aren’t unusual: Carbon has a background and three layers, and Atlassian has sunken, default, raised and overlay. But Carbon’s light themes alternate two grays and use no shadows, so ten grays cover it. Atlassian, whose levels and bound shadows match OM’s most closely, carries more neutrals than hues, as OM does.</p>
+              <p class="muted">Later rounds will likely add a few: Radix spends three steps on component states (normal, hover, pressed). Those come back as named jobs when a round needs them, not as idle stock.</p>
+            </article>
+            <article class="card">
+              <h3 class="card__h">The choices a person makes: {ROLES_PICK.length}</h3>
+              <p>Someone building a slide or a page shouldn’t scan a ramp at all. They pick by job, and the gray follows the color mode on its own. This is the list the skill, templates and docs lead with; the ramp sits behind it for system and graphics work.</p>
+              <table class="tbl pick">
+                <thead><tr><th>Pick</th><th>For</th><th>Is</th></tr></thead>
+                <tbody>
+                  {ROLES_PICK.map(r => (
+                    <tr>
+                      <td><span class="pick__sw" style={`background:var(--gray-${stepOf('light', r.token)})`} data-only="light"></span><span class="pick__sw" style={`background:var(--gray-${stepOf('dark', r.token)})`} data-only="dark"></span><b>{r.role}</b></td>
+                      <td class="muted">{r.job}</td>
+                      <td><code class="only-light">gray {stepOf('light', r.token)}</code><code class="only-dark">gray {stepOf('dark', r.token)}</code></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 03 Naming options ───────────────────────────────────────── -->
+      <section class="band" id="names">
+        <div class="wrap">
+          <header class="sec"><h2>Naming options</h2><p>Five ways to name the ramp, all light to dark. Pick one to rename the table; the scorecard compares them all.</p></header>
+          <div class="seg" role="radiogroup" aria-label="Naming option">
+            {OPTIONS.map(o => <button type="button" role="radio" class="seg__b" data-set={o.id} aria-checked="false">{o.label}</button>)}
+          </div>
+          <div class="grid grid--2 opt">
+            <article class="card">
+              {OPTIONS.map(o => (
+                <div class={`on-${o.id}`}>
+                  <h3 class="card__h">{o.label}</h3>
+                  <p class="card__sub">{o.idea}</p>
+                  <table class="tbl names">
+                    <thead><tr><th>Gray</th><th>Today</th><th>Name</th></tr></thead>
+                    <tbody>
+                      {GRAYS.map(g => { const n = o.name(g.cur); return (
+                        <tr class={n === null ? 'is-gone' : ''}>
+                          <td><span class="pick__sw" style={`background:var(--gray-${g.cur})`}></span></td>
+                          <td class="muted">gray {g.cur}</td>
+                          <td>{n === null ? <span class="muted">dropped</span> : <code>gray-{n}</code>}{n !== null && n !== g.cur && <span class="chg">renamed</span>}</td>
+                        </tr>
+                      ); })}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </article>
+            <article class="card">
+              {OPTIONS.map(o => (
+                <div class={`on-${o.id}`}>
+                  <h3 class="card__h">Trade-offs</h3>
+                  <ul class="tlist">
+                    {o.notes.pro.map(t => <li class="pro">{t}</li>)}
+                    {o.notes.con.map(t => <li class="con">{t}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </article>
+          </div>
+          <article class="card">
+            <h3 class="card__h">Scorecard</h3>
+            <table class="tbl">
+              <thead><tr><th>Option</th><th>Grays offered</th><th>Renamed</th><th>Names that change meaning</th><th>Same format as hues</th><th>Even, no holes</th><th>Insert later without renaming</th></tr></thead>
+              <tbody>
+                {OPTIONS.map(o => (
+                  <tr>
+                    <td><b>{o.label}</b></td>
+                    <td>{offered(o)}</td>
+                    <td>{renamed(o)}</td>
+                    <td>{meaningChanges(o)}</td>
+                    <td>{o.id === 'index' ? 'No' : o.id === 'even' ? 'Yes, but runs to 1400' : 'Yes'}</td>
+                    <td>{o.id === 'even' || o.id === 'index' ? 'Yes' : 'No'}</td>
+                    <td>{o.id === 'even' || o.id === 'index' ? 'No' : 'Yes'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="muted note">“Names that change meaning” counts names that exist today but would point at a different color: the migration risk, since an old reference would silently show the wrong gray. Released <code>--color-grayscale-*</code> names stay as deprecated aliases in every option.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── 04 Recommendation ───────────────────────────────────────── -->
+      <section class="band" id="rec">
+        <div class="wrap">
+          <header class="sec"><h2>Recommendation</h2><p>A working recommendation, open to review.</p></header>
+          <article class="card rec">
+            <p><b>Option 2, with the pick list in front.</b> Offer the {GRAYS.filter(g => g.used).length} grays that have a job, keep their names, and lead every tool, template and doc with the {ROLES_PICK.length} picks.</p>
+            <ul class="tlist">
+              <li class="pro">Confusion is solved where it starts: newcomers choose “Card” or “Muted”, not a number, and get the right gray in both modes.</li>
+              <li class="pro">No name changes meaning, so nothing already built shows a wrong gray. Same direction and format as the hues, as Atlassian does it.</li>
+              <li class="pro">The holes are room to grow: when the states round needs a hover gray, it can take 200 back with a job attached.</li>
+              <li class="con">The numbers stay uneven. If regularity matters more than stability, option 3 is the alternative; its cost is one renaming, covered by aliases.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <style>
+    .nm .crit { display: grid; gap: var(--spacing-S); padding: var(--spacing-L); background: var(--c-raise-1); border-radius: var(--border-radius-S); box-shadow: var(--c-shadow-1); font-size: 0.9rem; }
+    .nm .crit b { color: var(--c-h); }
+    .nm .crit ol { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; color: var(--c-b); }
+
+    .ramp { display: grid; gap: 0; }
+    .ramp__row { display: grid; grid-template-columns: 96px 80px 56px 1fr 1fr; gap: var(--spacing-M); align-items: center; font-size: 0.85rem; }
+    .ramp__row.is-idle { opacity: 0.55; }
+    .ramp__sw { display: flex; align-items: center; padding: 0 8px; height: 30px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--c-line); }
+    .ramp__sw code { font-size: 0.66rem; color: inherit; }
+    .ramp__name { color: var(--c-h); font-weight: 600; }
+    .ramp__l { font-variant-numeric: tabular-nums; color: var(--c-m); font-size: 0.78rem; }
+    .ramp__use { color: var(--c-b); font-size: 0.78rem; }
+    .ramp__use em { font-style: normal; color: var(--c-m); margin-right: 4px; }
+    .ramp__gap { display: grid; grid-template-columns: 96px 1fr auto; gap: var(--spacing-M); align-items: center; height: 18px; }
+    .ramp__bar { grid-column: 2; height: 3px; border-radius: 2px; background: var(--c-line-strong); min-width: 2px; }
+    .ramp__d { font-size: 0.68rem; color: var(--c-m); font-variant-numeric: tabular-nums; }
+    @media (max-width: 760px) {
+      .ramp__row { grid-template-columns: 80px 1fr auto; }
+      .ramp__use { grid-column: 2 / -1; }
+      .ramp__gap { grid-template-columns: 80px 1fr auto; }
+    }
+
+    .pick__sw { display: inline-block; vertical-align: middle; width: 22px; height: 16px; border-radius: 3px; margin-right: 8px; box-shadow: inset 0 0 0 1px var(--c-line); }
+    :root:not([data-theme="dark"]) [data-only="dark"], :root[data-theme="dark"] [data-only="light"] { display: none; }
+
+    .seg { display: flex; flex-wrap: wrap; gap: 4px; padding: 3px; background: var(--c-sunken); border-radius: 12px; width: fit-content; max-width: 100%; }
+    .seg__b { border: 0; background: none; font: inherit; font-size: 0.82rem; color: var(--c-b); padding: 6px 12px; border-radius: 9px; cursor: pointer; }
+    .seg__b[aria-checked="true"] { background: var(--c-raise-2); color: var(--c-h); box-shadow: var(--c-shadow-1); }
+    .seg__b:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+    .on-keep, .on-prune, .on-even, .on-index, .on-bands { display: none; }
+    :root[data-opt="keep"] .on-keep, :root[data-opt="prune"] .on-prune, :root[data-opt="even"] .on-even,
+    :root[data-opt="index"] .on-index, :root[data-opt="bands"] .on-bands { display: block; }
+    .opt { align-items: start; }
+    .names tr.is-gone td { opacity: 0.5; }
+    .chg { margin-left: 8px; font-size: 0.68rem; color: var(--amber-fg); }
+
+    .tlist { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--spacing-S); font-size: 0.88rem; line-height: 1.5; }
+    .tlist li { padding-left: 1.4em; position: relative; }
+    .tlist li::before { position: absolute; left: 0; font-weight: 700; }
+    .tlist .pro::before { content: '+'; color: var(--green-fg); }
+    .tlist .con::before { content: '−'; color: var(--red-fg); }
+    .rec { display: grid; gap: var(--spacing-M); }
+    .note { font-size: 0.85rem; }
+  </style>
+
+  <script>
+    const html = document.documentElement;
+    const btns = document.querySelectorAll<HTMLButtonElement>('.seg__b');
+    // Keep color mode and the chosen option in the URL and on the back link.
+    const sync = () => {
+      const t = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const q = new URLSearchParams(location.search); q.set('t', t); q.set('o', html.dataset.opt ?? 'prune');
+      history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
+      document.querySelectorAll<HTMLAnchorElement>('[data-keep-t]').forEach(a => {
+        const u = new URL(a.href); u.searchParams.set('t', t); a.href = u.toString();
+      });
+    };
+    const setOpt = (o: string) => {
+      html.dataset.opt = o;
+      btns.forEach(b => b.setAttribute('aria-checked', String(b.dataset.set === o)));
+      sync();
+    };
+    btns.forEach(b => b.addEventListener('click', () => setOpt(b.dataset.set!)));
+    setOpt(html.dataset.opt ?? 'prune');
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
+</Base>
