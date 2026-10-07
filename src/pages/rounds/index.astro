@@ -20,7 +20,7 @@
 import Base from '../../layouts/Base.astro';
 import ThemeToggle from '@brand/ThemeToggle.astro';
 import {
-  TOKEN_CSS, roleCss, MODES, SAT, HUES, STEPS, ramp, gradient, SURFACES, LINES_TEXT, SHADOWS,
+  TOKEN_CSS, roleCss, MODES, SAT, HUES, STEPS, ramp, gradient, SURFACES, LINES_TEXT, SHADOWS, LABEL_INK, GRAY, GRAY_STEPS,
   ROLE_HUE, ROLE_ROWS, SERIES, contrast, oklchOf,
 } from './_working';
 import './color/_color.css';
@@ -31,7 +31,7 @@ const R = { light: ramp('light'), dark: ramp('dark') };
 const G = { light: gradient('light'), dark: gradient('dark') };
 const roleAt = (mode: 'light' | 'dark', s: number) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
 // A readout on a swatch: ink on light swatches, white on dark ones.
-const readout = (hex: string) => (oklchOf(hex)[0] > 62 ? '#221f2c' : '#fcfcfd');
+const readout = (hex: string) => (oklchOf(hex)[0] > 62 ? LABEL_INK.onLight : LABEL_INK.onDark);
 
 // Keys under 3:1 on a ground they're drawn on (sunken is never a ground).
 const LOW = MODES.flatMap(m => HUES.flatMap(h => {
@@ -41,6 +41,8 @@ const LOW = MODES.flatMap(m => HUES.flatMap(h => {
 
 const SLOTS = { light: [...SURFACES.light, ...LINES_TEXT.light], dark: [...SURFACES.dark, ...LINES_TEXT.dark] };
 const RUNGS = ['sunken', 'raise-1', 'raise-2'] as const;
+// Gray card: which surfaces, lines and text sit on each step, per mode.
+const grayUse = (mode: 'light' | 'dark', step: string) => SLOTS[mode].filter(x => x.step === step).map(x => x.token);
 // Surfaces card: the four levels first, then the lines and text that sit on them.
 const SURF_GROUPS = [
   { name: 'Surfaces', tokens: ['sunken', 'base', 'raise-1', 'raise-2'] },
@@ -76,6 +78,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <a class="bar__link" href={LINKS.surfaces} data-keep-t>Surfaces</a>
           <a class="bar__link" href={LINKS.color} data-keep-t>Color</a>
           <a class="bar__link" href={LINKS.diagrams} data-keep-t>Diagrams</a>
+          <a class="bar__link" href="/rounds/naming/" data-keep-t>Naming</a>
+          <a class="bar__link" href="/rounds/spectrum/" data-keep-t>Spectrum</a>
         </nav>
         <div class="bar__field">
           <span class="bar__lab">Color mode</span>
@@ -128,8 +132,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                     <>
                       <span class="ramps__hue surf__m">{m}</span>
                       {g.tokens.map(t => { const s = SLOTS[m].find(x => x.token === t)!; return (
-                        <button class="sw sw--copy" type="button" data-copy={s.hex} aria-label={`Copy ${s.token}, ${m}: ${s.hex}`} style={`background:${s.hex};color:${readout(s.hex)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
-                          <code>{s.hex}{s.step && <><br />gray {s.step}</>}</code>
+                        <button class="sw sw--copy" type="button" data-var={`--gray-${s.step}`} aria-label={`Copy ${s.token}, ${m}: gray ${s.step}, ${s.hex}`} style={`background:var(--gray-${s.step});color:${readout(s.hex)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                          <code>gray {s.step}<br />{s.hex}</code>
                         </button>
                       ); })}
                     </>
@@ -143,7 +147,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
             <div class="levels__base">
               <code>base</code>
               <span>The page · level 0</span>
-              <span class="levels__hex"><span class="only-light">{SURFACES.light[1].hex}</span><span class="only-dark">{SURFACES.dark[1].hex}</span></span>
+              <span class="levels__hex"><span class="only-light">gray {SURFACES.light[1].step} · {SURFACES.light[1].hex}</span><span class="only-dark">gray {SURFACES.dark[1].step} · {SURFACES.dark[1].hex}</span></span>
             </div>
             <div class="levels__row">
               {[
@@ -154,7 +158,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                 <div class={`levels__tile levels__tile--${l.t}`}>
                   <code>{l.t}</code>
                   <span>{l.name}</span>
-                  <span class="levels__hex"><span class="only-light">{SURFACES.light[l.i].hex}</span><span class="only-dark">{SURFACES.dark[l.i].hex}</span></span>
+                  <span class="levels__hex"><span class="only-light">gray {SURFACES.light[l.i].step} · {SURFACES.light[l.i].hex}</span><span class="only-dark">gray {SURFACES.dark[l.i].step} · {SURFACES.dark[l.i].hex}</span></span>
                 </div>
               ))}
             </div>
@@ -205,6 +209,23 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         <div class="wrap">
           <header class="sec"><h2>Color</h2><p>Ink has 6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to. Saturation is offset per mode: light ×{SAT.light.toFixed(2)}, dark ×{SAT.dark.toFixed(2)}.</p></header>
 
+          <article class="card grays" aria-label="Gray ramp">
+            <h3 class="card__h">Gray</h3>
+            <p class="card__sub">17 steps, the same in both modes. Every surface, line and text color names one of them; the labels show which, in the current mode.</p>
+            <div class="grays__row">
+              {GRAY_STEPS.map(st => (
+                <div class="grays__cell">
+                  <button class="sw sw--copy" type="button" data-var={`--gray-${st}`} aria-label={`Copy gray ${st}, ${GRAY[st]}`} style={`background:var(--gray-${st});color:${readout(GRAY[st])}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                    <code>{GRAY[st]}</code>
+                  </button>
+                  <b class="grays__step">{st}</b>
+                  <em class="grays__use only-light">{grayUse('light', st).join(' · ')}</em>
+                  <em class="grays__use only-dark">{grayUse('dark', st).join(' · ')}</em>
+                </div>
+              ))}
+            </div>
+          </article>
+
           <article class="card ramps">
             <div class="ramps__head">
               <span></span>
@@ -223,7 +244,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                   <small>{Object.entries(ROLE_HUE).filter(([, v]) => v === h).map(([r]) => r).join(' · ')}</small>
                 </span>
                 {STEPS.map(s => (
-                  <button class="sw sw--copy" type="button" data-var={`--${h}-${s}`} aria-label={`Copy ${h} ${s}`} style={`background:var(--${h}-${s});color:${s <= 300 ? '#221f2c' : '#fcfcfd'}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                  <button class="sw sw--copy" type="button" data-var={`--${h}-${s}`} aria-label={`Copy ${h} ${s}`} style={`background:var(--${h}-${s});color:${s <= 300 ? LABEL_INK.onLight : LABEL_INK.onDark}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
                     <code class="only-light">{R.light[h][s]}</code><code class="only-dark">{R.dark[h][s]}</code>
                   </button>
                 ))}

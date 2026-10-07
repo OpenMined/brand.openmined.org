@@ -50,7 +50,7 @@ function oklchToRgb(L: number, C: number, H: number): number[] {
 const inGamut = (rgb: number[]) => rgb.every(c => c >= -1e-4 && c <= 1 + 1e-4);
 
 /** Gamut-map by reducing chroma, holding lightness and hue — as generate.py. */
-function oklchToHex(L: number, C: number, H: number): string {
+export function oklchToHex(L: number, C: number, H: number): string {
   let rgb = oklchToRgb(L, C, H);
   if (!inGamut(rgb)) {
     let lo = 0, hi = C;
@@ -102,51 +102,80 @@ export function gradient(mode: Mode): { name: string; hex: string; ref: string |
 /** Chart series order, as validated by the generator. */
 export const SERIES = data.categorical as string[];
 
-/* ── Surfaces, lines, text ────────────────────────────────────────── */
-const S = data.surfaces as any;
+/* ── Gray: the one neutral ramp ───────────────────────────────────────
+   The released grayscale (main's tokens.css) with the eight steps the
+   surfaces round re-tuned (brand-v2-lab/rounds/working-surface-colors.md:
+   100, 150, 200, 300, 800, 850, 900, 950). The only neutral hexes in the
+   working values: every surface, line, text, ink and label below names a
+   step. No saturation offset; the neutrals hold across modes. */
+export const GRAY_STEPS = ['00', '50', '100', '150', '200', '300', '400', '500', '550', '600', '700', '750', '800', '850', '900', '950', '1000'];
+export const GRAY: Record<string, string> = {
+  '00': '#ffffff', '50': '#fcfcfd', '100': '#fafafc', '150': '#f3f3f6', '200': '#e6e5e9',
+  '300': '#dddde2', '400': '#cfcdd6', '500': '#b4b0bf', '550': '#868394', '600': '#5e5a72',
+  '700': '#464257', '750': '#353243', '800': '#282635', '850': '#221f2c', '900': '#1b1824',
+  '950': '#16141b', '1000': '#000000',
+};
+const g = (step: string) => {
+  if (!(step in GRAY)) throw new Error(`gray ${step} is not a step`);
+  return GRAY[step];
+};
+
+/* ── Surfaces, lines, text — each names a gray step per mode ──────── */
 export type Slot = { token: string; name: string; hex: string; step: string };
+const slot = (token: string, name: string, step: string): Slot => ({ token, name, hex: g(step), step });
 export const SURFACES: Record<Mode, Slot[]> = {
   light: [
-    { token: 'sunken', name: 'sunken (−1)', hex: S.light.sunken, step: '300' },
-    { token: 'base', name: 'base (0)', hex: S.light.base, step: '150' },
-    { token: 'raise-1', name: 'raise-1 (+1)', hex: S.light['raise-1'], step: '100' },
-    { token: 'raise-2', name: 'raise-2 (+2)', hex: S.light['raise-2'], step: '00' },
+    slot('sunken', 'sunken (−1)', '300'),
+    slot('base', 'base (0)', '150'),
+    slot('raise-1', 'raise-1 (+1)', '100'),
+    slot('raise-2', 'raise-2 (+2)', '00'),
   ],
   dark: [
-    { token: 'sunken', name: 'sunken (−1)', hex: S.dark.sunken, step: '950' },
-    { token: 'base', name: 'base (0)', hex: S.dark.base, step: '900' },
-    { token: 'raise-1', name: 'raise-1 (+1)', hex: S.dark['raise-1'], step: '850' },
-    { token: 'raise-2', name: 'raise-2 (+2)', hex: S.dark['raise-2'], step: '800' },
+    slot('sunken', 'sunken (−1)', '950'),
+    slot('base', 'base (0)', '900'),
+    slot('raise-1', 'raise-1 (+1)', '850'),
+    slot('raise-2', 'raise-2 (+2)', '800'),
   ],
 };
+// The generator's JSON carries the same surfaces; fail the build if they part.
+for (const m of MODES) for (const s of SURFACES[m]) {
+  const json = (data.surfaces as any)[m][s.token];
+  if (json.toLowerCase() !== s.hex) throw new Error(`surface ${m} ${s.token}: gray ${s.step} is ${s.hex}, _palettes.json has ${json}`);
+}
+// text-muted is a placeholder snapped to the nearest step, not a decision:
+// the type round chooses it. Dark 550 is 4.0:1 on raise-2.
 export const LINES_TEXT: Record<Mode, Slot[]> = {
   light: [
-    { token: 'line', name: 'line', hex: '#dddde2', step: '300' },
-    { token: 'line-strong', name: 'line-strong', hex: '#cfcdd6', step: '400' },
-    { token: 'text-headline', name: 'text-headline', hex: '#221f2c', step: '850' },
-    { token: 'text-body', name: 'text-body', hex: '#353243', step: '750' },
-    { token: 'text-muted', name: 'text-muted', hex: '#5e5a72', step: '' },
+    slot('line', 'line', '300'),
+    slot('line-strong', 'line-strong', '400'),
+    slot('text-headline', 'text-headline', '850'),
+    slot('text-body', 'text-body', '750'),
+    slot('text-muted', 'text-muted', '600'),
   ],
   dark: [
-    { token: 'line', name: 'line', hex: '#353243', step: '750' },
-    { token: 'line-strong', name: 'line-strong', hex: '#464257', step: '700' },
-    { token: 'text-headline', name: 'text-headline', hex: '#fcfcfd', step: '50' },
-    { token: 'text-body', name: 'text-body', hex: '#cfcdd6', step: '400' },
-    { token: 'text-muted', name: 'text-muted', hex: '#9591a3', step: '' },
+    slot('line', 'line', '750'),
+    slot('line-strong', 'line-strong', '700'),
+    slot('text-headline', 'text-headline', '50'),
+    slot('text-body', 'text-body', '400'),
+    slot('text-muted', 'text-muted', '550'),
   ],
 };
 
 /* ── Shadows: one ladder, bound to the levels; ink per mode ───────── */
+/** A gray step as `r g b`, for alpha'd shadow ink. */
+const rgbOf = (step: string) => { const n = parseInt(g(step).slice(1), 16); return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`; };
+export const SHADOW_INK: Record<Mode, string> = { light: '700', dark: '1000' };
+const ink = (m: Mode, a: number) => `rgb(${rgbOf(SHADOW_INK[m])} / ${a})`;
 export const SHADOWS: Record<Mode, Record<'sunken' | 'raise-1' | 'raise-2', string>> = {
   light: {
-    sunken: 'inset 0 1px 5px 0 rgb(70 66 87 / 0.07)',
-    'raise-1': '0 2px 10px -4px rgb(70 66 87 / 0.05)',
-    'raise-2': '0 6px 16px -4px rgb(70 66 87 / 0.12), 0 2px 4px rgb(70 66 87 / 0.048)',
+    sunken: `inset 0 1px 5px 0 ${ink('light', 0.07)}`,
+    'raise-1': `0 2px 10px -4px ${ink('light', 0.05)}`,
+    'raise-2': `0 6px 16px -4px ${ink('light', 0.12)}, 0 2px 4px ${ink('light', 0.048)}`,
   },
   dark: {
-    sunken: 'inset 0 1px 5px 0 rgb(0 0 0 / 0.196)',
-    'raise-1': '0 2px 10px -4px rgb(0 0 0 / 0.14)',
-    'raise-2': '0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px rgb(0 0 0 / 0.134)',
+    sunken: `inset 0 1px 5px 0 ${ink('dark', 0.196)}`,
+    'raise-1': `0 2px 10px -4px ${ink('dark', 0.14)}`,
+    'raise-2': `0 6px 16px -4px ${ink('dark', 0.336)}, 0 2px 4px ${ink('dark', 0.134)}`,
   },
 };
 
@@ -161,19 +190,25 @@ export const ROLES: { role: string; light: number; dark: number; use: string }[]
 ];
 export const STATUS: Record<string, string> = { success: 'green', warning: 'amber', danger: 'red', info: 'blue' };
 /** Accent "none": the interface is grayscale; color is spent on status and data. */
-export const ACCENT_NONE: Record<Mode, Record<string, string>> = {
-  light: { solid: '#221f2c', hover: '#353243', on: '#fcfcfd', tint: '#dddde2', soft: '#cfcdd6' },
-  dark: { solid: '#fcfcfd', hover: '#cfcdd6', on: '#16141b', tint: '#353243', soft: '#464257' },
+export const ACCENT_NONE_STEPS: Record<Mode, Record<string, string>> = {
+  light: { solid: '850', hover: '750', on: '50', tint: '300', soft: '400' },
+  dark: { solid: '50', hover: '400', on: '950', tint: '750', soft: '700' },
 };
-export const ON_SOLID: Record<Mode, string> = { light: '#ffffff', dark: '#16141b' };
+export const ACCENT_NONE: Record<Mode, Record<string, string>> = Object.fromEntries(MODES.map(m =>
+  [m, Object.fromEntries(Object.entries(ACCENT_NONE_STEPS[m]).map(([k, s]) => [k, g(s)]))])) as Record<Mode, Record<string, string>>;
+export const ON_SOLID_STEP: Record<Mode, string> = { light: '00', dark: '950' };
+export const ON_SOLID: Record<Mode, string> = { light: g('00'), dark: g('950') };
+/** Label ink on light and dark fills (swatch readouts). */
+export const LABEL_INK = { onLight: g('850'), onDark: g('50') };
 
 /* ── The page's own CSS custom properties ─────────────────────────── */
 const surfVars = (m: Mode) => {
-  const t = Object.fromEntries([...SURFACES[m], ...LINES_TEXT[m]].map(s => [s.token, s.hex]));
+  // Each neutral resolves through its gray step, never a copied hex.
+  const t = Object.fromEntries([...SURFACES[m], ...LINES_TEXT[m]].map(s => [s.token, `var(--gray-${s.step})`]));
   return [
-    `--c-white:#ffffff`, `--label-ink:#221f2c`, `--c-sunken:${t.sunken}`, `--c-base:${t.base}`, `--c-raise-1:${t['raise-1']}`, `--c-raise-2:${t['raise-2']}`,
+    `--c-white:var(--gray-00)`, `--label-ink:var(--gray-850)`, `--c-sunken:${t.sunken}`, `--c-base:${t.base}`, `--c-raise-1:${t['raise-1']}`, `--c-raise-2:${t['raise-2']}`,
     `--c-line:${t.line}`, `--c-line-strong:${t['line-strong']}`, `--c-h:${t['text-headline']}`, `--c-b:${t['text-body']}`, `--c-m:${t['text-muted']}`,
-    `--c-ink:${t['text-headline']}`, `--c-on-ink:${m === 'light' ? '#fcfcfd' : '#16141b'}`, `--connector:#868394`,
+    `--c-ink:${t['text-headline']}`, `--c-on-ink:var(--gray-${m === 'light' ? '50' : '950'})`, `--connector:var(--gray-550)`,
     `--c-shadow-in:${SHADOWS[m].sunken}`, `--c-shadow-1:${SHADOWS[m]['raise-1']}`, `--c-shadow-2:${SHADOWS[m]['raise-2']}`,
     `color-scheme:${m}`,
   ].join(';');
@@ -181,6 +216,7 @@ const surfVars = (m: Mode) => {
 
 function paletteVars(m: Mode): string {
   const r = ramp(m), d: string[] = [];
+  for (const s of GRAY_STEPS) d.push(`--gray-${s}:${GRAY[s]}`);
   for (const h of HUES) for (const s of STEPS) d.push(`--${h}-${s}:${r[h][s]}`);
   // Gradient: family stops are the palette's own keys; the fitted stops
   // carry their own value and take the same offset.
@@ -206,8 +242,13 @@ Generated from the brand.openmined.org rounds; do not edit by hand.`;
 export function tokensCss(): string {
   const block = (m: Mode) => {
     const r = ramp(m), out: string[] = [];
-    out.push('  /* Surfaces (four levels), lines, text */');
-    for (const s of [...SURFACES[m], ...LINES_TEXT[m]]) out.push(`  --${s.token}: ${s.hex};`);
+    if (m === 'light') {
+      out.push('  /* Gray — one neutral ramp, the same in both modes */');
+      for (let i = 0; i < GRAY_STEPS.length; i += 6) out.push(`  ${GRAY_STEPS.slice(i, i + 6).map(s => `--gray-${s}: ${GRAY[s]};`).join(' ')}`);
+      out.push('');
+    }
+    out.push('  /* Surfaces (four levels), lines, text — each names a gray step */');
+    for (const s of [...SURFACES[m], ...LINES_TEXT[m]]) out.push(`  --${s.token}: var(--gray-${s.step});`);
     out.push('', '  /* Shadows — one rung per level; base casts nothing */');
     for (const [k, v] of Object.entries(SHADOWS[m])) out.push(`  --shadow-${k}: ${v};`);
     out.push('', '  /* Palette — 6 hues x 7 steps. Graphics use these steps directly. */');
@@ -217,9 +258,9 @@ export function tokensCss(): string {
     out.push(`  --gradient: linear-gradient(90deg, ${gradient(m).map((_, i) => `var(--gradient-${i + 1})`).join(', ')});`);
     out.push('', '  /* Interface roles — each names a step for this mode */');
     for (const h of HUES) out.push(`  ${ROLES.map(x => `--${h}-${x.role}: var(--${h}-${x[m]});`).join(' ')}`);
-    out.push(`  --on-solid: ${ON_SOLID[m]};`);
+    out.push(`  --on-solid: var(--gray-${ON_SOLID_STEP[m]});`);
     for (const [k, h] of Object.entries(STATUS)) out.push(`  --${k}: var(--${h}-solid);`);
-    for (const [k, v] of Object.entries(ACCENT_NONE[m])) out.push(`  --accent-${k}: ${v};`);
+    for (const [k, v] of Object.entries(ACCENT_NONE_STEPS[m])) out.push(`  --accent-${k}: var(--gray-${v});`);
     SERIES.forEach((h, i) => out.push(`  --series-${i + 1}: var(--${h}-400);`));
     return out.join('\n');
   };
@@ -229,18 +270,20 @@ export function tokensCss(): string {
 /** tokens.json — W3C design-tokens format, one set per color mode. */
 export function tokensJson(): string {
   const c = (hex: string, description?: string) => ({ $type: 'color', $value: hex, ...(description ? { $description: description } : {}) });
+  const gref = (s: Slot) => c(`{gray.${s.step}}`);
   const set = (m: Mode) => {
     const r = ramp(m);
     return {
-      surface: Object.fromEntries(SURFACES[m].map(s => [s.token, c(s.hex, `grayscale ${s.step}`)])),
-      line: Object.fromEntries(LINES_TEXT[m].filter(s => s.token.startsWith('line')).map(s => [s.token, c(s.hex)])),
-      text: Object.fromEntries(LINES_TEXT[m].filter(s => s.token.startsWith('text')).map(s => [s.token.replace('text-', ''), c(s.hex)])),
+      surface: Object.fromEntries(SURFACES[m].map(s => [s.token, gref(s)])),
+      line: Object.fromEntries(LINES_TEXT[m].filter(s => s.token.startsWith('line')).map(s => [s.token, gref(s)])),
+      text: Object.fromEntries(LINES_TEXT[m].filter(s => s.token.startsWith('text')).map(s => [s.token.replace('text-', ''), gref(s)])),
       palette: Object.fromEntries(HUES.map(h => [h, Object.fromEntries(STEPS.map(s => [String(s), c(r[h][s], s === 400 ? 'key — marks only, no text' : undefined)]))])),
       gradient: Object.fromEntries(gradient(m).map((g, i) => [`${i + 1}-${g.name}`, c(g.hex, g.ref ? `= ${g.ref}` : 'fitted to the palette')])),
       shadow: Object.fromEntries(Object.entries(SHADOWS[m]).map(([k, v]) => [k, { $type: 'shadow', $value: v }])),
     };
   };
-  return JSON.stringify({ $description: HEADER, light: set('light'), dark: set('dark') }, null, 2) + '\n';
+  const gray = Object.fromEntries(GRAY_STEPS.map(s => [s, c(GRAY[s])]));
+  return JSON.stringify({ $description: HEADER, gray, light: set('light'), dark: set('dark') }, null, 2) + '\n';
 }
 
 /* ── The color round's role layer, for reusing its blocks ─────────────
@@ -276,7 +319,7 @@ export function roleCss(): string {
       `--accent-on:${a.on}`, `--accent-tint:${a.tint}`, `--accent-soft:${a.soft}`, `--accent-ring:${a.solid}`, `--on-solid:${ON_SOLID[m]}`);
     SERIES.forEach((h, i) => d.push(`--series-${i + 1}:var(--${h}-400)`, `--series-${i + 1}-tint:var(--${h}-${tint})`,
       `--series-${i + 1}-soft:var(--${h}-${soft})`, `--series-${i + 1}-key:var(--${h}-400)`, `--series-${i + 1}-fg:var(--${h}-${fg})`));
-    d.push(`--ink:${m === 'light' ? '#464257' : '#cfcdd6'}`);
+    d.push(`--ink:${m === 'light' ? g('700') : g('400')}`);
     out.push(`${m === 'dark' ? ':root[data-theme="dark"]' : ':root'}{${d.join(';')}}`);
   }
   out.push(`:root{--spectrum:${Array.from({ length: 9 }, (_, i) => `var(--spec-${i + 1})`).join(',')}}`);

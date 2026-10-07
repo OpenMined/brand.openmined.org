@@ -167,3 +167,11 @@ body:has(.wf), .wf :is(header, footer, section, main, nav) { transition: none; }
 /* Ladder values: the tiles live in the levels panel, on the page where they belong */
 .ladder__name { font-size: 0.88rem; margin: 0 0 4px; }
 .ladder__name code { color: var(--c-h); }
+
+/* Gray card — the full neutral ramp above the hue ramps */
+.grays__row { display: grid; grid-template-columns: repeat(17, minmax(64px, 1fr)); gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.grays__cell { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.grays .sw { height: 58px; }
+.grays .sw code { font-size: 0.62rem; }
+.grays__step { font-size: 0.72rem; font-weight: 600; color: var(--c-h); }
+.grays__use { font-style: normal; font-size: 0.66rem; line-height: 1.35; color: var(--c-m); overflow-wrap: anywhere; }
