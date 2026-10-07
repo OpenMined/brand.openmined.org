@@ -1,0 +1,265 @@
+---
+/**
+ * BRAND-V2 — SPECTRUM ROUND
+ * ════════════════════════════════════════════════════════════════════
+ * One 11-step series for gray and every hue (50, 100–900, 950), shown as
+ * the three layers it is built from: primitives (hex) → tokens (gray-200)
+ * → roles (sunken, light). A proposal; ../_working.ts is untouched.
+ */
+import Base from '../../../layouts/Base.astro';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_working';
+import {
+  SERIES, GRAY11, WHITE, BLACK, hue11, HUES, MODES, GRAY_ROLES, HUE_ROLES, NEW_FROM_OLD, STATUS_OF,
+  grayHex, grayToken, grayRolesAt, hueRolesAt, textContrast, L,
+} from './_spectrum';
+import '../color/_color.css';
+import '../_working.css';
+
+const ink = (hex: string) => (oklchOf(hex)[0] > 62 ? LABEL_INK.onLight : LABEL_INK.onDark);
+const H = { light: Object.fromEntries(HUES.map(h => [h, hue11(h, 'light')])), dark: Object.fromEntries(HUES.map(h => [h, hue11(h, 'dark')])) } as any;
+const OLD_OF = Object.fromEntries(Object.entries(NEW_FROM_OLD).map(([o, n]) => [n, o]));
+
+// Proposal variables: gray is the same in both modes; hues carry the mode's offset.
+const grayVars = [...SERIES.map(s => `--sp-gray-${s}:${GRAY11[s].hex}`), `--sp-white:${WHITE}`, `--sp-black:${BLACK}`].join(';');
+const hueVars = (m: 'light' | 'dark') => HUES.flatMap(h => SERIES.map(s => `--sp-${h}-${s}:${H[m][h][s].hex}`)).join(';');
+const SP_CSS = `:root{${grayVars};${hueVars('light')}}\n:root[data-theme="dark"]{${hueVars('dark')}}`;
+const gv = (s: string) => (s === 'white' || s === 'black' ? `var(--sp-${s})` : `var(--sp-gray-${s})`);
+const GROUPS = [...new Set(GRAY_ROLES.map(r => r.group))];
+const pct = (n: number) => n.toFixed(1);
+---
+
+<Base title="brand-v2 — spectrum round">
+  <script is:inline>
+    (() => {
+      const t = new URLSearchParams(location.search).get('t');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <Fragment set:html={`<style>${TOKEN_CSS}\n${roleCss()}\n${SP_CSS}</style>`} />
+
+  <div class="cr wf sp">
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="bar__back" href="/rounds/" data-keep-t aria-label="Back to working favorites">←</a>
+        <span class="bar__title">Spectrum round</span>
+        <div class="bar__field">
+          <span class="bar__lab">Color mode</span>
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <div class="hero__copy">
+          <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · spectrum round · proposal</span>
+          <h1>One series for gray and every hue</h1>
+          <p class="lead">Every scale runs <strong>50, 100–900, 950</strong>: eleven steps, light to dark. The agreed values are pinned at their new step; the rest are generated and provisional. Roles sit on top and point at a step per color mode, so either layer can change without touching the other.</p>
+          <p class="meta">2026-10-07 · Proposal only: the working values are unchanged · Use the toggle to see both modes</p>
+        </div>
+      </section>
+
+      <!-- ── Gray ────────────────────────────────────────────────────── -->
+      <section class="band" id="gray">
+        <div class="wrap">
+          <header class="sec"><h2>Gray</h2><p>Eight agreed grays (the surfaces and the shadow ink) pinned; three new steps fill the middle, evenly spaced in lightness between 200 and 600. White and black sit outside the scale. Roles are listed under the step they point at, per mode.</p></header>
+          <article class="card ramp11">
+            <div class="ramp11__grid ramp11__grid--ends">
+              <span class="r__lab"></span>
+              <span class="r__end r__end--first">
+                <span class="r__sw" style={`background:var(--sp-white)`}><code style={`color:${ink(WHITE)}`}>{WHITE}</code></span>
+                <b>white</b>
+                <span class="kind">agreed</span>
+              </span>
+              {SERIES.map(s => (
+                <span class="r__col">
+                  <span class="r__sw" style={`background:var(--sp-gray-${s})`}><code style={`color:${ink(GRAY11[s].hex)}`}>{GRAY11[s].hex}</code></span>
+                  <b>gray-{s}</b>
+                  <span class="r__l">L {pct(L(GRAY11[s].hex))}</span>
+                  <span class="kind">{GRAY11[s].kind === 'pinned' ? `agreed · was ${GRAY11[s].from}` : 'new'}</span>
+                </span>
+              ))}
+              <span class="r__end">
+                <span class="r__sw" style={`background:var(--sp-black)`}><code style={`color:${ink(BLACK)}`}>{BLACK}</code></span>
+                <b>black</b>
+                <span class="kind">agreed</span>
+              </span>
+
+              {MODES.map(m => (
+                <>
+                  <span class="r__lab r__lab--mode">{m}</span>
+                  <span class="r__roles">{GRAY_ROLES.filter(r => r[m] === 'white').map(r => <span class={`chip${r.settled ? '' : ' chip--ph'}`}>{r.role}</span>)}</span>
+                  {SERIES.map(s => <span class="r__roles">{grayRolesAt(m, s).map(r => <span class={`chip${r.settled ? '' : ' chip--ph'}`}>{r.role}</span>)}</span>)}
+                  <span class="r__roles">{GRAY_ROLES.filter(r => r[m] === 'black').map(r => <span class={`chip${r.settled ? '' : ' chip--ph'}`}>{r.role}</span>)}</span>
+                </>
+              ))}
+            </div>
+          </article>
+          <ul class="legend">
+            <li><span class="chip">Solid</span> indicates a role on this step</li>
+            <li><span class="chip chip--ph">Dashed</span> indicates a placeholder role (text and lines are untuned as of this stage)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── Hues ────────────────────────────────────────────────────── -->
+      <section class="band" id="hues">
+        <div class="wrap">
+          <header class="sec"><h2>Hues</h2><p>The seven Ink steps keep their values and move to new names (the key goes from 400 to <strong>500</strong>). Four new steps per hue: <strong>50</strong> (a lighter wash), <strong>400</strong> (fills the jump from 300 to the key), <strong>900</strong> and <strong>950</strong> (deep fills for dark mode). Every hue shares one role map, listed once at the top.</p></header>
+          <article class="card ramp11">
+            <div class="ramp11__grid">
+              <span class="r__lab"></span>
+              {SERIES.map(s => (
+                <span class="r__col r__col--head">
+                  <b>{s}</b>
+                  <span class="kind">{OLD_OF[s] ? `agreed · was ${OLD_OF[s]}` : 'new'}</span>
+                </span>
+              ))}
+              {MODES.map(m => (
+                <>
+                  <span class="r__lab r__lab--mode">{m} roles</span>
+                  {SERIES.map(s => <span class="r__roles">{hueRolesAt(m, s).map(r => <span class="chip">{r}</span>)}</span>)}
+                </>
+              ))}
+              {HUES.map(h => (
+                <>
+                  <span class="r__lab r__lab--hue">{h}<small>{STATUS_OF(h).join(' · ')}</small></span>
+                  {SERIES.map(s => (
+                    <span class={`r__sw r__sw--hue${H.light[h][s].kind === 'new' ? ' is-new' : ''}`} style={`background:var(--sp-${h}-${s})`}>
+                      <code class="only-light" style={`color:${ink(H.light[h][s].hex)}`}>{H.light[h][s].hex}</code>
+                      <code class="only-dark" style={`color:${ink(H.dark[h][s].hex)}`}>{H.dark[h][s].hex}</code>
+                    </span>
+                  ))}
+                </>
+              ))}
+            </div>
+          </article>
+          <ul class="legend">
+            <li><span class="chip chip--ph">Dashed</span> indicates swatches newly created from the 7-step spectrum. Their lightness is set by rule (50 at L 98.4; 400 halfway between 300 and the key; 900 at L 22 and 950 at L 16.5) and their chroma scaled from a neighbor; the generator would own this before anything ships.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── Roles first ─────────────────────────────────────────────── -->
+      <section class="band" id="roles">
+        <div class="wrap">
+          <header class="sec"><h2>Roles first</h2><p>The same map read from the top: what a person picks, the token it resolves to in each mode, and the value underneath.</p></header>
+          <article class="card">
+            <h3 class="card__h">Gray roles</h3>
+            <table class="tbl rtbl">
+              <thead><tr><th>Role</th><th>Token</th><th>Light</th><th>Dark</th><th>Status</th></tr></thead>
+              <tbody>
+                {GROUPS.map(g => (
+                  <>
+                    <tr class="tbl__group"><td colspan="5">{g}</td></tr>
+                    {GRAY_ROLES.filter(r => r.group === g).map(r => (
+                      <tr>
+                        <td><b>{r.role}</b><br /><span class="muted">{r.job}</span></td>
+                        <td><code>{r.token}</code></td>
+                        {MODES.map(m => (
+                          <td>
+                            <span class="rt__sw" style={`background:${gv(r[m])}`}></span><code>{grayToken(r[m])}</code><br /><span class="muted">{grayHex(r[m])}</span>
+                            {r.group === 'Text' && <span class="rt__cr">{textContrast(r, m).base.toFixed(1)}:1 on page · {textContrast(r, m).raised.toFixed(1)}:1 on raised</span>}
+                          </td>
+                        ))}
+                        <td>{r.settled ? <span class="kind">agreed</span> : <span class="kind">placeholder</span>}</td>
+                      </tr>
+                    ))}
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </article>
+          <article class="card">
+            <h3 class="card__h">Hue roles</h3>
+            <p class="card__sub">One map for every hue; status colors are hues by name (success = green, warning = amber, danger = red, info = blue).</p>
+            <table class="tbl rtbl">
+              <thead><tr><th>Role</th><th>Light</th><th>Dark</th><th>In this mode, every hue</th></tr></thead>
+              <tbody>
+                {HUE_ROLES.map(r => (
+                  <tr>
+                    <td><b>{r.role}</b><br /><span class="muted">{r.use}</span></td>
+                    <td><code>hue-{r.light}</code></td>
+                    <td><code>hue-{r.dark}</code></td>
+                    <td class="rt__hues">
+                      {HUES.map(h => <span class="rt__sw rt__sw--sm only-light" style={`background:var(--sp-${h}-${r.light})`} title={`${h}-${r.light}`}></span>)}
+                      {HUES.map(h => <span class="rt__sw rt__sw--sm only-dark" style={`background:var(--sp-${h}-${r.dark})`} title={`${h}-${r.dark}`}></span>)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="muted note">50, 400, 900 and 950 carry no role yet: they are there for later rounds (washes, data fills, dark-mode fills) and for graphics.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ── Held options ────────────────────────────────────────────── -->
+      <section class="band" id="held">
+        <div class="wrap">
+          <header class="sec"><h2>Held, and how this grows</h2></header>
+          <div class="grid grid--2">
+            <article class="card">
+              <h3 class="card__h">Filling in a 50</h3>
+              <p>When a round needs a step between two hundreds, it adds the 50 with a job attached: for example <code>gray-250</code> for a light divider distinct from the recess (today both are gray-200). Existing names never move.</p>
+            </article>
+            <article class="card">
+              <h3 class="card__h">Held: a 20-step gray</h3>
+              <p>Every 50 from 50 to 950. Kept as a second option. It gives room everywhere, but the agreed dark surfaces sit 2–3 L apart, so the steps would still be uneven in lightness, and most would have no job.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <style>
+    .sp .legend { margin: calc(-1 * var(--spacing-S)) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--spacing-XS) var(--spacing-XL); font-size: 0.75rem; color: var(--c-m); }
+    .sp .legend li { display: flex; align-items: center; gap: 6px; }
+    .sp .legend .chip { flex: none; box-sizing: border-box; width: 5em; text-align: center; }
+    .kind { display: block; font-size: 0.64rem; font-weight: 400; color: var(--c-m); line-height: 1.35; }
+    .chip { display: inline-block; font-size: 0.68rem; font-weight: 500; padding: 2px 7px; border-radius: 4px; background: var(--c-raise-2); color: var(--c-h); box-shadow: inset 0 0 0 1px var(--c-line-strong); white-space: nowrap; }
+    .chip--ph { background: none; color: var(--c-m); box-shadow: inset 0 0 0 1px var(--c-line-strong); border: 1px dashed var(--c-line-strong); box-shadow: none; }
+
+
+    .ramp11 { overflow-x: auto; }
+    .ramp11__grid { display: grid; grid-template-columns: 92px repeat(11, minmax(0, 1fr)); gap: 6px; min-width: 960px; align-items: start; }
+    .ramp11__grid--ends { grid-template-columns: 64px repeat(13, minmax(0, 1fr)); min-width: 1100px; }
+    .r__col, .r__end { display: grid; gap: 3px; font-size: 0.75rem; }
+    .r__col b, .r__end b { color: var(--c-h); font-weight: 600; }
+    .r__end { opacity: 0.85; }
+        .r__col--head { padding-bottom: 4px; }
+    .r__sw { display: flex; align-items: flex-end; height: 56px; padding: 5px 6px; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--c-line); }
+    .r__sw code { font-size: 0.6rem; }
+    .r__sw--hue { height: 44px; box-shadow: none; }
+    .r__sw--hue.is-new { outline: 1.5px dashed var(--c-line-strong); outline-offset: 2px; }
+    .r__l { font-size: 0.66rem; color: var(--c-m); font-variant-numeric: tabular-nums; }
+    .r__lab { font-size: 0.75rem; color: var(--c-m); }
+    .r__lab--mode { padding-top: 4px; text-transform: capitalize; font-weight: 600; color: var(--c-h); border-top: 1px solid var(--c-line); }
+    .r__lab--hue { align-self: center; text-transform: capitalize; color: var(--c-h); font-weight: 600; display: grid; }
+    .r__lab--hue small { font-weight: 400; color: var(--c-m); text-transform: none; font-size: 0.66rem; }
+    .r__roles { display: flex; flex-wrap: wrap; gap: 3px; align-content: start; padding-top: 4px; border-top: 1px solid var(--c-line); min-height: 26px; }
+
+    .rtbl td { vertical-align: top; }
+    .rt__sw { display: inline-block; vertical-align: middle; width: 26px; height: 18px; border-radius: 3px; margin-right: 6px; box-shadow: inset 0 0 0 1px var(--c-line); }
+    .rt__sw--sm { width: 22px; height: 22px; margin-right: 3px; box-shadow: none; }
+    .rt__cr { display: block; font-size: 0.68rem; color: var(--c-m); margin-top: 2px; }
+    .rt__hues { white-space: nowrap; }
+    .note { font-size: 0.85rem; }
+  </style>
+
+  <script>
+    const html = document.documentElement;
+    const sync = () => {
+      const t = html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      const q = new URLSearchParams(location.search); q.set('t', t);
+      history.replaceState(null, '', `${location.pathname}?${q}${location.hash}`);
+      document.querySelectorAll<HTMLAnchorElement>('[data-keep-t]').forEach(a => {
+        const u = new URL(a.href); u.searchParams.set('t', t); a.href = u.toString();
+      });
+    };
+    sync();
+    new MutationObserver(sync).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
+</Base>
