@@ -14,54 +14,37 @@
  * Text, line and accent roles were never tuned (holdovers); here they point
  * at a sensible step as placeholders until the text round.
  */
-import data from '../color/_palettes.json';
-import { GRAY, HUES, MODES, SAT, ROLES, ROLE_HUE, oklchOf, oklchToHex, contrast } from '../_working';
+import grayFile from '../../../../tokens/base/gray.json';
+import huesLight from '../../../../tokens/light/hues.json';
+import huesDark from '../../../../tokens/dark/hues.json';
+import { HUES, MODES, ROLES, ROLE_HUE, contrast, oklchOf } from '../_working';
 
 export type Mode = 'light' | 'dark';
 export const SERIES = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'] as const;
 export type Step = typeof SERIES[number];
 export type Kind = 'pinned' | 'new';
 
-const P = (data.palettes as any).ink;
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const lerpH = (a: number, b: number, t: number) => { const d = ((b - a + 540) % 360) - 180; return (a + d * t + 360) % 360; };
+/* ── Read from the generated token files (tools/palette/generate.mjs) ──
+   This page no longer computes any color: every step is the token file's
+   value, so a retune in tools/palette/inputs.json shows up here on reload. */
+type Tok = { $value: { hex: string }; $extensions: { 'org.openmined': { pinned?: boolean; was?: string } } };
+const asStep = (t: Tok) => {
+  const m = t.$extensions['org.openmined'];
+  return { hex: t.$value.hex, kind: (m.pinned ? 'pinned' : 'new') as Kind, from: m.was?.replace(' (7-step)', '') };
+};
 
 /* ── Gray ─────────────────────────────────────────────────────────── */
-const GRAY_PIN: Partial<Record<Step, string>> = {
-  '50': '100', '100': '150', '200': '300', '600': '700', '700': '800', '800': '850', '900': '900', '950': '950',
-};
-const grayNew = (t: number) => {
-  const [L1, C1, H1] = oklchOf(GRAY['300']), [L2, C2, H2] = oklchOf(GRAY['700']);
-  return oklchToHex(lerp(L1, L2, t), lerp(C1, C2, t), lerpH(H1, H2, t));
-};
-export const GRAY11: Record<Step, { hex: string; kind: Kind; from?: string }> = Object.fromEntries(SERIES.map(s => {
-  const pin = GRAY_PIN[s];
-  if (pin) return [s, { hex: GRAY[pin], kind: 'pinned', from: `gray ${pin}` }];
-  const t = { '300': 0.25, '400': 0.5, '500': 0.75 }[s as '300' | '400' | '500'];
-  return [s, { hex: grayNew(t), kind: 'new' }];
-})) as any;
-export const WHITE = GRAY['00'];
-export const BLACK = GRAY['1000'];
+export const GRAY11 = Object.fromEntries(SERIES.map(s => [s, asStep((grayFile.gray as any)[s])])) as Record<Step, { hex: string; kind: Kind; from?: string }>;
+export const WHITE = grayFile.white.$value.hex;
+export const BLACK = grayFile.black.$value.hex;
 
-/* ── Hues: base ramp (before the per-mode saturation offset) ──────── */
+/* ── Hues ─────────────────────────────────────────────────────────── */
 const OLD_TO_NEW: Record<string, Step> = { '100': '100', '200': '200', '300': '300', '400': '500', '500': '600', '600': '700', '700': '800' };
 export const NEW_FROM_OLD = OLD_TO_NEW;
-const baseHue = (h: string): Record<Step, { hex: string; kind: Kind; from?: string }> => {
-  const old = (s: string) => oklchOf(P.ramps[h][s]);
-  const out: any = {};
-  for (const [o, n] of Object.entries(OLD_TO_NEW)) out[n] = { hex: P.ramps[h][o], kind: 'pinned', from: `${h} ${o}` };
-  const [L1, C1, H1] = old('100'), [L3, C3, H3] = old('300'), [Lk, Ck, Hk] = old('400'), [L7, C7, H7] = old('700');
-  out['50'] = { hex: oklchToHex(98.4, C1 * 0.45, H1), kind: 'new' };                                    // a lighter wash
-  out['400'] = { hex: oklchToHex((L3 + Lk) / 2, lerp(C3, Ck, 0.5), lerpH(H3, Hk, 0.5)), kind: 'new' };  // fills 300 → key
-  out['900'] = { hex: oklchToHex(22, C7 * 0.8, H7), kind: 'new' };                                      // dark-mode fills
-  out['950'] = { hex: oklchToHex(16.5, C7 * 0.62, H7), kind: 'new' };
-  return out;
-};
-const sat = (hex: string, s: number) => { const [L, C, H] = oklchOf(hex); return oklchToHex(L, C * s, H); };
-/** A hue's 11 steps for a mode, with the same saturation offset the working ramp uses. */
+const HUE_FILES: Record<Mode, any> = { light: huesLight, dark: huesDark };
+/** A hue's 11 steps for a mode, as generated (offset already applied). */
 export function hue11(h: string, m: Mode) {
-  const b = baseHue(h);
-  return Object.fromEntries(SERIES.map(s => [s, { ...b[s], hex: sat(b[s].hex, SAT[m]) }])) as Record<Step, { hex: string; kind: Kind; from?: string }>;
+  return Object.fromEntries(SERIES.map(s => [s, asStep(HUE_FILES[m][h][s])])) as Record<Step, { hex: string; kind: Kind; from?: string }>;
 }
 
 /* ── Roles ────────────────────────────────────────────────────────── */

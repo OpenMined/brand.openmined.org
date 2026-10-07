@@ -1,0 +1,328 @@
+{
+  "_about": "Inputs to tools/palette/generate.mjs. Pinned values are agreed colors, copied once (2026-10-07) from brand-v2-working: gray from src/pages/rounds/_working.ts GRAY (the surfaces round's display-adjusted values), hues from src/pages/rounds/color/_palettes.json palette 'ink' (written by brand-v2-lab generate.py). Edit here, then regenerate; never edit tokens/ generated files by hand.",
+  "saturation": {
+    "light": 1.1,
+    "dark": 0.95,
+    "_note": "Per-mode chroma factor on every hue step and fitted gradient stop (color round, 2026-09-25). Gray takes no offset."
+  },
+  "white": "#ffffff",
+  "black": "#000000",
+  "gray": {
+    "pinned": {
+      "50": {
+        "hex": "#fafafc",
+        "was": "gray 100"
+      },
+      "100": {
+        "hex": "#f3f3f6",
+        "was": "gray 150"
+      },
+      "200": {
+        "hex": "#dddde2",
+        "was": "gray 300"
+      },
+      "600": {
+        "hex": "#464257",
+        "was": "gray 700"
+      },
+      "700": {
+        "hex": "#282635",
+        "was": "gray 800"
+      },
+      "800": {
+        "hex": "#221f2c",
+        "was": "gray 850"
+      },
+      "900": {
+        "hex": "#1b1824",
+        "was": "gray 900"
+      },
+      "950": {
+        "hex": "#16141b",
+        "was": "gray 950"
+      }
+    },
+    "new": {
+      "300": {
+        "t": 0.25
+      },
+      "400": {
+        "t": 0.5
+      },
+      "500": {
+        "t": 0.75
+      },
+      "_rule": "OKLCH lerp from gray 200 to gray 600 at t"
+    }
+  },
+  "hues": {
+    "violet": {
+      "pinned": {
+        "100": {
+          "hex": "#f5f1ff",
+          "was": "violet 100 (7-step)"
+        },
+        "200": {
+          "hex": "#e3d6ff",
+          "was": "violet 200 (7-step)"
+        },
+        "300": {
+          "hex": "#c8aef9",
+          "was": "violet 300 (7-step)"
+        },
+        "500": {
+          "hex": "#7750b1",
+          "was": "violet 400 (7-step)"
+        },
+        "600": {
+          "hex": "#603a94",
+          "was": "violet 500 (7-step)"
+        },
+        "700": {
+          "hex": "#463661",
+          "was": "violet 600 (7-step)"
+        },
+        "800": {
+          "hex": "#2c2439",
+          "was": "violet 700 (7-step)"
+        }
+      }
+    },
+    "blue": {
+      "pinned": {
+        "100": {
+          "hex": "#edf4ff",
+          "was": "blue 100 (7-step)"
+        },
+        "200": {
+          "hex": "#ccdfff",
+          "was": "blue 200 (7-step)"
+        },
+        "300": {
+          "hex": "#98bfff",
+          "was": "blue 300 (7-step)"
+        },
+        "500": {
+          "hex": "#3368c1",
+          "was": "blue 400 (7-step)"
+        },
+        "600": {
+          "hex": "#2051a3",
+          "was": "blue 500 (7-step)"
+        },
+        "700": {
+          "hex": "#273f67",
+          "was": "blue 600 (7-step)"
+        },
+        "800": {
+          "hex": "#1d293c",
+          "was": "blue 700 (7-step)"
+        }
+      }
+    },
+    "teal": {
+      "pinned": {
+        "100": {
+          "hex": "#e8f7fb",
+          "was": "teal 100 (7-step)"
+        },
+        "200": {
+          "hex": "#c2e5f0",
+          "was": "teal 200 (7-step)"
+        },
+        "300": {
+          "hex": "#84cade",
+          "was": "teal 300 (7-step)"
+        },
+        "500": {
+          "hex": "#00859f",
+          "was": "teal 400 (7-step)"
+        },
+        "600": {
+          "hex": "#00697e",
+          "was": "teal 500 (7-step)"
+        },
+        "700": {
+          "hex": "#194652",
+          "was": "teal 600 (7-step)"
+        },
+        "800": {
+          "hex": "#192c32",
+          "was": "teal 700 (7-step)"
+        }
+      }
+    },
+    "green": {
+      "pinned": {
+        "100": {
+          "hex": "#e9f7f0",
+          "was": "green 100 (7-step)"
+        },
+        "200": {
+          "hex": "#c5e7d7",
+          "was": "green 200 (7-step)"
+        },
+        "300": {
+          "hex": "#8cceb1",
+          "was": "green 300 (7-step)"
+        },
+        "500": {
+          "hex": "#29926d",
+          "was": "green 400 (7-step)"
+        },
+        "600": {
+          "hex": "#006f4f",
+          "was": "green 500 (7-step)"
+        },
+        "700": {
+          "hex": "#204938",
+          "was": "green 600 (7-step)"
+        },
+        "800": {
+          "hex": "#1b2d25",
+          "was": "green 700 (7-step)"
+        }
+      }
+    },
+    "amber": {
+      "pinned": {
+        "100": {
+          "hex": "#fef1e5",
+          "was": "amber 100 (7-step)"
+        },
+        "200": {
+          "hex": "#f6d8bb",
+          "was": "amber 200 (7-step)"
+        },
+        "300": {
+          "hex": "#e9b179",
+          "was": "amber 300 (7-step)"
+        },
+        "500": {
+          "hex": "#bc730c",
+          "was": "amber 400 (7-step)"
+        },
+        "600": {
+          "hex": "#854f00",
+          "was": "amber 500 (7-step)"
+        },
+        "700": {
+          "hex": "#583814",
+          "was": "amber 600 (7-step)"
+        },
+        "800": {
+          "hex": "#352516",
+          "was": "amber 700 (7-step)"
+        }
+      }
+    },
+    "red": {
+      "pinned": {
+        "100": {
+          "hex": "#ffefee",
+          "was": "red 100 (7-step)"
+        },
+        "200": {
+          "hex": "#ffd1cd",
+          "was": "red 200 (7-step)"
+        },
+        "300": {
+          "hex": "#fca29c",
+          "was": "red 300 (7-step)"
+        },
+        "500": {
+          "hex": "#b94644",
+          "was": "red 400 (7-step)"
+        },
+        "600": {
+          "hex": "#9b3031",
+          "was": "red 500 (7-step)"
+        },
+        "700": {
+          "hex": "#612e2c",
+          "was": "red 600 (7-step)"
+        },
+        "800": {
+          "hex": "#3a211f",
+          "was": "red 700 (7-step)"
+        }
+      }
+    }
+  },
+  "hue_new": {
+    "50": {
+      "L": 98.4,
+      "C_from": "100",
+      "C_factor": 0.45,
+      "_rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100"
+    },
+    "400": {
+      "between": [
+        "300",
+        "500"
+      ],
+      "_rule": "OKLCH midpoint of 300 and the key (500)"
+    },
+    "900": {
+      "L": 22,
+      "C_from": "800",
+      "C_factor": 0.8,
+      "_rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
+    },
+    "950": {
+      "L": 16.5,
+      "C_from": "800",
+      "C_factor": 0.62,
+      "_rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
+    }
+  },
+  "gradient": {
+    "stops": [
+      {
+        "name": "gold",
+        "hex": "#f3ca84"
+      },
+      {
+        "name": "orange",
+        "hex": "#e88e58"
+      },
+      {
+        "name": "red",
+        "ref": "red"
+      },
+      {
+        "name": "violet",
+        "ref": "violet"
+      },
+      {
+        "name": "blue",
+        "ref": "blue"
+      },
+      {
+        "name": "teal",
+        "ref": "teal"
+      },
+      {
+        "name": "green",
+        "ref": "green"
+      },
+      {
+        "name": "lime",
+        "hex": "#addf92"
+      },
+      {
+        "name": "yellow",
+        "hex": "#f3e6a5"
+      }
+    ],
+    "_note": "Family stops are the hue's key; fitted stops (no family) carry their own base value and take the saturation offset."
+  },
+  "categorical": [
+    "violet",
+    "green",
+    "blue",
+    "amber",
+    "teal",
+    "red"
+  ]
+}

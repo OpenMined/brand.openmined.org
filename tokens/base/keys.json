@@ -1,0 +1,120 @@
+{
+  "$description": "Hand-written. Each hue's key is the step graphics use (500 in the 50\u2013950 series); series is the categorical chart order. Graphics reference these aliases, never a step number, so a renumber never touches a graphic.",
+  "violet": {
+    "key": {
+      "$type": "color",
+      "$value": "{violet.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "blue": {
+    "key": {
+      "$type": "color",
+      "$value": "{blue.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "teal": {
+    "key": {
+      "$type": "color",
+      "$value": "{teal.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "green": {
+    "key": {
+      "$type": "color",
+      "$value": "{green.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "amber": {
+    "key": {
+      "$type": "color",
+      "$value": "{amber.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "red": {
+    "key": {
+      "$type": "color",
+      "$value": "{red.500}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "series": {
+    "$type": "color",
+    "1": {
+      "$value": "{violet.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "2": {
+      "$value": "{green.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "3": {
+      "$value": "{blue.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "4": {
+      "$value": "{amber.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "5": {
+      "$value": "{teal.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "6": {
+      "$value": "{red.key}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  }
+}
