@@ -8,12 +8,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "lint": "stylelint \"src/**/*.{css,astro}\"",
-    "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix"
+    "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix",
+    "tokens": "node tools/palette/generate.mjs && node tools/tokens/build.mjs",
+    "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check"
   },
   "dependencies": {
     "astro": "^4.16.0"
   },
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "postcss-html": "^1.7.0",
     "stylelint": "^16.10.0",
     "stylelint-declaration-strict-value": "^1.10.6"

@@ -25,6 +25,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Tokens (schema, references, generated files up to date)
+        run: npm run tokens:check
+
       # OMDS enforcement gate — a raw color value blocks the deploy.
       - name: Lint (design-token enforcement)
         run: npm run lint

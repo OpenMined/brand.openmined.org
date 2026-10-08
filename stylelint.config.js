@@ -37,6 +37,9 @@ export default {
     '.astro/**',
     // The palette IS the raw-value source of truth — literal hex is correct here.
     'src/tokens/tokens.css',
+    // v2: generated from tokens/ by tools/tokens/build.mjs — the palette's literal
+    // values are correct here, and --check fails CI if it is hand-edited.
+    'src/tokens/v2/tokens.css',
     // WebGL tuning tooling with its own local control-panel palette — not a
     // brand surface. Known, tracked exception (see CLAUDE.md › Enforcement).
     'src/pages/diamond/**',

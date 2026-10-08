@@ -59,17 +59,36 @@ Ionicons is the current peer dependency. Custom SVG icons go in `public/icons/` 
 
 ## Enforcement (raw colors are un-shippable)
 
-**IMPORTANT — never hardcode a color.** Every color on a brand surface MUST be a design token: `var(--color-teal-600)`, `var(--surface-background-default)`, `var(--text-body)`, etc. Literal palette values live in exactly one file: `src/tokens/tokens.css`.
+**IMPORTANT — never hardcode a color.** Every color on a brand surface MUST be a design token: `var(--color-teal-600)`, `var(--surface-background-default)`, `var(--text-body)`, etc. Literal palette values live in exactly one file: `src/tokens/tokens.css` (v1). The in-progress v2 values live in `tokens/` and are generated into `src/tokens/v2/tokens.css` — see "v2 tokens" below.
 
 A stylelint gate (`stylelint.config.js`) makes this a hard rule, not a suggestion. Three rules — `color-no-hex`, `color-named`, and `declaration-strict-value` on color properties — fail the build on any raw hex, named color (`red`), or `rgb()`/`hsl()` literal. Run it with `npm run lint`. It runs in CI on every PR (`.github/workflows/lint.yml`, the merge blocker) and before every deploy (`deploy.yml`) — a violation cannot reach `brand.openmined.org`.
 
 **Exempt from the gate** (intentional, in `ignoreFiles`):
 - `src/tokens/tokens.css` — the palette source of truth; literal hex is correct here.
+- `src/tokens/v2/tokens.css` — **generated** (v2, in progress) from `tokens/` by `npm run tokens`; never edit it — `npm run tokens:check` fails CI if it differs from a rebuild.
 - `src/pages/diamond/`, `src/pages/stream/` — WebGL tuning tooling with their own local control-panel palette; not brand surfaces.
 
 WebGL shaders need numeric color values, so the embeds can't read `var(--…)` tokens — they import from `public/embeds/brand-colors.js`, the single JS-side color source (see Portable embeds). Never hand-type hex into a shader; add/adjust colors in `brand-colors.js` (kept in lockstep with `tokens.css` until the DTCG build unifies them).
 
 If you genuinely need a color the tokens don't cover, add it to `tokens.css` (or `brand-colors.js` for canvas) first, then reference it — don't reach around the gate.
+
+## v2 tokens (in progress — brand-v2, not released)
+
+v2 values are **open-format token files** (Design Tokens 2025.10) in `tokens/`, the
+source of truth: `base/` (gray, white, black, hue keys, chart series — the same in
+every mode), `light/` and `dark/` (hues with the per-mode offset, gradient, shadows,
+roles), and `resolver.json`. Status per token in `$extensions["org.openmined"]`:
+`exploring` (placeholder) → `working` (agreed) → `released`.
+
+- `tools/palette/generate.mjs` writes the generated files (gray, hues, gradient,
+  shadows) from `tools/palette/inputs.json`. Retune = edit inputs, regenerate.
+- `tools/tokens/build.mjs` validates `tokens/` (vendored schemas in
+  `tools/tokens/schemas/`), resolves every reference, and writes `src/tokens/v2/`
+  (`tokens.css`, `brand-colors.js`, `tokens.{light,dark}.json`). Outputs are
+  committed; never hand-edit them.
+- `npm run tokens` regenerates everything; `npm run tokens:check` is the CI gate.
+- Names and the word list: brand-v2-lab `proposals/2026-10-07-a0-naming-and-token-layout.md`.
+- v1 (`src/tokens/tokens.css`, `public/embeds/brand-colors.js`) is untouched until release.
 
 ## Portable embeds (`<om-diamond>` / `<om-stream>`)
 
