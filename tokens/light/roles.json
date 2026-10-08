@@ -1,0 +1,771 @@
+{
+  "$description": "Hand-written roles, light mode. Each role points at a primitive; status `working` = agreed, `exploring` = placeholder or snapped value awaiting its round. Names per brand-v2-lab proposals/2026-10-07-a0-naming-and-token-layout.md.",
+  "surface": {
+    "$type": "color",
+    "sunken": {
+      "$value": "{gray.200}",
+      "$description": "A well set into a surface (\u22121). Never a page or section ground.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "base": {
+      "$value": "{gray.100}",
+      "$description": "The page background (0).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "raise-1": {
+      "$value": "{gray.50}",
+      "$description": "A panel on the page (+1).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "raise-2": {
+      "$value": "{white}",
+      "$description": "Raised more (+2): cards over panels, menus, popovers.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "line": {
+    "$type": "color",
+    "$root": {
+      "$value": "{gray.200}",
+      "$description": "Dividers. OM is dividers-only: no outlines.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "placeholder": "text-and-lines round"
+        }
+      }
+    },
+    "strong": {
+      "$value": "{gray.300}",
+      "$description": "The heavier divider.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "placeholder": "text-and-lines round"
+        }
+      }
+    }
+  },
+  "text": {
+    "$type": "color",
+    "headline": {
+      "$value": "{gray.800}",
+      "$description": "Titles.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "placeholder": "text-and-lines round"
+        }
+      }
+    },
+    "body": {
+      "$value": "{gray.600}",
+      "$description": "Running text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "placeholder": "text-and-lines round"
+        }
+      }
+    },
+    "muted": {
+      "$value": "{gray.500}",
+      "$description": "Captions, labels.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "placeholder": "text-and-lines round"
+        }
+      }
+    }
+  },
+  "on-solid": {
+    "$type": "color",
+    "$value": "{white}",
+    "$description": "Text or icon placed on any solid fill.",
+    "$extensions": {
+      "org.openmined": {
+        "status": "exploring",
+        "placeholder": "text-and-lines round"
+      }
+    }
+  },
+  "violet": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{violet.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{violet.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{violet.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{violet.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{violet.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "blue": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{blue.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{blue.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{blue.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{blue.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{blue.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "teal": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{teal.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{teal.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{teal.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{teal.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{teal.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "green": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{green.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{green.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{green.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{green.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{green.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "amber": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{amber.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{amber.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{amber.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{amber.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{amber.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "red": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{red.100}",
+      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{red.200}",
+      "$description": "Decorative rule, selected outline, area fill. No text.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{red.600}",
+      "$description": "Colored text, links, icons. AA on every surface.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{red.600}",
+      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{red.700}",
+      "$description": "One step past solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{on-solid}",
+      "$description": "Text or icon on this hue's solid.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "success": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{green.subtle}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{green.soft}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{green.fg}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{green.solid}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{green.hover}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "key": {
+      "$value": "{green.key}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{green.on}",
+      "$description": "Success \u2192 green.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "warning": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{amber.subtle}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{amber.soft}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{amber.fg}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{amber.solid}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{amber.hover}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "key": {
+      "$value": "{amber.key}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{amber.on}",
+      "$description": "Warning \u2192 amber.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "danger": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{red.subtle}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{red.soft}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{red.fg}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{red.solid}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{red.hover}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "key": {
+      "$value": "{red.key}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{red.on}",
+      "$description": "Danger \u2192 red.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "info": {
+    "$type": "color",
+    "subtle": {
+      "$value": "{blue.subtle}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{blue.soft}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{blue.fg}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "solid": {
+      "$value": "{blue.solid}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{blue.hover}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "key": {
+      "$value": "{blue.key}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "on": {
+      "$value": "{blue.on}",
+      "$description": "Info \u2192 blue.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  },
+  "accent": {
+    "$type": "color",
+    "$description": "Accent \"none\": the interface is grayscale; color is spent on status and data.",
+    "solid": {
+      "$value": "{gray.800}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "hover": {
+      "$value": "{gray.700}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "snappedFrom": "gray 750 (#353243)"
+        }
+      }
+    },
+    "on": {
+      "$value": "{gray.50}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "snappedFrom": "gray 50 (#fcfcfd)"
+        }
+      }
+    },
+    "subtle": {
+      "$value": "{gray.200}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    },
+    "soft": {
+      "$value": "{gray.200}",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "snappedFrom": "gray 400 (#cfcdd6)"
+        }
+      }
+    },
+    "fg": {
+      "$value": "{accent.solid}",
+      "$description": "Accent text: the same as solid while accent is none.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working"
+        }
+      }
+    }
+  }
+}

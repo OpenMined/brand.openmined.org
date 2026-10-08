@@ -7,6 +7,7 @@
  *   tokens/base/gray.json      gray 50–950, white, black   (same in both modes)
  *   tokens/{light,dark}/hues.json      each hue 50–950, mode offset applied
  *   tokens/{light,dark}/gradient.json  the nine stops + the spectrum gradient
+ *   tokens/{light,dark}/shadows.json   the level ladder, cast in a gray step
  *
  * The output files are the source of truth; this script is the tool that
  * writes them. Retune = edit inputs.json, regenerate, review the diff.
@@ -183,10 +184,31 @@ function gradientFile(mode) {
   };
 }
 
+/** Shadows: generated so the ink is always a gray step's own value, never a typed color. */
+function shadowsFile(mode) {
+  const S = IN.shadows, inkName = S.ink[mode];
+  const inkHex = inkName === 'black' ? IN.black : inkName === 'white' ? IN.white : gray11()[inkName.split('.')[1]].hex;
+  const px = value => ({ value, unit: 'px' });
+  const layer = (l, inset) => {
+    const [x, y, blur, spread] = l.geometry;
+    return { color: { ...colorValue(inkHex), alpha: l.alpha[mode] }, offsetX: px(x), offsetY: px(y), blur: px(blur), spread: px(spread), ...(inset ? { inset: true } : {}) };
+  };
+  return {
+    $description: `Shadows, ${mode} mode: one rung per surface level (base casts nothing), cast in {${inkName}}. ${NOTE}`,
+    shadow: {
+      $type: 'shadow',
+      ...Object.fromEntries(Object.entries(S.levels).map(([lvl, v]) => {
+        const layers = v.layers.map(l => layer(l, v.inset));
+        return [lvl, { $value: layers.length === 1 ? layers[0] : layers, $extensions: { 'org.openmined': { status: 'working', generated: true, ink: `{${inkName}}` } } }];
+      })),
+    },
+  };
+}
+
 /* ── Run ──────────────────────────────────────────────────────────── */
 const files = {
   'base/gray.json': grayFile(),
-  ...Object.fromEntries(MODES.flatMap(m => [[`${m}/hues.json`, huesFile(m)], [`${m}/gradient.json`, gradientFile(m)]])),
+  ...Object.fromEntries(MODES.flatMap(m => [[`${m}/hues.json`, huesFile(m)], [`${m}/gradient.json`, gradientFile(m)], [`${m}/shadows.json`, shadowsFile(m)]])),
 };
 const text = obj => JSON.stringify(obj, null, 2) + '\n';
 const args = new Set(process.argv.slice(2));

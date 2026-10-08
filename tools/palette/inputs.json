@@ -324,5 +324,75 @@
     "amber",
     "teal",
     "red"
-  ]
+  ],
+  "shadows": {
+    "_about": "The surfaces round's settled ladder (brand-v2-lab DECISIONS 2026-09-17/18): one rung per level, base casts nothing; ink is a gray step per mode, never a typed color. Geometry in px: [offsetX, offsetY, blur, spread].",
+    "ink": {
+      "light": "gray.600",
+      "dark": "black"
+    },
+    "levels": {
+      "sunken": {
+        "inset": true,
+        "layers": [
+          {
+            "geometry": [
+              0,
+              1,
+              5,
+              0
+            ],
+            "alpha": {
+              "light": 0.07,
+              "dark": 0.196
+            }
+          }
+        ]
+      },
+      "raise-1": {
+        "layers": [
+          {
+            "geometry": [
+              0,
+              2,
+              10,
+              -4
+            ],
+            "alpha": {
+              "light": 0.05,
+              "dark": 0.14
+            }
+          }
+        ]
+      },
+      "raise-2": {
+        "layers": [
+          {
+            "geometry": [
+              0,
+              6,
+              16,
+              -4
+            ],
+            "alpha": {
+              "light": 0.12,
+              "dark": 0.336
+            }
+          },
+          {
+            "geometry": [
+              0,
+              2,
+              4,
+              0
+            ],
+            "alpha": {
+              "light": 0.048,
+              "dark": 0.134
+            }
+          }
+        ]
+      }
+    }
+  }
 }
