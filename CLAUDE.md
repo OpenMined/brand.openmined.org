@@ -90,6 +90,30 @@ roles), and `resolver.json`. Status per token in `$extensions["org.openmined"]`:
 - Names and the word list: brand-v2-lab `proposals/2026-10-07-a0-naming-and-token-layout.md`.
 - v1 (`src/tokens/tokens.css`, `public/embeds/brand-colors.js`) is untouched until release.
 
+## v2 guidance and the brand site (in progress — branch `v2`)
+
+The new brand site (`/`, plus `/surfaces/`, `/color/`, `/graphics/`, `/interface/`,
+`/typography/`) is a **view of the source files** — nothing is typed into a page by hand.
+Route every change to its source:
+
+- **Values** (colors, shadows, any token) → `tokens/`, built into `src/tokens/v2/` (see above).
+- **Knowledge** (rules, decisions, open questions, the words on a page) → `design/`: one
+  typed Markdown file per idea, in the Open Design System Format's conventional folders
+  (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`) plus
+  `decisions/` (dated `YYYY-MM-DD-slug.md`, never edited to say something new — a changed
+  decision gets a new record). `overview.md` is the entry; `log.md` the change history
+  (add a line for every change). `index.md` is reserved for a generated listing.
+- **Frontmatter** on every file: `type`, `title`, `description`, `status`
+  (`exploring` · `working` = the current direction, not final · `released` · `deprecated`),
+  optional `tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts`
+  validates it and fails the build on a bad file.
+- **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
+  `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only; dividers only).
+- `/v1/` is the released v1 reference; `/rounds/` is the archive of review rounds
+  (`rounds/_legacy.ts` freezes the pre-v2 values for the closed rounds).
+- Previews deploy only to the `v2` branch alias, built from a clean checkout of the pushed
+  commit — never `main` until release.
+
 ## Portable embeds (`<om-diamond>` / `<om-stream>`)
 
 The animated WebGL brand visuals are **framework-agnostic web components** in `public/embeds/`, meant to drop into any project — plain HTML, React, Astro, Webflow, anywhere. They are the canonical assets; the `DiamondEmbed.astro` / `StreamEmbed.astro` files are just thin wrappers the reference site uses to dogfood them.
