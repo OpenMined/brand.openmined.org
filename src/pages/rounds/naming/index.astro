@@ -6,12 +6,12 @@
  * what to call them. Gray has 17 inherited steps (00–1000); the hues have
  * 7 (100–700). Both already number light → dark.
  *
- * Naming and count only: every value comes from ../_working.ts and none
+ * Naming and count only: every value comes from ../_legacy.ts (the pre-v2 working values, frozen) and none
  * changes. No new graphics; the swatches are the working values themselves.
  */
 import Base from '../../../layouts/Base.astro';
 import ThemeToggle from '@brand/ThemeToggle.astro';
-import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_working';
+import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_legacy';
 import { GRAYS, GAPS, OPTIONS, meaningChanges, renamed, offered, ROLES_PICK, stepOf, FIELD, fmtL } from './_naming';
 import '../color/_color.css';
 import '../_working.css';

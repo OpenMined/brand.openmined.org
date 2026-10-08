@@ -4,15 +4,16 @@
  * ════════════════════════════════════════════════════════════════════
  * One 11-step series for gray and every hue (50, 100–900, 950), shown as
  * the three layers it is built from: primitives (hex) → tokens (gray-200)
- * → roles (sunken, light). A proposal; ../_working.ts is untouched.
+ * → roles (sunken, light). A proposal, kept as the record of the approval; chrome from ../_legacy.ts, colors from tokens/.
  */
 import Base from '../../../layouts/Base.astro';
 import ThemeToggle from '@brand/ThemeToggle.astro';
-import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_working';
+import { TOKEN_CSS, roleCss, LABEL_INK, oklchOf } from '../_legacy';
 import {
   SERIES, GRAY11, WHITE, BLACK, hue11, HUES, MODES, GRAY_ROLES, HUE_ROLES, NEW_FROM_OLD, STATUS_OF,
   grayHex, grayToken, grayRolesAt, hueRolesAt, textContrast, L,
 } from './_spectrum';
+import { stepLabel } from '../_working';
 import '../color/_color.css';
 import '../_working.css';
 
@@ -127,8 +128,8 @@ const pct = (n: number) => n.toFixed(1);
                   <span class="r__lab r__lab--hue">{h}<small>{STATUS_OF(h).join(' · ')}</small></span>
                   {SERIES.map(s => (
                     <span class={`r__sw r__sw--hue${H.light[h][s].kind === 'new' ? ' is-new' : ''}`} style={`background:var(--sp-${h}-${s})`}>
-                      <code class="only-light" style={`color:${ink(H.light[h][s].hex)}`}>{H.light[h][s].hex}</code>
-                      <code class="only-dark" style={`color:${ink(H.dark[h][s].hex)}`}>{H.dark[h][s].hex}</code>
+                      <code class="only-light" style={`color:${stepLabel('light', s, LABEL_INK)}`}>{H.light[h][s].hex}</code>
+                      <code class="only-dark" style={`color:${stepLabel('dark', s, LABEL_INK)}`}>{H.dark[h][s].hex}</code>
                     </span>
                   ))}
                 </>

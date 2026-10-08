@@ -12,16 +12,17 @@
  * palette only. Everything is a WORKING FAVORITE, not approved; "Watch"
  * notes appear only where they belong to a specific value.
  *
- * Every value is read from ./_working.ts — the module the diagram round
- * and the token downloads read too.
+ * Every value is read from ./_working.ts, which reads the v2 token build
+ * (src/tokens/v2/, generated from tokens/) — the same module the diagram
+ * round and the token downloads read.
  *
  * NOT canon: stylelint-exempt with the other rounds; tokens.css untouched.
  */
 import Base from '../../layouts/Base.astro';
 import ThemeToggle from '@brand/ThemeToggle.astro';
 import {
-  TOKEN_CSS, roleCss, MODES, SAT, HUES, STEPS, ramp, gradient, SURFACES, LINES_TEXT, SHADOWS, LABEL_INK, GRAY, GRAY_STEPS,
-  ROLE_HUE, ROLE_ROWS, SERIES, contrast, oklchOf,
+  TOKEN_CSS, roleCss, MODES, SAT, HUES, STEPS, KEY, ramp, gradient, SURFACES, LINES_TEXT, SHADOWS, LABEL_INK, GRAY, GRAY_STATUS,
+  ROLE_HUE, ROLE_ROWS, SERIES, contrast, oklchOf, isNewStep, stepLabel,
 } from './_working';
 import './color/_color.css';
 import './_working.css';
@@ -29,14 +30,14 @@ import FigA from './diagrams/_a/Fig1.astro';
 
 const R = { light: ramp('light'), dark: ramp('dark') };
 const G = { light: gradient('light'), dark: gradient('dark') };
-const roleAt = (mode: 'light' | 'dark', s: number) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
+const roleAt = (mode: 'light' | 'dark', s: string) => ROLE_ROWS.filter(r => r[mode] === s).map(r => r.role);
 // A readout on a swatch: ink on light swatches, white on dark ones.
 const readout = (hex: string) => (oklchOf(hex)[0] > 62 ? LABEL_INK.onLight : LABEL_INK.onDark);
 
 // Keys under 3:1 on a ground they're drawn on (sunken is never a ground).
 const LOW = MODES.flatMap(m => HUES.flatMap(h => {
-  const on = SURFACES[m].filter(s => s.token !== 'sunken' && contrast(R[m][h][400], s.hex) < 3);
-  return on.length ? [`${h} in ${m} (${on.map(s => `${s.token} ${contrast(R[m][h][400], s.hex).toFixed(2)}`).join(', ')})`] : [];
+  const on = SURFACES[m].filter(s => s.token !== 'sunken' && contrast(R[m][h][KEY], s.hex) < 3);
+  return on.length ? [`${h} in ${m} (${on.map(s => `${s.token} ${contrast(R[m][h][KEY], s.hex).toFixed(2)}`).join(', ')})`] : [];
 }));
 
 const SLOTS = { light: [...SURFACES.light, ...LINES_TEXT.light], dark: [...SURFACES.dark, ...LINES_TEXT.dark] };
@@ -56,6 +57,9 @@ const LINKS = {
   diagrams: '/rounds/diagrams/',
 };
 const TOC = [['principles', 'Principles'], ['surfaces', 'Surfaces & shadows'], ['color', 'Color'], ['gradient', 'Gradient & graphics'], ['diagrams', 'Diagrams'], ['files', 'Rounds & tokens']];
+// A gray step's CSS name: white and black sit outside the scale.
+const grayVar = (step: string) => (step === 'white' || step === 'black' ? `--${step}` : `--gray-${step}`);
+const grayLabel = (step: string) => (step === 'white' || step === 'black' ? step : `gray ${step}`);
 const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
 ---
 
@@ -95,7 +99,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <span class="eyebrow"><span class="eyebrow__dot"></span>brand-v2 · working favorites</span>
           <h1>Brand v2 Working Favorites</h1>
           <p class="lead">The work so far is spread across three round pages and a lot of review notes. This page gathers it in one place: the working values, the rules that go with them, and where to see each one in use. <strong>Everything here is a working favorite</strong>, the current best answer and open to change.</p>
-          <p class="meta">Updated 2026-09-27 · Palette: Ink · Use the toggle to see both color modes · Click any swatch to copy it</p>
+          <p class="meta">Updated 2026-10-08 · Values from the v2 token build · Palette: Ink · Use the toggle to see both color modes · Click any swatch to copy it</p>
         </div>
         <nav class="toc" aria-label="Contents">
           <ol>{TOC.map(([id, t]) => <li><a href={`#${id}`}><span class="toc__t">{t}</span><ion-icon class="toc__i" name="arrow-down-outline" aria-hidden="true"></ion-icon></a></li>)}</ol>
@@ -109,7 +113,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <ul class="points">
             <li><b>Evolve, don&rsquo;t rebrand.</b> Build on the existing tokens and components.</li>
             <li><b>Web and graphics first.</b> Pages and graphics outrank app interfaces when a choice trades one for the other.</li>
-            <li><b>A small set, each with a clear job.</b> Four surface levels and 42 chromatic values, each named for what it does.</li>
+            <li><b>A small set, each with a clear job.</b> Four surface levels and 66 chromatic values (6 hues × 11 steps), each named for what it does.</li>
             <li><b>Graphics take their colors from the palette.</b> No second color set to keep in step.</li>
             <li><b>Both color modes are first-class.</b> Every value is defined and judged in light and dark.</li>
           </ul>
@@ -132,8 +136,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                     <>
                       <span class="ramps__hue surf__m">{m}</span>
                       {g.tokens.map(t => { const s = SLOTS[m].find(x => x.token === t)!; return (
-                        <button class="sw sw--copy" type="button" data-var={`--gray-${s.step}`} aria-label={`Copy ${s.token}, ${m}: gray ${s.step}, ${s.hex}`} style={`background:var(--gray-${s.step});color:${readout(s.hex)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
-                          <code>gray {s.step}<br />{s.hex}</code>
+                        <button class="sw sw--copy" type="button" data-var={grayVar(s.step)} aria-label={`Copy ${s.token}, ${m}: ${grayLabel(s.step)}, ${s.hex}`} style={`background:var(${grayVar(s.step)});color:${readout(s.hex)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                          <code>{grayLabel(s.step)}<br />{s.hex}{s.status === 'exploring' && <><br />placeholder</>}</code>
                         </button>
                       ); })}
                     </>
@@ -147,7 +151,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
             <div class="levels__base">
               <code>base</code>
               <span>The page · level 0</span>
-              <span class="levels__hex"><span class="only-light">gray {SURFACES.light[1].step} · {SURFACES.light[1].hex}</span><span class="only-dark">gray {SURFACES.dark[1].step} · {SURFACES.dark[1].hex}</span></span>
+              <span class="levels__hex"><span class="only-light">{grayLabel(SURFACES.light[1].step)} · {SURFACES.light[1].hex}</span><span class="only-dark">{grayLabel(SURFACES.dark[1].step)} · {SURFACES.dark[1].hex}</span></span>
             </div>
             <div class="levels__row">
               {[
@@ -158,7 +162,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                 <div class={`levels__tile levels__tile--${l.t}`}>
                   <code>{l.t}</code>
                   <span>{l.name}</span>
-                  <span class="levels__hex"><span class="only-light">gray {SURFACES.light[l.i].step} · {SURFACES.light[l.i].hex}</span><span class="only-dark">gray {SURFACES.dark[l.i].step} · {SURFACES.dark[l.i].hex}</span></span>
+                  <span class="levels__hex"><span class="only-light">{grayLabel(SURFACES.light[l.i].step)} · {SURFACES.light[l.i].hex}</span><span class="only-dark">{grayLabel(SURFACES.dark[l.i].step)} · {SURFACES.dark[l.i].hex}</span></span>
                 </div>
               ))}
             </div>
@@ -195,7 +199,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
               <h3 class="notes__watch"><ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>Watch</h3>
               <ul>
                 <li>The screen-share tuning is calculated from how video encoders round color. Nobody has checked it against a recorded screen share yet.</li>
-                <li>In light mode <code>line</code> and <code>sunken</code> share gray 300, so a divider inside a recess disappears.</li>
+                <li>In light mode <code>line</code> and <code>sunken</code> share gray 200, so a divider inside a recess disappears. (<code>line</code> is a placeholder until the text-and-lines round.)</li>
                 <li>Dark mode&rsquo;s level separation fades in a bright room or on a projector; light mode holds.</li>
               </ul>
             </div>
@@ -207,18 +211,18 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       <!-- ── 03 Color ──────────────────────────────────────────────── -->
       <section class="band" id="color">
         <div class="wrap">
-          <header class="sec"><h2>Color</h2><p>Ink has 6 hues × 7 steps. Every step except the key (400) sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Roles are marked on the steps they resolve to. Saturation is offset per mode: light ×{SAT.light.toFixed(2)}, dark ×{SAT.dark.toFixed(2)}.</p></header>
+          <header class="sec"><h2>Color</h2><p>Ink has 6 hues × 11 steps (50–950). Every step except the key (500) and 400 sits at the <b>same lightness in every hue</b>, so a role means the same contrast whatever the color. Steps 50, 400, 900 and 950 are new and provisional; each is tuned in the round that first gives it a job. Roles are marked on the steps they resolve to. Saturation is offset per mode: light ×{SAT.light.toFixed(2)}, dark ×{SAT.dark.toFixed(2)}.</p></header>
 
           <article class="card grays" aria-label="Gray ramp">
             <h3 class="card__h">Gray</h3>
-            <p class="card__sub">17 steps, the same in both modes. Every surface, line and text color names one of them; the labels show which, in the current mode.</p>
+            <p class="card__sub">11 steps (50–950), the same in both modes, with white and black outside the scale. Every surface, line and text color names one of them; the labels show which, in the current mode. Steps 300–500 are new and provisional.</p>
             <div class="grays__row">
-              {GRAY_STEPS.map(st => (
+              {STEPS.map(st => (
                 <div class="grays__cell">
                   <button class="sw sw--copy" type="button" data-var={`--gray-${st}`} aria-label={`Copy gray ${st}, ${GRAY[st]}`} style={`background:var(--gray-${st});color:${readout(GRAY[st])}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
                     <code>{GRAY[st]}</code>
                   </button>
-                  <b class="grays__step">{st}</b>
+                  <b class="grays__step">{st}{GRAY_STATUS[st] === 'exploring' && ' · new'}</b>
                   <em class="grays__use only-light">{grayUse('light', st).join(' · ')}</em>
                   <em class="grays__use only-dark">{grayUse('dark', st).join(' · ')}</em>
                 </div>
@@ -231,7 +235,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
               <span></span>
               {STEPS.map(s => (
                 <span class="ramps__step">
-                  <b>{s}</b>
+                  <b>{s}{isNewStep('blue', s) && ' · new'}</b>
                   <em class="only-light">{roleAt('light', s).join(' · ') || '—'}</em>
                   <em class="only-dark">{roleAt('dark', s).join(' · ') || '—'}</em>
                 </span>
@@ -244,7 +248,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                   <small>{Object.entries(ROLE_HUE).filter(([, v]) => v === h).map(([r]) => r).join(' · ')}</small>
                 </span>
                 {STEPS.map(s => (
-                  <button class="sw sw--copy" type="button" data-var={`--${h}-${s}`} aria-label={`Copy ${h} ${s}`} style={`background:var(--${h}-${s});color:${s <= 300 ? LABEL_INK.onLight : LABEL_INK.onDark}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
+                  <button class="sw sw--copy" type="button" data-var={`--${h}-${s}`} aria-label={`Copy ${h} ${s}`} style={`background:var(--${h}-${s});color:${stepLabel('light', s)}`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span>
                     <code class="only-light">{R.light[h][s]}</code><code class="only-dark">{R.dark[h][s]}</code>
                   </button>
                 ))}
@@ -265,7 +269,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
                         r.role === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
                         : r.role === 'solid' ? <span class="ex__chip" style={`background:var(--${h}-solid);color:var(--${h}-on)`}>Aa</span>
                         : r.role === 'key' ? <span class="ex__chip" style={`background:var(--${h}-key)`}></span>
-                        : r.role === 'tint' ? <span class="ex__chip" style={`background:var(--${h}-tint);color:var(--${h}-fg)`}>Aa</span>
+                        : r.role === 'subtle' ? <span class="ex__chip" style={`background:var(--${h}-subtle);color:var(--${h}-fg)`}>Aa</span>
+                        : r.role === 'hover' ? <span class="ex__chip" style={`background:var(--${h}-hover);color:var(--${h}-on)`}>Aa</span>
                         : <span class="ex__chip" style={`background:var(--${h}-soft)`}></span>
                       ))}</span></td>
                     </tr>
@@ -279,12 +284,12 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
               <h3 class="card__h">Chart series</h3>
               <p class="card__sub">Each series owns a hue at four strengths, so an entity keeps its color from a faint panel to a label. Validated order; violet and blue are never adjacent.</p>
               <table class="tbl tbl--series">
-                <thead><tr><th>Series</th><th>tint</th><th>soft</th><th>key</th><th>fg</th></tr></thead>
+                <thead><tr><th>Series</th><th>subtle</th><th>soft</th><th>key</th><th>fg</th></tr></thead>
                 <tbody>
                   {SERIES.map((h, i) => (
                     <tr>
                       <td><code>series-{i + 1}</code> <span class="muted">{h}</span></td>
-                      {['tint', 'soft', 'key', 'fg'].map(r => <td><i class="chip" style={`background:var(--series-${i + 1}-${r})`}></i></td>)}
+                      {['subtle', 'soft', 'key', 'fg'].map(r => <td><i class="chip" style={`background:var(--${h}-${r})`}></i></td>)}
                     </tr>
                   ))}
                 </tbody>
@@ -296,8 +301,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
             <div>
               <h3>Rules</h3>
               <ul>
-                <li>Each step takes one label color in every hue: ink on 100&ndash;300, white on 500&ndash;700, and no text on 400, which is for marks.</li>
-                <li>A fill that carries a label is <code>solid</code>: 500 under white in light mode, 300 under ink in dark.</li>
+                <li>Each step takes one label color in every hue: ink on 100&ndash;300, white on 600&ndash;800, and no text on the key (500), which is for marks. The new steps (50, 400, 900, 950) have no label rule yet.</li>
+                <li>A fill that carries a label is <code>solid</code>: 600 under white in light mode, 300 under ink in dark.</li>
                 <li>Violet and blue never pair. They&rsquo;re never adjacent in a chart or on opposite sides of a comparison, because color-blind readers can&rsquo;t tell them apart.</li>
                 <li>Graphics use fixed steps rather than roles, so their colors hold when the mode switches.</li>
               </ul>
@@ -321,13 +326,13 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <article class="card spec">
             <div class="spec__head">
               <h3 class="card__h">Brand gradient</h3>
-              <p class="card__sub">Nine stops, same order in every palette, drawn from the palette itself. Every stop with a family is that family&rsquo;s key (400): red, violet, blue, teal, and green. Gold, orange, lime, and yellow have no family, so they are fitted to the palette: hues from their neighbors, strength from the palette’s own. Every graphic built on the gradient inherits this, including the colorflow and the gradient map.</p>
+              <p class="card__sub">Nine stops, same order in every palette, drawn from the palette itself. Every stop with a family is that family&rsquo;s key (500): red, violet, blue, teal, and green. Gold, orange, lime, and yellow have no family, so they are fitted to the palette: hues from their neighbors, strength from the palette’s own. Every graphic built on the gradient inherits this, including the colorflow and the gradient map.</p>
             </div>
             <i class="spec__bar" style="background:linear-gradient(90deg in oklab,var(--spectrum))"></i>
             <div class="spec__stops">
               {G.light.map((g, i) => (
-                <button class="spec__stop" type="button" data-var={`--spec-${i + 1}`} aria-label={`Copy ${g.name}`}>
-                  <i style={`background:var(--spec-${i + 1})`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span></i><b>{g.name}</b>
+                <button class="spec__stop" type="button" data-var={`--gradient-${g.name}`} aria-label={`Copy ${g.name}`}>
+                  <i style={`background:var(--gradient-${g.name})`}><span class="cpi" aria-hidden="true"><ion-icon class="cpi__copy" name="copy-outline"></ion-icon><ion-icon class="cpi__done" name="checkmark-outline"></ion-icon></span></i><b>{g.name}</b>
                   <code class="only-light">{g.hex}<br />{g.ref ?? 'fitted'}</code><code class="only-dark">{G.dark[i].hex}<br />{g.ref ?? 'fitted'}</code>
                 </button>
               ))}
@@ -371,7 +376,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       <!-- ── 06 Rounds & tokens ────────────────────────────────────── -->
       <section class="band" id="files">
         <div class="wrap">
-          <header class="sec"><h2>Rounds &amp; tokens</h2><p>Each round opens with the working values loaded. The token files hold the same values. They aren&rsquo;t in the brand&rsquo;s shipped <code>tokens.css</code> yet.</p></header>
+          <header class="sec"><h2>Rounds &amp; tokens</h2><p>Each round opens with the working values it was reviewed with. The downloads below are the v2 token build itself (<code>src/tokens/v2/</code>, generated from the repo&rsquo;s <code>tokens/</code> folder); v2 isn&rsquo;t released yet.</p></header>
           <div class="grid grid--3">
             <a class="card card--link" href={LINKS.surfaces} data-keep-t><h3 class="card__h">Surfaces round <Fragment set:html={ARR} /></h3><p>Levels, shadows, borders and a form lab, with a live editor.</p></a>
             <a class="card card--link" href={LINKS.color} data-keep-t><h3 class="card__h">Color round <Fragment set:html={ARR} /></h3><p>Palette, roles, charts, interface and graphics on a mock page.</p></a>
@@ -380,7 +385,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <div class="actions">
             <a class="btn btn--ink" href="/rounds/working-tokens.css" download="brand-v2-working-tokens.css"><ion-icon name="download-outline" aria-hidden="true"></ion-icon>tokens.css</a>
             <a class="btn btn--quiet" href="/rounds/working-tokens.json" download="brand-v2-working-tokens.json"><ion-icon name="download-outline" aria-hidden="true"></ion-icon>tokens.json</a>
-            <span class="muted dl__note">The JSON follows the World Wide Web Consortium (W3C) design-tokens format, with one set per color mode, so it loads into Figma through Tokens Studio.</span>
+            <span class="muted dl__note">The JSON lists every token&rsquo;s final value and status per color mode. The source files in <code>tokens/</code> use the Design Tokens format (a W3C Community Group standard), which tools such as Tokens Studio can load.</span>
           </div>
         </div>
       </section>

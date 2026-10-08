@@ -1,7 +1,7 @@
 /**
  * DIAGRAM ROUND — working color values.
  *
- * The working favorites live in ../_working.ts, which every round reads so
+ * The working values come from the v2 build via ../_working.ts, which every round reads so
  * the diagrams, the working-favorites page and its downloads can't disagree.
  * This file adds the one helper only the diagrams need.
  */

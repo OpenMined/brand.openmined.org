@@ -1,14 +1,14 @@
 /**
  * NAMING ROUND — how many grays, and what to call them.
  *
- * Naming and count only: every value is read from ../_working.ts and none
+ * Naming and count only: every value is read from ../_legacy.ts (the pre-v2 working values, frozen) and none
  * changes. The criteria come from review (2026-10-07):
  *   - gray and hues number in the same direction (low = light), as now;
  *   - the agreed values stay exactly as they are;
  *   - someone with little design knowledge can pick a gray without confusion;
  *   - gray will not line up with the hue lightness levels, and needn't.
  */
-import { GRAY, GRAY_STEPS, SURFACES, LINES_TEXT, ACCENT_NONE_STEPS, SHADOW_INK, oklchOf } from '../_working';
+import { GRAY, GRAY_STEPS, SURFACES, LINES_TEXT, ACCENT_NONE_STEPS, SHADOW_INK, oklchOf } from '../_legacy';
 
 const L = (hex: string) => oklchOf(hex)[0];
 export const fmtL = (l: number) => l.toFixed(1);

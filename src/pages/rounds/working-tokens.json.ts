@@ -1,3 +1,4 @@
-/** Download: the working favorites as W3C design tokens (one set per mode). */
-import { tokensJson } from './_working';
-export const GET = () => new Response(tokensJson(), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+/** Download: the v2 working values, resolved per mode (the build's own JSON). */
+import LIGHT from '../../tokens/v2/tokens.light.json';
+import DARK from '../../tokens/v2/tokens.dark.json';
+export const GET = () => new Response(JSON.stringify({ light: LIGHT, dark: DARK }, null, 2) + '\n', { headers: { 'Content-Type': 'application/json; charset=utf-8' } });

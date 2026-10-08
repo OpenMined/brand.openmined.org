@@ -368,8 +368,9 @@ body:has(.cr) { background: var(--c-base); }
 .ramps__step { display: grid; gap: 2px; font-size: 0.72rem; padding-bottom: 6px; }
 .ramps__step b { color: var(--c-h); font-weight: 600; }
 .ramps__step em { font-style: normal; color: var(--accent-fg); }
-.only-dark { display: none; }
-:root[data-theme="dark"] .only-dark { display: block; }
+/* Hide only — never set a display, so the shown twin keeps its own layout
+   (a swatch row stays a row in both modes). */
+:root:not([data-theme="dark"]) .only-dark { display: none; }
 :root[data-theme="dark"] .only-light { display: none; }
 .ramps__hue { display: grid; align-content: center; font-size: 0.85rem; color: var(--c-h); text-transform: capitalize; }
 .ramps__hue small { font-size: 0.7rem; color: var(--c-m); text-transform: none; }
