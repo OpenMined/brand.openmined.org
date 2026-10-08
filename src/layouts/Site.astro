@@ -1,0 +1,85 @@
+---
+/**
+ * BRAND SITE (v2) — the shell every page of the new site uses.
+ * Styled with the v2 tokens it documents; v1's tokens.css is loaded only for
+ * the non-color values v2 doesn't define yet (spacing, radius, z-index).
+ * The nav lists only pages that exist (lab PLAN, B: pages are made as each
+ * topic is worked).
+ */
+import '@tokens/tokens.css';
+import '@tokens/v2/tokens.css';
+import '../styles/site.css';
+import ThemeToggle from '@brand/ThemeToggle.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+const { title, description = 'OpenMined brand and design system: tokens, guidance and assets.', current } = Astro.props;
+
+/** Pages of the new site, in order. Add one when its page is built. */
+const PAGES = [
+  { key: 'overview', label: 'Overview', href: '/' },
+];
+/** Archives that stay reachable while v2 is in progress. */
+const ARCHIVE = [
+  { key: 'rounds', label: 'Review rounds', href: '/rounds/' },
+  { key: 'v1', label: 'v1 reference', href: '/v1/' },
+];
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script is:inline>
+      const stored = localStorage.getItem('theme');
+      const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', stored ?? (system ? 'dark' : 'light'));
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title === 'Overview' ? 'OpenMined Brand' : `${title} · OpenMined Brand`}</title>
+    <link rel="icon" type="image/svg+xml" href="/logos/OpenMined-Icon.svg" />
+    <!-- Google Fonts scaffold, as v1 — self-host before production -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rubik:wght@400&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="bar__title" href="/">OpenMined Brand</a>
+        <span class="bar__tag">v2 · in progress</span>
+        <nav class="bar__nav" aria-label="Site">
+          {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
+          <span class="bar__sep" aria-hidden="true"></span>
+          {ARCHIVE.map(p => <a class="bar__link" href={p.href}>{p.label}</a>)}
+        </nav>
+        <ThemeToggle />
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">Values from the v2 token build (<code>tokens/</code>); guidance from <code>design/</code>. Nothing here is released yet.</div>
+    </footer>
+
+    <script>
+      document.addEventListener('click', (e: MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.js-switch-theme')) {
+          const html = document.documentElement;
+          const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+        }
+      });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
