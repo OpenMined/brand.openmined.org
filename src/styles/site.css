@@ -331,7 +331,8 @@ a:hover { text-decoration-color: currentColor; }
    centered measure instead of hugging the left edge of the wide page. */
 .wrap--read { max-width: calc(44em + 2 * var(--spacing-2XL)); }
 .hero .note-card { justify-self: stretch; }
-.note-card { padding: var(--spacing-L) var(--spacing-XL); font-size: 0.92rem; line-height: 1.55; }
+.note-card { padding: var(--spacing-L) var(--spacing-XL); font-size: 0.92rem; line-height: 1.55; background: var(--danger-subtle); color: var(--danger-fg); }
+.note-card b { color: inherit; }
 
 /* The system diagram (reused from the infrastructure report) */
 /* Wider than the reading column it sits in, centered on it (as in the report). */
