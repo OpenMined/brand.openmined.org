@@ -32,6 +32,7 @@ export type Doc = {
   tokens: string[];        // CSS names this file governs, e.g. --surface-base
   data: Record<string, any>;
   Content: any;
+  html: string;            // the rendered HTML, for pages that place something inside a file's text
 };
 
 function check(path: string, fm: Record<string, any>): string[] {
@@ -52,6 +53,7 @@ export const DOCS: Doc[] = Object.entries(FILES).map(([abs, mod]) => {
     path, slug: path.replace(/\.md$/, ''),
     type: fm.type, title: fm.title, description: fm.description, status: fm.status,
     tags: fm.tags ?? [], tokens: fm.tokens ?? [], data: fm, Content: mod.Content,
+    html: typeof mod.compiledContent === 'function' ? mod.compiledContent() : '',
   };
 });
 if (problems.length) throw new Error(`Invalid guidance files:\n  ${problems.join('\n  ')}`);
@@ -60,4 +62,14 @@ export const doc = (slug: string): Doc => {
   const d = DOCS.find(x => x.slug === slug);
   if (!d) throw new Error(`design/${slug}.md not found`);
   return d;
+};
+
+/** Every file carrying a tag, of the given types, in path order. */
+export const byTag = (tag: string, ...types: Doc['type'][]): Doc[] =>
+  DOCS.filter(d => d.tags.includes(tag) && (!types.length || types.includes(d.type))).sort((a, b) => a.path.localeCompare(b.path));
+
+/** Decisions carrying a tag, oldest first. */
+export const decisionsFor = (tag: string): Doc[] => {
+  const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
+  return byTag(tag, 'Decision').sort((a, b) => day(a.data.date).localeCompare(day(b.data.date)));
 };

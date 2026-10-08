@@ -1,0 +1,183 @@
+---
+/**
+ * BRAND SITE (v2) — Graphics. Rev 1, built from the color round's gradient
+ * work and the diagram round. Words from design/ (tag `graphics`); values from
+ * the v2 build. The diagram figure is the round's own, embedded with the
+ * rounds' page-local names (ALIASES_CSS).
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
+import DocGrid from '../../components/site/DocGrid.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import FigA from '../rounds/diagrams/_a/Fig1.astro';
+import { ALIASES_CSS } from '../rounds/_working';
+import { doc, byTag, decisionsFor } from '../../lib/design';
+import { MODES, HUES, GRADIENT_STOPS, hex, target } from '../../lib/tokens';
+
+const foundation = doc('foundations/gradient');
+const { Content } = foundation;
+const diagrams = doc('patterns/diagrams');
+const DiagramsContent = diagrams.Content;
+const rules = byTag('graphics', 'Guideline', 'Behavior');
+const decisions = decisionsFor('graphics');
+const ref = (name: string) => target('light', `gradient-${name}`)?.replace('-key', '') ?? null;
+
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logo and embeds'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+---
+<Site title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette." current="graphics">
+  <Fragment set:html={`<style>${ALIASES_CSS}</style>`} />
+  <PageHero eyebrow="Visual language" title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette so a palette change reaches every graphic." status="working" nav={NAV} />
+
+  <section class="band" id="gradient">
+    <div class="wrap">
+      <header class="sec"><h2>Gradient</h2><p>{foundation.description} Family stops are hue keys; gold, orange, lime and yellow are fitted to the palette.</p></header>
+      <article class="card spec-card">
+        <i class="spec__bar" aria-hidden="true"></i>
+        <div class="spec__stops">
+          {GRADIENT_STOPS.map(n => (
+            <span>
+              <i style={`background:var(--gradient-${n})`}></i>
+              <b>{n}</b>
+              {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />{ref(n) ? `${ref(n)} key` : 'fitted'}</code>)}
+            </span>
+          ))}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="keys">
+    <div class="wrap">
+      <header class="sec"><h2>Hue keys</h2><p>The color graphics and chart marks use: each hue's 500, named <code>--{'{hue}'}-key</code>. A fixed step, not a role, so a graphic's colors hold when the mode switches (only the mode's saturation offset changes them).</p></header>
+      <article class="card">
+        <div class="spec__stops" style="grid-template-columns: repeat(6, minmax(0, 1fr))">
+          {HUES.map(h => (
+            <span>
+              <i style={`background:var(--${h}-key)`}></i>
+              <b><code>--{h}-key</code></b>
+              {MODES.map(m => <code class={`only-${m}`}>{hex(m, `${h}-key`)}</code>)}
+            </span>
+          ))}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="motion">
+    <div class="wrap">
+      <header class="sec"><h2>Colorflow and gradient map</h2><p>The two animated graphics built on the gradient, ported from the color round. Both read the v2 gradient stops on this page, so they follow the palette and the color mode.</p></header>
+      <article class="card">
+        <h3>Colorflow <code>&lt;om-stream&gt;</code></h3>
+        <p class="muted">A ribbon in six of the gradient's stops (red, gold, violet, blue, teal, green), the order the site's home hero uses.</p>
+        <div class="flow-stage" aria-hidden="true">
+          <om-stream aspect-ratio="2" data-follow="gradient-red,gradient-gold,gradient-violet,gradient-blue,gradient-teal,gradient-green"></om-stream>
+        </div>
+      </article>
+      <article class="card">
+        <h3>Gradient map <code>&lt;om-mesh&gt;</code></h3>
+        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight stops, gold to lime, ringing the box and blending toward the center, in the color round's "Clouds" setting. It fades toward the page background.</p>
+        <div class="mesh-stage">
+          <om-mesh class="mesh-stage__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" data-follow="gradient-gold,gradient-orange,gradient-red,gradient-violet,gradient-blue,gradient-teal,gradient-green,gradient-lime" data-follow-haze="surface-base"></om-mesh>
+          <div class="mesh-stage__card">
+            <h3>Talk to Our Team</h3>
+            <p class="muted">Find out more about OpenMined</p>
+            <span class="btn btn--solid">Request a Conversation</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="diagrams">
+    <div class="wrap">
+      <header class="sec"><h2>Diagrams</h2><p>{diagrams.description} Status: <b>{diagrams.status}</b>.</p></header>
+      <figure class="dex">
+        <FigA />
+        <figcaption class="dex__cap">Direction A, attribution in color: each source keeps its hue; where attribution is lost the colors drain to gray, and where it's kept they reach the person asking.</figcaption>
+      </figure>
+      <div class="prose"><DiagramsContent /></div>
+      <div class="grid grid--3">
+        <a class="card card--link" href="/rounds/diagrams/original/"><h3 class="card__h">Original <Fragment set:html={ARR} /></h3><p>The live article's graphics, for comparison.</p></a>
+        <a class="card card--link" href="/rounds/diagrams/a/"><h3 class="card__h">A · Attribution in color <Fragment set:html={ARR} /></h3><p>Each source keeps a hue; attribution lost drains to gray.</p></a>
+        <a class="card card--link" href="/rounds/diagrams/b/"><h3 class="card__h">B · Technical plate <Fragment set:html={ARR} /></h3><p>A few colors with one job each.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="logo">
+    <div class="wrap">
+      <header class="sec"><h2>Logo and embeds</h2><p>The logo keeps its own colors in every palette and mode. The animated embeds show v2 colors here because this page passes them in; used on their own, they fall back to built-in colors that are still v1 until they're re-tuned.</p></header>
+      <div class="grid grid--2">
+        <article class="card">
+          <img class="only-light" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" style="height:40px;width:auto;align-self:flex-start" />
+          <img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" height="40" style="height:40px;width:auto;align-self:flex-start" />
+          <p class="muted">Full color on light; reversed on dark. All logo files are on the <a href="/v1/#logos">v1 reference</a>.</p>
+        </article>
+        <article class="card">
+          <h3>Embeds</h3>
+          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components. Shown live on the <a href="/v1/">v1 reference</a> and in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all">color round</a>.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <header class="sec"><h2>How it works</h2></header>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  <section class="band" id="tokens">
+    <div class="wrap">
+      <header class="sec"><h2>Tokens</h2></header>
+      <TokenTable names={[...foundation.tokens, ...HUES.map(h => `--${h}-key`), ...Array.from({ length: 6 }, (_, i) => `--series-${i + 1}`)]} />
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2></header>
+      <DocGrid docs={rules} />
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2></header>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/rounds/diagrams/"><h3 class="card__h">Diagram round <Fragment set:html={ARR} /></h3><p>The Attribution-Based Control article's opening, with its graphics redrawn in two directions.</p></a>
+        <a class="card card--link" href="/rounds/#gradient"><h3 class="card__h">Working favorites <Fragment set:html={ARR} /></h3><p>The gradient and graphics section, alongside the rest of the working values.</p></a>
+      </div>
+    </div>
+  </section>
+  <script type="module" src="/embeds/om-stream.js" is:inline></script>
+  <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+  <script is:inline>
+    // Palette-following embeds (ported from the color round): each [data-follow]
+    // element gets its `colors` (and `haze`) from the named v2 tokens, re-read
+    // when the color mode changes, so the embeds show v2 colors in both modes.
+    (() => {
+      const h = document.documentElement;
+      const sync = () => {
+        const cs = getComputedStyle(h);
+        const read = v => cs.getPropertyValue(`--${v}`).trim();
+        document.querySelectorAll('[data-follow]').forEach(el => {
+          el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
+          if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
+        });
+      };
+      sync();
+      new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
+    })();
+  </script>
+</Site>

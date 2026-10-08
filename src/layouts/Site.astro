@@ -21,6 +21,11 @@ const { title, description = 'OpenMined brand and design system: tokens, guidanc
 /** Pages of the new site, in order. Add one when its page is built. */
 const PAGES = [
   { key: 'overview', label: 'Overview', href: '/' },
+  { key: 'surfaces', label: 'Surfaces', href: '/surfaces/' },
+  { key: 'color', label: 'Color', href: '/color/' },
+  { key: 'graphics', label: 'Graphics', href: '/graphics/' },
+  { key: 'interface', label: 'Interface', href: '/interface/' },
+  { key: 'typography', label: 'Typography', href: '/typography/' },
 ];
 /** Archives that stay reachable while v2 is in progress. */
 const ARCHIVE = [
@@ -40,7 +45,7 @@ const ARCHIVE = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
-    <title>{title === 'Overview' ? 'OpenMined Brand' : `${title} · OpenMined Brand`}</title>
+    <title>{title === 'Overview' ? 'OpenMined Design System' : `${title} · OpenMined Design System`}</title>
     <link rel="icon" type="image/svg+xml" href="/logos/OpenMined-Icon.svg" />
     <!-- Google Fonts scaffold, as v1 — self-host before production -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,7 +55,7 @@ const ARCHIVE = [
   <body>
     <header class="bar">
       <div class="bar__inner">
-        <a class="bar__title" href="/">OpenMined Brand</a>
+        <a class="bar__title" href="/">OpenMined Design System</a>
         <span class="bar__tag">v2 · in progress</span>
         <nav class="bar__nav" aria-label="Site">
           {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}

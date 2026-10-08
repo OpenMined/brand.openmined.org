@@ -1,0 +1,118 @@
+---
+/**
+ * BRAND SITE (v2) — Surfaces. The first topic page; it sets the template:
+ *   hero · in use (live specimen) · how it works (the foundation file) ·
+ *   tokens (from the build) · rules (guidelines + behaviors) · decisions · see it
+ * Words come from design/ (files tagged `surfaces`); values from src/tokens/v2/.
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
+import DocGrid from '../../components/site/DocGrid.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import { doc, byTag, decisionsFor } from '../../lib/design';
+import LIGHT from '../../tokens/v2/tokens.light.json';
+import DARK from '../../tokens/v2/tokens.dark.json';
+
+const foundation = doc('foundations/surfaces');
+const rules = byTag('surfaces', 'Guideline', 'Behavior');
+const decisions = decisionsFor('surfaces');
+const { Content } = foundation;
+
+type Entry = { value: string; resolved: string; status?: string };
+const T = { light: LIGHT as Record<string, Entry>, dark: DARK as Record<string, Entry> };
+/** "gray 50" for var(--gray-50), "white" for var(--white); null for a literal value. */
+const stepLabel = (v: string) => { const m = v.match(/^var\(--(gray-\d+|white|black)\)$/); return m ? m[1].replace('-', ' ') : null; };
+const cell = (mode: 'light' | 'dark', name: string) => {
+  const e = T[mode][name];
+  return { label: stepLabel(e.value), resolved: e.resolved, status: e.status ?? 'working' };
+};
+const level = (mode: 'light' | 'dark', name: string) => { const c = cell(mode, name); return `${c.label ?? ''} · ${c.resolved}`; };
+const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+---
+<Site title={foundation.title} description={foundation.description} current="surfaces">
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV as [string, string][]} />
+
+  <section class="band" id="in-use">
+    <div class="wrap">
+      <header class="sec"><h2>In use</h2><p>The four levels together, in the current color mode. Use the toggle to see the other.</p></header>
+      <div class="levels" aria-label="The four levels together">
+        <div class="levels__base">
+          <code>--surface-base</code><span>The page · level 0</span>
+          <span class="levels__hex"><span class="only-light">{level('light', '--surface-base')}</span><span class="only-dark">{level('dark', '--surface-base')}</span></span>
+        </div>
+        <div class="levels__row">
+          {[
+            { t: 'sunken', name: 'A recess inside a surface · −1' },
+            { t: 'raise-1', name: 'A card on the page · +1' },
+            { t: 'raise-2', name: 'One level higher · +2' },
+          ].map(l => (
+            <div class={`levels__tile levels__tile--${l.t}`}>
+              <code>--surface-{l.t}</code><span>{l.name}</span>
+              <span class="levels__hex"><span class="only-light">{level('light', `--surface-${l.t}`)}</span><span class="only-dark">{level('dark', `--surface-${l.t}`)}</span></span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="modes">
+    <div class="wrap">
+      <header class="sec"><h2>Modes and sections</h2><p>Modes, not levels. A section can pin a mode or invert the page's, and the same four levels repeat inside it with that mode's values. Toggle the page mode to see <code>invert</code> follow it. <a href="#behaviors-color-modes">The rules</a></p></header>
+      <div class="modes">
+        {[
+          { sec: null, name: 'The page', note: 'follows the page mode' },
+          { sec: 'always-dark', name: 'always-dark', note: 'dark, whatever the page' },
+          { sec: 'always-light', name: 'always-light', note: 'light, whatever the page' },
+          { sec: 'invert', name: 'invert', note: 'the opposite of the page' },
+        ].map(m => (
+          <div class="levels" data-section={m.sec ?? undefined}>
+            <div class="levels__base"><code>{m.sec ? `data-section="${m.sec}"` : 'no data-section'}</code><span>{m.note}</span></div>
+            <div class="levels__row">
+              {['sunken', 'raise-1', 'raise-2'].map(t => <div class={`levels__tile levels__tile--${t}`}><code>{t}</code></div>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <header class="sec"><h2>How it works</h2></header>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  <section class="band" id="tokens">
+    <div class="wrap">
+      <header class="sec"><h2>Tokens</h2><p>Read from the build, so this table can't drift from the values. Use the name; the value can be retuned.</p></header>
+      <TokenTable names={foundation.tokens} />
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2><p>Guidelines and behaviors for the levels.</p></header>
+      <DocGrid docs={rules} />
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why the levels are what they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2><p>The review rounds where these values were set.</p></header>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/rounds/surfaces/"><h3 class="card__h">Surfaces round <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>Levels, shadows, outlines and a form lab, with a live editor.</p></a>
+        <a class="card card--link" href="/rounds/#surfaces"><h3 class="card__h">Working favorites <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The surfaces and shadow ladder alongside the rest of the working values.</p></a>
+      </div>
+    </div>
+  </section>
+</Site>

@@ -1,0 +1,81 @@
+---
+/**
+ * BRAND SITE (v2) — Typography. Rev 1, status `exploring`: v2 type hasn't
+ * started. Shows the v1 baseline and the website's fluid system — the one the
+ * brand is to extract (decided 2026-09-15). Sizes below are read from:
+ *   v1       src/tokens/global.css (h1–h6 element defaults)
+ *   website  openmined-org src/styles/tokens.css (--hN-min/max) and
+ *            src/styles/global/typography.css (the clamp() middle values)
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import { doc, decisionsFor } from '../../lib/design';
+
+const foundation = doc('foundations/typography');
+const { Content } = foundation;
+const decisions = decisionsFor('typography');
+
+const LADDER = [
+  { tag: 'h1', family: 'Rubik', v1: 61, min: 36, vw: 4.69, max: 61, lh: 1.2 },
+  { tag: 'h2', family: 'Rubik', v1: 47, min: 28, vw: 3.62, max: 47, lh: 1.2 },
+  { tag: 'h3', family: 'Rubik', v1: 36, min: 24, vw: 2.77, max: 36, lh: 1.2 },
+  { tag: 'h4', family: 'Rubik', v1: 27, min: 22, vw: 2.08, max: 27, lh: 1.2 },
+  { tag: 'h5', family: 'Inter', v1: 21, min: 18, vw: 1.62, max: 21, lh: 1.4 },
+  { tag: 'h6', family: 'Inter', v1: 20, min: 16, vw: 1.54, max: 20, lh: 1.5 },
+];
+const NAV: [string, string][] = [['families', 'Families'], ['scale', 'Heading scale'], ['how', 'Where it stands'], ['decisions', 'Decisions'], ['see', 'See it']];
+---
+<Site title={foundation.title} description={foundation.description} current="typography">
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="no v2 type tokens yet" />
+
+  <section class="band" id="families">
+    <div class="wrap">
+      <header class="sec"><h2>Families</h2><p>Both are Google Fonts, so they also work in Google Docs without add-ons.</p></header>
+      <div class="families">
+        <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-d)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+        <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-b)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="scale">
+    <div class="wrap">
+      <header class="sec"><h2>Heading scale</h2><p>Rendered with the website's fluid sizes: each level scales with the viewport between a minimum and a maximum. v1 uses the maximum at every width. Resize the window to see them move.</p></header>
+      <article class="card">
+        <div class="ladder-type">
+          {LADDER.map(l => (
+            <div class="ladder-type__row">
+              <span class="ladder-type__meta"><b>{l.tag}</b><span>{l.family} 400 · lh {l.lh}</span><span>v1: {l.v1}px fixed</span><span>web: {l.min}–{l.max}px</span></span>
+              <span class="ladder-type__sample" style={`font-family: ${l.family === 'Rubik' ? 'var(--font-d)' : 'var(--font-b)'}; font-size: clamp(${l.min}px, ${l.vw}vw, ${l.max}px); line-height: ${l.lh}`}>Attribution-based control</span>
+            </div>
+          ))}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <header class="sec"><h2>Where it stands</h2></header>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2></header>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/v1/#typography"><h3 class="card__h">v1 reference: typography <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The released type specimen, with prose.</p></a>
+        <a class="card card--link" href="https://openmined.org/"><h3 class="card__h">openmined.org <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The live site, where the fluid system runs on real pages.</p></a>
+      </div>
+    </div>
+  </section>
+</Site>

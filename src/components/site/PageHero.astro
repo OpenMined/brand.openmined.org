@@ -1,0 +1,12 @@
+---
+/** Topic page header: eyebrow, title, summary, status, and the on-page nav. */
+interface Props { eyebrow: string; title: string; description: string; status: string; nav: [string, string][]; source?: string }
+const { eyebrow, title, description, status, nav, source = 'values from the v2 token build' } = Astro.props;
+---
+<section class="wrap hero">
+  <span class="eyebrow"><span class="eyebrow__dot"></span>{eyebrow}</span>
+  <h1>{title}</h1>
+  <p class="lead">{description}</p>
+  <p class="status">Status: <b>{status}</b>{source && ` · ${source}`}</p>
+  <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a href={`#${id}`}>{t}</a>)}</nav>
+</section>

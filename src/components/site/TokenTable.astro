@@ -1,0 +1,37 @@
+---
+/**
+ * Tokens table, read from the build (src/tokens/v2/tokens.{light,dark}.json) so
+ * it can't drift from the values. A token that points at a gray step shows the
+ * step's name; any other reference shows its target; a literal shows its value.
+ */
+import LIGHT from '../../tokens/v2/tokens.light.json';
+import DARK from '../../tokens/v2/tokens.dark.json';
+interface Props { names: string[] }
+const { names } = Astro.props;
+type Entry = { value: string; resolved: string; status?: string };
+const T = { light: LIGHT as Record<string, Entry>, dark: DARK as Record<string, Entry> };
+const cell = (mode: 'light' | 'dark', name: string) => {
+  const e = T[mode][name];
+  if (!e) throw new Error(`TokenTable: ${name} is not in the v2 build`);
+  const ref = e.value.match(/^var\(--([\w-]+)\)$/)?.[1] ?? null;
+  const label = ref ? (/^gray-\d+$/.test(ref) ? ref.replace('-', ' ') : ref) : null;
+  return { label, resolved: e.resolved, status: e.status ?? 'working' };
+};
+---
+<div class="tbl-wrap">
+  <table class="tbl">
+    <thead><tr><th>Token</th><th>Light</th><th>Dark</th><th>Status</th></tr></thead>
+    <tbody>
+      {names.map(name => {
+        const l = cell('light', name), d = cell('dark', name);
+        return (
+          <tr>
+            <td><code>{name}</code></td>
+            {[l, d].map(c => <td><span class="tbl__val">{c.label ? <><code>{c.label}</code><small>{c.resolved}</small></> : <small>{c.resolved}</small>}</span></td>)}
+            <td>{l.status}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>

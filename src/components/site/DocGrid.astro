@@ -1,0 +1,18 @@
+---
+/** Guidance files rendered in full, two columns, plain text (dividers only). */
+import type { Doc } from '../../lib/design';
+interface Props { docs: Doc[]; meta?: 'type' | 'date' }
+const { docs, meta = 'type' } = Astro.props;
+/** A frontmatter date (YAML may hand it over as a Date or an ISO string) as YYYY-MM-DD. */
+const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
+const anchor = (slug: string) => slug.replace(/\//g, '-');
+---
+<div class="docs">
+  {docs.map(d => (
+    <article class="doc" id={anchor(d.slug)}>
+      <h3>{d.title}</h3>
+      <span class="doc__meta">{meta === 'date' ? day(d.data.date) : d.type} · {d.status}</span>
+      <div class="prose"><d.Content /></div>
+    </article>
+  ))}
+</div>

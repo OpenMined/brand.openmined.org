@@ -1,0 +1,31 @@
+---
+/**
+ * Decisions, minimized: one row each (date · title · summary), opening to the
+ * full record. The records stay complete in design/decisions/; this is only how
+ * the page shows them. A link to a decision's anchor opens its row.
+ */
+import type { Doc } from '../../lib/design';
+interface Props { docs: Doc[] }
+const { docs } = Astro.props;
+const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
+const anchor = (slug: string) => slug.replace(/\//g, '-');
+---
+<div class="decisions">
+  {docs.map(d => (
+    <details class="decision" id={anchor(d.slug)}>
+      <summary>
+        <span class="decision__date">{day(d.data.date)}</span>
+        <span class="decision__title">{d.title}</span>
+        <span class="decision__sum">{d.description}</span>
+      </summary>
+      <div class="prose decision__body"><d.Content /></div>
+    </details>
+  ))}
+</div>
+<script is:inline>
+  // Open the decision a link points at (on load and when the hash changes).
+  (() => {
+    const open = () => { const el = location.hash && document.getElementById(location.hash.slice(1)); if (el && el.tagName === 'DETAILS') el.open = true; };
+    open(); addEventListener('hashchange', open);
+  })();
+</script>

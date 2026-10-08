@@ -4,27 +4,35 @@
  * The v1 reference page lives at /v1/ until v2 is released.
  */
 import Site from '../layouts/Site.astro';
-import { doc, LOG } from '../lib/design';
+import SystemDiagram from '../components/site/SystemDiagram.astro';
+import { doc } from '../lib/design';
 
 const overview = doc('overview');
-const { Content } = overview;
+// The diagram goes at the end of "How it's built", just before Principles; the
+// words on both sides are design/overview.md, unchanged.
+const cut = overview.html.indexOf('<h2 id="principles"');
+if (cut < 0) throw new Error('overview.md: no Principles heading to place the diagram before');
+const [before, after] = [overview.html.slice(0, cut), overview.html.slice(cut)];
 ---
 <Site title="Overview" description={overview.description} current="overview">
-  <section class="wrap hero">
+  <section class="wrap wrap--read hero">
     <span class="eyebrow"><span class="eyebrow__dot"></span>v2 · in progress</span>
-    <h1>OpenMined Brand</h1>
+    <h1>OpenMined Design System</h1>
     <p class="lead">{overview.description}</p>
     <p class="status">Status: <b>{overview.status}</b></p>
+    <div class="card note-card"><p><b>This home page is a placeholder.</b> A proper front door, for people and for AI agents, comes once more of the system is decided. Start with the overview below, or a topic in the nav.</p></div>
   </section>
 
   <section class="band">
-    <div class="wrap">
-      <div class="prose"><Content /></div>
+    <div class="wrap wrap--read">
+      <div class="prose" set:html={before} />
+      <SystemDiagram />
+      <div class="prose" set:html={after} />
     </div>
   </section>
 
   <section class="band">
-    <div class="wrap">
+    <div class="wrap wrap--read">
       <header class="sec"><h2>Archives</h2><p>Reachable while v2 is in progress.</p></header>
       <div class="grid grid--2">
         <a class="card card--link" href="/rounds/"><h3 class="card__h">Review rounds <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The explorations each v2 decision came from: surfaces, color, the spectrum, diagrams.</p></a>
@@ -33,11 +41,4 @@ const { Content } = overview;
     </div>
   </section>
 
-  {LOG && (
-    <section class="band">
-      <div class="wrap">
-        <div class="prose"><LOG /></div>
-      </div>
-    </section>
-  )}
 </Site>

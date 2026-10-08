@@ -1,0 +1,161 @@
+---
+/**
+ * The system at a glance — reused from the "OM Design Infrastructure" report
+ * (claude.ai artifact), recolored with v2 tokens. Part numbers removed; parts
+ * that don't exist yet are labeled planned or possible. Presentation only:
+ * the explanation it illustrates lives in design/overview.md.
+ */
+---
+<figure class="sysfig">
+  <div class="sysscroll">
+<svg id="om-system" viewBox="0 0 960 648" role="img" aria-label="The OpenMined design system: one central source (token files, guidance files, assets) that this site, AI agents, projects and design tools all read; generated outputs are built from it; statuses keep it clean over time" font-family="Inter, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <marker id="om-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--text-muted)"/></marker>
+  </defs>
+
+  <!-- Central source frame (part 1) -->
+  <g data-part="p1">
+    <rect x="16" y="16" width="628" height="480" rx="16" fill="var(--surface-raise-1)" stroke="var(--line-strong)" stroke-width="1.25"/>
+    <text x="36" y="42" font-size="11.5" font-weight="600" letter-spacing="0.08em" fill="var(--text-muted)">CENTRAL SOURCE</text>
+    <text x="36" y="62" font-size="14" fill="var(--text-headline)">The brand repository: this site's pages are built from it</text>
+  </g>
+
+  <!-- Values (part 2) -->
+  <g data-part="p1 p2 ex">
+    <rect x="36" y="84" width="260" height="300" rx="12" fill="var(--surface-raise-2)" stroke="var(--line)"/>
+    <text x="52" y="110" font-size="15" font-weight="600" fill="var(--text-headline)">Values</text>
+    <text x="52" y="128" font-size="12" fill="var(--text-muted)">Token files in the open format</text>
+    <rect x="52" y="144" width="228" height="44" rx="8" fill="var(--surface-raise-1)" stroke="var(--line-strong)"/>
+    <text x="66" y="163" font-size="13" font-weight="600" fill="var(--text-headline)">Component tokens</text>
+    <text x="66" y="179" font-size="11.5" fill="var(--text-muted)">planned: connector, gridline</text>
+    <rect x="52" y="208" width="228" height="44" rx="8" fill="var(--surface-raise-1)" stroke="var(--line-strong)"/>
+    <text x="66" y="227" font-size="13" font-weight="600" fill="var(--text-headline)">Roles</text>
+    <text x="66" y="243" font-size="11.5" fill="var(--text-muted)">surface-raise-1, text-muted, success</text>
+    <rect x="52" y="272" width="228" height="44" rx="8" fill="var(--surface-raise-1)" stroke="var(--line-strong)"/>
+    <text x="66" y="291" font-size="13" font-weight="600" fill="var(--text-headline)">Primitives</text>
+    <text x="66" y="307" font-size="11.5" fill="var(--text-muted)">blue-500, type sizes, durations</text>
+    <g stroke="var(--text-muted)" stroke-width="1.25" fill="none">
+      <path d="M166 188V206" marker-end="url(#om-arrow)"/>
+      <path d="M166 252V270" marker-end="url(#om-arrow)"/>
+    </g>
+    <text x="176" y="201" font-size="11" fill="var(--text-muted)">points at</text>
+    <text x="176" y="265" font-size="11" fill="var(--text-muted)">points at</text>
+  </g>
+
+  <!-- Modes (parts 2 and 4) -->
+  <g data-part="p2 p4">
+    <rect x="52" y="328" width="228" height="42" rx="8" fill="var(--surface-sunken)"/>
+    <text x="66" y="345" font-size="12.5" font-weight="600" fill="var(--text-headline)">Modes swap values</text>
+    <text x="66" y="361" font-size="11.5" fill="var(--text-muted)">light · dark · section contexts</text>
+  </g>
+
+  <!-- Concepts and examples (part 3) -->
+  <g data-part="p1 p3 ex">
+    <rect x="312" y="84" width="316" height="300" rx="12" fill="var(--surface-raise-2)" stroke="var(--line)"/>
+    <text x="328" y="110" font-size="15" font-weight="600" fill="var(--text-headline)">Guidance files</text>
+    <text x="328" y="128" font-size="12" fill="var(--text-muted)">One typed Markdown file per idea</text>
+    <g font-size="13" fill="var(--text-headline)">
+      <rect x="328" y="142" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="328" y="142" width="4" height="30" fill="var(--violet-key)"/><text x="342" y="162">Overview</text>
+      <rect x="474" y="142" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="474" y="142" width="4" height="30" fill="var(--amber-key)"/><text x="488" y="162">Decisions</text>
+      <rect x="328" y="180" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="328" y="180" width="4" height="30" fill="var(--teal-key)"/><text x="342" y="200">Components</text>
+      <rect x="474" y="180" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="474" y="180" width="4" height="30" fill="var(--teal-key)"/><text x="488" y="200">Patterns</text>
+      <rect x="328" y="218" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="328" y="218" width="4" height="30" fill="var(--violet-key)"/><text x="342" y="238">Guidelines</text>
+      <rect x="474" y="218" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="474" y="218" width="4" height="30" fill="var(--violet-key)"/><text x="488" y="238">Behaviors</text>
+      <rect x="328" y="256" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="328" y="256" width="4" height="30" fill="var(--violet-key)"/><text x="342" y="276">Accessibility</text>
+      <rect x="474" y="256" width="138" height="30" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><rect x="474" y="256" width="4" height="30" fill="var(--violet-key)"/><text x="488" y="276">Voice</text>
+    </g>
+    <g font-size="11" fill="var(--text-muted)">
+      <rect x="328" y="296" width="9" height="9" fill="var(--teal-key)"/><text x="342" y="304">specs</text>
+      <rect x="390" y="296" width="9" height="9" fill="var(--violet-key)"/><text x="404" y="304">judgment</text>
+      <rect x="470" y="296" width="9" height="9" fill="var(--amber-key)"/><text x="484" y="304">reasoning</text>
+    </g>
+    <rect x="328" y="318" width="284" height="52" rx="8" fill="var(--surface-sunken)"/>
+    <text x="342" y="339" font-size="12.5" font-weight="600" fill="var(--text-headline)">Examples beside each file</text>
+    <text x="342" y="357" font-size="11.5" fill="var(--text-muted)">planned: rendered · wireframe · do and don't</text>
+    <path d="M312 233H298" stroke="var(--text-muted)" stroke-width="1.25" marker-end="url(#om-arrow)"/>
+  </g>
+
+  <!-- Reference note (parts 1, 3) -->
+  <g data-part="p1 p3">
+    <text x="332" y="406" font-size="11.5" text-anchor="middle" fill="var(--text-muted)">Guidance names tokens by reference; no value is ever copied into prose</text>
+  </g>
+  <!-- Assets (part 1) -->
+  <g data-part="p1">
+    <rect x="36" y="420" width="248" height="56" rx="12" fill="var(--surface-raise-2)" stroke="var(--line)"/>
+    <text x="52" y="444" font-size="15" font-weight="600" fill="var(--text-headline)">Assets</text>
+    <text x="52" y="464" font-size="12" fill="var(--text-muted)">logos · embeds · templates</text>
+  </g>
+  <!-- Generated outputs (part 5) -->
+  <g data-part="p5 ex">
+    <rect x="300" y="420" width="328" height="56" rx="12" fill="var(--surface-raise-2)" stroke="var(--line-strong)" stroke-dasharray="4 3"/>
+    <text x="316" y="444" font-size="15" font-weight="600" fill="var(--text-headline)">Built from the source</text>
+    <text x="316" y="464" font-size="12" fill="var(--text-muted)">CSS · JS · JSON · later: .md, llms.txt, starter</text>
+  </g>
+
+  <!-- Release arrows (part 5) -->
+  <g data-part="p6" stroke="var(--text-muted)" stroke-width="1.25" fill="none">
+    <path d="M644 90H674" marker-end="url(#om-arrow)"/>
+    <path d="M644 286H674" marker-end="url(#om-arrow)"/>
+    <path d="M644 452H674" marker-end="url(#om-arrow)"/>
+  </g>
+
+  <!-- AI agents (part 6) -->
+  <g data-part="p6">
+    <rect x="676" y="16" width="268" height="150" rx="12" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/>
+    <text x="692" y="42" font-size="15" font-weight="600" fill="var(--text-headline)">AI agents · planned</text>
+    <g font-size="12.5" fill="var(--text-body)">
+      <text x="692" y="68">Find files through llms.txt</text>
+      <text x="692" y="88">Fetch .md and token files</text>
+      <text x="692" y="108">Follow the skill's workflow</text>
+      <text x="692" y="128">Run the lint on its own work</text>
+      <text x="692" y="148">Check against the don'ts</text>
+    </g>
+  </g>
+
+  <!-- Projects (parts 1 and 4) -->
+  <g data-part="p1 p4 p6">
+    <rect x="676" y="182" width="268" height="210" rx="12" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/>
+    <text x="692" y="208" font-size="15" font-weight="600" fill="var(--text-headline)">Each project · planned</text>
+    <text x="692" y="226" font-size="11.5" fill="var(--text-muted)">website · apps · slides · new builds</text>
+    <g font-size="12.5" fill="var(--text-headline)">
+      <rect x="692" y="240" width="236" height="32" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><text x="704" y="261">The release it uses</text>
+      <rect x="692" y="278" width="236" height="32" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><text x="704" y="299">Exceptions, each with a reason</text>
+      <rect x="692" y="316" width="236" height="32" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><text x="704" y="337">Its own component tokens</text>
+      <rect x="692" y="354" width="236" height="32" rx="7" fill="var(--surface-raise-1)" stroke="var(--line)"/><text x="704" y="375">AGENTS.md: the hard rules</text>
+    </g>
+  </g>
+
+  <!-- Design tools (part 6) -->
+  <g data-part="p6">
+    <rect x="676" y="408" width="268" height="88" rx="12" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/>
+    <text x="692" y="434" font-size="15" font-weight="600" fill="var(--text-headline)">Design tools · possible</text>
+    <text x="692" y="456" font-size="12.5" fill="var(--text-body)">Tokens Studio loads the token files;</text>
+    <text x="692" y="474" font-size="12.5" fill="var(--text-body)">Figma imports the basic types</text>
+  </g>
+
+  <!-- Lifecycle and rules (part 4) -->
+  <g data-part="p4 ex">
+    <rect x="16" y="528" width="928" height="104" rx="16" fill="var(--surface-raise-1)" stroke="var(--line-strong)" stroke-width="1.25"/>
+    <text x="36" y="556" font-size="15" font-weight="600" fill="var(--text-headline)">Status: every token and guidance file carries one</text>
+    <g font-size="12.5" text-anchor="middle">
+      <rect x="36" y="574" width="96" height="30" rx="15" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/><text x="84" y="594" fill="var(--text-headline)">Exploring</text>
+      <rect x="150" y="574" width="96" height="30" rx="15" fill="var(--accent-solid)"/><text x="198" y="594" font-weight="600" fill="var(--accent-on)">Working</text>
+      <rect x="264" y="574" width="96" height="30" rx="15" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/><text x="312" y="594" fill="var(--text-headline)">Released</text>
+      <rect x="378" y="574" width="96" height="30" rx="15" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/><text x="426" y="594" fill="var(--text-headline)">Deprecated</text>
+      <rect x="492" y="574" width="96" height="30" rx="15" fill="var(--surface-raise-2)" stroke="var(--line-strong)"/><text x="540" y="594" fill="var(--text-headline)">Removed</text>
+    </g>
+    <g stroke="var(--text-muted)" stroke-width="1.25" fill="none">
+      <path d="M132 589H148" marker-end="url(#om-arrow)"/>
+      <path d="M246 589H262" marker-end="url(#om-arrow)"/>
+      <path d="M360 589H376" marker-end="url(#om-arrow)"/>
+      <path d="M474 589H490" marker-end="url(#om-arrow)"/>
+    </g>
+    <text x="620" y="584" font-size="12.5" fill="var(--text-body)">Planned: lint blocks working values in production</text>
+    <text x="620" y="604" font-size="12.5" fill="var(--text-body)">Every difference has a level:</text>
+    <text x="620" y="621" font-size="11.5" fill="var(--text-muted)">mode · product · sibling brand · project exception</text>
+  </g>
+</svg>
+
+  </div>
+  <figcaption>The central source on the left; everything that reads it on the right. The dashed box is generated, never edited by hand. Parts labeled <em>planned</em> or <em>possible</em> don't exist yet.</figcaption>
+</figure>

@@ -78,7 +78,7 @@ v2 values are **open-format token files** (Design Tokens 2025.10) in `tokens/`, 
 source of truth: `base/` (gray, white, black, hue keys, chart series — the same in
 every mode), `light/` and `dark/` (hues with the per-mode offset, gradient, shadows,
 roles), and `resolver.json`. Status per token in `$extensions["org.openmined"]`:
-`exploring` (placeholder) → `working` (agreed) → `released`.
+`exploring` (placeholder or option) → `working` (the current direction, not final) → `released`.
 
 - `tools/palette/generate.mjs` writes the generated files (gray, hues, gradient,
   shadows) from `tools/palette/inputs.json`. Retune = edit inputs, regenerate.

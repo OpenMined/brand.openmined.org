@@ -86,9 +86,12 @@ a:hover { text-decoration-color: currentColor; }
 /* ── Bands, sections, cards ──────────────────────────────────────── */
 .band { padding: 88px 0; }
 .hero + .band { padding-top: 72px; }
-.band + .band { padding-top: 0; }
-.band + .band > .wrap::before { content: ''; display: block; height: 1px; background: var(--line); margin-bottom: 88px; }
+/* No divider between sections: the heading and the space carry the break. */
+.band + .band { padding-top: 32px; }
 .band > .wrap { display: grid; gap: var(--spacing-XL); }
+/* Grid items default to min-width: auto and grow to fit wide content (a swatch row);
+   let them shrink so the content scrolls inside its card instead of the page. */
+.band > .wrap > * { min-width: 0; }
 .sec { display: grid; gap: 6px; max-width: 60em; margin-bottom: var(--spacing-S); }
 .sec p { line-height: 1.6; }
 
@@ -114,6 +117,10 @@ a:hover { text-decoration-color: currentColor; }
 .prose h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.12; }
 .prose h2 { font-size: 1.5rem; margin-top: var(--spacing-L); }
 .prose code { white-space: nowrap; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.prose th { text-align: left; font-weight: 500; font-size: 0.74rem; color: var(--text-muted); padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.prose td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.prose tr:last-child td { border-bottom: 0; }
 .prose h3 { margin-top: var(--spacing-S); }
 .prose ul, .prose ol { padding-left: 20px; display: grid; gap: 6px; }
 
@@ -133,4 +140,251 @@ a:hover { text-decoration-color: currentColor; }
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .foot { padding: 0 0 64px; font-size: 0.8rem; color: var(--text-muted); }
-.foot .wrap::before { content: ''; display: block; height: 1px; background: var(--line); margin-bottom: var(--spacing-XL); }
+
+/* ── Page sections (the template every topic page uses) ──────────── */
+.page-nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.85rem; }
+.page-nav a { color: var(--text-muted); text-decoration: none; }
+.page-nav a:hover { color: var(--text-headline); }
+
+/* Tokens table — ported from the color round's .tbl */
+.tbl-wrap { overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 640px; }
+.tbl th { text-align: left; font-weight: 500; font-size: 0.74rem; color: var(--text-muted); padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.tbl td { padding: 10px; border-bottom: 1px solid var(--line); color: var(--text-body); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl td code { white-space: nowrap; }
+.tbl__val { display: grid; gap: 2px; }
+.tbl__val small { font-family: var(--font-m); font-size: 0.72rem; color: var(--text-muted); }
+
+/* Rules and decisions: plain text in two columns, no boxes (dividers only) */
+.docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-3XL) var(--spacing-4XL); }
+@media (max-width: 760px) { .docs { grid-template-columns: minmax(0, 1fr); } }
+.doc { display: grid; gap: var(--spacing-S); align-content: start; font-size: 0.92rem; line-height: 1.6; scroll-margin-top: 80px; }
+.doc__meta { font-size: 0.75rem; color: var(--text-muted); }
+.doc .prose { font-size: inherit; gap: var(--spacing-S); }
+
+/* The four levels together — ported from the working page's .levels.
+   The one outline on purpose: a base panel on a base page has no other
+   edge, so the hairline is what makes the base level visible. */
+.levels { box-shadow: 0 0 0 1px var(--line); border-radius: var(--border-radius-L); padding: var(--spacing-XL); display: grid; gap: var(--spacing-L); }
+.levels__base, .levels__tile { display: grid; gap: 4px; align-content: start; font-size: 0.85rem; color: var(--text-body); }
+.levels__base { padding: 4px 4px 0; }
+.levels__base code, .levels__tile code { font-size: 0.82rem; }
+.levels__hex { font-family: var(--font-m); font-size: 0.72rem; color: var(--text-muted); }
+.levels__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-L); }
+@media (max-width: 700px) { .levels__row { grid-template-columns: minmax(0, 1fr); } }
+.levels__tile { min-height: 96px; padding: 16px 18px; border-radius: var(--border-radius-S); }
+.levels__tile--sunken { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: 3px; }
+.levels__tile--raise-1 { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+.levels__tile--raise-2 { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+:root:not([data-theme="dark"]) .only-dark { display: none; }
+:root[data-theme="dark"] .only-light { display: none; }
+
+/* A section that switches mode paints its own ground and text, so the switch is
+   visible and inherited text doesn't keep the page's color (behaviors/color-modes.md). */
+[data-section] { background: var(--surface-base); color: var(--text-body); }
+
+/* Modes demo: the same levels inside each section context */
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-XL); }
+@media (max-width: 900px) { .modes { grid-template-columns: minmax(0, 1fr); } }
+.modes .levels__row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.modes .levels__tile { min-height: 72px; padding: 12px 14px; }
+
+/* ── Color and graphics specimens — ported from the color round and the
+   working page (color/_color.css, _working.css). Never fade a swatch or
+   its container: mute text only (review-phase rule). ───────────────── */
+.sw { height: 58px; border-radius: var(--border-radius-S); display: flex; align-items: flex-end; padding: 6px 8px; min-width: 0; }
+.sw code { font-size: 0.66rem; color: inherit; }
+.spec-card { display: grid; gap: var(--spacing-L); }
+
+/* Gray: 11 steps plus white and black */
+.grays__row { display: grid; grid-template-columns: repeat(13, minmax(64px, 1fr)); gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.grays__cell { display: grid; gap: 4px; align-content: start; min-width: 0; }
+.grays__step { font-size: 0.72rem; font-weight: 600; color: var(--text-headline); }
+.grays__use { font-style: normal; font-size: 0.66rem; line-height: 1.35; color: var(--text-muted); overflow-wrap: anywhere; }
+
+/* Hue ramps: 6 hues × 11 steps, roles marked on the steps they resolve to */
+.ramps { display: grid; gap: 6px; overflow-x: auto; }
+.ramps__head, .ramps__row { display: grid; grid-template-columns: 96px repeat(11, minmax(66px, 1fr)); gap: 6px; }
+.ramps__step { display: grid; gap: 2px; font-size: 0.72rem; padding-bottom: 6px; align-content: end; }
+.ramps__step b { color: var(--text-headline); font-weight: 600; }
+.ramps__step em { font-style: normal; color: var(--text-muted); }
+.ramps__hue { display: grid; align-content: center; font-size: 0.85rem; color: var(--text-headline); text-transform: capitalize; }
+.ramps__hue small { font-size: 0.7rem; color: var(--text-muted); text-transform: none; }
+
+/* Role examples */
+.ex { display: inline-flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+.ex__chip { display: inline-grid; place-items: center; width: 30px; height: 24px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+.ex__txt { display: inline-grid; place-items: center; width: 30px; height: 24px; font-size: 0.9rem; font-weight: 600; }
+.chip { display: block; width: 100%; min-width: 36px; height: 22px; border-radius: 3px; }
+.tbl--series td { padding: 6px 10px; vertical-align: middle; }
+.tbl--roles td { vertical-align: middle; }
+.tbl .bad { color: var(--danger-fg); font-weight: 600; }
+
+/* Status badges */
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 500; }
+.badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Gradient: the bar and its nine stops */
+.spec__bar { display: block; height: 14px; border-radius: 999px; background: var(--gradient-spectrum); }
+.spec__stops { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 3px; }
+@media (max-width: 760px) { .spec__stops { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 6px; } }
+.spec__stops span { display: grid; gap: 2px; min-width: 0; }
+.spec__stops i { display: block; height: 58px; border-radius: 3px; margin-bottom: 6px; }
+.spec__stops b { font-size: 0.72rem; font-weight: 600; color: var(--text-headline); text-transform: capitalize; }
+.spec__stops code { font-size: 0.66rem; color: var(--text-muted); white-space: normal; }
+
+/* Round figures embedded on a page (the diagram round's mechanics) */
+.dex { margin: 0; display: grid; gap: var(--spacing-M); }
+.dex__cap { font-size: 0.86rem; color: var(--text-muted); max-width: 60em; }
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fig text { font-family: var(--font-b); }
+.fig .mono { font-family: var(--font-m); }
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 720px) { .panels { grid-template-columns: 1fr; } }
+.panel__head { margin: 0 0 12px; }
+.panel__eyebrow { display: block; font-family: var(--font-m); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.panel__title { display: block; font-size: 15px; font-weight: 600; color: var(--text-headline); margin-top: 2px; }
+
+/* ── Interface specimens — ported from the surfaces round's form lab ─ */
+/* Buttons: one solid per group; the rest carry no outline. The 1px
+   transparent border holds every button to one size (the one legitimate
+   transparent border). */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 48px; padding: 11px 19px;
+  font: 500 1rem/1 var(--font-b); text-decoration: none; cursor: pointer;
+  border: 1px solid transparent; border-radius: var(--border-radius-S);
+  background: transparent; color: var(--text-headline);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+.btn--solid { background: var(--accent-solid); color: var(--accent-on); }
+.btn--solid:hover { background: var(--accent-hover); }
+/* Quiet hover: a subtle accent wash (exploring). Accent by intent: if accent
+   gets a color, the hover follows it. */
+.btn:not(.btn--solid):hover { background: var(--accent-subtle); }
+.actions { display: flex; flex-wrap: wrap; gap: var(--spacing-M); align-items: center; }
+
+/* Form: generic markup, fields −1 on the card they sit in */
+.fm { display: grid; gap: var(--spacing-2XL); }
+.fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2XL); align-items: start; }
+@media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
+.fld { display: grid; gap: var(--spacing-XS); align-content: start; }
+.fld--full { grid-column: 1 / -1; }
+.fld__label { font-size: 0.875rem; font-weight: 500; color: var(--text-headline); }
+.fld__req { color: var(--text-body); margin-left: 0.25em; }
+.fld__desc { font-size: 0.8125rem; line-height: 1.45; color: var(--text-body); }
+/* Field: flat until focus — the recess IS the focus state, so the UA ring goes */
+.ctl {
+  display: block; width: 100%; margin: 0; border: none; font: inherit;
+  background: var(--surface-sunken); color: var(--text-headline);
+  border-radius: var(--border-radius-S); padding: 0.7em 0.9em; font-size: 0.9375rem;
+  box-shadow: none; transition: box-shadow var(--transition-base);
+}
+.ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); }
+.ctl.is-focus { box-shadow: var(--shadow-sunken); }
+.ctl::placeholder { color: var(--text-muted); }
+.ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
+/* Control: checkbox and radio cast at rest, and keep the browser's focus ring */
+.opts { list-style: none; display: grid; gap: var(--spacing-S); }
+.opt { display: flex; align-items: center; gap: var(--spacing-S); cursor: pointer; font-size: 0.9375rem; color: var(--text-body); }
+.opt__box {
+  appearance: none; flex: none; position: relative; width: 18px; height: 18px; margin: 0; cursor: pointer;
+  border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--border-radius-XS);
+}
+.opt__box[type="radio"] { border-radius: 50%; }
+.opt__box:checked { background: var(--text-headline); }
+/* The mark sits 3px inside the box on every side — the recessed-control inset
+   (DECISIONS 2026-09-17), the same as the toggle's knob. The check is a mask, so
+   its color is a token; the path is drawn centered in that 12px area. */
+.opt__box[type="checkbox"]:checked::after {
+  content: ''; position: absolute; inset: 3px; background: var(--surface-raise-1);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* Radio: twice the inset (6px). A round mark needs more room than a square one to
+   read as a dot rather than a ring. */
+.opt__box[type="radio"]:checked::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-raise-1); }
+/* Toggle: a recess you operate, inset 3px */
+.switch { position: relative; width: 46px; height: 26px; flex: none; border: none; padding: 0; cursor: pointer;
+  border-radius: var(--border-radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
+.switch[aria-checked="true"] { background: var(--text-headline); }
+.switch__knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-raise-1); transition: transform var(--transition-base); }
+.switch[aria-checked="true"] .switch__knob { transform: translateX(20px); }
+/* Error: a card one level above the form, not an outline — in the danger
+   status colors (the quiet pair: subtle background, fg text). */
+.fld__errs { list-style: none; padding: var(--spacing-S) var(--spacing-M); background: var(--danger-subtle); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-S); display: grid; gap: 2px; font-size: 0.85rem; color: var(--danger-fg); font-weight: 500; }
+
+/* ── Typography specimens: the website's fluid ladder, shown as-is ── */
+.ladder-type { display: grid; gap: var(--spacing-L); }
+.ladder-type__row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--spacing-XL); align-items: baseline; padding-bottom: var(--spacing-L); border-bottom: 1px solid var(--line); }
+.ladder-type__row:last-child { border-bottom: 0; padding-bottom: 0; }
+.ladder-type__meta { display: grid; gap: 2px; font-size: 0.75rem; color: var(--text-muted); }
+.ladder-type__meta b { font-size: 0.85rem; }
+.ladder-type__sample { color: var(--text-headline); font-weight: 400; overflow-wrap: anywhere; }
+.families { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-XL); }
+@media (max-width: 760px) { .families { grid-template-columns: minmax(0, 1fr); } }
+.family__sample { font-size: 2.6rem; line-height: 1.1; color: var(--text-headline); }
+
+/* A centered reading column (the home page): text-led pages line up on one
+   centered measure instead of hugging the left edge of the wide page. */
+.wrap--read { max-width: calc(44em + 2 * var(--spacing-2XL)); }
+.hero .note-card { justify-self: stretch; }
+.note-card { padding: var(--spacing-L) var(--spacing-XL); font-size: 0.92rem; line-height: 1.55; }
+
+/* The system diagram (reused from the infrastructure report) */
+/* Wider than the reading column it sits in, centered on it (as in the report). */
+.sysfig { display: grid; gap: 10px; margin-block: var(--spacing-L); margin-inline: min(0px, calc((100% - min(1040px, 100vw - 48px)) / 2)); }
+.sysscroll { overflow-x: auto; background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-L); padding: 16px; }
+.sysscroll svg { display: block; width: 100%; min-width: 720px; height: auto; }
+.sysfig figcaption { font-size: 0.82rem; color: var(--text-muted); }
+
+/* Status: the two badge styles, labeled */
+.status-rows { display: grid; gap: var(--spacing-M); }
+.status-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--spacing-L); align-items: center; }
+@media (max-width: 600px) { .status-row { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-XS); } }
+.status-row__lab { font-size: 0.85rem; color: var(--text-muted); }
+
+/* Colorflow and gradient map stages (ported from the color round's hero and CTA band) */
+.flow-stage { border-radius: var(--border-radius-L); overflow: hidden; background: var(--surface-base); }
+.flow-stage om-stream { display: block; width: 100%; }
+.mesh-stage { position: relative; min-height: 420px; display: grid; place-items: center; padding: var(--spacing-XL); border-radius: var(--border-radius-L); overflow: hidden; background: var(--surface-base); }
+.mesh-stage__bg { position: absolute; inset: 0; }
+.mesh-stage__card { position: relative; display: grid; gap: var(--spacing-M); justify-items: center; text-align: center; padding: var(--spacing-2XL); background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-L); max-width: 360px; }
+
+/* Decisions, minimized: a row per record, opening to the full text. Rows are
+   separated by dividers (a list, not enclosed boxes). */
+.decisions { display: grid; }
+.decision { border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+.decision:last-child { border-bottom: 1px solid var(--line); }
+.decision summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 4px var(--spacing-L); align-items: baseline; padding: var(--spacing-M) 0; }
+.decision summary::-webkit-details-marker { display: none; }
+.decision summary::after { content: '+'; grid-column: 3; grid-row: 1; color: var(--text-muted); font-size: 1.1rem; line-height: 1; }
+.decision[open] summary::after { content: '−'; }
+.decision__date { font-family: var(--font-m); font-size: 0.78rem; color: var(--text-muted); grid-row: 1 / span 2; }
+.decision__title { font-weight: 600; color: var(--text-headline); font-size: 0.95rem; }
+.decision__sum { grid-column: 2; font-size: 0.86rem; color: var(--text-muted); }
+.decision__body { padding: 0 0 var(--spacing-L) calc(96px + var(--spacing-L)); font-size: 0.9rem; max-width: none; }
+@media (max-width: 600px) {
+  .decision summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .decision__date { grid-row: auto; }
+  .decision summary::after { grid-column: 2; grid-row: 1; }
+  .decision__sum { grid-column: 1; }
+  .decision__body { padding-left: 0; }
+}
+
+/* Forms section: explanation left, a one-column form right */
+.fm-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--spacing-4XL); align-items: start; }
+@media (max-width: 900px) { .fm-split { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-2XL); } }
+.fm-split__text { display: grid; gap: var(--spacing-L); position: sticky; top: 88px; }
+@media (max-width: 900px) { .fm-split__text { position: static; } }
+.fm--one { gap: var(--spacing-XL); }
+.fm-sub { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; color: var(--text-body); padding-top: var(--spacing-M); border-top: 1px solid var(--line); }
+/* Select: appearance none, so its own wrapper draws the arrow (portable: the control's own box) */
+select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
+.fld__ctl--select { position: relative; }
+.fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
+textarea.ctl { resize: vertical; min-height: 5em; }
+.ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
+.ctl--file::file-selector-button { font: inherit; font-size: 0.875rem; cursor: pointer; margin-right: var(--spacing-M); padding: 0.45em 1em; border: none; border-radius: var(--border-radius-XS); background: var(--surface-raise-1); color: var(--text-headline); }

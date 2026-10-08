@@ -1,0 +1,203 @@
+---
+/**
+ * BRAND SITE (v2) — Interface. Rev 1, built from the surfaces round's form lab
+ * and its button rules. Words from design/ (tag `interface`); values from the
+ * v2 build. Links, focus rings, hover and colored states are still open.
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
+import DocGrid from '../../components/site/DocGrid.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import { doc, byTag, decisionsFor } from '../../lib/design';
+
+const button = doc('components/button');
+const form = doc('components/form-field');
+const rules = byTag('interface', 'Guideline', 'Behavior');
+const decisions = decisionsFor('interface');
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const components = [button, form];
+/** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
+const TEXT_FIELDS = [
+  { id: 'name', type: 'text', label: 'Full name', req: true, desc: 'Single-line text: the default field type.', ph: 'Jane Doe' },
+  { id: 'email', type: 'email', label: 'Email address', req: true, desc: 'Same surface; the error state is shown below.', ph: 'you@example.com' },
+  { id: 'tel', type: 'tel', label: 'Phone', req: false, desc: 'A different keyboard on mobile, the same surface.', ph: '+44 20 7946 0000' },
+  { id: 'size', type: 'number', label: 'Team size', req: false, desc: "Number input, with the browser's stepper left in place.", ph: '12' },
+];
+---
+<Site title="Interface" description="Buttons, form controls and their states, on the surface levels." current="interface">
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, form controls and their states. Controls are defined by how they behave, and every boundary comes from a level and a shadow rather than an outline." status="exploring" nav={NAV} />
+
+  <section class="band" id="buttons">
+    <div class="wrap">
+      <header class="sec"><h2>Buttons</h2><p>{button.description}</p><p class="status">Status: <b>{button.status}</b></p></header>
+      <article class="card">
+        <div class="actions">
+          <button type="button" class="btn btn--solid">Submit</button>
+          <button type="button" class="btn">Cancel</button>
+          <button type="button" class="btn">Save draft</button>
+        </div>
+        <p class="muted">Solid uses the accent, grayscale for now. Quiet buttons have no fill and no outline at rest; on hover they take a subtle accent wash (<code>--accent-subtle</code>), being tried now.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="forms">
+    <div class="wrap">
+      <div class="fm-split">
+        <div class="fm-split__text">
+          <header class="sec"><h2>Forms</h2><p>{form.description}</p><p class="status">Status: <b>{form.status}</b></p></header>
+          <div class="prose">
+            <p>Every control a form renders, in generic markup, from the surfaces round's form lab. Kinds are named for how they behave:</p>
+            <ul>
+              <li><b>Field</b> (text, email, select, date, textarea, file): flat on the sunken level until focus. The inset recess <em>is</em> the focus state.</li>
+              <li><b>Control</b> (checkbox, radio, toggle): a recess you operate, casting its inset at rest. Checked fills with the headline ink.</li>
+              <li><b>Error</b>: a card one level above the form, in the danger colors, not an outline.</li>
+            </ul>
+            <p>Controls keep the browser's focus ring only where the recess can't signal focus (checkboxes and radios). Vendor forms map onto this markup with an adapter in the project that uses them.</p>
+          </div>
+        </div>
+        <article class="card fm-split__form">
+          <form class="fm fm--one" onsubmit="return false">
+            {TEXT_FIELDS.map(f => (
+              <div class="fld">
+                <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>
+                <p class="fld__desc">{f.desc}</p>
+                <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph} />
+              </div>
+            ))}
+            <div class="fld">
+              <label class="fld__label" for="f-role">Role</label>
+              <p class="fld__desc">Select: native control, our surface.</p>
+              <div class="fld__ctl--select">
+                <select class="ctl" id="f-role"><option>Choose an option</option><option>Researcher</option><option>Engineer</option></select>
+              </div>
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-date">Start date</label>
+              <p class="fld__desc">Date input, with the browser's picker intact.</p>
+              <input class="ctl" id="f-date" type="date" />
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-msg">Message</label>
+              <p class="fld__desc">Textarea: resizes vertically only.</p>
+              <textarea class="ctl" id="f-msg" rows="3" placeholder="Placeholder copy"></textarea>
+            </div>
+            <div class="fld">
+              <span class="fld__label">Interests</span>
+              <p class="fld__desc">Checkbox list. Boxes are a recess and cast at rest.</p>
+              <ul class="opts">
+                {['Federated learning', 'Secure enclaves', 'Differential privacy'].map((o, i) => (
+                  <li><label class="opt"><input class="opt__box" type="checkbox" checked={i === 0} /><span>{o}</span></label></li>
+                ))}
+              </ul>
+            </div>
+            <div class="fld">
+              <span class="fld__label">Contact preference</span>
+              <p class="fld__desc">Radio list: the same recess, round.</p>
+              <ul class="opts">
+                {['Email', 'No contact'].map((o, i) => (
+                  <li><label class="opt"><input class="opt__box" type="radio" name="pref" checked={i === 0} /><span>{o}</span></label></li>
+                ))}
+              </ul>
+            </div>
+            <div class="fld">
+              <span class="fld__label">Notifications</span>
+              <p class="fld__desc">A toggle: a recess you operate, inset 3px.</p>
+              <div class="actions">
+                <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Notifications on"><span class="switch__knob"></span></button>
+                <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Digest off"><span class="switch__knob"></span></button>
+              </div>
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-file">Attachment</label>
+              <p class="fld__desc">File input: the button is the only part that can be styled.</p>
+              <input class="ctl ctl--file" id="f-file" type="file" />
+            </div>
+
+            <h3 class="fm-sub">States</h3>
+            <div class="fld">
+              <label class="fld__label" for="f-focus">Focused</label>
+              <p class="fld__desc">The inset recess is the focus state.</p>
+              <input class="ctl is-focus" id="f-focus" type="text" value="Typing a value" />
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-filled">Filled</label>
+              <input class="ctl" id="f-filled" type="text" value="A completed value" />
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-dis">Disabled</label>
+              <input class="ctl" id="f-dis" type="text" value="Not editable" disabled />
+            </div>
+            <div class="fld">
+              <label class="fld__label" for="f-err">Error<span class="fld__req">*</span></label>
+              <input class="ctl" id="f-err" type="email" value="not-an-email" />
+              <ul class="fld__errs"><li>Please enter a valid email address.</li></ul>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn--solid">Submit</button>
+              <button type="button" class="btn">Cancel</button>
+            </div>
+          </form>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="open">
+    <div class="wrap">
+      <header class="sec"><h2>Still open</h2><p>Decided in the interface round, not yet made.</p></header>
+      <div class="notes">
+        <div>
+          <ul>
+            <li><b>Links.</b> In v1, the interactive hover color is green and focus is teal. The color round proposed that interactive states use the accent instead; not decided.</li>
+            <li><b>A colored accent.</b> Whether OpenMined's accent stays grayscale or takes a hue.</li>
+            <li><b>Hover</b>: whether the quiet buttons' subtle wash holds up, and how much a shadow changes on hover.</li>
+            <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). It may need reinforcing: a stronger inset, or one rung deeper than rest.</li>
+            <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="components">
+    <div class="wrap">
+      <header class="sec"><h2>Components</h2></header>
+      <DocGrid docs={components} />
+    </div>
+  </section>
+
+  <section class="band" id="tokens">
+    <div class="wrap">
+      <header class="sec"><h2>Tokens</h2><p>The accent roles controls use. Surfaces and shadows are on the <a href="/surfaces/#tokens">Surfaces</a> page.</p></header>
+      <TokenTable names={['--accent-solid', '--accent-hover', '--accent-on', '--accent-subtle', '--accent-soft', '--accent-fg', '--on-solid']} />
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2></header>
+      <DocGrid docs={rules} />
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2></header>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/rounds/surfaces/#forms"><h3 class="card__h">Surfaces round: form lab <Fragment set:html={ARR} /></h3><p>Every control the embedded forms render, in generic markup, with their states.</p></a>
+        <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all#interface"><h3 class="card__h">Color round: interface <Fragment set:html={ARR} /></h3><p>Roles applied to interface elements, with the accent switch.</p></a>
+      </div>
+    </div>
+  </section>
+</Site>

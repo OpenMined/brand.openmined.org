@@ -182,11 +182,13 @@ const BLOCKS = [
     `--series-${i + 1}-key:var(--${h}-key)`, `--series-${i + 1}-fg:var(--${h}-fg)`]),
 ];
 
-/** Everything a round page needs: the v2 build, then the page-local names. */
-export const TOKEN_CSS = [
-  V2_CSS,
+/** The rounds' page-local names alone — for a page that already loads the v2 CSS
+ *  (the brand site embeds round figures with this). */
+export const ALIASES_CSS = [
   `:root{${[...SHARED, ...BLOCKS, ...perMode('light')].join(';')}}`,
   `:root[data-theme="dark"]{${[...SHARED, ...BLOCKS, ...perMode('dark')].join(';')}}`,
 ].join('\n');
+/** Everything a round page needs: the v2 build, then the page-local names. */
+export const TOKEN_CSS = [V2_CSS, ALIASES_CSS].join('\n');
 /** Kept for the pages that called it; the role layer is now part of TOKEN_CSS. */
 export const roleCss = () => '';

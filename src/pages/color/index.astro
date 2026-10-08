@@ -1,0 +1,212 @@
+---
+/**
+ * BRAND SITE (v2) — Color. Rev 1, built from the color, spectrum and naming
+ * rounds and the working-favorites page. Words from design/ (tag `color`);
+ * values from src/tokens/v2/ via src/lib/tokens.ts.
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
+import DocGrid from '../../components/site/DocGrid.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import { doc, byTag, decisionsFor } from '../../lib/design';
+import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, type Mode } from '../../lib/tokens';
+
+const foundation = doc('foundations/color');
+const { Content } = foundation;
+const rules = byTag('color', 'Guideline', 'Behavior');
+const decisions = decisionsFor('color');
+
+/** Roles that land on a gray step, listed on the gray card. */
+const GRAY_ROLES = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surface-raise-2', 'line', 'line-strong', 'text-headline', 'text-body', 'text-muted', 'on-solid'];
+/** White before the scale, black after it: the ends sit where they fall in lightness. */
+const GRAYS = ['white', ...STEPS.map(s => `gray-${s}`), 'black'];
+const grayUse = (m: Mode, g: string) => GRAY_ROLES.filter(r => primitive(m, r) === g).map(r => r.replace('surface-', ''));
+const grayName = (g: string) => g.replace('gray-', '');
+
+const HUE_ROLES = ['subtle', 'soft', 'fg', 'key', 'solid', 'hover'];
+const ROLE_USE: Record<string, string> = {
+  subtle: 'Quiet colored background', soft: 'Decorative rule, area fill', fg: 'Colored text, links, icons',
+  key: 'Marks with no text', solid: 'A fill carrying a label', hover: 'One step past solid',
+};
+const rolesAt = (m: Mode, s: string) => HUE_ROLES.filter(r => stepOf(m, `blue-${r}`) === s);
+const statusOf = (h: string) => Object.entries(STATUS).filter(([, v]) => v === h).map(([k]) => k);
+
+const SURF = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surface-raise-2'];
+const TEXT = ['text-headline', 'text-body', 'text-muted'];
+const LINES = ['line', 'line-strong'];
+const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
+
+const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+---
+<Site title={foundation.title} description={foundation.description} current="color">
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
+
+  <section class="band" id="palette">
+    <div class="wrap">
+      <header class="sec"><h2>Palette</h2><p>Ink: one gray and six hues, 50–950. Hues are offset per mode (saturation ×{SAT.light.toFixed(2)} light, ×{SAT.dark.toFixed(2)} dark); gray is the same in both. Labels under each step show which roles land on it in the current mode. Steps marked <em>new</em> are provisional.</p></header>
+      <article class="card spec-card" aria-label="Gray">
+        <h3>Gray</h3>
+        <div class="grays__row">
+          {GRAYS.map(g => (
+            <div class="grays__cell">
+              <span class="sw" style={`background:var(--${g})`}>
+                <code class="only-light" style={`color:${readout('light', hex('light', g))}`}>{hex('light', g)}</code>
+                <code class="only-dark" style={`color:${readout('dark', hex('dark', g))}`}>{hex('dark', g)}</code>
+              </span>
+              <b class="grays__step">{grayName(g)}{g.startsWith('gray-') && ['300', '400', '500'].includes(grayName(g)) && ' · new'}</b>
+              {MODES.map(m => <em class={`grays__use only-${m}`}>{grayUse(m, g).join(' · ')}</em>)}
+            </div>
+          ))}
+        </div>
+      </article>
+      <article class="card spec-card" aria-label="Hues">
+        <h3>Hues</h3>
+        <div class="ramps">
+          <div class="ramps__head">
+            <span></span>
+            {STEPS.map(s => (
+              <span class="ramps__step">
+                <b>{s}{['50', '400', '900', '950'].includes(s) && ' · new'}</b>
+                {MODES.map(m => <em class={`only-${m}`}>{rolesAt(m, s).join(' · ') || '—'}</em>)}
+              </span>
+            ))}
+          </div>
+          {HUES.map(h => (
+            <div class="ramps__row">
+              <span class="ramps__hue">{h}<small>{statusOf(h).join(' · ')}</small></span>
+              {STEPS.map(s => (
+                <span class="sw" style={`background:var(--${h}-${s})`}>
+                  {MODES.map(m => <code class={`only-${m}`} style={`color:${stepLabel(m, s)}`}>{hex(m, `${h}-${s}`)}</code>)}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="role-examples">
+    <div class="wrap">
+      <header class="sec"><h2>Roles</h2><p>Components use roles, never steps. Each role names a step per mode; the examples are every hue in the current mode.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+          <table class="tbl tbl--roles">
+            <thead><tr><th>Role</th><th>Light</th><th>Dark</th><th>Example</th></tr></thead>
+            <tbody>
+              {HUE_ROLES.map(r => (
+                <tr>
+                  <td><code>{r}</code><br /><span class="muted">{ROLE_USE[r]}</span></td>
+                  <td>{stepOf('light', `blue-${r}`)}</td><td>{stepOf('dark', `blue-${r}`)}</td>
+                  <td><span class="ex">{HUES.map(h => (
+                    r === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
+                    : r === 'solid' || r === 'hover' ? <span class="ex__chip" style={`background:var(--${h}-${r});color:var(--${h}-on)`}>Aa</span>
+                    : r === 'subtle' ? <span class="ex__chip" style={`background:var(--${h}-subtle);color:var(--${h}-fg)`}>Aa</span>
+                    : <span class="ex__chip" style={`background:var(--${h}-${r})`}></span>
+                  ))}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card">
+        <h3>Status</h3>
+        <div class="status-rows">
+          <div class="status-row">
+            <span class="status-row__lab"><b>Quiet</b> <code>subtle</code> + <code>fg</code></span>
+            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge" style={`background:var(--${s}-subtle);color:var(--${s}-fg)`}><i></i>{s} · {h}</span>)}</div>
+          </div>
+          <div class="status-row">
+            <span class="status-row__lab"><b>Strong</b> <code>solid</code> + <code>on</code></span>
+            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge" style={`background:var(--${s}-solid);color:var(--${s}-on)`}>{s} · {h}</span>)}</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="text">
+    <div class="wrap">
+      <header class="sec"><h2>Text and lines</h2><p>Placeholders until the text-and-lines round. Contrast of each role on each surface; text below 4.5:1 is marked.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Role</th><th>Mode</th>{SURF.map(s => <th>on {s.replace('surface-', '')}</th>)}</tr></thead>
+            <tbody>
+              {[...TEXT, ...LINES].flatMap(r => MODES.map(m => (
+                <tr>
+                  <td>{m === 'light' && <code>--{r}</code>}</td>
+                  <td>{m} · <code>{primitive(m, r).replace('-', ' ')}</code></td>
+                  {SURF.map(s => { const c = cr(m, r, s); return <td class={TEXT.includes(r) && c < 4.5 ? 'bad' : ''}>{c.toFixed(2)}</td>; })}
+                </tr>
+              )))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="series">
+    <div class="wrap">
+      <header class="sec"><h2>Chart series</h2><p>Six series in a validated order; violet and blue are never adjacent. Each series owns a hue at four strengths, so an entity keeps its color from a faint panel to a label.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+        <table class="tbl tbl--series">
+          <thead><tr><th>Series</th><th>subtle</th><th>soft</th><th>key</th><th>fg</th></tr></thead>
+          <tbody>
+            {SERIES.map((h, i) => (
+              <tr>
+                <td><code>--series-{i + 1}</code> <span class="muted">{h}</span></td>
+                {['subtle', 'soft', 'key', 'fg'].map(r => <td><i class="chip" style={`background:var(--${h}-${r})`}></i></td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <header class="sec"><h2>How it works</h2></header>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  <section class="band" id="tokens">
+    <div class="wrap">
+      <header class="sec"><h2>Tokens</h2><p>Text, lines, the label on solids, and accent. Hue and status roles follow the pattern in the roles table: <code>--{'{hue}'}-subtle</code>, <code>--danger-fg</code> and so on.</p></header>
+      <TokenTable names={foundation.tokens} />
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2></header>
+      <DocGrid docs={rules} />
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2><p>The review rounds behind these values.</p></header>
+      <div class="grid grid--3">
+        <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all"><h3 class="card__h">Color round <Fragment set:html={ARR} /></h3><p>Palettes compared on a mock page, charts, interface and graphics. Set to Ink.</p></a>
+        <a class="card card--link" href="/rounds/spectrum/"><h3 class="card__h">Spectrum round <Fragment set:html={ARR} /></h3><p>The approved 50–950 series and how the old steps map onto it.</p></a>
+        <a class="card card--link" href="/rounds/naming/"><h3 class="card__h">Naming round <Fragment set:html={ARR} /></h3><p>How many grays, and what to call them.</p></a>
+      </div>
+    </div>
+  </section>
+</Site>
