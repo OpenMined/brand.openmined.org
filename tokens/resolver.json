@@ -5,7 +5,7 @@
   "description": "Resolves the v2 tokens for a mode. The base set is the same in every mode; the theme modifier adds the mode's hues, gradient, shadows and roles.",
   "sets": {
     "base": {
-      "description": "Same in every mode: gray, white, black, hue keys, chart series, corner radius.",
+      "description": "Same in every mode: gray, white, black, hue keys, chart series, corner radius, text sizes.",
       "sources": [
         {
           "$ref": "base/gray.json"
@@ -15,6 +15,9 @@
         },
         {
           "$ref": "base/radius.json"
+        },
+        {
+          "$ref": "base/type.json"
         }
       ]
     }

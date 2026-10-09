@@ -1,0 +1,24 @@
+---
+/**
+ * Icon — an Iconoir icon (regular, 24px grid; drawn at a 2 stroke by site.css .icon), inlined at build
+ * time from the `iconoir` package: no CDN, paints with the document, takes
+ * currentColor. v2 only; v1 and the live site keep their current icons until release.
+ * Our own SVGs in public/icons/ replace an Iconoir icon by name when one exists.
+ * Never use Iconoir's brand icons: brand logos come from public/logos/partners/.
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props { name: string; size?: number | string; label?: string; class?: string }
+const { name, size = '1em', label, class: cls = '' } = Astro.props;
+const own = join(process.cwd(), 'public', 'icons', `${name}.svg`);
+const lib = join(process.cwd(), 'node_modules', 'iconoir', 'icons', 'regular', `${name}.svg`);
+const file = existsSync(own) ? own : lib;
+if (!existsSync(file)) throw new Error(`Icon "${name}" is neither in public/icons/ nor in Iconoir`);
+const px = typeof size === 'number' ? `${size}px` : size;
+const svg = readFileSync(file, 'utf8')
+  .replace(/<svg([^>]*?)\swidth="[^"]*"/, '<svg$1')
+  .replace(/<svg([^>]*?)\sheight="[^"]*"/, '<svg$1')
+  .replace('<svg', `<svg width="${px}" height="${px}" class="icon ${cls}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} focusable="false"`);
+---
+<Fragment set:html={svg} />

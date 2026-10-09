@@ -4,7 +4,7 @@ title: Form controls
 description: Fields are flat until focus, and the recess is the focus state. Checkboxes and radios are small recesses that cast at rest. Errors are colored text, not a box.
 status: exploring
 tags: [interface]
-tokens: [--surface-sunken, --shadow-sunken, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md]
+tokens: [--surface-sunken, --shadow-sunken, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
 ---
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
@@ -15,7 +15,13 @@ tokens: [--surface-sunken, --shadow-sunken, --danger-fg, --text-headline, --text
 
 **Anatomy of a field.** Label, an optional description (`--text-body`), the control. A required mark sits after the label.
 
-**One text size.** Every piece of text in a form is the same size: labels, descriptions, values, placeholders, options and errors. Spacing and weight separate them. The label is the one heavier line (600, `--text-headline`); everything else is regular weight. A form can then mix fields with an inner label and lists with a heading above them, and they still read as one level.
+**Text sizes.** Two sizes, set by the text tokens:
+
+- **Labels and placeholders:** `--font-size-md` (1rem), weight 500. Most of the website's forms put the label inside the field as its placeholder, so the two match.
+- **Values, options and errors:** `--font-size-md`, regular weight.
+- **Descriptions:** `--font-size-sm` (0.875rem), regular weight.
+
+A form can then mix fields with an inner label and lists with a heading above them, and they still read as one level. *Open:* whether typed values should also be 500, since a placeholder at 500 is heavier than the text that replaces it.
 
 **Where the label goes.** Each form chooses. Most of the website's forms put the label inside the field, as its placeholder, and that is the cleanest default; checkbox and radio lists can't, so they take a heading at the same size. A form that mixes the two is fine as long as the sizes match. *Open:* placeholder-as-label disappears once someone types, so it needs an accessible name (`aria-label` or a visually hidden label) and a check against the accessibility round.
 

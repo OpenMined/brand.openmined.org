@@ -45,7 +45,7 @@ const QUIET = [
     pair: ((m, s) => ({ text: `${s}-fg`, fill: `${s}-subtle` })) as Pair },
   { k: 'q1', name: 'Deeper fill', note: 'One step stronger each way: dark fills at 700 with 200 text; light fills at 200 with 700 text.',
     pair: ((m, s, h) => (m === 'dark' ? { text: `${h}-200`, fill: `${h}-700` } : { text: `${h}-700`, fill: `${h}-200` })) as Pair },
-  { k: 'q2', name: 'Outline', note: 'No fill. A 1px ring and the text in the richest step that passes AA: 600 in light (the fg step), 400 in dark (one step richer than fg’s 300).',
+  { k: 'q2', name: 'Outline', note: 'No fill. A 1px ring and the text in fg: 600 in light, 400 in dark (fg moved from 300 to 400 in dark on 9 Oct).',
     pair: ((m, s, h) => ({ text: m === 'dark' ? `${h}-400` : `${s}-fg`, fill: null })) as Pair },
   { k: 'q3', name: 'Outline and dot', note: 'No fill. The ring and the dot both in the key, body text. In dark the red and blue rings are under 3:1 against the card; the text carries the label.',
     pair: (() => ({ text: 'text-body', fill: null })) as Pair },

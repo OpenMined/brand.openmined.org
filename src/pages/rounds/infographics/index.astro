@@ -3,14 +3,15 @@
  * ROUND — Infographics (opened 2026-10-09, after the 2026-10-08 review with Bennett).
  * Rev 2 (2026-10-09, after Kyle's review of rev 1): the original overview
  * diagram, rebuilt in HTML on the system's own surfaces, in three treatments
- * (./_Diagram.astro). Surfaces are the first tool; outlines and lines are the
+ * (src/components/site/InfoDiagram.astro; variant 1 is the working candidate,
+ * now on the overview). Surfaces are the first tool; outlines and lines are the
  * extra layer infographics get. Rev 1's three SVG directions (line hierarchy,
  * color groups, plate) were dropped: too few containers to stay legible.
  * Next: rebuild the Four Pillars deck's diagram in the chosen treatment.
  */
 import Site from '../../../layouts/Site.astro';
-import SystemDiagram from '../../../components/site/SystemDiagram.astro';
-import Diagram from './_Diagram.astro';
+import Before from './_Before.astro';
+import Diagram from '../../../components/site/InfoDiagram.astro';
 
 const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
 const NAV: [string, string][] = [['needs', 'What it needs'], ['v1', '1 · Outlines + surfaces'], ['v2', '2 · Outlines + color fills'], ['v3', '3 · Surfaces + lines'], ['before', 'Before'], ['open', 'Open']];
@@ -32,7 +33,7 @@ const NEEDS = [
 ];
 
 const VARIANTS = [
-  { id: 'v1', name: '1 · Outlines outside, surfaces inside',
+  { id: 'v1', name: '1 · Outlines outside, surfaces inside (working candidate)',
     lead: 'The outermost sections (the central source, the read-by column, the status band) are outlined. Inside, the surface system does the work: parts are raised cards, items one level higher, side notes recessed. Lines only for arrows.',
     facts: [['Outermost', '1.5px outline, line-strong'], ['Inside', 'raise-1 parts, raise-2 items, sunken asides, with their shadows'], ['Lines', '1px arrows; dashed for generated'], ['Bends', 'Dividers only: outlines on the outer sections']] },
   { id: 'v2', name: '2 · Outlines outside, color fills inside', 
@@ -84,7 +85,7 @@ const VARIANTS = [
   <section class="band" id="before">
     <div class="wrap">
       <header class="sec"><h2>Before</h2><p>The diagram on the overview today, from the infrastructure report: gray boxes stacked on gray boxes, outlines at every level, and it doesn’t follow the system’s own rules.</p></header>
-      <SystemDiagram />
+      <Before />
     </div>
   </section>
 

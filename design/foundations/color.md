@@ -15,7 +15,7 @@ The palette is called **Ink**. Every scale runs **50, 100–900, 950**, light to
 - **Hues** shift slightly per mode: saturation ×1.10 in light, so a color that holds up on dark doesn't go dull on light. Dark takes the palette as it is (×1); until 9 Oct 2026 it was ×0.95, and the change is being tried. Lightness and hue don't change.
 - **One lightness ladder.** Every hue step except 400 and the key sits at the same lightness in every hue, so a role means the same contrast whatever the color.
 - **The key is 500.** It keeps each hue's own character, and it's the color graphics and chart marks use.
-- **New steps are provisional.** Gray 300–500 and hue 50, 400, 900 and 950 were added with the 50–950 series. Each is tuned in the round that first gives it a job.
+- **New steps are provisional.** Gray 300–500 and hue 50, 400, 900 and 950 were added with the 50–950 series. Each is tuned in the round that first gives it a job. Hue 400 has one now: `fg` in dark mode.
 
 ## Roles
 
@@ -25,7 +25,7 @@ Components use roles, never steps. Each role names a step per mode:
 | --- | --- | --- | --- |
 | `subtle` | 100 | 800 | A quiet colored background: badge, callout, selected row |
 | `soft` | 200 | 700 | A decorative rule, a selected outline, an area fill. No text |
-| `fg` | 600 | 300 | Colored text, links, icons. AA on every surface |
+| `fg` | 600 | 400 | Colored text, links, icons. AA on every surface (dark moved from 300 to 400 on 9 Oct 2026, exploring) |
 | `key` | 500 | 500 | Marks with no text: chart series, dots, progress, strokes |
 | `solid` | 600 | 300 | A fill that carries a label: buttons, solid badges, checked controls |
 | `hover` | 700 | 200 | One step past solid |

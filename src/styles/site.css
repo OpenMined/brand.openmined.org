@@ -225,10 +225,9 @@ a:hover { text-decoration-color: currentColor; }
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--radius-full); font-size: 0.78rem; font-weight: 500; }
 .badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-/* Quiet status chip (working favorite, status round 2026-10-09): no fill, a 1px
-   ring and text in the richest step at AA — fg (600) in light, 400 in dark. */
+/* Quiet status chip (working, status round 2026-10-09): no fill, a 1px ring and
+   text in the status's fg role (600 light, 400 dark). */
 .badge--outline { color: var(--c-fg); box-shadow: inset 0 0 0 1px var(--c-fg); }
-[data-theme="dark"] .badge--outline { color: var(--c-400); box-shadow: inset 0 0 0 1px var(--c-400); }
 .status-warn { font-size: 0.82rem; }
 .status-warn b { color: var(--danger-fg); }
 
@@ -279,26 +278,26 @@ a:hover { text-decoration-color: currentColor; }
 @media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
 .fld { display: grid; gap: var(--spacing-XS); align-content: start; }
 .fld--full { grid-column: 1 / -1; }
-/* Form text is one size (0.9375rem): labels, descriptions, values, placeholders,
-   options and errors. Spacing and weight separate them: the label is the one
-   heavier line (600); everything else is regular. */
-.fld__label { font-size: 0.9375rem; font-weight: 600; color: var(--text-headline); }
+/* Form text (Bennett, 2026-10-09): labels and placeholders at body size
+   (--font-size-md) and weight 500; values, options and errors at body size,
+   regular; descriptions at small size (--font-size-sm), regular. */
+.fld__label { font-size: var(--font-size-md); font-weight: 500; color: var(--text-headline); }
 .fld__req { color: var(--text-body); margin-left: 0.25em; }
-.fld__desc { font-size: 0.9375rem; line-height: 1.45; color: var(--text-body); }
+.fld__desc { font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
 /* Field: flat until focus — the recess IS the focus state, so the UA ring goes */
 .ctl {
   display: block; width: 100%; margin: 0; border: none; font: inherit;
   background: var(--surface-sunken); color: var(--text-headline);
-  border-radius: var(--radius-md); padding: 0.7em 0.9em; font-size: 0.9375rem;
+  border-radius: var(--radius-md); padding: 0.7em 0.9em; font-size: var(--font-size-md);
   box-shadow: none; transition: box-shadow var(--transition-base);
 }
 .ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); }
 .ctl.is-focus { box-shadow: var(--shadow-sunken); }
-.ctl::placeholder { color: var(--text-muted); }
+.ctl::placeholder { color: var(--text-muted); font-weight: 500; }
 .ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
 /* Control: checkbox and radio cast at rest, and keep the browser's focus ring */
 .opts { list-style: none; display: grid; gap: var(--spacing-S); }
-.opt { display: flex; align-items: center; gap: var(--spacing-S); cursor: pointer; font-size: 0.9375rem; color: var(--text-body); }
+.opt { display: flex; align-items: center; gap: var(--spacing-S); cursor: pointer; font-size: var(--font-size-md); color: var(--text-body); }
 .opt__box {
   appearance: none; flex: none; position: relative; width: 18px; height: 18px; margin: 0; cursor: pointer;
   border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--radius-sm);
@@ -324,11 +323,8 @@ a:hover { text-decoration-color: currentColor; }
 .switch[aria-checked="true"] .switch__knob { transform: translateX(20px); }
 /* Error: danger-colored text on whatever the form sits on — no box, no
    outline (Bennett, 2026-10-08: colored boxes stacked on dark read muddy). */
-.fld__errs { list-style: none; display: grid; gap: 2px; font-size: 0.9375rem; color: var(--danger-fg); }
-/* Exploring: in dark, one step richer than danger-fg (red 300 → 400, 4.75:1 on
-   raise-2). Light keeps danger-fg (red 600), already the richest step at AA.
-   If it holds, this becomes a change to the fg role in dark, not a local step. */
-[data-theme="dark"] .fld__errs { color: var(--red-400); }
+.fld__errs { list-style: none; display: grid; gap: 2px; font-size: var(--font-size-md); color: var(--danger-fg); }
+
 
 /* ── Typography specimens: the website's fluid ladder, shown as-is ── */
 .ladder-type { display: grid; gap: var(--spacing-L); }
@@ -345,14 +341,17 @@ a:hover { text-decoration-color: currentColor; }
    centered measure instead of hugging the left edge of the wide page. */
 .wrap--read { max-width: calc(44em + 2 * var(--spacing-2XL)); }
 .hero .note-card { justify-self: stretch; }
-.note-card { padding: var(--spacing-L) var(--spacing-XL); font-size: 0.92rem; line-height: 1.55; background: var(--danger-subtle); color: var(--danger-fg); }
+/* Placeholder alert in the working strong status style (status round, 2026-10-09):
+   the danger hue's key as the fill, white text (5.2:1 on red). */
+.note-card { padding: var(--spacing-L) var(--spacing-XL); font-size: 0.92rem; line-height: 1.55; background: var(--red-key); color: var(--white); box-shadow: none; }
 .note-card b { color: inherit; }
 
 /* The system diagram (reused from the infrastructure report) */
 /* Wider than the reading column it sits in, centered on it (as in the report). */
 .sysfig { display: grid; gap: 10px; margin-block: var(--spacing-L); margin-inline: min(0px, calc((100% - min(1040px, 100vw - 48px)) / 2)); }
-.sysscroll { overflow-x: auto; background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--radius-lg); padding: 16px; }
-.sysscroll svg { display: block; width: 100%; min-width: 720px; height: auto; }
+/* The diagram sits on the page itself (its outer sections carry their own
+   outlines); it keeps its 960px minimum and scrolls on narrow screens. */
+.sysfig__scroll { overflow-x: auto; }
 .sysfig figcaption { font-size: 0.82rem; color: var(--text-muted); }
 
 /* Status: the two badge styles, labeled */
@@ -405,7 +404,7 @@ select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
 .fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
 textarea.ctl { resize: vertical; min-height: 5em; }
 .ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
-.ctl--file::file-selector-button { font: inherit; font-size: 0.9375rem; cursor: pointer; margin-right: var(--spacing-M); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
+.ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: var(--spacing-M); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
 
 /* Corners (Surfaces page): a panel holding every corner size, and the outer
    corner compared at candidate values. The inner tiles stay at md. */
@@ -429,3 +428,121 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .corners__opt figcaption { display: grid; gap: 2px; font-size: 0.75rem; color: var(--text-muted); }
 .corners__opt figcaption b { color: var(--text-headline); font-weight: 600; }
 .corners__opt figcaption em { font-style: normal; }
+
+/* Typography page: the v2 text sizes, each set in its own size */
+.text-sizes { display: grid; gap: var(--spacing-M); color: var(--text-body); }
+.text-sizes code { font-size: 0.9em; }
+
+/* ── Icons (Iconoir regular, inlined; currentColor) ──────────────── */
+/* Icons draw at a 2 stroke, the live site's weight (2026-10-09). Iconoir ships
+   1.5, which straddles pixels and never reaches full color, so icons read grayer.
+   CSS beats the SVG's stroke-width attribute, and Iconoir sets it on the root. */
+.icon { display: inline-block; vertical-align: -0.125em; flex: none; stroke-width: 2; }
+.icon-btn { padding: 11px 14px; }
+.icon-status { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-L); }
+@media (max-width: 700px) { .icon-status { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.icon-status li { display: flex; align-items: center; gap: var(--spacing-S); font-size: 0.9rem; }
+.icon-status code { font-size: 0.78rem; }
+.icon-sizes { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-3XL); color: var(--text-headline); }
+.icon-sizes li { display: flex; align-items: center; gap: var(--spacing-S); font-size: 0.85rem; }
+.icon-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--spacing-L) var(--spacing-XL); color: var(--text-headline); }
+.icon-grid li { display: grid; gap: 2px; align-content: start; font-size: 0.85rem; }
+.icon-grid li .icon { margin-bottom: var(--spacing-XS); }
+.icon-grid b { font-family: var(--font-m); font-size: 0.8rem; font-weight: 500; }
+.icon-grid code { font-size: 0.7rem; color: var(--text-muted); }
+
+/* Partner marks (Graphics page): official files, never recolored. The one-color
+   glyphs are inlined so currentColor follows the mode. */
+.partners { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: var(--spacing-L); }
+.partners li { display: grid; justify-items: center; gap: var(--spacing-S); padding: var(--spacing-M) var(--spacing-S); }
+.partner__mark { display: grid; place-items: center; width: 32px; height: 32px; color: var(--text-headline); }
+.partner__mark img, .partner__glyph { width: 32px; height: 32px; }
+.partner__name { font-size: 0.78rem; color: var(--text-body); text-align: center; }
+.partner__mark--color, .partners.is-color .partner__mark--mono { display: none; }
+.partners.is-color .partner__mark--color { display: grid; }
+.partners-view .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
+.partners-view .btn[aria-pressed="true"] { background: var(--surface-sunken); }
+.icon-cmp td { vertical-align: middle; }
+/* .tbl .icon-cmp__glyph: beats `.tbl td`'s body color, so both columns draw in the headline color. */
+.tbl .icon-cmp__glyph { width: 56px; color: var(--text-headline); }
+.icon-cmp__glyph svg, .icon-cmp__glyph ion-icon { display: block; width: 24px; height: 24px; font-size: 24px; }
+.tbl .icon-cmp__glyph.is-success { color: var(--success-fg); }
+.tbl .icon-cmp__glyph.is-danger { color: var(--danger-fg); }
+.icon-cmp tr.is-none td:last-child, .icon-cmp tr.is-gap td:last-child { color: var(--danger-fg); }
+
+/* Color page: the gamut note under the hue ramps */
+.gamut-note { display: grid; gap: var(--spacing-S); font-size: 0.85rem; line-height: 1.55; max-width: 60em; }
+
+/* Color page: midtone saturation preview under the gray ramp (exploring) */
+.gboost { display: grid; gap: var(--spacing-M); padding-top: var(--spacing-M); border-top: 1px solid var(--line); }
+.gboost__lead { font-size: 0.88rem; line-height: 1.5; max-width: 60em; }
+.gboost__ctl { display: flex; flex-wrap: wrap; align-items: end; gap: var(--spacing-L) var(--spacing-2XL); font-size: 0.82rem; }
+.gboost__ctl label { display: grid; gap: 4px; min-width: 180px; color: var(--text-body); }
+.gboost__ctl input { width: 100%; accent-color: var(--text-headline); }
+.gboost__ctl .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
+.gboost__tbl td { vertical-align: middle; }
+.gboost__chip { display: inline-block; width: 28px; height: 16px; border-radius: var(--radius-sm); vertical-align: middle; margin-right: 8px; }
+
+/* ── Links (ported from openmined.org, 2026-10-09) ───────────────────
+   Content link — global/base.css + prose.css on the live site: the underline
+   draws in from the left on load; on hover it wipes out to the right and a
+   colored line draws back in. The hover line is the teal key (Kyle, 2026-10-09),
+   not the live site's green. */
+@keyframes om-underline-in { 0% { background-size: 0% 100%; background-position: left bottom; } to { background-size: 100% 100%; background-position: left bottom; } }
+@keyframes om-underline-out { 0% { background-size: 100% 100%; background-position: right bottom; } to { background-size: 0% 100%; background-position: right bottom; } }
+@keyframes om-underline-in-hover {
+  0% { background-image: linear-gradient(transparent calc(100% - 1px), var(--teal-key) 1px); background-size: 0% 100%; background-position: left bottom; }
+  to { background-image: linear-gradient(transparent calc(100% - 1px), var(--teal-key) 1px); background-size: 100% 100%; background-position: left bottom; }
+}
+.link-content, .om-prose a:not([class]) {
+  background-image: linear-gradient(transparent calc(100% - 1px), currentColor 1px);
+  background-repeat: no-repeat; background-size: 0% 100%; background-position: left bottom;
+  padding-bottom: 2px; text-decoration: none; color: inherit;
+  animation: om-underline-in 0.4s ease forwards;
+}
+.link-content:hover, .om-prose a:not([class]):hover { animation: om-underline-out 0.4s ease forwards, om-underline-in-hover 0.4s ease 0.4s forwards; }
+/* Text button — the live site's hover-line link (components.css .link-hover-line):
+   no line at rest; a 1px line slides in under the label on hover. With an
+   icon after the label (live types "->"; v2 uses Iconoir's arrow). */
+.link-text { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-headline); text-decoration: none; }
+.link-text__label {
+  background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat;
+  background-size: 0% 1px; background-position: left bottom; padding-bottom: 2px;
+  transition: background-size var(--transition-base);
+}
+.link-text:hover .link-text__label, .link-text:focus-visible .link-text__label { background-size: 100% 1px; }
+@media (prefers-reduced-motion: reduce) {
+  .link-content, .om-prose a:not([class]) { animation: none; background-size: 100% 100%; }
+  .link-text__label { transition: none; }
+}
+.link-demo { display: grid; gap: var(--spacing-M); }
+.link-demo p { max-width: 36em; }
+
+/* ── Typography: text styles and the prose specimen ─────────────────── */
+.text-styles td { vertical-align: middle; }
+.text-styles__sample { color: var(--text-body); }
+/* Prose rhythm — the core of openmined.org's prose.css flow rhythm, ported for
+   review: one gap per pair of neighbors (adjacent-sibling), so no margin
+   collapsing; headings own the break before them. Not ported: heading downsize,
+   WordPress shims, the spacious-sections option (they stay in the website). */
+.om-prose { max-width: 42em; font-size: var(--font-size-md); line-height: 1.5; color: var(--text-body); }
+.om-prose > * { margin: 0; }
+.om-prose > * + * { margin-top: var(--spacing-L); }                      /* 16 */
+.om-prose :where(h2, figure, table) + * { margin-top: var(--spacing-2XL); } /* 24 after h2 */
+.om-prose :where(h3, h4, h5, h6) + * { margin-top: var(--spacing-L); }   /* 16 after h3–h6 */
+.om-prose * + h2 { margin-top: var(--spacing-3XL); }                     /* 32 before h2 */
+.om-prose * + h3 { margin-top: var(--spacing-2XL); }                     /* 24 before h3 */
+.om-prose * + :is(h4, h5, h6) { margin-top: var(--spacing-2XL); }        /* 24 before h4–h6 */
+.om-prose :is(h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) { margin-top: var(--spacing-2XL); }
+.om-prose * + hr, .om-prose hr + * { margin-top: var(--spacing-3XL); }
+.om-prose h2 { font-family: var(--font-d); font-weight: 400; font-size: clamp(28px, 3.62vw, 47px); line-height: 1.2; }
+.om-prose h3 { font-family: var(--font-d); font-weight: 400; font-size: clamp(24px, 2.77vw, 36px); line-height: 1.2; }
+.om-prose h4 { font-family: var(--font-d); font-weight: 400; font-size: clamp(22px, 2.08vw, 27px); line-height: 1.3; }
+.om-prose h5 { font-family: var(--font-b); font-weight: 600; font-size: clamp(18px, 1.5vw, 20px); line-height: 1.5; }
+.om-prose h6 { font-family: var(--font-b); font-weight: 600; font-size: clamp(16px, 1.4vw, 18px); line-height: 1.5; }
+.om-prose ul, .om-prose ol { padding-left: 1.25em; }
+.om-prose li + li { margin-top: var(--spacing-S); }
+.om-prose blockquote { border-left: 1px solid var(--text-headline); padding-left: var(--spacing-L); }
+.om-prose hr { border: 0; border-top: 1px solid var(--line); }
+.om-prose code { font-size: 0.875em; }
+.om-prose .om-prose__small { font-size: var(--font-size-sm); color: var(--text-muted); }

@@ -1,0 +1,16 @@
+{
+  "$description": "Hand-written. Text sizes, the same in every mode. The first v2 type tokens (2026-10-09, from forms: Bennett asked for a small text size for consistent reuse). Two sizes so far; the full scale comes with the type round.",
+  "font-size": {
+    "$type": "dimension",
+    "md": {
+      "$value": { "value": 1, "unit": "rem" },
+      "$description": "Body text: the default size for reading text, form labels, values and options.",
+      "$extensions": { "org.openmined": { "status": "exploring" } }
+    },
+    "sm": {
+      "$value": { "value": 0.875, "unit": "rem" },
+      "$description": "Small text: supporting text such as form descriptions, captions and notes. Regular weight.",
+      "$extensions": { "org.openmined": { "status": "exploring" } }
+    }
+  }
+}

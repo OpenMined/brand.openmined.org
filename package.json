@@ -13,7 +13,8 @@
     "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check"
   },
   "dependencies": {
-    "astro": "^4.16.0"
+    "astro": "^4.16.0",
+    "iconoir": "^7.12.1"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

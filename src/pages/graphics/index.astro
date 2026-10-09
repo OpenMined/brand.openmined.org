@@ -13,6 +13,8 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import FigA from '../rounds/diagrams/_a/Fig1.astro';
 import { ALIASES_CSS } from '../rounds/_working';
 import { doc, byTag, decisionsFor } from '../../lib/design';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { MODES, HUES, GRADIENT_STOPS, EXTRA_STOPS, hex, target, listStops } from '../../lib/tokens';
 
 const foundation = doc('foundations/gradient');
@@ -23,8 +25,22 @@ const rules = byTag('graphics', 'Guideline', 'Behavior');
 const decisions = decisionsFor('graphics');
 const ref = (name: string) => target('light', `gradient-${name}`)?.replace('-key', '') ?? null;
 
-const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logo and embeds'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+
+/* Partner marks, from public/logos/partners/partners.json (the source of truth).
+   One color by default, like the live site: every brand's icon.svg is a one-color
+   glyph (currentColor), inlined so it takes the text color in both modes. The
+   official color files are one toggle away. */
+const PARTNERS_DIR = join(process.cwd(), 'public', 'logos', 'partners');
+const PARTNERS = Object.entries(JSON.parse(readFileSync(join(PARTNERS_DIR, 'partners.json'), 'utf8')).brands as Record<string, any>)
+  .map(([key, b]) => ({
+    key, name: b.name as string, owner: b.trademark as string, gaps: (b.gaps ?? []).length as number,
+    color: b.iconColor && existsSync(join(PARTNERS_DIR, b.iconColor)) ? `/logos/partners/${b.iconColor}` : null,
+    mono: readFileSync(join(PARTNERS_DIR, b.icon), 'utf8').replace(/<svg/, '<svg class="partner__glyph" aria-hidden="true" focusable="false"'),
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const partnerRule = doc('guidelines/partner-marks-as-supplied');
 ---
 <Site title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette." current="graphics">
   <Fragment set:html={`<style>${ALIASES_CSS}</style>`} />
@@ -127,7 +143,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
 
   <section class="band" id="logo">
     <div class="wrap">
-      <header class="sec"><h2>Logo and embeds</h2><p>The logo keeps its own colors in every palette and mode. The animated embeds show v2 colors here because this page passes them in; used on their own, they fall back to built-in colors that are still v1 until they're re-tuned.</p></header>
+      <header class="sec"><h2>Logos and embeds</h2><p>OpenMined's logo keeps its own colors in every palette and mode; partner marks are used as their owners supply them. The animated embeds show v2 colors here because this page passes them in; used on their own, they fall back to built-in colors that are still v1 until they're re-tuned.</p></header>
       <div class="grid grid--2">
         <article class="card">
           <img class="only-light" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" style="height:40px;width:auto;align-self:flex-start" />
@@ -139,6 +155,24 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components. Shown live on the <a href="/v1/">v1 reference</a> and in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all">color round</a>.</p>
         </article>
       </div>
+      <article class="card">
+        <h3>Partner marks</h3>
+        <p class="muted">{partnerRule.description} {PARTNERS.length} tools and partners, from <code>public/logos/partners/</code> (<code>partners.json</code> records each mark's owner, official source, variants and gaps). One color by default, in the color of the text around them; {PARTNERS.filter(p => p.color).length} also have an official color file.</p>
+        <div class="actions partners-view" role="group" aria-label="Show partner marks in">
+          <button type="button" class="btn js-pview" aria-pressed="true" data-view="mono">One color</button>
+          <button type="button" class="btn js-pview" aria-pressed="false" data-view="color">Official color</button>
+        </div>
+        <ul class="partners">
+          {PARTNERS.map(p => (
+            <li title={`${p.name}, a trademark of ${p.owner}`}>
+              <span class="partner__mark partner__mark--mono"><Fragment set:html={p.mono} /></span>
+              <span class="partner__mark partner__mark--color">{p.color ? <img src={p.color} alt="" loading="lazy" /> : <Fragment set:html={p.mono} />}</span>
+              <span class="partner__name">{p.name}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="muted">Each mark is the trademark of its owner. Rules: <a href="#guidelines-partner-marks-as-supplied">Partner marks are used as supplied</a>. Used inline next to text, they follow the <a href="/icons/#sizes">icon sizes</a>.</p>
+      </article>
     </div>
   </section>
 
@@ -198,6 +232,11 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       sync();
       new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
     })();
+    // Partner marks: one color (default) or the official color files
+    document.querySelectorAll('.js-pview').forEach(b => b.addEventListener('click', () => {
+      document.querySelector('.partners')?.classList.toggle('is-color', b.dataset.view === 'color');
+      document.querySelectorAll('.js-pview').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    }));
     // Gradient map saturation slider (exploring)
     (() => {
       const input = document.querySelector('.js-sat'), out = document.querySelector('.js-sat-out'), mesh = document.querySelector('.mesh-stage om-mesh');

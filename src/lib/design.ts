@@ -18,7 +18,7 @@ const FILES = Object.fromEntries(Object.entries(ALL).filter(([p]) => !RESERVED.t
 /** The change history, design/log.md, rendered as-is. */
 export const LOG = ALL['/design/log.md']?.Content;
 
-export const TYPES = ['Design System', 'Elevation', 'Color', 'Typography', 'Spacing', 'Shape', 'Motion', 'Component', 'Pattern', 'Behavior', 'Guideline', 'Accessibility', 'Voice', 'Decision'] as const;
+export const TYPES = ['Design System', 'Elevation', 'Color', 'Typography', 'Iconography', 'Spacing', 'Shape', 'Motion', 'Component', 'Pattern', 'Behavior', 'Guideline', 'Accessibility', 'Voice', 'Decision'] as const;
 export const STATUSES = ['exploring', 'working', 'released', 'deprecated'] as const;
 
 export type Doc = {

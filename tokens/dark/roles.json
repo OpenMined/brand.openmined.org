@@ -4,7 +4,7 @@
     "$type": "color",
     "sunken": {
       "$value": "{gray.950}",
-      "$description": "A well set into a surface (\u22121). Never a page or section ground.",
+      "$description": "A well set into a surface (−1). Never a page or section ground.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -127,11 +127,12 @@
       }
     },
     "fg": {
-      "$value": "{violet.300}",
+      "$value": "{violet.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{violet.300}"
         }
       }
     },
@@ -184,11 +185,12 @@
       }
     },
     "fg": {
-      "$value": "{blue.300}",
+      "$value": "{blue.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{blue.300}"
         }
       }
     },
@@ -241,11 +243,12 @@
       }
     },
     "fg": {
-      "$value": "{teal.300}",
+      "$value": "{teal.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{teal.300}"
         }
       }
     },
@@ -298,11 +301,12 @@
       }
     },
     "fg": {
-      "$value": "{green.300}",
+      "$value": "{green.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{green.300}"
         }
       }
     },
@@ -355,11 +359,12 @@
       }
     },
     "fg": {
-      "$value": "{amber.300}",
+      "$value": "{amber.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{amber.300}"
         }
       }
     },
@@ -412,11 +417,12 @@
       }
     },
     "fg": {
-      "$value": "{red.300}",
+      "$value": "{red.400}",
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "exploring",
+          "was": "{red.300}"
         }
       }
     },
@@ -452,7 +458,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{green.subtle}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -461,7 +467,7 @@
     },
     "soft": {
       "$value": "{green.soft}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -470,7 +476,7 @@
     },
     "fg": {
       "$value": "{green.fg}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -479,7 +485,7 @@
     },
     "solid": {
       "$value": "{green.solid}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -488,7 +494,7 @@
     },
     "hover": {
       "$value": "{green.hover}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -497,7 +503,7 @@
     },
     "key": {
       "$value": "{green.key}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -506,7 +512,7 @@
     },
     "on": {
       "$value": "{green.on}",
-      "$description": "Success \u2192 green.",
+      "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -518,7 +524,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{amber.subtle}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -527,7 +533,7 @@
     },
     "soft": {
       "$value": "{amber.soft}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -536,7 +542,7 @@
     },
     "fg": {
       "$value": "{amber.fg}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -545,7 +551,7 @@
     },
     "solid": {
       "$value": "{amber.solid}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -554,7 +560,7 @@
     },
     "hover": {
       "$value": "{amber.hover}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -563,7 +569,7 @@
     },
     "key": {
       "$value": "{amber.key}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -572,7 +578,7 @@
     },
     "on": {
       "$value": "{amber.on}",
-      "$description": "Warning \u2192 amber.",
+      "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -584,7 +590,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{red.subtle}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -593,7 +599,7 @@
     },
     "soft": {
       "$value": "{red.soft}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -602,7 +608,7 @@
     },
     "fg": {
       "$value": "{red.fg}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -611,7 +617,7 @@
     },
     "solid": {
       "$value": "{red.solid}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -620,7 +626,7 @@
     },
     "hover": {
       "$value": "{red.hover}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -629,7 +635,7 @@
     },
     "key": {
       "$value": "{red.key}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -638,7 +644,7 @@
     },
     "on": {
       "$value": "{red.on}",
-      "$description": "Danger \u2192 red.",
+      "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -650,7 +656,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{blue.subtle}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -659,7 +665,7 @@
     },
     "soft": {
       "$value": "{blue.soft}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -668,7 +674,7 @@
     },
     "fg": {
       "$value": "{blue.fg}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -677,7 +683,7 @@
     },
     "solid": {
       "$value": "{blue.solid}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -686,7 +692,7 @@
     },
     "hover": {
       "$value": "{blue.hover}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -695,7 +701,7 @@
     },
     "key": {
       "$value": "{blue.key}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -704,7 +710,7 @@
     },
     "on": {
       "$value": "{blue.on}",
-      "$description": "Info \u2192 blue.",
+      "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {
           "status": "working"

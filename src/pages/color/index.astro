@@ -12,7 +12,19 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, type Mode } from '../../lib/tokens';
 
+import GRAY_FILE from '../../../tokens/base/gray.json';
+import HUES_LIGHT from '../../../tokens/light/hues.json';
+import HUES_DARK from '../../../tokens/dark/hues.json';
+
 const foundation = doc('foundations/color');
+/* Gray steps as OKLCH (from tokens/base/gray.json), for the midtone saturation preview. */
+const GRAY_OKLCH = STEPS.map(s => { const c = (GRAY_FILE as any).gray[s].$value; return { step: s, hex: c.hex, L: c.components[0] * 100, C: c.components[1], H: c.components[2] }; });
+/* Steps at the edge of the sRGB gamut: the mode's saturation offset is pulled back
+   to what screens can show (gamutMapped in tokens/), so some match in both modes. */
+const GAMUT = HUES.flatMap(h => STEPS.filter(s => (HUES_LIGHT as any)[h]?.[s]?.$extensions?.['org.openmined']?.gamutMapped).map(s => {
+  const l = (HUES_LIGHT as any)[h][s].$value.hex, d = (HUES_DARK as any)[h][s].$value.hex;
+  return { name: `${h} ${s}`, same: l === d, l, d };
+}));
 const { Content } = foundation;
 const rules = byTag('color', 'Guideline', 'Behavior');
 const decisions = decisionsFor('color');
@@ -39,7 +51,7 @@ const STRONG_LOW = Object.fromEntries(MODES.map(m => [m, Object.entries(STATUS)
   .map(([s, h]) => [s, contrast(hex(m, 'white'), hex(m, `${h}-key`))] as const).filter(([, c]) => c < 4.5)
   .map(([s, c]) => `${c.toFixed(1)}:1 on ${s}`).join(' and ') || 'none'])) as Record<Mode, string>;
 const QUIET_MIN = Object.fromEntries(MODES.map(m => [m, Math.min(...Object.entries(STATUS).flatMap(([s, h]) =>
-  GROUNDS3.map(g => contrast(hex(m, m === 'dark' ? `${h}-400` : `${s}-fg`), hex(m, g))))).toFixed(1) + ':1'])) as Record<Mode, string>;
+  GROUNDS3.map(g => contrast(hex(m, `${s}-fg`), hex(m, g))))).toFixed(1) + ':1'])) as Record<Mode, string>;
 const TEXT = ['text-headline', 'text-body', 'text-muted'];
 const LINES = ['line', 'line-strong'];
 const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
@@ -57,15 +69,31 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         <h3>Gray</h3>
         <div class="grays__row">
           {GRAYS.map(g => (
-            <div class="grays__cell">
+            <div class="grays__cell" data-gray={g.startsWith('gray-') ? grayName(g) : undefined}>
               <span class="sw" style={`background:var(--${g})`}>
-                <code class="only-light" style={`color:${readout('light', hex('light', g))}`}>{hex('light', g)}</code>
-                <code class="only-dark" style={`color:${readout('dark', hex('dark', g))}`}>{hex('dark', g)}</code>
+                <code class="only-light js-ghex" style={`color:${readout('light', hex('light', g))}`}>{hex('light', g)}</code>
+                <code class="only-dark js-ghex" style={`color:${readout('dark', hex('dark', g))}`}>{hex('dark', g)}</code>
               </span>
               <b class="grays__step">{grayName(g)}{g.startsWith('gray-') && ['300', '400', '500'].includes(grayName(g)) && ' · new'}</b>
               {MODES.map(m => <em class={`grays__use only-${m}`}>{grayUse(m, g).join(' · ')}</em>)}
             </div>
           ))}
+        </div>
+        <div class="gboost" data-grays={JSON.stringify(GRAY_OKLCH)}>
+          <p class="gboost__lead"><b>Midtone saturation</b> <span class="muted">Exploring. Adds chroma on a bell curve over lightness: most at the center, little or none at the light and dark ends. Each step keeps its own hue. Applies live to the whole page (muted text and strong lines use the middle grays); nothing is saved.</span></p>
+          <div class="gboost__ctl">
+            <label>Amount <b class="js-gb-out" data-for="amount">0</b><input type="range" class="js-gb" data-k="amount" min="0" max="0.04" step="0.002" value="0" /></label>
+            <label>Center (lightness) <b class="js-gb-out" data-for="center">62</b><input type="range" class="js-gb" data-k="center" min="35" max="85" step="1" value="62" /></label>
+            <label>Width <b class="js-gb-out" data-for="width">14</b><input type="range" class="js-gb" data-k="width" min="6" max="30" step="1" value="14" /></label>
+            <button type="button" class="btn js-gb-reset">Reset</button>
+            <button type="button" class="btn js-gb-preset" data-amount="0.008" data-center="58" data-width="15">Suggested boost</button>
+          </div>
+          <div class="tbl-wrap">
+            <table class="tbl gboost__tbl">
+              <thead><tr><th>Step</th><th>Lightness</th><th>Chroma now</th><th>Added</th><th>Chroma</th><th>Was</th><th>Becomes</th></tr></thead>
+              <tbody>{GRAY_OKLCH.map(g => <tr data-step={g.step}><td>gray {g.step}</td><td>{g.L.toFixed(1)}</td><td>{g.C.toFixed(4)}</td><td class="js-add">0</td><td class="js-c">{g.C.toFixed(4)}</td><td><code>{g.hex}</code></td><td><span class="gboost__chip" style={`background:var(--gray-${g.step})`}></span><code class="js-hex">{g.hex}</code></td></tr>)}</tbody>
+            </table>
+          </div>
         </div>
       </article>
       <article class="card spec-card" aria-label="Hues">
@@ -90,6 +118,10 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
               ))}
             </div>
           ))}
+        </div>
+        <div class="gamut-note">
+          <p><b>Why some steps don’t change between modes.</b> The saturation offset can only go as far as screens can show. A few steps already sit at the edge of the sRGB gamut (teal 500’s red channel is 0, for example), so the light mode’s ×{SAT.light.toFixed(2)} is pulled back to the nearest color a screen can show, and with dark at ×{SAT.dark.toFixed(2)} they land on the same value in both modes. That’s expected, not a bug: they’re already as saturated as a screen allows. If a step should differ between modes, the lever is lightness, not saturation.</p>
+          <p class="muted">Same in both modes: {GAMUT.filter(g => g.same).map(g => `${g.name} (${g.l})`).join(', ')}. At the edge in light but still slightly different: {GAMUT.filter(g => !g.same).map(g => `${g.name} (${g.l} light, ${g.d} dark)`).join(', ') || 'none'}. Read from the token files, where these steps are marked <code>gamutMapped</code>.</p>
         </div>
       </article>
     </div>
@@ -124,8 +156,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         <p class="muted">Options for both chips are being compared in the <a href="/rounds/status/">status chips round</a>.</p>
         <div class="status-rows">
           <div class="status-row">
-            <span class="status-row__lab"><b>Quiet</b> outline, no fill<br />ring and text: <code>fg</code> light, step 400 dark</span>
-            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge badge--outline" style={`--c-fg:var(--${s}-fg);--c-400:var(--${h}-400)`}>{s} · {h}</span>)}</div>
+            <span class="status-row__lab"><b>Quiet</b> outline, no fill<br />ring and text: <code>fg</code></span>
+            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge badge--outline" style={`--c-fg:var(--${s}-fg)`}>{s} · {h}</span>)}</div>
           </div>
           <div class="status-row">
             <span class="status-row__lab"><b>Strong</b> key fill<br /><code>key</code> + white</span>
@@ -218,4 +250,53 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       </div>
     </div>
   </section>
+  <script>
+    // Midtone saturation preview (exploring): chroma += amount × exp(−(L − center)² / (2 · width²)),
+    // in OKLCH, each step's own L and H kept. Sets --gray-N on <html>, so every role on
+    // the page that lands on a gray step follows. Gray is the same in both modes.
+    const box = document.querySelector<HTMLElement>('.gboost');
+    if (box) {
+      const GR: { step: string; hex: string; L: number; C: number; H: number }[] = JSON.parse(box.dataset.grays!);
+      const toRgb = (L: number, C: number, H: number) => {
+        const h = (H * Math.PI) / 180, Lf = L / 100, A = C * Math.cos(h), B = C * Math.sin(h);
+        const l = (Lf + 0.3963377774 * A + 0.2158037573 * B) ** 3, m = (Lf - 0.1055613458 * A - 0.0638541728 * B) ** 3, s = (Lf - 0.0894841775 * A - 1.291485548 * B) ** 3;
+        return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s, -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s];
+      };
+      const gam = (c: number) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+      const inGamut = (rgb: number[]) => rgb.every(v => v >= -0.0005 && v <= 1.0005);
+      const hexOf = (L: number, C: number, H: number) => {
+        let c = C; let rgb = toRgb(L, c, H);
+        while (!inGamut(rgb) && c > 0) { c -= 0.0005; rgb = toRgb(L, c, H); } // keep L and H, reduce chroma to fit
+        return { hex: '#' + rgb.map(v => Math.round(Math.min(1, Math.max(0, gam(Math.min(1, Math.max(0, v))))) * 255).toString(16).padStart(2, '0')).join(''), c };
+      };
+      const val = (k: string) => +(box.querySelector<HTMLInputElement>(`.js-gb[data-k="${k}"]`)!.value);
+      const apply = () => {
+        const amount = val('amount'), center = val('center'), width = val('width');
+        box.querySelectorAll<HTMLElement>('.js-gb-out').forEach(o => { const v = val(o.dataset.for!); o.textContent = o.dataset.for === 'amount' ? v.toFixed(3) : String(v); });
+        const html = document.documentElement;
+        GR.forEach(g => {
+          const add = amount * Math.exp(-((g.L - center) ** 2) / (2 * width * width));
+          const { hex, c } = amount ? hexOf(g.L, g.C + add, g.H) : { hex: g.hex, c: g.C };
+          if (amount) html.style.setProperty(`--gray-${g.step}`, hex); else html.style.removeProperty(`--gray-${g.step}`);
+          const row = box.querySelector<HTMLElement>(`tr[data-step="${g.step}"]`)!;
+          row.querySelector('.js-add')!.textContent = (c - g.C).toFixed(4);
+          row.querySelector('.js-c')!.textContent = c.toFixed(4);
+          row.querySelector('.js-hex')!.textContent = hex;
+          document.querySelectorAll(`.grays__cell[data-gray="${g.step}"] .js-ghex`).forEach(el => (el.textContent = hex));
+        });
+      };
+      box.querySelectorAll('.js-gb').forEach(i => i.addEventListener('input', apply));
+      // Presets: Suggested boost (Kyle, 2026-10-09) sets all three sliders at once.
+      box.querySelectorAll<HTMLButtonElement>('.js-gb-preset').forEach(b => b.addEventListener('click', () => {
+        (['amount', 'center', 'width'] as const).forEach(k => ((box.querySelector(`.js-gb[data-k="${k}"]`) as HTMLInputElement).value = b.dataset[k]!));
+        apply();
+      }));
+      box.querySelector('.js-gb-reset')!.addEventListener('click', () => {
+        (box.querySelector('.js-gb[data-k="amount"]') as HTMLInputElement).value = '0';
+        (box.querySelector('.js-gb[data-k="center"]') as HTMLInputElement).value = '62';
+        (box.querySelector('.js-gb[data-k="width"]') as HTMLInputElement).value = '14';
+        apply();
+      });
+    }
+  </script>
 </Site>

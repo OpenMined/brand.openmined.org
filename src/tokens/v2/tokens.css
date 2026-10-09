@@ -137,6 +137,8 @@
   --radius-md: 6px;
   --radius-lg: 10px;
   --radius-full: 999px;
+  --font-size-md: 1rem;
+  --font-size-sm: 0.875rem;
   --gradient-gold: #f6c97b;
   --gradient-orange: #ee8b4d;
   --gradient-red: var(--red-key);
@@ -230,7 +232,7 @@
   --violet-key: var(--violet-500);
   --violet-subtle: var(--violet-800);
   --violet-soft: var(--violet-700);
-  --violet-fg: var(--violet-300);
+  --violet-fg: var(--violet-400);
   --violet-solid: var(--violet-300);
   --violet-hover: var(--violet-200);
   --violet-on: var(--on-solid);
@@ -248,7 +250,7 @@
   --blue-key: var(--blue-500);
   --blue-subtle: var(--blue-800);
   --blue-soft: var(--blue-700);
-  --blue-fg: var(--blue-300);
+  --blue-fg: var(--blue-400);
   --blue-solid: var(--blue-300);
   --blue-hover: var(--blue-200);
   --blue-on: var(--on-solid);
@@ -266,7 +268,7 @@
   --teal-key: var(--teal-500);
   --teal-subtle: var(--teal-800);
   --teal-soft: var(--teal-700);
-  --teal-fg: var(--teal-300);
+  --teal-fg: var(--teal-400);
   --teal-solid: var(--teal-300);
   --teal-hover: var(--teal-200);
   --teal-on: var(--on-solid);
@@ -284,7 +286,7 @@
   --green-key: var(--green-500);
   --green-subtle: var(--green-800);
   --green-soft: var(--green-700);
-  --green-fg: var(--green-300);
+  --green-fg: var(--green-400);
   --green-solid: var(--green-300);
   --green-hover: var(--green-200);
   --green-on: var(--on-solid);
@@ -302,7 +304,7 @@
   --amber-key: var(--amber-500);
   --amber-subtle: var(--amber-800);
   --amber-soft: var(--amber-700);
-  --amber-fg: var(--amber-300);
+  --amber-fg: var(--amber-400);
   --amber-solid: var(--amber-300);
   --amber-hover: var(--amber-200);
   --amber-on: var(--on-solid);
@@ -320,7 +322,7 @@
   --red-key: var(--red-500);
   --red-subtle: var(--red-800);
   --red-soft: var(--red-700);
-  --red-fg: var(--red-300);
+  --red-fg: var(--red-400);
   --red-solid: var(--red-300);
   --red-hover: var(--red-200);
   --red-on: var(--on-solid);
@@ -334,6 +336,8 @@
   --radius-md: 6px;
   --radius-lg: 10px;
   --radius-full: 999px;
+  --font-size-md: 1rem;
+  --font-size-sm: 0.875rem;
   --gradient-gold: #f3ca84;
   --gradient-orange: #e88e58;
   --gradient-red: var(--red-key);

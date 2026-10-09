@@ -10,19 +10,23 @@ import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
+import Icon from '../../components/site/Icon.astro';
 
 const button = doc('components/button');
+const link = doc('components/link');
 const form = doc('components/form-field');
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
-const components = [button, form];
+const components = [button, link, form];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
 const TEXT_FIELDS = [
   { id: 'name', type: 'text', label: 'Full name', req: true, desc: 'Single-line text: the default field type.', ph: 'Jane Doe' },
-  { id: 'email', type: 'email', label: 'Email address', req: true, desc: 'Same surface; the error state is shown below.', ph: 'you@example.com' },
-  { id: 'tel', type: 'tel', label: 'Phone', req: false, desc: 'A different keyboard on mobile, the same surface.', ph: '+44 20 7946 0000' },
+  { id: 'email', type: 'email', label: 'Email address', req: true, desc: '', ph: 'Email Address', bare: true },
+  // Placeholder as the label (the website's default): no title or description; the
+  // placeholder names the field and aria-label gives it an accessible name.
+  { id: 'tel', type: 'tel', label: 'Phone', req: false, desc: '', ph: 'Phone Number', bare: true },
   { id: 'size', type: 'number', label: 'Team size', req: false, desc: "Number input, with the browser's stepper left in place.", ph: '12' },
 ];
 ---
@@ -40,6 +44,24 @@ const TEXT_FIELDS = [
         </div>
         <p class="muted">Solid uses the accent, grayscale for now. Quiet buttons have no fill and no outline at rest; on hover they take a subtle accent wash (<code>--accent-subtle</code>), being tried now.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="band" id="links">
+    <div class="wrap">
+      <header class="sec"><h2>Links</h2><p>{link.description}</p><p class="status">Status: <b>{link.status}</b> · ported from openmined.org</p></header>
+      <div class="grid grid--2">
+        <article class="card link-demo">
+          <h3>Content link</h3>
+          <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover it wipes out to the right and a teal line draws back in.</p>
+          <p class="muted">Any plain link in a paragraph or a prose region gets it. The hover line is the teal key; the live site uses v1’s green.</p>
+        </article>
+        <article class="card link-demo">
+          <h3>Text button</h3>
+          <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
+          <p class="muted">An action that reads as text: no underline at rest; a 1px line slides in under the label on hover. The icon follows the label and isn’t underlined.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -62,9 +84,9 @@ const TEXT_FIELDS = [
           <form class="fm fm--one" onsubmit="return false">
             {TEXT_FIELDS.map(f => (
               <div class="fld">
-                <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>
-                <p class="fld__desc">{f.desc}</p>
-                <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph} />
+                {!f.bare && <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>}
+                {f.desc && <p class="fld__desc">{f.desc}</p>}
+                <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph} aria-label={f.bare ? f.ph : undefined} />
               </div>
             ))}
             <div class="fld">
@@ -152,7 +174,7 @@ const TEXT_FIELDS = [
       <div class="notes">
         <div>
           <ul>
-            <li><b>Links.</b> In v1, the interactive hover color is green and focus is teal. The color round proposed that interactive states use the accent instead; not decided.</li>
+            <li><b>Link color.</b> Content links draw their hover line in the teal key (v1 used green). Link text keeps the color of the text around it. Whether other interactive states (focus, the solid button) take a color is still open: the color round proposed the accent.</li>
             <li><b>A colored accent.</b> Whether OpenMined's accent stays grayscale or takes a hue.</li>
             <li><b>Hover</b>: whether the quiet buttons' subtle wash holds up, and how much a shadow changes on hover.</li>
             <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). It may need reinforcing: a stronger inset, or one rung deeper than rest.</li>

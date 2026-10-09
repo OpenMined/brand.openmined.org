@@ -9,8 +9,10 @@
  */
 import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import { doc, decisionsFor } from '../../lib/design';
+const prose = doc('patterns/prose');
 
 const foundation = doc('foundations/typography');
 const { Content } = foundation;
@@ -24,10 +26,80 @@ const LADDER = [
   { tag: 'h5', family: 'Inter', v1: 21, min: 18, vw: 1.62, max: 21, lh: 1.4 },
   { tag: 'h6', family: 'Inter', v1: 20, min: 16, vw: 1.54, max: 20, lh: 1.5 },
 ];
-const NAV: [string, string][] = [['families', 'Families'], ['scale', 'Heading scale'], ['how', 'Where it stands'], ['decisions', 'Decisions'], ['see', 'See it']];
+/** Text styles other than headings: v2 token where one exists, else the live site's value (openmined.org typography.css / base.css). */
+const STYLES: { name: string; spec: string; source: string; style: string; sample: string }[] = [
+  { name: 'Body', spec: 'Inter 400 · 1rem · lh 1.5 · --text-body', source: '--font-size-md', style: 'font-size:var(--font-size-md);line-height:1.5', sample: 'Researchers can answer questions about data they never see.' },
+  { name: 'Small', spec: 'Inter 400 · 0.875rem · lh 1.5', source: '--font-size-sm', style: 'font-size:var(--font-size-sm);line-height:1.5', sample: 'Supporting text: descriptions, captions, notes.' },
+  { name: 'Lead', spec: 'Inter 400 · 21px · lh 1.4 · muted', source: 'live .text-subtitle · no token yet', style: 'font-size:21px;line-height:1.4;color:var(--text-muted)', sample: 'An introduction that sits under a page title.' },
+  { name: 'Label', spec: 'Inter 500 · 1rem', source: '--font-size-md · forms', style: 'font-size:var(--font-size-md);font-weight:500;color:var(--text-headline)', sample: 'Email Address' },
+  { name: 'Caption', spec: 'Inter 500 · 11px', source: 'live .text-caption · no token yet', style: 'font-size:11px;font-weight:500', sample: 'Figure 1. Data stays with its owner.' },
+  { name: 'Eyebrow', spec: 'live: body text, no style of its own', source: 'live .text-eyebrow · open', style: 'font-size:var(--font-size-md)', sample: 'Federated learning' },
+  { name: 'Strong, emphasis', spec: 'Inter 600 · italic', source: 'element defaults', style: '', sample: '<b>Strong</b> and <em>emphasis</em> inside body text.' },
+  { name: 'Inline code', spec: 'Mono · 0.875em', source: 'element default', style: '', sample: 'Install with <code>pip install syft</code>.' },
+];
+const NAV: [string, string][] = [['sizes', 'Text sizes'], ['styles', 'Text styles'], ['prose', 'Prose'], ['families', 'Families'], ['scale', 'Heading scale'], ['how', 'Where it stands'], ['decisions', 'Decisions'], ['see', 'See it']];
 ---
 <Site title={foundation.title} description={foundation.description} current="typography">
-  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="no v2 type tokens yet" />
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="two v2 text sizes so far" />
+
+  <section class="band" id="sizes">
+    <div class="wrap">
+      <header class="sec"><h2>Text sizes</h2><p>The first v2 type tokens: the body size and a small size for supporting text, both regular weight by default. The full scale comes with the type round.</p><p class="status">Status: <b>exploring</b></p></header>
+      <div class="text-sizes">
+        <p style="font-size:var(--font-size-md)"><code>--font-size-md</code> · 1rem. Body text: reading text, form labels, values and options.</p>
+        <p style="font-size:var(--font-size-sm)"><code>--font-size-sm</code> · 0.875rem. Supporting text: form descriptions, captions, notes.</p>
+      </div>
+      <TokenTable names={foundation.tokens} />
+    </div>
+  </section>
+
+  <section class="band" id="styles">
+    <div class="wrap">
+      <header class="sec"><h2>Text styles</h2><p>The styles besides headings that pages need. Body and small use the v2 text sizes; the rest show the live site's values until the type round gives them tokens. Links are on the <a href="/interface/#links">Interface</a> page.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+          <table class="tbl text-styles">
+            <thead><tr><th>Style</th><th>Spec</th><th>From</th><th>Sample</th></tr></thead>
+            <tbody>{STYLES.map(t => <tr><td><b>{t.name}</b></td><td>{t.spec}</td><td><code>{t.source}</code></td><td class="text-styles__sample" style={t.style}><Fragment set:html={t.sample} /></td></tr>)}</tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="prose">
+    <div class="wrap">
+      <header class="sec"><h2>Prose</h2><p>{prose.description}</p><p class="status">Status: <b>{prose.status}</b> · rhythm ported from openmined.org</p></header>
+      <article class="card">
+        <div class="om-prose">
+          <h2>Data stays where it lives</h2>
+          <p>Most of the world's useful data can't be shared. It sits with hospitals, publishers and governments, behind good reasons: privacy, competition, law. <a href="#prose">Attribution-based control</a> lets a researcher ask a question of that data without ever seeing it.</p>
+          <p>The owner keeps the data. The researcher gets an answer, and a record of exactly which sources produced it.</p>
+          <h3>How a question travels</h3>
+          <p>A question goes out to every data owner that agreed to take part. Each one runs it locally and returns a result, never a row.</p>
+          <ul>
+            <li>The owner reviews the code before it runs.</li>
+            <li>Only the agreed result leaves the owner's servers.</li>
+            <li>Every answer is signed and logged.</li>
+          </ul>
+          <blockquote><p>“We could finally study the whole population, not the slice we were allowed to copy.”</p></blockquote>
+          <h4>What the owner sees</h4>
+          <p>Each request arrives with its code, its purpose and the researcher's identity. Run it with <code>syft.approve()</code> or decline it.</p>
+          <h5>A fifth-level heading</h5>
+          <p>Inter 600 in prose, where the display face would be too large.</p>
+          <h6>A sixth-level heading</h6>
+          <p>The smallest heading, still distinct from body text.</p>
+          <hr />
+          <p class="om-prose__small">Small text closes a section: a source, a note, a date. Updated 9 October 2026.</p>
+        </div>
+      </article>
+      <div class="notes"><div><ul>
+        <li><b>Ported:</b> the flow rhythm (16px between blocks), each heading's break (32 before and 24 after an h2; 24 before and 16 after h3–h6), stacked headings, the rule, list and quote treatment, and the live heading sizes.</li>
+        <li><b>Left in the website:</b> heading downsizing per post, the WordPress shims and the opt-in spacious sections.</li>
+        <li><b>Open for Bennett:</b> whether a minimal prose rhythm belongs in the brand at all. The type plan's lean is rhythm yes, the elaborate cascade no; this example shows that minimal version.</li>
+      </ul></div></div>
+    </div>
+  </section>
 
   <section class="band" id="families">
     <div class="wrap">

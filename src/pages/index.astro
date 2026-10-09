@@ -4,7 +4,7 @@
  * The v1 reference page lives at /v1/ until v2 is released.
  */
 import Site from '../layouts/Site.astro';
-import SystemDiagram from '../components/site/SystemDiagram.astro';
+import InfoDiagram from '../components/site/InfoDiagram.astro';
 import { doc } from '../lib/design';
 
 const overview = doc('overview');
@@ -26,7 +26,10 @@ const [before, after] = [overview.html.slice(0, cut), overview.html.slice(cut)];
   <section class="band">
     <div class="wrap wrap--read">
       <div class="prose" set:html={before} />
-      <SystemDiagram />
+      <figure class="sysfig">
+        <div class="sysfig__scroll"><InfoDiagram variant="v1" /></div>
+        <figcaption>The central source on the left; everything that reads it on the right. The dashed box is generated, never edited by hand. Parts labeled <em>planned</em> or <em>possible</em> don't exist yet. Drawn in the infographic style being tried in the <a href="/rounds/infographics/#v1">infographics round</a>: outlines on the outermost sections, surfaces inside.</figcaption>
+      </figure>
       <div class="prose" set:html={after} />
     </div>
   </section>
