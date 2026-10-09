@@ -12,7 +12,7 @@ The palette is called **Ink**. Every scale runs **50, 100–900, 950**, light to
 ## The scales
 
 - **Gray** is the same in both modes. Every surface, line and text color names one of its steps.
-- **Hues** shift slightly per mode: saturation ×1.10 in light, ×0.95 in dark, so a color that holds up on dark doesn't go dull on light. Lightness and hue don't change.
+- **Hues** shift slightly per mode: saturation ×1.10 in light, so a color that holds up on dark doesn't go dull on light. Dark takes the palette as it is (×1); until 9 Oct 2026 it was ×0.95, and the change is being tried. Lightness and hue don't change.
 - **One lightness ladder.** Every hue step except 400 and the key sits at the same lightness in every hue, so a role means the same contrast whatever the color.
 - **The key is 500.** It keeps each hue's own character, and it's the color graphics and chart marks use.
 - **New steps are provisional.** Gray 300–500 and hue 50, 400, 900 and 950 were added with the 50–950 series. Each is tuned in the round that first gives it a job.

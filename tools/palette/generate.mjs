@@ -6,7 +6,7 @@
  *
  *   tokens/base/gray.json      gray 50–950, white, black   (same in both modes)
  *   tokens/{light,dark}/hues.json      each hue 50–950, mode offset applied
- *   tokens/{light,dark}/gradient.json  the nine stops + the spectrum gradient
+ *   tokens/{light,dark}/gradient.json  the nine stops, extra stops, the spectrum and each graphic's list
  *   tokens/{light,dark}/shadows.json   the level ladder, cast in a gray step
  *
  * The output files are the source of truth; this script is the tool that
@@ -174,12 +174,26 @@ function gradientFile(mode) {
     }
     value.push({ color: `{gradient.${st.name}}`, position });
   });
+  // Extra stops: fitted like the others, available to graphics, never in the spectrum.
+  for (const st of IN.gradient.extra ?? []) {
+    const [hex, clipped] = saturate(st.hex, IN.saturation[mode]);
+    tokens[st.name] = colorToken({ hex, pinned: true, was: `fitted stop ${st.hex} × ${IN.saturation[mode]}`, clipped }, { $description: 'Extra stop: graphics only, not in the spectrum.' });
+    tokens[st.name].$extensions['org.openmined'].status = st.status ?? 'exploring';
+  }
+  // Lists: each graphic's own stops, in the order it uses them. An entry is a stop
+  // name (gradient.<name>) or a hue step (violet.400).
+  const lists = Object.fromEntries(Object.entries(IN.gradient.lists ?? {}).map(([name, l]) => {
+    const n = l.stops.length;
+    const v = l.stops.map((ref, i) => ({ color: ref.includes('.') ? `{${ref}}` : `{gradient.${ref}}`, position: r4(i / (n - 1)) }));
+    return [name, { $type: 'gradient', $value: v, $description: l._for, $extensions: { 'org.openmined': { status: l.status ?? 'exploring', generated: true } } }];
+  }));
   return {
-    $description: `The brand gradient, ${mode} mode: nine stops, family stops are hue keys. ${NOTE}`,
+    $description: `The brand gradient, ${mode} mode: nine stops, family stops are hue keys, plus graphics-only extra stops and each graphic's own list. ${NOTE}`,
     gradient: {
       $type: 'color',
       ...tokens,
       spectrum: { $type: 'gradient', $value: value, $description: 'The full brand arc, gold → yellow.', $extensions: { 'org.openmined': { status: 'working', generated: true } } },
+      ...lists,
     },
   };
 }

@@ -66,7 +66,7 @@ a:hover { text-decoration-color: currentColor; }
 .bar__title { font-family: var(--font-d); color: var(--text-headline); font-size: 1.05rem; text-decoration: none; }
 .bar__tag { font-size: 0.72rem; color: var(--text-muted); margin-right: auto; }
 .bar__nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-S); }
-.bar__link { padding: 5px 10px; border-radius: var(--border-radius-S); font-size: 0.82rem; font-weight: 500; color: var(--text-headline); text-decoration: none; }
+.bar__link { padding: 5px 10px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 500; color: var(--text-headline); text-decoration: none; }
 .bar__link:hover { background: var(--surface-sunken); }
 .bar__link[aria-current='page'] { background: var(--surface-sunken); }
 .bar__sep { width: 1px; align-self: stretch; background: var(--line); margin: 4px 2px; }
@@ -77,7 +77,7 @@ a:hover { text-decoration-color: currentColor; }
 .meta { font-size: 0.82rem; color: var(--text-muted); }
 .eyebrow {
   display: inline-flex; align-items: center; gap: var(--spacing-S);
-  padding: 6px 12px 6px 10px; border-radius: 999px;
+  padding: 6px 12px 6px 10px; border-radius: var(--radius-full);
   background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-headline); font-size: 0.8rem;
 }
@@ -102,11 +102,11 @@ a:hover { text-decoration-color: currentColor; }
 @media (max-width: 760px) { .grid--2, .grid--3 { grid-template-columns: 1fr; } }
 
 .card {
-  background: var(--surface-raise-1); border-radius: var(--border-radius-L);
+  background: var(--surface-raise-1); border-radius: var(--radius-lg);
   box-shadow: var(--shadow-raise-1); padding: var(--spacing-2XL);
   display: flex; flex-direction: column; gap: var(--spacing-L); min-width: 0;
 }
-.card--link { text-decoration: none; color: inherit; }
+.card--link { text-decoration: none; color: inherit; border-radius: var(--radius-md); }
 .card--link .card__h { display: flex; align-items: center; gap: 6px; }
 .card--link p { color: var(--text-muted); font-size: 0.88rem; }
 .card--link ion-icon { font-size: 13px; transition: transform 0.2s; }
@@ -166,15 +166,15 @@ a:hover { text-decoration-color: currentColor; }
 /* The four levels together — ported from the working page's .levels.
    The one outline on purpose: a base panel on a base page has no other
    edge, so the hairline is what makes the base level visible. */
-.levels { box-shadow: 0 0 0 1px var(--line); border-radius: var(--border-radius-L); padding: var(--spacing-XL); display: grid; gap: var(--spacing-L); }
+.levels { box-shadow: 0 0 0 1px var(--line); border-radius: var(--radius-lg); padding: var(--spacing-XL); display: grid; gap: var(--spacing-L); }
 .levels__base, .levels__tile { display: grid; gap: 4px; align-content: start; font-size: 0.85rem; color: var(--text-body); }
 .levels__base { padding: 4px 4px 0; }
 .levels__base code, .levels__tile code { font-size: 0.82rem; }
 .levels__hex { font-family: var(--font-m); font-size: 0.72rem; color: var(--text-muted); }
 .levels__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-L); }
 @media (max-width: 700px) { .levels__row { grid-template-columns: minmax(0, 1fr); } }
-.levels__tile { min-height: 96px; padding: 16px 18px; border-radius: var(--border-radius-S); }
-.levels__tile--sunken { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: 3px; }
+.levels__tile { min-height: 96px; padding: 16px 18px; border-radius: var(--radius-md); }
+.levels__tile--sunken { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
 .levels__tile--raise-1 { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
 .levels__tile--raise-2 { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
 :root:not([data-theme="dark"]) .only-dark { display: none; }
@@ -193,7 +193,7 @@ a:hover { text-decoration-color: currentColor; }
 /* ── Color and graphics specimens — ported from the color round and the
    working page (color/_color.css, _working.css). Never fade a swatch or
    its container: mute text only (review-phase rule). ───────────────── */
-.sw { height: 58px; border-radius: var(--border-radius-S); display: flex; align-items: flex-end; padding: 6px 8px; min-width: 0; }
+.sw { height: 58px; border-radius: var(--radius-md); display: flex; align-items: flex-end; padding: 6px 8px; min-width: 0; }
 .sw code { font-size: 0.66rem; color: inherit; }
 .spec-card { display: grid; gap: var(--spacing-L); }
 
@@ -214,26 +214,33 @@ a:hover { text-decoration-color: currentColor; }
 
 /* Role examples */
 .ex { display: inline-flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
-.ex__chip { display: inline-grid; place-items: center; width: 30px; height: 24px; border-radius: 3px; font-size: 0.7rem; font-weight: 600; }
+.ex__chip { display: inline-grid; place-items: center; width: 30px; height: 24px; border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 600; }
 .ex__txt { display: inline-grid; place-items: center; width: 30px; height: 24px; font-size: 0.9rem; font-weight: 600; }
-.chip { display: block; width: 100%; min-width: 36px; height: 22px; border-radius: 3px; }
+.chip { display: block; width: 100%; min-width: 36px; height: 22px; border-radius: var(--radius-sm); }
 .tbl--series td { padding: 6px 10px; vertical-align: middle; }
 .tbl--roles td { vertical-align: middle; }
 .tbl .bad { color: var(--danger-fg); font-weight: 600; }
 
 /* Status badges */
 .badges { display: flex; flex-wrap: wrap; gap: 6px; }
-.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 500; }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--radius-full); font-size: 0.78rem; font-weight: 500; }
 .badge i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+/* Quiet status chip (working favorite, status round 2026-10-09): no fill, a 1px
+   ring and text in the richest step at AA — fg (600) in light, 400 in dark. */
+.badge--outline { color: var(--c-fg); box-shadow: inset 0 0 0 1px var(--c-fg); }
+[data-theme="dark"] .badge--outline { color: var(--c-400); box-shadow: inset 0 0 0 1px var(--c-400); }
+.status-warn { font-size: 0.82rem; }
+.status-warn b { color: var(--danger-fg); }
 
 /* Gradient: the bar and its nine stops */
-.spec__bar { display: block; height: 14px; border-radius: 999px; background: var(--gradient-spectrum); }
+.spec__bar { display: block; height: 14px; border-radius: var(--radius-full); background: var(--gradient-spectrum); }
 .spec__stops { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 3px; }
 @media (max-width: 760px) { .spec__stops { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 6px; } }
 .spec__stops span { display: grid; gap: 2px; min-width: 0; }
-.spec__stops i { display: block; height: 58px; border-radius: 3px; margin-bottom: 6px; }
+.spec__stops i { display: block; height: 58px; border-radius: var(--radius-sm); margin-bottom: 6px; }
 .spec__stops b { font-size: 0.72rem; font-weight: 600; color: var(--text-headline); text-transform: capitalize; }
 .spec__stops code { font-size: 0.66rem; color: var(--text-muted); white-space: normal; }
+.spec__extra { display: grid; gap: var(--spacing-S); font-size: 0.82rem; }
 
 /* Round figures embedded on a page (the diagram round's mechanics) */
 .dex { margin: 0; display: grid; gap: var(--spacing-M); }
@@ -255,7 +262,7 @@ a:hover { text-decoration-color: currentColor; }
   display: inline-flex; align-items: center; gap: 8px;
   min-height: 48px; padding: 11px 19px;
   font: 500 1rem/1 var(--font-b); text-decoration: none; cursor: pointer;
-  border: 1px solid transparent; border-radius: var(--border-radius-S);
+  border: 1px solid transparent; border-radius: var(--radius-md);
   background: transparent; color: var(--text-headline);
   transition: background-color var(--transition-base), color var(--transition-base);
 }
@@ -272,14 +279,17 @@ a:hover { text-decoration-color: currentColor; }
 @media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
 .fld { display: grid; gap: var(--spacing-XS); align-content: start; }
 .fld--full { grid-column: 1 / -1; }
-.fld__label { font-size: 0.875rem; font-weight: 500; color: var(--text-headline); }
+/* Form text is one size (0.9375rem): labels, descriptions, values, placeholders,
+   options and errors. Spacing and weight separate them: the label is the one
+   heavier line (600); everything else is regular. */
+.fld__label { font-size: 0.9375rem; font-weight: 600; color: var(--text-headline); }
 .fld__req { color: var(--text-body); margin-left: 0.25em; }
-.fld__desc { font-size: 0.8125rem; line-height: 1.45; color: var(--text-body); }
+.fld__desc { font-size: 0.9375rem; line-height: 1.45; color: var(--text-body); }
 /* Field: flat until focus — the recess IS the focus state, so the UA ring goes */
 .ctl {
   display: block; width: 100%; margin: 0; border: none; font: inherit;
   background: var(--surface-sunken); color: var(--text-headline);
-  border-radius: var(--border-radius-S); padding: 0.7em 0.9em; font-size: 0.9375rem;
+  border-radius: var(--radius-md); padding: 0.7em 0.9em; font-size: 0.9375rem;
   box-shadow: none; transition: box-shadow var(--transition-base);
 }
 .ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); }
@@ -291,7 +301,7 @@ a:hover { text-decoration-color: currentColor; }
 .opt { display: flex; align-items: center; gap: var(--spacing-S); cursor: pointer; font-size: 0.9375rem; color: var(--text-body); }
 .opt__box {
   appearance: none; flex: none; position: relative; width: 18px; height: 18px; margin: 0; cursor: pointer;
-  border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--border-radius-XS);
+  border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--radius-sm);
 }
 .opt__box[type="radio"] { border-radius: 50%; }
 .opt__box:checked { background: var(--text-headline); }
@@ -308,13 +318,17 @@ a:hover { text-decoration-color: currentColor; }
 .opt__box[type="radio"]:checked::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-raise-1); }
 /* Toggle: a recess you operate, inset 3px */
 .switch { position: relative; width: 46px; height: 26px; flex: none; border: none; padding: 0; cursor: pointer;
-  border-radius: var(--border-radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
+  border-radius: var(--radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
 .switch[aria-checked="true"] { background: var(--text-headline); }
 .switch__knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-raise-1); transition: transform var(--transition-base); }
 .switch[aria-checked="true"] .switch__knob { transform: translateX(20px); }
-/* Error: a card one level above the form, not an outline — in the danger
-   status colors (the quiet pair: subtle background, fg text). */
-.fld__errs { list-style: none; padding: var(--spacing-S) var(--spacing-M); background: var(--danger-subtle); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-S); display: grid; gap: 2px; font-size: 0.85rem; color: var(--danger-fg); font-weight: 500; }
+/* Error: danger-colored text on whatever the form sits on — no box, no
+   outline (Bennett, 2026-10-08: colored boxes stacked on dark read muddy). */
+.fld__errs { list-style: none; display: grid; gap: 2px; font-size: 0.9375rem; color: var(--danger-fg); }
+/* Exploring: in dark, one step richer than danger-fg (red 300 → 400, 4.75:1 on
+   raise-2). Light keeps danger-fg (red 600), already the richest step at AA.
+   If it holds, this becomes a change to the fg role in dark, not a local step. */
+[data-theme="dark"] .fld__errs { color: var(--red-400); }
 
 /* ── Typography specimens: the website's fluid ladder, shown as-is ── */
 .ladder-type { display: grid; gap: var(--spacing-L); }
@@ -337,7 +351,7 @@ a:hover { text-decoration-color: currentColor; }
 /* The system diagram (reused from the infrastructure report) */
 /* Wider than the reading column it sits in, centered on it (as in the report). */
 .sysfig { display: grid; gap: 10px; margin-block: var(--spacing-L); margin-inline: min(0px, calc((100% - min(1040px, 100vw - 48px)) / 2)); }
-.sysscroll { overflow-x: auto; background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-L); padding: 16px; }
+.sysscroll { overflow-x: auto; background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--radius-lg); padding: 16px; }
 .sysscroll svg { display: block; width: 100%; min-width: 720px; height: auto; }
 .sysfig figcaption { font-size: 0.82rem; color: var(--text-muted); }
 
@@ -348,11 +362,14 @@ a:hover { text-decoration-color: currentColor; }
 .status-row__lab { font-size: 0.85rem; color: var(--text-muted); }
 
 /* Colorflow and gradient map stages (ported from the color round's hero and CTA band) */
-.flow-stage { border-radius: var(--border-radius-L); overflow: hidden; background: var(--surface-base); }
+.flow-stage { border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-base); }
 .flow-stage om-stream { display: block; width: 100%; }
-.mesh-stage { position: relative; min-height: 420px; display: grid; place-items: center; padding: var(--spacing-XL); border-radius: var(--border-radius-L); overflow: hidden; background: var(--surface-base); }
+.mesh-stage { position: relative; min-height: 420px; display: grid; place-items: center; padding: var(--spacing-XL); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-base); }
 .mesh-stage__bg { position: absolute; inset: 0; }
-.mesh-stage__card { position: relative; display: grid; gap: var(--spacing-M); justify-items: center; text-align: center; padding: var(--spacing-2XL); background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--border-radius-L); max-width: 360px; }
+.mesh-sat { display: grid; grid-template-columns: auto minmax(0, 240px) minmax(0, 1fr); gap: var(--spacing-L); align-items: center; font-size: 0.85rem; }
+@media (max-width: 700px) { .mesh-sat { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-S); } }
+.mesh-sat input { width: 100%; accent-color: var(--text-headline); }
+.mesh-stage__card { position: relative; display: grid; gap: var(--spacing-M); justify-items: center; text-align: center; padding: var(--spacing-2XL); background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); border-radius: var(--radius-md); max-width: 360px; }
 
 /* Decisions, minimized: a row per record, opening to the full text. Rows are
    separated by dividers (a list, not enclosed boxes). */
@@ -388,4 +405,27 @@ select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
 .fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
 textarea.ctl { resize: vertical; min-height: 5em; }
 .ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
-.ctl--file::file-selector-button { font: inherit; font-size: 0.875rem; cursor: pointer; margin-right: var(--spacing-M); padding: 0.45em 1em; border: none; border-radius: var(--border-radius-XS); background: var(--surface-raise-1); color: var(--text-headline); }
+.ctl--file::file-selector-button { font: inherit; font-size: 0.9375rem; cursor: pointer; margin-right: var(--spacing-M); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
+
+/* Corners (Surfaces page): a panel holding every corner size, and the outer
+   corner compared at candidate values. The inner tiles stay at md. */
+.corners { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--spacing-2XL); align-items: start; }
+@media (max-width: 900px) { .corners { grid-template-columns: minmax(0, 1fr); } }
+.corners__panel { display: grid; gap: var(--spacing-L); padding: var(--spacing-XL); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); border-radius: var(--radius-lg); }
+.corners__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-M); }
+.corners__tile { min-height: 64px; padding: 10px 12px; border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-body); }
+.corners__tile--sunken { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
+.corners__tile--raise { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+.corners__cap { font-size: 0.78rem; color: var(--text-muted); }
+.corners__sizes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-L); }
+@media (max-width: 600px) { .corners__sizes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.corners__opt { margin: 0; display: grid; gap: var(--spacing-S); }
+.corners__stage { height: 120px; display: grid; place-items: center; }
+.corners__shape { display: block; background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+.corners__shape--mark { width: 28px; height: 28px; }
+.corners__shape--tile { width: 72px; height: 56px; }
+.corners__shape--panel { width: 100%; height: 108px; }
+.corners__shape--pill { width: 88px; height: 32px; }
+.corners__opt figcaption { display: grid; gap: 2px; font-size: 0.75rem; color: var(--text-muted); }
+.corners__opt figcaption b { color: var(--text-headline); font-weight: 600; }
+.corners__opt figcaption em { font-style: normal; }

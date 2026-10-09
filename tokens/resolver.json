@@ -1,17 +1,20 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
-  "name": "OpenMined v2 color",
+  "name": "OpenMined v2 tokens",
   "version": "2025.10",
-  "description": "Resolves the v2 color tokens for a mode. The base set is the same in every mode; the theme modifier adds the mode's hues, gradient, shadows and roles.",
+  "description": "Resolves the v2 tokens for a mode. The base set is the same in every mode; the theme modifier adds the mode's hues, gradient, shadows and roles.",
   "sets": {
     "base": {
-      "description": "Same in every mode: gray, white, black, hue keys, chart series.",
+      "description": "Same in every mode: gray, white, black, hue keys, chart series, corner radius.",
       "sources": [
         {
           "$ref": "base/gray.json"
         },
         {
           "$ref": "base/keys.json"
+        },
+        {
+          "$ref": "base/radius.json"
         }
       ]
     }

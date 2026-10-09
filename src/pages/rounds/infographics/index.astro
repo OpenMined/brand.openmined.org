@@ -1,0 +1,127 @@
+---
+/**
+ * ROUND — Infographics (opened 2026-10-09, after the 2026-10-08 review with Bennett).
+ * Rev 2 (2026-10-09, after Kyle's review of rev 1): the original overview
+ * diagram, rebuilt in HTML on the system's own surfaces, in three treatments
+ * (./_Diagram.astro). Surfaces are the first tool; outlines and lines are the
+ * extra layer infographics get. Rev 1's three SVG directions (line hierarchy,
+ * color groups, plate) were dropped: too few containers to stay legible.
+ * Next: rebuild the Four Pillars deck's diagram in the chosen treatment.
+ */
+import Site from '../../../layouts/Site.astro';
+import SystemDiagram from '../../../components/site/SystemDiagram.astro';
+import Diagram from './_Diagram.astro';
+
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const NAV: [string, string][] = [['needs', 'What it needs'], ['v1', '1 · Outlines + surfaces'], ['v2', '2 · Outlines + color fills'], ['v3', '3 · Surfaces + lines'], ['before', 'Before'], ['open', 'Open']];
+
+/** Elements an infographic needs, from the two sources; what the system has; what each direction tries. */
+const NEEDS = [
+  ['Regions', 'The central source; the status band', 'Pillar zones as tinted panels', 'None: sections aren’t tinted, dividers only'],
+  ['Units', 'Values, guidance, each reader', 'Owners, the enclave, the registry, the user’s app', 'Cards on the surface levels (web)'],
+  ['Items in a unit', 'Token layers, file lists, reader bullets', 'Receipt rows, the user app’s checks', 'Lists split by dividers'],
+  ['Connectors', 'Points at, by reference, read by', 'Flow arrows between owners, enclave, registry, log', 'None'],
+  ['Line style as meaning', 'Dashed for generated and for planned', 'Solid = checked by hardware, dashed = taken on trust, with a legend', 'None'],
+  ['State tags', 'planned, possible', 'being built, fresh for each evaluation', 'Status chips (being compared in the status round)'],
+  ['Categories', 'Specs, judgment, reasoning as colored ticks', 'Green checks, gold for trust', 'Chart series and hue keys'],
+  ['Sequence', 'The status lifecycle', 'Parts 1 to 5, beats within a part', 'None'],
+  ['Emphasis', 'Working, filled', 'The enclave’s heavy white frame', 'One solid button per group'],
+  ['Type sizes', '5 sizes', 'About 25 sizes', 'None for graphics yet'],
+  ['Line widths', '2 widths', '8 widths (1–5px)', 'One: 1px dividers'],
+  ['Corners', '4 radii', '9 radii', 'sm, md, lg, full (new)'],
+];
+
+const VARIANTS = [
+  { id: 'v1', name: '1 · Outlines outside, surfaces inside',
+    lead: 'The outermost sections (the central source, the read-by column, the status band) are outlined. Inside, the surface system does the work: parts are raised cards, items one level higher, side notes recessed. Lines only for arrows.',
+    facts: [['Outermost', '1.5px outline, line-strong'], ['Inside', 'raise-1 parts, raise-2 items, sunken asides, with their shadows'], ['Lines', '1px arrows; dashed for generated'], ['Bends', 'Dividers only: outlines on the outer sections']] },
+  { id: 'v2', name: '2 · Outlines outside, color fills inside', 
+    lead: 'The same outlines. Each part inside takes its own quiet color fill instead of a surface or an outline: values teal, guidance violet, assets amber, built green, readers blue. Items inside a part are split by 1px rules in that hue.',
+    facts: [['Outermost', '1.5px outline, line-strong'], ['Inside', 'each part a hue’s subtle fill; no boxes inside'], ['Lines', '1px rules in the hue’s soft step; 1px arrows'], ['Bends', 'Dividers only; sections aren’t tinted; graphics use roles (subtle, soft) so fills follow the mode']] },
+  { id: 'v3', name: '3 · Surfaces outside, lines inside',
+    lead: 'The largest sections are raised panels with no outline. Inside, parts are separated by 1px lines, and values and guidance take a subtle fill so the two read apart. One line width throughout.',
+    facts: [['Outermost', 'raise-1 panels with their shadow'], ['Inside', '1px lines between parts and items; teal and violet subtle fills on values and guidance'], ['Lines', 'One width: 1px'], ['Bends', 'Dividers only, lightly: thin lines around the lower parts']] },
+];
+---
+<Site title="Infographics round" description="Directions for dense graphics, tested on the overview diagram.">
+  <section class="wrap hero">
+    <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 9 Oct 2026</span>
+    <h1>Infographics</h1>
+    <p class="lead">The system so far was set for web pages and graphics. Infographics, diagrams and charts carry far more information per square inch, so they get a layer of their own on top of that foundation, and some web rules bend there on purpose. Surfaces stay the first tool; outlines and lines are the extra layer only infographics get. Rev 2: the original overview diagram, rebuilt on the system’s own surfaces, in three treatments.</p>
+    <p class="status">Status: <b>exploring</b> · same content in each direction · toggle the mode to judge both, or pin one below</p>
+    <div class="actions info-pin" role="group" aria-label="Show the diagrams in">
+      <span class="muted">Show in</span>
+      <button type="button" class="btn js-pin" aria-pressed="true" data-pin="">Page mode</button>
+      <button type="button" class="btn js-pin" aria-pressed="false" data-pin="always-dark">Always dark</button>
+      <button type="button" class="btn js-pin" aria-pressed="false" data-pin="always-light">Always light</button>
+    </div>
+    <nav class="page-nav" aria-label="On this page">{NAV.map(([id, t]) => <a href={`#${id}`}>{t}</a>)}</nav>
+  </section>
+
+  <section class="band" id="needs">
+    <div class="wrap">
+      <header class="sec"><h2>What an infographic needs</h2><p>The elements the overview diagram and the Four Pillars deck (a team-made demo-day presentation, 8 Oct) both use, what the system has for each today, and what the directions try. The deck took the brand’s fonts and grays and invented everything else: about 25 type sizes, 8 line widths, 9 corner radii.</p></header>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Element</th><th>Overview diagram</th><th>Four Pillars deck</th><th>In the system today</th></tr></thead>
+          <tbody>{NEEDS.map(r => <tr><td><b>{r[0]}</b></td>{r.slice(1).map(c => <td>{c}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
+      <p class="muted info-shared">Shared by all three: the original’s content and layout; type in three sizes (15 titles, 13 body, 11.5 labels); lines in two widths at most (1.5px outlines, 1px lines and arrows); dashed for generated, as in the original; corners <code>--radius-lg</code> on outer sections, <code>--radius-md</code> inside. Rev 1 (three SVG directions: line hierarchy, color groups, plate) was dropped: too few containers to stay legible, and none used the surfaces.</p>
+    </div>
+  </section>
+
+  {VARIANTS.map(d => (
+    <section class="band" id={d.id}>
+      <div class="wrap">
+        <header class="sec"><h2>{d.name}</h2><p>{d.lead}</p></header>
+        <dl class="info-facts">{d.facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <figure class="info-fig js-fig"><div class="info-scroll"><Diagram variant={d.id as 'v1' | 'v2' | 'v3'} /></div></figure>
+      </div>
+    </section>
+  ))}
+
+  <section class="band" id="before">
+    <div class="wrap">
+      <header class="sec"><h2>Before</h2><p>The diagram on the overview today, from the infrastructure report: gray boxes stacked on gray boxes, outlines at every level, and it doesn’t follow the system’s own rules.</p></header>
+      <SystemDiagram />
+    </div>
+  </section>
+
+  <section class="band" id="open">
+    <div class="wrap">
+      <header class="sec"><h2>Open</h2></header>
+      <div class="notes"><div><ul>
+        <li>Which treatment, or which parts of each, to carry into the Four Pillars rebuild (next: the deck’s diagram redrawn from its own content).</li>
+        <li>How the outline rule reads for infographics: outlines on the outermost sections only (1, 2), or none, with lines inside (3).</li>
+        <li>Color fills for sections (2, and lightly 3): which hues, and how that sits with <em>sections aren’t tinted</em> and the graphics rule that graphics use fixed steps (fills here use the subtle role so they follow the mode).</li>
+        <li>Whether dense graphics pin a mode (the deck is dark-only) or follow the page.</li>
+        <li>Type for graphics: are three sizes enough for a full deck slide?</li>
+        <li>Content, held for later: “Removed” isn’t one of the four statuses, and this site is the one reader that is already built.</li>
+      </ul></div></div>
+    </div>
+  </section>
+</Site>
+
+<style is:global>
+  .info-pin { gap: var(--spacing-S); }
+  .info-pin .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
+  .info-pin .btn[aria-pressed="true"] { background: var(--surface-sunken); }
+  .info-shared { font-size: 0.85rem; max-width: 60em; }
+  .info-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-L); font-size: 0.85rem; line-height: 1.5; }
+  @media (max-width: 900px) { .info-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .info-facts dt { font-size: 0.72rem; color: var(--text-muted); }
+  .info-facts dd { margin: 0; color: var(--text-body); }
+  /* The figure sits on the page itself: no card behind it. A pinned mode paints
+     its own ground (site.css [data-section]), so the figure gets padding then. */
+  .info-fig { margin: 0; border-radius: var(--radius-lg); }
+  .info-fig[data-section] { padding: var(--spacing-XL); }
+  .info-scroll { overflow-x: auto; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.js-pin').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll<HTMLElement>('.js-fig').forEach(f => (b.dataset.pin ? f.setAttribute('data-section', b.dataset.pin) : f.removeAttribute('data-section')));
+    document.querySelectorAll('.js-pin').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+</script>

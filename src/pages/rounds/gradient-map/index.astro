@@ -1,0 +1,108 @@
+---
+/**
+ * ROUND — Gradient map colors (opened 2026-10-09). The gradient map gets its own
+ * color list instead of the spectrum's order, tuned to the live site's CTA raster
+ * it was rebuilt from. Bennett, 2026-10-08: "red on the left is too red and blue
+ * area too heavy". Same embed settings in every panel; only the colors change.
+ * The proposal is the token (`gradient.map`, tools/palette/inputs.json); the
+ * alternatives are lists of existing tokens, so nothing here is a loose value.
+ */
+import Site from '../../../layouts/Site.astro';
+import { listStops } from '../../../lib/tokens';
+
+const PARAMS = 'mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6"';
+const g = (...names: string[]) => names.map(n => (n.includes('-') ? n : `gradient-${n}`)).join(',');
+const POINTS = 'Point order: top, top left, left, bottom-left corner, bottom left, bottom middle, bottom right, right.';
+
+const PANELS = [
+  { k: 'before', name: 'Before', note: 'The spectrum’s order: red on the left, blue at the bottom left.', follow: g('gold', 'orange', 'red', 'violet', 'blue', 'teal', 'green', 'lime') },
+  { k: 'map', name: 'Proposed: --gradient-map', note: 'Magenta on the left; violet takes blue’s point, so no blue. The token as it stands.', follow: listStops('map') },
+  { k: 'magenta', name: 'More magenta', note: 'Magenta at both left points; violet only in the corner. Closest to the raster’s left edge.', follow: g('gold', 'orange', 'magenta', 'violet', 'magenta', 'teal', 'green', 'lime') },
+  { k: 'lavender', name: 'Lighter lavender', note: 'Blue’s point takes violet 400, a lighter, softer violet, for the raster’s muted lavender corner.', follow: g('gold', 'orange', 'magenta', 'violet', 'violet-400', 'teal', 'green', 'lime') },
+];
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+---
+<Site title="Gradient map round" description="The gradient map's own colors, tuned to the live site's raster.">
+  <section class="wrap hero">
+    <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 9 Oct 2026</span>
+    <h1>Gradient map colors</h1>
+    <p class="lead">Each atmospheric graphic gets its own list of colors from the palette instead of the spectrum’s order. The gradient map is first, tuned to the live site’s CTA raster. Bennett, 8 Oct: “red on the left is too red, and the blue area too heavy.”</p>
+    <p class="status">Status: <b>exploring</b> · same embed settings in every panel · {POINTS} Whether the palette’s red itself moves toward magenta is a separate, later decision.</p>
+    <label class="mesh-sat">
+      <span>Saturation <b class="js-sat-out">1.10</b></span>
+      <input class="js-sat" type="range" min="1" max="1.8" step="0.05" value="1.1" aria-label="Saturation of every map" />
+      <span class="muted">Applies to every map below. 1 is the map without the boost.</span>
+    </label>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="gm-grid">
+        <figure class="gm-panel">
+          <div class="gm-stage gm-stage--raster"><img src="https://openmined.org/images/cta-gradient-bg.png" alt="The live site's CTA gradient raster" /></div>
+          <figcaption><b>Live site raster</b><span>The reference: coral top left, magenta down the left, a little lavender in the corner, teal along the bottom, lime on the right. Fixed; it doesn’t change with the mode.</span></figcaption>
+        </figure>
+        {PANELS.map(p => (
+          <figure class="gm-panel">
+            <div class="gm-stage"><om-mesh class="gm-mesh" aria-hidden="true" data-follow={p.follow} data-follow-haze="surface-base" saturation="1.1" data-params={PARAMS}></om-mesh></div>
+            <figcaption><b>{p.name}</b><span>{p.note}</span><code>{p.follow.replaceAll('gradient-', '').replaceAll(',', ' · ')}</code></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <header class="sec"><h2>Open</h2></header>
+      <div class="notes"><div><ul>
+        <li>Which list becomes <code>--gradient-map</code>.</li>
+        <li>The magenta stop’s value, sampled from the raster (<code>#b83e7c</code>, then the light mode’s ×1.1). It’s a graphics-only stop, outside the spectrum.</li>
+        <li>The saturation level, now that the colors are closer to the raster.</li>
+        <li>The diamond (<code>&lt;om-diamond&gt;</code>) gets its own list the same way once it moves to v2 colors; on the live hero it reads magenta for the same reason.</li>
+      </ul></div></div>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/graphics/#motion"><h3 class="card__h">Graphics: the map in use <Fragment set:html={ARR} /></h3><p>The gradient map on its page, reading <code>--gradient-map</code>.</p></a>
+        <a class="card card--link" href="/graphics/#gradient"><h3 class="card__h">Gradient and extra stops <Fragment set:html={ARR} /></h3><p>The spectrum, and magenta as a graphics-only stop.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+  <script is:inline>
+    (() => {
+      const h = document.documentElement;
+      // Every panel shares one set of embed settings.
+      document.querySelectorAll('[data-params]').forEach(el => {
+        el.dataset.params.split(' ').forEach(kv => { const [k, v] = kv.split('='); el.setAttribute(k, v.replace(/"/g, '')); });
+      });
+      const sync = () => {
+        const cs = getComputedStyle(h);
+        const read = v => cs.getPropertyValue(`--${v}`).trim();
+        document.querySelectorAll('[data-follow]').forEach(el => {
+          el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
+          if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
+        });
+      };
+      sync();
+      new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
+      const input = document.querySelector('.js-sat'), out = document.querySelector('.js-sat-out');
+      input.addEventListener('input', () => {
+        document.querySelectorAll('.gm-mesh').forEach(m => m.setAttribute('saturation', input.value));
+        out.textContent = (+input.value).toFixed(2);
+      });
+    })();
+  </script>
+</Site>
+
+<style is:global>
+  .gm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2XL); }
+  @media (max-width: 800px) { .gm-grid { grid-template-columns: minmax(0, 1fr); } }
+  .gm-panel { margin: 0; display: grid; gap: var(--spacing-M); }
+  .gm-stage { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); overflow: hidden; background: var(--surface-base); }
+  .gm-stage om-mesh, .gm-stage img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .gm-stage img { object-fit: cover; }
+  .gm-panel figcaption { display: grid; gap: 4px; font-size: 0.85rem; line-height: 1.5; }
+  .gm-panel figcaption span { color: var(--text-body); }
+  .gm-panel figcaption code { font-size: 0.75rem; color: var(--text-muted); }
+</style>

@@ -33,6 +33,13 @@ const rolesAt = (m: Mode, s: string) => HUE_ROLES.filter(r => stepOf(m, `blue-${
 const statusOf = (h: string) => Object.entries(STATUS).filter(([, v]) => v === h).map(([k]) => k);
 
 const SURF = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surface-raise-2'];
+/* Status chips (working favorites from the status round, 2026-10-09): contrast, worst case. */
+const GROUNDS3 = ['surface-base', 'surface-raise-1', 'surface-raise-2'];
+const STRONG_LOW = Object.fromEntries(MODES.map(m => [m, Object.entries(STATUS)
+  .map(([s, h]) => [s, contrast(hex(m, 'white'), hex(m, `${h}-key`))] as const).filter(([, c]) => c < 4.5)
+  .map(([s, c]) => `${c.toFixed(1)}:1 on ${s}`).join(' and ') || 'none'])) as Record<Mode, string>;
+const QUIET_MIN = Object.fromEntries(MODES.map(m => [m, Math.min(...Object.entries(STATUS).flatMap(([s, h]) =>
+  GROUNDS3.map(g => contrast(hex(m, m === 'dark' ? `${h}-400` : `${s}-fg`), hex(m, g))))).toFixed(1) + ':1'])) as Record<Mode, string>;
 const TEXT = ['text-headline', 'text-body', 'text-muted'];
 const LINES = ['line', 'line-strong'];
 const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
@@ -114,15 +121,17 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       </article>
       <article class="card">
         <h3>Status</h3>
+        <p class="muted">Options for both chips are being compared in the <a href="/rounds/status/">status chips round</a>.</p>
         <div class="status-rows">
           <div class="status-row">
-            <span class="status-row__lab"><b>Quiet</b> <code>subtle</code> + <code>fg</code></span>
-            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge" style={`background:var(--${s}-subtle);color:var(--${s}-fg)`}><i></i>{s} · {h}</span>)}</div>
+            <span class="status-row__lab"><b>Quiet</b> outline, no fill<br />ring and text: <code>fg</code> light, step 400 dark</span>
+            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge badge--outline" style={`--c-fg:var(--${s}-fg);--c-400:var(--${h}-400)`}>{s} · {h}</span>)}</div>
           </div>
           <div class="status-row">
-            <span class="status-row__lab"><b>Strong</b> <code>solid</code> + <code>on</code></span>
-            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge" style={`background:var(--${s}-solid);color:var(--${s}-on)`}>{s} · {h}</span>)}</div>
+            <span class="status-row__lab"><b>Strong</b> key fill<br /><code>key</code> + white</span>
+            <div class="badges">{Object.entries(STATUS).map(([s, h]) => <span class="badge" style={`background:var(--${h}-key);color:var(--white)`}>{s} · {h}</span>)}</div>
           </div>
+          <p class="muted status-warn"><b>Under AA.</b> White on the key reaches {MODES.map(m => <span class={`only-${m}`}>{STRONG_LOW[m]}</span>)}, below 4.5:1. Kept as the working favorite for review; Bennett decides. Quiet text: {MODES.map(m => <span class={`only-${m}`}>{QUIET_MIN[m]}</span>)} at worst.</p>
         </div>
       </article>
     </div>
@@ -203,7 +212,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
     <div class="wrap">
       <header class="sec"><h2>See it</h2><p>The review rounds behind these values.</p></header>
       <div class="grid grid--3">
-        <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all"><h3 class="card__h">Color round <Fragment set:html={ARR} /></h3><p>Palettes compared on a mock page, charts, interface and graphics. Set to Ink.</p></a>
+        <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all"><h3 class="card__h">Color round <Fragment set:html={ARR} /></h3><p>Palettes compared on a mock page, charts, interface and graphics. Set to Ink.</p></a>
         <a class="card card--link" href="/rounds/spectrum/"><h3 class="card__h">Spectrum round <Fragment set:html={ARR} /></h3><p>The approved 50–950 series and how the old steps map onto it.</p></a>
         <a class="card card--link" href="/rounds/naming/"><h3 class="card__h">Naming round <Fragment set:html={ARR} /></h3><p>How many grays, and what to call them.</p></a>
       </div>

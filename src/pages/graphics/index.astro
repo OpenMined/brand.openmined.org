@@ -13,7 +13,7 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import FigA from '../rounds/diagrams/_a/Fig1.astro';
 import { ALIASES_CSS } from '../rounds/_working';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { MODES, HUES, GRADIENT_STOPS, hex, target } from '../../lib/tokens';
+import { MODES, HUES, GRADIENT_STOPS, EXTRA_STOPS, hex, target, listStops } from '../../lib/tokens';
 
 const foundation = doc('foundations/gradient');
 const { Content } = foundation;
@@ -44,6 +44,20 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
             </span>
           ))}
         </div>
+        {EXTRA_STOPS.length > 0 && (
+          <div class="spec__extra">
+            <p class="muted">Extra stops, for graphics only: not in the spectrum, used by a graphic's own list.</p>
+            <div class="spec__stops">
+              {EXTRA_STOPS.map((n: string) => (
+                <span>
+                  <i style={`background:var(--gradient-${n})`}></i>
+                  <b>{n}</b>
+                  {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />fitted · exploring</code>)}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </article>
     </div>
   </section>
@@ -70,22 +84,27 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       <header class="sec"><h2>Colorflow and gradient map</h2><p>The two animated graphics built on the gradient, ported from the color round. Both read the v2 gradient stops on this page, so they follow the palette and the color mode.</p></header>
       <article class="card">
         <h3>Colorflow <code>&lt;om-stream&gt;</code></h3>
-        <p class="muted">A ribbon in six of the gradient's stops (red, gold, violet, blue, teal, green), the order the site's home hero uses.</p>
+        <p class="muted">A ribbon in six of the gradient's stops, its own list <code>--gradient-flow</code> (red, gold, violet, blue, teal, green): the order the site's home hero uses.</p>
         <div class="flow-stage" aria-hidden="true">
-          <om-stream aspect-ratio="2" data-follow="gradient-red,gradient-gold,gradient-violet,gradient-blue,gradient-teal,gradient-green"></om-stream>
+          <om-stream aspect-ratio="2" data-follow={listStops('flow')}></om-stream>
         </div>
       </article>
       <article class="card">
         <h3>Gradient map <code>&lt;om-mesh&gt;</code></h3>
-        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight stops, gold to lime, ringing the box and blending toward the center, in the color round's "Clouds" setting. It fades toward the page background.</p>
+        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight points ringing the box and blending toward the center, in the color round's "Clouds" setting. Its colors are its own list, <code>--gradient-map</code>: magenta on the left and no blue, as in the live raster. Being compared in the <a href="/rounds/gradient-map/">gradient map round</a>.</p>
         <div class="mesh-stage">
-          <om-mesh class="mesh-stage__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" data-follow="gradient-gold,gradient-orange,gradient-red,gradient-violet,gradient-blue,gradient-teal,gradient-green,gradient-lime" data-follow-haze="surface-base"></om-mesh>
+          <om-mesh class="mesh-stage__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
           <div class="mesh-stage__card">
             <h3>Talk to Our Team</h3>
             <p class="muted">Find out more about OpenMined</p>
             <span class="btn btn--solid">Request a Conversation</span>
           </div>
         </div>
+        <label class="mesh-sat">
+          <span>Saturation <b class="js-sat-out">1.10</b></span>
+          <input class="js-sat" type="range" min="1" max="1.8" step="0.05" value="1.1" aria-label="Gradient map saturation" />
+          <span class="muted">Exploring. Blending eight hues pulls the field toward gray; this gives the chroma back (OKLab, lightness and hue kept). 1 is the map as it was.</span>
+        </label>
       </article>
     </div>
   </section>
@@ -117,7 +136,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         </article>
         <article class="card">
           <h3>Embeds</h3>
-          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components. Shown live on the <a href="/v1/">v1 reference</a> and in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all&md=0_0.95_0_all">color round</a>.</p>
+          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components. Shown live on the <a href="/v1/">v1 reference</a> and in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all">color round</a>.</p>
         </article>
       </div>
     </div>
@@ -178,6 +197,12 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
       };
       sync();
       new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
+    })();
+    // Gradient map saturation slider (exploring)
+    (() => {
+      const input = document.querySelector('.js-sat'), out = document.querySelector('.js-sat-out'), mesh = document.querySelector('.mesh-stage om-mesh');
+      if (!input || !mesh) return;
+      input.addEventListener('input', () => { mesh.setAttribute('saturation', input.value); out.textContent = (+input.value).toFixed(2); });
     })();
   </script>
 </Site>

@@ -1,0 +1,152 @@
+---
+/**
+ * ROUND — Status chips (opened 2026-10-09, after the 2026-10-08 review with Bennett).
+ * Options for the strong and quiet status chips, on the three grounds a chip sits
+ * on, in the current mode. Only the chip changes; nothing here is decided.
+ * Every color is a v2 token: hue primitives are passed to each chip as local
+ * custom properties, so one class per option works for every status and mode.
+ * Contrast is computed from the build (src/lib/tokens.ts).
+ */
+import Site from '../../../layouts/Site.astro';
+import { STATUS, hex, contrast, type Mode, MODES } from '../../../lib/tokens';
+
+const GROUNDS = [
+  { t: 'base', label: 'On the page (base)' },
+  { t: 'raise-1', label: 'On a card (raise-1)' },
+  { t: 'raise-2', label: 'On a card in a panel (raise-2)' },
+];
+/** The local custom properties each chip reads: its status's roles and hue steps. */
+const vars = (s: string, h: string) =>
+  [`--c-sub:var(--${s}-subtle)`, `--c-fg:var(--${s}-fg)`, `--c-key:var(--${h}-key)`, `--c-solid:var(--${s}-solid)`, `--c-on:var(--${s}-on)`,
+   ...['200', '400', '500', '600', '700'].map(n => `--c-${n}:var(--${h}-${n})`)].join(';');
+
+/** Text and fill per option and mode, as token names, for the contrast readout. null fill = the ground. */
+type Pair = (m: Mode, s: string, h: string) => { text: string; fill: string | null };
+const minContrast = (pair: Pair) => Object.fromEntries(MODES.map(m => {
+  const vals = Object.entries(STATUS).flatMap(([s, h]) => {
+    const { text, fill } = pair(m, s, h);
+    const grounds = fill ? [fill] : GROUNDS.map(g => `surface-${g.t}`);
+    return grounds.map(g => contrast(hex(m, text), hex(m, g)));
+  });
+  return [m, Math.min(...vals)];
+})) as Record<Mode, number>;
+
+const STRONG = [
+  { k: 's0', name: 'Current', note: 'solid + on. Light fills at 600 with white text; dark fills at 300 with dark text, the pastel look.',
+    pair: ((m, s) => ({ text: `${s}-on`, fill: `${s}-solid` })) as Pair },
+  { k: 's1', name: 'Full color, both modes', note: 'The 600 step with white text in both modes. Dark mode loses the pastel fill; light is unchanged.',
+    pair: ((m, s, h) => ({ text: 'white', fill: `${h}-600` })) as Pair },
+  { k: 's2', name: 'Key fill', note: 'The 500 key with white text: the punchiest fill. White reaches only 3.8:1 on green and amber.',
+    pair: ((m, s, h) => ({ text: 'white', fill: `${h}-500` })) as Pair },
+].map(o => ({ ...o, min: minContrast(o.pair) }));
+
+const QUIET = [
+  { k: 'q0', name: 'Current', note: 'subtle fill + fg text. On raised cards in dark mode the 800 fill sinks into the surface; in light the 100 fill reads pastel.',
+    pair: ((m, s) => ({ text: `${s}-fg`, fill: `${s}-subtle` })) as Pair },
+  { k: 'q1', name: 'Deeper fill', note: 'One step stronger each way: dark fills at 700 with 200 text; light fills at 200 with 700 text.',
+    pair: ((m, s, h) => (m === 'dark' ? { text: `${h}-200`, fill: `${h}-700` } : { text: `${h}-700`, fill: `${h}-200` })) as Pair },
+  { k: 'q2', name: 'Outline', note: 'No fill. A 1px ring and the text in the richest step that passes AA: 600 in light (the fg step), 400 in dark (one step richer than fg’s 300).',
+    pair: ((m, s, h) => ({ text: m === 'dark' ? `${h}-400` : `${s}-fg`, fill: null })) as Pair },
+  { k: 'q3', name: 'Outline and dot', note: 'No fill. The ring and the dot both in the key, body text. In dark the red and blue rings are under 3:1 against the card; the text carries the label.',
+    pair: (() => ({ text: 'text-body', fill: null })) as Pair },
+].map(o => ({ ...o, min: minContrast(o.pair) }));
+
+const fmt = (n: number) => `${n.toFixed(1)}:1`;
+const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+---
+<Site title="Status chips round" description="Options for the strong and quiet status chips, on the grounds they sit on.">
+  <section class="wrap hero">
+    <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 9 Oct 2026</span>
+    <h1>Status chips</h1>
+    <p class="lead">Options for the two status chips; the strong ones are for Bennett’s review. Bennett, 8 Oct: the strong chips should be a fuller color; the quiet ones muddy out on raised cards in dark mode and read pastel in light. Try an outline, maybe with a dot of color.</p>
+    <p class="status">Status: <b>exploring</b> · toggle the mode to judge both · contrast is the lowest text contrast across the four statuses and the three grounds</p>
+    <div class="actions chips-shape" role="group" aria-label="Chip shape">
+      <span class="muted">Shape</span>
+      <button type="button" class="btn js-shape" aria-pressed="true" data-shape="pill">Pill (full)</button>
+      <button type="button" class="btn js-shape" aria-pressed="false" data-shape="sharp">Squared (sm, 4px)</button>
+    </div>
+  </section>
+
+  {[{ id: 'strong', h: 'Strong', p: 'A fill carrying a label. Used sparingly: one per row or card.', opts: STRONG },
+    { id: 'quiet', h: 'Quiet', p: 'The everyday chip: tables, lists, metadata.', opts: QUIET }].map(group => (
+    <section class="band" id={group.id}>
+      <div class="wrap">
+        <header class="sec"><h2>{group.h}</h2><p>{group.p}</p></header>
+        <div class="chip-opts">
+          {group.opts.map(o => (
+            <article class="chip-opt">
+              <div class="chip-opt__head">
+                <h3>{o.name}</h3>
+                <p>{o.note}</p>
+                <p class="chip-opt__cr">Contrast <span class="only-light">{fmt(o.min.light)}</span><span class="only-dark">{fmt(o.min.dark)}</span>{MODES.map(m => o.min[m] < 4.5 && <b class={`bad only-${m}`}> · under 4.5:1</b>)}</p>
+              </div>
+              <div class="chip-grounds">
+                {GROUNDS.map(g => (
+                  <div class={`chip-ground chip-ground--${g.t}`}>
+                    <span class="chip-ground__lab">{g.label}</span>
+                    <div class="badges">
+                      {Object.entries(STATUS).map(([s, h]) => (
+                        <span class={`schip schip--${o.k}`} style={vars(s, h)}>{o.k === 'q3' && <i></i>}{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="band" id="see">
+    <div class="wrap">
+      <header class="sec"><h2>See it</h2></header>
+      <div class="grid grid--2">
+        <a class="card card--link" href="/color/#role-examples"><h3 class="card__h">Color: status today <Fragment set:html={ARR} /></h3><p>The current chips and the roles they use.</p></a>
+        <a class="card card--link" href="/color/#rules"><h3 class="card__h">One label color per step <Fragment set:html={ARR} /></h3><p>One label color per step in every hue; the key fill keeps it (white on all four).</p></a>
+      </div>
+    </div>
+  </section>
+</Site>
+
+<style is:global>
+  .chips-shape { gap: var(--spacing-S); }
+  .chips-shape .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
+  .chips-shape .btn[aria-pressed="true"] { background: var(--surface-sunken); }
+  .chip-opts { display: grid; gap: var(--spacing-3XL); }
+  .chip-opt { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 5fr); gap: var(--spacing-2XL); align-items: start; }
+  @media (max-width: 900px) { .chip-opt { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-M); } }
+  .chip-opt__head { display: grid; gap: 4px; font-size: 0.86rem; line-height: 1.5; }
+  .chip-opt__cr { color: var(--text-muted); font-size: 0.8rem; }
+  .chip-opt__cr .bad { color: var(--danger-fg); font-weight: 600; }
+  .chip-grounds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-M); }
+  @media (max-width: 700px) { .chip-grounds { grid-template-columns: minmax(0, 1fr); } }
+  .chip-ground { display: grid; gap: var(--spacing-S); padding: var(--spacing-L); border-radius: var(--radius-md); }
+  /* The base ground is the page itself: no box, so its edge is the hairline the
+     dividers-only rule allows for surface examples. */
+  .chip-ground--base { box-shadow: 0 0 0 1px var(--line); }
+  .chip-ground--raise-1 { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .chip-ground--raise-2 { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+  .chip-ground__lab { font-size: 0.72rem; color: var(--text-muted); }
+
+  .schip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; font-size: 0.78rem; font-weight: 500; line-height: 1.4; border-radius: var(--radius-full); }
+  .is-sharp .schip { border-radius: var(--radius-sm); }
+  .schip i { width: 7px; height: 7px; border-radius: 50%; background: var(--c-key); flex: none; }
+  .schip--s0 { background: var(--c-solid); color: var(--c-on); }
+  .schip--s1 { background: var(--c-600); color: var(--white); }
+  .schip--s2 { background: var(--c-500); color: var(--white); }
+  .schip--q0 { background: var(--c-sub); color: var(--c-fg); }
+  .schip--q1 { background: var(--c-200); color: var(--c-700); }
+  [data-theme="dark"] .schip--q1 { background: var(--c-700); color: var(--c-200); }
+  .schip--q2 { color: var(--c-fg); box-shadow: inset 0 0 0 1px var(--c-fg); }
+  [data-theme="dark"] .schip--q2 { color: var(--c-400); box-shadow: inset 0 0 0 1px var(--c-400); }
+  .schip--q3 { color: var(--text-body); box-shadow: inset 0 0 0 1px var(--c-key); padding-left: 8px; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.js-shape').forEach(b => b.addEventListener('click', () => {
+    document.body.classList.toggle('is-sharp', b.dataset.shape === 'sharp');
+    document.querySelectorAll('.js-shape').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  }));
+</script>

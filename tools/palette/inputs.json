@@ -2,8 +2,8 @@
   "_about": "Inputs to tools/palette/generate.mjs. Pinned values are agreed colors, copied once (2026-10-07) from brand-v2-working: gray from src/pages/rounds/_working.ts GRAY (the surfaces round's display-adjusted values), hues from src/pages/rounds/color/_palettes.json palette 'ink' (written by brand-v2-lab generate.py). Edit here, then regenerate; never edit tokens/ generated files by hand.",
   "saturation": {
     "light": 1.1,
-    "dark": 0.95,
-    "_note": "Per-mode chroma factor on every hue step and fitted gradient stop (color round, 2026-09-25). Gray takes no offset."
+    "dark": 1,
+    "_note": "Per-mode chroma factor on every hue step and fitted gradient stop (color round, 2026-09-25). Gray takes no offset. Dark was 0.95 until 2026-10-09; set to 1 (no desaturation) to try a less muted dark mode (Bennett, 2026-10-08), exploring."
   },
   "white": "#ffffff",
   "black": "#000000",
@@ -315,7 +315,43 @@
         "hex": "#f3e6a5"
       }
     ],
-    "_note": "Family stops are the hue's key; fitted stops (no family) carry their own base value and take the saturation offset."
+    "_note": "Family stops are the hue's key; fitted stops (no family) carry their own base value and take the saturation offset. Extra stops are tokens for graphics but stay out of the spectrum. Lists are each graphic's own stops, in the order that graphic uses them; generated as gradient tokens (gradient.flow, gradient.map).",
+    "extra": [
+      {
+        "name": "magenta",
+        "hex": "#b83e7c",
+        "status": "exploring",
+        "_from": "Graphics-only stop, not in the spectrum. Sampled from the live site's CTA raster, left side (openmined.org/images/cta-gradient-bg.png, 2026-10-09: #b83e7c, OKLCH H353 C.168 L55). v1's rose red and orchid violet blended into it; v2's red (H24) and violet (H300) leave an 84° gap. Whether the palette red moves toward it is a later decision."
+      }
+    ],
+    "lists": {
+      "flow": {
+        "stops": [
+          "red",
+          "gold",
+          "violet",
+          "blue",
+          "teal",
+          "green"
+        ],
+        "status": "working",
+        "_for": "The colorflow (<om-stream>): six stops in the order the site's home hero uses."
+      },
+      "map": {
+        "stops": [
+          "gold",
+          "orange",
+          "magenta",
+          "violet",
+          "violet",
+          "teal",
+          "green",
+          "lime"
+        ],
+        "status": "exploring",
+        "_for": "The gradient map (<om-mesh>): one color per point, in the embed's point order (top, top left, left, bottom-left corner, bottom left, bottom middle, bottom right, right). Matches the live raster: magenta on the left, no blue (Bennett, 2026-10-08: 'red on the left is too red, blue area too heavy'). A list entry is a gradient stop name, or a hue step such as violet.400."
+      }
+    }
   },
   "categorical": [
     "violet",

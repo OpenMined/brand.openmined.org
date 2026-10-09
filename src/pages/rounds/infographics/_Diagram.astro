@@ -1,0 +1,205 @@
+---
+/**
+ * The overview diagram (src/components/site/SystemDiagram.astro) rebuilt in HTML
+ * so it can use the system itself: surface levels with their shadows, radius
+ * tokens, roles. Same content and layout as the original; only the treatment
+ * changes, by variant:
+ *
+ *   v1  outlines on the outermost sections; surface levels inside
+ *   v2  outlines on the outermost sections; solid color fills inside
+ *   v3  surface levels for the largest sections; lines inside, subtle fills
+ *
+ * Shared: type in three sizes (15 titles, 13 body, 11.5 labels), lines in two
+ * widths at most (1.5px outlines, 1px inner lines and arrows), dashed means
+ * generated or planned, as in the original.
+ */
+interface Props { variant: 'v1' | 'v2' | 'v3' }
+const { variant } = Astro.props;
+
+type Kind = 'specs' | 'judgment' | 'reasoning';
+const KEY: Record<Kind, string> = { specs: 'teal', judgment: 'violet', reasoning: 'amber' };
+const FILES: [string, Kind][] = [['Overview', 'judgment'], ['Decisions', 'reasoning'], ['Components', 'specs'], ['Patterns', 'specs'], ['Guidelines', 'judgment'], ['Behaviors', 'judgment'], ['Accessibility', 'judgment'], ['Voice', 'judgment']];
+const LAYERS = [
+  { t: 'Component tokens', s: 'planned: connector, gridline', planned: true },
+  { t: 'Roles', s: 'surface-raise-1, text-muted, success' },
+  { t: 'Primitives', s: 'blue-500, type sizes, durations' },
+];
+const READERS = [
+  { t: 'AI agents', tag: 'planned', items: ['Find files through llms.txt', 'Fetch .md and token files', "Follow the skill's workflow", 'Run the lint on its own work', "Check against the don'ts"] },
+  { t: 'Each project', tag: 'planned', s: 'website · apps · slides · new builds', items: ['The release it uses', 'Exceptions, each with a reason', 'Its own component tokens', 'AGENTS.md: the hard rules'] },
+  { t: 'Design tools', tag: 'possible', items: ['Tokens Studio loads the token files', 'Figma imports the basic types'] },
+];
+const STEPS = ['Exploring', 'Working', 'Released', 'Deprecated', 'Removed'];
+const ARROW_R = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M0 5H22" /><path d="M17 1L22 5L17 9" /></svg>';
+const ARROW_D = '<svg viewBox="0 0 10 20" aria-hidden="true"><path d="M5 0V18" /><path d="M1 13L5 18L9 13" /></svg>';
+const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /><path d="M7 1L2 5L7 9" /></svg>';
+---
+<div class={`ig ig--${variant}`} role="img" aria-label="The OpenMined design system: one central source (token files, guidance files, assets) that this site, AI agents, projects and design tools all read; generated outputs are built from it; statuses keep it clean over time">
+  <div class="ig__top">
+    <section class="ig__outer ig__source">
+      <header class="ig__head"><span class="ig__label ig__caps">Central source</span><b class="ig__title">The brand repository</b><span class="ig__label">This site’s pages are built from it</span></header>
+      <div class="ig__pair">
+        <section class="ig__part ig__part--values">
+          <header class="ig__phead"><b class="ig__title">Values</b><span class="ig__label">Token files in the open format</span></header>
+          <ol class="ig__layers">
+            {LAYERS.map((l, i) => (
+              <>
+                {i > 0 && <li class="ig__link" aria-hidden="true"><Fragment set:html={ARROW_D} /><span class="ig__label">points at</span></li>}
+                <li class={`ig__item${l.planned ? ' is-planned' : ''}`}><b>{l.t}</b><span class="ig__label">{l.s}</span></li>
+              </>
+            ))}
+          </ol>
+          <div class="ig__aside"><b>Modes swap values</b><span class="ig__label">light · dark · section contexts</span></div>
+        </section>
+        <span class="ig__ref" aria-hidden="true"><Fragment set:html={ARROW_L} /></span>
+        <section class="ig__part ig__part--guide">
+          <header class="ig__phead"><b class="ig__title">Guidance files</b><span class="ig__label">One typed Markdown file per idea</span></header>
+          <ul class="ig__files">
+            {FILES.map(([t, k]) => <li class="ig__file" style={`--k:var(--${KEY[k]}-key)`}><i></i>{t}</li>)}
+          </ul>
+          <ul class="ig__legend">
+            {(['specs', 'judgment', 'reasoning'] as Kind[]).map(k => <li style={`--k:var(--${KEY[k]}-key)`}><i></i><span class="ig__label">{k}</span></li>)}
+          </ul>
+          <div class="ig__aside is-planned"><b>Examples beside each file</b><span class="ig__label">planned: rendered · wireframe · do and don’t</span></div>
+        </section>
+      </div>
+      <p class="ig__note ig__label">Guidance names tokens by reference; no value is ever copied into prose</p>
+      <div class="ig__pair ig__pair--low">
+        <section class="ig__part ig__part--assets"><b class="ig__title">Assets</b><span class="ig__label">logos · embeds · templates</span></section>
+        <span></span>
+        <section class="ig__part ig__part--built"><b class="ig__title">Built from the source</b><span class="ig__label">CSS · JS · JSON · later: .md, llms.txt, starter</span></section>
+      </div>
+    </section>
+
+    <div class="ig__flow" aria-hidden="true">{READERS.map(() => <Fragment set:html={ARROW_R} />)}</div>
+
+    <section class="ig__outer ig__readers">
+      <header class="ig__head"><span class="ig__label ig__caps">Read by</span></header>
+      {READERS.map(r => (
+        <section class="ig__reader is-planned">
+          <header class="ig__rhead"><b class="ig__title">{r.t}</b><span class="ig__label ig__caps">{r.tag}</span></header>
+          {r.s && <span class="ig__label">{r.s}</span>}
+          <ul>{r.items.map(it => <li>{it}</li>)}</ul>
+        </section>
+      ))}
+    </section>
+  </div>
+
+  <section class="ig__outer ig__status">
+    <div class="ig__statusmain">
+      <b class="ig__title">Status: every token and guidance file carries one</b>
+      <ol class="ig__steps">
+        {STEPS.map((s, i) => (
+          <>
+            {i > 0 && <li class="ig__steparrow" aria-hidden="true"><Fragment set:html={ARROW_R} /></li>}
+            <li class={`ig__step${s === 'Working' ? ' is-on' : ''}`}>{s}</li>
+          </>
+        ))}
+      </ol>
+    </div>
+    <div class="ig__statusnotes">
+      <span>Planned: lint blocks working values in production</span>
+      <span>Every difference has a level:</span>
+      <span class="ig__label">mode · product · sibling brand · project exception</span>
+    </div>
+  </section>
+</div>
+
+<style is:global>
+  /* ── Shared skeleton: the original's layout, three type sizes ───────── */
+  .ig { --ig-out: 1.5px; --ig-in: 1px; width: 100%; min-width: 960px; display: grid; gap: 28px; font-family: var(--font-b); font-size: 13px; line-height: 1.4; color: var(--text-body); }
+  .ig b { font-weight: 600; color: var(--text-headline); }
+  .ig ul, .ig ol { list-style: none; margin: 0; padding: 0; }
+  .ig__title { font-size: 15px; font-weight: 600; color: var(--text-headline); line-height: 1.3; }
+  .ig__label { font-size: 11.5px; color: var(--text-muted); }
+  .ig__caps { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .ig svg { display: block; fill: none; stroke: var(--text-muted); stroke-width: var(--ig-in); vector-effect: non-scaling-stroke; }
+
+  .ig__top { display: grid; grid-template-columns: minmax(0, 1fr) 40px minmax(272px, 0.42fr); align-items: stretch; }
+  .ig__outer { border-radius: var(--radius-lg); }
+  .ig__source { display: grid; gap: 16px; padding: 20px; }
+  .ig__head { display: grid; gap: 2px; }
+  .ig__pair { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.15fr); align-items: stretch; }
+  .ig__pair--low { align-items: stretch; }
+  .ig__ref { display: grid; place-items: center; }
+  .ig__ref svg { width: 16px; }
+  .ig__part { display: grid; gap: 12px; align-content: start; padding: 16px; border-radius: var(--radius-md); }
+  .ig__pair--low .ig__part { gap: 2px; padding: 12px 16px; }
+  .ig__phead { display: grid; gap: 2px; }
+  .ig__layers { display: grid; gap: 0; }
+  .ig__item { display: grid; gap: 1px; padding: 8px 12px; border-radius: var(--radius-md); }
+  .ig__item.is-planned b { color: var(--text-muted); }
+  .ig__link { display: flex; align-items: center; gap: 8px; padding: 2px 16px; }
+  .ig__link svg { width: 8px; height: 16px; }
+  .ig__aside { display: grid; gap: 1px; padding: 8px 12px; border-radius: var(--radius-md); }
+  .ig__aside.is-planned b { color: var(--text-muted); }
+  .ig__files { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .ig__file { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: var(--radius-sm); color: var(--text-headline); font-weight: 500; }
+  .ig__file i, .ig__legend i { width: 3px; height: 13px; background: var(--k); flex: none; }
+  .ig__legend { display: flex; gap: 16px; }
+  .ig__legend li { display: flex; align-items: center; gap: 6px; }
+  .ig__legend i { width: 8px; height: 8px; }
+  .ig__note { text-align: center; }
+
+  .ig__flow { display: grid; grid-template-rows: 1.3fr 1.6fr 0.8fr; align-items: center; justify-items: center; padding: 40px 0 0; }
+  .ig__flow svg { width: 24px; }
+  .ig__readers { display: grid; gap: 12px; align-content: start; padding: 20px; }
+  .ig__reader { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--radius-md); }
+  .ig__reader ul { display: grid; gap: 3px; }
+  .ig__rhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+
+  .ig__status { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: center; padding: 20px; }
+  .ig__statusmain { display: grid; gap: 12px; }
+  .ig__steps { display: flex; align-items: center; gap: 6px; }
+  .ig__steparrow svg { width: 18px; }
+  .ig__step { padding: 5px 14px; border-radius: var(--radius-full); color: var(--text-headline); font-weight: 500; }
+  .ig__step.is-on { background: var(--accent-solid); color: var(--accent-on); }
+  .ig__statusnotes { display: grid; gap: 2px; }
+
+  /* ── v1 · Outlines outside, surface levels inside ─────────────────────
+     The outermost sections are outlined; everything inside is the surface
+     system: parts are raised cards, items one level higher, asides recessed. */
+  .ig--v1 .ig__outer { box-shadow: inset 0 0 0 var(--ig-out) var(--line-strong); }
+  .ig--v1 .ig__part { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .ig--v1 .ig__part--built { background: transparent; box-shadow: none; outline: var(--ig-in) dashed var(--line-strong); outline-offset: -1px; }
+  .ig--v1 .ig__item, .ig--v1 .ig__file { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+  .ig--v1 .ig__aside { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
+  .ig--v1 .ig__reader { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .ig--v1 .ig__step:not(.is-on) { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+
+  /* ── v2 · Outlines outside, solid color fills inside ──────────────────
+     Same outlines; each part inside takes its own quiet color fill (the
+     hue's subtle role, so it follows the mode). Nothing inside is boxed:
+     items are split by 1px rules in the hue's soft step. */
+  .ig--v2 .ig__outer { box-shadow: inset 0 0 0 var(--ig-out) var(--line-strong); }
+  .ig--v2 .ig__part--values { --f: var(--teal-subtle); --r: var(--teal-soft); }
+  .ig--v2 .ig__part--guide { --f: var(--violet-subtle); --r: var(--violet-soft); }
+  .ig--v2 .ig__part--assets { --f: var(--amber-subtle); --r: var(--amber-soft); }
+  .ig--v2 .ig__part--built { --f: var(--green-subtle); --r: var(--green-soft); }
+  .ig--v2 .ig__reader { background: var(--blue-subtle); }
+  .ig--v2 .ig__part { background: var(--f); }
+  .ig--v2 .ig__part--built { outline: var(--ig-in) dashed var(--r); outline-offset: -1px; }
+  .ig--v2 .ig__item { padding: 8px 0; border-radius: 0; }
+  .ig--v2 .ig__item + .ig__link { border-top: var(--ig-in) solid var(--r); }
+  .ig--v2 .ig__file { padding: 6px 0; border-bottom: var(--ig-in) solid var(--r); border-radius: 0; }
+  .ig--v2 .ig__aside { padding: 10px 0 0; border-top: var(--ig-in) solid var(--r); border-radius: 0; }
+  .ig--v2 .ig__step:not(.is-on) { box-shadow: inset 0 0 0 var(--ig-in) var(--line-strong); }
+
+  /* ── v3 · Surfaces for the largest sections, lines inside ─────────────
+     The outermost sections are raised panels (no outline). Inside, parts
+     are separated by 1px lines, with a subtle fill only where it helps
+     tell one part from the next. One line width throughout. */
+  .ig--v3 { --ig-out: 1px; }
+  .ig--v3 .ig__outer { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .ig--v3 .ig__part { padding: 14px 16px; box-shadow: inset 0 0 0 var(--ig-in) var(--line); }
+  .ig--v3 .ig__part--values { background: var(--teal-subtle); box-shadow: none; }
+  .ig--v3 .ig__part--guide { background: var(--violet-subtle); box-shadow: none; }
+  .ig--v3 .ig__part--built { box-shadow: none; outline: var(--ig-in) dashed var(--line-strong); outline-offset: -1px; }
+  .ig--v3 .ig__item { padding: 8px 0; border-radius: 0; border-bottom: var(--ig-in) solid var(--line); }
+  .ig--v3 .ig__layers li:last-child { border-bottom: 0; }
+  .ig--v3 .ig__file { padding: 4px 0; }
+  .ig--v3 .ig__aside { padding: 10px 0 0; border-top: var(--ig-in) solid var(--line); border-radius: 0; }
+  .ig--v3 .ig__reader { padding: 12px 0; border-radius: 0; border-top: var(--ig-in) solid var(--line); }
+  .ig--v3 .ig__reader:first-of-type { border-top: 0; padding-top: 0; }
+  .ig--v3 .ig__step:not(.is-on) { box-shadow: inset 0 0 0 var(--ig-in) var(--line-strong); }
+</style>

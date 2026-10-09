@@ -1,6 +1,7 @@
 ---
 /**
- * BRAND SITE (v2) — Surfaces. The first topic page; it sets the template:
+ * BRAND SITE (v2) — Surfaces, and the corners that go with them (foundations/shape.md).
+ * The first topic page; it sets the template:
  *   hero · in use (live specimen) · how it works (the foundation file) ·
  *   tokens (from the build) · rules (guidelines + behaviors) · decisions · see it
  * Words come from design/ (files tagged `surfaces`); values from src/tokens/v2/.
@@ -18,6 +19,14 @@ const foundation = doc('foundations/surfaces');
 const rules = byTag('surfaces', 'Guideline', 'Behavior');
 const decisions = decisionsFor('surfaces');
 const { Content } = foundation;
+const shape = doc('foundations/shape');
+/** The four sizes, each on a shape of the kind it's for. */
+const CORNER_SIZES = [
+  { t: 'sm', px: '4px', use: 'Small marks', shape: 'mark' },
+  { t: 'md', px: '6px', use: 'The default', shape: 'tile' },
+  { t: 'lg', px: '10px', use: 'Outer of two nested', shape: 'panel' },
+  { t: 'full', px: 'round', use: 'Toggles, pills, dots', shape: 'pill' },
+];
 
 type Entry = { value: string; resolved: string; status?: string };
 const T = { light: LIGHT as Record<string, Entry>, dark: DARK as Record<string, Entry> };
@@ -28,7 +37,7 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   return { label: stepLabel(e.value), resolved: e.resolved, status: e.status ?? 'working' };
 };
 const level = (mode: 'light' | 'dark', name: string) => { const c = cell(mode, name); return `${c.label ?? ''} · ${c.resolved}`; };
-const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 ---
 <Site title={foundation.title} description={foundation.description} current="surfaces">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV as [string, string][]} />
@@ -75,6 +84,37 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['how', 'How
           </div>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="band" id="corners">
+    <div class="wrap">
+      <header class="sec"><h2>{shape.title}</h2><p>{shape.description}</p><p class="status">Status: <b>{shape.status}</b></p></header>
+      <div class="corners">
+        <div class="corners__panel" aria-label="A panel holding fields, tiles and controls">
+          <div class="corners__row">
+            <span class="corners__tile corners__tile--sunken">sunken · md</span>
+            <span class="corners__tile corners__tile--raise">raise-2 · md</span>
+          </div>
+          <input class="ctl" type="text" value="A field · md" aria-label="Example field" />
+          <div class="actions">
+            <button type="button" class="btn btn--solid">Button · md</button>
+            <label class="opt"><input class="opt__box" type="checkbox" checked /><span>sm</span></label>
+            <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Example toggle"><span class="switch__knob"></span></button>
+          </div>
+          <span class="corners__cap">The panel is raise-1 · lg</span>
+        </div>
+        <div class="corners__sizes" aria-label="The four corner sizes">
+          {CORNER_SIZES.map(c => (
+            <figure class="corners__opt">
+              <div class="corners__stage"><span class={`corners__shape corners__shape--${c.shape}`} style={`border-radius:var(--radius-${c.t})`}></span></div>
+              <figcaption><b><code>--radius-{c.t}</code></b><span>{c.px}</span><em>{c.use}</em></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+      <div class="prose"><shape.Content /></div>
+      <TokenTable names={shape.tokens} />
     </div>
   </section>
 

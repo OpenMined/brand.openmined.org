@@ -158,6 +158,7 @@ const colorCss = c => (c.alpha !== undefined && c.alpha !== 1 ? rgbAlpha(c) : c.
 function cssValue(t, raw, literal = false) {
   switch (t.type) {
     case 'color': return colorCss(t.resolved);
+    case 'dimension': return dim(t.resolved);
     case 'shadow': {
       const layers = Array.isArray(t.resolved) ? t.resolved : [t.resolved];
       return layers.map(s => `${s.inset ? 'inset ' : ''}${dim(s.offsetX)} ${dim(s.offsetY)} ${dim(s.blur)} ${dim(s.spread)} ${colorCss(s.color)}`).join(', ');
@@ -202,7 +203,9 @@ function buildJson(tokens) {
 
 function buildJs(modes) {
   const colors = m => Object.fromEntries(Object.entries(modes[m]).filter(([, t]) => t.type === 'color').map(([p, t]) => [p.replace(/\./g, '-'), colorCss(t.resolved)]));
-  const spectrum = m => modes[m]['gradient.spectrum'].resolved.map(s => colorCss(s.color));
+  // Every gradient token (the spectrum and each graphic's list), as its stops' colors.
+  const lists = m => Object.fromEntries(Object.entries(modes[m]).filter(([p, t]) => t.type === 'gradient')
+    .map(([p, t]) => [p.replace(/^gradient\./, ''), t.resolved.map(s => colorCss(s.color))]));
   return `/**
  * ${HEADER}
  * The JS-side colors for canvas / WebGL embeds, which can't read CSS variables.
@@ -210,8 +213,8 @@ function buildJs(modes) {
  */
 export const COLORS = ${JSON.stringify({ light: colors('light'), dark: colors('dark') }, null, 2)};
 
-/** The brand gradient's nine stops, in order, per mode. */
-export const GRADIENTS = ${JSON.stringify({ light: { spectrum: spectrum('light') }, dark: { spectrum: spectrum('dark') } }, null, 2)};
+/** Each gradient's stops, in order, per mode: the spectrum and each graphic's own list. */
+export const GRADIENTS = ${JSON.stringify({ light: lists('light'), dark: lists('dark') }, null, 2)};
 `;
 }
 

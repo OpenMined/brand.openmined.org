@@ -1,10 +1,10 @@
 ---
 type: Component
 title: Form controls
-description: Fields are flat until focus, and the recess is the focus state. Checkboxes and radios are small recesses that cast at rest. Errors are a surface.
+description: Fields are flat until focus, and the recess is the focus state. Checkboxes and radios are small recesses that cast at rest. Errors are colored text, not a box.
 status: exploring
 tags: [interface]
-tokens: [--surface-sunken, --shadow-sunken, --danger-subtle, --danger-fg, --shadow-raise-2, --text-headline, --text-body]
+tokens: [--surface-sunken, --shadow-sunken, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md]
 ---
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
@@ -13,15 +13,19 @@ tokens: [--surface-sunken, --shadow-sunken, --danger-subtle, --danger-fg, --shad
 - **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`.
 - **Recess** (a well, a footer strip, a badge): a recess you don't touch. It never casts.
 
-**Anatomy of a field.** Label (`--text-headline`, 500 weight), an optional description (`--text-body`), the control. A required mark sits after the label.
+**Anatomy of a field.** Label, an optional description (`--text-body`), the control. A required mark sits after the label.
+
+**One text size.** Every piece of text in a form is the same size: labels, descriptions, values, placeholders, options and errors. Spacing and weight separate them. The label is the one heavier line (600, `--text-headline`); everything else is regular weight. A form can then mix fields with an inner label and lists with a heading above them, and they still read as one level.
+
+**Where the label goes.** Each form chooses. Most of the website's forms put the label inside the field, as its placeholder, and that is the cleanest default; checkbox and radio lists can't, so they take a heading at the same size. A form that mixes the two is fine as long as the sizes match. *Open:* placeholder-as-label disappears once someone types, so it needs an accessible name (`aria-label` or a visually hidden label) and a check against the accessibility round.
 
 **States.** Filled, disabled (dimmed, not-allowed cursor), focus (the inset recess), error.
 
 **Placeholder text** uses `--text-muted`. In light mode that is 4.13:1 on the sunken field, under AA's 4.5:1; the text-and-lines round sets `--text-muted`.
 
-**Errors are a surface.** A validation error is a card one level above the form, not an outline around the field: it takes the raised shadow (`--shadow-raise-2`) and the danger status colors, `--danger-subtle` behind `--danger-fg` text (6.6:1 in light, 7.7:1 in dark).
+**Errors are text.** A validation error is `--danger-fg` text directly under the field, on whatever surface the form sits on: no box, no outline, no fill. Colored boxes stacked on a dark page read as a muddy mix of panels, the look this system avoids (Bennett, 2026-10-08). Replaces the earlier rule, an error card one level above the form.
 
-**Geometry.** The gap between a recessed control's outer surface and the part inside it is 3px in every state: a toggle's knob, a checkbox's check. A radio's dot takes twice that (6px), because a round mark needs more room to read as a dot rather than a ring.
+**Geometry.** Fields and buttons take `--radius-md`; checkboxes `--radius-sm`; toggles `--radius-full`. The gap between a recessed control's outer surface and the part inside it is 3px in every state: a toggle's knob, a checkbox's check. A radio's dot takes twice that (6px), because a round mark needs more room to read as a dot rather than a ring.
 
 **Accessibility.** On text fields the inset shadow is the only focus indicator, so it must reach 3:1 contrast. Checkboxes and radios keep the browser's focus ring: they already cast at rest, and without the ring a keyboard user would lose the focus signal.
 

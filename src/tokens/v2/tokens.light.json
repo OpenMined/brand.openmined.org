@@ -762,6 +762,30 @@
     "type": "color",
     "status": "working"
   },
+  "--radius-sm": {
+    "value": "4px",
+    "resolved": "4px",
+    "type": "dimension",
+    "status": "exploring"
+  },
+  "--radius-md": {
+    "value": "6px",
+    "resolved": "6px",
+    "type": "dimension",
+    "status": "exploring"
+  },
+  "--radius-lg": {
+    "value": "10px",
+    "resolved": "10px",
+    "type": "dimension",
+    "status": "exploring"
+  },
+  "--radius-full": {
+    "value": "999px",
+    "resolved": "999px",
+    "type": "dimension",
+    "status": "exploring"
+  },
   "--gradient-gold": {
     "value": "#f6c97b",
     "resolved": "#f6c97b",
@@ -816,11 +840,29 @@
     "type": "color",
     "status": "working"
   },
+  "--gradient-magenta": {
+    "value": "#be357d",
+    "resolved": "#be357d",
+    "type": "color",
+    "status": "exploring"
+  },
   "--gradient-spectrum": {
     "value": "linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 12.5%, var(--gradient-red) 25%, var(--gradient-violet) 37.5%, var(--gradient-blue) 50%, var(--gradient-teal) 62.5%, var(--gradient-green) 75%, var(--gradient-lime) 87.5%, var(--gradient-yellow) 100%)",
     "resolved": "linear-gradient(90deg, #f6c97b 0%, #ee8b4d 12.5%, #bf3f3f 25%, #794cb8 37.5%, #2b67c9 50%, #00859f 62.5%, #0f946b 75%, #a9e18b 87.5%, #f5e69e 100%)",
     "type": "gradient",
     "status": "working"
+  },
+  "--gradient-flow": {
+    "value": "linear-gradient(90deg, var(--gradient-red) 0%, var(--gradient-gold) 20%, var(--gradient-violet) 40%, var(--gradient-blue) 60%, var(--gradient-teal) 80%, var(--gradient-green) 100%)",
+    "resolved": "linear-gradient(90deg, #bf3f3f 0%, #f6c97b 20%, #794cb8 40%, #2b67c9 60%, #00859f 80%, #0f946b 100%)",
+    "type": "gradient",
+    "status": "working"
+  },
+  "--gradient-map": {
+    "value": "linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 14.29%, var(--gradient-magenta) 28.57%, var(--gradient-violet) 42.86%, var(--gradient-violet) 57.14%, var(--gradient-teal) 71.43%, var(--gradient-green) 85.71%, var(--gradient-lime) 100%)",
+    "resolved": "linear-gradient(90deg, #f6c97b 0%, #ee8b4d 14.29%, #be357d 28.57%, #794cb8 42.86%, #794cb8 57.14%, #00859f 71.43%, #0f946b 85.71%, #a9e18b 100%)",
+    "type": "gradient",
+    "status": "exploring"
   },
   "--shadow-sunken": {
     "value": "inset 0 1px 5px 0 rgb(70 66 87 / 0.07)",

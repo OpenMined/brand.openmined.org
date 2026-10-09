@@ -33,6 +33,7 @@ import data from './_palettes.json';
 import { readFileSync } from 'node:fs';
 import './_color.css';
 import { logoCss, logoSvg, iconSvg } from './_logo';
+import { hex as v2hex, listStops } from '../../../lib/tokens';
 
 type Hue = 'violet' | 'blue' | 'teal' | 'green' | 'amber' | 'red';
 const HUES = data.hues as Hue[];
@@ -151,6 +152,15 @@ css.push(`:root[data-theme="dark"]{${surfD};${roleDecl('dark')};${hueRoles('dark
 css.push(`[data-for]{display:none}` + PKEYS.map(k => `:root[data-p="${k}"] [data-for="${k}"]{display:inline}`).join(''));
 // The logo, recolored per palette from its own hand-tuned stops (see _logo.ts).
 css.push(logoCss(PAL));
+
+// The gradient map's own list (v2 --gradient-map, 2026-10-09): magenta on the left,
+// no blue. Magenta is a v2 graphics-only stop with no counterpart in this round's
+// palettes, so it comes from the v2 build with its mode offset already applied
+// (light ×1.1, dark ×1), and doesn't follow this page's palette switch or the
+// mode-adjust sliders. The other stops are this page's own --spec-N.
+css.push(`:root{--spec-magenta:${v2hex('light', 'gradient-magenta')}}:root[data-theme="dark"]{--spec-magenta:${v2hex('dark', 'gradient-magenta')}}`);
+const SPEC_INDEX: Record<string, number> = Object.fromEntries((data.spectrum as string[]).map((n, i) => [n, i + 1]));
+const MAP_FOLLOW = listStops('map').split(',').map(n => n.replace('gradient-', '')).map(n => (SPEC_INDEX[n] ? `spec-${SPEC_INDEX[n]}` : `spec-${n}`)).join(',');
 
 const TOKEN_CSS = css.join('\n');
 
@@ -397,10 +407,11 @@ const VERDICT = Object.fromEntries(ORDER.map(k => {
       </section>
       <!-- ── Gradient map CTA ──────────────────────────────────────── -->
       <!-- The site's CTA band (openmined.org CtaSection, gradient variant)
-           with the raster replaced by <om-mesh>. Its eight points are the
-           palette's gradient stops, gold through lime, in spectrum order. -->
+           with the raster replaced by <om-mesh>. Its eight points take the
+           gradient map's own list (v2 --gradient-map): gold, orange, magenta,
+           violet, violet, teal, green, lime. -->
       <section class="cta" id="gradient-map" aria-label="Gradient map example">
-        <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" data-follow="spec-1,spec-2,spec-3,spec-4,spec-5,spec-6,spec-7,spec-8" data-follow-haze="c-base"></om-mesh>
+        <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={MAP_FOLLOW} data-follow-haze="c-base"></om-mesh>
         <!-- Temporary review controls: how the colors meet and move. Sliders are
              built from the embed's own PARAMS table; "Copy settings" copies the
              attributes, to bake into the embed's defaults once chosen. -->

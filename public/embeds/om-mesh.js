@@ -42,6 +42,11 @@
  *   soft="0.5"                     0–1, share of each cloud edge that fades
  *   billow="1"                     0–3, how rippled cloud edges are
  *   opacity="0.55"                 0–0.96, a cloud's thinnest opacity (clouds)
+ *   saturation="1"                 0–2, a final chroma scale in OKLab (lightness
+ *                                  and hue kept). 1 = unchanged. Blending eight
+ *                                  hues pulls the field toward gray; above 1
+ *                                  gives that chroma back. Out-of-gamut results
+ *                                  are clipped to sRGB
  *
  * Every attribute can change at any time; the field updates live. Size it with CSS: it fills its box, and the field stretches
  * with it, like the raster did.
@@ -70,6 +75,7 @@ const PARAMS = {
   soft:    { min: 0,   max: 1,    def: 0.5,  u: 'uSoft' },
   billow:  { min: 0,   max: 3,    def: 1,    u: 'uBillow' },
   opacity: { min: 0,   max: 0.96, def: 0.55, u: 'uOpMin' },
+  saturation: { min: 0, max: 2,   def: 1,    u: 'uSat' },
 };
 
 const VS_SOURCE = [
@@ -85,7 +91,7 @@ const FS_SOURCE = [
   'uniform vec3 uColors[8];',
   'uniform float uDepth, uSheen; uniform vec3 uHaze;',
   'uniform float uMode, uEdge;',
-  'uniform float uDrift, uWarp, uSize, uCover, uSoft, uBillow, uOpMin;',
+  'uniform float uDrift, uWarp, uSize, uCover, uSoft, uBillow, uOpMin, uSat;',
   // Point homes, read off the raster (y up). Spectrum order, matching uColors.
   'const float spread   = 0.25;',   // shape size for layers and clouds (the field uses reach())
   'const float driftSpd = 0.16;',
@@ -245,6 +251,26 @@ const FS_SOURCE = [
   '  }',
   '  return composite(base, cs, al);',
   '}',
+  // Saturation: scale chroma in OKLab (Ottosson 2020), so lightness and hue
+  // hold. Colors are sRGB-encoded; linearize first, re-encode after, clip.
+  'vec3 toLin(vec3 c) { return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(0.04045, c)); }',
+  'vec3 toEnc(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }',
+  'vec3 saturateOk(vec3 c, float k) {',
+  '  vec3 x = toLin(clamp(c, 0.0, 1.0));',
+  '  vec3 lms = vec3(0.4122214708 * x.r + 0.5363325363 * x.g + 0.0514459929 * x.b,',
+  '                  0.2119034982 * x.r + 0.6806995451 * x.g + 0.1073969566 * x.b,',
+  '                  0.0883024619 * x.r + 0.2817188376 * x.g + 0.6299787005 * x.b);',
+  '  lms = pow(max(lms, 0.0), vec3(1.0 / 3.0));',
+  '  float L = 0.2104542553 * lms.x + 0.7936177850 * lms.y - 0.0040720468 * lms.z;',
+  '  float A = (1.9779984951 * lms.x - 2.4285922050 * lms.y + 0.4505937099 * lms.z) * k;',
+  '  float B = (0.0259040371 * lms.x + 0.7827717662 * lms.y - 0.8086757660 * lms.z) * k;',
+  '  vec3 q = vec3(L + 0.3963377774 * A + 0.2158037573 * B, L - 0.1055613458 * A - 0.0638541728 * B, L - 0.0894841775 * A - 1.2914855480 * B);',
+  '  q = q * q * q;',
+  '  vec3 rgb = vec3( 4.0767416621 * q.x - 3.3077115913 * q.y + 0.2309699292 * q.z,',
+  '                  -1.2684380046 * q.x + 2.6097574011 * q.y - 0.3413193965 * q.z,',
+  '                  -0.0041960863 * q.x - 0.7034186147 * q.y + 1.7076147010 * q.z);',
+  '  return toEnc(clamp(rgb, 0.0, 1.0));',
+  '}',
   'void main() {',
   '  float t = uTime;',
   '  vec2 p = vUV;',
@@ -280,6 +306,7 @@ const FS_SOURCE = [
   '    float facing = max(dot(n, L) - L.z, 0.0);',
   '    color = mix(color, vec3(1.0), uSheen * gloss * smoothstep(0.0, 0.45, facing));',
   '  }',
+  '  if (abs(uSat - 1.0) > 0.001) color = saturateOk(color, uSat);',
   // Dither: a smooth 8-bit field bands without it.
   '  float n = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);',
   '  color += (n - 0.5) / 255.0;',

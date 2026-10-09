@@ -1,0 +1,26 @@
+{
+  "$description": "Hand-written. Corner radius, the same in every mode. A short ladder biased sharp (Bennett, 2026-10-08: 'intentionally less rounded than your typical vibed corner'): md is the default, lg only for the outer of two nested rounded things, sm only for marks too small for md. Replaces v1's --border-radius-XS…XL for v2.",
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": { "value": 4, "unit": "px" },
+      "$description": "Small marks: checkboxes, swatch chips, a file input's button.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --border-radius-XS (2px) and hand-set 3px corners" } }
+    },
+    "md": {
+      "$value": { "value": 6, "unit": "px" },
+      "$description": "The default: buttons, fields, tiles, cards that hold no rounded children.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --border-radius-S (6px), unchanged" } }
+    },
+    "lg": {
+      "$value": { "value": 10, "unit": "px" },
+      "$description": "The outer of two nested rounded things: a panel holding fields or tiles.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --border-radius-L (16px), sharpened" } }
+    },
+    "full": {
+      "$value": { "value": 999, "unit": "px" },
+      "$description": "Fully round ends: toggles, pills, dots.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --border-radius-full (999px), unchanged" } }
+    }
+  }
+}

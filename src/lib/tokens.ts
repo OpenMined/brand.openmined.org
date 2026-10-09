@@ -12,6 +12,12 @@ export const MODES: Mode[] = ['light', 'dark'];
 export const HUES = Object.keys(INPUTS.hues);
 export const STEPS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
 export const GRADIENT_STOPS = INPUTS.gradient.stops.map(s => s.name);
+/** Graphics-only stops: tokens, but not in the spectrum (e.g. magenta). */
+export const EXTRA_STOPS = (INPUTS.gradient as any).extra?.map((s: { name: string }) => s.name) ?? [];
+/** A graphic's own list (`gradient.map`, `gradient.flow`) as the CSS names of its stops,
+ *  in order — what an embed's data-follow attribute takes. */
+export const listStops = (name: string) =>
+  [...tok('light', `gradient-${name}`).value.matchAll(/var\(--([\w-]+)\)/g)].map(m => m[1]).join(',');
 export const SAT = INPUTS.saturation as { light: number; dark: number };
 
 type Entry = { value: string; resolved: string; type: string; status?: string };
