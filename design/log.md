@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-12** — Button hover in light mode reaches two steps out (300–700); dark stays 400–600 (round and page reviews). In the round, one step subtler brings light to 400–600 and dark to halfway.
 - **2026-10-12** — Motion round: the defaults are the working favorites per mode (buttons 400–600; icons 400–600 in light, halfway in dark). *Subtler range* becomes *One step subtler*: buttons halfway; icons halfway in light, a quarter of the way in dark; the pointer light 22.5% toward 300; the hover-card light halved (0.1 light, 0.0125 dark).
 - **2026-10-12** — Color in motion runs 1.5× faster: button flows 6s and 8.7s, drifting patches 4.7–9.3s, icons 4s per loop (round and page reviews). The motion round has a *Slower* switch for the previous speeds (9s and 13s, 7–14s, 6s).
 - **2026-10-12** — Hover cards (`.card-float` on the page reviews: SyftHub's link cards, the home press cards; examples in the motion round, section 3) get a white light that follows the pointer (480px), over the card and its content so the text and marks pick up the glow: 0.025 in dark, 0.2 in light and on always-light cards (the press cards' white plates) in either mode.

@@ -28,7 +28,7 @@ const glowText = (g: Glow) => [g.o1 && (g.o1Light !== undefined && g.o1Light !==
 const BTN_GLOW: Glow = { b1: 3, o1: 0.35, b2: 14, o2: 0.2 };
 const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: boolean; fav?: string }[] = [
   { k: 'a', name: 'A · Crossing flows', note: 'Two striped layers at different angles (20° and −40°), each sliding one way without stopping, on 6s and 8.7s loops. Lighter stripes underneath, faint darker ones crossing over.', fill: 'flow' },
-  { k: 'b', name: 'B · Crossing flows + cursor', note: 'A, plus a soft light that follows the pointer (it trails a little behind).', fill: 'flow', cursor: true, fav: 'both modes · 400–600' },
+  { k: 'b', name: 'B · Crossing flows + cursor', note: 'A, plus a soft light that follows the pointer (it trails a little behind).', fill: 'flow', cursor: true, fav: 'light 300–700 · dark 400–600' },
   { k: 'c', name: 'C · Drift, two patches', note: 'A lighter and a darker patch drift over the key on 6.7s and 9.3s loops.', fill: 'drift2' },
   { k: 'd', name: 'D · Drift, three patches + cursor', note: 'C plus a small, quicker light patch (4.7s), and the pointer light.', fill: 'drift3', cursor: true },
   { k: 'e', name: 'E · Sheen', note: 'Light patches only (6.7s and 4.7s): the brightness wanders and never goes darker than the key.', fill: 'sheen' },
@@ -82,7 +82,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 12 Oct 2026</span>
       <h1>Color in motion</h1>
       <p class="lead">First tries at <em>if color, then motion</em>: the button hover as a moving fill with a glow, and icons in a set color whose line moves and glows. The glow is the /research diamonds’ technique: copies behind, blurred and faded.</p>
-      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · defaults are the working favorites: buttons 400–600; icons 400–600 in light, halfway in dark · <i>One step subtler</i>: buttons halfway; icons halfway in light, a quarter of the way in dark; pointer and card lights halved</p>
+      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · defaults are the working favorites: buttons 300–700 in light, 400–600 in dark; icons 400–600 in light, halfway in dark · <i>One step subtler</i>: buttons 400–600 in light, halfway in dark; icons halfway in light, a quarter of the way in dark; pointer and card lights halved</p>
       <div class="mo-ctl">
         <label class="mo-ctl__item">
           <button type="button" class="switch js-pin" role="switch" aria-checked="false" aria-label="Show every button in its hover state"><span class="switch__knob"></span></button>
@@ -249,17 +249,23 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      "keep" is how much of the key stays: 0% = the neighbor itself, 50% = halfway
      (no palette step sits there; exploration only). Defaults are the working
      favorites; One step subtler moves each one notch quieter.
-       buttons           400–600 → halfway
+       buttons, light    300–700 → 400–600
+       buttons, dark     400–600 → halfway
        icons, light      400–600 → halfway
        icons, dark       halfway → a quarter of the way
        pointer light     45% toward 300 → 22.5%
        hover-card light  0.2 light, 0.025 dark → half that */
   .mo { --mo-btn-keep: 0%; --mo-ic-keep: 0%; --mo-hl-keep: 55%; }
   [data-theme="dark"] .mo { --mo-ic-keep: 50%; }
-  .mo[data-range="subtle"] { --mo-btn-keep: 50%; --mo-ic-keep: 50%; --mo-hl-keep: 77.5%; }
+  .mo[data-range="subtle"] { --mo-btn-keep: 0%; --mo-ic-keep: 50%; --mo-hl-keep: 77.5%; }
+  [data-theme="dark"] .mo[data-range="subtle"] { --mo-btn-keep: 50%; }
   [data-theme="dark"] .mo[data-range="subtle"] { --mo-ic-keep: 75%; }
-  .mo {
-    --mo-hl: color-mix(in oklch, var(--green-500) var(--mo-hl-keep), var(--green-300));
+  .mo { --mo-hl: color-mix(in oklch, var(--green-500) var(--mo-hl-keep), var(--green-300)); }
+  /* Buttons: light reaches two steps out (300–700), dark one (400–600); one
+     step subtler brings light to 400–600 and dark to halfway. */
+  .mo { --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
+  .mo[data-range="subtle"],
+  [data-theme="dark"] .mo {
     --mo-green-lo: color-mix(in oklch, var(--green-500) var(--mo-btn-keep), var(--green-400));
     --mo-green-hi: color-mix(in oklch, var(--green-500) var(--mo-btn-keep), var(--green-600));
   }

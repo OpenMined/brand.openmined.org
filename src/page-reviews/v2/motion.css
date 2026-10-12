@@ -5,7 +5,7 @@
    html[data-system="v2"]. Exploring.
 
    Buttons — hover: two striped layers of green crossing at 20° and −40°, each
-   flowing one way (6s, 8.7s), 400–600 around the key; a glow of two blurred
+   flowing one way (6s, 8.7s), 300–700 around the key in light, 400–600 in dark; a glow of two blurred
    copies (3px at 0.35, 14px at 0.2); a soft light that follows the pointer
    (45% of the way from the key to 300, 0.55). All layers sit under the label.
 
@@ -14,7 +14,8 @@
    in light, 0.4 in dark). */
 
 /* ── Buttons ─────────────────────────────────────────────────────────── */
-html[data-system="v2"] .btn.has-flow { position: relative; isolation: isolate; }
+html[data-system="v2"] .btn.has-flow { position: relative; isolation: isolate; --flow-lo: var(--green-300); --flow-hi: var(--green-700); }
+html[data-system="v2"][data-theme="dark"] .btn.has-flow { --flow-lo: var(--green-400); --flow-hi: var(--green-600); }
 html[data-system="v2"] .btn.has-flow:hover { background-color: transparent; border-color: transparent; color: var(--white); }
 html[data-system="v2"] .flow-layer {
   position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
@@ -35,11 +36,11 @@ html[data-system="v2"] .flow-layer i {
   position: absolute; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; will-change: transform;
 }
 html[data-system="v2"] .flow-layer i:nth-child(1) {
-  background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--green-400) 120px, var(--green-500) 240px);
+  background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--flow-lo) 120px, var(--green-500) 240px);
   animation: v2-flow-1 6s linear infinite;
 }
 html[data-system="v2"] .flow-layer i:nth-child(2) {
-  background: repeating-linear-gradient(90deg, transparent 0, var(--green-600) 90px, transparent 180px);
+  background: repeating-linear-gradient(90deg, transparent 0, var(--flow-hi) 90px, transparent 180px);
   opacity: 0.5; animation: v2-flow-2 8.7s linear infinite;
 }
 @keyframes v2-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(-240px); } }
