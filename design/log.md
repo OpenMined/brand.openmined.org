@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-12** — Motion round: button option **G · Two-tone the other way + cursor**: F with blue passing through instead of amber. Round only.
+- **2026-10-12** — Motion round: button option **F · Two-tone crossing flows + cursor**: B with amber (one step back from green, the icons' two-tone logic) passing through the lower layer once per loop. Round only.
 - **2026-10-12** — Page reviews' icons take **F · Two-tone, other side** (now the working favorite): green + amber, amber + red, red + violet, blue + teal on SyftHub; teal + green, blue + teal, amber + red on the home pillars.
 - **2026-10-12** — Button hover: both crossing-flow layers now move left to right (round and page reviews).
 - **2026-10-12** — Fix, page reviews: the home pillar icons' glow sat off to the side (the icon's wrapper is full width, so the copy centered in it); colored icons' wrappers now hug the icon.

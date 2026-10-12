@@ -32,6 +32,8 @@ const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: b
   { k: 'c', name: 'C · Drift, two patches', note: 'A lighter and a darker patch drift over the key on 6.7s and 9.3s loops.', fill: 'drift2' },
   { k: 'd', name: 'D · Drift, three patches + cursor', note: 'C plus a small, quicker light patch (4.7s), and the pointer light.', fill: 'drift3', cursor: true },
   { k: 'e', name: 'E · Sheen', note: 'Light patches only (6.7s and 4.7s): the brightness wanders and never goes darker than the key.', fill: 'sheen' },
+  { k: 'f', name: 'F · Two-tone crossing flows + cursor', note: 'B, with amber (the hue one step back around the wheel from green) passing through the lower layer once per loop, as the icons’ favorite.', fill: 'flow-two', cursor: true },
+  { k: 'g', name: 'G · Two-tone the other way + cursor', note: 'F, with blue passing through instead of amber.', fill: 'flow-two-cool', cursor: true },
 ];
 
 // Icons: SyftHub › Core Components, one hue per card.
@@ -370,16 +372,30 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      different angles, each slid exactly one stripe period along its own axis
      per loop, so it flows one way forever with no seam. Layer 1 is opaque
      (key ↔ lighter); layer 2 is faint darker stripes over it. */
-  [data-fill="flow"] .mbtn__layer i { border-radius: 0; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; }
-  [data-fill="flow"] .mbtn__layer i:nth-child(1) {
+  [data-fill^="flow"] .mbtn__layer i { border-radius: 0; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; }
+  [data-fill^="flow"] .mbtn__layer i:nth-child(1) {
     background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--mo-green-lo) 120px, var(--green-500) 240px);
     animation: mo-flow-1 calc(9s / var(--mo-speed)) linear infinite;
   }
-  [data-fill="flow"] .mbtn__layer i:nth-child(2) {
+  [data-fill^="flow"] .mbtn__layer i:nth-child(2) {
     background: repeating-linear-gradient(90deg, transparent 0, var(--mo-green-hi) 90px, transparent 180px);
     opacity: 0.5; animation: mo-flow-2 calc(13s / var(--mo-speed)) linear infinite;
   }
-  [data-fill="flow"] .mbtn__layer i:nth-child(3) { display: none; }
+  [data-fill^="flow"] .mbtn__layer i:nth-child(3) { display: none; }
+  /* F · Two-tone: as the icons' favorite, the key of the hue one step back
+     around the wheel (green → amber) passes through once per loop; green keeps
+     the rest. The lower layer's period doubles (480px) to hold the key, the
+     lighter shade and amber; its time doubles too, so the stripes keep their speed. */
+  [data-fill="flow-two"] .mbtn__layer i:nth-child(1) {
+    background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--mo-green-lo) 120px, var(--green-500) 240px, var(--amber-500) 360px, var(--green-500) 480px);
+    animation: mo-flow-1t calc(18s / var(--mo-speed)) linear infinite;
+  }
+  /* G · Two-tone the other way: blue in amber's place. */
+  [data-fill="flow-two-cool"] .mbtn__layer i:nth-child(1) {
+    background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--mo-green-lo) 120px, var(--green-500) 240px, var(--blue-500) 360px, var(--green-500) 480px);
+    animation: mo-flow-1t calc(18s / var(--mo-speed)) linear infinite;
+  }
+  @keyframes mo-flow-1t { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(480px); } }
   @keyframes mo-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
   @keyframes mo-flow-2 { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
