@@ -1,8 +1,10 @@
 /* PAGE REVIEWS — the v2 route's styles: the live styles, then v2 on top.
    v2/tokens.css is the generated v2 token build (never edited here);
    bridge.css repoints the live token names at it; pass.css holds the
-   component-level changes of the first pass. */
+   component-level changes of the first pass; motion.css the color-in-motion
+   working favorites. */
 @import './live.css';
 @import '../tokens/v2/tokens.css';
 @import './v2/bridge.css';
 @import './v2/pass.css';
+@import './v2/motion.css';

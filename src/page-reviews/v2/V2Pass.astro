@@ -1,10 +1,14 @@
 ---
 /**
- * PAGE REVIEWS — the v2 pass's one markup change, made at runtime so the port
- * stays as it is: a gradient map (<om-mesh>, the brand embed, in the Graphics
- * page's setting) behind each call-to-action that used the live raster.
- * Its colors are --gradient-map's stops, re-read when the mode changes.
- * Rendered by the ported Base.astro on v2 routes only.
+ * PAGE REVIEWS — the v2 pass's markup changes, made at runtime so the port
+ * stays as it is. Rendered by the ported Base.astro on v2 routes only.
+ *  - A gradient map (<om-mesh>, the brand embed, in the Graphics page's setting)
+ *    behind each call-to-action that used the live raster. Its colors are
+ *    --gradient-map's stops, re-read when the mode changes.
+ *  - Color in motion (motion.css): every button gets the hover layers. Icons
+ *    take a set hue with a blurred copy behind: those inside
+ *    [data-v2-color-icons] in order (green, amber, red, blue), and any element
+ *    marked data-v2-hue="<hue>" with that hue.
  */
 import { listStops } from '../../lib/tokens';
 const stops = listStops('map');
@@ -28,4 +32,67 @@ const stops = listStops('map');
   };
   sync();
   new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<script is:inline>
+  (() => {
+    // Buttons: glow 2, glow 1, fill (two striped layers + the pointer light), under the label.
+    const layer = (k, light) => `<span class="flow-layer flow-layer--${k}" aria-hidden="true"><i></i><i></i>${light ? '<b class="flow-light"></b>' : ''}</span>`;
+    // A light that eases toward the pointer each frame, so it trails a little.
+    const follow = (el) => {
+      let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+      const step = () => {
+        x += (tx - x) * 0.15; y += (ty - y) * 0.15;
+        el.style.setProperty('--mx', `${x}px`); el.style.setProperty('--my', `${y}px`);
+        raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(step) : 0;
+      };
+      el.addEventListener('pointerenter', (e) => { const r = el.getBoundingClientRect(); x = tx = e.clientX - r.left; y = ty = e.clientY - r.top; step(); });
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+        if (!raf) raf = requestAnimationFrame(step);
+      });
+    };
+    document.querySelectorAll('.btn:not([disabled]):not([aria-disabled="true"])').forEach((btn) => {
+      btn.classList.add('has-flow');
+      btn.insertAdjacentHTML('afterbegin', layer('g2') + layer('g1') + layer('fill', true));
+      follow(btn);
+    });
+    // Hover cards: the same pointer light, in grayscale (motion.css).
+    document.querySelectorAll('.card-float').forEach((card) => {
+      card.classList.add('has-light');
+      card.insertAdjacentHTML('beforeend', '<span class="card-light" aria-hidden="true"></span>');
+      follow(card);
+    });
+
+    // Icons in a set hue: one moving gradient per hue (bottom left → top right,
+    // repeating every 48 units of the 24 grid, slid one period per 4s), used by
+    // the line and its blurred copy, so the glow moves with it.
+    const ORDER = ['green', 'amber', 'red', 'blue'];
+    const targets = [];
+    document.querySelectorAll('[data-v2-color-icons]').forEach((g) =>
+      g.querySelectorAll('span.icon').forEach((el, i) => targets.push([el, ORDER[i % ORDER.length]])));
+    document.querySelectorAll('[data-v2-hue]').forEach((el) => targets.push([el, el.dataset.v2Hue]));
+    if (!targets.length) return;
+    // The hue's shades: 400 and 600 in light; in dark, halfway from the key to
+    // them (--ci-keep, motion.css; a mix of two named steps).
+    const mid = (h, s) => `color-mix(in oklch, var(--${h}-500) var(--ci-keep), var(--${h}-${s}))`;
+    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)"><stop offset="0" style="stop-color:var(--${h}-500)"/><stop offset="0.25" style="stop-color:${mid(h, 400)}"/><stop offset="0.5" style="stop-color:var(--${h}-500)"/><stop offset="0.75" style="stop-color:${mid(h, 600)}"/><stop offset="1" style="stop-color:var(--${h}-500)"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+    const hues = [...new Set(targets.map(([, h]) => h))];
+    document.body.insertAdjacentHTML('beforeend', `<svg class="color-icon-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${hues.map(grad).join('')}</defs></svg>`);
+    targets.forEach(([el, h]) => {
+      const svg = el.querySelector('svg');
+      if (!svg) return;
+      el.classList.add('color-icon');
+      el.dataset.hue = h;
+      el.style.setProperty('--ci-stroke', `url(#ci-${h})`);
+      const glow = document.createElement('span');
+      glow.className = 'color-icon__glow';
+      glow.setAttribute('aria-hidden', 'true');
+      glow.append(svg.cloneNode(true));
+      el.prepend(glow);
+    });
+    // SMIL ignores prefers-reduced-motion; pause it by hand.
+    const defs = document.querySelector('.color-icon-defs'), rm = matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => (rm.matches ? defs.pauseAnimations() : defs.unpauseAnimations());
+    sync(); rm.addEventListener('change', sync);
+  })();
 </script>

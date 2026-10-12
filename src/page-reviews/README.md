@@ -13,7 +13,8 @@ Notes and findings: `/page-reviews/` (from `findings.ts`).
 | `live.css` / `v2.css` | The two stylesheet sets. A route imports one; Astro bundles CSS per route, so they never mix, and none of it reaches the guide pages. |
 | `v2/bridge.css` | Live token names → v2 tokens. Most of the v2 pass. |
 | `v2/pass.css` | Component-level changes, each naming the `design/` rule it applies. |
-| `v2/V2Pass.astro` | The pass's one markup change, at runtime: a gradient map behind each CTA. |
+| `v2/motion.css` | Color in motion: the working favorites from `/rounds/motion/` (button hover, icons in a set hue). |
+| `v2/V2Pass.astro` | The pass's markup changes, at runtime: a gradient map behind each CTA; the button hover layers; colored icons where marked `data-v2-color-icons` (in order) or `data-v2-hue`. |
 | `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (page, live ↔ v2, `v` key) and link rewriting. |
 | `reviews.ts`, `findings.ts` | The page list and the review notes. |
 | `../pages/page-reviews/` | Routes: `<page>/` is the v2 pass, `<page>/live/` the port. Each sets `Astro.locals.review`. |
@@ -36,7 +37,8 @@ the v2 pass) in its file:
   instead of a content collection; press links go to the live blog.
 - `OrgLogo`, `organizations.json`, `CtaSection`: asset paths under `/page-reviews/openmined-org/`.
 - Seams: `Icon.astro` (v2 icons on v2 routes), `DiamondEmbed` / `StreamEmbed`
-  (colors from `window.OM_REVIEW_COLORS`).
+  (colors from `window.OM_REVIEW_COLORS`), `SyftHub.astro` (Core Components
+  wrapped in `data-v2-color-icons`), `HomeFederatedNetwork.astro` (pillar hues).
 
 ## Refresh or remove
 

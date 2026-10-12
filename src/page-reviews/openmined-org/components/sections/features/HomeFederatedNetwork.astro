@@ -38,6 +38,8 @@ import Text from '../../ui/Text.astro';
 // PORT SEAM (page reviews, v2 pass): the pillars' inline drawings become set icons on v2 routes.
 import { iconSvg } from '../../../../../lib/icons';
 const V2_PILLAR_ICONS = ['globe', 'code-brackets-square', 'settings'];
+// …and take a set hue each, for color in motion (v2/V2Pass.astro).
+const V2_PILLAR_HUES = ['teal', 'blue', 'amber'];
 const isV2 = (Astro.locals as any).review?.system === 'v2';
 
 const subnets = [
@@ -147,7 +149,7 @@ const pillars = [
           <div class="home-fednet__pillars">
             {pillars.map((p, i) => (
               <div class="home-fednet__pillar">
-                <div class="home-fednet__pillar-icon" aria-hidden="true">
+                <div class="home-fednet__pillar-icon" aria-hidden="true" data-v2-hue={isV2 ? V2_PILLAR_HUES[i] : undefined}>
                   {isV2 ? <Fragment set:html={iconSvg(V2_PILLAR_ICONS[i], { size: 32 })} /> : <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox={p.svgViewBox}

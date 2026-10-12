@@ -271,6 +271,8 @@ const flowOps = [
     width="full"
     surface="dim"
   >
+    {/* PORT SEAM (page reviews, v2 pass): marks these icons for color in motion (v2/V2Pass.astro). */}
+    <div data-v2-color-icons>
     <CardGrid cols={4} gap="var(--spacing-XL)">
       {coreComponents.map((c) => (
         <IconCard icon={c.icon} title={c.title} surface="bright" layout="stacked">
@@ -278,6 +280,7 @@ const flowOps = [
         </IconCard>
       ))}
     </CardGrid>
+    </div>
   </ContentSection>
 
   <!-- § From Your Data to the Network — dual step lists with connectors -->

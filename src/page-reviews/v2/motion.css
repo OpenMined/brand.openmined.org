@@ -1,0 +1,84 @@
+/* PAGE REVIEWS — v2 pass: color in motion (working favorites of /rounds/motion/).
+   ════════════════════════════════════════════════════════════════════
+   decisions/2026-10-12-if-color-then-motion, behaviors/color-moves.
+   V2Pass.astro adds the layers at runtime; everything here is scoped to
+   html[data-system="v2"]. Exploring.
+
+   Buttons — hover: two striped layers of green crossing at 20° and −40°, each
+   flowing one way (6s, 8.7s), 400–600 around the key; a glow of two blurred
+   copies (3px at 0.35, 14px at 0.2); a soft light that follows the pointer
+   (45% of the way from the key to 300, 0.55). All layers sit under the label.
+
+   Icons — a set hue moving inside the stroke (bottom left → top right, 4s),
+   400–600 around the key in light, halfway to them in dark; one blurred copy behind (6px; 0.15
+   in light, 0.4 in dark). */
+
+/* ── Buttons ─────────────────────────────────────────────────────────── */
+html[data-system="v2"] .btn.has-flow { position: relative; isolation: isolate; }
+html[data-system="v2"] .btn.has-flow:hover { background-color: transparent; border-color: transparent; color: var(--white); }
+html[data-system="v2"] .flow-layer {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  overflow: hidden; background: var(--green-500);
+  opacity: 0; transition: opacity var(--transition-base);
+}
+/* The solid button has no border; the outlined one has a 1px border, which the
+   layers cover so the hover fill reaches its edge (and neither changes size). */
+html[data-system="v2"] .btn--outline .flow-layer { inset: calc(-1 * var(--stroke-sm)); }
+html[data-system="v2"] .flow-layer--g2 { z-index: -3; filter: blur(14px); }
+html[data-system="v2"] .flow-layer--g1 { z-index: -2; filter: blur(3px); }
+html[data-system="v2"] .flow-layer--fill { z-index: -1; }
+html[data-system="v2"] .btn.has-flow:hover .flow-layer--fill { opacity: 1; }
+html[data-system="v2"] .btn.has-flow:hover .flow-layer--g1 { opacity: 0.35; }
+html[data-system="v2"] .btn.has-flow:hover .flow-layer--g2 { opacity: 0.2; }
+
+html[data-system="v2"] .flow-layer i {
+  position: absolute; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; will-change: transform;
+}
+html[data-system="v2"] .flow-layer i:nth-child(1) {
+  background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--green-400) 120px, var(--green-500) 240px);
+  animation: v2-flow-1 6s linear infinite;
+}
+html[data-system="v2"] .flow-layer i:nth-child(2) {
+  background: repeating-linear-gradient(90deg, transparent 0, var(--green-600) 90px, transparent 180px);
+  opacity: 0.5; animation: v2-flow-2 8.7s linear infinite;
+}
+@keyframes v2-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(-240px); } }
+@keyframes v2-flow-2 { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(-180px); } }
+
+/* Pointer light: in quickly, out at the usual pace. */
+html[data-system="v2"] .flow-light {
+  position: absolute; inset: 0; opacity: 0; transition: opacity var(--transition-base);
+  background: radial-gradient(70px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--green-500) 55%, var(--green-300)), transparent);
+}
+html[data-system="v2"] .btn.has-flow:hover .flow-light { opacity: 0.55; transition-duration: 0.15s; }
+
+/* ── Hover cards: a soft light that follows the pointer ──────────────────
+   Every .card-float (link cards, press cards). White, 480px across, over the
+   card and its content: 0.025 in dark, 0.2 in light. Always-light cards (the
+   press cards' white plates) take the light value in either mode. In quickly,
+   out at the usual pace. */
+html[data-system="v2"] .card-float.has-light { position: relative; isolation: isolate; overflow: hidden; }
+html[data-system="v2"] .card-light {
+  --cl-o: 0.2;
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  opacity: 0; transition: opacity var(--transition-base);
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
+}
+html[data-system="v2"][data-theme="dark"] .card-float:not([data-section="always-light"]) > .card-light { --cl-o: 0.025; }
+html[data-system="v2"] .card-float.has-light:hover > .card-light { opacity: var(--cl-o); transition-duration: 0.15s; }
+
+/* ── Icons in a set hue ──────────────────────────────────────────────── */
+html[data-system="v2"] .color-icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* How much of the key stays in the shades: none in light (400 and 600), half in dark. */
+html[data-system="v2"] .color-icon-defs { --ci-keep: 0%; }
+html[data-system="v2"][data-theme="dark"] .color-icon-defs { --ci-keep: 50%; }
+html[data-system="v2"] .color-icon { position: relative; isolation: isolate; }
+html[data-system="v2"] .color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.15; pointer-events: none; }
+html[data-system="v2"][data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
+html[data-system="v2"] .color-icon > .color-icon__glow svg { display: block; width: 100%; height: 100%; }
+/* The hue's moving gradient (V2Pass.astro sets --ci-stroke on each icon). */
+html[data-system="v2"] .color-icon :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-system="v2"] .flow-layer i { animation: none; }
+}
