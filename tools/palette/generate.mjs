@@ -94,6 +94,21 @@ function gray11() {
     const [hex, clipped] = oklchToHexInfo(lerp(L1, L2, t), lerp(C1, C2, t), lerpH(H1, H2, t));
     out[s] = step(hex, { pinned: false, rule: `${IN.gray.new._rule}, t = ${t}`, clipped });
   }
+  return boostGray(out);
+}
+
+/** Midtone boost: extra chroma on a bell curve over lightness, applied to every gray
+ *  step after pinning and lerp (inputs gray.midtone_boost). Keeps the pre-boost value. */
+function boostGray(g) {
+  const b = IN.gray.midtone_boost;
+  if (!b?.amount) return g;
+  const out = {};
+  for (const s of SERIES) {
+    const [L, C, H] = hexToOklch(g[s].hex);
+    const add = b.amount * Math.exp(-((L - b.center) ** 2) / (2 * b.width * b.width));
+    const [hex, clipped] = oklchToHexInfo(L, C + add, H);
+    out[s] = { ...g[s], hex, clipped: Boolean(g[s].clipped || clipped), beforeBoost: g[s].hex };
+  }
   return out;
 }
 
@@ -137,6 +152,7 @@ function colorToken(st, extra = {}) {
   if (st.was) meta.was = st.was;
   if (st.rule) meta.rule = st.rule;
   if (st.clipped) meta.gamutMapped = true;
+  if (st.beforeBoost) meta.beforeBoost = colorValue(st.beforeBoost);
   return { $value: colorValue(st.hex), ...extra, $extensions: { 'org.openmined': meta } };
 }
 
@@ -144,7 +160,7 @@ function grayFile() {
   const g = gray11();
   const fixed = hex => ({ $value: colorValue(hex), $extensions: { 'org.openmined': { status: 'working', generated: true, pinned: true } } });
   return {
-    $description: `Gray, 50–950, plus white and black outside the scale. Neutrals take no mode offset. ${NOTE}`,
+    $description: `Gray, 50–950, plus white and black outside the scale. Neutrals take no mode offset; every step takes the midtone boost (amount ${IN.gray.midtone_boost?.amount ?? 0}, center ${IN.gray.midtone_boost?.center}, width ${IN.gray.midtone_boost?.width}; pre-boost value in beforeBoost). ${NOTE}`,
     gray: { $type: 'color', ...Object.fromEntries(SERIES.map(s => [s, colorToken(g[s])])) },
     white: { $type: 'color', ...fixed(IN.white) },
     black: { $type: 'color', ...fixed(IN.black) },

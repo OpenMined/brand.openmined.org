@@ -53,6 +53,13 @@
         "t": 0.75
       },
       "_rule": "OKLCH lerp from gray 200 to gray 600 at t"
+    },
+    "midtone_boost": {
+      "amount": 0.008,
+      "center": 54,
+      "width": 15,
+      "_rule": "Applied after pinning and lerp, to every gray step: chroma += amount × exp(−(L − center)² / (2 · width²)), L on 0–100, each step's own L and H kept; chroma pulled back to fit sRGB if needed. Set amount 0 to turn it off.",
+      "_note": "Default from 2026-10-12 (Bennett and Kyle): the Color page's suggested boost with the center moved from 58 to 54. Exploring; judge it in context."
     }
   },
   "hues": {
@@ -217,34 +224,68 @@
       }
     },
     "red": {
+      "_note": "Exploring (Kyle, 2026-10-12): red pulled slightly toward rose to read as OpenMined's red rather than a generic one. Re-keyed to oklch(0.55 0.17 20.6) as the light-mode key: every pinned step's OKLCH hue rotated -3.7° and its chroma scaled × 1.033 (base key chroma 0.150 → 0.155, × 1.1 in light), lightness kept, so the shared lightness ladder holds. A first try at hue 16.8 read too pink and was dropped the same day. The previous red is kept below as backup_2026_10_12: to restore it, move it back to pinned.",
       "pinned": {
         "100": {
-          "hex": "#ffefee",
-          "was": "red 100 (7-step)"
+          "hex": "#ffefef",
+          "was": "red 100: #ffefee, hue 21.8 → 18.1, chroma × 1.033, lightness kept, gamut-mapped"
         },
         "200": {
-          "hex": "#ffd1cd",
-          "was": "red 200 (7-step)"
+          "hex": "#ffd1cf",
+          "was": "red 200: #ffd1cd, hue 24.0 → 20.3, chroma × 1.033, lightness kept, gamut-mapped"
         },
         "300": {
-          "hex": "#fca29c",
-          "was": "red 300 (7-step)"
+          "hex": "#fea0a0",
+          "was": "red 300: #fca29c, hue 23.9 → 20.2, chroma × 1.033, lightness kept"
         },
         "500": {
-          "hex": "#b94644",
-          "was": "red 400 (7-step)"
+          "hex": "#bb4349",
+          "was": "red 500: #b94644, hue 24.3 → 20.6, chroma × 1.033, lightness kept"
         },
         "600": {
-          "hex": "#9b3031",
-          "was": "red 500 (7-step)"
+          "hex": "#9d2d36",
+          "was": "red 600: #9b3031, hue 24.0 → 20.2, chroma × 1.033, lightness kept"
         },
         "700": {
-          "hex": "#612e2c",
-          "was": "red 600 (7-step)"
+          "hex": "#622d2e",
+          "was": "red 700: #612e2c, hue 23.7 → 19.9, chroma × 1.033, lightness kept"
         },
         "800": {
-          "hex": "#3a211f",
-          "was": "red 700 (7-step)"
+          "hex": "#3a2120",
+          "was": "red 800: #3a211f, hue 24.8 → 21.1, chroma × 1.033, lightness kept"
+        }
+      },
+      "backup_2026_10_12": {
+        "_note": "The agreed Ink red (key hue 24.3) before the rose trial. Not read by the generator.",
+        "pinned": {
+          "100": {
+            "hex": "#ffefee",
+            "was": "red 100 (7-step)"
+          },
+          "200": {
+            "hex": "#ffd1cd",
+            "was": "red 200 (7-step)"
+          },
+          "300": {
+            "hex": "#fca29c",
+            "was": "red 300 (7-step)"
+          },
+          "500": {
+            "hex": "#b94644",
+            "was": "red 400 (7-step)"
+          },
+          "600": {
+            "hex": "#9b3031",
+            "was": "red 500 (7-step)"
+          },
+          "700": {
+            "hex": "#612e2c",
+            "was": "red 600 (7-step)"
+          },
+          "800": {
+            "hex": "#3a211f",
+            "was": "red 700 (7-step)"
+          }
         }
       }
     }
@@ -321,7 +362,7 @@
         "name": "magenta",
         "hex": "#b83e7c",
         "status": "exploring",
-        "_from": "Graphics-only stop, not in the spectrum. Sampled from the live site's CTA raster, left side (openmined.org/images/cta-gradient-bg.png, 2026-10-09: #b83e7c, OKLCH H353 C.168 L55). v1's rose red and orchid violet blended into it; v2's red (H24) and violet (H300) leave an 84° gap. Whether the palette red moves toward it is a later decision."
+        "_from": "Graphics-only stop, not in the spectrum. Sampled from the live site's CTA raster, left side (openmined.org/images/cta-gradient-bg.png, 2026-10-09: #b83e7c, OKLCH H353 C.168 L55). v1's rose red and orchid violet blended into it; v2's red (H24) and violet (H300) leave an 84° gap. The palette red moved slightly toward it on 2026-10-12 (key hue 24.3 → 20.6, exploring; design/decisions/2026-10-12-red-toward-rose.md)."
       }
     ],
     "lists": {

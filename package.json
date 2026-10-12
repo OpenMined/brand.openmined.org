@@ -10,7 +10,8 @@
     "lint": "stylelint \"src/**/*.{css,astro}\"",
     "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix",
     "tokens": "node tools/palette/generate.mjs && node tools/tokens/build.mjs",
-    "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check"
+    "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check",
+    "icons:import": "node tools/icons/import.mjs"
   },
   "dependencies": {
     "astro": "^4.16.0",

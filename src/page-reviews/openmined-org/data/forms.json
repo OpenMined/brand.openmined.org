@@ -1,0 +1,109 @@
+{
+ "b7a08fdc-0fb5-4938-99e8-4a09e7bbc09e": {
+  "submit": "Join",
+  "groups": [
+   [
+    {
+     "name": "firstname",
+     "type": "text",
+     "label": "",
+     "placeholder": "First name",
+     "required": true
+    },
+    {
+     "name": "lastname",
+     "type": "text",
+     "label": "",
+     "placeholder": "Last name",
+     "required": true
+    }
+   ],
+   [
+    {
+     "name": "email",
+     "type": "text",
+     "label": "",
+     "placeholder": "Email",
+     "required": true
+    }
+   ],
+   [
+    {
+     "name": "freeform_problem_statement",
+     "type": "textarea",
+     "label": "",
+     "placeholder": "What data access problem are you working on?",
+     "required": false
+    }
+   ],
+   [
+    {
+     "name": "email_opt_in",
+     "type": "booleancheckbox",
+     "label": "Get email updates",
+     "placeholder": "",
+     "required": false
+    }
+   ],
+   [
+    {
+     "name": "slack_status",
+     "type": "booleancheckbox",
+     "label": "Get an OpenMined Slack Community invite",
+     "placeholder": "",
+     "required": false
+    }
+   ]
+  ]
+ },
+ "46b97761-19b1-4300-9e59-28ce97576a4c": {
+  "submit": "Request a Conversation",
+  "groups": [
+   [
+    {
+     "name": "firstname",
+     "type": "text",
+     "label": "",
+     "placeholder": "First name",
+     "required": true
+    }
+   ],
+   [
+    {
+     "name": "lastname",
+     "type": "text",
+     "label": "",
+     "placeholder": "Last name",
+     "required": true
+    }
+   ],
+   [
+    {
+     "name": "email",
+     "type": "text",
+     "label": "",
+     "placeholder": "Email",
+     "required": true
+    }
+   ],
+   [
+    {
+     "name": "pilot_partner_problem_summary",
+     "type": "textarea",
+     "label": "",
+     "placeholder": "Provide a brief description of the problem you are trying to solve",
+     "required": false
+    }
+   ],
+   [
+    {
+     "name": "slack_status",
+     "type": "booleancheckbox",
+     "label": "Get an OpenMined Slack Community invite",
+     "placeholder": "",
+     "required": false
+    }
+   ]
+  ]
+ }
+}

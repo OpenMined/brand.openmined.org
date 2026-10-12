@@ -1,5 +1,5 @@
 {
-  "_comment": "Third-party partner/integration marks — NOT OpenMined's brand. Each is the trademark of its owner, used nominatively to identify the tool. Sourced from official brand resources (or CC0 Simple Icons glyphs for monochrome icons). Never recolor a mark where the owner's guidelines forbid it; never imply endorsement. OMDS color tokens do NOT apply to these. Icons named `icon.svg` use fill=currentColor (theme via `color`); `icon-color.svg` carries the official brand color. Lockups: `logo*.svg` is the color/primary lockup; `logo-mono.svg` is the 1-color (currentColor) variant. Google has no mono lockup (its guidelines forbid a monochrome Google logo).",
+  "_comment": "Third-party partner/integration marks — NOT OpenMined's brand. Each is the trademark of its owner, used nominatively to identify the tool. Sourced from official brand resources (or CC0 Simple Icons glyphs for monochrome icons). Never recolor a mark where the owner's guidelines forbid it; never imply endorsement. OMDS color tokens do NOT apply to these. Icons named `icon.svg` use fill=currentColor (theme via `color`); `icon-color.svg` carries the official brand color. Lockups: `logo*.svg` is the color/primary lockup; `logo-mono.svg` is the 1-color (currentColor) variant. Google has no mono lockup (its guidelines forbid a monochrome Google logo). Color mode: every color file must read on both modes' surfaces (src/lib/partners.ts fails the build otherwise). A mark with dark ink gets a `dark` entry (official reversed files where available; derived ones say so in `derived`); a mark that reads anyway for a stated reason carries `modeCheck`.",
   "brands": {
     "github": {
       "name": "GitHub",
@@ -156,10 +156,19 @@
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
       "notes": "icon = the 3-ripple mark (currentColor); icon-color = same mark in brand plum #402530 (matches the 1-color geometry — not the app-badge). lockup = supplied official vector, plum + currentColor knockout.",
-      "gaps": [],
+      "gaps": [
+        "official dark-mode file not fetched (Rippling's press kit, a Google Drive folder, needs a sign-in); dark/ variants are derived"
+      ],
       "lockup": {
         "main": "rippling/logo.svg",
         "mono": "rippling/logo-mono.svg"
+      },
+      "dark": {
+        "iconColor": "rippling/icon-color-dark.svg",
+        "lockup": {
+          "main": "rippling/logo-dark.svg"
+        },
+        "derived": "OpenMined, 2026-10-12: the dark ink #402530 set to white, as in the owner's reversed logo. Not an official file."
       }
     },
     "loom": {
@@ -251,7 +260,16 @@
         "mono": "aws/logo-mono.svg"
       },
       "notes": "Two-tone mark ('aws' squid-ink #232F3E + smile #FF9900). icon-color = official two-tone fit to the 24-box (Slack technique); icon.svg = currentColor silhouette. Covers the AWS / Route 53 rows. lockup = same official logo at natural aspect.",
-      "gaps": []
+      "gaps": [
+        "official reversed (white type) file not fetched; dark/ variants are derived"
+      ],
+      "dark": {
+        "iconColor": "aws/icon-color-dark.svg",
+        "lockup": {
+          "main": "aws/logo-dark.svg"
+        },
+        "derived": "OpenMined, 2026-10-12: the dark ink #252F3E set to white, as in the owner's reversed logo. Not an official file."
+      }
     },
     "godaddy": {
       "name": "GoDaddy",
@@ -412,7 +430,8 @@
       "notes": "icon-color = the official yellow tile (#FFDD33) with the negative-space M, fit to the 24-box; icon.svg = currentColor silhouette. lockup color-only (mark is negative space on yellow — no clean 1-color knockout).",
       "gaps": [
         "lockup is color-only (negative-space mark, no clean mono)"
-      ]
+      ],
+      "modeCheck": "A tile with the mark cut into it: on light the black mark carries it (the yellow tile is faint), on dark the yellow tile does (the black is faint). Reads in both."
     },
     "docker": {
       "name": "Docker",

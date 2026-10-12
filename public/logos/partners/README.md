@@ -19,6 +19,19 @@ assets. Each mark is the **trademark of its owner** and is used nominatively
   multicolor marks like Google's G). Use via `<img>`; do not recolor.
 - `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available
   (currently GitHub black/white, Ramp).
+- `icon-color-dark.svg` / `logo-dark.svg` — the color file for **dark mode**,
+  only where the color mark's ink would vanish on a dark surface (AWS, Rippling).
+  Recorded under `dark` in `partners.json`; `derived` says when it was made by
+  OpenMined (dark ink set to white, as in the owner's reversed logo) rather than
+  supplied, and `gaps` asks for the official file.
+
+## Color mode
+
+Every mark must read on light and dark surfaces. One-color marks do by
+themselves (inline them). Color marks are checked: the brand site's build
+(`src/lib/partners.ts`) fails on any visible color under 1.5:1 against a mode's
+surfaces, unless the brand has a dark file or a `modeCheck` reason. `PartnerLogo`
+swaps a brand's `-dark` file in wherever the page or a section is dark.
 
 `partners.json` is the source of truth: per brand it records the trademark owner,
 official source URL, available variants, brand color, and known **gaps** (marks

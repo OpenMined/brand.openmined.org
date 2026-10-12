@@ -33,7 +33,7 @@ Components use roles, never steps. Each role names a step per mode:
 
 **Status** colors are their own roles, each pointing at a hue: `success` → green, `warning` → amber, `danger` → red, `info` → blue. `--danger-fg` is `--red-fg`, so a status can move to another hue without touching a component.
 
-**Accent** is the role for interactive and brand-emphasis elements: the primary call-to-action button's fill is `--accent-solid`, and links, selected states and focus rings are candidates. It is grayscale for now (ink). Whether it takes a color, and exactly which elements use it, are interface decisions still to come; until then, use it by intent (see [Use accent by intent](#guidelines-accent-by-intent)).
+**Accent** is the role for interactive and brand-emphasis elements: the primary call-to-action button's fill is `--accent-solid`, and links, selected states and focus rings are candidates. It is grayscale for now (ink), with one colored role: `--accent-key`, the green key, for wherever a color is needed and none is specified (hover lines, icon and button hover, a page's alternate color; see [Green is the accent's color](#decisions-2026-10-12-green-is-the-accent-color)). Whether the whole accent takes a color, and exactly which elements use it, are interface decisions still to come; until then, use it by intent (see [Use accent by intent](#guidelines-accent-by-intent)).
 
 ## Text and lines (placeholders)
 
@@ -45,13 +45,14 @@ Text and line roles are placeholders until the text-and-lines round:
 | `--text-body` | gray 600 | gray 200 |
 | `--text-muted` | gray 500 | gray 400 |
 | `--line` | gray 200 | gray 600 |
-| `--line-strong` | gray 300 | gray 500 |
+| `--line-strong` | gray 600 | gray 200 |
 
 ## Open
 
 - Dark `--text-muted` is 4.48:1 on `raise-2`, just under AA's 4.5. Light `--text-muted` is 4.13:1 on `sunken`.
 - `--line` and `--surface-sunken` share gray 200 in light mode.
-- `--line-strong` has little work left since dividers-only; it may not be needed. A lighter divider step (`gray-250`) may be.
+- `--line-strong` is the line style: outlines, the secondary button, link underlines. It takes the same gray step as `--text-body` (2026-10-12). A lighter divider step (`gray-250`) may be needed.
 - `soft` covers both strokes and area fills, which may need different steps.
 - The accent snapped to the new series: light `accent-soft` now equals `accent-subtle`.
+- **Red toward rose (trial, 2026-10-12).** The red key moved from hue 24.3 to 20.6, with a touch more chroma, so it reads as OpenMined's red, not a generic one; lightness is unchanged and the previous red is kept as a backup. See [Red moves toward rose](#decisions-2026-10-12-red-toward-rose).
 - Whether a saturated stop is needed, and whether the site's deep magenta (`#ab3c81`, which no palette reaches) needs a vividness boost: held until more design problems are solved.

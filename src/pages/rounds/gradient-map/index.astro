@@ -8,6 +8,7 @@
  * alternatives are lists of existing tokens, so nothing here is a loose value.
  */
 import Site from '../../../layouts/Site.astro';
+import { iconSvg } from '../../../lib/icons';
 import { listStops } from '../../../lib/tokens';
 
 const PARAMS = 'mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6"';
@@ -20,7 +21,7 @@ const PANELS = [
   { k: 'magenta', name: 'More magenta', note: 'Magenta at both left points; violet only in the corner. Closest to the raster’s left edge.', follow: g('gold', 'orange', 'magenta', 'violet', 'magenta', 'teal', 'green', 'lime') },
   { k: 'lavender', name: 'Lighter lavender', note: 'Blue’s point takes violet 400, a lighter, softer violet, for the raster’s muted lavender corner.', follow: g('gold', 'orange', 'magenta', 'violet', 'violet-400', 'teal', 'green', 'lime') },
 ];
-const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const ARR = iconSvg('arrow-right');
 ---
 <Site title="Gradient map round" description="The gradient map's own colors, tuned to the live site's raster.">
   <section class="wrap hero">

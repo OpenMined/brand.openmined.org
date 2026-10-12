@@ -8,6 +8,7 @@
  * Contrast is computed from the build (src/lib/tokens.ts).
  */
 import Site from '../../../layouts/Site.astro';
+import { iconSvg } from '../../../lib/icons';
 import { STATUS, hex, contrast, type Mode, MODES } from '../../../lib/tokens';
 
 const GROUNDS = [
@@ -52,7 +53,7 @@ const QUIET = [
 ].map(o => ({ ...o, min: minContrast(o.pair) }));
 
 const fmt = (n: number) => `${n.toFixed(1)}:1`;
-const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const ARR = iconSvg('arrow-right');
 ---
 <Site title="Status chips round" description="Options for the strong and quiet status chips, on the grounds they sit on.">
   <section class="wrap hero">

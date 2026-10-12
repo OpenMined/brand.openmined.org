@@ -1,0 +1,16 @@
+{
+  "$description": "Hand-written. Line widths, the same in every mode. Outlines are lines, not containers (decision 2026-10-12): an outline only ever shows the same surface on both sides. Two widths at most, as in the infographics round.",
+  "stroke": {
+    "$type": "dimension",
+    "sm": {
+      "$value": { "value": 1, "unit": "px" },
+      "$description": "The default: dividers, outlines, the secondary button's outline, inner lines and arrows in a diagram.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --border-* (1px), unchanged" } }
+    },
+    "md": {
+      "$value": { "value": 1.5, "unit": "px" },
+      "$description": "A heavier outer outline in a graphic, one step above the lines inside it.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "the infographics round's 1.5px outer outline" } }
+    }
+  }
+}

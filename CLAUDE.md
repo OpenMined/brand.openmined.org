@@ -55,7 +55,14 @@ Tokens respond to `[data-theme="dark"]` on `<html>`. Three `data-section` values
 
 ## Icon system
 
-Ionicons is the current peer dependency. Custom SVG icons go in `public/icons/` and replace ionicons element-by-element when available. Each component that uses an ionicon names it in its file header.
+**v1** (released): Ionicons is the peer dependency; `/v1/` and the pre-v2 review rounds still load it.
+
+**v2** (`/` and every page on `Site.astro`): no Ionicons. Every icon is a name in `icons/set.json`
+(source: Iconoir regular, our own in `public/icons/`, or a partner mark; style; review status),
+resolved by `src/lib/icons.ts` (one lookup for `components/site/Icon.astro`, the page reviews and
+the Icons page). The stroke is set by size (2 up to 24px, then a 2px line); own drawings carry no
+stroke width or colors (`npm run icons:import` makes them); partner marks stay fills. A name missing
+from the set fails the build. `icons/README.md` has the review steps.
 
 ## Enforcement (raw colors are un-shippable)
 
@@ -108,9 +115,14 @@ Route every change to its source:
   optional `tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts`
   validates it and fails the build on a bad file.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
-  `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only; dividers only).
+  `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only; outlines only as lines, never containers).
 - `/v1/` is the released v1 reference; `/rounds/` is the archive of review rounds
   (`rounds/_legacy.ts` freezes the pre-v2 values for the closed rounds).
+- **Page reviews** (`/page-reviews/`): real openmined.org pages ported into `src/page-reviews/`
+  with a live version and a v2 pass (`v2/bridge.css` maps live token names to v2; `v2/pass.css`
+  holds component changes, each naming its rule). Working material, not guide pages; the
+  ported `openmined-org/` folder is lint-exempt. Findings go in `findings.ts`; settled ones
+  move to `design/`. See its README to refresh or remove.
 - Previews deploy only to the `v2` branch alias, built from a clean checkout of the pushed
   commit — never `main` until release.
 
@@ -139,7 +151,8 @@ Third-party tool logos (GitHub, Slack, Notion, Asana, Claude, HubSpot, 1Password
 
 - **Never recolor/restyle** a mark where the owner forbids it (e.g. Google's 4-color G stays as-is). OMDS color tokens do **not** apply to partner marks. Never imply endorsement.
 - **Never redraw** a partner mark — source it from the owner's official brand resources (or a CC0 Simple Icons glyph for monochrome icons), or leave it as a documented gap.
-- `partners.json` is the source of truth: per brand it records trademark owner, official source URL, available variants, brand color, and known gaps. `README.md` carries the governance.
+- `partners.json` is the source of truth: per brand it records trademark owner, official source URL, available variants, brand color, and known gaps.
+- **Color mode:** every mark must read in light and dark. A color mark whose ink vanishes on dark gets `icon-color-dark.svg` / `logo-dark.svg` (recorded under `dark`; `derived` when we made it); `PartnerLogo.astro` swaps it in. `src/lib/partners.ts` fails the build on a color file that doesn't read in one mode (`modeCheck` records a stated exception). `README.md` carries the governance.
 - Per brand: `icon.svg` (monochrome, `fill="currentColor"` — inline + set `color` to theme it), `icon-color.svg` (official brand color), `logo*.svg` (wordmark lockups where officially available). The `PartnerLogo.astro` atom renders them.
 
 ## Deploying

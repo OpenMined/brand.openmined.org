@@ -48,6 +48,10 @@ export default {
     // decision. Exploration needs raw values the gate would block; whatever
     // is chosen graduates into tokens.css and the round page is removed.
     'src/pages/rounds/**',
+    // Page reviews: a verbatim port of openmined.org pages (the "live" side of
+    // the comparison), with openmined.org's own palette. Not a brand surface.
+    // The v2 layer on top (src/page-reviews/v2/, the bar) stays gated.
+    'src/page-reviews/openmined-org/**',
   ],
 
   // Lint <style> blocks inside .astro components/pages.

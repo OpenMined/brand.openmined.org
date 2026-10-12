@@ -10,6 +10,7 @@ import '@tokens/tokens.css';
 import '@tokens/v2/tokens.css';
 import '../styles/site.css';
 import ThemeToggle from '@brand/ThemeToggle.astro';
+import { PAGES as PAGE_REVIEWS } from '../page-reviews/reviews';
 
 interface Props {
   title: string;
@@ -28,6 +29,8 @@ const PAGES = [
   { key: 'interface', label: 'Interface', href: '/interface/' },
   { key: 'typography', label: 'Typography', href: '/typography/' },
 ];
+/** Page reviews: real openmined.org pages with v2 tried on them (src/page-reviews/). Working material, not guide pages. */
+const REVIEWS = PAGE_REVIEWS.map(p => ({ key: `review-${p.key}`, label: p.label, href: p.path }));
 /** Archives that stay reachable while v2 is in progress. */
 const ARCHIVE = [
   { key: 'rounds', label: 'Review rounds', href: '/rounds/' },
@@ -61,6 +64,9 @@ const ARCHIVE = [
         <nav class="bar__nav" aria-label="Site">
           {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
           <span class="bar__sep" aria-hidden="true"></span>
+          <a class="bar__group" href="/page-reviews/" aria-current={current === 'page-reviews' ? 'page' : undefined}>Page reviews</a>
+          {REVIEWS.map(p => <a class="bar__link" href={p.href}>{p.label}</a>)}
+          <span class="bar__sep" aria-hidden="true"></span>
           {ARCHIVE.map(p => <a class="bar__link" href={p.href}>{p.label}</a>)}
         </nav>
         <ThemeToggle />
@@ -85,7 +91,5 @@ const ARCHIVE = [
         }
       });
     </script>
-    <script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
   </body>
 </html>

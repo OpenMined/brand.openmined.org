@@ -1,13 +1,13 @@
 ---
 type: Guideline
 title: One solid button per group
-description: Any group of buttons has exactly one solid button. The others have no outline.
+description: Any group of buttons has exactly one solid button. The others are secondary, an outline with no fill.
 status: working
 tags: [interface]
 ---
 
-**Rule.** In a button group (a form's actions, a card's calls to action) exactly one button is solid. The rest are quiet: no fill, no outline, same size.
+**Rule.** In a button group (a form's actions, a card's calls to action) exactly one button is solid. The rest are secondary: an outline in the body text color, no fill (decision 2026-10-12).
 
-**Why.** One solid button says which action is primary. Outlined secondaries add enclosed shapes, which dividers-only rules out.
+**Why.** One solid button says which action is primary. The secondary's outline is a line over the same surface, so it stays lighter than the solid fill (see *Outlines are lines, not containers*).
 
-**Don't.** Put two solid buttons side by side, or give a secondary an outline to make it "look like a button".
+**Don't.** Put two solid buttons side by side, or give a secondary a fill to make it "look like a button".

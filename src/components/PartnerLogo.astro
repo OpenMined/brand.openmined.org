@@ -5,9 +5,17 @@
  * trademarks of their owners, used nominatively; never recolor where the owner
  * forbids it. See public/logos/partners/README.md + partners.json.
  *
- * For a themeable 1-color mark, inline the `icon.svg` (fill=currentColor) and set
- * `color` instead — this <img>-based atom renders the file as-is.
+ * Color-mode aware (2026-10-12):
+ * - `icon` (one color) is inlined, so it takes the text color around it in any mode.
+ * - A color variant with a `-dark` file beside it (`icon-color-dark.svg`,
+ *   `logo-dark.svg`) shows that file wherever the page or a section is dark:
+ *   [data-theme="dark"], data-section="always-dark", or "invert" on a light page.
+ * - A color variant without one is the same file in both modes; the brand site's
+ *   build check (src/lib/partners.ts) makes sure such a file reads on both.
  */
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+
 interface Props {
   brand: string;                                   // e.g. "github", "asana"
   variant?: 'icon' | 'icon-color' | 'logo' | 'logo-black' | 'logo-white';
@@ -17,13 +25,37 @@ interface Props {
 }
 const { brand, variant = 'icon-color', size = 32, alt, class: className = '' } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const src = `${base}/logos/partners/${brand}/${variant}.svg`;
+const dir = join(process.cwd(), 'public', 'logos', 'partners', brand);
 const h = typeof size === 'number' ? `${size}px` : size;
+const label = alt ?? `${brand} logo`;
+const style = `height:${h};width:auto;display:inline-block;vertical-align:middle;`;
+
+const mono = variant === 'icon'
+  ? readFileSync(join(dir, 'icon.svg'), 'utf8')
+      .replace(/<\?xml[^>]*>|<!--[\s\S]*?-->/g, '')
+      .replace(/<svg\b/, `<svg role="img" aria-label="${label}" style="${style}"`)
+  : null;
+const src = `${base}/logos/partners/${brand}/${variant}.svg`;
+const darkSrc = !mono && existsSync(join(dir, `${variant}-dark.svg`)) ? `${base}/logos/partners/${brand}/${variant}-dark.svg` : null;
 ---
-<img
-  src={src}
-  alt={alt ?? `${brand} logo`}
-  class={className}
-  style={`height:${h};width:auto;display:inline-block;vertical-align:middle;`}
-  loading="lazy"
-/>
+{mono ? (
+  <span class={`partner-logo ${className}`} set:html={mono} />
+) : darkSrc ? (
+  <span class={`partner-logo partner-logo--modes ${className}`}>
+    <img class="partner-logo__light" src={src} alt={label} style={style} loading="lazy" />
+    <img class="partner-logo__dark" src={darkSrc} alt={label} style={style} loading="lazy" />
+  </span>
+) : (
+  <img class={`partner-logo ${className}`} src={src} alt={label} style={style} loading="lazy" />
+)}
+
+<style is:global>
+  /* Light file by default; the dark file wherever the context is dark. A
+     section's own mode beats the page's (always-light inside a dark page):
+     :where() keeps every context at zero specificity, so the later rule wins. */
+  .partner-logo--modes .partner-logo__dark { display: none !important; }
+  :where([data-theme='dark'], [data-section='always-dark'], :root:not([data-theme='dark']) [data-section='invert']) .partner-logo--modes .partner-logo__light { display: none !important; }
+  :where([data-theme='dark'], [data-section='always-dark'], :root:not([data-theme='dark']) [data-section='invert']) .partner-logo--modes .partner-logo__dark { display: inline-block !important; }
+  :where([data-section='always-light'], [data-theme='dark'] [data-section='invert']) .partner-logo--modes .partner-logo__light { display: inline-block !important; }
+  :where([data-section='always-light'], [data-theme='dark'] [data-section='invert']) .partner-logo--modes .partner-logo__dark { display: none !important; }
+</style>

@@ -7,7 +7,9 @@
  * Words come from design/ (files tagged `surfaces`); values from src/tokens/v2/.
  */
 import Site from '../../layouts/Site.astro';
+import { iconSvg } from '../../lib/icons';
 import PageHero from '../../components/site/PageHero.astro';
+import Icon from '../../components/site/Icon.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
@@ -20,6 +22,7 @@ const rules = byTag('surfaces', 'Guideline', 'Behavior');
 const decisions = decisionsFor('surfaces');
 const { Content } = foundation;
 const shape = doc('foundations/shape');
+const lines = doc('foundations/lines');
 /** The four sizes, each on a shape of the kind it's for. */
 const CORNER_SIZES = [
   { t: 'sm', px: '4px', use: 'Small marks', shape: 'mark' },
@@ -37,7 +40,8 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   return { label: stepLabel(e.value), resolved: e.resolved, status: e.status ?? 'working' };
 };
 const level = (mode: 'light' | 'dark', name: string) => { const c = cell(mode, name); return `${c.label ?? ''} · ${c.resolved}`; };
-const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['lines', 'Lines'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="surfaces">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV as [string, string][]} />
@@ -118,6 +122,36 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
     </div>
   </section>
 
+  <section class="band" id="lines">
+    <div class="wrap">
+      <header class="sec"><h2>{lines.title}</h2><p>{lines.description}</p><p class="status">Status: <b>{lines.status}</b></p></header>
+      <div class="lines">
+        <figure class="lines__opt">
+          <div class="lines__stage"><span class="lines__outline">An outline over the page</span></div>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>Outline: the same surface inside and out</em></figcaption>
+        </figure>
+        <figure class="lines__opt">
+          <div class="lines__stage"><button type="button" class="btn">Secondary</button></div>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>The secondary button's outline</em></figcaption>
+        </figure>
+        <figure class="lines__opt">
+          <div class="lines__stage lines__stage--links"><p>A <a class="link-content" href="#lines">content link</a></p><a class="link-text" href="#lines"><span class="link-text__label">Text button</span><Icon name="arrow-right" size={18} /></a></div>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>Link underlines; hover the text button to draw its line</em></figcaption>
+        </figure>
+        <figure class="lines__opt">
+          <div class="lines__stage lines__stage--rows"><span>First item</span><span>Second item</span></div>
+          <figcaption><b><code>--line</code> · <code>--stroke-sm</code></b><em>Divider: a single edge between two things</em></figcaption>
+        </figure>
+        <figure class="lines__opt">
+          <div class="lines__stage"><span class="lines__outline lines__outline--md lines__outline--quiet">A diagram's outer outline</span></div>
+          <figcaption><b><code>--line</code> · <code>--stroke-md</code></b><em>Diagrams: quieter lines, the outer one 1.5px</em></figcaption>
+        </figure>
+      </div>
+      <div class="prose"><lines.Content /></div>
+      <TokenTable names={lines.tokens} />
+    </div>
+  </section>
+
   <section class="band" id="how">
     <div class="wrap">
       <header class="sec"><h2>How it works</h2></header>
@@ -150,8 +184,8 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
     <div class="wrap">
       <header class="sec"><h2>See it</h2><p>The review rounds where these values were set.</p></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/rounds/surfaces/"><h3 class="card__h">Surfaces round <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>Levels, shadows, outlines and a form lab, with a live editor.</p></a>
-        <a class="card card--link" href="/rounds/#surfaces"><h3 class="card__h">Working favorites <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The surfaces and shadow ladder alongside the rest of the working values.</p></a>
+        <a class="card card--link" href="/rounds/surfaces/"><h3 class="card__h">Surfaces round <Fragment set:html={ARR} /></h3><p>Levels, shadows, outlines and a form lab, with a live editor.</p></a>
+        <a class="card card--link" href="/rounds/#surfaces"><h3 class="card__h">Working favorites <Fragment set:html={ARR} /></h3><p>The surfaces and shadow ladder alongside the rest of the working values.</p></a>
       </div>
     </div>
   </section>

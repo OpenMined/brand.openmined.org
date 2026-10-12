@@ -1,0 +1,53 @@
+---
+/**
+ * Icon — inlines a named SVG from the site icon set (src/assets/icons/).
+ * Icons are extracted from the live site; monochrome line icons use currentColor
+ * (so they adapt to the surface/theme), while semantic marks (check, x-mark)
+ * keep their own color.
+ *
+ * Usage: <Icon name="circle-check" size={28} />
+ */
+import { iconSvg, liveToSet } from "../../../../lib/icons";
+const icons = import.meta.glob('../../assets/icons/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+interface Props {
+  name: string;
+  /** Box size in px (number) or any CSS length (string). */
+  size?: number | string;
+  class?: string;
+}
+const { name, size = 24, class: className = '' } = Astro.props;
+
+const svg = icons[`../../assets/icons/${name}.svg`] as string | undefined;
+if (!svg) {
+  throw new Error(`Icon "${name}" not found in src/assets/icons/`);
+}
+// PORT SEAM (page reviews, v2 pass): on a v2 route, swap each live icon for the set
+// icon that replaces it (icons/set.json → live), through the same lookup as the
+// brand site (src/lib/icons.ts: drawing, stroke by size). No replacement chosen
+// yet keeps the live drawing.
+let drawn = svg;
+const v2 = (Astro.locals as any).review?.system === "v2" ? liveToSet(name) : null;
+if (v2) drawn = iconSvg(v2, { size: typeof size === "number" ? size : "100%" });
+const dim = typeof size === 'number' ? `${size}px` : size;
+---
+
+<span class:list={['icon', className]} style={`--icon-size:${dim}`} set:html={drawn} />
+
+<style>
+  .icon {
+    display: inline-flex;
+    flex: none;
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+  .icon :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

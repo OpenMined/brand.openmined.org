@@ -1,0 +1,611 @@
+{
+  "$about": "The v2 icon set (Icons page, design/foundations/iconography.md). icons: every icon v2 uses, by name; components ask for these names, never for a file. src = iconoir (node_modules/iconoir, regular; 'file' when the Iconoir name differs), own (public/icons/<name>.svg, our drawing or a kept live one), partner (public/logos/partners/<name>/icon.svg). style = line (default) or solid. status = proposed -> approved, as each is reviewed. live: every icon on openmined.org's style guide (src/pages/icons/_live-icons.json) and the set icon that replaces it (null = none yet; the live drawing stays). match: exact, close, none, status, partner, gap. To change an icon: edit its entry here, or add a drawing with npm run icons:import. Read by src/lib/icons.ts; a name missing here fails the build.",
+  "icons": {
+    "arrow-right": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed",
+      "note": "Text buttons and link cards (replaced Ionicons arrow-forward-outline on the brand site, 2026-10-12)"
+    },
+    "bluesky": {
+      "src": "partner",
+      "style": "line",
+      "status": "proposed"
+    },
+    "book-stack": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "calendar": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "chat-bubble": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "check": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "check-circle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed",
+      "note": "Status: success. Drawn outlined in --success-fg; the live check-solid was filled (open: whether status icons stay filled)."
+    },
+    "clipboard-check": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "clock-rotate-right": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "code": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "code-brackets-square": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed",
+      "note": "Home pillar \"Flexible Federated Computation\" (live: an inline code-in-a-box drawing)"
+    },
+    "community": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "copy": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "copyright": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "cpu": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "database": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "dna": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "doc-magnifying-glass": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "dollar": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "donate": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "download": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "eye": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "eye-closed": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "filter": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "flash": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "github": {
+      "src": "partner",
+      "style": "line",
+      "status": "proposed"
+    },
+    "globe": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "graph-up": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "group": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "half-moon": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "hand-cash": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "info-circle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "journal": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "light-bulb": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "link": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "linkedin": {
+      "src": "partner",
+      "style": "line",
+      "status": "proposed"
+    },
+    "lock": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "map-pin": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "menu": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "microphone": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "nav-arrow-down": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "network": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "open-new-window": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "page-search": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "profile-circle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "prohibition": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "search": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "server": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "settings": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "shield-alert": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "shield-check": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "sort": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "sparks": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "sun-light": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "view-structure-up": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "warning-circle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "warning-triangle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "x": {
+      "src": "partner",
+      "style": "line",
+      "status": "proposed"
+    },
+    "xmark": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed"
+    },
+    "xmark-circle": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed",
+      "note": "Status: danger. Drawn outlined in --danger-fg; the live x-solid was filled."
+    }
+  },
+  "live": {
+    "menu": {
+      "use": "menu",
+      "match": "exact"
+    },
+    "close": {
+      "use": "xmark",
+      "match": "exact"
+    },
+    "chevron-down": {
+      "use": "nav-arrow-down",
+      "match": "exact"
+    },
+    "search": {
+      "use": "search",
+      "match": "exact"
+    },
+    "copy": {
+      "use": "copy",
+      "match": "exact"
+    },
+    "checkmark": {
+      "use": "check",
+      "match": "exact"
+    },
+    "filter": {
+      "use": "filter",
+      "match": "exact"
+    },
+    "sort": {
+      "use": "sort",
+      "match": "exact"
+    },
+    "ban": {
+      "use": "prohibition",
+      "match": "exact"
+    },
+    "calendar": {
+      "use": "calendar",
+      "match": "exact"
+    },
+    "check-solid": {
+      "use": "check-circle",
+      "match": "status"
+    },
+    "circle-check": {
+      "use": "check-circle",
+      "match": "exact"
+    },
+    "circle-user": {
+      "use": "profile-circle",
+      "match": "exact"
+    },
+    "code": {
+      "use": "code",
+      "match": "exact"
+    },
+    "core-concepts": {
+      "use": "view-structure-up",
+      "match": "close"
+    },
+    "database": {
+      "use": "database",
+      "match": "exact"
+    },
+    "dna": {
+      "use": "dna",
+      "match": "exact"
+    },
+    "dollar-sign": {
+      "use": "dollar",
+      "match": "exact"
+    },
+    "enforcement": {
+      "use": null,
+      "match": "none"
+    },
+    "eye": {
+      "use": "eye",
+      "match": "exact"
+    },
+    "eye-off": {
+      "use": "eye-closed",
+      "match": "close"
+    },
+    "file-check": {
+      "use": "clipboard-check",
+      "match": "close"
+    },
+    "globe": {
+      "use": "globe",
+      "match": "exact"
+    },
+    "hand-coins": {
+      "use": "hand-cash",
+      "match": "close"
+    },
+    "hand-heart": {
+      "use": "donate",
+      "match": "close"
+    },
+    "handshake": {
+      "use": null,
+      "match": "none"
+    },
+    "history": {
+      "use": "clock-rotate-right",
+      "match": "close"
+    },
+    "iconoir-community": {
+      "use": "community",
+      "match": "exact"
+    },
+    "iconoir-copyright": {
+      "use": "copyright",
+      "match": "exact"
+    },
+    "iconoir-cpu": {
+      "use": "cpu",
+      "match": "exact"
+    },
+    "iconoir-doc-magnifying-glass": {
+      "use": "doc-magnifying-glass",
+      "match": "exact"
+    },
+    "iconoir-network": {
+      "use": "network",
+      "match": "exact"
+    },
+    "installation": {
+      "use": "download",
+      "match": "exact"
+    },
+    "library": {
+      "use": "book-stack",
+      "match": "close"
+    },
+    "lightbulb": {
+      "use": "light-bulb",
+      "match": "exact"
+    },
+    "lock": {
+      "use": "lock",
+      "match": "exact"
+    },
+    "map-pin": {
+      "use": "map-pin",
+      "match": "exact"
+    },
+    "message-circle": {
+      "use": "chat-bubble",
+      "match": "close"
+    },
+    "mic": {
+      "use": "microphone",
+      "match": "exact"
+    },
+    "network": {
+      "use": "network",
+      "match": "exact"
+    },
+    "network-discovery": {
+      "use": null,
+      "match": "none"
+    },
+    "newspaper": {
+      "use": "journal",
+      "match": "close"
+    },
+    "scale": {
+      "use": null,
+      "match": "none"
+    },
+    "search-check": {
+      "use": "page-search",
+      "match": "close"
+    },
+    "server": {
+      "use": "server",
+      "match": "exact"
+    },
+    "settings": {
+      "use": "settings",
+      "match": "exact"
+    },
+    "shield-alert": {
+      "use": "shield-alert",
+      "match": "exact"
+    },
+    "sparkles": {
+      "use": "sparks",
+      "match": "exact"
+    },
+    "trending-up": {
+      "use": "graph-up",
+      "match": "close"
+    },
+    "triangle-alert": {
+      "use": "warning-triangle",
+      "match": "exact"
+    },
+    "users": {
+      "use": "group",
+      "match": "exact"
+    },
+    "x-solid": {
+      "use": "xmark-circle",
+      "match": "status"
+    },
+    "zap": {
+      "use": "flash",
+      "match": "exact"
+    },
+    "logo-github": {
+      "use": "github",
+      "match": "partner"
+    },
+    "logo-x": {
+      "use": "x",
+      "match": "partner"
+    },
+    "logo-linkedin": {
+      "use": "linkedin",
+      "match": "partner"
+    },
+    "logo-youtube": {
+      "use": null,
+      "match": "gap"
+    },
+    "logo-bluesky": {
+      "use": "bluesky",
+      "match": "partner"
+    },
+    "logo-python": {
+      "use": null,
+      "match": "gap"
+    },
+    "logo-node": {
+      "use": null,
+      "match": "gap"
+    },
+    "logo-flower": {
+      "use": null,
+      "match": "gap"
+    },
+    "search-outline": {
+      "use": "search",
+      "match": "exact"
+    },
+    "moon-outline": {
+      "use": "half-moon",
+      "match": "exact"
+    },
+    "sunny-outline": {
+      "use": "sun-light",
+      "match": "exact"
+    },
+    "copy-outline": {
+      "use": "copy",
+      "match": "exact"
+    },
+    "link-outline": {
+      "use": "link",
+      "match": "exact"
+    },
+    "open-outline": {
+      "use": "open-new-window",
+      "match": "exact"
+    },
+    "download-outline": {
+      "use": "download",
+      "match": "exact"
+    },
+    "checkmark-circle-outline": {
+      "use": "check-circle",
+      "match": "exact"
+    },
+    "alert-circle-outline": {
+      "use": "warning-circle",
+      "match": "exact"
+    },
+    "information-circle-outline": {
+      "use": "info-circle",
+      "match": "exact"
+    },
+    "lock-closed-outline": {
+      "use": "lock",
+      "match": "exact"
+    },
+    "shield-checkmark-outline": {
+      "use": "shield-check",
+      "match": "exact"
+    },
+    "eye-outline": {
+      "use": "eye",
+      "match": "exact"
+    },
+    "layers-outline": {
+      "use": "view-structure-up",
+      "match": "close"
+    }
+  }
+}

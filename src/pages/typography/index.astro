@@ -8,6 +8,7 @@
  *            src/styles/global/typography.css (the clamp() middle values)
  */
 import Site from '../../layouts/Site.astro';
+import { iconSvg } from '../../lib/icons';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
@@ -38,6 +39,7 @@ const STYLES: { name: string; spec: string; source: string; style: string; sampl
   { name: 'Inline code', spec: 'Mono · 0.875em', source: 'element default', style: '', sample: 'Install with <code>pip install syft</code>.' },
 ];
 const NAV: [string, string][] = [['sizes', 'Text sizes'], ['styles', 'Text styles'], ['prose', 'Prose'], ['families', 'Families'], ['scale', 'Heading scale'], ['how', 'Where it stands'], ['decisions', 'Decisions'], ['see', 'See it']];
+const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="typography">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="two v2 text sizes so far" />
@@ -145,8 +147,8 @@ const NAV: [string, string][] = [['sizes', 'Text sizes'], ['styles', 'Text style
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/v1/#typography"><h3 class="card__h">v1 reference: typography <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The released type specimen, with prose.</p></a>
-        <a class="card card--link" href="https://openmined.org/"><h3 class="card__h">openmined.org <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></h3><p>The live site, where the fluid system runs on real pages.</p></a>
+        <a class="card card--link" href="/v1/#typography"><h3 class="card__h">v1 reference: typography <Fragment set:html={ARR} /></h3><p>The released type specimen, with prose.</p></a>
+        <a class="card card--link" href="https://openmined.org/"><h3 class="card__h">openmined.org <Fragment set:html={ARR} /></h3><p>The live site, where the fluid system runs on real pages.</p></a>
       </div>
     </div>
   </section>

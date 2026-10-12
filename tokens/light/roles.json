@@ -43,7 +43,7 @@
     "$type": "color",
     "$root": {
       "$value": "{gray.200}",
-      "$description": "Dividers. OM is dividers-only: no outlines.",
+      "$description": "Dividers: a single edge between two things.",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -52,8 +52,8 @@
       }
     },
     "strong": {
-      "$value": "{gray.300}",
-      "$description": "The heavier divider.",
+      "$value": "{gray.600}",
+      "$description": "The line style: outlines, the secondary button's outline, link underlines. The same gray step as text.body (Kyle, 2026-10-12), so every drawn line matches; never a container (decision 2026-10-12).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -764,6 +764,15 @@
       "$extensions": {
         "org.openmined": {
           "status": "working"
+        }
+      }
+    },
+    "key": {
+      "$value": "{green.key}",
+      "$description": "The accent's color: green, for wherever a color is needed and none is specified (hover lines, icon and button hover, a page's alternate color). The rest of the accent stays grayscale. Kyle, 2026-10-12.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring"
         }
       }
     }

@@ -5,6 +5,7 @@
  * v2 build. Links, focus rings, hover and colored states are still open.
  */
 import Site from '../../layouts/Site.astro';
+import { iconSvg } from '../../lib/icons';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
@@ -18,7 +19,7 @@ const form = doc('components/form-field');
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
-const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const ARR = iconSvg('arrow-right');
 const components = [button, link, form];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
 const TEXT_FIELDS = [
@@ -31,7 +32,7 @@ const TEXT_FIELDS = [
 ];
 ---
 <Site title="Interface" description="Buttons, form controls and their states, on the surface levels." current="interface">
-  <PageHero eyebrow="Components" title="Interface" description="Buttons, form controls and their states. Controls are defined by how they behave, and every boundary comes from a level and a shadow rather than an outline." status="exploring" nav={NAV} />
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, form controls and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="exploring" nav={NAV} />
 
   <section class="band" id="buttons">
     <div class="wrap">
@@ -42,7 +43,7 @@ const TEXT_FIELDS = [
           <button type="button" class="btn">Cancel</button>
           <button type="button" class="btn">Save draft</button>
         </div>
-        <p class="muted">Solid uses the accent, grayscale for now. Quiet buttons have no fill and no outline at rest; on hover they take a subtle accent wash (<code>--accent-subtle</code>), being tried now.</p>
+        <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest and fill with the accent key, green, on hover, with a white label.</p>
       </article>
     </div>
   </section>
@@ -53,13 +54,13 @@ const TEXT_FIELDS = [
       <div class="grid grid--2">
         <article class="card link-demo">
           <h3>Content link</h3>
-          <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover it wipes out to the right and a teal line draws back in.</p>
-          <p class="muted">Any plain link in a paragraph or a prose region gets it. The hover line is the teal key; the live site uses v1’s green.</p>
+          <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a green line, the accent key, grows over it from the left and leaves to the right. The text never changes color.</p>
+          <p class="muted">Any plain link in a paragraph or a prose region gets it. The live site wipes the underline out and draws a green one back in, and some live links turn their text green.</p>
         </article>
         <article class="card link-demo">
           <h3>Text button</h3>
           <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
-          <p class="muted">An action that reads as text: no underline at rest; a 1px line slides in under the label on hover. The icon follows the label and isn’t underlined.</p>
+          <p class="muted">An action that reads as text: no underline at rest; on hover the line slides in from the left and leaves to the right: the same line as the content link's underline and the secondary button's outline. Nav and footer links work the same way. The icon follows the label and isn’t underlined.</p>
         </article>
       </div>
     </div>
@@ -174,9 +175,9 @@ const TEXT_FIELDS = [
       <div class="notes">
         <div>
           <ul>
-            <li><b>Link color.</b> Content links draw their hover line in the teal key (v1 used green). Link text keeps the color of the text around it. Whether other interactive states (focus, the solid button) take a color is still open: the color round proposed the accent.</li>
+            <li><b>Link color.</b> Link text never changes color. Every link line matches the secondary button's outline (<code>--line-strong</code>). Underlined links take the accent key (green) on hover; links without an underline draw the line on hover.</li>
             <li><b>A colored accent.</b> Whether OpenMined's accent stays grayscale or takes a hue.</li>
-            <li><b>Hover</b>: whether the quiet buttons' subtle wash holds up, and how much a shadow changes on hover.</li>
+            <li><b>Hover motion.</b> A subtle animated accent gradient and glow on button hover (Bennett, 2026-10-12): which colors move is still open, so the hover is a plain fill for now.</li>
             <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). It may need reinforcing: a stronger inset, or one rung deeper than rest.</li>
             <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
           </ul>

@@ -2,9 +2,9 @@
 /**
  * BRAND SITE (v2) — Icons. Words from design/ (tag `icons`); icons are Iconoir's
  * regular set, inlined at build time by components/site/Icon.astro (no CDN).
- * "The set" compares every icon on the live style guide (./_live-icons.json, fetched
- * 2026-10-09) with its Iconoir replacement; brand logos map to the partner marks
- * on the Graphics page, never to Iconoir's brand icons.
+ * "The set" is a view of icons/set.json: every v2 icon (source, style, review
+ * status), and every icon on the live style guide (./_live-icons.json, a snapshot)
+ * next to the set icon that replaces it. All drawings come through src/lib/icons.ts.
  */
 import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
@@ -12,33 +12,32 @@ import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import Icon from '../../components/site/Icon.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import LIVE from './_live-icons.json';
-import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import LIVE_SNAPSHOT from './_live-icons.json';
+import { ICONS, LIVE, iconSvg } from '../../lib/icons';
 
 const foundation = doc('foundations/iconography');
 const { Content } = foundation;
 const rules = byTag('icons', 'Guideline', 'Behavior');
 const decisions = decisionsFor('icons');
-const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['sizes', 'Sizes'], ['set', 'The set'], ['live', 'From the live site'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 
-/** Every live icon and its v2 replacement. A partner match renders the one-color partner mark. */
-const partnerSvg = (brand: string) => {
-  const f = join(process.cwd(), 'public', 'logos', 'partners', brand, 'icon.svg');
-  return existsSync(f) ? readFileSync(f, 'utf8').replace('<svg', '<svg width="24" height="24" aria-hidden="true" focusable="false"') : '';
-};
+/** Every live icon (the snapshot) with the set icon that replaces it (icons/set.json → live). */
 const MATCH: Record<string, string> = { exact: 'Same idea', close: 'Closest match', none: 'No match', status: 'Status color', partner: 'Partner mark', gap: 'No partner mark yet' };
-const GROUPS = (LIVE as any).groups as { title: string; desc: string; ionicons?: boolean; items: { name: string; svg: string | null; to: string | null; match: string }[] }[];
+const SRC: Record<string, string> = { iconoir: 'Iconoir', own: 'Our own', partner: 'Partner mark' };
+const GROUPS = (LIVE_SNAPSHOT as any).groups.map((g: any) => ({ ...g, items: g.items.map((it: any) => ({ ...it, ...LIVE[it.name] })) })) as { title: string; desc: string; ionicons?: boolean; items: { name: string; svg: string; use: string | null; match: string }[] }[];
 const TOTAL = GROUPS.reduce((n, g) => n + g.items.length, 0);
 const COUNT = (m: string) => GROUPS.reduce((n, g) => n + g.items.filter(i => i.match === m).length, 0);
 const liveSvg = (svg: string) => svg.replace('<svg', '<svg width="24" height="24" aria-hidden="true" focusable="false"');
+/** The v2 set, with the live icons each one replaces. */
+const SET = Object.entries(ICONS).map(([name, e]) => ({ name, ...e, replaces: Object.entries(LIVE).filter(([, l]) => l.use === name).map(([n]) => n) }));
+const APPROVED = SET.filter(i => i.status === 'approved').length;
 const STATUS = [
   { s: 'success', icon: 'check-circle', label: 'Check' },
   { s: 'danger', icon: 'xmark-circle', label: 'X' },
   { s: 'warning', icon: 'warning-triangle', label: 'Warning' },
   { s: 'info', icon: 'info-circle', label: 'Info' },
 ];
-const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="icons">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="Iconoir regular, inlined at build" />
@@ -88,10 +87,10 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
 
   <section class="band" id="sizes">
     <div class="wrap">
-      <header class="sec"><h2>Sizes</h2><p>Inline icons are 1em. On their own: 16px for dense rows, 20px by default, 24px (the grid) for emphasis. Every icon draws at a 2 stroke (on the 24 grid), which scales with the icon.</p></header>
+      <header class="sec"><h2>Sizes</h2><p>Inline icons are 1em. On their own: 16px for dense rows, 20px by default, 24px (the grid) for emphasis. Every icon draws at a 2 stroke on the 24 grid, which scales with the icon up to 24px; above 24px the line holds at 2px, so large icons (32px in cards, 40px in a diagram) don’t grow heavy.</p></header>
       <article class="card">
         <ul class="icon-sizes">
-          {[16, 20, 24].map(px => <li><Icon name="shield-check" size={px} /><span class="muted">{px}px{px === 20 && ' · default'}</span></li>)}
+          {[16, 20, 24, 32, 40].map(px => <li><Icon name="shield-check" size={px} /><span class="muted">{px}px{px === 20 && ' · default'} · {(Math.min(2, 48 / px) * px / 24).toFixed(px > 24 ? 0 : 2)}px line</span></li>)}
           <li><span style="font-size:var(--font-size-md)"><Icon name="shield-check" /> 1em, inline</span></li>
         </ul>
       </article>
@@ -100,24 +99,51 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
 
   <section class="band" id="set">
     <div class="wrap">
-      <header class="sec"><h2>The set</h2><p>Every icon on the live site’s style guide (<a href="https://openmined.org/style-guide/#icons">openmined.org/style-guide</a>), next to its v2 replacement, in the live guide’s groups: {TOTAL} icons, {COUNT('exact')} with a same-idea Iconoir icon, {COUNT('close')} with the closest match, {COUNT('none')} with none. The live set mixes sources (2px and 1.5px strokes, five already from Iconoir, a filled check and X); v2 makes them one family.</p><p><b>Where the v2 column comes from.</b> Every proposed icon is from <b>Iconoir’s regular (outlined) set</b>, read from the installed package, including the check and X shown in their status colors. None of our own icons replace them yet (<code>public/icons/</code> is empty). The one exception is <b>brand logos</b>: those show our partner marks from <code>public/logos/partners/</code>, never Iconoir’s redrawn brand icons. A dash means nothing is proposed yet.</p></header>
+      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons, {APPROVED} approved, {SET.length - APPROVED} proposed. Components ask for an icon by its name here; the entry decides the drawing (Iconoir, our own in <code>public/icons/</code>, or a partner mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+          <table class="tbl icon-cmp">
+            <thead><tr><th>Icon</th><th>Name</th><th>Source</th><th>Style</th><th>Status</th><th>Replaces (live)</th><th>Note</th></tr></thead>
+            <tbody>
+              {SET.map(i => (
+                <tr>
+                  <td class="icon-cmp__glyph"><Icon name={i.name} size={24} /></td>
+                  <td><code>{i.name}</code></td>
+                  <td>{SRC[i.src]}{i.file && <> · <code>{i.file}</code></>}</td>
+                  <td>{i.style ?? 'line'}</td>
+                  <td>{i.status === 'approved' ? <b>approved</b> : <span class="muted">proposed</span>}</td>
+                  <td>{i.replaces.length ? i.replaces.map((r, k) => <>{k > 0 && ', '}<code>{r}</code></>) : <span class="muted">—</span>}</td>
+                  <td class="muted">{i.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="live">
+    <div class="wrap">
+      <header class="sec"><h2>From the live site</h2><p>Every icon on the live site’s style guide (<a href="https://openmined.org/style-guide/#icons">openmined.org/style-guide</a>), next to the set icon that replaces it, in the live guide’s groups: {TOTAL} icons, {COUNT('exact')} with a same-idea Iconoir icon, {COUNT('close')} with the closest match, {COUNT('none')} with none. The live set mixes sources (2px and 1.5px strokes, five already from Iconoir, a filled check and X). A dash means no replacement is chosen yet, so the live drawing stays wherever it’s used.</p></header>
       {GROUPS.map(g => (
         <article class="card">
           <h3>{g.title} <span class="muted">({g.items.length})</span></h3>
           <p class="muted">{g.desc}</p>
           <div class="tbl-wrap">
             <table class="tbl icon-cmp">
-              <thead><tr><th>Live</th><th>Name</th><th>v2</th><th>Name</th><th>Match</th></tr></thead>
+              <thead><tr><th>Live</th><th>Name</th><th>v2</th><th>Name</th><th>Match</th><th>Status</th></tr></thead>
               <tbody>
                 {g.items.map(it => (
                   <tr class={`is-${it.match}`}>
-                    <td class="icon-cmp__glyph">{g.ionicons ? <ion-icon name={it.name} aria-hidden="true"></ion-icon> : <Fragment set:html={liveSvg(it.svg!)} />}</td>
+                    <td class="icon-cmp__glyph"><Fragment set:html={liveSvg(it.svg)} /></td>
                     <td><code>{it.name}</code></td>
                     <td class={`icon-cmp__glyph${it.match === 'status' ? (it.name.startsWith('x') ? ' is-danger' : ' is-success') : ''}`}>
-                      {it.match === 'partner' ? <Fragment set:html={partnerSvg(it.to!)} /> : it.to ? <Icon name={it.to} size={24} /> : <span class="muted">—</span>}
+                      {it.use ? <Icon name={it.use} size={24} /> : <span class="muted">—</span>}
                     </td>
-                    <td>{it.to ? <code>{it.to}</code> : <span class="muted">—</span>}</td>
+                    <td>{it.use ? <code>{it.use}</code> : <span class="muted">—</span>}</td>
                     <td>{MATCH[it.match]}</td>
+                    <td>{it.use ? (ICONS[it.use].status === 'approved' ? <b>approved</b> : <span class="muted">proposed</span>) : <span class="muted">—</span>}</td>
                   </tr>
                 ))}
               </tbody>
@@ -126,9 +152,9 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         </article>
       ))}
       <div class="notes"><div><ul>
-        <li><b>No match ({COUNT('none')}):</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'none').map(i => i.name)).join(', ')}. Draw our own on Iconoir’s grid and stroke (into <code>public/icons/</code>), or keep the live drawing.</li>
-        <li><b>Status:</b> the live check and X are filled and colored; v2 draws them outlined in their status color, like every icon. Iconoir also has a filled check and X if status icons should stay filled.</li>
-        <li><b>Brands without a partner mark:</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'gap').map(i => i.name.replace('logo-', ''))).join(', ')}. Add official files to <code>public/logos/partners/</code>.</li>
+        <li><b>No match ({COUNT('none')}):</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'none').map(i => i.name)).join(', ')}. Draw our own on Iconoir’s grid and stroke, or import the live drawing (<code>npm run icons:import</code>).</li>
+        <li><b>Status:</b> the live check and X are filled and colored; v2 draws them outlined in their status color, like every icon. To keep the filled ones, import them as <code>solid</code> icons.</li>
+        <li><b>Brands without a partner mark:</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'gap').map(i => i.name.replace('logo-', ''))).join(', ')}. Add official files to <code>public/logos/partners/</code>. Brand marks are fills in every version.</li>
       </ul></div></div>
     </div>
   </section>

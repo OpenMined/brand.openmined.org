@@ -12,4 +12,6 @@ tags: [graphics, icons]
 
 **Why.** The marks are trademarks, used to name the product (nominative use). Some owners restrict how their mark appears; Google's four-color G, for example, stays as it is.
 
+**Color mode.** Every mark reads in both modes; see [Partner marks follow the color mode](#guidelines-partner-marks-follow-the-mode).
+
 **Inline.** Next to text, a partner mark follows the icon sizes and alignment, and in one color it takes the text color like an icon. It never takes our icon style: the mark's own drawing stays as supplied.

@@ -1079,11 +1079,11 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.9842,
-          0.0076,
-          27.23
+          0.9845,
+          0.0075,
+          17.28
         ],
-        "hex": "#fff8f7"
+        "hex": "#fff8f8"
       },
       "$extensions": {
         "org.openmined": {
@@ -1099,18 +1099,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.9645,
-          0.0174,
-          21.81
+          0.9648,
+          0.0173,
+          17.46
         ],
-        "hex": "#ffefee"
+        "hex": "#ffefef"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 100 (7-step)",
+          "was": "red 100: #ffefee, hue 21.8 → 18.1, chroma × 1.033, lightness kept, gamut-mapped",
           "gamutMapped": true
         }
       }
@@ -1119,18 +1119,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.8991,
-          0.0524,
-          23.98
+          0.8997,
+          0.0521,
+          21.09
         ],
-        "hex": "#ffd1cd"
+        "hex": "#ffd1cf"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 200 (7-step)",
+          "was": "red 200: #ffd1cd, hue 24.0 → 20.3, chroma × 1.033, lightness kept, gamut-mapped",
           "gamutMapped": true
         }
       }
@@ -1139,18 +1139,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.8001,
-          0.1142,
-          23.84
+          0.7996,
+          0.1148,
+          19.91
         ],
-        "hex": "#ffa09a"
+        "hex": "#ff9f9f"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 300 (7-step)",
+          "was": "red 300: #fca29c, hue 23.9 → 20.2, chroma × 1.033, lightness kept",
           "gamutMapped": true
         }
       }
@@ -1159,11 +1159,11 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.6745,
-          0.143,
-          23.67
+          0.6754,
+          0.1472,
+          20.25
         ],
-        "hex": "#e16f6b"
+        "hex": "#e36d70"
       },
       "$extensions": {
         "org.openmined": {
@@ -1178,18 +1178,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.5509,
-          0.1643,
-          24.28
+          0.5508,
+          0.1699,
+          21.09
         ],
-        "hex": "#bf3f3f"
+        "hex": "#c13b44"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 400 (7-step)"
+          "was": "red 500: #b94644, hue 24.3 → 20.6, chroma × 1.033, lightness kept"
         }
       }
     },
@@ -1197,18 +1197,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.4699,
-          0.156,
-          23.95
+          0.471,
+          0.1611,
+          20.44
         ],
-        "hex": "#a0282c"
+        "hex": "#a22432"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 500 (7-step)"
+          "was": "red 600: #9b3031, hue 24.0 → 20.2, chroma × 1.033, lightness kept"
         }
       }
     },
@@ -1216,18 +1216,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.3699,
-          0.0816,
-          23.92
+          0.3688,
+          0.0854,
+          20.15
         ],
-        "hex": "#642c2a"
+        "hex": "#652a2c"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 600 (7-step)"
+          "was": "red 700: #612e2c, hue 23.7 → 19.9, chroma × 1.033, lightness kept"
         }
       }
     },
@@ -1235,18 +1235,18 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.2804,
-          0.0439,
-          24.61
+          0.2807,
+          0.0437,
+          22.41
         ],
-        "hex": "#3c201e"
+        "hex": "#3c201f"
       },
       "$extensions": {
         "org.openmined": {
           "status": "working",
           "generated": true,
           "pinned": true,
-          "was": "red 700 (7-step)"
+          "was": "red 800: #3a211f, hue 24.8 → 21.1, chroma × 1.033, lightness kept"
         }
       }
     },
@@ -1254,11 +1254,11 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.2205,
-          0.0351,
-          26.09
+          0.2192,
+          0.0332,
+          23.2
         ],
-        "hex": "#291412"
+        "hex": "#281413"
       },
       "$extensions": {
         "org.openmined": {

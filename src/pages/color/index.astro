@@ -5,6 +5,7 @@
  * values from src/tokens/v2/ via src/lib/tokens.ts.
  */
 import Site from '../../layouts/Site.astro';
+import { iconSvg } from '../../lib/icons';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
@@ -17,8 +18,13 @@ import HUES_LIGHT from '../../../tokens/light/hues.json';
 import HUES_DARK from '../../../tokens/dark/hues.json';
 
 const foundation = doc('foundations/color');
-/* Gray steps as OKLCH (from tokens/base/gray.json), for the midtone saturation preview. */
-const GRAY_OKLCH = STEPS.map(s => { const c = (GRAY_FILE as any).gray[s].$value; return { step: s, hex: c.hex, L: c.components[0] * 100, C: c.components[1], H: c.components[2] }; });
+/* Gray steps as OKLCH before the midtone boost (tokens/base/gray.json keeps the
+   pre-boost value as beforeBoost), for the midtone saturation preview. */
+const BOOST = { amount: 0.008, center: 54, width: 15 }; // tools/palette/inputs.json gray.midtone_boost
+const GRAY_OKLCH = STEPS.map(s => {
+  const t = (GRAY_FILE as any).gray[s], c = t.$extensions['org.openmined'].beforeBoost ?? t.$value;
+  return { step: s, hex: c.hex, built: t.$value.hex, L: c.components[0] * 100, C: c.components[1], H: c.components[2] };
+});
 /* Steps at the edge of the sRGB gamut: the mode's saturation offset is pulled back
    to what screens can show (gamutMapped in tokens/), so some match in both modes. */
 const GAMUT = HUES.flatMap(h => STEPS.filter(s => (HUES_LIGHT as any)[h]?.[s]?.$extensions?.['org.openmined']?.gamutMapped).map(s => {
@@ -57,7 +63,7 @@ const LINES = ['line', 'line-strong'];
 const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
 
 const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
-const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>';
+const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="color">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
@@ -80,18 +86,18 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
           ))}
         </div>
         <div class="gboost" data-grays={JSON.stringify(GRAY_OKLCH)}>
-          <p class="gboost__lead"><b>Midtone saturation</b> <span class="muted">Exploring. Adds chroma on a bell curve over lightness: most at the center, little or none at the light and dark ends. Each step keeps its own hue. Applies live to the whole page (muted text and strong lines use the middle grays); nothing is saved.</span></p>
+          <p class="gboost__lead"><b>Midtone saturation</b> <span class="muted">Exploring. Adds chroma on a bell curve over lightness: most at the center, little or none at the light and dark ends. Each step keeps its own hue. The default (amount 0.008, center 54, width 15; 2026-10-12) is built into the gray tokens on every page. The sliders apply live to this page only (muted text and strong lines use the middle grays); nothing is saved.</span></p>
           <div class="gboost__ctl">
-            <label>Amount <b class="js-gb-out" data-for="amount">0</b><input type="range" class="js-gb" data-k="amount" min="0" max="0.04" step="0.002" value="0" /></label>
-            <label>Center (lightness) <b class="js-gb-out" data-for="center">62</b><input type="range" class="js-gb" data-k="center" min="35" max="85" step="1" value="62" /></label>
-            <label>Width <b class="js-gb-out" data-for="width">14</b><input type="range" class="js-gb" data-k="width" min="6" max="30" step="1" value="14" /></label>
-            <button type="button" class="btn js-gb-reset">Reset</button>
-            <button type="button" class="btn js-gb-preset" data-amount="0.008" data-center="58" data-width="15">Suggested boost</button>
+            <label>Amount <b class="js-gb-out" data-for="amount">{BOOST.amount.toFixed(3)}</b><input type="range" class="js-gb" data-k="amount" min="0" max="0.04" step="0.002" value={BOOST.amount} /></label>
+            <label>Center (lightness) <b class="js-gb-out" data-for="center">{BOOST.center}</b><input type="range" class="js-gb" data-k="center" min="35" max="85" step="1" value={BOOST.center} /></label>
+            <label>Width <b class="js-gb-out" data-for="width">{BOOST.width}</b><input type="range" class="js-gb" data-k="width" min="6" max="30" step="1" value={BOOST.width} /></label>
+            <button type="button" class="btn js-gb-reset">No boost</button>
+            <button type="button" class="btn js-gb-preset" data-amount={BOOST.amount} data-center={BOOST.center} data-width={BOOST.width}>Default</button>
           </div>
           <div class="tbl-wrap">
             <table class="tbl gboost__tbl">
-              <thead><tr><th>Step</th><th>Lightness</th><th>Chroma now</th><th>Added</th><th>Chroma</th><th>Was</th><th>Becomes</th></tr></thead>
-              <tbody>{GRAY_OKLCH.map(g => <tr data-step={g.step}><td>gray {g.step}</td><td>{g.L.toFixed(1)}</td><td>{g.C.toFixed(4)}</td><td class="js-add">0</td><td class="js-c">{g.C.toFixed(4)}</td><td><code>{g.hex}</code></td><td><span class="gboost__chip" style={`background:var(--gray-${g.step})`}></span><code class="js-hex">{g.hex}</code></td></tr>)}</tbody>
+              <thead><tr><th>Step</th><th>Lightness</th><th>Chroma before boost</th><th>Added</th><th>Chroma</th><th>Before boost</th><th>Becomes</th></tr></thead>
+              <tbody>{GRAY_OKLCH.map(g => <tr data-step={g.step}><td>gray {g.step}</td><td>{g.L.toFixed(1)}</td><td>{g.C.toFixed(4)}</td><td class="js-add">…</td><td class="js-c">…</td><td><code>{g.hex}</code></td><td><span class="gboost__chip" style={`background:var(--gray-${g.step})`}></span><code class="js-hex">{g.built}</code></td></tr>)}</tbody>
             </table>
           </div>
         </div>
@@ -256,7 +262,7 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
     // the page that lands on a gray step follows. Gray is the same in both modes.
     const box = document.querySelector<HTMLElement>('.gboost');
     if (box) {
-      const GR: { step: string; hex: string; L: number; C: number; H: number }[] = JSON.parse(box.dataset.grays!);
+      const GR: { step: string; hex: string; built: string; L: number; C: number; H: number }[] = JSON.parse(box.dataset.grays!);
       const toRgb = (L: number, C: number, H: number) => {
         const h = (H * Math.PI) / 180, Lf = L / 100, A = C * Math.cos(h), B = C * Math.sin(h);
         const l = (Lf + 0.3963377774 * A + 0.2158037573 * B) ** 3, m = (Lf - 0.1055613458 * A - 0.0638541728 * B) ** 3, s = (Lf - 0.0894841775 * A - 1.291485548 * B) ** 3;
@@ -277,7 +283,8 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         GR.forEach(g => {
           const add = amount * Math.exp(-((g.L - center) ** 2) / (2 * width * width));
           const { hex, c } = amount ? hexOf(g.L, g.C + add, g.H) : { hex: g.hex, c: g.C };
-          if (amount) html.style.setProperty(`--gray-${g.step}`, hex); else html.style.removeProperty(`--gray-${g.step}`);
+          // Built tokens already carry the default; only override where the preview differs.
+          if (hex !== g.built) html.style.setProperty(`--gray-${g.step}`, hex); else html.style.removeProperty(`--gray-${g.step}`);
           const row = box.querySelector<HTMLElement>(`tr[data-step="${g.step}"]`)!;
           row.querySelector('.js-add')!.textContent = (c - g.C).toFixed(4);
           row.querySelector('.js-c')!.textContent = c.toFixed(4);
@@ -286,15 +293,14 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
         });
       };
       box.querySelectorAll('.js-gb').forEach(i => i.addEventListener('input', apply));
-      // Presets: Suggested boost (Kyle, 2026-10-09) sets all three sliders at once.
+      apply();
+      // Default: the built boost (center 58 → 54 on 2026-10-12, then made the token default) sets all three sliders at once.
       box.querySelectorAll<HTMLButtonElement>('.js-gb-preset').forEach(b => b.addEventListener('click', () => {
         (['amount', 'center', 'width'] as const).forEach(k => ((box.querySelector(`.js-gb[data-k="${k}"]`) as HTMLInputElement).value = b.dataset[k]!));
         apply();
       }));
       box.querySelector('.js-gb-reset')!.addEventListener('click', () => {
         (box.querySelector('.js-gb[data-k="amount"]') as HTMLInputElement).value = '0';
-        (box.querySelector('.js-gb[data-k="center"]') as HTMLInputElement).value = '62';
-        (box.querySelector('.js-gb[data-k="width"]') as HTMLInputElement).value = '14';
         apply();
       });
     }

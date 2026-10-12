@@ -1,0 +1,31 @@
+---
+/**
+ * PAGE REVIEWS — the v2 pass's one markup change, made at runtime so the port
+ * stays as it is: a gradient map (<om-mesh>, the brand embed, in the Graphics
+ * page's setting) behind each call-to-action that used the live raster.
+ * Its colors are --gradient-map's stops, re-read when the mode changes.
+ * Rendered by the ported Base.astro on v2 routes only.
+ */
+import { listStops } from '../../lib/tokens';
+const stops = listStops('map');
+---
+<script type="module" src="/embeds/om-mesh.js" is:inline></script>
+<script is:inline define:vars={{ stops }}>
+  document.querySelectorAll('.cta--gradient, .cta--subtle').forEach((cta) => {
+    const m = document.createElement('om-mesh');
+    Object.entries({ 'aria-hidden': 'true', mode: 'clouds', speed: '1', drift: '0.15', flow: '0.11', edge: '0', size: '0.8', cover: '4', soft: '0.65', billow: '1', opacity: '0.6', saturation: '1.1' })
+      .forEach(([k, v]) => m.setAttribute(k, v));
+    cta.prepend(m);
+  });
+  const h = document.documentElement;
+  const sync = () => {
+    const cs = getComputedStyle(h);
+    const read = (v) => cs.getPropertyValue(`--${v}`).trim();
+    document.querySelectorAll('.cta > om-mesh').forEach((el) => {
+      el.setAttribute('colors', stops.split(',').map(read).join(','));
+      el.setAttribute('haze', read('surface-base'));
+    });
+  };
+  sync();
+  new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
+</script>

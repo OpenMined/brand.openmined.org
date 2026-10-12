@@ -1,0 +1,221 @@
+/* PAGE REVIEWS — v2 first pass, component level.
+   ════════════════════════════════════════════════════════════════════
+   What bridge.css can't do by renaming tokens. Each block names the v2 rule
+   it applies (design/…). Everything here is scoped to html[data-system="v2"],
+   which also lifts it over the ported components' scoped styles (0,2,0).
+   A first pass: the obvious move per rule, with the open questions listed on
+   /page-reviews/ rather than solved here. */
+
+/* ── Cards are a level: raise-1 and its shadow, no outline ──────────────
+   foundations/surfaces, behaviors/shadows-at-rest, guidelines/outlines-are-lines.
+   Live cards were flat tiles told apart by a tinted band behind them; with
+   the bands gone (sections aren't tinted), the level and shadow are the edge. */
+html[data-system="v2"] :is(
+  .icon-card, .link-card, .syh-products__card, .syh-paths__quote, .flow__node
+) {
+  background-color: var(--surface-raise-1);
+  box-shadow: var(--shadow-raise-1);
+  border: 0;
+}
+/* Interactive cards: hover moves one level up the shadow ladder. */
+html[data-system="v2"] .link-card:hover { box-shadow: var(--shadow-raise-2); }
+/* Press cards show logos in their own colors, so they're white plates in
+   both modes: they're images (guidelines/logo-images-on-white). */
+html[data-system="v2"] .logo-card {
+  --card-float-shadow: var(--shadow-raise-1);
+  --card-float-shadow-hover: var(--shadow-raise-2);
+  background-color: var(--white);
+}
+/* ── The federated-network section: an outline, not a card ─────────────
+   guidelines/outlines-are-lines (decision 2026-10-12). Back to the live
+   style: a 1px line-strong outline over the page, so the colorflow behind
+   it shows through (Kyle liked it; Bennett: "used as a line and not a
+   container"). Its row rules are drawn in the same line, as live does. It
+   holds a nested shape (the CTA row), so it takes the outer corner
+   (foundations/shape: nesting). */
+html[data-system="v2"] .home-fednet__card {
+  background-color: transparent;
+  border: var(--stroke-sm) solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+html[data-system="v2"] .home-fednet__row { border-bottom-color: var(--line-strong); }
+html[data-system="v2"] .home-fednet__row:last-child { border-bottom: 0; }
+/* "Start your own federated sub-network": raise-1 in place of live's inverse
+   row (Bennett, 2026-10-12), with the page's own text and button colors. A
+   band filled one level up inside the outline: built to judge in context;
+   no rule written yet (Kyle). No shadow: it meets the outline on three sides
+   and the divider on the fourth. */
+html[data-system="v2"] .home-fednet__row--cta { background-color: var(--surface-raise-1); }
+html[data-system="v2"] .home-fednet__cta-heading { color: var(--text-headline); }
+html[data-system="v2"] .home-fednet__cta-body { color: var(--text-body); }
+html[data-system="v2"] .home-fednet__row--cta .btn {
+  --button-dark-color: var(--accent-solid);
+  --button-light-color: var(--accent-on);
+}
+
+/* ── Sections aren't tinted ─────────────────────────────────────────────
+   guidelines/sections-arent-tinted. bridge.css maps "dim" to the page; the
+   "bright" band (raise-1 via the card mapping) needs its own reset. */
+html[data-system="v2"] .button-cta--bright { background-color: var(--surface-base); }
+
+/* ── Buttons: one solid, the rest secondary ─────────────────────────────
+   components/button, guidelines/one-solid-button. Outline → secondary: an
+   outline in the body text color, no fill, headline label (Bennett,
+   2026-10-12: close to live, minus live's green outline-and-text hover).
+   Grayscale at rest; on hover both take the accent key, green (decision
+   2026-10-12): a green fill with a white label (the solid button's via
+   bridge.css, --color-interactive-hover). */
+html[data-system="v2"] .btn:hover { color: var(--white); }
+html[data-system="v2"] .btn:focus { background-color: var(--accent-solid); }
+html[data-system="v2"] .btn:focus-visible { outline: 2px solid var(--color-interactive-focus); outline-offset: 2px; }
+html[data-system="v2"] .btn--outline,
+html[data-system="v2"] .btn--outline:focus,
+html[data-system="v2"] .btn--outline:active {
+  background-color: transparent;
+  color: var(--text-headline);
+  border: var(--stroke-sm) solid var(--line-strong);
+}
+html[data-system="v2"] .btn--outline:hover {
+  background-color: var(--accent-key);
+  color: var(--white);
+  border-color: var(--accent-key);
+}
+
+/* ── SyftHub's color: green, one hue throughout ─────────────────────────
+   The live page marks SyftHub in green (title, label, button, step badges,
+   connector). With no product color defined, the alternate color is the
+   accent's, green (decision 2026-10-12), kept consistent across the page.
+   Fills use the key with a white label (guidelines/color-fills-use-the-key);
+   text uses green fg, the colored-text role. */
+html[data-system="v2"] :is(.syh-products__product--green, .syh-paths__product-label--green) { color: var(--green-fg); }
+html[data-system="v2"] .btn.btn--green { background-color: var(--accent-key) !important; color: var(--white) !important; }
+html[data-system="v2"] .btn.btn--green:hover { background-color: var(--green-600) !important; color: var(--white) !important; }
+/* !important: the component's scoped selectors (0,4,0) and (0,7,1) outrank the v2 prefix. */
+html[data-system="v2"] .step-list--accent-green .step-list__num { background-color: var(--accent-key) !important; color: var(--white) !important; }
+html[data-system="v2"] .step-list--accent-green.step-list--connector .step-list__item:not(:last-child)::after { background-color: var(--accent-key) !important; }
+html[data-system="v2"] .step-list__num { color: var(--surface-base); }
+/* Flow diagram operators: marks in a graphic, in the accent key. */
+html[data-system="v2"] .flow__op--accent { color: var(--accent-key); }
+
+/* ── Links: text never changes color (components/link) ─────────────────
+   Kyle and Bennett, 2026-10-12. A link with an underline keeps it, and on
+   hover the accent key (green) grows over it from the left; a link without
+   one (nav, footer, text buttons) draws one in its own text color. Both
+   lines leave to the right. The content link's underline still draws in on
+   load. Every line is the line style, --stroke-sm in --line-strong (the body
+   text color), the same as the secondary button's outline (Kyle,
+   2026-10-12). Two registered properties carry the two line lengths, so the load
+   animation (base line) and the hover transition (accent line) never fight
+   over background-size. */
+@property --om-line { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --om-accent { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@keyframes om-line-in { from { --om-line: 0%; } to { --om-line: 100%; } }
+
+/* Content links: live's in prose, paragraphs and headings, and its
+   .animated-line family. Same animation on hover, so it never restarts. */
+html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]),
+html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline) {
+  background-image: linear-gradient(var(--accent-key), var(--accent-key)), linear-gradient(var(--line-strong), var(--line-strong));
+  background-repeat: no-repeat;
+  background-size: var(--om-accent) var(--stroke-sm), var(--om-line) var(--stroke-sm);
+  background-position: right bottom, left bottom;
+  animation: om-line-in 0.4s ease forwards;
+  transition: --om-accent 0.4s ease;
+}
+html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]):hover,
+html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline):hover {
+  --om-accent: 100%;
+  background-position: left bottom, left bottom;
+  animation: om-line-in 0.4s ease forwards;
+}
+
+/* Links without an underline: the same line, in from the left and out to
+   the right (live returns it to the left). The current page holds it open,
+   as live does. */
+html[data-system="v2"] .link-hover-line {
+  background-image: linear-gradient(var(--line-strong), var(--line-strong));
+  background-position: right 0 bottom calc(var(--link-hover-line-pad, 2px) - var(--link-hover-line-gap, 2px));
+}
+html[data-system="v2"] :is(.link-hover-line:hover, .link-hover-line[aria-current='page'], .hover-group:hover .link-hover-line, .hover-group:focus-within .link-hover-line) {
+  background-position: left 0 bottom calc(var(--link-hover-line-pad, 2px) - var(--link-hover-line-gap, 2px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]),
+  html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline) { animation: none; --om-line: 100%; transition: none; }
+}
+
+/* ── Forms: sunken fields, flat until focus; errors are text ────────────
+   components/form-field. The panel holding the fields is a card one level up
+   (raise-1, the outer corner). */
+html[data-system="v2"] .cta__card {
+  background-color: var(--surface-raise-1);
+  box-shadow: var(--shadow-raise-1);
+  border-radius: var(--radius-lg);
+}
+html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select) {
+  background-color: var(--surface-sunken);
+  box-shadow: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+}
+html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select):focus { box-shadow: var(--shadow-sunken); }
+html[data-system="v2"] .hs-form ::placeholder { color: var(--text-muted); font-weight: 500; }
+html[data-system="v2"] .hs-form .actions input[type="submit"] { border-radius: var(--radius-md); }
+html[data-system="v2"] .hs-form .actions input[type="submit"]:hover { color: var(--white); }
+/* Checkbox: a control, a recess you operate; casts its inset at rest; checked
+   fills with the headline color. */
+html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-booleancheckbox-display)::before {
+  background-color: var(--surface-sunken);
+  box-shadow: var(--shadow-sunken);
+  border-radius: var(--radius-sm);
+}
+html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-booleancheckbox-display):has(input:checked)::before {
+  background-color: var(--text-headline);
+}
+html[data-system="v2"] .hs-form .hs-error-msgs label { color: var(--danger-fg); }
+
+/* ── Call-to-action backgrounds: the gradient map ───────────────────────
+   The live raster (cta-gradient-bg.png) is off-palette. v2's gradient map
+   (<om-mesh>, --gradient-map) was built as its replacement; V2Pass.astro puts
+   one behind each CTA. guidelines/graphics-draw-from-palette. */
+html[data-system="v2"] :is(.cta--gradient, .cta--subtle) {
+  position: relative;
+  isolation: isolate;
+  background-image: none;
+  background-color: var(--surface-base);
+}
+html[data-system="v2"] .cta > om-mesh { position: absolute; inset: 0; z-index: -1; }
+
+/* ── Footer: one dark ground ─────────────────────────────────────────────
+   Live paints two darks (the body and a darker bar): a tint step, which
+   sections-arent-tinted rules out. First pass: v2's dark base for both, a
+   dark-mode divider between, and v2's dark text roles by step (the footer
+   pins dark in both modes, so it names the dark values directly). */
+html[data-system="v2"] :is(.site-footer__main, .site-footer__bar) { background-color: var(--gray-900); }
+html[data-system="v2"] .site-footer__bar { border-top: 1px solid var(--gray-700); }
+html[data-system="v2"] .site-footer__divider { border-top-color: var(--gray-700); }
+html[data-system="v2"] :is(.site-footer__nav-link, .site-footer__mission-body) { color: var(--gray-200); }
+/* Link text never changes color (components/link): live brightens the footer
+   links on hover; here they hold, and the bar link gains the text-color line
+   the nav links already have. */
+html[data-system="v2"] :is(.site-footer__nav-link, .site-footer__bar-link):hover { color: var(--gray-200); }
+html[data-system="v2"] .site-footer__bar-link {
+  color: var(--gray-200);
+  background-image: linear-gradient(var(--line-strong), var(--line-strong));
+  background-repeat: no-repeat;
+  background-size: 0% var(--stroke-sm);
+  background-position: right 0 bottom 0;
+  padding-bottom: 2px;
+  transition: background-size var(--transition-base);
+}
+html[data-system="v2"] .site-footer__bar-link:hover { background-size: 100% var(--stroke-sm); background-position: left 0 bottom 0; }
+html[data-system="v2"] .site-footer__social-link:hover { color: var(--accent-key); }
+/* The footer's secondary button ("Donate"): the rule above draws it in the
+   page's text colors, which are dark on a light page, and the footer never
+   switches mode. Its label and outline take the footer's light text instead. */
+html[data-system="v2"] .site-footer .btn--outline:not(:hover) { color: var(--gray-50); }
+/* The footer's line style: the dark mode's body text step, since the footer
+   pins dark (its outline and link lines read --line-strong). */
+html[data-system="v2"] .site-footer { --line-strong: var(--gray-200); }
