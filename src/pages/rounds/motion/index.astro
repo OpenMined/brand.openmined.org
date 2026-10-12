@@ -28,7 +28,7 @@ const glowText = (g: Glow) => [g.o1 && (g.o1Light !== undefined && g.o1Light !==
 const BTN_GLOW: Glow = { b1: 3, o1: 0.35, b2: 14, o2: 0.2 };
 const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: boolean; fav?: string }[] = [
   { k: 'a', name: 'A · Crossing flows', note: 'Two striped layers at different angles (20° and −40°), each sliding one way without stopping, on 6s and 8.7s loops. Lighter stripes underneath, faint darker ones crossing over.', fill: 'flow' },
-  { k: 'b', name: 'B · Crossing flows + cursor', note: 'A, plus a soft light that follows the pointer (it trails a little behind).', fill: 'flow', cursor: true, fav: 'light 300–700 · dark 400–600' },
+  { k: 'b', name: 'B · Crossing flows + cursor', note: 'A, plus a soft light that follows the pointer (it trails a little behind).', fill: 'flow', cursor: true, fav: 'light 300–700 · dark 300–700' },
   { k: 'c', name: 'C · Drift, two patches', note: 'A lighter and a darker patch drift over the key on 6.7s and 9.3s loops.', fill: 'drift2' },
   { k: 'd', name: 'D · Drift, three patches + cursor', note: 'C plus a small, quicker light patch (4.7s), and the pointer light.', fill: 'drift3', cursor: true },
   { k: 'e', name: 'E · Sheen', note: 'Light patches only (6.7s and 4.7s): the brightness wanders and never goes darker than the key.', fill: 'sheen' },
@@ -56,19 +56,34 @@ const PRESS = [
 ];
 const ARROW = iconSvg('arrow-right', { size: 24 });
 
-const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; fav?: string }[] = [
+const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; fav?: string; tone?: 'next' | 'prev' }[] = [
   { k: 'mono', name: 'Mono · today', note: 'The text color, still. The reference.', mono: true, g: { b1: 0, o1: 0, b2: 0, o2: 0 } },
   { k: 'a', name: 'A · Color in the stroke', note: 'The hue moves inside the line; no glow.', g: { b1: 0, o1: 0, b2: 0, o2: 0 } },
   { k: 'b', name: 'B · Tight glow', note: 'One copy close to the line, so it reads as light rather than haze.', g: { b1: 3, o1: 0.4, b2: 0, o2: 0 } },
-  { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 }, fav: 'light 400–600 · dark halfway' },
+  { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 } },
   { k: 'd', name: 'D · Tight + wide', note: 'A close copy for the line, a wide faint one around it.', g: { b1: 2, o1: 0.35, b2: 10, o2: 0.2 } },
+  { k: 'e', name: 'E · Two-tone, next hue', note: 'C, with the next hue around the wheel passing through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 }, tone: 'next' },
+  { k: 'f', name: 'F · Two-tone, other side', note: 'C, with the hue one step the other way.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 }, tone: 'prev', fav: 'both modes · 400–600' },
 ];
 // One moving gradient per hue (id `${prefix}-${hue}`), shared by every icon of that
 // hue and its glow copies, so the glow moves with the line. Bottom left → top right
 // (−45° about the icon's center), repeating every 48 units (twice the icon), slid
 // one period along that axis per loop: seamless, like the diamonds. Stop colors
 // resolve where the gradient sits, so each range context gets its own set.
-const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(h => `<linearGradient id="${prefix}-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)"><stop offset="0" style="stop-color:var(--${h}-500)"/><stop offset="0.25" style="stop-color:color-mix(in oklch, var(--${h}-500) var(--mo-ic-keep), var(--${h}-400))"/><stop offset="0.5" style="stop-color:var(--${h}-500)"/><stop offset="0.75" style="stop-color:color-mix(in oklch, var(--${h}-500) var(--mo-ic-keep), var(--${h}-600))"/><stop offset="1" style="stop-color:var(--${h}-500)"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`).join('')}</defs></svg>`;
+// The palette's hues in order around the wheel; a hue's neighbors are one step
+// either way (red wraps to violet).
+const WHEEL = ['red', 'amber', 'green', 'teal', 'blue', 'violet'];
+const nextHue = (h: string) => WHEEL[(WHEEL.indexOf(h) + 1) % WHEEL.length];
+const prevHue = (h: string) => WHEEL[(WHEEL.indexOf(h) + WHEEL.length - 1) % WHEEL.length];
+const mix = (h: string, s: number) => `color-mix(in oklch, var(--${h}-500) var(--mo-ic-keep), var(--${h}-${s}))`;
+// One hue: key → lighter → key → darker → key. Two-tone: the neighbor's key takes
+// the middle stop, so it passes through once per loop; the selected hue keeps the rest.
+const stopsFor = (h: string, n?: string) => [
+  [0, `var(--${h}-500)`], [0.25, mix(h, 400)], [0.5, n ? `var(--${n}-500)` : `var(--${h}-500)`], [0.75, mix(h, 600)], [1, `var(--${h}-500)`],
+].map(([o, c]) => `<stop offset="${o}" style="stop-color:${c}"/>`).join('');
+const grad = (id: string, stops: string) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(h =>
+  grad(`${prefix}-${h}`, stopsFor(h)) + grad(`${prefix}-${h}-next`, stopsFor(h, nextHue(h))) + grad(`${prefix}-${h}-prev`, stopsFor(h, prevHue(h)))).join('')}</defs></svg>`;
 
 ---
 <Site title="Color in motion round" description="If color, then motion: button hover shimmer and icons in a set color, with a glow that moves.">
@@ -82,7 +97,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 12 Oct 2026</span>
       <h1>Color in motion</h1>
       <p class="lead">First tries at <em>if color, then motion</em>: the button hover as a moving fill with a glow, and icons in a set color whose line moves and glows. The glow is the /research diamonds’ technique: copies behind, blurred and faded.</p>
-      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · defaults are the working favorites: buttons 300–700 in light, 400–600 in dark; icons 400–600 in light, halfway in dark · <i>One step subtler</i>: buttons 400–600 in light, halfway in dark; icons halfway in light, a quarter of the way in dark; pointer and card lights halved</p>
+      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · defaults are the working favorites, set per mode (the same in both for now): buttons 300–700; icons 400–600 · <i>One step subtler</i>: buttons 400–600; icons halfway; pointer and card lights halved</p>
       <div class="mo-ctl">
         <label class="mo-ctl__item">
           <button type="button" class="switch js-pin" role="switch" aria-checked="false" aria-label="Show every button in its hover state"><span class="switch__knob"></span></button>
@@ -129,11 +144,11 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
         </header>
         {ICONS.map(v => (
           <div class="mo-row" style={glowVars(v.g)}>
-            <p class="mo-row__h"><b>{v.name}{v.fav && <span class="mo-fav">Working favorite · {v.fav}</span>}</b> <span>{v.note}</span> <code>{v.mono ? 'text color' : glowText(v.g)}</code></p>
+            <p class="mo-row__h"><b>{v.name}{v.fav && <span class="mo-fav">Working favorite · {v.fav}</span>}</b> <span>{v.note}</span> <code>{v.mono ? 'text color' : glowText(v.g)}{v.tone && ` · ${CARDS.map(c => `${c.hue} + ${v.tone === 'next' ? nextHue(c.hue) : prevHue(c.hue)}`).join(', ')}`}</code></p>
             <div class="mo-cards">
               {CARDS.map(c => (
                 <div class="mo-card">
-                  <span class:list={['cicon', { 'cicon--mono': v.mono }]} data-hue={c.hue}>
+                  <span class:list={['cicon', { 'cicon--mono': v.mono }]} data-hue={c.hue} style={v.mono ? undefined : `--ci-stroke:url(#flow-${c.hue}${v.tone ? `-${v.tone}` : ''})`}>
                     {!v.mono && <span class="cicon__g2"><Fragment set:html={c.svg} /></span>}
                     {!v.mono && <span class="cicon__g1"><Fragment set:html={c.svg} /></span>}
                     <span class="cicon__line"><Fragment set:html={c.svg} /></span>
@@ -155,7 +170,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
           <p>Hover a card: a soft white light follows the pointer, over the card and its content, so the text and marks pick up the glow too. Always-light cards take the light-mode value in either mode.</p>
         </header>
         <div class="mo-row">
-          <p class="mo-row__h"><b>Link cards <span class="mo-fav">Working favorite · both modes</span></b> <span>SyftHub’s Quickstart, Installation, Core Concepts.</span> <code>white, 480px, over card and content · dark 0.025 · light 0.2</code></p>
+          <p class="mo-row__h"><b>Link cards <span class="mo-fav">Working favorite · both modes</span></b> <span>SyftHub’s Quickstart, Installation, Core Concepts.</span> <code>white, 480px, over card and content · dark 0.07 · light 0.2</code></p>
           <div class="mo-links">
             {LINKS.map(l => (
               <a class="mo-hcard mo-link" href="#cards" onclick="return false">
@@ -249,26 +264,18 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      "keep" is how much of the key stays: 0% = the neighbor itself, 50% = halfway
      (no palette step sits there; exploration only). Defaults are the working
      favorites; One step subtler moves each one notch quieter.
-       buttons, light    300–700 → 400–600
-       buttons, dark     400–600 → halfway
-       icons, light      400–600 → halfway
-       icons, dark       halfway → a quarter of the way
+       buttons           300–700 → 400–600
+       icons             400–600 → halfway
        pointer light     45% toward 300 → 22.5%
-       hover-card light  0.2 light, 0.025 dark → half that */
-  .mo { --mo-btn-keep: 0%; --mo-ic-keep: 0%; --mo-hl-keep: 55%; }
-  [data-theme="dark"] .mo { --mo-ic-keep: 50%; }
-  .mo[data-range="subtle"] { --mo-btn-keep: 0%; --mo-ic-keep: 50%; --mo-hl-keep: 77.5%; }
-  [data-theme="dark"] .mo[data-range="subtle"] { --mo-btn-keep: 50%; }
-  [data-theme="dark"] .mo[data-range="subtle"] { --mo-ic-keep: 75%; }
+       hover-card light  0.2 light, 0.07 dark → half that
+     Each mode keeps its own rule, so the two can be tuned apart; for now the
+     dark values match light (Bennett reviews in dark and found it too subtle),
+     except the hover-card light, where white on a dark card reads far stronger. */
+  .mo { --mo-hl-keep: 55%; --mo-ic-keep: 0%; --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
+  [data-theme="dark"] .mo { --mo-ic-keep: 0%; --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
+  .mo[data-range="subtle"] { --mo-hl-keep: 77.5%; --mo-ic-keep: 50%; --mo-green-lo: var(--green-400); --mo-green-hi: var(--green-600); }
+  [data-theme="dark"] .mo[data-range="subtle"] { --mo-ic-keep: 50%; --mo-green-lo: var(--green-400); --mo-green-hi: var(--green-600); }
   .mo { --mo-hl: color-mix(in oklch, var(--green-500) var(--mo-hl-keep), var(--green-300)); }
-  /* Buttons: light reaches two steps out (300–700), dark one (400–600); one
-     step subtler brings light to 400–600 and dark to halfway. */
-  .mo { --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
-  .mo[data-range="subtle"],
-  [data-theme="dark"] .mo {
-    --mo-green-lo: color-mix(in oklch, var(--green-500) var(--mo-btn-keep), var(--green-400));
-    --mo-green-hi: color-mix(in oklch, var(--green-500) var(--mo-btn-keep), var(--green-600));
-  }
   .mo-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
   /* Speed: 1.5 by default; Slower sets 1 (durations are written at speed 1). */
@@ -355,10 +362,8 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   .cicon__g1 { z-index: 1; filter: blur(var(--g1-b)); opacity: var(--g1-o); }
   .cicon__line { z-index: 2; }
   .cicon--mono { color: var(--text-headline); }
-  .cicon[data-hue="green"]:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: url(#flow-green); }
-  .cicon[data-hue="amber"]:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: url(#flow-amber); }
-  .cicon[data-hue="red"]:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: url(#flow-red); }
-  .cicon[data-hue="blue"]:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: url(#flow-blue); }
+  /* Each icon names its moving gradient (--ci-stroke: one hue, or two-tone). */
+  .cicon:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
 
 
   /* A–B · Crossing flows: two big squares of repeating stripes, turned to
@@ -375,8 +380,8 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
     opacity: 0.5; animation: mo-flow-2 calc(13s / var(--mo-speed)) linear infinite;
   }
   [data-fill="flow"] .mbtn__layer i:nth-child(3) { display: none; }
-  @keyframes mo-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(-240px); } }
-  @keyframes mo-flow-2 { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(-180px); } }
+  @keyframes mo-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
+  @keyframes mo-flow-2 { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
   /* Pointer light: a soft lighter spot where the pointer is (it eases after
      it; script below). */
@@ -392,7 +397,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
 
   /* ── Hover cards ───────────────────────────────────────────────────
      A white light that follows the pointer, over the card and its content:
-     0.025 in dark, 0.2 in light and on always-light cards. */
+     0.07 in dark, 0.2 in light and on always-light cards. */
   .mo-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
   .mo-press { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
   @media (max-width: 900px) { .mo-links, .mo-press { grid-template-columns: minmax(0, 1fr); } }
@@ -406,10 +411,10 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
     position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
     background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
   }
-  [data-theme="dark"] .mo-hcard:not([data-section="always-light"]) > .mo-hcard__light { --cl-o: 0.025; }
+  [data-theme="dark"] .mo-hcard:not([data-section="always-light"]) > .mo-hcard__light { --cl-o: 0.07; }
   .mo-hcard:hover > .mo-hcard__light { opacity: var(--cl-o); transition-duration: 0.15s; }
   .mo[data-range="subtle"] .mo-hcard > .mo-hcard__light { --cl-o: 0.1; }
-  [data-theme="dark"] .mo[data-range="subtle"] .mo-hcard:not([data-section="always-light"]) > .mo-hcard__light { --cl-o: 0.0125; }
+  [data-theme="dark"] .mo[data-range="subtle"] .mo-hcard:not([data-section="always-light"]) > .mo-hcard__light { --cl-o: 0.035; }
 
   .mo-link { display: flex; align-items: center; gap: var(--spacing-L); padding: var(--spacing-2XL); }
   .mo-link__icon { display: flex; color: var(--text-headline); }

@@ -2,6 +2,11 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-12** — Page reviews' icons take **F · Two-tone, other side** (now the working favorite): green + amber, amber + red, red + violet, blue + teal on SyftHub; teal + green, blue + teal, amber + red on the home pillars.
+- **2026-10-12** — Button hover: both crossing-flow layers now move left to right (round and page reviews).
+- **2026-10-12** — Fix, page reviews: the home pillar icons' glow sat off to the side (the icon's wrapper is full width, so the copy centered in it); colored icons' wrappers now hug the icon.
+- **2026-10-12** — Motion round, icons: two new options, **E · Two-tone, next hue** and **F · Two-tone, other side** (glow as C). The selected hue keeps the key and its 400/600 shades; the key of the hue one step around the wheel (red, amber, green, teal, blue, violet) passes through once per loop. Round only; the page reviews stay one-hue.
+- **2026-10-12** — Dark mode matches light for now (Bennett reviews in dark and found the motion too subtle): button hover 300–700, icon color 400–600, in both modes; each mode keeps its own rule so they can be tuned apart again. The dark hover-card light goes from 0.025 to 0.07 (light stays 0.2). Round: one step subtler is buttons 400–600, icons halfway, in both modes.
 - **2026-10-12** — Button hover in light mode reaches two steps out (300–700); dark stays 400–600 (round and page reviews). In the round, one step subtler brings light to 400–600 and dark to halfway.
 - **2026-10-12** — Motion round: the defaults are the working favorites per mode (buttons 400–600; icons 400–600 in light, halfway in dark). *Subtler range* becomes *One step subtler*: buttons halfway; icons halfway in light, a quarter of the way in dark; the pointer light 22.5% toward 300; the hover-card light halved (0.1 light, 0.0125 dark).
 - **2026-10-12** — Color in motion runs 1.5× faster: button flows 6s and 8.7s, drifting patches 4.7–9.3s, icons 4s per loop (round and page reviews). The motion round has a *Slower* switch for the previous speeds (9s and 13s, 7–14s, 6s).

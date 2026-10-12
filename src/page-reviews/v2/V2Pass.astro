@@ -75,7 +75,11 @@ const stops = listStops('map');
     // The hue's shades: 400 and 600 in light; in dark, halfway from the key to
     // them (--ci-keep, motion.css; a mix of two named steps).
     const mid = (h, s) => `color-mix(in oklch, var(--${h}-500) var(--ci-keep), var(--${h}-${s}))`;
-    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)"><stop offset="0" style="stop-color:var(--${h}-500)"/><stop offset="0.25" style="stop-color:${mid(h, 400)}"/><stop offset="0.5" style="stop-color:var(--${h}-500)"/><stop offset="0.75" style="stop-color:${mid(h, 600)}"/><stop offset="1" style="stop-color:var(--${h}-500)"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+    // Two-tone: the key of the hue one step back around the wheel passes through
+    // once per loop; the icon's own hue keeps the rest (motion round, option F).
+    const WHEEL = ['red', 'amber', 'green', 'teal', 'blue', 'violet'];
+    const prev = (h) => WHEEL[(WHEEL.indexOf(h) + WHEEL.length - 1) % WHEEL.length];
+    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)"><stop offset="0" style="stop-color:var(--${h}-500)"/><stop offset="0.25" style="stop-color:${mid(h, 400)}"/><stop offset="0.5" style="stop-color:var(--${prev(h)}-500)"/><stop offset="0.75" style="stop-color:${mid(h, 600)}"/><stop offset="1" style="stop-color:var(--${h}-500)"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
     const hues = [...new Set(targets.map(([, h]) => h))];
     document.body.insertAdjacentHTML('beforeend', `<svg class="color-icon-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${hues.map(grad).join('')}</defs></svg>`);
     targets.forEach(([el, h]) => {
