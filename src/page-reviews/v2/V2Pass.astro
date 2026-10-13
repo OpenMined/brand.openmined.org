@@ -12,6 +12,8 @@
  */
 import { listStops } from '../../lib/tokens';
 const stops = listStops('map');
+// Each hue's two-tone gradient (tokens: gradient.two-tone-<hue>), as its stops' token names.
+const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'violet'].map(h => [h, listStops(`two-tone-${h}`).split(',')]));
 ---
 <script type="module" src="/embeds/om-mesh.js" is:inline></script>
 <script is:inline define:vars={{ stops }}>
@@ -33,7 +35,7 @@ const stops = listStops('map');
   sync();
   new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
 </script>
-<script is:inline>
+<script is:inline define:vars={{ twoTone }}>
   (() => {
     // Buttons: glow 2, glow 1, fill (two striped layers + the pointer light), under the label.
     const layer = (k, light) => `<span class="flow-layer flow-layer--${k}" aria-hidden="true"><i></i><i></i>${light ? '<b class="flow-light"></b>' : ''}</span>`;
@@ -63,23 +65,23 @@ const stops = listStops('map');
       follow(card);
     });
 
-    // Icons in a set hue: one moving gradient per hue (bottom left → top right,
-    // repeating every 48 units of the 24 grid, slid one period per 4s), used by
-    // the line and its blurred copy, so the glow moves with it.
+    // Icons in a set hue: the hue's two-tone gradient token (its companion set per
+    // hue in tools/palette/inputs.json), bottom left → top right, repeating every
+    // 72 units of the 24 grid (1.5× the earlier 48, so the band never fits inside
+    // the icon), slid one period per 6s. The line and its blurred copy share it.
     const ORDER = ['green', 'amber', 'red', 'blue'];
     const targets = [];
     document.querySelectorAll('[data-v2-color-icons]').forEach((g) =>
       g.querySelectorAll('span.icon').forEach((el, i) => targets.push([el, ORDER[i % ORDER.length]])));
     document.querySelectorAll('[data-v2-hue]').forEach((el) => targets.push([el, el.dataset.v2Hue]));
     if (!targets.length) return;
-    // The hue's shades: 400 and 600 in light; in dark, halfway from the key to
-    // them (--ci-keep, motion.css; a mix of two named steps).
-    const mid = (h, s) => `color-mix(in oklch, var(--${h}-500) var(--ci-keep), var(--${h}-${s}))`;
-    // Two-tone: the key of the hue one step back around the wheel passes through
-    // once per loop; the icon's own hue keeps the rest (motion round, option F).
-    const WHEEL = ['red', 'amber', 'green', 'teal', 'blue', 'violet'];
-    const prev = (h) => WHEEL[(WHEEL.indexOf(h) + WHEEL.length - 1) % WHEEL.length];
-    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="48" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)"><stop offset="0" style="stop-color:var(--${h}-500)"/><stop offset="0.25" style="stop-color:${mid(h, 400)}"/><stop offset="0.5" style="stop-color:var(--${prev(h)}-500)"/><stop offset="0.75" style="stop-color:${mid(h, 600)}"/><stop offset="1" style="stop-color:var(--${h}-500)"/><animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="48 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+    // Stops 1 and 3 (the hue's 400 and 600) mix back toward the key by --ci-keep
+    // (motion.css); the key and the companion stay as the token has them.
+    const stop = (h, i) => {
+      const k = twoTone[h][0], v = `var(--${twoTone[h][i]})`;
+      return i === 1 || i === 3 ? `color-mix(in oklch, var(--${k}) var(--ci-keep), ${v})` : v;
+    };
+    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="72" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${[0, 1, 2, 3, 4].map((i) => `<stop offset="${i / 4}" style="stop-color:${stop(h, i)}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="72 0" dur="6s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
     const hues = [...new Set(targets.map(([, h]) => h))];
     document.body.insertAdjacentHTML('beforeend', `<svg class="color-icon-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${hues.map(grad).join('')}</defs></svg>`);
     targets.forEach(([el, h]) => {

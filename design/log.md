@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-13** — Color page: a *Two-tone gradients* section (each token, its companion, the gradient, and on an icon). Icons page: *In color*, each hue's colorway on four set icons. New site components `TwoToneDefs` (the moving gradients, read from the tokens) and `ColorIcon` (an icon in a hue, with its glow).
+- **2026-10-13** — New tokens, **two-tone gradients** `--gradient-two-tone-<hue>` (red, amber, green, teal, blue, violet; exploring), generated from `tools/palette/inputs.json` `gradient.two_tone`: the hue's key, 400, the companion's key, 600, key. Companions are chosen per hue (amber takes red; others as option E; teal and violet first guesses). New foundation *Two-tone gradients*. The colored icons read them (motion round E, now the working favorite; page reviews), and the icon gradient is 1.5× larger (72 units, 6s per loop, the same speed), so the band never shows whole inside the icon.
 - **2026-10-12** — Motion round: button option **G · Two-tone the other way + cursor**: F with blue passing through instead of amber. Round only.
 - **2026-10-12** — Motion round: button option **F · Two-tone crossing flows + cursor**: B with amber (one step back from green, the icons' two-tone logic) passing through the lower layer once per loop. Round only.
 - **2026-10-12** — Page reviews' icons take **F · Two-tone, other side** (now the working favorite): green + amber, amber + red, red + violet, blue + teal on SyftHub; teal + green, blue + teal, amber + red on the home pillars.

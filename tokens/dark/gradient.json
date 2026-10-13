@@ -279,6 +279,198 @@
           "generated": true
         }
       }
+    },
+    "two-tone-red": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{red.key}",
+          "position": 0
+        },
+        {
+          "color": "{red.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{amber.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{red.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{red.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone red: its key and shades, with amber passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "two-tone-amber": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{amber.key}",
+          "position": 0
+        },
+        {
+          "color": "{amber.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{red.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{amber.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{amber.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone amber: its key and shades, with red passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "two-tone-green": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{green.key}",
+          "position": 0
+        },
+        {
+          "color": "{green.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{teal.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{green.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{green.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone green: its key and shades, with teal passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "two-tone-teal": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{teal.key}",
+          "position": 0
+        },
+        {
+          "color": "{teal.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{blue.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{teal.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{teal.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone teal: its key and shades, with blue passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "two-tone-blue": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{blue.key}",
+          "position": 0
+        },
+        {
+          "color": "{blue.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{violet.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{blue.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{blue.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone blue: its key and shades, with violet passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "two-tone-violet": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{violet.key}",
+          "position": 0
+        },
+        {
+          "color": "{violet.400}",
+          "position": 0.25
+        },
+        {
+          "color": "{red.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{violet.600}",
+          "position": 0.75
+        },
+        {
+          "color": "{violet.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Two-tone violet: its key and shades, with red passing through once.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
     }
   }
 }

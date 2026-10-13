@@ -9,8 +9,9 @@
    copies (3px at 0.35, 14px at 0.2); a soft light that follows the pointer
    (45% of the way from the key to 300, 0.55). All layers sit under the label.
 
-   Icons — a set hue moving inside the stroke, two-tone with the hue one step
-   back around the wheel passing through (bottom left → top right, 4s),
+   Icons — a set hue moving inside the stroke, its two-tone gradient token
+   (--gradient-two-tone-<hue>, companion set per hue), bottom left → top right,
+   72 units per 6s loop,
    400–600 around the key; one blurred copy behind (6px; 0.15
    in light, 0.4 in dark). */
 

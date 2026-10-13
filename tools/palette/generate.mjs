@@ -6,7 +6,7 @@
  *
  *   tokens/base/gray.json      gray 50–950, white, black   (same in both modes)
  *   tokens/{light,dark}/hues.json      each hue 50–950, mode offset applied
- *   tokens/{light,dark}/gradient.json  the nine stops, extra stops, the spectrum and each graphic's list
+ *   tokens/{light,dark}/gradient.json  the nine stops, extra stops, the spectrum, each graphic's list and the two-tone gradients
  *   tokens/{light,dark}/shadows.json   the level ladder, cast in a gray step
  *
  * The output files are the source of truth; this script is the tool that
@@ -203,6 +203,13 @@ function gradientFile(mode) {
     const v = l.stops.map((ref, i) => ({ color: ref.includes('.') ? `{${ref}}` : `{gradient.${ref}}`, position: r4(i / (n - 1)) }));
     return [name, { $type: 'gradient', $value: v, $description: l._for, $extensions: { 'org.openmined': { status: l.status ?? 'exploring', generated: true } } }];
   }));
+  // Two-tone: one gradient per hue, its companion chosen by hand (inputs gradient.two_tone).
+  const tt = IN.gradient.two_tone;
+  const twoTone = tt ? Object.fromEntries(Object.entries(tt.companions).map(([h, c]) => {
+    const refs = [`${h}.key`, `${h}.400`, `${c}.key`, `${h}.600`, `${h}.key`];
+    return [`two-tone-${h}`, { $type: 'gradient', $value: refs.map((r, i) => ({ color: `{${r}}`, position: r4(i / (refs.length - 1)) })),
+      $description: `Two-tone ${h}: its key and shades, with ${c} passing through once.`, $extensions: { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } } }];
+  })) : {};
   return {
     $description: `The brand gradient, ${mode} mode: nine stops, family stops are hue keys, plus graphics-only extra stops and each graphic's own list. ${NOTE}`,
     gradient: {
@@ -210,6 +217,7 @@ function gradientFile(mode) {
       ...tokens,
       spectrum: { $type: 'gradient', $value: value, $description: 'The full brand arc, gold → yellow.', $extensions: { 'org.openmined': { status: 'working', generated: true } } },
       ...lists,
+      ...twoTone,
     },
   };
 }

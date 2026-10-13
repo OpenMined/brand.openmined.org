@@ -571,3 +571,19 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .om-prose hr { border: 0; border-top: 1px solid var(--line); }
 .om-prose code { font-size: 0.875em; }
 .om-prose .om-prose__small { font-size: var(--font-size-sm); color: var(--text-muted); }
+
+/* ── Colored icons: a hue's two-tone gradient in the stroke (ColorIcon) ──
+   The moving gradient comes from TwoToneDefs (tokens: --gradient-two-tone-<hue>);
+   a blurred copy behind is the glow: 6px, 0.15 in light, 0.4 in dark. The
+   wrapper hugs the icon so the copy sits on it. Exploring (behaviors/color-moves). */
+.two-tone-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.color-icon { position: relative; isolation: isolate; display: inline-flex; width: fit-content; vertical-align: middle; }
+.color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.15; pointer-events: none; }
+[data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
+.color-icon svg { display: block; }
+.color-icon :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
+.tbl--two-tone td { padding: 8px 10px; vertical-align: middle; }
+.tt-pair { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.tt-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.tt-bar { display: block; width: 100%; min-width: 160px; height: 22px; border-radius: var(--radius-sm); }
+.colorway__icons { display: flex; flex-wrap: wrap; gap: var(--spacing-XL); margin-bottom: var(--spacing-M); }

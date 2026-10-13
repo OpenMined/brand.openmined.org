@@ -11,15 +11,18 @@ import PageHero from '../../components/site/PageHero.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import Icon from '../../components/site/Icon.astro';
+import ColorIcon from '../../components/site/ColorIcon.astro';
+import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import LIVE_SNAPSHOT from './_live-icons.json';
 import { ICONS, LIVE, iconSvg } from '../../lib/icons';
+import { HUES, listStops } from '../../lib/tokens';
 
 const foundation = doc('foundations/iconography');
 const { Content } = foundation;
 const rules = byTag('icons', 'Guideline', 'Behavior');
 const decisions = decisionsFor('icons');
-const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['sizes', 'Sizes'], ['set', 'The set'], ['live', 'From the live site'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['live', 'From the live site'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 
 /** Every live icon (the snapshot) with the set icon that replaces it (icons/set.json → live). */
 const MATCH: Record<string, string> = { exact: 'Same idea', close: 'Closest match', none: 'No match', status: 'Status color', partner: 'Partner mark', gap: 'No partner mark yet' };
@@ -37,6 +40,9 @@ const STATUS = [
   { s: 'warning', icon: 'warning-triangle', label: 'Warning' },
   { s: 'info', icon: 'info-circle', label: 'Info' },
 ];
+/** Colorways: each hue's two-tone gradient (--gradient-two-tone-<hue>) on a few set icons. */
+const COLORWAYS = HUES.map(h => ({ hue: h, companion: listStops(`two-tone-${h}`).split(',')[2].replace(/-key$/, '') }));
+const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
 const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="icons">
@@ -83,6 +89,22 @@ const ARR = iconSvg('arrow-right');
         </ul>
       </article>
     </div>
+  </section>
+
+  <section class="band" id="color">
+    <div class="wrap">
+      <header class="sec"><h2>In color</h2><p>A color mode for icons where the design calls for it: the hue’s two-tone gradient moves in the stroke, with a soft glow behind (<em>if color, then motion</em>). Mono stays the default. Each colorway is named by its primary hue; the companion comes with it. Exploring.</p></header>
+      <div class="grid grid--3">
+        {COLORWAYS.map(c => (
+          <article class="card colorway">
+            <div class="colorway__icons">{COLOR_ICONS.map(n => <ColorIcon name={n} hue={c.hue} size={32} />)}</div>
+            <h3>{c.hue}</h3>
+            <p class="muted"><code>--gradient-two-tone-{c.hue}</code> · {c.hue} + {c.companion}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+    <TwoToneDefs />
   </section>
 
   <section class="band" id="sizes">
