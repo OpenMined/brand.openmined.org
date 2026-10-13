@@ -42,6 +42,13 @@ const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: b
   { k: 'f', name: 'F · Hue keys under B’s shimmer + cursor', note: 'E, with the loop in hue keys only (--gradient-interactive): green, teal, blue, violet, red, amber. The pale stops are gone, so the white label stays at the green key’s contrast (about 3.8:1) or better. Runs green → teal → blue → violet → red → amber; blended in OKLCH.', fill: 'specb-keys', cursor: true },
 ];
 
+// Links: the content link's hover line as a moving gradient with a 3px glow band.
+const LINK_ROWS: { k: string; name: string; note: string; cls: string; fav?: string }[] = [
+  { k: 'a', name: 'A · Before', note: 'The accent key (green), 1px, grows over the underline from the left.', cls: 'mo-lk--green' },
+  { k: 'b', name: 'B · Spectrum + glow', note: 'The full OM gradient moves along the line (each hue spans the link’s length, so two colors at most; one hue every 1.7s), with a glow band of the same colors at 35% behind it: the line plus 1px on every side.', cls: 'mo-lk--spec', fav: 'both modes · on the guide and the page reviews' },
+  { k: 'c', name: 'C · Hue keys + glow', note: 'B with --gradient-interactive, running green → teal → blue → violet → red → amber, blended in OKLCH.', cls: 'mo-lk--keys' },
+];
+
 // Icons: SyftHub › Core Components, one hue per card.
 const CARDS = [
   { live: 'database', hue: 'green', title: 'Datasets', body: 'Upload documents or connect vector databases like Weaviate, Qdrant, or ChromaDB. Files are automatically indexed for AI search.' },
@@ -209,6 +216,21 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
             ))}
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap">
+        <header class="sec">
+          <h2>4 · Links</h2>
+          <p>Hover the links in each line. Only content links, the ones with a resting gray underline, get a colored line; links without one (nav, footer, text buttons) still draw a gray line in their own color. Text keeps its color; the line does the work. Pure CSS, no added markup: the hover line is a background layer whose gradient stops shift (a registered custom property), and the glow is one more background layer, so it wraps with the link.</p>
+        </header>
+        {LINK_ROWS.map(r => (
+          <div class="mo-row">
+            <p class="mo-row__h"><b>{r.name}{r.fav && <span class="mo-fav">Working favorite · {r.fav}</span>}</b> <span>{r.note}</span></p>
+            <p class="mo-lk-demo">A link inside running text, like <a class:list={['link-content', 'mo-lk', r.cls]} href="#links" onclick="return false">attribution-based control</a>, or a longer one that may wrap onto the next line, like <a class:list={['link-content', 'mo-lk', r.cls]} href="#links" onclick="return false">structured transparency for governing information flows</a>, keeps the color of the text around it.</p>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -478,6 +500,19 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
     min-height: 240px; padding: var(--spacing-4XL) var(--spacing-2XL) var(--spacing-L); background: var(--white); }
   .mo-pcard__mark { align-self: center; margin-top: var(--spacing-2XL); font-family: var(--font-d); font-size: 1.8rem; color: var(--text-headline); }
   .mo-pcard__title { font-size: var(--font-size-md); color: var(--text-body); }
+
+  /* ── Links ─────────────────────────────────────────────────────────
+     B is the shared content-link hover (src/styles/link-hover.css, the working
+     favorite). A shows the earlier green line for comparison; C swaps in the
+     hue-key loop (--gradient-interactive, six hues, so its own keyframes). */
+  .mo-lk-demo { max-width: 40em; line-height: 1.7; }
+  .mo-lk--green.link-content { --link-line: linear-gradient(var(--accent-key), var(--accent-key)); --link-glow: linear-gradient(transparent, transparent); }
+  @keyframes mo-lk-flow-keys { from { --link-shift: 0%; } to { --link-shift: 600%; } }
+  .mo-lk--keys.link-content {
+    --link-line: repeating-linear-gradient(90deg in oklch, var(--green-key) calc(var(--link-shift) + 0%), var(--amber-key) calc(var(--link-shift) + 100%), var(--red-key) calc(var(--link-shift) + 200%), var(--violet-key) calc(var(--link-shift) + 300%), var(--blue-key) calc(var(--link-shift) + 400%), var(--teal-key) calc(var(--link-shift) + 500%), var(--green-key) calc(var(--link-shift) + 600%));
+    --link-glow: repeating-linear-gradient(90deg in oklch, color-mix(in oklch, var(--green-key) 35%, transparent) calc(var(--link-shift) + 0%), color-mix(in oklch, var(--amber-key) 35%, transparent) calc(var(--link-shift) + 100%), color-mix(in oklch, var(--red-key) 35%, transparent) calc(var(--link-shift) + 200%), color-mix(in oklch, var(--violet-key) 35%, transparent) calc(var(--link-shift) + 300%), color-mix(in oklch, var(--blue-key) 35%, transparent) calc(var(--link-shift) + 400%), color-mix(in oklch, var(--teal-key) 35%, transparent) calc(var(--link-shift) + 500%), color-mix(in oklch, var(--green-key) 35%, transparent) calc(var(--link-shift) + 600%));
+    animation: om-line-in 0.4s ease forwards, mo-lk-flow-keys 10s linear infinite paused;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .mbtn__layer, .mbtn__layer i { animation: none; }

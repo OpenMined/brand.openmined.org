@@ -507,25 +507,12 @@ textarea.ctl { resize: vertical; min-height: 5em; }
    Link text never changes color (Kyle and Bennett, 2026-10-12). Every line
    is the line style: --stroke-sm in --line-strong, the same as the
    secondary button's outline (Kyle, 2026-10-12).
-   Content link: its underline draws in from the left on load; on hover the
-   accent key (green) grows over it from the left and leaves to the right.
+   Content link: see src/styles/link-hover.css.
    Text button: no line at rest; on hover the line draws in from the left
    and leaves to the right. Two registered properties carry
    the two line lengths, so the load animation and the hover transition never
    fight over background-size. */
-@property --om-line { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --om-accent { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@keyframes om-line-in { from { --om-line: 0%; } to { --om-line: 100%; } }
-.link-content, .om-prose a:not([class]) {
-  background-image: linear-gradient(var(--accent-key), var(--accent-key)), linear-gradient(var(--line-strong), var(--line-strong));
-  background-repeat: no-repeat;
-  background-size: var(--om-accent) var(--stroke-sm), var(--om-line) var(--stroke-sm);
-  background-position: right bottom, left bottom;
-  padding-bottom: 2px; text-decoration: none; color: inherit;
-  animation: om-line-in 0.4s ease forwards;
-  transition: --om-accent 0.4s ease;
-}
-.link-content:hover, .om-prose a:not([class]):hover { --om-accent: 100%; background-position: left bottom, left bottom; }
+/* Content links: src/styles/link-hover.css (shared with the page reviews). */
 /* Text button — the live site's hover-line link (components.css .link-hover-line).
    With an icon after the label (live types "->"; v2 uses Iconoir's arrow);
    the line runs under the label only. */
@@ -537,7 +524,6 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 }
 .link-text:hover .link-text__label, .link-text:focus-visible .link-text__label { background-size: 100% var(--stroke-sm); background-position: left bottom; }
 @media (prefers-reduced-motion: reduce) {
-  .link-content, .om-prose a:not([class]) { animation: none; --om-line: 100%; transition: none; }
   .link-text__label { transition: none; }
 }
 .link-demo { display: grid; gap: var(--spacing-M); }

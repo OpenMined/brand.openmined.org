@@ -120,7 +120,7 @@ html[data-system="v2"] .flow__op--accent { color: var(--accent-key); }
 
 /* ── Links: text never changes color (components/link) ─────────────────
    Kyle and Bennett, 2026-10-12. A link with an underline keeps it, and on
-   hover the accent key (green) grows over it from the left; a link without
+   hover a moving gradient grows over it (src/styles/link-hover.css); a link without
    one (nav, footer, text buttons) draws one in its own text color. Both
    lines leave to the right. The content link's underline still draws in on
    load. Every line is the line style, --stroke-sm in --line-strong (the body
@@ -128,27 +128,7 @@ html[data-system="v2"] .flow__op--accent { color: var(--accent-key); }
    2026-10-12). Two registered properties carry the two line lengths, so the load
    animation (base line) and the hover transition (accent line) never fight
    over background-size. */
-@property --om-line { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --om-accent { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@keyframes om-line-in { from { --om-line: 0%; } to { --om-line: 100%; } }
-
-/* Content links: live's in prose, paragraphs and headings, and its
-   .animated-line family. Same animation on hover, so it never restarts. */
-html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]),
-html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline) {
-  background-image: linear-gradient(var(--accent-key), var(--accent-key)), linear-gradient(var(--line-strong), var(--line-strong));
-  background-repeat: no-repeat;
-  background-size: var(--om-accent) var(--stroke-sm), var(--om-line) var(--stroke-sm);
-  background-position: right bottom, left bottom;
-  animation: om-line-in 0.4s ease forwards;
-  transition: --om-accent 0.4s ease;
-}
-html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]):hover,
-html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline):hover {
-  --om-accent: 100%;
-  background-position: left bottom, left bottom;
-  animation: om-line-in 0.4s ease forwards;
-}
+/* Content links: src/styles/link-hover.css (shared with the brand site). */
 
 /* Links without an underline: the same line, in from the left and out to
    the right (live returns it to the left). The current page holds it open,
@@ -161,10 +141,6 @@ html[data-system="v2"] :is(.link-hover-line:hover, .link-hover-line[aria-current
   background-position: left 0 bottom calc(var(--link-hover-line-pad, 2px) - var(--link-hover-line-gap, 2px));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html[data-system="v2"] :is(.prose, p, h1, h2, h3, h4, h5, h6) a:not([class]),
-  html[data-system="v2"] :is(.animated-line, .animated-in-out, .link-inline) { animation: none; --om-line: 100%; transition: none; }
-}
 
 /* ── Forms: sunken fields, flat until focus; errors are text ────────────
    components/form-field. The panel holding the fields is a card one level up
