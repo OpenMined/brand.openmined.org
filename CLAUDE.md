@@ -119,7 +119,7 @@ Route every change to its source:
 - `/v1/` is the released v1 reference; `/rounds/` is the archive of review rounds
   (`rounds/_legacy.ts` freezes the pre-v2 values for the closed rounds).
 - **Page reviews** (`/page-reviews/`): real openmined.org pages ported into `src/page-reviews/`
-  with a live version and a v2 pass (`v2/bridge.css` maps live token names to v2; `v2/pass.css`
+  as a v2 pass (live ports dropped 2026-10-13; openmined.org is the reference; `v2/bridge.css` maps live token names to v2; `v2/pass.css`
   holds component changes, each naming its rule). Working material, not guide pages; the
   ported `openmined-org/` folder is lint-exempt. Findings go in `findings.ts`; settled ones
   move to `design/`. See its README to refresh or remove.

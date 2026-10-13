@@ -5,10 +5,11 @@
  *  - A gradient map (<om-mesh>, the brand embed, in the Graphics page's setting)
  *    behind each call-to-action that used the live raster. Its colors are
  *    --gradient-map's stops, re-read when the mode changes.
- *  - Color in motion (motion.css): every button gets the hover layers. Icons
+ *  - Color in motion (motion.css; buttons via src/scripts/button-hover.ts). Icons
  *    take a set hue with a blurred copy behind: those inside
- *    [data-v2-color-icons] in order (green, amber, red, blue), and any element
- *    marked data-v2-hue="<hue>" with that hue.
+ *    [data-color-icons] in order (green, amber, red, blue), and any element
+ *    marked data-icon-hue="<hue>" with that hue; hover cards' icons color on the
+ *    card's hover (the card's data-hover-hue, or the next of a set order).
  */
 import { listStops, twoToneStops } from '../../lib/tokens';
 const stops = listStops('map');
@@ -35,10 +36,13 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
   sync();
   new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
 </script>
+<script>
+  import { buttonHover } from '../../scripts/button-hover';
+  // Only on v2 routes (the port's seams can render it elsewhere).
+  if (document.documentElement.dataset.system === 'v2') buttonHover();
+</script>
 <script is:inline define:vars={{ twoTone }}>
   (() => {
-    // Buttons: glow 2, glow 1, fill (two striped layers + the pointer light), under the label.
-    const layer = (k, light) => `<span class="flow-layer flow-layer--${k}" aria-hidden="true"><i></i><i></i>${light ? '<b class="flow-light"></b>' : ''}</span>`;
     // A light that eases toward the pointer each frame, so it trails a little.
     const follow = (el) => {
       let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
@@ -53,11 +57,6 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
         if (!raf) raf = requestAnimationFrame(step);
       });
     };
-    document.querySelectorAll('.btn:not([disabled]):not([aria-disabled="true"])').forEach((btn) => {
-      btn.classList.add('has-flow');
-      btn.insertAdjacentHTML('afterbegin', layer('g2') + layer('g1') + layer('fill', true));
-      follow(btn);
-    });
     // Hover cards: the same pointer light, in grayscale (motion.css).
     document.querySelectorAll('.card-float').forEach((card) => {
       card.classList.add('has-light');
@@ -71,10 +70,18 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
     // the icon), slid one period per 6s. The line and its blurred copy share it.
     const ORDER = ['green', 'amber', 'red', 'blue'];
     const targets = [];
-    document.querySelectorAll('[data-v2-color-icons]').forEach((g) =>
+    document.querySelectorAll('[data-color-icons]').forEach((g) =>
       g.querySelectorAll('span.icon').forEach((el, i) => targets.push([el, ORDER[i % ORDER.length]])));
-    document.querySelectorAll('[data-v2-hue]').forEach((el) => targets.push([el, el.dataset.v2Hue]));
-    if (!targets.length) return;
+    document.querySelectorAll('[data-icon-hue]').forEach((el) => targets.push([el, el.dataset.iconHue]));
+    // Hover cards with an icon: colored only on hover. The card may name its hue
+    // (data-hover-hue on the card); otherwise the next of HOVER, in page order.
+    const HOVER = ['amber', 'blue', 'green', 'teal', 'violet', 'red'];
+    const hoverIcons = [];
+    document.querySelectorAll('.card-float').forEach((card) => {
+      const el = card.querySelector('span.icon');
+      if (el && el.querySelector('svg')) hoverIcons.push([el, card.dataset.hoverHue || HOVER[hoverIcons.length % HOVER.length]]);
+    });
+    if (!targets.length && !hoverIcons.length) return;
     // Stops 1 and 3 (the lighter and darker shades) mix back toward the base by --ci-keep
     // (motion.css); the key and the companion stay as the token has them.
     const stop = (h, i) => {
@@ -82,7 +89,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       return i === 1 || i === 3 ? `color-mix(in oklch, var(--${k}) var(--ci-keep), ${v})` : v;
     };
     const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="72" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${[0, 1, 2, 3, 4].map((i) => `<stop offset="${i / 4}" style="stop-color:${stop(h, i)}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="72 0" dur="6s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
-    const hues = [...new Set(targets.map(([, h]) => h))];
+    const hues = [...new Set([...targets, ...hoverIcons].map(([, h]) => h))];
     document.body.insertAdjacentHTML('beforeend', `<svg class="color-icon-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${hues.map(grad).join('')}</defs></svg>`);
     targets.forEach(([el, h]) => {
       const svg = el.querySelector('svg');
@@ -95,6 +102,17 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       glow.setAttribute('aria-hidden', 'true');
       glow.append(svg.cloneNode(true));
       el.prepend(glow);
+    });
+    // Hover icons: the mono drawing stays; a colored copy and its glow sit over and
+    // under it and fade in on the card's hover (a stroke can't fade from a color
+    // to a gradient, so the two are separate layers).
+    hoverIcons.forEach(([el, h]) => {
+      const svg = el.querySelector('svg');
+      el.classList.add('hover-icon');
+      el.style.setProperty('--ci-stroke', `url(#ci-${h})`);
+      const layer = (cls) => { const s = document.createElement('span'); s.className = cls; s.setAttribute('aria-hidden', 'true'); s.append(svg.cloneNode(true)); return s; };
+      el.prepend(layer('hover-icon__glow'));
+      el.append(layer('hover-icon__color'));
     });
     // SMIL ignores prefers-reduced-motion; pause it by hand.
     const defs = document.querySelector('.color-icon-defs'), rm = matchMedia('(prefers-reduced-motion: reduce)');

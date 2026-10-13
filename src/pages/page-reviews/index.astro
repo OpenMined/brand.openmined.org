@@ -23,12 +23,12 @@ const NAV: [string, string][] = [['pages', 'The pages'], ['how', 'How it works']
 
   <section class="band" id="pages">
     <div class="wrap">
-      <header class="sec"><h2>The pages</h2><p>Each page has two versions over the same markup: the live port and the v2 pass. A bar at the bottom of each switches between them (or press <kbd>v</kbd>).</p></header>
+      <header class="sec"><h2>The pages</h2><p>Each page is the v2 pass over the ported markup; openmined.org itself is the reference for the live version. A bar at the bottom switches pages.</p></header>
       <div class="grid grid--2">
         {PAGES.map((p) => (
           <article class="card" id={p.key}>
             <h3 class="card__h">{p.label}</h3>
-            <p class="muted"><a href={routeFor(p.key, 'v2')}>v2 pass</a> · <a href={routeFor(p.key, 'live')}>Live port</a> · <a href={p.live}>openmined.org <Icon name="open-new-window" /></a></p>
+            <p class="muted"><a href={routeFor(p.key)}>v2 pass</a> · <a href={p.live}>openmined.org <Icon name="open-new-window" /></a></p>
             <p class="muted">{FINDINGS.flatMap((g) => g.items).filter((f) => f.pages.includes(p.key)).length} findings below.</p>
           </article>
         ))}

@@ -17,6 +17,13 @@ html[data-system="v2"] :is(
   box-shadow: var(--shadow-raise-1);
   border: 0;
 }
+/* Hover cards with an icon: the icon top-aligns with the text, at the offset it
+   has when the text is two lines (8px for the link card's 32px icon beside its
+   title and subtitle), so longer text grows below it; the arrow stays centered
+   (Kyle, 2026-10-13). The sub-network card's icon takes the same 8px, which sits
+   it just below the top of its headline's capitals, as on the link cards. */
+html[data-system="v2"] .link-card__lead { align-items: flex-start; }
+html[data-system="v2"] .link-card__icon { margin-top: var(--spacing-S); }
 /* Interactive cards: hover moves one level up the shadow ladder. */
 html[data-system="v2"] .link-card:hover { box-shadow: var(--shadow-raise-2); }
 /* Press cards show logos in their own colors, so they're white plates in
@@ -30,9 +37,9 @@ html[data-system="v2"] .logo-card {
    guidelines/outlines-are-lines (decision 2026-10-12). Back to the live
    style: a 1px line-strong outline over the page, so the colorflow behind
    it shows through (Kyle liked it; Bennett: "used as a line and not a
-   container"). Its row rules are drawn in the same line, as live does. It
-   holds a nested shape (the CTA row), so it takes the outer corner
-   (foundations/shape: nesting). */
+   container"). Its row rules are drawn in the same line, as live does. Its
+   CTA row now sits below it as a hover card (see below); the outline keeps
+   the outer corner. */
 html[data-system="v2"] .home-fednet__card {
   background-color: transparent;
   border: var(--stroke-sm) solid var(--line-strong);
@@ -41,18 +48,31 @@ html[data-system="v2"] .home-fednet__card {
 }
 html[data-system="v2"] .home-fednet__row { border-bottom-color: var(--line-strong); }
 html[data-system="v2"] .home-fednet__row:last-child { border-bottom: 0; }
-/* "Start your own federated sub-network": raise-1 in place of live's inverse
-   row (Bennett, 2026-10-12), with the page's own text and button colors. A
-   band filled one level up inside the outline: built to judge in context;
-   no rule written yet (Kyle). No shadow: it meets the outline on three sides
-   and the divider on the fourth. */
-html[data-system="v2"] .home-fednet__row--cta { background-color: var(--surface-raise-1); }
-html[data-system="v2"] .home-fednet__cta-heading { color: var(--text-headline); }
-html[data-system="v2"] .home-fednet__cta-body { color: var(--text-body); }
-html[data-system="v2"] .home-fednet__row--cta .btn {
-  --button-dark-color: var(--accent-solid);
-  --button-light-color: var(--accent-on);
+/* "Start your own federated sub-network": a hover card below the outline, 80px
+   under it (Bennett, Oct 12 afternoon: keep the page background, come to life
+   on hover; replaces the raise-1 band; tried inside the outline 2026-10-13). 8 of
+   the 12 columns, centered, on the section's grid; icon left (colored on hover by
+   V2Pass), text left-aligned, arrow right; no button. A level and its shadow are
+   the edge (cards are a level); the lift and the pointer light come with .card-float. */
+html[data-system="v2"] .home-fednet__subnet-cta { margin-top: calc(2 * var(--spacing-4XL)); }
+html[data-system="v2"] .home-fednet__cta-card {
+  --card-float-shadow: var(--shadow-raise-1);
+  --card-float-shadow-hover: var(--shadow-raise-2);
+  grid-column: 3 / span 8;
+  display: flex; align-items: flex-start; gap: var(--spacing-2XL);
+  padding: var(--spacing-3XL);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raise-1);
+  color: var(--text-body); text-align: left; text-decoration: none;
 }
+@media (max-width: 991px) { html[data-system="v2"] .home-fednet__cta-card { grid-column: 1 / -1; } }
+html[data-system="v2"] .home-fednet__cta-icon { display: inline-flex; flex: none; margin-top: var(--spacing-S); color: var(--text-headline); }
+html[data-system="v2"] .home-fednet__cta-text { flex: 1; display: grid; gap: var(--spacing-M); }
+html[data-system="v2"] .home-fednet__cta-heading { margin: 0; color: var(--text-headline); }
+html[data-system="v2"] .home-fednet__cta-body { display: grid; gap: var(--spacing-S); margin: 0; color: var(--text-body); }
+html[data-system="v2"] .home-fednet__cta-body p { margin: 0; }
+html[data-system="v2"] .home-fednet__cta-arrow { flex: none; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
+html[data-system="v2"] .home-fednet__cta-card:is(:hover, :focus-visible) .home-fednet__cta-arrow { opacity: 1; transform: translateX(4px); }
 
 /* ── Sections aren't tinted ─────────────────────────────────────────────
    guidelines/sections-arent-tinted. bridge.css maps "dim" to the page; the

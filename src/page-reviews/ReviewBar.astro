@@ -1,8 +1,8 @@
 ---
 /**
  * PAGE REVIEWS — the floating review bar on every review route (rendered by
- * the ported Base.astro). Switches page and system (live port ↔ v2 first pass)
- * and links back to the review notes on the brand site.
+ * the ported Base.astro). Switches page and links back to the review notes on
+ * the brand site.
  *
  * It sits on pages that load either token set, so every color names the v2
  * role first and falls back to the live site's name for the live route.
@@ -14,22 +14,17 @@
 import { PAGES, routeFor, type PageKey, type System } from './reviews';
 interface Props { page: PageKey; system: System }
 const { page, system } = Astro.props;
-const other: System = system === 'v2' ? 'live' : 'v2';
-const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, routeFor(p.key, system)]));
+const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, routeFor(p.key)]));
 ---
 <nav class="rv" aria-label="Page review" data-section="always-dark">
   <a class="rv__home" href={`/page-reviews/#${page}`} title="Review notes on the brand site">Page review</a>
   <span class="rv__sep" aria-hidden="true"></span>
   {PAGES.map((p) => (
-    <a class="rv__opt" href={routeFor(p.key, system)} aria-current={p.key === page ? 'page' : undefined}>{p.label}</a>
+    <a class="rv__opt" href={routeFor(p.key)} aria-current={p.key === page ? 'page' : undefined}>{p.label}</a>
   ))}
-  <span class="rv__sep" aria-hidden="true"></span>
-  <a class="rv__opt" href={routeFor(page, 'live')} aria-current={system === 'live' ? 'true' : undefined}>Live</a>
-  <a class="rv__opt" href={routeFor(page, 'v2')} aria-current={system === 'v2' ? 'true' : undefined}>v2 pass</a>
-  <span class="rv__key" aria-hidden="true">press <kbd>v</kbd></span>
 </nav>
 
-<script is:inline define:vars={{ reviewed, flip: routeFor(page, other) }}>
+<script is:inline define:vars={{ reviewed }}>
   document.querySelectorAll('a[href^="/"]').forEach((a) => {
     if (a.closest('.rv')) return;
     const href = a.getAttribute('href');
@@ -37,14 +32,6 @@ const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, 
     const path = href.split(/[?#]/)[0];
     a.setAttribute('href', reviewed[path] ?? `https://openmined.org${href}`);
   });
-  // "v" flips between the live port and the v2 pass, keeping the scroll position.
-  addEventListener('keydown', (e) => {
-    if (e.key !== 'v' || e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input, textarea, select, [contenteditable]')) return;
-    sessionStorage.setItem('rv-scroll', String(scrollY));
-    location.href = flip;
-  });
-  const y = sessionStorage.getItem('rv-scroll');
-  if (y) { sessionStorage.removeItem('rv-scroll'); addEventListener('load', () => scrollTo(0, Number(y))); }
 </script>
 
 <style>

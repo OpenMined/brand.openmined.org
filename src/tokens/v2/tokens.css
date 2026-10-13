@@ -153,6 +153,7 @@
   --gradient-magenta: #be357d;
   --gradient-spectrum: linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 12.5%, var(--gradient-red) 25%, var(--gradient-violet) 37.5%, var(--gradient-blue) 50%, var(--gradient-teal) 62.5%, var(--gradient-green) 75%, var(--gradient-lime) 87.5%, var(--gradient-yellow) 100%);
   --gradient-flow: linear-gradient(90deg, var(--gradient-red) 0%, var(--gradient-gold) 20%, var(--gradient-violet) 40%, var(--gradient-blue) 60%, var(--gradient-teal) 80%, var(--gradient-green) 100%);
+  --gradient-interactive: linear-gradient(90deg, var(--green-key) 0%, var(--teal-key) 16.67%, var(--blue-key) 33.33%, var(--violet-key) 50%, var(--red-key) 66.67%, var(--amber-key) 83.33%, var(--green-key) 100%);
   --gradient-map: linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 14.29%, var(--gradient-magenta) 28.57%, var(--gradient-violet) 42.86%, var(--gradient-violet) 57.14%, var(--gradient-teal) 71.43%, var(--gradient-green) 85.71%, var(--gradient-lime) 100%);
   --gradient-two-tone-red-base: var(--red-key);
   --gradient-two-tone-red-lighter: var(--red-400);
@@ -385,6 +386,7 @@
   --gradient-magenta: #b83e7c;
   --gradient-spectrum: linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 12.5%, var(--gradient-red) 25%, var(--gradient-violet) 37.5%, var(--gradient-blue) 50%, var(--gradient-teal) 62.5%, var(--gradient-green) 75%, var(--gradient-lime) 87.5%, var(--gradient-yellow) 100%);
   --gradient-flow: linear-gradient(90deg, var(--gradient-red) 0%, var(--gradient-gold) 20%, var(--gradient-violet) 40%, var(--gradient-blue) 60%, var(--gradient-teal) 80%, var(--gradient-green) 100%);
+  --gradient-interactive: linear-gradient(90deg, var(--green-key) 0%, var(--teal-key) 16.67%, var(--blue-key) 33.33%, var(--violet-key) 50%, var(--red-key) 66.67%, var(--amber-key) 83.33%, var(--green-key) 100%);
   --gradient-map: linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 14.29%, var(--gradient-magenta) 28.57%, var(--gradient-violet) 42.86%, var(--gradient-violet) 57.14%, var(--gradient-teal) 71.43%, var(--gradient-green) 85.71%, var(--gradient-lime) 100%);
   --gradient-two-tone-red-base: var(--red-key);
   --gradient-two-tone-red-lighter: var(--red-400);

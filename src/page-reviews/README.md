@@ -10,14 +10,14 @@ Notes and findings: `/page-reviews/` (from `findings.ts`).
 | Path | What |
 | --- | --- |
 | `openmined-org/` | The port: components, layouts, styles, data and icons copied from `OpenMined/openmined-org` at `3fbc850` (2026-10-09), import aliases made relative. Stylelint-exempt (it's the "before"). |
-| `live.css` / `v2.css` | The two stylesheet sets. A route imports one; Astro bundles CSS per route, so they never mix, and none of it reaches the guide pages. |
+| `live.css` / `v2.css` | `live.css` is the port's own styles; `v2.css` imports it and puts v2 on top. Routes import `v2.css`; none of it reaches the guide pages. |
 | `v2/bridge.css` | Live token names → v2 tokens. Most of the v2 pass. |
 | `v2/pass.css` | Component-level changes, each naming the `design/` rule it applies. |
 | `v2/motion.css` | Color in motion: the working favorites from `/rounds/motion/` (button hover, icons in a set hue). |
-| `v2/V2Pass.astro` | The pass's markup changes, at runtime: a gradient map behind each CTA; the button hover layers; colored icons where marked `data-v2-color-icons` (in order) or `data-v2-hue`. |
-| `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (page, live ↔ v2, `v` key) and link rewriting. |
+| `v2/V2Pass.astro` | The pass's markup changes, at runtime: a gradient map behind each CTA; the button hover layers; colored icons where marked `data-color-icons` (in order) or `data-icon-hue`; hover cards' icons on hover (`data-hover-hue` on the card to set the hue). |
+| `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (switches page) and link rewriting. |
 | `reviews.ts`, `findings.ts` | The page list and the review notes. |
-| `../pages/page-reviews/` | Routes: `<page>/` is the v2 pass, `<page>/live/` the port. Each sets `Astro.locals.review`. |
+| `../pages/page-reviews/` | Routes: `<page>/` is the v2 pass (the live ports were dropped 2026-10-13; openmined.org is the reference). Each sets `Astro.locals.review`. |
 | `../../public/page-reviews/` | Org logos and the CTA raster from openmined.org. |
 
 ## Changes to the port
@@ -38,7 +38,7 @@ the v2 pass) in its file:
 - `OrgLogo`, `organizations.json`, `CtaSection`: asset paths under `/page-reviews/openmined-org/`.
 - Seams: `Icon.astro` (v2 icons on v2 routes), `DiamondEmbed` / `StreamEmbed`
   (colors from `window.OM_REVIEW_COLORS`), `SyftHub.astro` (Core Components
-  wrapped in `data-v2-color-icons`), `HomeFederatedNetwork.astro` (pillar hues).
+  wrapped in `data-color-icons`), `HomeFederatedNetwork.astro` (pillar hues).
 
 ## Refresh or remove
 

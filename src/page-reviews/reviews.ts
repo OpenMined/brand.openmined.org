@@ -13,6 +13,9 @@ export const SOURCE = {
   date: '2026-10-09',
 };
 
+/** Only v2 routes exist now (the live ports were dropped 2026-10-13, Kyle: not
+ *  needed; openmined.org is the reference). The port's seams still branch on
+ *  `system`, so the ported files keep their live markup unchanged. */
 export type System = 'live' | 'v2';
 
 export const PAGES = [
@@ -22,8 +25,5 @@ export const PAGES = [
 
 export type PageKey = (typeof PAGES)[number]['key'];
 
-/** The route for a page in a system: v2 at the page path, the live port under live/. */
-export const routeFor = (key: PageKey, system: System) => {
-  const p = PAGES.find((x) => x.key === key)!;
-  return system === 'v2' ? p.path : `${p.path}live/`;
-};
+/** The route for a page: its v2 pass. */
+export const routeFor = (key: PageKey) => PAGES.find((x) => x.key === key)!.path;

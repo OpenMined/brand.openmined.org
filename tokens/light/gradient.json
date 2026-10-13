@@ -236,6 +236,46 @@
         }
       }
     },
+    "interactive": {
+      "$type": "gradient",
+      "$value": [
+        {
+          "color": "{green.key}",
+          "position": 0
+        },
+        {
+          "color": "{teal.key}",
+          "position": 0.1667
+        },
+        {
+          "color": "{blue.key}",
+          "position": 0.3333
+        },
+        {
+          "color": "{violet.key}",
+          "position": 0.5
+        },
+        {
+          "color": "{red.key}",
+          "position": 0.6667
+        },
+        {
+          "color": "{amber.key}",
+          "position": 0.8333
+        },
+        {
+          "color": "{green.key}",
+          "position": 1
+        }
+      ],
+      "$description": "Color that moves behind a white label (button hover, motion round option F): the wheel in hue keys only, green → teal → blue → violet → red → amber → green, so the label never drops below the green key's contrast (about 3.8:1). The spectrum's fitted stops (gold, orange, lime, yellow) stay for graphics; white on them is 1.3–2.5:1 (2026-10-13).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
     "map": {
       "$type": "gradient",
       "$value": [

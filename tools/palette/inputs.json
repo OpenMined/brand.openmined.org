@@ -378,6 +378,19 @@
         "status": "working",
         "_for": "The colorflow (<om-stream>): six stops in the order the site's home hero uses."
       },
+      "interactive": {
+        "stops": [
+          "green.key",
+          "teal.key",
+          "blue.key",
+          "violet.key",
+          "red.key",
+          "amber.key",
+          "green.key"
+        ],
+        "status": "exploring",
+        "_for": "Color that moves behind a white label (button hover, motion round option F): the wheel in hue keys only, green → teal → blue → violet → red → amber → green, so the label never drops below the green key's contrast (about 3.8:1). The spectrum's fitted stops (gold, orange, lime, yellow) stay for graphics; white on them is 1.3–2.5:1 (2026-10-13)."
+      },
       "map": {
         "stops": [
           "gold",
