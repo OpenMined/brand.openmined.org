@@ -4,7 +4,10 @@
  * Styled with the v2 tokens it documents; v1's tokens.css is loaded only for
  * the non-color values v2 doesn't define yet (spacing, z-index, transitions).
  * The nav lists only pages that exist (lab PLAN, B: pages are made as each
- * topic is worked).
+ * topic is worked). Two headers: the brand guide's (its pages, then Review
+ * rounds, v1 reference and the color mode) and, on any page under /rounds/ or
+ * /page-reviews/, the review rounds' (every round and page review, from
+ * src/lib/rounds.ts, with a way back to the guide). Kyle, 2026-10-13.
  */
 import '@tokens/tokens.css';
 import '@tokens/v2/tokens.css';
@@ -12,7 +15,7 @@ import '../styles/site.css';
 import '../styles/button-hover.css';
 import '../styles/link-hover.css';
 import ThemeToggle from '@brand/ThemeToggle.astro';
-import { PAGES as PAGE_REVIEWS } from '../page-reviews/reviews';
+import { ROUNDS, REVIEW_PAGES, isCurrent } from '../lib/rounds';
 
 interface Props {
   title: string;
@@ -31,13 +34,9 @@ const PAGES = [
   { key: 'interface', label: 'Interface', href: '/interface/' },
   { key: 'typography', label: 'Typography', href: '/typography/' },
 ];
-/** Page reviews: real openmined.org pages with v2 tried on them (src/page-reviews/). Working material, not guide pages. */
-const REVIEWS = PAGE_REVIEWS.map(p => ({ key: `review-${p.key}`, label: p.label, href: p.path }));
-/** Archives that stay reachable while v2 is in progress. */
-const ARCHIVE = [
-  { key: 'rounds', label: 'Review rounds', href: '/rounds/' },
-  { key: 'v1', label: 'v1 reference', href: '/v1/' },
-];
+/** Which header: the review rounds' on their pages (rounds and page reviews). */
+const path = Astro.url.pathname;
+const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/');
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -61,16 +60,25 @@ const ARCHIVE = [
   <body>
     <header class="bar">
       <div class="bar__inner">
-        <a class="bar__title" href="/">OpenMined Design System</a>
-        <span class="bar__tag">v2 · in progress</span>
-        <nav class="bar__nav" aria-label="Site">
-          {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
-          <span class="bar__sep" aria-hidden="true"></span>
-          <a class="bar__group" href="/page-reviews/" aria-current={current === 'page-reviews' ? 'page' : undefined}>Page reviews</a>
-          {REVIEWS.map(p => <a class="bar__link" href={p.href}>{p.label}</a>)}
-          <span class="bar__sep" aria-hidden="true"></span>
-          {ARCHIVE.map(p => <a class="bar__link" href={p.href}>{p.label}</a>)}
-        </nav>
+        {inRounds ? <>
+          <a class="bar__arrow" href="/" aria-label="Back to the brand guide">←</a>
+          <a class="bar__title" href="/rounds/" aria-current={path === '/rounds/' ? 'page' : undefined}>Working favorites</a>
+          <nav class="bar__nav bar__nav--reviews" aria-label="Page reviews">
+            {REVIEW_PAGES.map((p, i) => <a class:list={[i === 0 ? 'bar__group' : 'bar__link']} href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
+          </nav>
+          <nav class="bar__nav bar__nav--rounds" aria-label="Review rounds">
+            {ROUNDS.filter(p => p.key !== 'favorites').map(p => <a class="bar__link" href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
+          </nav>
+        </> : <>
+          <a class="bar__title" href="/">OpenMined Design System</a>
+          <span class="bar__tag">v2 · in progress</span>
+          <nav class="bar__nav" aria-label="Site">
+            {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
+            <span class="bar__sep" aria-hidden="true"></span>
+            <a class="bar__link" href="/rounds/">Review rounds</a>
+            <a class="bar__link" href="/v1/">v1 reference</a>
+          </nav>
+        </>}
         <ThemeToggle />
       </div>
     </header>
@@ -84,8 +92,9 @@ const ARCHIVE = [
     </footer>
 
     <script>
-      import { buttonHover } from '../scripts/button-hover';
+      import { buttonHover, hoverCards } from '../scripts/button-hover';
       buttonHover();
+      hoverCards();
       document.addEventListener('click', (e: MouseEvent) => {
         if ((e.target as HTMLElement).closest('.js-switch-theme')) {
           const html = document.documentElement;

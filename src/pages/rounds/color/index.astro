@@ -32,6 +32,7 @@ import ThemeToggle from '@brand/ThemeToggle.astro';
 import data from './_palettes.json';
 import { readFileSync } from 'node:fs';
 import './_color.css';
+import GrayBoost from './_GrayBoost.astro';
 import { logoCss, logoSvg, iconSvg } from './_logo';
 import { hex as v2hex, listStops } from '../../../lib/tokens';
 
@@ -895,6 +896,8 @@ result = client.<span class="t-f">submit</span>(median_income, census)  <span cl
           </div>
         </div>
       </section>
+
+      <GrayBoost />
 
       <script is:inline>
         // Palette-following assets: every [data-follow] element gets its

@@ -1,0 +1,22 @@
+---
+/**
+ * HoverCard — a card that is a link: icon left, title and text, arrow right
+ * (components/hover-card.md, exploring). On hover or keyboard focus it lifts a
+ * level; a soft white light follows the pointer over the card and its content;
+ * the icon takes its hue's two-tone gradient, moving (needs <TwoToneDefs /> on the
+ * page); the arrow stays mono. The icon top-aligns with the text.
+ */
+import { iconSvg } from '../../lib/icons';
+interface Props { href: string; icon: string; hue: string; title: string; text?: string }
+const { href, icon, hue, title, text } = Astro.props;
+const svg = iconSvg(icon, { size: 32 });
+const ARR = iconSvg('arrow-right', { size: 24 });
+---
+<a class="hcard" href={href}>
+  <span class="hcard__icon" style={`--ci-stroke:url(#tt-${hue})`} aria-hidden="true">
+    <span class="hcard__glow" set:html={svg} /><Fragment set:html={svg} /><span class="hcard__color" set:html={svg} />
+  </span>
+  <span class="hcard__text"><strong>{title}</strong>{text && <span>{text}</span>}</span>
+  <span class="hcard__arrow" aria-hidden="true" set:html={ARR} />
+  <span class="hcard__light" aria-hidden="true"></span>
+</a>

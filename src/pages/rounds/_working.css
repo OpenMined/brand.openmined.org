@@ -18,6 +18,12 @@
 /* Bar: round links, as quiet chips beside the color round's fields */
 .wf .bar__link { padding: 5px 10px; border-radius: var(--border-radius-S); font-size: 0.82rem; font-weight: 500; color: var(--c-h); text-decoration: none; background: var(--c-sunken); }
 .wf .bar__link:hover { background: var(--c-line); }
+/* Two rows: back, title, page reviews and color mode on top; every round below. */
+.wf .bar__inner { flex-wrap: wrap; }
+.wf .bar__title { margin-right: var(--spacing-L); }
+.wf .wf-mode { margin-left: auto; }
+.wf .wf-rounds { order: 1; flex-basis: 100%; flex-wrap: wrap; }
+.wf .bar__link { white-space: nowrap; }
 
 /* ── Contents: numbered, each with a down arrow ──────────────────── */
 .toc ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px var(--spacing-3XL); max-width: 52em; }

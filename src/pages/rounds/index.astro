@@ -27,6 +27,7 @@ import {
 import './color/_color.css';
 import './_working.css';
 import FigA from './diagrams/_a/Fig1.astro';
+import { ROUNDS, REVIEW_PAGES } from '../../lib/rounds';
 
 const R = { light: ramp('light'), dark: ramp('dark') };
 const G = { light: gradient('light'), dark: gradient('dark') };
@@ -75,24 +76,20 @@ const ARR = '<ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-ico
   <div class="cr wf">
     <header class="bar">
       <div class="bar__inner">
-        <a class="bar__back" href="/" aria-label="Back to the brand reference">←</a>
+        <a class="bar__back" href="/" aria-label="Back to the brand guide">←</a>
         <span class="bar__title">Working favorites</span>
-        <nav class="bar__field" aria-label="Rounds">
-          <span class="bar__lab">Rounds</span>
-          <a class="bar__link" href={LINKS.surfaces} data-keep-t>Surfaces</a>
-          <a class="bar__link" href={LINKS.color} data-keep-t>Color</a>
-          <a class="bar__link" href={LINKS.diagrams} data-keep-t>Diagrams</a>
-          <a class="bar__link" href="/rounds/naming/" data-keep-t>Naming</a>
-          <a class="bar__link" href="/rounds/spectrum/" data-keep-t>Spectrum</a>
-          <a class="bar__link" href="/rounds/status/">Status chips</a>
-          <a class="bar__link" href="/rounds/infographics/">Infographics</a>
-          <a class="bar__link" href="/rounds/gradient-map/">Gradient map</a>
-          <a class="bar__link" href="/rounds/motion/">Color in motion</a>
+        <nav class="bar__field" aria-label="Page reviews">
+          <span class="bar__lab">Page reviews</span>
+          {REVIEW_PAGES.map((r, i) => <a class="bar__link" href={r.href}>{i === 0 ? 'Notes' : r.label}</a>)}
         </nav>
-        <div class="bar__field">
+        <div class="bar__field wf-mode">
           <span class="bar__lab">Color mode</span>
           <ThemeToggle />
         </div>
+        <nav class="bar__field wf-rounds" aria-label="Rounds">
+          <span class="bar__lab">Rounds</span>
+          {ROUNDS.filter(r => r.key !== 'favorites').map(r => <a class="bar__link" href={r.href} data-keep-t={r.keepT ? '' : undefined}>{r.label}</a>)}
+        </nav>
       </div>
     </header>
 

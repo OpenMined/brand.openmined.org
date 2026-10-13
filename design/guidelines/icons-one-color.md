@@ -1,14 +1,14 @@
 ---
 type: Guideline
-title: Status icons take their status color
-description: Icons are one color, the color of the text around them. Only status icons take a color, through the status roles.
+title: "Icons are mono unless they're status or in color mode"
+description: "Icons are one color, the color of the text around them. Status icons take their status color; an icon in color mode takes its hue's two-tone gradient, moving."
 status: exploring
 tags: [icons]
-tokens: [--success-fg, --danger-fg, --warning-fg, --info-fg]
+tokens: [--success-fg, --danger-fg, --warning-fg, --info-fg, --gradient-two-tone-green]
 ---
 
-**Rule.** An icon is drawn in `currentColor`. The only icons that take a color of their own are status icons: check in `--success-fg`, X in `--danger-fg`, warning in `--warning-fg`, info in `--info-fg`.
+**Rule.** An icon is drawn in `currentColor`. Two exceptions. Status icons take their status color: check in `--success-fg`, X in `--danger-fg`, warning in `--warning-fg`, info in `--info-fg`. An icon in **color mode** takes its hue's two-tone gradient (`--gradient-two-tone-<hue>`), moving, with a soft glow, where a design calls for it, or on hover in a hover card (decision *Icons have a color mode*, 2026-10-13).
 
-**Why.** Color on an icon has to mean something. Keeping every other icon in the text's color leaves color free to signal status, and the `fg` roles hold contrast on every surface in both modes.
+**Why.** Color on an icon has to mean something or move (*If color, then motion*). Keeping icons mono by default leaves color free to signal status, and the `fg` roles hold contrast on every surface in both modes.
 
-**Don't.** Color an icon for decoration, give it a gradient, or use a hue key on it: keys are for marks in graphics, not for interface icons.
+**Don't.** Give an icon a static color for decoration, or a hue key: a colored icon is either a status or in color mode, and color mode always moves.

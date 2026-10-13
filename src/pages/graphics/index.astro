@@ -111,7 +111,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
       </article>
       <article class="card">
         <h3>Gradient map <code>&lt;om-mesh&gt;</code></h3>
-        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight points ringing the box and blending toward the center, in the color round's "Clouds" setting. Its colors are its own list, <code>--gradient-map</code>: magenta on the left and no blue, as in the live raster. Being compared in the <a href="/rounds/gradient-map/">gradient map round</a>.</p>
+        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight points ringing the box and blending toward the center, in the color round's "Clouds" setting. Its colors are its own list, <code>--gradient-map</code>: magenta on the left and no blue, as in the live raster. Its colors are compared in the <a href="/rounds/gradient-map/">gradient map round</a>.</p>
         <div class="mesh-stage">
           <om-mesh class="mesh-stage__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
           <div class="mesh-stage__card">
@@ -120,11 +120,6 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
             <span class="btn btn--solid">Request a Conversation</span>
           </div>
         </div>
-        <label class="mesh-sat">
-          <span>Saturation <b class="js-sat-out">1.10</b></span>
-          <input class="js-sat" type="range" min="1" max="1.8" step="0.05" value="1.1" aria-label="Gradient map saturation" />
-          <span class="muted">Exploring. Blending eight hues pulls the field toward gray; this gives the chroma back (OKLab, lightness and hue kept). 1 is the map as it was.</span>
-        </label>
       </article>
     </div>
   </section>
@@ -137,11 +132,6 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
         <figcaption class="dex__cap">Direction A, attribution in color: each source keeps its hue; where attribution is lost the colors drain to gray, and where it's kept they reach the person asking.</figcaption>
       </figure>
       <div class="prose"><DiagramsContent /></div>
-      <div class="grid grid--3">
-        <a class="card card--link" href="/rounds/diagrams/original/"><h3 class="card__h">Original <Fragment set:html={ARR} /></h3><p>The live article's graphics, for comparison.</p></a>
-        <a class="card card--link" href="/rounds/diagrams/a/"><h3 class="card__h">A · Attribution in color <Fragment set:html={ARR} /></h3><p>Each source keeps a hue; attribution lost drains to gray.</p></a>
-        <a class="card card--link" href="/rounds/diagrams/b/"><h3 class="card__h">B · Technical plate <Fragment set:html={ARR} /></h3><p>A few colors with one job each.</p></a>
-      </div>
     </div>
   </section>
 
@@ -211,8 +201,9 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
   <section class="band" id="see">
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--2">
-        <a class="card card--link" href="/rounds/diagrams/"><h3 class="card__h">Diagram round <Fragment set:html={ARR} /></h3><p>The Attribution-Based Control article's opening, with its graphics redrawn in two directions.</p></a>
+      <div class="grid grid--3">
+        <a class="card card--link" href="/rounds/diagrams/"><h3 class="card__h">Diagram round <Fragment set:html={ARR} /></h3><p>The Attribution-Based Control article's opening, with its graphics redrawn in two directions: the original, A (attribution in color, chosen) and B (technical plate).</p></a>
+        <a class="card card--link" href="/rounds/gradient-map/"><h3 class="card__h">Gradient map round <Fragment set:html={ARR} /></h3><p>The gradient map's colors compared, with its saturation control.</p></a>
         <a class="card card--link" href="/rounds/#gradient"><h3 class="card__h">Working favorites <Fragment set:html={ARR} /></h3><p>The gradient and graphics section, alongside the rest of the working values.</p></a>
       </div>
     </div>
@@ -241,11 +232,5 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
       document.querySelector('.partners')?.classList.toggle('is-color', b.dataset.view === 'color');
       document.querySelectorAll('.js-pview').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
     }));
-    // Gradient map saturation slider (exploring)
-    (() => {
-      const input = document.querySelector('.js-sat'), out = document.querySelector('.js-sat-out'), mesh = document.querySelector('.mesh-stage om-mesh');
-      if (!input || !mesh) return;
-      input.addEventListener('input', () => { mesh.setAttribute('saturation', input.value); out.textContent = (+input.value).toFixed(2); });
-    })();
   </script>
 </Site>

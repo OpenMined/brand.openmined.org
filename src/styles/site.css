@@ -65,7 +65,17 @@ a:hover { text-decoration-color: currentColor; }
 }
 .bar__title { font-family: var(--font-d); color: var(--text-headline); font-size: 1.05rem; text-decoration: none; }
 .bar__tag { font-size: 0.72rem; color: var(--text-muted); margin-right: auto; }
+.bar__back { text-decoration: none; }
+.bar__back:hover { color: var(--text-headline); }
+.bar__arrow { font-size: 1.1rem; color: var(--text-muted); text-decoration: none; }
+.bar__arrow:hover { color: var(--text-headline); }
+/* Review rounds' header: back, Working favorites and the page reviews on top (color mode at the right), every round below. */
+.bar__nav--reviews { margin-right: auto; }
 .bar__nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-S); }
+/* The review rounds' header: title, way back and color mode on top; every round on a row of its own. */
+.bar__nav--rounds { order: 1; flex-basis: 100%; gap: 2px; margin-left: -8px; }
+.bar__nav .bar__link { white-space: nowrap; }
+.bar__nav--rounds .bar__link { padding-inline: 8px; }
 .bar__link { padding: 5px 10px; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 500; color: var(--text-headline); text-decoration: none; }
 .bar__link:hover { background: var(--surface-sunken); }
 .bar__link[aria-current='page'] { background: var(--surface-sunken); }
@@ -494,14 +504,6 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .gamut-note { display: grid; gap: var(--spacing-S); font-size: 0.85rem; line-height: 1.55; max-width: 60em; }
 
 /* Color page: midtone saturation preview under the gray ramp (exploring) */
-.gboost { display: grid; gap: var(--spacing-M); padding-top: var(--spacing-M); border-top: 1px solid var(--line); }
-.gboost__lead { font-size: 0.88rem; line-height: 1.5; max-width: 60em; }
-.gboost__ctl { display: flex; flex-wrap: wrap; align-items: end; gap: var(--spacing-L) var(--spacing-2XL); font-size: 0.82rem; }
-.gboost__ctl label { display: grid; gap: 4px; min-width: 180px; color: var(--text-body); }
-.gboost__ctl input { width: 100%; accent-color: var(--text-headline); }
-.gboost__ctl .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
-.gboost__tbl td { vertical-align: middle; }
-.gboost__chip { display: inline-block; width: 28px; height: 16px; border-radius: var(--radius-sm); vertical-align: middle; margin-right: 8px; }
 
 /* ── Links (ported from openmined.org, 2026-10-09) ───────────────────
    Link text never changes color (Kyle and Bennett, 2026-10-12). Every line
@@ -573,3 +575,33 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .tt-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
 .tt-bar { display: block; width: 100%; min-width: 160px; height: 22px; border-radius: var(--radius-sm); }
 .colorway__icons { display: flex; flex-wrap: wrap; gap: var(--spacing-XL); margin-bottom: var(--spacing-M); }
+
+/* ── Hover cards (components/site/HoverCard.astro, components/hover-card.md) ──
+   A level and its shadow; on hover or focus one level up and a 2px lift. A white
+   light follows the pointer over the card and its content (0.2 light, 0.03 dark;
+   the script sets --mx/--my). The icon (32px) top-aligns 8px down; on hover its
+   colored copy (the hue's two-tone, moving) and glow fade in over the mono one.
+   The arrow stays mono and nudges right. */
+.hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-L);
+  padding: var(--spacing-2XL); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+  color: var(--text-body); text-decoration: none; transition: box-shadow var(--transition-base), transform var(--transition-base); }
+.hcard:is(:hover, :focus-visible) { box-shadow: var(--shadow-raise-2); transform: translateY(-2px); }
+.hcard__text { flex: 1; display: grid; gap: 2px; font-size: var(--font-size-md); line-height: 1.5; }
+.hcard__text strong { color: var(--text-headline); font-weight: 700; }
+.hcard__arrow { display: flex; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
+.hcard:is(:hover, :focus-visible) .hcard__arrow { opacity: 1; transform: translateX(4px); }
+.hcard__icon { position: relative; isolation: isolate; display: flex; flex: none; margin-top: var(--spacing-S); color: var(--text-headline); }
+.hcard__icon > svg { transition: opacity var(--transition-base); }
+.hcard__icon > :is(.hcard__glow, .hcard__color) { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity var(--transition-base); }
+.hcard__icon > .hcard__glow { z-index: -1; filter: blur(6px); }
+.hcard__icon :is(.hcard__glow, .hcard__color) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
+.hcard:is(:hover, :focus-visible) .hcard__icon > svg { opacity: 0; transition-duration: 0.15s; }
+.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__color { opacity: 1; transition-duration: 0.15s; }
+.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.15; transition-duration: 0.15s; }
+[data-theme="dark"] .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.4; }
+.hcard__light { --hl-o: 0.2; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }
+[data-theme="dark"] .hcard__light { --hl-o: 0.03; }
+.hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: 0.15s; }
+.hcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
+@media (max-width: 900px) { .hcards { grid-template-columns: minmax(0, 1fr); } }

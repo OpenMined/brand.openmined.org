@@ -14,17 +14,27 @@ export function buttonHover(selector = '.btn') {
     // The fill covers the button's own border, whatever its width.
     btn.style.setProperty('--flow-inset', `-${getComputedStyle(btn).borderTopWidth}`);
     btn.insertAdjacentHTML('afterbegin', LAYER('glow') + LAYER('fill', true));
-    // The light eases toward the pointer each frame, so it trails a little.
-    let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
-    const step = () => {
-      x += (tx - x) * 0.15; y += (ty - y) * 0.15;
-      btn.style.setProperty('--mx', `${x}px`); btn.style.setProperty('--my', `${y}px`);
-      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(step) : 0;
-    };
-    btn.addEventListener('pointerenter', (e) => { const r = btn.getBoundingClientRect(); x = tx = e.clientX - r.left; y = ty = e.clientY - r.top; step(); });
-    btn.addEventListener('pointermove', (e) => {
-      const r = btn.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
-      if (!raf) raf = requestAnimationFrame(step);
-    });
+    followPointer(btn);
   });
+}
+
+/** A light that eases toward the pointer each frame (it trails a little): sets
+ *  --mx and --my on the element, in px from its top left. */
+export function followPointer(el: HTMLElement) {
+  let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+  const step = () => {
+    x += (tx - x) * 0.15; y += (ty - y) * 0.15;
+    el.style.setProperty('--mx', `${x}px`); el.style.setProperty('--my', `${y}px`);
+    raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(step) : 0;
+  };
+  el.addEventListener('pointerenter', (e) => { const r = el.getBoundingClientRect(); x = tx = e.clientX - r.left; y = ty = e.clientY - r.top; step(); });
+  el.addEventListener('pointermove', (e) => {
+    const r = el.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(step);
+  });
+}
+
+/** Hover cards (components/site/HoverCard.astro): the pointer light. */
+export function hoverCards(selector = '.hcard') {
+  document.querySelectorAll<HTMLElement>(selector).forEach(followPointer);
 }

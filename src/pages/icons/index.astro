@@ -3,8 +3,8 @@
  * BRAND SITE (v2) — Icons. Words from design/ (tag `icons`); icons are Iconoir's
  * regular set, inlined at build time by components/site/Icon.astro (no CDN).
  * "The set" is a view of icons/set.json: every v2 icon (source, style, review
- * status), and every icon on the live style guide (./_live-icons.json, a snapshot)
- * next to the set icon that replaces it. All drawings come through src/lib/icons.ts.
+ * status). The live site's icons mapped to the set are on the icons round
+ * (/rounds/icons/). All drawings come through src/lib/icons.ts.
  */
 import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
@@ -14,7 +14,6 @@ import Icon from '../../components/site/Icon.astro';
 import ColorIcon from '../../components/site/ColorIcon.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import LIVE_SNAPSHOT from './_live-icons.json';
 import { ICONS, LIVE, iconSvg } from '../../lib/icons';
 import { HUES, TWO_TONE_COMPANION } from '../../lib/tokens';
 
@@ -22,15 +21,9 @@ const foundation = doc('foundations/iconography');
 const { Content } = foundation;
 const rules = byTag('icons', 'Guideline', 'Behavior');
 const decisions = decisionsFor('icons');
-const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['live', 'From the live site'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 
-/** Every live icon (the snapshot) with the set icon that replaces it (icons/set.json → live). */
-const MATCH: Record<string, string> = { exact: 'Same idea', close: 'Closest match', none: 'No match', status: 'Status color', partner: 'Partner mark', gap: 'No partner mark yet' };
 const SRC: Record<string, string> = { iconoir: 'Iconoir', own: 'Our own', partner: 'Partner mark' };
-const GROUPS = (LIVE_SNAPSHOT as any).groups.map((g: any) => ({ ...g, items: g.items.map((it: any) => ({ ...it, ...LIVE[it.name] })) })) as { title: string; desc: string; ionicons?: boolean; items: { name: string; svg: string; use: string | null; match: string }[] }[];
-const TOTAL = GROUPS.reduce((n, g) => n + g.items.length, 0);
-const COUNT = (m: string) => GROUPS.reduce((n, g) => n + g.items.filter(i => i.match === m).length, 0);
-const liveSvg = (svg: string) => svg.replace('<svg', '<svg width="24" height="24" aria-hidden="true" focusable="false"');
 /** The v2 set, with the live icons each one replaces. */
 const SET = Object.entries(ICONS).map(([name, e]) => ({ name, ...e, replaces: Object.entries(LIVE).filter(([, l]) => l.use === name).map(([n]) => n) }));
 const APPROVED = SET.filter(i => i.status === 'approved').length;
@@ -145,42 +138,6 @@ const ARR = iconSvg('arrow-right');
     </div>
   </section>
 
-  <section class="band" id="live">
-    <div class="wrap">
-      <header class="sec"><h2>From the live site</h2><p>Every icon on the live site’s style guide (<a href="https://openmined.org/style-guide/#icons">openmined.org/style-guide</a>), next to the set icon that replaces it, in the live guide’s groups: {TOTAL} icons, {COUNT('exact')} with a same-idea Iconoir icon, {COUNT('close')} with the closest match, {COUNT('none')} with none. The live set mixes sources (2px and 1.5px strokes, five already from Iconoir, a filled check and X). A dash means no replacement is chosen yet, so the live drawing stays wherever it’s used.</p></header>
-      {GROUPS.map(g => (
-        <article class="card">
-          <h3>{g.title} <span class="muted">({g.items.length})</span></h3>
-          <p class="muted">{g.desc}</p>
-          <div class="tbl-wrap">
-            <table class="tbl icon-cmp">
-              <thead><tr><th>Live</th><th>Name</th><th>v2</th><th>Name</th><th>Match</th><th>Status</th></tr></thead>
-              <tbody>
-                {g.items.map(it => (
-                  <tr class={`is-${it.match}`}>
-                    <td class="icon-cmp__glyph"><Fragment set:html={liveSvg(it.svg)} /></td>
-                    <td><code>{it.name}</code></td>
-                    <td class={`icon-cmp__glyph${it.match === 'status' ? (it.name.startsWith('x') ? ' is-danger' : ' is-success') : ''}`}>
-                      {it.use ? <Icon name={it.use} size={24} /> : <span class="muted">—</span>}
-                    </td>
-                    <td>{it.use ? <code>{it.use}</code> : <span class="muted">—</span>}</td>
-                    <td>{MATCH[it.match]}</td>
-                    <td>{it.use ? (ICONS[it.use].status === 'approved' ? <b>approved</b> : <span class="muted">proposed</span>) : <span class="muted">—</span>}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </article>
-      ))}
-      <div class="notes"><div><ul>
-        <li><b>No match ({COUNT('none')}):</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'none').map(i => i.name)).join(', ')}. Draw our own on Iconoir’s grid and stroke, or import the live drawing (<code>npm run icons:import</code>).</li>
-        <li><b>Status:</b> the live check and X are filled and colored; v2 draws them outlined in their status color, like every icon. To keep the filled ones, import them as <code>solid</code> icons.</li>
-        <li><b>Brands without a partner mark:</b> {GROUPS.flatMap(g => g.items.filter(i => i.match === 'gap').map(i => i.name.replace('logo-', ''))).join(', ')}. Add official files to <code>public/logos/partners/</code>. Brand marks are fills in every version.</li>
-      </ul></div></div>
-    </div>
-  </section>
-
   <section class="band" id="how">
     <div class="wrap">
       <header class="sec"><h2>How it works</h2></header>
@@ -205,7 +162,8 @@ const ARR = iconSvg('arrow-right');
   <section class="band" id="see">
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--2">
+      <div class="grid grid--3">
+        <a class="card card--link" href="/rounds/icons/"><h3 class="card__h">Icons round <Fragment set:html={ARR} /></h3><p>Every icon on the live site, next to the set icon that replaces it.</p></a>
         <a class="card card--link" href="https://iconoir.com"><h3 class="card__h">Iconoir <Fragment set:html={ARR} /></h3><p>Browse all 1,383 outlined icons. Use the regular set; we draw it at a 2 stroke.</p></a>
         <a class="card card--link" href="/graphics/#logo"><h3 class="card__h">Partner marks <Fragment set:html={ARR} /></h3><p>Brand logos for tools and partners, used as supplied.</p></a>
       </div>

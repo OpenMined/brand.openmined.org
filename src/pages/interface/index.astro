@@ -10,15 +10,18 @@ import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
+import HoverCard from '../../components/site/HoverCard.astro';
+import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import Icon from '../../components/site/Icon.astro';
 
 const button = doc('components/button');
 const link = doc('components/link');
+const hoverCard = doc('components/hover-card');
 const form = doc('components/form-field');
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 const components = [button, link, form];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
@@ -43,7 +46,7 @@ const TEXT_FIELDS = [
           <button type="button" class="btn">Cancel</button>
           <button type="button" class="btn">Save draft</button>
         </div>
-        <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest and fill with the accent key, green, on hover, with a white label.</p>
+        <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the full OM gradient flowing under a faint shimmer, starting on green, with a glow and a light that follows the pointer.</p>
       </article>
     </div>
   </section>
@@ -63,6 +66,19 @@ const TEXT_FIELDS = [
           <p class="muted">An action that reads as text: no underline at rest; on hover the line slides in from the left and leaves to the right: the same line as the content link's underline and the secondary button's outline. Nav and footer links work the same way. The icon follows the label and isn’t underlined.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="band" id="hover-cards">
+    <div class="wrap">
+      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p><p class="status">Status: <b>{hoverCard.status}</b></p></header>
+      <div class="hcards">
+        <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
+        <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />
+        <HoverCard href="#hover-cards" icon="view-structure-up" hue="green" title="Core concepts" text="Learn the building blocks" />
+      </div>
+      <p class="muted">Hover a card: it lifts, a soft light follows the pointer and the icon takes its hue's moving two-tone. The arrow stays mono.</p>
+      <TwoToneDefs />
     </div>
   </section>
 
@@ -175,9 +191,8 @@ const TEXT_FIELDS = [
       <div class="notes">
         <div>
           <ul>
-            <li><b>Link color.</b> Link text never changes color. Every link line matches the secondary button's outline (<code>--line-strong</code>). Underlined links take the accent key (green) on hover; links without an underline draw the line on hover.</li>
-            <li><b>A colored accent.</b> Whether OpenMined's accent stays grayscale or takes a hue.</li>
-            <li><b>Hover motion.</b> A subtle animated accent gradient and glow on button hover (Bennett, 2026-10-12): which colors move is still open, so the hover is a plain fill for now.</li>
+            <li><b>A colored accent.</b> Whether OpenMined's accent at rest stays grayscale or takes a hue (green is the static accent's color today; in motion it steps up to a gradient).</li>
+            <li><b>Label contrast on hover.</b> The button's white label dips while the gradient's pale stops (gold, yellow, lime) pass behind it; accepted for now, with <code>--gradient-interactive</code> (hue keys only) as the fallback.</li>
             <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). It may need reinforcing: a stronger inset, or one rung deeper than rest.</li>
             <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
           </ul>

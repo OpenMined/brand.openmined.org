@@ -16,6 +16,6 @@ Lines are drawn, not boxed: an outline shows the same surface on both sides of i
 | `--stroke-sm` | 1px | Every line, unless one below applies. |
 | `--stroke-md` | 1.5px | A diagram's outer outline, one step above the lines inside it. |
 
-**One line style.** The outline, the secondary button and the underline are the same line: `--stroke-sm` in `--line-strong`, the same gray step as the body text (Kyle, 2026-10-12). Hover adds the accent on top of an underline; it doesn't change the line underneath.
+**One line style.** The outline, the secondary button and the underline are the same line: `--stroke-sm` in `--line-strong`, the same gray step as the body text (Kyle, 2026-10-12). Hover adds a colored line on top of an underline (the accent in motion; see Links); it doesn't change the line underneath.
 
 **Diagrams draw in `--line`.** A diagram carries many lines at once, so its outlines, dashed boxes and chips use the quieter divider color, not the line style (Kyle, 2026-10-12).
