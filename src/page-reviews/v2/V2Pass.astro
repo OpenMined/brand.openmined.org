@@ -10,10 +10,10 @@
  *    [data-v2-color-icons] in order (green, amber, red, blue), and any element
  *    marked data-v2-hue="<hue>" with that hue.
  */
-import { listStops } from '../../lib/tokens';
+import { listStops, twoToneStops } from '../../lib/tokens';
 const stops = listStops('map');
-// Each hue's two-tone gradient (tokens: gradient.two-tone-<hue>), as its stops' token names.
-const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'violet'].map(h => [h, listStops(`two-tone-${h}`).split(',')]));
+// Each hue's two-tone gradient, as its stop tokens (mode-aware: --gradient-two-tone-<hue>-base …).
+const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'violet'].map(h => [h, twoToneStops(h)]));
 ---
 <script type="module" src="/embeds/om-mesh.js" is:inline></script>
 <script is:inline define:vars={{ stops }}>
@@ -75,7 +75,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       g.querySelectorAll('span.icon').forEach((el, i) => targets.push([el, ORDER[i % ORDER.length]])));
     document.querySelectorAll('[data-v2-hue]').forEach((el) => targets.push([el, el.dataset.v2Hue]));
     if (!targets.length) return;
-    // Stops 1 and 3 (the hue's 400 and 600) mix back toward the key by --ci-keep
+    // Stops 1 and 3 (the lighter and darker shades) mix back toward the base by --ci-keep
     // (motion.css); the key and the companion stay as the token has them.
     const stop = (h, i) => {
       const k = twoTone[h][0], v = `var(--${twoTone[h][i]})`;

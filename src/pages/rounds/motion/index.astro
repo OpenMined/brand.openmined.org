@@ -13,7 +13,7 @@
  */
 import Site from '../../../layouts/Site.astro';
 import { iconSvg, liveToSet } from '../../../lib/icons';
-import { listStops } from '../../../lib/tokens';
+import { twoToneStops, TWO_TONE_COMPANION } from '../../../lib/tokens';
 
 type Glow = { b1: number; o1: number; b2: number; o2: number; o1Light?: number };
 // Glow 1's opacity can differ by mode (o1Light in light, o1 in dark).
@@ -85,8 +85,8 @@ const stopsFor = (h: string, n?: string) => [
 ];
 // Two-tone token: gradient.two-tone-<hue> (its companion chosen per hue in
 // tools/palette/inputs.json); stops 1 and 3 mix back toward the key by the range.
-const TWO_TONE = Object.fromEntries(WHEEL.map(h => [h, listStops(`two-tone-${h}`).split(',')]));
-const companion = (h: string) => TWO_TONE[h][2].replace(/-key$/, '');
+const TWO_TONE = Object.fromEntries(WHEEL.map(h => [h, twoToneStops(h)]));
+const companion = (h: string) => TWO_TONE_COMPANION[h];
 const tokenStops = (h: string) => TWO_TONE[h].map((t, i) =>
   i === 1 || i === 3 ? `color-mix(in oklch, var(--${TWO_TONE[h][0]}) var(--mo-ic-keep), var(--${t}))` : `var(--${t})`);
 // 72 units (1.5× the earlier 48; 3× the icon's 24 grid), slid one period per

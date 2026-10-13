@@ -19,6 +19,9 @@ export const EXTRA_STOPS = (INPUTS.gradient as any).extra?.map((s: { name: strin
 export const listStops = (name: string) =>
   [...tok('light', `gradient-${name}`).value.matchAll(/var\(--([\w-]+)\)/g)].map(m => m[1]).join(',');
 export const SAT = INPUTS.saturation as { light: number; dark: number };
+/** Two-tone gradients: each hue's chosen companion, and its stops as mode-aware tokens. */
+export const TWO_TONE_COMPANION = (INPUTS.gradient as any).two_tone.companions as Record<string, string>;
+export const twoToneStops = (h: string) => ['base', 'lighter', 'companion', 'darker', 'base'].map(r => `gradient-two-tone-${h}-${r}`);
 
 type Entry = { value: string; resolved: string; type: string; status?: string };
 const FILES: Record<Mode, Record<string, Entry>> = { light: LIGHT as any, dark: DARK as any };

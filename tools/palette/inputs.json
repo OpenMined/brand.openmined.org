@@ -404,7 +404,12 @@
         "blue": "violet",
         "violet": "red"
       },
-      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red); teal and violet are first guesses, not yet seen in use."
+      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red); teal and violet are first guesses, not yet seen in use.",
+      "steps": {
+        "light": { "base": "key", "lighter": "400", "companion": "400", "darker": "500" },
+        "dark": { "base": "key", "lighter": "400", "companion": "key", "darker": "600" }
+      },
+      "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps dark's key and 400 and takes the companion's 400 and the hue's 500 for the darker stop (Kyle, 2026-10-13: the key read a bit dark in light; one step lighter throughout read washed out)."
     }
   },
   "categorical": [

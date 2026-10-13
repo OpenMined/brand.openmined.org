@@ -16,7 +16,7 @@ import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import LIVE_SNAPSHOT from './_live-icons.json';
 import { ICONS, LIVE, iconSvg } from '../../lib/icons';
-import { HUES, listStops } from '../../lib/tokens';
+import { HUES, TWO_TONE_COMPANION } from '../../lib/tokens';
 
 const foundation = doc('foundations/iconography');
 const { Content } = foundation;
@@ -41,7 +41,7 @@ const STATUS = [
   { s: 'info', icon: 'info-circle', label: 'Info' },
 ];
 /** Colorways: each hue's two-tone gradient (--gradient-two-tone-<hue>) on a few set icons. */
-const COLORWAYS = HUES.map(h => ({ hue: h, companion: listStops(`two-tone-${h}`).split(',')[2].replace(/-key$/, '') }));
+const COLORWAYS = HUES.map(h => ({ hue: h, companion: TWO_TONE_COMPANION[h] }));
 const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
 const ARR = iconSvg('arrow-right');
 ---

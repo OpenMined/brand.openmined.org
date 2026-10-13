@@ -13,7 +13,7 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import ColorIcon from '../../components/site/ColorIcon.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, listStops, type Mode } from '../../lib/tokens';
+import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, TWO_TONE_COMPANION, type Mode } from '../../lib/tokens';
 
 import GRAY_FILE from '../../../tokens/base/gray.json';
 import HUES_LIGHT from '../../../tokens/light/hues.json';
@@ -66,7 +66,7 @@ const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
 
 /** Two-tone gradients: one per hue, its companion read from the token's middle stop. */
 const twoTone = doc('foundations/two-tone');
-const TWO_TONE = HUES.map(h => ({ hue: h, token: `--gradient-two-tone-${h}`, companion: listStops(`two-tone-${h}`).split(',')[2].replace(/-key$/, '') }));
+const TWO_TONE = HUES.map(h => ({ hue: h, token: `--gradient-two-tone-${h}`, companion: TWO_TONE_COMPANION[h] }));
 const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['two-tone', 'Two-tone'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 ---
@@ -242,7 +242,7 @@ const ARR = iconSvg('arrow-right');
           </tbody>
         </table>
         </div>
-        <p class="muted">Stops: the hue’s key, its 400, the companion’s key, its 600, its key. Companions are chosen per hue in <code>tools/palette/inputs.json</code>; teal’s and violet’s are first guesses. On icons the gradient moves bottom left → top right; see the Icons page.</p>
+        <p class="muted">Stops: base, lighter, companion, darker, base, each its own token (<code>--gradient-two-tone-green-companion</code>…). Dark mode: the hue’s key, 400, the companion’s key, 600. Light mode: the hue’s key, 400, the companion’s 400, 500. Companions are chosen per hue in <code>tools/palette/inputs.json</code>; teal’s and violet’s are first guesses. On icons the gradient moves bottom left → top right; see the Icons page.</p>
       </article>
     </div>
     <TwoToneDefs />

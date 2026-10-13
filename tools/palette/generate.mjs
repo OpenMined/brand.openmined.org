@@ -203,13 +203,22 @@ function gradientFile(mode) {
     const v = l.stops.map((ref, i) => ({ color: ref.includes('.') ? `{${ref}}` : `{gradient.${ref}}`, position: r4(i / (n - 1)) }));
     return [name, { $type: 'gradient', $value: v, $description: l._for, $extensions: { 'org.openmined': { status: l.status ?? 'exploring', generated: true } } }];
   }));
-  // Two-tone: one gradient per hue, its companion chosen by hand (inputs gradient.two_tone).
-  const tt = IN.gradient.two_tone;
-  const twoTone = tt ? Object.fromEntries(Object.entries(tt.companions).map(([h, c]) => {
-    const refs = [`${h}.key`, `${h}.400`, `${c}.key`, `${h}.600`, `${h}.key`];
-    return [`two-tone-${h}`, { $type: 'gradient', $value: refs.map((r, i) => ({ color: `{${r}}`, position: r4(i / (refs.length - 1)) })),
-      $description: `Two-tone ${h}: its key and shades, with ${c} passing through once.`, $extensions: { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } } }];
-  })) : {};
+  // Two-tone: one gradient per hue, its companion chosen by hand and its steps set
+  // per mode (inputs gradient.two_tone). Each stop is also a color token
+  // (two-tone-<hue>-base / -lighter / -companion / -darker), so a consumer that
+  // draws the stops itself (an SVG gradient) follows the mode and the section.
+  const tt = IN.gradient.two_tone, twoTone = {};
+  if (tt) {
+    const st = tt.steps[mode], meta = { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } };
+    for (const [h, c] of Object.entries(tt.companions)) {
+      const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: `${c}.${st.companion}`, darker: `${h}.${st.darker}` };
+      for (const [role, ref] of Object.entries(refs))
+        twoTone[`two-tone-${h}-${role}`] = { $type: 'color', $value: `{${ref}}`, $description: `Two-tone ${h}, ${role} stop (${ref}).`, $extensions: meta };
+      const order = ['base', 'lighter', 'companion', 'darker', 'base'];
+      twoTone[`two-tone-${h}`] = { $type: 'gradient', $value: order.map((r, i) => ({ color: `{gradient.two-tone-${h}-${r}}`, position: r4(i / (order.length - 1)) })),
+        $description: `Two-tone ${h}: its own steps, with ${c} passing through once.`, $extensions: meta };
+    }
+  }
   return {
     $description: `The brand gradient, ${mode} mode: nine stops, family stops are hue keys, plus graphics-only extra stops and each graphic's own list. ${NOTE}`,
     gradient: {

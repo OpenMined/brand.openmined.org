@@ -7,7 +7,9 @@ tags: [color, graphics]
 tokens: [--gradient-two-tone-red, --gradient-two-tone-amber, --gradient-two-tone-green, --gradient-two-tone-teal, --gradient-two-tone-blue, --gradient-two-tone-violet]
 ---
 
-**What it is.** `--gradient-two-tone-<hue>` runs the hue's key, its 400, the companion's key, its 600, and its key again. Name the primary hue and the companion comes with it.
+**What it is.** `--gradient-two-tone-<hue>` runs base, lighter, companion, darker, base. Name the primary hue and the companion comes with it. Each stop is its own token (`--gradient-two-tone-<hue>-base`, `-lighter`, `-companion`, `-darker`) for anything that draws the stops itself, such as an SVG gradient; the stops follow the color mode and any section mode.
+
+**Steps by mode.** Dark: the hue's key, 400, the companion's key, 600. Light: the hue's key, 400, the companion's 400, 500 (one step lighter throughout read washed out; the lighter companion and darker stop keep light from reading dark). Set in `tools/palette/inputs.json` (`gradient.two_tone.steps`).
 
 **Companions are chosen, not computed.** The next hue around the wheel isn't always a hue shift: gold to green read as a big color change (Kyle and Bennett, 2026-10-12), so gold takes red. Each companion is set by hand in `tools/palette/inputs.json` (`gradient.two_tone.companions`):
 

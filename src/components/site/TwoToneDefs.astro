@@ -2,15 +2,15 @@
 /**
  * TwoToneDefs — the moving two-tone gradients, once per page that shows colored
  * icons (components/site/ColorIcon.astro). One per palette hue, read from its
- * token (gradient.two-tone-<hue>: the hue's key, 400, its companion's key, 600,
- * key; companions set in tools/palette/inputs.json). Bottom left → top right,
+ * token's stops (--gradient-two-tone-<hue>-base, -lighter, -companion, -darker:
+ * mode-aware, set in tools/palette/inputs.json gradient.two_tone). Bottom left → top right,
  * repeating every 72 units of the 24 grid (3× the icon, so the band never fits
  * inside it), slid one period per 6s. Paused under reduced motion. Exploring
  * (design/foundations/two-tone.md, behaviors/color-moves.md).
  */
-import { HUES, listStops } from '../../lib/tokens';
+import { HUES, twoToneStops } from '../../lib/tokens';
 const grad = (h: string) => {
-  const stops = listStops(`two-tone-${h}`).split(',');
+  const stops = twoToneStops(h);
   return `<linearGradient id="tt-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="72" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((t, i) => `<stop offset="${i / (stops.length - 1)}" style="stop-color:var(--${t})"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="72 0" dur="6s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
 };
 const svg = `<svg class="two-tone-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(grad).join('')}</defs></svg>`;
