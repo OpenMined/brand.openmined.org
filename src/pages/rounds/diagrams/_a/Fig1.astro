@@ -46,10 +46,10 @@ const GAP = 7, SEG = 360 / USED.length;
         <text class="col-label" x={X0 - 6} y="26">People with data</text>
         <text class="col-label" x={XU + 6} y="26" text-anchor="end">People seeking insight</text>
 
-        {Y.map((y, i) => <path d={hcurve(X0, y, AI1 - R, CY, 0.55)} style={`stroke:url(#a1-drain-${i})`} class="line-src" />)}
-        {Y.map((y, i) => <path d={`M${AI2 + R},${CY} L${XU - 5},${y}`} class={i === ASK ? 'line-ask' : 'line-out'} />)}
+        {Y.map((y, i) => <path d={hcurve(X0, y, AI1 - R, CY, 0.55)} style={`stroke:url(#a1-drain-${i})`} class="line-src" data-flow />)}
+        {Y.map((y, i) => <path d={`M${AI2 + R},${CY} L${XU - 5},${y}`} class={i === ASK ? 'line-ask' : 'line-out'} data-flow={i === ASK ? '' : undefined} />)}
 
-        <path d={`M${AI1 + 4},${CY - R - 2} C${AI1 + 14},${CY - 58} ${AI2 - 14},${CY - 58} ${AI2 - 4},${CY - R - 3}`} class="line-deploy" marker-end="url(#a1-arrow)" />
+        <path d={`M${AI1 + 4},${CY - R - 2} C${AI1 + 14},${CY - 58} ${AI2 - 14},${CY - 58} ${AI2 - 4},${CY - R - 3}`} class="line-deploy" data-flow data-flow-peak="0.28" marker-end="url(#a1-arrow)" />
 
         {[AI1, AI2].map(x => (<g><circle cx={x} cy={CY} r={R} class="ai" /><text x={x} y={CY + 4} class="ai-t mono" text-anchor="middle">AI</text></g>))}
 
@@ -71,7 +71,7 @@ const GAP = 7, SEG = 360 / USED.length;
         <text class="col-label" x={XU + 6} y="26" text-anchor="end">People seeking insight</text>
 
         {Y.map((y, i) => !USED.includes(i) && <path d={hcurve(X0, y, XU - 12, CY, 0.6)} style={`stroke:${COL[i]}`} class="line-idle" />)}
-        {Y.map((y, i) => USED.includes(i) && <path d={hcurve(X0, y, XU - 12, CY, 0.6)} style={`stroke:${COL[i]}`} class="line-kept" />)}
+        {Y.map((y, i) => USED.includes(i) && <path d={hcurve(X0, y, XU - 12, CY, 0.6)} style={`stroke:${COL[i]}`} class="line-kept" data-flow />)}
 
         {Y.map((y, i) => <circle cx={X0} cy={y} r="4.5" style={`fill:${COL[i]}`} class={USED.includes(i) ? '' : 'idle'} />)}
         {Y.map((y, i) => i !== ASK && <circle cx={XU} cy={y} r="4" class="user" />)}
@@ -94,7 +94,7 @@ const GAP = 7, SEG = 360 / USED.length;
   .line-ask { fill: none; stroke: var(--c-h); stroke-width: 1.75; }
   .line-deploy { fill: none; stroke: var(--c-m); stroke-width: 1.25; }
   .fill-m { fill: var(--c-m); }
-  .ai { fill: var(--c-line-strong); stroke: var(--connector); stroke-width: 1; }
+  .ai { fill: var(--c-line); stroke: var(--connector); stroke-width: 1; }
   .ai-t { font-size: 12px; font-weight: 600; fill: var(--c-h); }
   .user { fill: var(--c-raise-1); stroke: var(--connector); stroke-width: 1.25; }
   .ask { fill: var(--c-h); }
@@ -103,3 +103,8 @@ const GAP = 7, SEG = 360 / USED.length;
   .idle { opacity: 0.35; }
   .ring { fill: none; stroke-width: 3; stroke-linecap: round; }
 </style>
+
+<script>
+  import { lineFlow } from '../../../../scripts/line-flow';
+  lineFlow();
+</script>

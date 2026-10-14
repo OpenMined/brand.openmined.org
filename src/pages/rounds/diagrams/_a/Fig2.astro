@@ -10,6 +10,10 @@
  *
  * Hues run around the wheel (violet → teal → green → amber → red) and
  * skip blue, so violet and blue never sit side by side.
+ *
+ * Color moves as a cascade, not a flow: each ring's whole stroke brightens and
+ * fades at once (a copy 1px wider on each side), ring by ring from Individual
+ * out to Philosophical; the loop (3.5s = four 0.5s steps + a 1.5s pulse) restarts as the last ring fades, with no gap. Reduced motion: still.
  */
 import { arc } from '../_geo';
 
@@ -30,6 +34,7 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
     {LEVELS.map((l, i) => (
       <g>
         <path d={arc(CX, CY, R[i], -90, 90)} class="ring" style={`stroke:var(--${l.hue}-key)`} />
+        <path d={arc(CX, CY, R[i], -90, 90)} class="ring-pulse" style={`stroke:var(--${l.hue}-key);animation-delay:${i * 0.5}s`} aria-hidden="true" />
         <circle cx={CX - R[i]} cy={CY} r="3" style={`fill:var(--${l.hue}-key)`} />
         <circle cx={CX + R[i]} cy={CY} r="3" style={`fill:var(--${l.hue}-key)`} />
         <text x={CX} y={CY - R[i] + 4.5} class="lvl" text-anchor="middle">{l.name}</text>
@@ -53,6 +58,9 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
   svg { max-width: 640px; margin: 0 auto; }
   .base { stroke: var(--c-line); stroke-width: 1; }
   .ring { fill: none; stroke-width: 1.75; }
+  .ring-pulse { fill: none; stroke-width: 3.75; opacity: 0; animation: ring-cascade 3.5s ease-in-out infinite; }
+  @keyframes ring-cascade { 0% { opacity: 0; } 17% { opacity: 0.9; } 43%, 100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .ring-pulse { animation: none; } }
   .lvl {
     font-size: 13px; font-weight: 500; fill: var(--c-h);
     paint-order: stroke; stroke: var(--c-raise-1); stroke-width: 8px; stroke-linejoin: round;
