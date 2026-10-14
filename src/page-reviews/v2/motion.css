@@ -8,8 +8,8 @@
 
    Icons — a set hue moving inside the stroke, its two-tone gradient token
    (--gradient-two-tone-<hue>, companion set per hue), bottom left → top right,
-   72 units per 6s loop,
-   400–600 around the key; one blurred copy behind (6px; 0.15
+   96 units per 8s loop,
+   400–600 around the key; one blurred copy behind (6px; 0.25
    in light, 0.4 in dark). */
 
 /* ── Buttons: src/styles/button-hover.css (shared with the brand site). ── */
@@ -38,7 +38,7 @@ html[data-system="v2"][data-theme="dark"] .color-icon-defs { --ci-keep: 0%; }
 /* The wrapper hugs the icon, so the glow copy (inset 0) lands on it even where the
    wrapper is a full-width block (the home pillars). */
 html[data-system="v2"] .color-icon { position: relative; isolation: isolate; width: fit-content; }
-html[data-system="v2"] .color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.15; pointer-events: none; }
+html[data-system="v2"] .color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.25; pointer-events: none; }
 html[data-system="v2"][data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
 html[data-system="v2"] .color-icon > .color-icon__glow svg { display: block; width: 100%; height: 100%; }
 /* The hue's moving gradient (V2Pass.astro sets --ci-stroke on each icon). */
@@ -47,7 +47,7 @@ html[data-system="v2"] .color-icon :is(path, circle, rect, line, polyline, polyg
 /* ── Hover-card icons: mono at rest, colored on the card's hover ─────────
    The mono drawing stays in place; a colored copy (the hue's two-tone, moving)
    sits over it and its blurred copy under it, both faded in on hover, with the
-   mono drawing fading out. Glow as the colored icons (6px; 0.15 light, 0.4 dark). */
+   mono drawing fading out. Glow as the colored icons (6px; 0.25 light, 0.4 dark). */
 html[data-system="v2"] .hover-icon { position: relative; isolation: isolate; width: fit-content; }
 html[data-system="v2"] .hover-icon > svg { transition: opacity var(--transition-base); }
 html[data-system="v2"] .hover-icon > :is(.hover-icon__color, .hover-icon__glow) {
@@ -58,7 +58,7 @@ html[data-system="v2"] .hover-icon :is(.hover-icon__color, .hover-icon__glow) sv
 html[data-system="v2"] .hover-icon :is(.hover-icon__color, .hover-icon__glow) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
 html[data-system="v2"] .card-float:hover .hover-icon > svg { opacity: 0; transition-duration: 0.15s; }
 html[data-system="v2"] .card-float:hover .hover-icon > .hover-icon__color { opacity: 1; transition-duration: 0.15s; }
-html[data-system="v2"] .card-float:hover .hover-icon > .hover-icon__glow { opacity: 0.15; transition-duration: 0.15s; }
+html[data-system="v2"] .card-float:hover .hover-icon > .hover-icon__glow { opacity: 0.25; transition-duration: 0.15s; }
 html[data-system="v2"][data-theme="dark"] .card-float:hover .hover-icon > .hover-icon__glow { opacity: 0.4; }
 
 @media (prefers-reduced-motion: reduce) {

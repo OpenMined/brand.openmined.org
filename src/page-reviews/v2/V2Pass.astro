@@ -66,8 +66,8 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
 
     // Icons in a set hue: the hue's two-tone gradient token (its companion set per
     // hue in tools/palette/inputs.json), bottom left → top right, repeating every
-    // 72 units of the 24 grid (1.5× the earlier 48, so the band never fits inside
-    // the icon), slid one period per 6s. The line and its blurred copy share it.
+    // 96 units of the 24 grid (2× the earlier 48, so the band never fits inside
+    // the icon), slid one period per 8s. The line and its blurred copy share it.
     const ORDER = ['green', 'amber', 'red', 'blue'];
     const targets = [];
     document.querySelectorAll('[data-color-icons]').forEach((g) =>
@@ -88,7 +88,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       const k = twoTone[h][0], v = `var(--${twoTone[h][i]})`;
       return i === 1 || i === 3 ? `color-mix(in oklch, var(--${k}) var(--ci-keep), ${v})` : v;
     };
-    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="72" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${[0, 1, 2, 3, 4].map((i) => `<stop offset="${i / 4}" style="stop-color:${stop(h, i)}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="72 0" dur="6s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+    const grad = (h) => `<linearGradient id="ci-${h}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="96" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${[0, 1, 2, 3, 4].map((i) => `<stop offset="${i / 4}" style="stop-color:${stop(h, i)}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="96 0" dur="8s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
     const hues = [...new Set([...targets, ...hoverIcons].map(([, h]) => h))];
     document.body.insertAdjacentHTML('beforeend', `<svg class="color-icon-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${hues.map(grad).join('')}</defs></svg>`);
     targets.forEach(([el, h]) => {

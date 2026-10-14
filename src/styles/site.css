@@ -562,11 +562,11 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 
 /* ── Colored icons: a hue's two-tone gradient in the stroke (ColorIcon) ──
    The moving gradient comes from TwoToneDefs (tokens: --gradient-two-tone-<hue>);
-   a blurred copy behind is the glow: 6px, 0.15 in light, 0.4 in dark. The
+   a blurred copy behind is the glow: 6px, 0.25 in light, 0.4 in dark. The
    wrapper hugs the icon so the copy sits on it. Exploring (behaviors/color-moves). */
 .two-tone-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .color-icon { position: relative; isolation: isolate; display: inline-flex; width: fit-content; vertical-align: middle; }
-.color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.15; pointer-events: none; }
+.color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.25; pointer-events: none; }
 [data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
 .color-icon svg { display: block; }
 .color-icon :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
@@ -597,7 +597,7 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .hcard__icon :is(.hcard__glow, .hcard__color) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
 .hcard:is(:hover, :focus-visible) .hcard__icon > svg { opacity: 0; transition-duration: 0.15s; }
 .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__color { opacity: 1; transition-duration: 0.15s; }
-.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.15; transition-duration: 0.15s; }
+.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.25; transition-duration: 0.15s; }
 [data-theme="dark"] .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.4; }
 .hcard__light { --hl-o: 0.2; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
   background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }

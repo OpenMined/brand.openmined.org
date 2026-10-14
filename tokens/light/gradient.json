@@ -333,8 +333,8 @@
     },
     "two-tone-red-lighter": {
       "$type": "color",
-      "$value": "{red.400}",
-      "$description": "Two-tone red, lighter stop (red.400).",
+      "$value": "{red.300}",
+      "$description": "Two-tone red, lighter stop (red.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -372,7 +372,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-red-lighter}",
+          "color": "{gradient.two-tone-red-darker}",
           "position": 0.25
         },
         {
@@ -380,7 +380,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-red-darker}",
+          "color": "{gradient.two-tone-red-lighter}",
           "position": 0.75
         },
         {
@@ -409,8 +409,8 @@
     },
     "two-tone-amber-lighter": {
       "$type": "color",
-      "$value": "{amber.400}",
-      "$description": "Two-tone amber, lighter stop (amber.400).",
+      "$value": "{amber.300}",
+      "$description": "Two-tone amber, lighter stop (amber.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -448,7 +448,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-amber-lighter}",
+          "color": "{gradient.two-tone-amber-darker}",
           "position": 0.25
         },
         {
@@ -456,7 +456,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-amber-darker}",
+          "color": "{gradient.two-tone-amber-lighter}",
           "position": 0.75
         },
         {
@@ -485,8 +485,8 @@
     },
     "two-tone-green-lighter": {
       "$type": "color",
-      "$value": "{green.400}",
-      "$description": "Two-tone green, lighter stop (green.400).",
+      "$value": "{green.300}",
+      "$description": "Two-tone green, lighter stop (green.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -524,7 +524,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-green-lighter}",
+          "color": "{gradient.two-tone-green-darker}",
           "position": 0.25
         },
         {
@@ -532,7 +532,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-green-darker}",
+          "color": "{gradient.two-tone-green-lighter}",
           "position": 0.75
         },
         {
@@ -561,8 +561,8 @@
     },
     "two-tone-teal-lighter": {
       "$type": "color",
-      "$value": "{teal.400}",
-      "$description": "Two-tone teal, lighter stop (teal.400).",
+      "$value": "{teal.300}",
+      "$description": "Two-tone teal, lighter stop (teal.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -600,7 +600,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-teal-lighter}",
+          "color": "{gradient.two-tone-teal-darker}",
           "position": 0.25
         },
         {
@@ -608,7 +608,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-teal-darker}",
+          "color": "{gradient.two-tone-teal-lighter}",
           "position": 0.75
         },
         {
@@ -637,8 +637,8 @@
     },
     "two-tone-blue-lighter": {
       "$type": "color",
-      "$value": "{blue.400}",
-      "$description": "Two-tone blue, lighter stop (blue.400).",
+      "$value": "{blue.300}",
+      "$description": "Two-tone blue, lighter stop (blue.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -648,8 +648,8 @@
     },
     "two-tone-blue-companion": {
       "$type": "color",
-      "$value": "{violet.400}",
-      "$description": "Two-tone blue, companion stop (violet.400).",
+      "$value": "{teal.400}",
+      "$description": "Two-tone blue, companion stop (teal.400).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -676,7 +676,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-blue-lighter}",
+          "color": "{gradient.two-tone-blue-darker}",
           "position": 0.25
         },
         {
@@ -684,7 +684,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-blue-darker}",
+          "color": "{gradient.two-tone-blue-lighter}",
           "position": 0.75
         },
         {
@@ -692,7 +692,7 @@
           "position": 1
         }
       ],
-      "$description": "Two-tone blue: its own steps, with violet passing through once.",
+      "$description": "Two-tone blue: its own steps, with teal passing through once.",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -713,8 +713,8 @@
     },
     "two-tone-violet-lighter": {
       "$type": "color",
-      "$value": "{violet.400}",
-      "$description": "Two-tone violet, lighter stop (violet.400).",
+      "$value": "{violet.300}",
+      "$description": "Two-tone violet, lighter stop (violet.300).",
       "$extensions": {
         "org.openmined": {
           "status": "exploring",
@@ -752,7 +752,7 @@
           "position": 0
         },
         {
-          "color": "{gradient.two-tone-violet-lighter}",
+          "color": "{gradient.two-tone-violet-darker}",
           "position": 0.25
         },
         {
@@ -760,7 +760,7 @@
           "position": 0.5
         },
         {
-          "color": "{gradient.two-tone-violet-darker}",
+          "color": "{gradient.two-tone-violet-lighter}",
           "position": 0.75
         },
         {

@@ -214,7 +214,7 @@ function gradientFile(mode) {
       const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: `${c}.${st.companion}`, darker: `${h}.${st.darker}` };
       for (const [role, ref] of Object.entries(refs))
         twoTone[`two-tone-${h}-${role}`] = { $type: 'color', $value: `{${ref}}`, $description: `Two-tone ${h}, ${role} stop (${ref}).`, $extensions: meta };
-      const order = ['base', 'lighter', 'companion', 'darker', 'base'];
+      const order = ['base', 'darker', 'companion', 'lighter', 'base'];
       twoTone[`two-tone-${h}`] = { $type: 'gradient', $value: order.map((r, i) => ({ color: `{gradient.two-tone-${h}-${r}}`, position: r4(i / (order.length - 1)) })),
         $description: `Two-tone ${h}: its own steps, with ${c} passing through once.`, $extensions: meta };
     }

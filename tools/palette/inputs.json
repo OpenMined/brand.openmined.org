@@ -407,22 +407,22 @@
       }
     },
     "two_tone": {
-      "_note": "One two-tone gradient per palette hue (gradient.two-tone-<hue>), for icons and any other use that names a primary hue: the hue's key, its 400, the companion's key, its 600, its key. The companion is chosen per hue, not the next hue around the wheel (Kyle and Bennett, 2026-10-12: gold to green read as a big color change, not a hue shift; gold takes red). Generated in both modes.",
+      "_note": "One two-tone gradient per palette hue (gradient.two-tone-<hue>), for icons and any other use that names a primary hue: the hue's key, its darker step, the companion, its lighter step, its key. The companion is chosen per hue, not the next hue around the wheel (Kyle and Bennett, 2026-10-12: gold to green read as a big color change, not a hue shift; gold takes red). Generated in both modes.",
       "status": "exploring",
       "companions": {
         "red": "amber",
         "amber": "red",
         "green": "teal",
         "teal": "blue",
-        "blue": "violet",
+        "blue": "teal",
         "violet": "red"
       },
-      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red); teal and violet are first guesses, not yet seen in use.",
+      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red; blue changed to teal, 2026-10-14); teal and violet are first guesses, not yet seen in use.",
       "steps": {
-        "light": { "base": "key", "lighter": "400", "companion": "400", "darker": "500" },
+        "light": { "base": "key", "lighter": "300", "companion": "400", "darker": "500" },
         "dark": { "base": "key", "lighter": "400", "companion": "key", "darker": "600" }
       },
-      "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps dark's key and 400 and takes the companion's 400 and the hue's 500 for the darker stop (Kyle, 2026-10-13: the key read a bit dark in light; one step lighter throughout read washed out)."
+      "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps the key and 500, takes 300 for the lighter stop and 400 for the companion (Kyle, 2026-10-14: 400 for both still read subtle in light; one step lighter throughout read washed out)."
     }
   },
   "categorical": [

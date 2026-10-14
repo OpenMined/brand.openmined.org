@@ -75,10 +75,10 @@ const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; f
   { k: 'mono', name: 'Mono · today', note: 'The text color, still. The reference.', mono: true, g: { b1: 0, o1: 0, b2: 0, o2: 0 } },
   { k: 'a', name: 'A · Color in the stroke', note: 'The hue moves inside the line; no glow.', g: { b1: 0, o1: 0, b2: 0, o2: 0 } },
   { k: 'b', name: 'B · Tight glow', note: 'One copy close to the line, so it reads as light rather than haze.', g: { b1: 3, o1: 0.4, b2: 0, o2: 0 } },
-  { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 } },
+  { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 } },
   { k: 'd', name: 'D · Tight + wide', note: 'A close copy for the line, a wide faint one around it.', g: { b1: 2, o1: 0.35, b2: 10, o2: 0.2 } },
-  { k: 'e', name: 'E · Two-tone, companion per hue', note: 'C, with each hue’s two-tone token (--gradient-two-tone-<hue>): its companion passes through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · 400–600' },
-  { k: 'f', name: 'F · Two-tone, other side', note: 'C, with the hue one step back around the wheel (automatic).', g: { b1: 6, o1: 0.4, o1Light: 0.15, b2: 0, o2: 0 }, tone: 'prev' },
+  { k: 'e', name: 'E · Two-tone, companion per hue', note: 'C, with each hue’s two-tone token (--gradient-two-tone-<hue>): its companion passes through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · 400–600' },
+  { k: 'f', name: 'F · Two-tone, other side', note: 'C, with the hue one step back around the wheel (automatic).', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'prev' },
 ];
 // One moving gradient per hue (id `${prefix}-${hue}`), shared by every icon of that
 // hue and its glow copies, so the glow moves with the line. Bottom left → top right
@@ -101,9 +101,9 @@ const TWO_TONE = Object.fromEntries(WHEEL.map(h => [h, twoToneStops(h)]));
 const companion = (h: string) => TWO_TONE_COMPANION[h];
 const tokenStops = (h: string) => TWO_TONE[h].map((t, i) =>
   i === 1 || i === 3 ? `color-mix(in oklch, var(--${TWO_TONE[h][0]}) var(--mo-ic-keep), var(--${t}))` : `var(--${t})`);
-// 72 units (1.5× the earlier 48; 3× the icon's 24 grid), slid one period per
-// loop, so the whole band never fits inside the icon. 6s keeps the earlier speed.
-const grad = (id: string, stops: string[]) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="72" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((c, i) => `<stop offset="${i / 4}" style="stop-color:${c}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="72 0" dur="6s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+// 96 units (2× the earlier 48; 4× the icon's 24 grid), slid one period per
+// loop, so the whole band never fits inside the icon. 8s keeps the earlier speed.
+const grad = (id: string, stops: string[]) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="96" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((c, i) => `<stop offset="${i / 4}" style="stop-color:${c}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="96 0" dur="8s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
 const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(h =>
   grad(`${prefix}-${h}`, stopsFor(h)) + grad(`${prefix}-${h}-token`, tokenStops(h)) + grad(`${prefix}-${h}-prev`, stopsFor(h, prevHue(h)))).join('')}</defs></svg>`;
 
@@ -240,7 +240,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
         <div class="notes"><div><ul>
           <li>Which glow reads as light, not blur (Bennett: “if they look blurry, it’ll be a bummer”). Judge in both modes, at 100% zoom.</li>
           <li>Range: the key’s neighbors (400–600), halfway, or a quarter of the way (mixes; no palette step sits there). The button’s white label has to hold its contrast across the whole loop.</li>
-          <li>Speed: icons 6s per loop (72-unit gradient); button flows 6s and 8.7s; button patches 4.7–9.3s. <i>Slower</i>: icons 9s; flows 9s and 13s; patches 7–14s. The diamonds take 16s for the whole spectrum.</li>
+          <li>Speed: icons 8s per loop (96-unit gradient); button flows 6s and 8.7s; button patches 4.7–9.3s. <i>Slower</i>: icons 12s; flows 9s and 13s; patches 7–14s. The diamonds take 16s for the whole spectrum.</li>
           <li>Whether four hues in one row is lively or a kaleidoscope. This round only tries the treatment, not where it belongs.</li>
           <li>Reduced motion: everything here stops and the color stays.</li>
         </ul></div></div>
@@ -267,7 +267,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
         const on = slow.getAttribute('aria-checked') !== 'true';
         slow.setAttribute('aria-checked', on);
         mo.classList.toggle('is-slow', on);
-        document.querySelectorAll('.mo-defs animateTransform').forEach(a => a.setAttribute('dur', on ? '9s' : '6s'));
+        document.querySelectorAll('.mo-defs animateTransform').forEach(a => a.setAttribute('dur', on ? '12s' : '8s'));
       });
       // ?pin and ?subtle open the page with those switches on (for screenshots).
       const q = new URLSearchParams(location.search);
@@ -489,7 +489,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   .mo-hicon :is(.mo-hicon__color, .mo-hicon__glow) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
   .mo-hcard:hover .mo-hicon > svg { opacity: 0; transition-duration: 0.15s; }
   .mo-hcard:hover .mo-hicon > .mo-hicon__color { opacity: 1; transition-duration: 0.15s; }
-  .mo-hcard:hover .mo-hicon > .mo-hicon__glow { opacity: 0.15; transition-duration: 0.15s; }
+  .mo-hcard:hover .mo-hicon > .mo-hicon__glow { opacity: 0.25; transition-duration: 0.15s; }
   [data-theme="dark"] .mo-hcard:hover .mo-hicon > .mo-hicon__glow { opacity: 0.4; }
   .mo-link__text { flex: 1; display: grid; gap: 2px; font-size: var(--font-size-md); line-height: 1.4; }
   .mo-link__text strong { color: var(--text-headline); font-weight: 700; }

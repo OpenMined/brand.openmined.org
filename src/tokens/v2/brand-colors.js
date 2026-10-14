@@ -143,27 +143,27 @@ export const COLORS = {
     "gradient-yellow": "#f5e69e",
     "gradient-magenta": "#be357d",
     "gradient-two-tone-red-base": "#c13b44",
-    "gradient-two-tone-red-lighter": "#e36d70",
+    "gradient-two-tone-red-lighter": "#ff9f9f",
     "gradient-two-tone-red-companion": "#d89040",
     "gradient-two-tone-red-darker": "#c13b44",
     "gradient-two-tone-amber-base": "#bd7200",
-    "gradient-two-tone-amber-lighter": "#d89040",
+    "gradient-two-tone-amber-lighter": "#edaf71",
     "gradient-two-tone-amber-companion": "#e36d70",
     "gradient-two-tone-amber-darker": "#bd7200",
     "gradient-two-tone-green-base": "#0f946b",
-    "gradient-two-tone-green-lighter": "#56b28c",
+    "gradient-two-tone-green-lighter": "#86d0b0",
     "gradient-two-tone-green-companion": "#45a8c2",
     "gradient-two-tone-green-darker": "#0f946b",
     "gradient-two-tone-teal-base": "#00859f",
-    "gradient-two-tone-teal-lighter": "#45a8c2",
+    "gradient-two-tone-teal-lighter": "#7dcbe1",
     "gradient-two-tone-teal-companion": "#6092e7",
     "gradient-two-tone-teal-darker": "#00859f",
     "gradient-two-tone-blue-base": "#2b67c9",
-    "gradient-two-tone-blue-lighter": "#6092e7",
-    "gradient-two-tone-blue-companion": "#9f7cdb",
+    "gradient-two-tone-blue-lighter": "#98bfff",
+    "gradient-two-tone-blue-companion": "#45a8c2",
     "gradient-two-tone-blue-darker": "#2b67c9",
     "gradient-two-tone-violet-base": "#794cb8",
-    "gradient-two-tone-violet-lighter": "#9f7cdb",
+    "gradient-two-tone-violet-lighter": "#c9acff",
     "gradient-two-tone-violet-companion": "#e36d70",
     "gradient-two-tone-violet-darker": "#794cb8",
     "surface-sunken": "#dddde2",
@@ -368,7 +368,7 @@ export const COLORS = {
     "gradient-two-tone-teal-darker": "#00697e",
     "gradient-two-tone-blue-base": "#3368c1",
     "gradient-two-tone-blue-lighter": "#6593e0",
-    "gradient-two-tone-blue-companion": "#7750b1",
+    "gradient-two-tone-blue-companion": "#00859f",
     "gradient-two-tone-blue-darker": "#2051a3",
     "gradient-two-tone-violet-base": "#7750b1",
     "gradient-two-tone-violet-lighter": "#9e7fd5",
@@ -465,44 +465,44 @@ export const GRADIENTS = {
     ],
     "two-tone-red": [
       "#c13b44",
-      "#e36d70",
-      "#d89040",
       "#c13b44",
+      "#d89040",
+      "#ff9f9f",
       "#c13b44"
     ],
     "two-tone-amber": [
       "#bd7200",
-      "#d89040",
-      "#e36d70",
       "#bd7200",
+      "#e36d70",
+      "#edaf71",
       "#bd7200"
     ],
     "two-tone-green": [
       "#0f946b",
-      "#56b28c",
-      "#45a8c2",
       "#0f946b",
+      "#45a8c2",
+      "#86d0b0",
       "#0f946b"
     ],
     "two-tone-teal": [
       "#00859f",
-      "#45a8c2",
-      "#6092e7",
       "#00859f",
+      "#6092e7",
+      "#7dcbe1",
       "#00859f"
     ],
     "two-tone-blue": [
       "#2b67c9",
-      "#6092e7",
-      "#9f7cdb",
       "#2b67c9",
+      "#45a8c2",
+      "#98bfff",
       "#2b67c9"
     ],
     "two-tone-violet": [
       "#794cb8",
-      "#9f7cdb",
-      "#e36d70",
       "#794cb8",
+      "#e36d70",
+      "#c9acff",
       "#794cb8"
     ]
   },
@@ -547,44 +547,44 @@ export const GRADIENTS = {
     ],
     "two-tone-red": [
       "#bb4349",
-      "#dd7274",
-      "#bc730c",
       "#9d2d36",
+      "#bc730c",
+      "#dd7274",
       "#bb4349"
     ],
     "two-tone-amber": [
       "#bc730c",
-      "#d3924c",
-      "#bb4349",
       "#854f00",
+      "#bb4349",
+      "#d3924c",
       "#bc730c"
     ],
     "two-tone-green": [
       "#29926d",
-      "#5fb08e",
-      "#00859f",
       "#006f4f",
+      "#00859f",
+      "#5fb08e",
       "#29926d"
     ],
     "two-tone-teal": [
       "#00859f",
-      "#51a7be",
-      "#3368c1",
       "#00697e",
+      "#3368c1",
+      "#51a7be",
       "#00859f"
     ],
     "two-tone-blue": [
       "#3368c1",
-      "#6593e0",
-      "#7750b1",
       "#2051a3",
+      "#00859f",
+      "#6593e0",
       "#3368c1"
     ],
     "two-tone-violet": [
       "#7750b1",
-      "#9e7fd5",
-      "#bb4349",
       "#603a94",
+      "#bb4349",
+      "#9e7fd5",
       "#7750b1"
     ]
   }
