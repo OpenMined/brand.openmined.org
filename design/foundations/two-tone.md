@@ -24,4 +24,4 @@ tokens: [--gradient-two-tone-red, --gradient-two-tone-amber, --gradient-two-tone
 
 Teal's and violet's companions are first guesses, not yet seen in use.
 
-**In use.** Colored icons (the motion round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 3× the icon's width, so the whole band never sits inside the icon at once. See *Color moves* (`behaviors/color-moves.md`).
+**In use.** Colored icons (the Color and interaction round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 4× the icon's width (96 units, 8s per loop), so the whole band never sits inside the icon at once. See *Color moves* (`behaviors/color-moves.md`).

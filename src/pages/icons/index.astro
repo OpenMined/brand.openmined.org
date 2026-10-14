@@ -43,7 +43,7 @@ const ARR = iconSvg('arrow-right');
 
   <section class="band" id="in-use">
     <div class="wrap">
-      <header class="sec"><h2>In use</h2><p>Outlined, one color, the color of the text around them.</p></header>
+      <header class="sec"><h2>In use</h2><p>Outlined and mono by default, in the color of the text around them.</p></header>
       <div class="grid grid--3">
         <article class="card">
           <h3>Next to a word</h3>
@@ -73,7 +73,7 @@ const ARR = iconSvg('arrow-right');
 
   <section class="band" id="status">
     <div class="wrap">
-      <header class="sec"><h2>Status icons</h2><p>The one exception to one color: a status icon takes its status's <code>fg</code> role.</p></header>
+      <header class="sec"><h2>Status icons</h2><p>One of two exceptions to mono (the other is <a href="#color">color mode</a>): a status icon takes its status's <code>fg</code> role.</p></header>
       <article class="card">
         <ul class="icon-status">
           {STATUS.map(x => (
@@ -163,6 +163,7 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--3">
+        <a class="card card--link" href="/rounds/motion/"><h3 class="card__h">Color and interaction round <Fragment set:html={ARR} /></h3><p>Icons in color: the glow and two-tone options, side by side.</p></a>
         <a class="card card--link" href="/rounds/icons/"><h3 class="card__h">Icons round <Fragment set:html={ARR} /></h3><p>Every icon on the live site, next to the set icon that replaces it.</p></a>
         <a class="card card--link" href="https://iconoir.com"><h3 class="card__h">Iconoir <Fragment set:html={ARR} /></h3><p>Browse all 1,383 outlined icons. Use the regular set; we draw it at a 2 stroke.</p></a>
         <a class="card card--link" href="/graphics/#logo"><h3 class="card__h">Partner marks <Fragment set:html={ARR} /></h3><p>Brand logos for tools and partners, used as supplied.</p></a>

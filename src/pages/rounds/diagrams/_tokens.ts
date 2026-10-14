@@ -2,7 +2,7 @@
  * DIAGRAM ROUND — working color values.
  *
  * The working values come from the v2 build via ../_working.ts, which every round reads so
- * the diagrams, the working-favorites page and its downloads can't disagree.
+ * the rounds can't disagree.
  * This file adds the one helper only the diagrams need.
  */
 export { TOKEN_CSS } from '../_working';

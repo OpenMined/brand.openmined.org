@@ -2,7 +2,7 @@
 /**
  * BRAND SITE (v2) — Interface. Rev 1, built from the surfaces round's form lab
  * and its button rules. Words from design/ (tag `interface`); values from the
- * v2 build. Links, focus rings, hover and colored states are still open.
+ * v2 build. Focus rings and field focus are still open.
  */
 import Site from '../../layouts/Site.astro';
 import { iconSvg } from '../../lib/icons';
@@ -21,7 +21,7 @@ const hoverCard = doc('components/hover-card');
 const form = doc('components/form-field');
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['open', 'Still open'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 const components = [button, link, form];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
@@ -34,8 +34,8 @@ const TEXT_FIELDS = [
   { id: 'size', type: 'number', label: 'Team size', req: false, desc: "Number input, with the browser's stepper left in place.", ph: '12' },
 ];
 ---
-<Site title="Interface" description="Buttons, form controls and their states, on the surface levels." current="interface">
-  <PageHero eyebrow="Components" title="Interface" description="Buttons, form controls and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="exploring" nav={NAV} />
+<Site title="Interface" description="Buttons, links, hover cards and form controls, and their states, on the surface levels." current="interface">
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="exploring" nav={NAV} />
 
   <section class="band" id="buttons">
     <div class="wrap">
@@ -53,12 +53,12 @@ const TEXT_FIELDS = [
 
   <section class="band" id="links">
     <div class="wrap">
-      <header class="sec"><h2>Links</h2><p>{link.description}</p><p class="status">Status: <b>{link.status}</b> · ported from openmined.org</p></header>
+      <header class="sec"><h2>Links</h2><p>{link.description}</p><p class="status">Status: <b>{link.status}</b></p></header>
       <div class="grid grid--2">
         <article class="card link-demo">
           <h3>Content link</h3>
           <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a line in the full OM gradient grows over it from the left, its colors flowing, with a soft glow, and leaves to the right. The text never changes color.</p>
-          <p class="muted">Any plain link in a paragraph or a prose region gets it. The live site wipes the underline out and draws a green one back in, and some live links turn their text green.</p>
+          <p class="muted">Any plain link in a paragraph or a prose region gets it.</p>
         </article>
         <article class="card link-demo">
           <h3>Text button</h3>
@@ -185,22 +185,6 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
-  <section class="band" id="open">
-    <div class="wrap">
-      <header class="sec"><h2>Still open</h2><p>Decided in the interface round, not yet made.</p></header>
-      <div class="notes">
-        <div>
-          <ul>
-            <li><b>A colored accent.</b> Whether OpenMined's accent at rest stays grayscale or takes a hue (green is the static accent's color today; in motion it steps up to a gradient).</li>
-            <li><b>Label contrast on hover.</b> The button's white label dips while the gradient's pale stops (gold, yellow, lime) pass behind it; accepted for now, with <code>--gradient-interactive</code> (hue keys only) as the fallback.</li>
-            <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). It may need reinforcing: a stronger inset, or one rung deeper than rest.</li>
-            <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="band" id="components">
     <div class="wrap">
       <header class="sec"><h2>Components</h2></header>
@@ -229,10 +213,27 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
+  <section class="band" id="open">
+    <div class="wrap">
+      <header class="sec"><h2>Still open</h2><p>Not yet decided.</p></header>
+      <div class="notes">
+        <div>
+          <ul>
+            <li><b>A colored accent.</b> Whether the solid button takes a hue at rest. The static accent is green and steps up to a gradient in motion (decided 2026-10-13).</li>
+            <li><b>Label contrast on hover.</b> The button's white label dips while the gradient's pale stops (gold, yellow, lime) pass behind it; accepted for now, with <code>--gradient-interactive</code> (hue keys only) as the fallback.</li>
+            <li><b>Focus on fields.</b> A text field shows focus with the inset shadow: the recess deepens when the field is active. It's applied (see "Focused" in the form), but it's subtle: the same light inset the sunken level casts at rest, which is hard to see in both modes. On fields it's the only focus signal, so it has to reach 3:1 contrast (WCAG 2.4.7 and 1.4.11). Being explored in the <a href="/rounds/motion/#fields">Color and interaction round</a>: a 1px gray line on focus, solid or with a lighter gray moving around it.</li>
+            <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="band" id="see">
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--2">
+        <a class="card card--link" href="/rounds/motion/"><h3 class="card__h">Color and interaction round <Fragment set:html={ARR} /></h3><p>Button and link hovers, hover cards, and the form field hover and focus options.</p></a>
         <a class="card card--link" href="/rounds/surfaces/#forms"><h3 class="card__h">Surfaces round: form lab <Fragment set:html={ARR} /></h3><p>Every control the embedded forms render, in generic markup, with their states.</p></a>
         <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all#interface"><h3 class="card__h">Color round: interface <Fragment set:html={ARR} /></h3><p>Roles applied to interface elements, with the accent switch.</p></a>
       </div>

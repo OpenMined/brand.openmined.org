@@ -5,8 +5,8 @@
  * `npm run tokens`). This module computes no color: it reads the build,
  * lists what the review pages need, and maps the rounds' page-local names
  * (--c-h, --spec-N, --{hue}-tint …) onto v2 tokens so the round markup keeps
- * working. Read by the working-favorites page, the diagram round and the
- * token downloads. The pre-v2 values are frozen in ./_legacy.ts.
+ * working. Read by the older rounds (diagrams, spectrum).
+ * The pre-v2 values are frozen in ./_legacy.ts.
  *
  * Status (exploring / working) travels with each token; placeholders are
  * marked `exploring` in the build and on the page.

@@ -18,6 +18,9 @@
 /* Bar: round links, as quiet chips beside the color round's fields */
 .wf .bar__link { padding: 5px 10px; border-radius: var(--border-radius-S); font-size: 0.82rem; font-weight: 500; color: var(--c-h); text-decoration: none; background: var(--c-sunken); }
 .wf .bar__link:hover { background: var(--c-line); }
+.wf .bar__link[aria-current='page'] { background: var(--c-line); }
+.wf a.bar__title { text-decoration: none; }
+.wf a.bar__title:hover { color: var(--c-h); text-decoration: underline; }
 /* Two rows: back, title, page reviews and color mode on top; every round below. */
 .wf .bar__inner { flex-wrap: wrap; }
 .wf .bar__title { margin-right: var(--spacing-L); }

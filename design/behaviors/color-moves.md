@@ -32,10 +32,10 @@ tags: [color, graphics, interface]
 **Open, to explore.**
 
 - How much color and motion one piece may carry.
-- Icon vs small graphic: whether filled, glowing marks like the diamonds are a separate kind from stroke icons. (Icons now have a color mode: decision *Icons have a color mode*, 2026-10-13.)
+- Whether filled, glowing marks like the diamonds are a separate kind from stroke icons.
 - Whether a big graphic in a section keeps that section's icons mono.
-- Paired-hue loops: settled for icons as two-tone gradients with a companion per hue (*Two-tone gradients*).
-- Button and link hover: settled as working favorites (*Green at rest, gradients in motion*, 2026-10-13).
 - SyftHub's two halves, and colorflow along diagram lines (the ABC page).
+
+**Settled so far.** Icons have a color mode, with two-tone gradients (a companion per hue); button and link hovers are working favorites (*Green at rest, gradients in motion*, 2026-10-13).
 
 **Example.** The pillar diamonds on openmined.org/research. Each is a 22px diamond filled with a strip of the full spectrum that loops back to its first color. The strip is 8 times the diamond's width and slides one strip length every 16s, so each diamond shows about one color family at a time. The three are staggered 30% apart. A copy of the fill sits behind each one, blurred 7px at 0.35 opacity and running the same animation, which makes the glow move too. Under reduced motion they stop, colored.

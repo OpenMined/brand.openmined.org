@@ -13,7 +13,7 @@ Notes and findings: `/page-reviews/` (from `findings.ts`).
 | `live.css` / `v2.css` | `live.css` is the port's own styles; `v2.css` imports it and puts v2 on top. Routes import `v2.css`; none of it reaches the guide pages. |
 | `v2/bridge.css` | Live token names → v2 tokens. Most of the v2 pass. |
 | `v2/pass.css` | Component-level changes, each naming the `design/` rule it applies. |
-| `v2/motion.css` | Color in motion: the working favorites from `/rounds/motion/` (button hover, icons in a set hue). |
+| `v2/motion.css` | Color and interaction: the working favorites from `/rounds/motion/` (icons in a set hue, hover-card lights and icons). Button and link hovers are shared with the guide: `src/styles/button-hover.css`, `src/styles/link-hover.css`, `src/scripts/button-hover.ts`. |
 | `v2/V2Pass.astro` | The pass's markup changes, at runtime: a gradient map behind each CTA; the button hover layers; colored icons where marked `data-color-icons` (in order) or `data-icon-hue`; hover cards' icons on hover (`data-hover-hue` on the card to set the hue). |
 | `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (switches page) and link rewriting. |
 | `reviews.ts`, `findings.ts` | The page list and the review notes. |
@@ -48,5 +48,5 @@ the v2 pass) in its file:
 `SOURCE` in `reviews.ts`.
 
 **Remove:** delete this folder, `src/pages/page-reviews/`, `public/page-reviews/`,
-the `REVIEWS` nav group in `src/layouts/Site.astro` (and `.bar__group` in
-`site.css`), and the `src/page-reviews/openmined-org/**` line in `stylelint.config.js`.
+`REVIEW_PAGES` in `src/lib/rounds.ts` and the header's `bar__nav--reviews` in
+`src/layouts/Site.astro` (and `.bar__group` in `site.css`), and the `src/page-reviews/openmined-org/**` line in `stylelint.config.js`.

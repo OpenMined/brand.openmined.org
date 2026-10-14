@@ -8,8 +8,7 @@
 
    Icons — a set hue moving inside the stroke, its two-tone gradient token
    (--gradient-two-tone-<hue>, companion set per hue), bottom left → top right,
-   96 units per 8s loop,
-   400–600 around the key; one blurred copy behind (6px; 0.25
+   96 units per 8s loop; one blurred copy behind (6px; 0.25
    in light, 0.4 in dark). */
 
 /* ── Buttons: src/styles/button-hover.css (shared with the brand site). ── */

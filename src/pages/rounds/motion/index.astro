@@ -1,15 +1,16 @@
 ---
 /**
- * ROUND — Color in motion (opened 2026-10-12). First tries at "if color, then
- * motion" (design/decisions/2026-10-12-if-color-then-motion.md):
- *   1. Button hover: the green fill becomes a slow shimmer of green steps, with a
- *      glow that carries the same moving colors.
- *   2. Icons in a set color: a gradient of one hue moves inside the stroke, with a
- *      glow that moves with it. Layout from SyftHub's Core Components.
- * The glow is the /research diamonds' technique: copies of the element behind it,
- * blurred and faded. Every variant draws the same fill; only the glow copies'
- * blur and opacity change (two copies, so one tight and one wide can be tried).
- * Colors are palette steps around each hue's key (500); nothing here is a loose value.
+ * ROUND — Color and interaction (opened 2026-10-12 as Color in motion). "If color,
+ * then motion" (design/decisions/2026-10-12-if-color-then-motion.md), and interaction
+ * beyond it:
+ *   1. Button hover: a moving fill with a glow (B green; E the full OM gradient; F hue keys).
+ *   2. Icons in a set color: a gradient moves inside the stroke, with a glow that
+ *      moves with it (E: the two-tone tokens). Layout from SyftHub's Core Components.
+ *   3. Hover cards: a pointer light; icons take their color on hover.
+ *   4. Links: a colored line over the resting underline.
+ *   5. Form fields, grayscale: a pointer light and outline on hover; a gray focus line.
+ * The glow is the /research diamonds' technique: a copy behind, blurred and faded.
+ * Colors are palette steps and tokens; nothing here is a loose value.
  */
 import Site from '../../../layouts/Site.astro';
 import { iconSvg, liveToSet } from '../../../lib/icons';
@@ -22,11 +23,10 @@ const glowText = (g: Glow) => [g.o1 && (g.o1Light !== undefined && g.o1Light !==
 
 // Buttons: every variant takes the same glow (tight + wide); the fill changes.
 // B: two green striped layers crossing at different angles, each flowing one way
-// (the working favorite; earlier options, drifting patches and two-tone, pruned
-// 2026-10-13). E–F: a long color loop (E the full OM gradient, F the hue keys) that starts on green, with
+// E–F: a long color loop (E the full OM gradient, F the hue keys) that starts on green, with
 // layers crossing over it for shimmer. All carry the pointer light; on the
 // spectrum it's neutral (white), since it rides over changing colors.
-// One glow copy (was two, 3px at 0.35 + 14px at 0.2): fewer moving layers and blurs.
+// One glow copy: fewer moving layers and blurs.
 const BTN_GLOW: Glow = { b1: 8, o1: 0.3, b2: 0, o2: 0 };
 // Option F's loop: the --gradient-interactive token's stops (hue keys), laid out as
 // a 1200px repeating loop that starts on green 150px in, like the spectrum's.
@@ -70,6 +70,12 @@ const PRESS = [
   { org: 'Partner three', title: 'Federated learning in practice' },
 ];
 const ARROW = iconSvg('arrow-right', { size: 24 });
+/** Form fields: a pointer light inside the field on hover; a gray line on focus. */
+const FIELD_ROWS: { k: string; name: string; note: string; hover?: string; focus?: string; vals: string }[] = [
+  { k: 'a', name: 'A · Before', note: 'No change on hover; on focus the inset deepens. Click a field to focus it.', vals: '--shadow-sunken' },
+  { k: 'b', name: 'B · Pointer light + moving gray line', note: 'On hover, a soft white light inside the field follows the pointer; in light mode the field takes a gray outline that lightens near the pointer, in dark its edge lights up in gray near the pointer. On focus, a gray line with a slightly lighter gray traveling around it.', hover: 'edge', focus: 'moving', vals: 'light: gray-300 outline, white at 0.5 on the edge near the pointer (240px across), white light inside 320px across at 0.4 · dark: edge 1px, 240px across, gray-500 at 0.5, white light at 0.0175 · focus line 1px, light gray-500 → 200, dark gray-500 → 600, one turn per 6s' },
+  { k: 'c', name: 'C · Pointer light + solid gray line', note: 'B’s hover; on focus, a solid gray line.', hover: 'edge', focus: 'solid', vals: 'B’s hover · line 1px, light gray-500, dark gray-500' },
+];
 
 const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; fav?: string; tone?: 'token' | 'prev' }[] = [
   { k: 'mono', name: 'Mono · today', note: 'The text color, still. The reference.', mono: true, g: { b1: 0, o1: 0, b2: 0, o2: 0 } },
@@ -77,12 +83,12 @@ const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; f
   { k: 'b', name: 'B · Tight glow', note: 'One copy close to the line, so it reads as light rather than haze.', g: { b1: 3, o1: 0.4, b2: 0, o2: 0 } },
   { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 } },
   { k: 'd', name: 'D · Tight + wide', note: 'A close copy for the line, a wide faint one around it.', g: { b1: 2, o1: 0.35, b2: 10, o2: 0.2 } },
-  { k: 'e', name: 'E · Two-tone, companion per hue', note: 'C, with each hue’s two-tone token (--gradient-two-tone-<hue>): its companion passes through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · 400–600' },
+  { k: 'e', name: 'E · Two-tone, companion per hue', note: 'C, with each hue’s two-tone token (--gradient-two-tone-<hue>): its companion passes through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · on the guide and the page reviews' },
   { k: 'f', name: 'F · Two-tone, other side', note: 'C, with the hue one step back around the wheel (automatic).', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'prev' },
 ];
 // One moving gradient per hue (id `${prefix}-${hue}`), shared by every icon of that
 // hue and its glow copies, so the glow moves with the line. Bottom left → top right
-// (−45° about the icon's center), repeating every 48 units (twice the icon), slid
+// (−45° about the icon's center), repeating every 96 units (4× the icon), slid
 // one period along that axis per loop: seamless, like the diamonds. Stop colors
 // resolve where the gradient sits, so each range context gets its own set.
 // The palette's hues in order around the wheel; a hue's neighbors are one step
@@ -101,25 +107,25 @@ const TWO_TONE = Object.fromEntries(WHEEL.map(h => [h, twoToneStops(h)]));
 const companion = (h: string) => TWO_TONE_COMPANION[h];
 const tokenStops = (h: string) => TWO_TONE[h].map((t, i) =>
   i === 1 || i === 3 ? `color-mix(in oklch, var(--${TWO_TONE[h][0]}) var(--mo-ic-keep), var(--${t}))` : `var(--${t})`);
-// 96 units (2× the earlier 48; 4× the icon's 24 grid), slid one period per
-// loop, so the whole band never fits inside the icon. 8s keeps the earlier speed.
+// 96 units (4× the icon's 24 grid), slid one period per 8s loop, so the
+// whole band never fits inside the icon.
 const grad = (id: string, stops: string[]) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="96" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((c, i) => `<stop offset="${i / 4}" style="stop-color:${c}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="96 0" dur="8s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
 const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(h =>
   grad(`${prefix}-${h}`, stopsFor(h)) + grad(`${prefix}-${h}-token`, tokenStops(h)) + grad(`${prefix}-${h}-prev`, stopsFor(h, prevHue(h)))).join('')}</defs></svg>`;
 
 ---
-<Site title="Color in motion round" description="If color, then motion: button hover shimmer and icons in a set color, with a glow that moves.">
+<Site title="Color and interaction round" description="If color, then motion, and interaction beyond it: button and link hovers, icons in color, hover cards and form fields.">
   <div class="mo" data-range="normal">
     <!-- One moving gradient per hue, shared by every icon of that hue (and its glow
-         copies, so the glow moves with the line). Turned to run bottom left → top right (−45° about the icon's center), repeating every 48 units (twice the
+         copies, so the glow moves with the line). Turned to run bottom left → top right (−45° about the icon's center), repeating every 96 units (4× the
          icon), slid one period along that axis per loop: seamless, like the diamonds. -->
     <Fragment set:html={defs('flow')} />
 
     <section class="wrap hero">
       <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 12 Oct 2026</span>
-      <h1>Color in motion</h1>
-      <p class="lead">First tries at <em>if color, then motion</em>: the button hover as a moving fill with a glow, and icons in a set color whose line moves and glows. The glow is the /research diamonds’ technique: copies behind, blurred and faded.</p>
-      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · defaults are the working favorites, set per mode (the same in both for now): buttons 300–700; icons 400–600 · <i>One step subtler</i>: buttons 400–600; icons halfway; pointer and card lights halved</p>
+      <h1>Color and interaction</h1>
+      <p class="lead"><em>If color, then motion</em>, and interaction beyond it: button hovers, icons in a set color, hover cards, links and form fields. The glow is the /research diamonds’ technique: a copy behind, blurred and faded.</p>
+      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · working favorites: buttons E, icons E, hover cards, links B · B’s green range 300–700; icons A–D and F 400–600 · <i>One step subtler</i>: B 400–600; icons halfway; pointer, card and field lights halved</p>
       <div class="mo-ctl">
         <label class="mo-ctl__item">
           <button type="button" class="switch js-pin" role="switch" aria-checked="false" aria-label="Show every button in its hover state"><span class="switch__knob"></span></button>
@@ -136,7 +142,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
-    <section class="band">
+    <section class="band" id="buttons">
       <div class="wrap">
         <header class="sec">
           <h2>1 · Button hover</h2>
@@ -158,11 +164,11 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
-    <section class="band">
+    <section class="band" id="icons">
       <div class="wrap">
         <header class="sec">
           <h2>2 · Icons in a set color</h2>
-          <p>SyftHub’s Core Components, one hue per card: green, amber (gold), red, blue. The hue moves inside the stroke (6s per loop, over a gradient 3× the icon’s width). The line keeps its weight by size; nothing is filled.</p>
+          <p>SyftHub’s Core Components, one hue per card: green, amber (gold), red, blue. The hue moves inside the stroke (8s per loop, over a gradient 4× the icon’s width). The line keeps its weight by size; nothing is filled.</p>
         </header>
         {ICONS.map(v => (
           <div class="mo-row" style={glowVars(v.g)}>
@@ -185,7 +191,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
-    <section class="band">
+    <section class="band" id="cards">
       <div class="wrap">
         <header class="sec">
           <h2>3 · Hover cards</h2>
@@ -219,7 +225,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
-    <section class="band">
+    <section class="band" id="links">
       <div class="wrap">
         <header class="sec">
           <h2>4 · Links</h2>
@@ -234,13 +240,32 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
+    <section class="band" id="fields">
+      <div class="wrap">
+        <header class="sec">
+          <h2>5 · Form fields</h2>
+          <p>Hover the fields, or click into them. Both are painted on the field itself (background layers and a transparent 1px border), with no added markup, so they apply to fields we don’t render, such as HubSpot’s.</p>
+        </header>
+        {FIELD_ROWS.map((r, i) => (
+          <div class="mo-row">
+            <p class="mo-row__h"><b>{r.name}</b> <span>{r.note}</span> <code>{r.vals}</code></p>
+            <form class="mo-fm" data-hover={r.hover} data-focus={r.focus} onsubmit="return false">
+              <div class="fld"><label class="fld__label" for={`mf-${r.k}-n`}>Full name</label><input class="ctl" id={`mf-${r.k}-n`} type="text" placeholder="Jane Doe" /></div>
+              <div class="fld"><label class="fld__label" for={`mf-${r.k}-e`}>Work email</label><input class="ctl" id={`mf-${r.k}-e`} type="email" placeholder="jane@example.org" /></div>
+              <div class="fld fld--full"><label class="fld__label" for={`mf-${r.k}-m`}>Message</label><textarea class="ctl" id={`mf-${r.k}-m`} placeholder="What are you working on?"></textarea></div>
+            </form>
+          </div>
+        ))}
+      </div>
+    </section>
+
     <section class="band">
       <div class="wrap">
         <header class="sec"><h2>Open</h2></header>
         <div class="notes"><div><ul>
-          <li>Which glow reads as light, not blur (Bennett: “if they look blurry, it’ll be a bummer”). Judge in both modes, at 100% zoom.</li>
-          <li>Range: the key’s neighbors (400–600), halfway, or a quarter of the way (mixes; no palette step sits there). The button’s white label has to hold its contrast across the whole loop.</li>
-          <li>Speed: icons 8s per loop (96-unit gradient); button flows 6s and 8.7s; button patches 4.7–9.3s. <i>Slower</i>: icons 12s; flows 9s and 13s; patches 7–14s. The diamonds take 16s for the whole spectrum.</li>
+          <li>Form fields: B (moving gray focus line) or C (solid gray line).</li>
+          <li>The button’s white label dips in contrast while the pale stops pass (accepted for now; F’s hue keys hold).</li>
+          <li>Speed: icons 8s per loop (96-unit gradient); button shimmer 6s and 8.7s, color 30s; focus line 6s. <i>Slower</i>: icons 12s; shimmer 9s and 13s; focus line 9s. The diamonds take 16s for the whole spectrum.</li>
           <li>Whether four hues in one row is lively or a kaleidoscope. This round only tries the treatment, not where it belongs.</li>
           <li>Reduced motion: everything here stops and the color stays.</li>
         </ul></div></div>
@@ -275,7 +300,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       if (q.has('subtle')) range.click();
       // Pointer light (buttons and hover cards): ease toward the pointer each
       // frame, so it trails a little.
-      document.querySelectorAll('[data-cursor] .mbtn, .mo-hcard').forEach(btn => {
+      document.querySelectorAll('[data-cursor] .mbtn, .mo-hcard, .mo-fm[data-hover] .ctl').forEach(btn => {
         let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
         const step = () => {
           x += (tx - x) * 0.15; y += (ty - y) * 0.15;
@@ -514,7 +539,46 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
     animation: om-line-in 0.4s ease forwards, mo-lk-flow-keys 10s linear infinite paused;
   }
 
+  /* ── 5 · Form fields ───────────────────────────────────────────────────
+     Everything is painted on the field: a transparent 1px border (padding 1px
+     less, so the size holds) and four background layers, top first: the
+     pointer light, the field's own surface (padding box), the edge light near
+     the pointer and the focus line (border box). Registered properties let the
+     layers fade and the line turn. */
+  @property --mo-fl { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+  @property --mo-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+  @property --mo-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+  @property --mo-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+  @property --mo-fa { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  .mo-fm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-L); max-width: 720px;
+    padding: var(--spacing-XL); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+    --fl: 40%; --fe: 50%; --fh: 100%; --fh-c: var(--gray-300); --fe-c: var(--white); --fo-1: var(--gray-500); --fo-2: var(--gray-200); }
+  [data-theme="dark"] .mo-fm { --fl: 1.75%; --fe: 50%; --fh: 0%; --fe-c: var(--gray-500); --fo-1: var(--gray-500); --fo-2: var(--gray-600); }
+  .mo-fm[data-focus="solid"] { --fo-2: var(--fo-1); }
+  .mo[data-range="subtle"] .mo-fm { --fl: 20%; }
+  [data-theme="dark"] .mo[data-range="subtle"] .mo-fm { --fe: 25%; }
+  [data-theme="dark"] .mo[data-range="subtle"] .mo-fm { --fl: 0.875%; }
+  @media (max-width: 640px) { .mo-fm { grid-template-columns: 1fr; } }
+  /* The focus ring layer, declared on the field so --mo-fo (its fade) resolves there. */
+  .mo-fm .ctl {
+    --fo-ring: conic-gradient(from var(--mo-fa), color-mix(in oklch, var(--fo-1) var(--mo-fo), transparent), color-mix(in oklch, var(--fo-2) var(--mo-fo), transparent), color-mix(in oklch, var(--fo-1) var(--mo-fo), transparent), color-mix(in oklch, var(--fo-2) var(--mo-fo), transparent), color-mix(in oklch, var(--fo-1) var(--mo-fo), transparent));
+    border: 1px solid transparent; padding: calc(0.7em - 1px) calc(0.9em - 1px);
+    background:
+      radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--white) var(--mo-fl), transparent), transparent) padding-box,
+      linear-gradient(var(--surface-sunken), var(--surface-sunken)) padding-box,
+      radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--fe-c) var(--mo-fe), transparent), transparent) border-box,
+      var(--fo-ring) border-box,
+      linear-gradient(color-mix(in oklch, var(--fh-c) var(--mo-fh), transparent), color-mix(in oklch, var(--fh-c) var(--mo-fh), transparent)) border-box;
+    transition: box-shadow var(--transition-base), --mo-fl var(--transition-base), --mo-fe var(--transition-base), --mo-fh var(--transition-base), --mo-fo var(--transition-base);
+  }
+  .mo-fm[data-hover] .ctl:hover { --mo-fl: var(--fl); --mo-fe: var(--fe); --mo-fh: var(--fh); transition-duration: 0.15s; }
+  .mo-fm[data-focus] .ctl:focus { --mo-fo: 100%; }
+  .mo-fm[data-focus="moving"] .ctl:focus { animation: mo-fm-turn 6s linear infinite; }
+  .mo.is-slow .mo-fm[data-focus="moving"] .ctl:focus { animation-duration: 9s; }
+  @keyframes mo-fm-turn { to { --mo-fa: 1turn; } }
+
   @media (prefers-reduced-motion: reduce) {
+    .mo-fm .ctl { animation: none !important; }
     .mbtn__layer, .mbtn__layer i { animation: none; }
   }
 </style>

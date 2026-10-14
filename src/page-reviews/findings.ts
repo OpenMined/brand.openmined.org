@@ -1,5 +1,5 @@
 /**
- * PAGE REVIEWS — what came up applying v2 to the ported pages (first pass,
+ * PAGE REVIEWS — what came up applying v2 to the ported pages (since
  * 2026-10-09). Review notes, not guidance: anything decided here moves to
  * design/ as a guideline or decision record. Shown on /page-reviews/.
  *
@@ -39,14 +39,14 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'The federated-network panel is an outline again',
         pages: ['home'],
         rule: 'guidelines/outlines-are-lines',
-        did: 'After the Oct 12 meeting: back to the live style, a 1px line-strong outline with the page (and the colorflow behind it) showing through; its row rules in the same line. Was a raise-1 card. “Start your own federated sub-network” is a raise-1 band in place of the inverse row, with no shadow.',
-        open: 'A band one level up inside an outlined area: is that a fill inside a container? Built to judge in context; no rule yet (Kyle: maybe “no fully enclosed section gets a fill”, since this is a subsection of a larger enclosed area).',
+        did: 'The live style: a 1px line-strong outline with the page (and the colorflow behind it) showing through; its row rules in the same line. “Start your own federated sub-network” is a hover card below the outline, 8 of 12 columns, its icon taking green on hover.',
+        open: 'None for now: with the card outside the outline, no fill sits inside an outlined area.',
       },
       {
         title: 'Hand-rolled inverse blocks',
         pages: ['home'],
         rule: 'behaviors/color-modes',
-        did: 'Superseded Oct 12: the row is raise-1 now (see the federated-network panel). Before: the dark row at the bottom of the federated-network panel read the live inverse tokens (--dark-surface-*, --text-*-light) instead of data-section="invert". v2 has no inverse set, so the bridge names the opposite mode’s gray steps.',
+        did: 'Live’s dark blocks (the old sub-network row) read the live inverse tokens (--dark-surface-*, --text-*-light) instead of data-section="invert". v2 has no inverse set, so the bridge names the opposite mode’s gray steps; in the v2 pass the row is now a hover card (see the federated-network panel).',
         open: 'In the site itself these blocks should switch mode with data-section. A port-side fix, not a brand question, unless an inverse set is wanted.',
         review: 'Oct 12: agreed; make them systematic eventually.',
       },
@@ -56,14 +56,6 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         rule: 'guidelines/sections-arent-tinted',
         did: 'The body (gray 850) and the darker bottom bar (950) are one dark ground (gray 900) with a divider between. The footer pins dark with palette values, not data-section="always-dark", so the pass names v2 dark steps directly.',
         open: 'Whether the footer becomes an always-dark section (and gets v2’s dark roles for free).',
-      },
-      {
-        title: 'Logos need a plain ground',
-        pages: ['home'],
-        rule: 'guidelines/partner-marks-as-supplied',
-        did: 'Press cards show logos in their own colors, so they are white plates in both modes (first pass had them on raise-1, gray 50).',
-        open: 'Settled: color logos sit on white; one-color logos can sit on any ground.',
-        review: 'Oct 12: made a rule, guidelines/logo-images-on-white (press logos are images; vector partner marks follow the mode instead).',
       },
     ],
   },
@@ -94,15 +86,15 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'Outlined buttons become secondary',
         pages: ['home', 'syfthub'],
         rule: 'guidelines/one-solid-button',
-        did: 'After the Oct 12 meeting: every outlined button is secondary, a 1px outline in the body text color, no fill, headline label (was quiet: no outline at all). Both variants stay grayscale at rest and take the accent key (green) on hover: a green fill with a white label. Hover lines and icon hover are green too.',
-        open: 'White on the green key is 3.84:1. Focus styling is still open (an accent-key ring stands in). The hover motion (animated accent gradient and glow) waits on its colors.',
+        did: 'Every outlined button is secondary: a 1px outline in the body text color, no fill, headline label. Both stay grayscale at rest; on hover they fill with the accent in motion, button hover E (components/button), white label.',
+        open: 'The white label dips while the pale stops pass (accepted for now). SyftHub’s green button is colored at rest, with no motion. Focus styling is still open (an accent-key ring stands in).',
         review: 'Oct 12 (meeting): Bennett didn’t like the quiet button; secondary = body-color outline, no fill; hover = the primary’s accent fill.',
       },
       {
         title: 'Links: the line changes, the text doesn’t',
         pages: ['home', 'syfthub'],
         rule: 'components/link',
-        did: 'After the Oct 12 meeting: content links keep their underline and the green accent grows over it on hover (live wipes it out and draws green back in). Nav, footer and text-button lines are drawn in the text color (were green), in from the left and out to the right (live returns left). Footer links no longer brighten on hover; the footer bar link gains the same line.',
+        did: 'Content links keep their underline, and on hover a line in the full OM gradient grows over it, flowing, with a soft glow (link hover B, components/link). Nav, footer and text-button lines are drawn in the text color (were green), in from the left and out to the right (live returns left). Footer links no longer brighten on hover; the footer bar link gains the same line.',
         open: 'Icon links (social, search) still turn green on hover: icons, not link text, so left as they were.',
       },
       {

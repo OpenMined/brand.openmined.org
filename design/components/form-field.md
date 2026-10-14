@@ -9,7 +9,7 @@ tokens: [--surface-sunken, --shadow-sunken, --danger-fg, --text-headline, --text
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
 
-- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat until focus**. On focus it takes the inset `--shadow-sunken`; the recess *is* the focus state. It's subtle today, so a more obvious focus should be explored (a stronger or deeper inset, or a ring), as long as it reaches 3:1.
+- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat until focus**. On focus it takes the inset `--shadow-sunken`; the recess *is* the focus state. It's subtle today, so a more obvious focus is being explored, as long as it reaches 3:1: in the Color and interaction round (`/rounds/motion/#fields`), a 1px gray line on focus, solid or with a lighter gray moving around it, and on hover a gray outline with a soft light that follows the pointer.
 - **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`.
 - **Recess** (a well, a footer strip, a badge): a recess you don't touch. It never casts.
 
@@ -29,7 +29,7 @@ A form can then mix fields with an inner label and lists with a heading above th
 
 **Placeholder text** uses `--text-muted`. In light mode that is 4.13:1 on the sunken field, under AA's 4.5:1; the text-and-lines round sets `--text-muted`.
 
-**Errors are text.** A validation error is `--danger-fg` text directly under the field, on whatever surface the form sits on: no box, no outline, no fill. Colored boxes stacked on a dark page read as a muddy mix of panels, the look this system avoids (Bennett, 2026-10-08). Replaces the earlier rule, an error card one level above the form.
+**Errors are text.** A validation error is `--danger-fg` text directly under the field, on whatever surface the form sits on: no box, no outline, no fill. Colored boxes stacked on a dark page read as a muddy mix of panels, the look this system avoids (Bennett, 2026-10-08).
 
 **Geometry.** Fields and buttons take `--radius-md`; checkboxes `--radius-sm`; toggles `--radius-full`. The gap between a recessed control's outer surface and the part inside it is 3px in every state: a toggle's knob, a checkbox's check. A radio's dot takes twice that (6px), because a round mark needs more room to read as a dot rather than a ring.
 

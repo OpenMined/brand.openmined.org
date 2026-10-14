@@ -17,4 +17,4 @@ tags: [graphics, icons]
 
 **Why.** Kyle, 2026-10-12: most partner marks already work in both modes; a few didn't, and a new one shouldn't be able to arrive broken. A white plate behind a mark would be a filled container, which *Outlines are lines* rules out.
 
-**Images.** Logos supplied only as images can't do this; they sit on white ([Logo images sit on white](#guidelines-logo-images-on-white)).
+**Images.** Logos supplied only as images can't do this; they sit on white ([Logo images sit on white](/graphics/#guidelines-logo-images-on-white)).

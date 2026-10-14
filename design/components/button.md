@@ -11,9 +11,9 @@ tokens: [--accent-solid, --accent-on, --accent-key, --text-headline, --line-stro
 
 **Variants.**
 - **Solid**: `--accent-solid` fill with an `--accent-on` label. One per group.
-- **Secondary**: a `--stroke-sm` outline in `--line-strong` (the line style, the same gray step as `--text-body`), no fill, the label in `--text-headline`. Every other button in the group (decision 2026-10-12; replaces the quiet button, which had no outline).
+- **Secondary**: a `--stroke-sm` outline in `--line-strong` (the line style, the same gray step as `--text-body`), no fill, the label in `--text-headline`. Every other button in the group (decision 2026-10-12).
 
-**States.** Both stay grayscale at rest. On hover or keyboard focus both fill with the accent in motion (decision *Green at rest, gradients in motion*, 2026-10-13; motion round, option E): the full OM gradient flowing slowly at 20°, starting on green (30s per loop), under a faint grayscale shimmer in two crossing layers, with one blurred copy behind as its glow (8px, 0.3) and a soft white light that follows the pointer; white label. The secondary's outline is covered by the fill. Shared code: `src/styles/button-hover.css` and `src/scripts/button-hover.ts`. The white label dips in contrast while the pale stops pass (accepted for now). Focus ring: style still to decide.
+**States.** Both stay grayscale at rest. On hover or keyboard focus both fill with the accent in motion (decision *Green at rest, gradients in motion*, 2026-10-13; Color and interaction round, option E): the full OM gradient flowing slowly at 20°, starting on green (30s per loop), under a faint grayscale shimmer in two crossing layers, with one blurred copy behind as its glow (8px, 0.3) and a soft white light that follows the pointer; white label. The secondary's outline is covered by the fill. Shared code: `src/styles/button-hover.css` and `src/scripts/button-hover.ts`. The white label dips in contrast while the pale stops pass (accepted for now). Focus ring: style still to decide.
 
 **Colored.** A button in a hue other than ink (a page's alternate color) fills with that hue's key, white label; see [Color fills use the key](#guidelines-color-fills-use-the-key).
 

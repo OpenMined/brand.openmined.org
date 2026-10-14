@@ -1,8 +1,8 @@
 /**
  * PAGE REVIEWS — real openmined.org pages, ported so v2 can be tried on them.
  * Working material, not part of the brand guide: the whole feature is this
- * folder, src/pages/page-reviews/, public/page-reviews/ and one nav group in
- * Site.astro. See README.md here for how it's put together and how to remove it.
+ * folder, src/pages/page-reviews/, public/page-reviews/ and REVIEW_PAGES in
+ * src/lib/rounds.ts (the rounds header's page-review links). See README.md here for how it's put together and how to remove it.
  */
 
 /** Where the snapshot came from. */

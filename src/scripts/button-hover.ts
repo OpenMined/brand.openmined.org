@@ -2,7 +2,7 @@
  * Button hover: color in motion (src/styles/button-hover.css). Adds the glow and
  * fill layers to each button and moves the pointer light. Skips disabled buttons,
  * pressed toggles (aria-pressed) and buttons that already draw their own layers
- * (the motion round's .mbtn). Exploring.
+ * (the Color and interaction round's .mbtn). Exploring.
  */
 const LAYER = (k: string, light = false) =>
   `<span class="btn-flow btn-flow--${k}" aria-hidden="true"><i></i><i></i><i></i>${light ? '<b class="btn-flow__light"></b>' : ''}</span>`;

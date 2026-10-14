@@ -6,7 +6,7 @@
  * The nav lists only pages that exist (lab PLAN, B: pages are made as each
  * topic is worked). Two headers: the brand guide's (its pages, then Review
  * rounds, v1 reference and the color mode) and, on any page under /rounds/ or
- * /page-reviews/, the review rounds' (every round and page review, from
+ * /page-reviews/ built on this layout, the review rounds' (every round and page review, from
  * src/lib/rounds.ts, with a way back to the guide). Kyle, 2026-10-13.
  */
 import '@tokens/tokens.css';
@@ -61,13 +61,12 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
     <header class="bar">
       <div class="bar__inner">
         {inRounds ? <>
-          <a class="bar__arrow" href="/" aria-label="Back to the brand guide">←</a>
-          <a class="bar__title" href="/rounds/" aria-current={path === '/rounds/' ? 'page' : undefined}>Working favorites</a>
+          <a class="bar__title" href="/">← Brand guide</a>
           <nav class="bar__nav bar__nav--reviews" aria-label="Page reviews">
             {REVIEW_PAGES.map((p, i) => <a class:list={[i === 0 ? 'bar__group' : 'bar__link']} href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
           </nav>
           <nav class="bar__nav bar__nav--rounds" aria-label="Review rounds">
-            {ROUNDS.filter(p => p.key !== 'favorites').map(p => <a class="bar__link" href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
+            {ROUNDS.map(p => <a class="bar__link" href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
           </nav>
         </> : <>
           <a class="bar__title" href="/">OpenMined Design System</a>

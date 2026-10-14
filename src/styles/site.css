@@ -69,7 +69,7 @@ a:hover { text-decoration-color: currentColor; }
 .bar__back:hover { color: var(--text-headline); }
 .bar__arrow { font-size: 1.1rem; color: var(--text-muted); text-decoration: none; }
 .bar__arrow:hover { color: var(--text-headline); }
-/* Review rounds' header: back, Working favorites and the page reviews on top (color mode at the right), every round below. */
+/* Review rounds' header: ← Brand guide and the page reviews on top (color mode at the right), every round below. */
 .bar__nav--reviews { margin-right: auto; }
 .bar__nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-S); }
 /* The review rounds' header: title, way back and color mode on top; every round on a row of its own. */
