@@ -1,26 +1,33 @@
 /* ── Button hover: color in motion ─────────────────────────────────────
-   The working favorite from the Color and interaction round (/rounds/motion/, option E), exploring
-   (decisions/2026-10-12-if-color-then-motion, behaviors/color-moves).
+   The working favorite from the Color and interaction round (/rounds/motion/, option J), exploring
+   (decisions/2026-10-17-button-hover-hue-keys, behaviors/color-moves).
    Shared by the brand site and the page reviews; src/scripts/button-hover.ts
-   adds the layers (class .has-flow) to each button.
+   adds the layers (class .has-flow) to each button and sets where the loop starts.
 
-   On hover or keyboard focus the button fills with the full OM gradient as a
-   1200px loop at 20°, drifting left to right (30s per loop), starting on green
-   (the loop's stops begin 150px in, which puts green at the button's center at
-   the start; it only runs while hovered, so every hover starts green). Over it,
-   B's shimmer in grayscale: white stripes at 20° (240px, 6s) and dark stripes at
-   −40° (180px, 8.7s), faint. One blurred copy behind is the glow (8px, 0.3). A
-   neutral white light follows the pointer (0.3). Layers sit under the label.
-   The white label dips in contrast where the pale stops (gold, yellow, lime)
-   pass; accepted for now (Kyle, 2026-10-13). */
+   On hover or keyboard focus the button fills with the hue keys
+   (--gradient-interactive: green, teal, blue, violet, red, amber, blended in
+   OKLCH) as a 1200px loop at 20°, drifting left to right (30s per loop). The
+   start is set by the clock (--flow-start, 0–1 of a loop, one turn per minute),
+   so it changes over time but is the same for every button and visitor at a
+   given moment; secondary buttons start half a loop on, opposite the primary on
+   the wheel. Over it, a shimmer in grayscale: white stripes at 20° (240px, 6s,
+   0.3) and dark stripes at −40° (180px, 8.7s, 0.27). One blurred copy behind is
+   the glow (8px, 0.3). No pointer light. Layers sit under the label.
+
+   The page reviews' Options panel (src/page-reviews/ReviewBar.astro) can switch
+   to the round's other options with data-btn-hover on <html> (BUTTON_HOVERS in
+   the script): e and g take the full OM gradient from green, e adds the pointer
+   light; h starts at random, i on the clock with both buttons together. */
 .btn.has-flow { position: relative; isolation: isolate; }
 /* Doubled class: outranks the components' own :hover rules without !important. */
 .btn.has-flow.has-flow:is(:hover, :focus-visible) { background-color: transparent; border-color: transparent; color: var(--white); }
 .btn-flow {
-  --flow-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
+  /* --gradient-interactive's stops, reversed (colors arrive from the loop's end),
+     starting on green 150px in, so a run from 0 goes green → teal → blue → … */
+  --flow-spectrum: repeating-linear-gradient(90deg in oklch, var(--green-key) 150px, var(--amber-key) 350px, var(--red-key) 550px, var(--violet-key) 750px, var(--blue-key) 950px, var(--teal-key) 1150px, var(--green-key) 1350px);
   /* Covers the button's border too: the script sets --flow-inset to minus its width. */
   position: absolute; inset: var(--flow-inset, 0); border-radius: inherit; pointer-events: none;
-  overflow: hidden; background: var(--gradient-green);
+  overflow: hidden; background: var(--green-key);
   opacity: 0; transition: opacity var(--transition-base);
 }
 .btn-flow--glow { z-index: -2; filter: blur(8px); }
@@ -29,26 +36,34 @@
 .btn.has-flow:is(:hover, :focus-visible) .btn-flow--glow { opacity: 0.3; }
 
 .btn-flow i { position: absolute; left: 50%; top: 50%; will-change: transform; }
-/* The color: a strip 1500 × 300px, slid 1200px (one loop) along its axis. */
+/* The color: a strip 1500 × 300px, slid 1200px (one loop) along its axis; a
+   negative delay starts it --flow-start of the way through. .is-flowing (the
+   script) keeps it running while the fill fades out, so it doesn't snap back to
+   its first frame on mouseout. */
 .btn-flow i:nth-child(1) { width: 1500px; height: 300px; margin: -150px 0 0 -750px; background: var(--flow-spectrum); transform: rotate(20deg) translateX(-600px); }
-.btn.has-flow:is(:hover, :focus-visible) .btn-flow i:nth-child(1) { animation: btn-flow-color 30s linear infinite; }
-/* The shimmer: B's two layers, white and dark, 900px squares slid one stripe period. */
-.btn-flow i:nth-child(2) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.22;
+.btn.has-flow:is(:hover, :focus-visible, .is-flowing) .btn-flow i:nth-child(1) { animation: btn-flow-color 30s linear infinite; animation-delay: calc(var(--flow-start, 0) * -30s); }
+/* The shimmer: two layers, white and dark, 900px squares slid one stripe period. */
+.btn-flow i:nth-child(2) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.3;
   background: repeating-linear-gradient(90deg, transparent 0, var(--white) 120px, transparent 240px);
   animation: btn-flow-light 6s linear infinite; }
-.btn-flow i:nth-child(3) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.2;
+.btn-flow i:nth-child(3) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.27;
   background: repeating-linear-gradient(90deg, transparent 0, var(--black) 90px, transparent 180px);
   animation: btn-flow-dark 8.7s linear infinite; }
 @keyframes btn-flow-color { from { transform: rotate(20deg) translateX(-600px); } to { transform: rotate(20deg) translateX(600px); } }
 @keyframes btn-flow-light { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
 @keyframes btn-flow-dark { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
-/* Pointer light: neutral, since it rides over changing colors; in quickly. */
+/* Options e and g: the full OM gradient, starting on green (the start is 0). */
+html:is([data-btn-hover="e"], [data-btn-hover="g"]) .btn-flow {
+  --flow-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
+  background: var(--gradient-green);
+}
+/* Option e: a neutral white light follows the pointer (0.3), in quickly. */
 .btn-flow__light {
   position: absolute; inset: 0; opacity: 0; transition: opacity var(--transition-base);
   background: radial-gradient(70px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
 }
-.btn.has-flow:hover .btn-flow__light { opacity: 0.3; transition-duration: 0.15s; }
+html[data-btn-hover="e"] .btn.has-flow:hover .btn-flow__light { opacity: 0.3; transition-duration: 0.15s; }
 
 @media (prefers-reduced-motion: reduce) {
   .btn-flow i { animation: none !important; }

@@ -8,7 +8,7 @@
 
    Icons — a set hue moving inside the stroke, its two-tone gradient token
    (--gradient-two-tone-<hue>, companion set per hue), bottom left → top right,
-   96 units per 8s loop; one blurred copy behind (6px; 0.25
+   96 units per 4s loop (the Options panel can change it); one blurred copy behind (6px; 0.25
    in light, 0.4 in dark). */
 
 /* ── Buttons: src/styles/button-hover.css (shared with the brand site). ── */
@@ -62,3 +62,36 @@ html[data-system="v2"][data-theme="dark"] .card-float:hover .hover-icon > .hover
 
 @media (prefers-reduced-motion: reduce) {
 }
+
+/* ── Form fields: the round's option C (grayscale) ────────────────────
+   On hover a soft white light inside the field follows the pointer; in light
+   the field takes a gray-300 outline, white near the pointer (0.5, 240px
+   across), light inside 320px across at 0.4; in dark its edge lights up in
+   gray-500 near the pointer (0.5) and the light inside is 0.0175. On focus a
+   solid 1px gray-500 line, with the sunken inset (pass.css). Everything is
+   painted on the field: a transparent 1px border (padding 1px less, so the size
+   holds) and background layers, top first: the pointer light, the field's own
+   surface (padding box), the edge light near the pointer, the focus line and
+   the hover outline (border box). V2Pass.astro moves the pointer light. */
+@property --fm-fl { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --fm-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --fm-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --fm-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+html[data-system="v2"] .hs-form {
+  --fl: 40%; --fe: 50%; --fh: 100%; --fh-c: var(--gray-300); --fe-c: var(--white); --fo-c: var(--gray-500);
+}
+html[data-system="v2"][data-theme="dark"] .hs-form { --fl: 1.75%; --fe: 50%; --fh: 0%; --fe-c: var(--gray-500); --fo-c: var(--gray-500); }
+html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select) {
+  border: 1px solid transparent;
+  padding: 0 calc(var(--spacing-L) - 1px);
+  background:
+    radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--white) var(--fm-fl), transparent), transparent) padding-box,
+    linear-gradient(var(--surface-sunken), var(--surface-sunken)) padding-box,
+    radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--fe-c) var(--fm-fe), transparent), transparent) border-box,
+    linear-gradient(color-mix(in oklch, var(--fo-c) var(--fm-fo), transparent), color-mix(in oklch, var(--fo-c) var(--fm-fo), transparent)) border-box,
+    linear-gradient(color-mix(in oklch, var(--fh-c) var(--fm-fh), transparent), color-mix(in oklch, var(--fh-c) var(--fm-fh), transparent)) border-box;
+  transition: box-shadow var(--transition-base), --fm-fl var(--transition-base), --fm-fe var(--transition-base), --fm-fh var(--transition-base), --fm-fo var(--transition-base);
+}
+html[data-system="v2"] .hs-form textarea.hs-input { padding: calc(var(--spacing-L) - 1px); }
+html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select):hover { --fm-fl: var(--fl); --fm-fe: var(--fe); --fm-fh: var(--fh); transition-duration: 0.15s; }
+html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select):focus { --fm-fo: 100%; }

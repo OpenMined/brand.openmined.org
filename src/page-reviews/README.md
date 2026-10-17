@@ -13,9 +13,9 @@ Notes and findings: `/page-reviews/` (from `findings.ts`).
 | `live.css` / `v2.css` | `live.css` is the port's own styles; `v2.css` imports it and puts v2 on top. Routes import `v2.css`; none of it reaches the guide pages. |
 | `v2/bridge.css` | Live token names → v2 tokens. Most of the v2 pass. |
 | `v2/pass.css` | Component-level changes, each naming the `design/` rule it applies. |
-| `v2/motion.css` | Color and interaction: the working favorites from `/rounds/motion/` (icons in a set hue, hover-card lights and icons). Button and link hovers are shared with the guide: `src/styles/button-hover.css`, `src/styles/link-hover.css`, `src/scripts/button-hover.ts`. |
+| `v2/motion.css` | Color and interaction: the working favorites from `/rounds/motion/` (icons in a set hue, hover-card lights and icons, form fields option C). Button and link hovers are shared with the guide: `src/styles/button-hover.css`, `src/styles/link-hover.css`, `src/scripts/button-hover.ts`. |
 | `v2/V2Pass.astro` | The pass's markup changes, at runtime: a gradient map behind each CTA; the button hover layers; colored icons where marked `data-color-icons` (in order) or `data-icon-hue`; hover cards' icons on hover (`data-hover-hue` on the card to set the hue). |
-| `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (switches page) and link rewriting. |
+| `ReviewHead.astro`, `ReviewBar.astro` | Rendered by the ported `Base.astro`: v2 colors for the hero graphics; the floating bar (switches page; **Options** opens switches for the Color and interaction round's options, starting with button hover E–J, remembered in the browser, `?buttons=<key>` in the URL) and link rewriting. |
 | `reviews.ts`, `findings.ts` | The page list and the review notes. |
 | `../pages/page-reviews/` | Routes: `<page>/` is the v2 pass (the live ports were dropped 2026-10-13; openmined.org is the reference). Each sets `Astro.locals.review`. |
 | `../../public/page-reviews/` | Org logos and the CTA raster from openmined.org. |

@@ -301,14 +301,36 @@ a:hover { text-decoration-color: currentColor; }
 .fld__req { color: var(--text-body); margin-left: 0.25em; }
 .fld__desc { font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
 /* Field: flat until focus — the recess IS the focus state, so the UA ring goes */
+/* Hover and focus (components/form-field; the Color and interaction round's
+   option C, grayscale): on hover a soft white light inside the field follows the
+   pointer (src/scripts/button-hover.ts fieldLights), in light with a gray-300
+   outline that turns white near the pointer, in dark a gray-500 edge near the
+   pointer; on focus a solid 1px gray-500 line with the inset. All painted on the
+   field: a transparent 1px border (padding 1px less) and background layers, top
+   first: the light, the field's surface (padding box), the edge near the
+   pointer, the focus line and the hover outline (border box). */
+@property --ctl-fl { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+:root { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); --ctl-line-c: var(--gray-500); }
+[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); --ctl-line-c: var(--gray-500); }
 .ctl {
-  display: block; width: 100%; margin: 0; border: none; font: inherit;
-  background: var(--surface-sunken); color: var(--text-headline);
-  border-radius: var(--radius-md); padding: 0.7em 0.9em; font-size: var(--font-size-md);
-  box-shadow: none; transition: box-shadow var(--transition-base);
+  display: block; width: 100%; margin: 0; border: 1px solid transparent; font: inherit;
+  color: var(--text-headline);
+  border-radius: var(--radius-md); padding: calc(0.7em - 1px) calc(0.9em - 1px); font-size: var(--font-size-md);
+  background:
+    radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--white) var(--ctl-fl), transparent), transparent) padding-box,
+    linear-gradient(var(--surface-sunken), var(--surface-sunken)) padding-box,
+    radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--ctl-edge-c) var(--ctl-fe), transparent), transparent) border-box,
+    linear-gradient(color-mix(in oklch, var(--ctl-line-c) var(--ctl-fo), transparent), color-mix(in oklch, var(--ctl-line-c) var(--ctl-fo), transparent)) border-box,
+    linear-gradient(color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent), color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent)) border-box;
+  box-shadow: none;
+  transition: box-shadow var(--transition-base), --ctl-fl var(--transition-base), --ctl-fe var(--transition-base), --ctl-fh var(--transition-base), --ctl-fo var(--transition-base);
 }
-.ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); }
-.ctl.is-focus { box-shadow: var(--shadow-sunken); }
+.ctl:not(:disabled):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); transition-duration: 0.15s; }
+.ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
+.ctl.is-focus { box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
 .ctl::placeholder { color: var(--text-muted); font-weight: 500; }
 .ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
 /* Control: checkbox and radio cast at rest, and keep the browser's focus ring */

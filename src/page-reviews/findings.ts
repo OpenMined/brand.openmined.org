@@ -86,8 +86,8 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'Outlined buttons become secondary',
         pages: ['home', 'syfthub'],
         rule: 'guidelines/one-solid-button',
-        did: 'Every outlined button is secondary: a 1px outline in the body text color, no fill, headline label. Both stay grayscale at rest; on hover they fill with the accent in motion, button hover E (components/button), white label.',
-        open: 'The white label dips while the pale stops pass (accepted for now). SyftHub’s green button is colored at rest, with no motion. Focus styling is still open (an accent-key ring stands in).',
+        did: 'Every outlined button is secondary: a 1px outline in the body text color, no fill, headline label. Both stay grayscale at rest; on hover they fill with the accent in motion, button hover J (components/button), white label.',
+        open: 'SyftHub’s green button is colored at rest, with no motion. Focus styling is still open (an accent-key ring stands in).',
         review: 'Oct 12 (meeting): Bennett didn’t like the quiet button; secondary = body-color outline, no fill; hover = the primary’s accent fill.',
       },
       {
@@ -101,7 +101,7 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'Forms: raised fields become recesses',
         pages: ['home', 'syfthub'],
         rule: 'components/form-field',
-        did: 'Fields are sunken and flat until focus (the live fields cast a shadow); the form card is raise-1 with the outer corner (10px); checkboxes are controls with their inset at rest and an ink fill when checked.',
+        did: 'Fields are sunken and flat at rest (the live fields cast a shadow), with a pointer light and gray outline on hover and a solid gray line on focus (the round’s option C); the form card is raise-1 with the outer corner (10px); checkboxes are controls with their inset at rest and an ink fill when checked.',
         open: 'Both forms put the label inside the field (placeholder only), which v2 lists as needing an accessible name. The forms are static mocks of the HubSpot embed.',
       },
       {

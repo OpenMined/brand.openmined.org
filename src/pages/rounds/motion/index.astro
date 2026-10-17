@@ -3,7 +3,8 @@
  * ROUND — Color and interaction (opened 2026-10-12 as Color in motion). "If color,
  * then motion" (design/decisions/2026-10-12-if-color-then-motion.md), and interaction
  * beyond it:
- *   1. Button hover: a moving fill with a glow (B green; E the full OM gradient; F hue keys).
+ *   1. Button hover: a moving fill with a glow (E the full OM gradient; G–J without the
+ *      pointer light, H–J in hue keys from a start other than green).
  *   2. Icons in a set color: a gradient moves inside the stroke, with a glow that
  *      moves with it (E: the two-tone tokens). Layout from SyftHub's Core Components.
  *   3. Hover cards: a pointer light; icons take their color on hover.
@@ -12,6 +13,7 @@
  * The glow is the /research diamonds' technique: a copy behind, blurred and faded.
  * Colors are palette steps and tokens; nothing here is a loose value.
  */
+import { ICON_SPEEDS, ICON_SPEED_DEFAULT } from '../../../lib/icon-speed';
 import Site from '../../../layouts/Site.astro';
 import { iconSvg, liveToSet } from '../../../lib/icons';
 import { twoToneStops, TWO_TONE_COMPANION, listStops } from '../../../lib/tokens';
@@ -21,14 +23,17 @@ type Glow = { b1: number; o1: number; b2: number; o2: number; o1Light?: number }
 const glowVars = (g: Glow) => `--g1-b:${g.b1}px;--g1-o-d:${g.o1};--g1-o-l:${g.o1Light ?? g.o1};--g2-b:${g.b2}px;--g2-o:${g.o2}`;
 const glowText = (g: Glow) => [g.o1 && (g.o1Light !== undefined && g.o1Light !== g.o1 ? `blur ${g.b1}px at ${g.o1Light} light, ${g.o1} dark` : `blur ${g.b1}px at ${g.o1}`), g.o2 && `blur ${g.b2}px at ${g.o2}`].filter(Boolean).join(' + ') || 'no glow';
 
-// Buttons: every variant takes the same glow (tight + wide); the fill changes.
-// B: two green striped layers crossing at different angles, each flowing one way
-// E–F: a long color loop (E the full OM gradient, F the hue keys) that starts on green, with
-// layers crossing over it for shimmer. All carry the pointer light; on the
-// spectrum it's neutral (white), since it rides over changing colors.
+// Buttons: every variant takes the same glow; the fill changes.
+// E: the full OM gradient as a long loop that starts on green, under a grayscale
+// shimmer (two striped layers crossing at 20° and −40°, each flowing one way), with
+// a neutral (white) pointer light, since it rides over changing colors. G is E
+// without the light. H–J are G in the hue keys (no pale stop to start on), with the
+// loop starting somewhere other than green: H at a random point on every hover, I
+// at a point set by the clock (one turn of the loop per minute), J as I with the
+// secondary button half a loop from the primary (opposite on the wheel).
 // One glow copy: fewer moving layers and blurs.
 const BTN_GLOW: Glow = { b1: 8, o1: 0.3, b2: 0, o2: 0 };
-// Option F's loop: the --gradient-interactive token's stops (hue keys), laid out as
+// H–J's loop: the --gradient-interactive token's stops (hue keys), laid out as
 // a 1200px repeating loop that starts on green 150px in, like the spectrum's.
 // Colors arrive from the loop's end, so the stops are laid out in reverse: a hover
 // runs green → teal → blue → violet → red → amber → green.
@@ -36,17 +41,19 @@ const BTN_GLOW: Glow = { b1: 8, o1: 0.3, b2: 0, o2: 0 };
 // amber → green went through a muddy olive.
 const KEYS = listStops('interactive').split(',').reverse();
 const KEYS_LOOP = `repeating-linear-gradient(90deg in oklch, ${KEYS.map((k, i) => `var(--${k}) ${(150 + (1200 * i) / (KEYS.length - 1)).toFixed(1)}px`).join(', ')})`;
-const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: boolean; fav?: string }[] = [
-  { k: 'b', name: 'B · Crossing flows + cursor', note: 'Two striped green layers at 20° and −40°, each flowing one way (6s and 8.7s): lighter stripes underneath, faint darker ones over them; a soft light follows the pointer.', fill: 'flow', cursor: true },
-  { k: 'e', name: 'E · Spectrum under B’s shimmer + cursor', note: 'B’s two crossing layers in grayscale (white stripes at 20°, dark at −40°, B’s sizes and speeds), faint, over the full OM gradient drifting slowly (1200px, 30s). Starts on green.', fill: 'specb', cursor: true, fav: 'both modes · on the guide and the page reviews' },
-  { k: 'f', name: 'F · Hue keys under B’s shimmer + cursor', note: 'E, with the loop in hue keys only (--gradient-interactive): green, teal, blue, violet, red, amber. The pale stops are gone, so the white label stays at the green key’s contrast (about 3.8:1) or better. Runs green → teal → blue → violet → red → amber; blended in OKLCH.', fill: 'specb-keys', cursor: true },
+const BUTTONS: { k: string; name: string; note: string; fill: string; cursor?: boolean; start?: 'random' | 'clock' | 'clock-opposite'; fav?: string }[] = [
+  { k: 'e', name: 'E · Full OM gradient from green + shimmer + pointer light', note: 'The full OM gradient drifting slowly (1200px, 30s), every hover starting on green, under a faint grayscale shimmer (two crossing striped layers: white at 20°, dark at −40°), with one blurred copy behind as the glow. A soft white light follows the pointer. The white label dips in contrast while the pale stops (gold, yellow, lime) pass.', fill: 'specb', cursor: true },
+  { k: 'g', name: 'G · Full OM gradient from green + shimmer, no pointer light', note: 'The full OM gradient drifting slowly (1200px, 30s), every hover starting on green, under a faint grayscale shimmer (two crossing striped layers: white at 20°, dark at −40°), with one blurred copy behind as the glow. Nothing follows the pointer. The white label dips in contrast while the pale stops (gold, yellow, lime) pass.', fill: 'specb' },
+  { k: 'h', name: 'H · Hue keys from a random point + shimmer, no pointer light', note: 'The hue keys only (--gradient-interactive: green, teal, blue, violet, red, amber; blended in OKLCH), drifting slowly (1200px, 30s), under a faint grayscale shimmer (two crossing striped layers: white at 20°, dark at −40°), with one blurred copy behind as the glow. Each hover starts at a random point in the loop, so the first color is anywhere on the wheel. Nothing follows the pointer. No pale stops, so the white label stays at about 3.8:1 or better.', fill: 'specb-keys', start: 'random' },
+  { k: 'i', name: 'I · Hue keys from the clock + shimmer, no pointer light', note: 'The hue keys only (--gradient-interactive: green, teal, blue, violet, red, amber; blended in OKLCH), drifting slowly (1200px, 30s), under a faint grayscale shimmer (two crossing striped layers: white at 20°, dark at −40°), with one blurred copy behind as the glow. The start is set by the clock: the starting point moves once around the loop every minute (about 10 seconds per hue key), so it changes over time but is the same for every button, every page and every visitor at a given moment. Both buttons start on the same color. Nothing follows the pointer. No pale stops, so the white label stays at about 3.8:1 or better.', fill: 'specb-keys', start: 'clock' },
+  { k: 'j', name: 'J · Hue keys from the clock, secondary opposite + shimmer, no pointer light', note: 'The hue keys only (--gradient-interactive: green, teal, blue, violet, red, amber; blended in OKLCH), drifting slowly (1200px, 30s), under a faint grayscale shimmer (two crossing striped layers: white at 20°, dark at −40°), with one blurred copy behind as the glow. The start is set by the clock: the starting point moves once around the loop every minute (about 10 seconds per hue key), the same for every button, every page and every visitor at a given moment. The secondary button starts half a loop from the primary, so the two always sit opposite each other on the wheel (green with violet, teal with red, blue with amber). Nothing follows the pointer. No pale stops, so the white label stays at about 3.8:1 or better.', fill: 'specb-keys', start: 'clock-opposite', fav: 'both modes · on the guide and the page reviews' },
 ];
 
 // Links: the content link's hover line as a moving gradient with a 3px glow band.
 const LINK_ROWS: { k: string; name: string; note: string; cls: string; fav?: string }[] = [
   { k: 'a', name: 'A · Before', note: 'The accent key (green), 1px, grows over the underline from the left.', cls: 'mo-lk--green' },
   { k: 'b', name: 'B · Spectrum + glow', note: 'The full OM gradient moves along the line (each hue spans the link’s length, so two colors at most; one hue every 1.7s), with a glow band of the same colors at 35% behind it: the line plus 1px on every side.', cls: 'mo-lk--spec', fav: 'both modes · on the guide and the page reviews' },
-  { k: 'c', name: 'C · Hue keys + glow', note: 'B with --gradient-interactive, running green → teal → blue → violet → red → amber, blended in OKLCH.', cls: 'mo-lk--keys' },
+  { k: 'c', name: 'C · Hue keys + glow', note: 'The hue keys (--gradient-interactive) move along the line, running green → teal → blue → violet → red → amber, blended in OKLCH (each hue spans the link’s length; one hue every 1.7s), with a glow band of the same colors at 35% behind it: the line plus 1px on every side.', cls: 'mo-lk--keys' },
 ];
 
 // Icons: SyftHub › Core Components, one hue per card.
@@ -71,10 +78,10 @@ const PRESS = [
 ];
 const ARROW = iconSvg('arrow-right', { size: 24 });
 /** Form fields: a pointer light inside the field on hover; a gray line on focus. */
-const FIELD_ROWS: { k: string; name: string; note: string; hover?: string; focus?: string; vals: string }[] = [
+const FIELD_ROWS: { k: string; name: string; note: string; hover?: string; focus?: string; vals: string; fav?: string }[] = [
   { k: 'a', name: 'A · Before', note: 'No change on hover; on focus the inset deepens. Click a field to focus it.', vals: '--shadow-sunken' },
   { k: 'b', name: 'B · Pointer light + moving gray line', note: 'On hover, a soft white light inside the field follows the pointer; in light mode the field takes a gray outline that lightens near the pointer, in dark its edge lights up in gray near the pointer. On focus, a gray line with a slightly lighter gray traveling around it.', hover: 'edge', focus: 'moving', vals: 'light: gray-300 outline, white at 0.5 on the edge near the pointer (240px across), white light inside 320px across at 0.4 · dark: edge 1px, 240px across, gray-500 at 0.5, white light at 0.0175 · focus line 1px, light gray-500 → 200, dark gray-500 → 600, one turn per 6s' },
-  { k: 'c', name: 'C · Pointer light + solid gray line', note: 'B’s hover; on focus, a solid gray line.', hover: 'edge', focus: 'solid', vals: 'B’s hover · line 1px, light gray-500, dark gray-500' },
+  { k: 'c', name: 'C · Pointer light + solid gray line', note: 'On hover, a soft white light inside the field follows the pointer; in light mode the field takes a gray outline that lightens near the pointer, in dark its edge lights up in gray near the pointer. On focus, a solid gray line.', hover: 'edge', focus: 'solid', vals: 'light: gray-300 outline, white at 0.5 on the edge near the pointer (240px across), white light inside 320px across at 0.4 · dark: edge 1px, 240px across, gray-500 at 0.5, white light at 0.0175 · focus line 1px, light gray-500, dark gray-500', fav: 'both modes · on the guide and the page reviews' },
 ];
 
 const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; fav?: string; tone?: 'token' | 'prev' }[] = [
@@ -83,8 +90,8 @@ const ICONS: { k: string; name: string; note: string; mono?: boolean; g: Glow; f
   { k: 'b', name: 'B · Tight glow', note: 'One copy close to the line, so it reads as light rather than haze.', g: { b1: 3, o1: 0.4, b2: 0, o2: 0 } },
   { k: 'c', name: 'C · Soft glow', note: 'One copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 } },
   { k: 'd', name: 'D · Tight + wide', note: 'A close copy for the line, a wide faint one around it.', g: { b1: 2, o1: 0.35, b2: 10, o2: 0.2 } },
-  { k: 'e', name: 'E · Two-tone, companion per hue', note: 'C, with each hue’s two-tone token (--gradient-two-tone-<hue>): its companion passes through once per loop.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · on the guide and the page reviews' },
-  { k: 'f', name: 'F · Two-tone, other side', note: 'C, with the hue one step back around the wheel (automatic).', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'prev' },
+  { k: 'e', name: 'E · Two-tone, companion per hue + soft glow', note: 'Each hue’s two-tone token (--gradient-two-tone-<hue>) moves inside the line: the hue with its companion passing through once per loop. One glow copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'token', fav: 'both modes · on the guide and the page reviews' },
+  { k: 'f', name: 'F · Two-tone, hue one step back + soft glow', note: 'The hue moves inside the line with the hue one step back around the wheel (automatic) passing through once per loop. One glow copy, blurred more.', g: { b1: 6, o1: 0.4, o1Light: 0.25, b2: 0, o2: 0 }, tone: 'prev' },
 ];
 // One moving gradient per hue (id `${prefix}-${hue}`), shared by every icon of that
 // hue and its glow copies, so the glow moves with the line. Bottom left → top right
@@ -107,9 +114,9 @@ const TWO_TONE = Object.fromEntries(WHEEL.map(h => [h, twoToneStops(h)]));
 const companion = (h: string) => TWO_TONE_COMPANION[h];
 const tokenStops = (h: string) => TWO_TONE[h].map((t, i) =>
   i === 1 || i === 3 ? `color-mix(in oklch, var(--${TWO_TONE[h][0]}) var(--mo-ic-keep), var(--${t}))` : `var(--${t})`);
-// 96 units (4× the icon's 24 grid), slid one period per 8s loop, so the
+// 96 units (4× the icon's 24 grid), slid one period per 4s loop, so the
 // whole band never fits inside the icon.
-const grad = (id: string, stops: string[]) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="96" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((c, i) => `<stop offset="${i / 4}" style="stop-color:${c}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="96 0" dur="8s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
+const grad = (id: string, stops: string[]) => `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="96" y2="0" spreadMethod="repeat" gradientTransform="rotate(-45 12 12)">${stops.map((c, i) => `<stop offset="${i / 4}" style="stop-color:${c}"/>`).join('')}<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="96 0" dur="4s" repeatCount="indefinite" additive="sum"/></linearGradient>`;
 const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>${HUES.map(h =>
   grad(`${prefix}-${h}`, stopsFor(h)) + grad(`${prefix}-${h}-token`, tokenStops(h)) + grad(`${prefix}-${h}-prev`, stopsFor(h, prevHue(h)))).join('')}</defs></svg>`;
 
@@ -125,7 +132,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <span class="eyebrow"><span class="eyebrow__dot"></span>Round · opened 12 Oct 2026</span>
       <h1>Color and interaction</h1>
       <p class="lead"><em>If color, then motion</em>, and interaction beyond it: button hovers, icons in a set color, hover cards, links and form fields. The glow is the /research diamonds’ technique: a copy behind, blurred and faded.</p>
-      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · working favorites: buttons E, icons E, hover cards, links B · B’s green range 300–700; icons A–D and F 400–600 · <i>One step subtler</i>: B 400–600; icons halfway; pointer, card and field lights halved</p>
+      <p class="status">Status: <b>exploring</b> · each hue moves around its key (500) · working favorites: buttons J, icons E, hover cards, links B, fields C · icons A–D and F 400–600 · <i>One step subtler</i>: icons halfway; pointer, card and field lights halved</p>
       <div class="mo-ctl">
         <label class="mo-ctl__item">
           <button type="button" class="switch js-pin" role="switch" aria-checked="false" aria-label="Show every button in its hover state"><span class="switch__knob"></span></button>
@@ -146,18 +153,18 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <div class="wrap">
         <header class="sec">
           <h2>1 · Button hover</h2>
-          <p>Hover either button. Both are grayscale at rest. B moves through the green steps around the key (<code>--accent-key</code>); E and F start on green and drift around the wheel: E through the full OM gradient, F through the hue keys only. The glow takes the same moving colors. Every variant has the same glow (one blurred copy); the fill changes.</p>
+          <p>Hover either button. Both are grayscale at rest. Each option is named for its fill, where its loop starts and whether a light follows the pointer. The glow takes the same moving colors; every option has the same glow (one blurred copy).</p>
         </header>
         <div class="mo-btns">
           {BUTTONS.map(v => (
             <figure class="mo-panel">
               <div class="mo-stage">
-                <div class="actions" style={glowVars(BTN_GLOW) + (v.fill === 'specb-keys' ? `;--mo-spectrum:${KEYS_LOOP}` : '')} data-fill={v.fill} data-cursor={v.cursor ? '' : undefined}>
+                <div class="actions" style={glowVars(BTN_GLOW) + (v.fill === 'specb-keys' ? `;--mo-spectrum:${KEYS_LOOP}` : '')} data-fill={v.fill} data-cursor={v.cursor ? '' : undefined} data-start={v.start}>
                   <a class="btn btn--solid mbtn" href="#buttons" onclick="return false"><span class="mbtn__layer mbtn__g1" aria-hidden="true"><i></i><i></i><i></i></span><span class="mbtn__layer mbtn__fill" aria-hidden="true"><i></i><i></i><i></i>{v.cursor && <b class="mbtn__hl"></b>}</span><span class="mbtn__label">Get started</span></a>
                   <a class="btn mbtn" href="#buttons" onclick="return false"><span class="mbtn__layer mbtn__g1" aria-hidden="true"><i></i><i></i><i></i></span><span class="mbtn__layer mbtn__fill" aria-hidden="true"><i></i><i></i><i></i>{v.cursor && <b class="mbtn__hl"></b>}</span><span class="mbtn__label">Read the docs</span></a>
                 </div>
               </div>
-              <figcaption><b>{v.name}{v.fav && <span class="mo-fav">Working favorite · {v.fav}</span>}</b><span>{v.note}</span><code>{v.fill}{v.cursor ? ' + cursor' : ''} · glow {glowText(BTN_GLOW)}</code></figcaption>
+              <figcaption><b>{v.name}{v.fav && <span class="mo-fav">Working favorite · {v.fav}</span>}</b><span>{v.note}</span><code>{v.fill}{v.cursor ? ' + cursor' : ''}{v.start ? ` · ${v.start} start` : ''} · glow {glowText(BTN_GLOW)}</code></figcaption>
             </figure>
           ))}
         </div>
@@ -168,7 +175,11 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <div class="wrap">
         <header class="sec">
           <h2>2 · Icons in a set color</h2>
-          <p>SyftHub’s Core Components, one hue per card: green, amber (gold), red, blue. The hue moves inside the stroke (8s per loop, over a gradient 4× the icon’s width). The line keeps its weight by size; nothing is filled.</p>
+          <p>SyftHub’s Core Components, one hue per card: green, amber (gold), red, blue. The hue moves inside the stroke (4s per loop, over a gradient 4× the icon’s width). The line keeps its weight by size; nothing is filled.</p>
+          <div class="actions mo-speed" role="group" aria-label="Icon speed, seconds per loop">
+            <span class="muted">Speed</span>
+            {ICON_SPEEDS.map(t => <button type="button" class="btn js-icon-speed" data-speed={t} aria-pressed={t === ICON_SPEED_DEFAULT ? 'true' : 'false'}>{t}s{t === ICON_SPEED_DEFAULT && ' · favorite'}</button>)}
+          </div>
         </header>
         {ICONS.map(v => (
           <div class="mo-row" style={glowVars(v.g)}>
@@ -248,7 +259,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
         </header>
         {FIELD_ROWS.map((r, i) => (
           <div class="mo-row">
-            <p class="mo-row__h"><b>{r.name}</b> <span>{r.note}</span> <code>{r.vals}</code></p>
+            <p class="mo-row__h"><b>{r.name}{r.fav && <span class="mo-fav">Working favorite · {r.fav}</span>}</b> <span>{r.note}</span> <code>{r.vals}</code></p>
             <form class="mo-fm" data-hover={r.hover} data-focus={r.focus} onsubmit="return false">
               <div class="fld"><label class="fld__label" for={`mf-${r.k}-n`}>Full name</label><input class="ctl" id={`mf-${r.k}-n`} type="text" placeholder="Jane Doe" /></div>
               <div class="fld"><label class="fld__label" for={`mf-${r.k}-e`}>Work email</label><input class="ctl" id={`mf-${r.k}-e`} type="email" placeholder="jane@example.org" /></div>
@@ -263,9 +274,8 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <div class="wrap">
         <header class="sec"><h2>Open</h2></header>
         <div class="notes"><div><ul>
-          <li>Form fields: B (moving gray focus line) or C (solid gray line).</li>
-          <li>The button’s white label dips in contrast while the pale stops pass (accepted for now; F’s hue keys hold).</li>
-          <li>Speed: icons 8s per loop (96-unit gradient); button shimmer 6s and 8.7s, color 30s; focus line 6s. <i>Slower</i>: icons 12s; shimmer 9s and 13s; focus line 9s. The diamonds take 16s for the whole spectrum.</li>
+          <li>E and G: the white label dips in contrast while the pale stops pass; the hue keys (H–J) hold.</li>
+          <li>Speed: icons 4s per loop (96-unit gradient); button shimmer 6s and 8.7s, color 30s; focus line 6s. <i>Slower</i>: icons 1.5× the picked speed (6s at 4s); shimmer 9s and 13s; focus line 9s. The diamonds take 16s for the whole spectrum.</li>
           <li>Whether four hues in one row is lively or a kaleidoscope. This round only tries the treatment, not where it belongs.</li>
           <li>Reduced motion: everything here stops and the color stays.</li>
         </ul></div></div>
@@ -287,16 +297,26 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
         range.setAttribute('aria-checked', on);
         mo.dataset.range = on ? 'subtle' : 'normal';
       });
+      // Icon speed: seconds per loop (the speed buttons; ?iconspeed=<s>), × 1.5 when Slower is on.
       const slow = document.querySelector('.js-slow');
+      const speeds = [...document.querySelectorAll('.js-icon-speed')];
+      let iconSpeed = Number(speeds.find(b => b.getAttribute('aria-pressed') === 'true').dataset.speed);
+      const applyIconSpeed = () => {
+        const t = iconSpeed * (mo.classList.contains('is-slow') ? 1.5 : 1);
+        document.querySelectorAll('.mo-defs animateTransform').forEach(a => a.setAttribute('dur', `${t}s`));
+        speeds.forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.speed) === iconSpeed)));
+      };
+      speeds.forEach(b => b.addEventListener('click', () => { iconSpeed = Number(b.dataset.speed); applyIconSpeed(); }));
       slow.addEventListener('click', () => {
         const on = slow.getAttribute('aria-checked') !== 'true';
         slow.setAttribute('aria-checked', on);
         mo.classList.toggle('is-slow', on);
-        document.querySelectorAll('.mo-defs animateTransform').forEach(a => a.setAttribute('dur', on ? '12s' : '8s'));
+        applyIconSpeed();
       });
       // ?pin and ?subtle open the page with those switches on (for screenshots).
       const q = new URLSearchParams(location.search);
       if (q.has('pin')) pin.click();
+      if (speeds.some(b => b.dataset.speed === q.get('iconspeed'))) { iconSpeed = Number(q.get('iconspeed')); applyIconSpeed(); }
       if (q.has('subtle')) range.click();
       // Pointer light (buttons and hover cards): ease toward the pointer each
       // frame, so it trails a little.
@@ -313,6 +333,34 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
           if (!raf) raf = requestAnimationFrame(step);
         });
       });
+      // H and I: where the spectrum loop starts, as a fraction of one loop
+      // (--mo-start; the CSS turns it into a negative delay). Set on each hover,
+      // and once now for Pin hover.
+      const MINUTE = 60000;
+      // J: the secondary button sits half a loop on (opposite on the wheel).
+      const startAt = (mode, btn) => mode === 'random' ? Math.random()
+        : ((Date.now() % MINUTE) / MINUTE + (mode === 'clock-opposite' && !btn.classList.contains('btn--solid') ? 0.5 : 0)) % 1;
+      document.querySelectorAll('[data-start]').forEach(row => {
+        const mode = row.getAttribute('data-start');
+        row.querySelectorAll('.mbtn').forEach(btn => {
+          const set = () => btn.style.setProperty('--mo-start', startAt(mode, btn).toFixed(4));
+          set();
+          btn.addEventListener('mo-start', set);
+        });
+      });
+      // Every button: the color keeps running (.is-flowing) until the fill has
+      // faded out, so mouseout doesn't snap it back to its first frame. A new
+      // start (H–J) only when the button was fully at rest.
+      document.querySelectorAll('.mbtn').forEach(btn => {
+        const fill = btn.querySelector('.mbtn__fill');
+        btn.addEventListener('pointerenter', () => {
+          if (!btn.classList.contains('is-flowing')) btn.dispatchEvent(new Event('mo-start'));
+          btn.classList.add('is-flowing');
+        });
+        fill.addEventListener('transitionend', e => {
+          if (e.propertyName === 'opacity' && getComputedStyle(fill).opacity === '0') btn.classList.remove('is-flowing');
+        });
+      });
       // SMIL ignores prefers-reduced-motion; pause it by hand.
       const rm = matchMedia('(prefers-reduced-motion: reduce)'), defs = document.querySelectorAll('.mo-defs');
       const sync = () => defs.forEach(d => (rm.matches ? d.pauseAnimations() : d.unpauseAnimations()));
@@ -326,17 +374,16 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      "keep" is how much of the key stays: 0% = the neighbor itself, 50% = halfway
      (no palette step sits there; exploration only). Defaults are the working
      favorites; One step subtler moves each one notch quieter.
-       buttons           300–700 → 400–600
        icons             400–600 → halfway
        pointer light     45% toward 300 → 22.5%
        hover-card light  0.2 light, 0.03 dark → half that
      Each mode keeps its own rule, so the two can be tuned apart; for now the
      dark values match light (Bennett reviews in dark and found it too subtle),
      except the hover-card light, where white on a dark card reads far stronger. */
-  .mo { --mo-hl-keep: 55%; --mo-ic-keep: 0%; --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
-  [data-theme="dark"] .mo { --mo-ic-keep: 0%; --mo-green-lo: var(--green-300); --mo-green-hi: var(--green-700); }
-  .mo[data-range="subtle"] { --mo-hl-keep: 77.5%; --mo-ic-keep: 50%; --mo-green-lo: var(--green-400); --mo-green-hi: var(--green-600); }
-  [data-theme="dark"] .mo[data-range="subtle"] { --mo-ic-keep: 50%; --mo-green-lo: var(--green-400); --mo-green-hi: var(--green-600); }
+  .mo { --mo-hl-keep: 55%; --mo-ic-keep: 0% }
+  [data-theme="dark"] .mo { --mo-ic-keep: 0% }
+  .mo[data-range="subtle"] { --mo-hl-keep: 77.5%; --mo-ic-keep: 50% }
+  [data-theme="dark"] .mo[data-range="subtle"] { --mo-ic-keep: 50% }
   .mo { --mo-hl: color-mix(in oklch, var(--green-500) var(--mo-hl-keep), var(--green-300)); }
   .mo-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
@@ -357,6 +404,9 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   .mo-ctl { display: flex; flex-wrap: wrap; gap: var(--spacing-L) var(--spacing-2XL); font-size: 0.9rem;
     padding: var(--spacing-L) var(--spacing-XL); border-radius: var(--radius-md);
     background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .mo-speed { margin-top: var(--spacing-M); align-items: center; }
+  .mo-speed .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
+  .mo-speed .btn[aria-pressed="true"] { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
   .mo-ctl__item { display: inline-flex; align-items: center; gap: var(--spacing-S); cursor: pointer; }
 
   /* ── Buttons ───────────────────────────────────────────────────────
@@ -415,29 +465,18 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   .cicon:not(.cicon--mono) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
 
 
-  /* B · Crossing flows: two big squares of repeating stripes, turned to
-     different angles, each slid exactly one stripe period along its own axis
-     per loop, so it flows one way forever with no seam. Layer 1 is opaque
-     (key ↔ lighter); layer 2 is faint darker stripes over it. */
-  [data-fill="flow"] .mbtn__layer i { width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; }
-  [data-fill="flow"] .mbtn__layer i:nth-child(1) {
-    background: repeating-linear-gradient(90deg, var(--green-500) 0, var(--mo-green-lo) 120px, var(--green-500) 240px);
-    animation: mo-flow-1 calc(9s / var(--mo-speed)) linear infinite;
-  }
-  [data-fill="flow"] .mbtn__layer i:nth-child(2) {
-    background: repeating-linear-gradient(90deg, transparent 0, var(--mo-green-hi) 90px, transparent 180px);
-    opacity: 0.5; animation: mo-flow-2 calc(13s / var(--mo-speed)) linear infinite;
-  }
-  [data-fill="flow"] .mbtn__layer i:nth-child(3) { display: none; }
+  /* The shimmer's motion: big squares of repeating stripes, turned, each slid
+     exactly one stripe period along its own axis per loop, so it flows one way
+     forever with no seam. */
   @keyframes mo-flow-1 { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
   @keyframes mo-flow-2 { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
-  /* E–F · Spectrum: the full OM gradient as one long loop (1200px), starting and
+  /* E–J · Spectrum: the full OM gradient as one long loop (1200px), starting and
      ending on green: green, lime, yellow, gold, orange, red, violet, blue, teal.
      A strip 1500px long and 300px deep, turned and slid 1200px along its axis
-     per loop; it only runs while hovered, so every hover starts on green: the
-     loop's stops begin 150px in, which puts green at the button's center at the
-     start. (A background-position shift did the same but left a seam where the
+     per loop; it only runs while hovered, so every hover starts on green (H–J
+     shift the start, below): the loop's stops begin 150px in, which puts green at
+     the button's center at the start. (A background-position shift did the same but left a seam where the
      1500px image repeats, a hard edge about 10s in.) */
   [data-fill^="spec"] {
     --mo-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
@@ -450,20 +489,23 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
     background: var(--mo-spectrum);
     transform: rotate(20deg) translateX(-600px);
   }
-  [data-fill^="spec"] .mbtn:hover .mbtn__layer i:nth-child(1),
+  [data-fill^="spec"] .mbtn:is(:hover, .is-flowing) .mbtn__layer i:nth-child(1),
   .mo.is-pinned [data-fill^="spec"] .mbtn__layer i:nth-child(1) { animation: mo-spec-1 calc(45s / var(--mo-speed)) linear infinite; }
+  /* H, I · the loop starts --mo-start of the way through (0–1, set by the script). */
+  [data-start] .mbtn:is(:hover, .is-flowing) .mbtn__layer i:nth-child(1),
+  .mo.is-pinned [data-start] .mbtn__layer i:nth-child(1) { animation-delay: calc(var(--mo-start, 0) * -45s / var(--mo-speed)); }
   @keyframes mo-spec-1 { from { transform: rotate(20deg) translateX(-600px); } to { transform: rotate(20deg) translateX(600px); } }
 
-  /* E–F · B's shimmer in grayscale over the spectrum (F: over the hue-key loop,
+  /* E–J · The shimmer in grayscale over the spectrum (H–J: over the hue-key loop,
      --gradient-interactive, set inline as --mo-spectrum): white stripes at 20° (240px,
-     9s at speed 1) and dark stripes at −40° (180px, 13s), faint, in B's motion. */
+     9s at speed 1) and dark stripes at −40° (180px, 13s), faint (white 0.3, dark 0.27). */
   [data-fill^="specb"] .mbtn__layer i:nth-child(2) {
-    display: block; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; opacity: 0.22;
+    display: block; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; opacity: 0.3;
     background: repeating-linear-gradient(90deg, transparent 0, var(--white) 120px, transparent 240px);
     animation: mo-flow-1 calc(9s / var(--mo-speed)) linear infinite;
   }
   [data-fill^="specb"] .mbtn__layer i:nth-child(3) {
-    display: block; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; opacity: 0.2;
+    display: block; width: 900px; height: 900px; left: 50%; top: 50%; margin: -450px 0 0 -450px; opacity: 0.27;
     background: repeating-linear-gradient(90deg, transparent 0, var(--black) 90px, transparent 180px);
     animation: mo-flow-2 calc(13s / var(--mo-speed)) linear infinite;
   }

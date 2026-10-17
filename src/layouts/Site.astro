@@ -91,9 +91,11 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
     </footer>
 
     <script>
-      import { buttonHover, hoverCards } from '../scripts/button-hover';
+      import { buttonHover, hoverCards, fieldLights } from '../scripts/button-hover';
       buttonHover();
       hoverCards();
+      // The round's own fields (.mo-fm) run their own light.
+      fieldLights('.ctl:not(.mo-fm .ctl)');
       document.addEventListener('click', (e: MouseEvent) => {
         if ((e.target as HTMLElement).closest('.js-switch-theme')) {
           const html = document.documentElement;

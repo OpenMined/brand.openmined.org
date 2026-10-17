@@ -4,14 +4,30 @@
  * the ported Base.astro). Switches page and links back to the review notes on
  * the brand site.
  *
+ * Options (a popover above the bar): switches for trying the Color and
+ * interaction round's options on the page. Button hover sets data-btn-hover on
+ * <html> (src/scripts/button-hover.ts, BUTTON_HOVERS); icon speed sets
+ * data-icon-speed (seconds per loop, src/lib/icon-speed.ts; v2/V2Pass.astro reads
+ * it). Picks are remembered in this browser across review pages; ?buttons=<key>
+ * and ?iconspeed=<s> in the URL set them.
+ * More sections can be added to OPTIONS later.
+ *
  * Also points the ported page's own links somewhere sensible: links to a page
  * under review stay in the review (same system); every other site link goes
  * to openmined.org.
  */
 import { PAGES, routeFor, type PageKey, type System } from './reviews';
+import { BUTTON_HOVERS } from '../scripts/button-hover';
+import { ICON_SPEEDS, ICON_SPEED_DEFAULT } from '../lib/icon-speed';
 interface Props { page: PageKey; system: System }
 const { page, system } = Astro.props;
 const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, routeFor(p.key)]));
+// Each section: a URL parameter, the <html> attribute it sets, its choices and
+// the default (the working favorite).
+const OPTIONS = [
+  { param: 'buttons', attr: 'data-btn-hover', label: 'Button hover', def: 'j', choices: BUTTON_HOVERS.map(({ key, label }) => ({ key, label })) },
+  { param: 'iconspeed', attr: 'data-icon-speed', label: 'Icon speed', def: String(ICON_SPEED_DEFAULT), choices: ICON_SPEEDS.map((t) => ({ key: String(t), label: `${t}s per loop` })) },
+];
 ---
 <nav class="rv" aria-label="Page review" data-section="always-dark">
   <a class="rv__home" href={`/page-reviews/#${page}`} title="Review notes on the brand site">Page review</a>
@@ -19,7 +35,48 @@ const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, 
   {PAGES.map((p) => (
     <a class="rv__opt" href={routeFor(p.key)} aria-current={p.key === page ? 'page' : undefined}>{p.label}</a>
   ))}
+  <span class="rv__sep" aria-hidden="true"></span>
+  <button type="button" class="rv__opt rv__btn" popovertarget="rv-options">Options</button>
 </nav>
+<div id="rv-options" class="rv-pop" popover data-section="always-dark" aria-label="Review options">
+  {OPTIONS.map((o) => (
+    <fieldset class="rv-pop__set">
+      <legend>{o.label}</legend>
+      {o.choices.map((c) => (
+        <label class="rv-pop__choice">
+          <input type="radio" name={o.param} value={c.key} data-attr={o.attr} checked={c.key === o.def} />
+          <span>{c.label}{c.key === o.def && <span class="rv-pop__fav"> · working favorite</span>}</span>
+        </label>
+      ))}
+    </fieldset>
+  ))}
+</div>
+
+<script is:inline define:vars={{ OPTIONS }}>
+  // Options: URL parameter, then this browser's last pick, then the default.
+  (() => {
+    const KEY = 'page-review-options';
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch {}
+    const q = new URLSearchParams(location.search);
+    const h = document.documentElement;
+    OPTIONS.forEach((o) => {
+      const keys = o.choices.map((c) => c.key);
+      const pick = [q.get(o.param), saved[o.param]].find((v) => keys.includes(v)) || o.def;
+      h.setAttribute(o.attr, pick);
+      saved[o.param] = pick;
+      document.querySelectorAll(`#rv-options input[name="${o.param}"]`).forEach((r) => {
+        r.checked = r.value === pick;
+        r.addEventListener('change', () => {
+          h.setAttribute(o.attr, r.value);
+          saved[o.param] = r.value;
+          try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch {}
+        });
+      });
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch {}
+  })();
+</script>
 
 <script is:inline define:vars={{ reviewed }}>
   document.querySelectorAll('a[href^="/"]').forEach((a) => {
@@ -49,6 +106,8 @@ const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, 
     font: 500 13px/1 var(--font-primary, sans-serif);
     overflow-x: auto;
   }
+  .rv__btn { border: 0; background: none; font: inherit; cursor: pointer; }
+  .rv__btn:focus-visible { outline: 2px solid var(--accent-key, currentColor); outline-offset: 1px; }
   .rv a { text-decoration: none; background-image: none; white-space: nowrap; }
   .rv__home, .rv__opt {
     padding: 8px 10px;
@@ -62,4 +121,31 @@ const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, 
   .rv__key { padding: 0 8px 0 6px; color: var(--text-muted, var(--text-subtle)); white-space: nowrap; }
   .rv__key kbd { font: inherit; }
   @media (max-width: 560px) { .rv__key { display: none; } }
+
+  /* Options popover: in the top layer, above the bar. */
+  .rv-pop {
+    position: fixed;
+    inset: auto auto 72px 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    width: min(380px, calc(100vw - 32px));
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+    padding: 12px;
+    border: 0;
+    border-radius: var(--radius-lg, var(--border-radius-L));
+    background: var(--surface-raise-2, var(--surface-background-bright));
+    box-shadow: var(--shadow-raise-2, var(--shadow-md));
+    color: var(--text-headline);
+    font: 500 13px/1.35 var(--font-primary, sans-serif);
+  }
+  .rv-pop__set { margin: 0; padding: 0; border: 0; display: grid; gap: 2px; }
+  .rv-pop__set + .rv-pop__set { margin-top: 12px; }
+  .rv-pop legend { padding: 0 8px 6px; color: var(--text-muted, var(--text-subtle)); }
+  .rv-pop__choice { display: flex; gap: 8px; align-items: flex-start; padding: 8px; border-radius: var(--radius-md, var(--border-radius-S)); cursor: pointer; }
+  .rv-pop__choice:hover { background: var(--surface-sunken, var(--surface-foreground-default)); }
+  /* The ported site styles inputs; start from the browser's own radio. */
+  .rv-pop__choice input { all: revert; flex: none; margin: 1px 0 0; accent-color: var(--accent-key, currentColor); }
+  .rv-pop__choice > span { flex: 1; text-align: left; }
+  .rv-pop__fav { color: var(--text-muted, var(--text-subtle)); }
 </style>
