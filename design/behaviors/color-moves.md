@@ -34,8 +34,12 @@ tags: [color, graphics, interface]
 - How much color and motion one piece may carry.
 - Whether filled, glowing marks like the diamonds are a separate kind from stroke icons.
 - Whether a big graphic in a section keeps that section's icons mono.
-- SyftHub's two halves, and colorflow along diagram lines (the ABC page).
+- SyftHub's two halves.
 
 **Settled so far.** Icons have a color mode, with two-tone gradients (a companion per hue); button and link hovers are working favorites (*Green at rest, gradients in motion*, 2026-10-13).
+
+- **Diagram lines** (direction A): a highlight in the line's two-tone companion travels along each colored line, over it at 0.8, so the line shows through; lines that drain to gray carry a highlight that turns gray with them. Rings brighten in their companion, one after another.
+- **Hover cards**: a colorflow in the card's two-tone rises in its lower third (*Hover cards*).
+- Small animated graphics that come and go (hover flows) share one renderer per page (`src/scripts/gl/`); the large brand graphics stay standalone embeds.
 
 **Example.** The pillar diamonds on openmined.org/research. Each is a 22px diamond filled with a strip of the full spectrum that loops back to its first color. The strip is 8 times the diamond's width and slides one strip length every 16s, so each diamond shows about one color family at a time. The three are staggered 30% apart. A copy of the fill sits behind each one, blurred 7px at 0.35 opacity and running the same animation, which makes the glow move too. Under reduced motion they stop, colored.

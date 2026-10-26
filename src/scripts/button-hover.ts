@@ -6,6 +6,7 @@
  * pressed toggles (aria-pressed) and buttons that already draw their own layers
  * (the Color and interaction round's .mbtn). Exploring.
  */
+import { cardTilt } from './card-tilt';
 const LAYER = (k: string, light = false) =>
   `<span class="btn-flow btn-flow--${k}" aria-hidden="true"><i></i><i></i><i></i>${light ? '<b class="btn-flow__light"></b>' : ''}</span>`;
 
@@ -85,7 +86,12 @@ export function fieldLights(selector = '.ctl') {
   document.querySelectorAll<HTMLElement>(selector).forEach(followPointer);
 }
 
-/** Hover cards (components/site/HoverCard.astro): the pointer light. */
+/** Hover cards (components/site/HoverCard.astro): the pointer light (sized to the
+ *  card's width, --cw) and the tilt (src/scripts/card-tilt.ts). */
 export function hoverCards(selector = '.hcard') {
-  document.querySelectorAll<HTMLElement>(selector).forEach(followPointer);
+  document.querySelectorAll<HTMLElement>(selector).forEach((card) => {
+    followPointer(card);
+    cardTilt(card);
+    card.addEventListener('pointerenter', () => card.style.setProperty('--cw', `${card.offsetWidth}px`));
+  });
 }

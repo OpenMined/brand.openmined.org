@@ -2,18 +2,21 @@
 /**
  * HoverCard — a card that is a link: icon left, title and text, arrow right
  * (components/hover-card.md, exploring). On hover or keyboard focus it lifts a
- * level; a soft white light follows the pointer over the card and its content;
- * the icon takes its hue's two-tone gradient, moving (needs <TwoToneDefs /> on the
- * page); the arrow stays mono. The icon top-aligns with the text.
+ * level and tilts away from the pointer; a light follows the pointer (in light
+ * mode the card shades except around it); the icon takes its hue's two-tone
+ * gradient, moving (needs <TwoToneDefs /> on the page); the arrow stays mono; a
+ * colorflow in the card's two-tone fades in across its lower third (wired in
+ * Site.astro). The icon top-aligns with the text.
  */
 import { iconSvg } from '../../lib/icons';
 interface Props {
   href: string; icon: string; hue: string; title: string; text?: string;
-  /** A colorflow in the card's lower third on hover (src/scripts/gl/card-flow.ts):
-   *  a unit name from src/scripts/gl/units/hover-flow.ts. Exploring. */
+  /** The colorflow in the card's lower third on hover (src/scripts/gl/card-flow.ts):
+   *  a unit name from src/scripts/gl/units/hover-flow.ts, 'off' for none.
+   *  Default: the strong-wave ribbon (the working favorite). */
   flow?: string;
 }
-const { href, icon, hue, title, text, flow } = Astro.props;
+const { href, icon, hue, title, text, flow = 'ribbon-wave' } = Astro.props;
 const svg = iconSvg(icon, { size: 32 });
 const ARR = iconSvg('arrow-right', { size: 24 });
 ---

@@ -599,15 +599,23 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .colorway__icons { display: flex; flex-wrap: wrap; gap: var(--spacing-XL); margin-bottom: var(--spacing-M); }
 
 /* ── Hover cards (components/site/HoverCard.astro, components/hover-card.md) ──
-   A level and its shadow; on hover or focus one level up and a 2px lift. A white
-   light follows the pointer over the card and its content (0.2 light, 0.03 dark;
-   the script sets --mx/--my). The icon (32px) top-aligns 8px down; on hover its
+   A level and its shadow; on hover or focus one level up and a 2px lift, and a
+   tilt away from the pointer (src/scripts/card-tilt.ts sets --card-tilt-x/-y; the
+   knobs below). The pointer light: in light mode the card shades except around
+   the pointer (the page's base multiplied in at 0.5, clear within 0.3 of the
+   card's width, full from one width out); in dark a faint white light (0.03).
+   The script sets --mx/--my/--cw. A colorflow fades in across the lower third
+   (src/styles/card-flow.css). The icon (32px) top-aligns 8px down; on hover its
    colored copy (the hue's two-tone, moving) and glow fade in over the mono one.
    The arrow stays mono and nudges right. */
 .hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-L);
   padding: var(--spacing-2XL); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
-  color: var(--text-body); text-decoration: none; transition: box-shadow var(--transition-base), transform var(--transition-base); }
-.hcard:is(:hover, :focus-visible) { box-shadow: var(--shadow-raise-2); transform: translateY(-2px); }
+  color: var(--text-body); text-decoration: none;
+  --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
+  transition: box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base)); }
+.hcard:is(:hover, :focus-visible) { box-shadow: var(--shadow-raise-2);
+  transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg)); }
+@media (prefers-reduced-motion: reduce) { .hcard:is(:hover, :focus-visible) { transform: none; } }
 .hcard__text { flex: 1; display: grid; gap: 2px; font-size: var(--font-size-md); line-height: 1.5; }
 .hcard__text strong { color: var(--text-headline); font-weight: 700; }
 .hcard__arrow { display: flex; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
@@ -621,9 +629,11 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__color { opacity: 1; transition-duration: 0.15s; }
 .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.25; transition-duration: 0.15s; }
 [data-theme="dark"] .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.4; }
-.hcard__light { --hl-o: 0.2; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
+.hcard__light { --hl-o: 0.5; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent calc(var(--cw, 320px) * 0.3), var(--surface-base) var(--cw, 320px)); }
+[data-theme="dark"] .hcard__light { --hl-o: 0.03; mix-blend-mode: normal;
   background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }
-[data-theme="dark"] .hcard__light { --hl-o: 0.03; }
 .hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: 0.15s; }
 .hcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
 @media (max-width: 900px) { .hcards { grid-template-columns: minmax(0, 1fr); } }

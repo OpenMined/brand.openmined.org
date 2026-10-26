@@ -214,10 +214,10 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       <div class="wrap">
         <header class="sec">
           <h2>3 · Hover cards</h2>
-          <p>Hover a card: a soft white light follows the pointer, over the card and its content, so the text and marks pick up the glow too. Always-light cards take the light-mode value in either mode.</p>
+          <p>Hover a card: a soft white light follows the pointer, over the card and its content, so the text and marks pick up the glow too. Always-light cards take the light-mode value in either mode. The working favorite in light mode, and on always-light cards, is a shade instead: the card darkens except around the pointer (the guide’s <a href="/interface/#hover-cards">hover cards</a>; the page reviews’ Options, Card light).</p>
         </header>
         <div class="mo-row">
-          <p class="mo-row__h"><b>Link cards <span class="mo-fav">Working favorite · both modes</span></b> <span>SyftHub’s Quickstart, Installation, Core Concepts. On hover the icon takes its hue’s two-tone (amber, blue, green), the arrow stays mono.</span> <code>white, 480px, over card and content · dark 0.03 · light 0.2</code></p>
+          <p class="mo-row__h"><b>Link cards <span class="mo-fav">Working favorite · dark mode</span></b> <span>SyftHub’s Quickstart, Installation, Core Concepts. On hover the icon takes its hue’s two-tone (amber, blue, green), the arrow stays mono.</span> <code>white, 480px, over card and content · dark 0.03 · light 0.2</code></p>
           <div class="mo-links">
             {LINKS.map(l => (
               <a class="mo-hcard mo-link" href="#cards" onclick="return false">
@@ -230,7 +230,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
           </div>
         </div>
         <div class="mo-row">
-          <p class="mo-row__h"><b>Press cards, always light <span class="mo-fav">Working favorite · both modes</span></b> <span>The home page’s white plates: the light version in either mode.</span> <code>white, 480px, over card and content · 0.2</code></p>
+          <p class="mo-row__h"><b>Press cards, always light</b> <span>The home page’s white plates: the light version in either mode.</span> <code>white, 480px, over card and content · 0.2</code></p>
           <div class="mo-press">
             {PRESS.map(c => (
               <a class="mo-hcard mo-pcard" data-section="always-light" href="#cards" onclick="return false">
@@ -395,11 +395,6 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       const sync = () => defs.forEach(d => (rm.matches ? d.pauseAnimations() : d.unpauseAnimations()));
       sync(); rm.addEventListener('change', sync);
     })();
-  </script>
-  <script>
-    import { cardFlows } from '../../../scripts/gl/card-flow';
-    import { HOVER_FLOWS } from '../../../scripts/gl/units/hover-flow';
-    cardFlows(document.querySelectorAll<HTMLElement>('#flows .hcard'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);
   </script>
 </Site>
 

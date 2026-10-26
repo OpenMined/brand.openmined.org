@@ -93,8 +93,12 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
 
     <script>
       import { buttonHover, hoverCards, fieldLights } from '../scripts/button-hover';
+      import { cardFlows } from '../scripts/gl/card-flow';
+      import { HOVER_FLOWS } from '../scripts/gl/units/hover-flow';
       buttonHover();
       hoverCards();
+      // Hover cards' colorflow: each card names its unit (HoverCard's `flow`).
+      cardFlows(document.querySelectorAll<HTMLElement>('.hcard[data-flow]'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);
       // The round's own fields (.mo-fm) run their own light.
       fieldLights('.ctl:not(.mo-fm .ctl)');
       document.addEventListener('click', (e: MouseEvent) => {
