@@ -39,7 +39,7 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'The federated-network panel is an outline again',
         pages: ['home'],
         rule: 'guidelines/outlines-are-lines',
-        did: 'The live style: a 1px line-strong outline with the page (and the colorflow behind it) showing through; its row rules in the same line. “Start your own federated sub-network” is a hover card below the outline, 8 of 12 columns, its icon taking green on hover.',
+        did: 'The live style: a 1px line-strong outline with the page (and the colorflow behind it) showing through; its row rules in the same line. “Start your own federated sub-network” is a hover card inside the outline, under the three pillars and as wide as them, its text at a 640px measure centered in the card, its icon taking green on hover.',
         open: 'None for now: with the card outside the outline, no fill sits inside an outlined area.',
       },
       {

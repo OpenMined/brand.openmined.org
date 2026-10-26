@@ -38,7 +38,7 @@ html[data-system="v2"] .logo-card {
    style: a 1px line-strong outline over the page, so the colorflow behind
    it shows through (Kyle liked it; Bennett: "used as a line and not a
    container"). Its row rules are drawn in the same line, as live does. Its
-   CTA row now sits below it as a hover card (see below); the outline keeps
+   CTA row is now a hover card inside it (see below); the outline keeps
    the outer corner. */
 html[data-system="v2"] .home-fednet__card {
   background-color: transparent;
@@ -48,30 +48,30 @@ html[data-system="v2"] .home-fednet__card {
 }
 html[data-system="v2"] .home-fednet__row { border-bottom-color: var(--line-strong); }
 html[data-system="v2"] .home-fednet__row:last-child { border-bottom: 0; }
-/* "Start your own federated sub-network": a hover card below the outline, 80px
-   under it (Bennett, Oct 12 afternoon: keep the page background, come to life
-   on hover; replaces the raise-1 band; tried inside the outline 2026-10-13). 8 of
-   the 12 columns, centered, on the section's grid; icon left (colored on hover by
-   V2Pass), text left-aligned, arrow right; no button. A level and its shadow are
-   the edge (cards are a level); the lift and the pointer light come with .card-float. */
-html[data-system="v2"] .home-fednet__subnet-cta { margin-top: calc(2 * var(--spacing-4XL)); }
+/* "Start your own federated sub-network": a hover card inside the outline, in the
+   pillars row under the three pillars and as wide as them (Kyle, 2026-10-26; Bennett,
+   Oct 14), twice the row's padding below it. Its text keeps a 640px measure; icon
+   and text sit centered in the full card width, the arrow at the right edge. Icon
+   left (colored on hover by V2Pass), text left-aligned, no button. A level and its
+   shadow are the edge (cards are a level); the lift and the pointer light come with
+   .card-float. */
 html[data-system="v2"] .home-fednet__cta-card {
   --card-float-shadow: var(--shadow-raise-1);
   --card-float-shadow-hover: var(--shadow-raise-2);
-  grid-column: 3 / span 8;
-  display: flex; align-items: flex-start; gap: var(--spacing-2XL);
+  display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; align-items: start; gap: var(--spacing-2XL);
+  margin-top: calc(2 * var(--spacing-5XL));
   padding: var(--spacing-3XL);
   border-radius: var(--radius-md);
   background-color: var(--surface-raise-1);
   color: var(--text-body); text-align: left; text-decoration: none;
 }
-@media (max-width: 991px) { html[data-system="v2"] .home-fednet__cta-card { grid-column: 1 / -1; } }
-html[data-system="v2"] .home-fednet__cta-icon { display: inline-flex; flex: none; margin-top: var(--spacing-S); color: var(--text-headline); }
-html[data-system="v2"] .home-fednet__cta-text { flex: 1; display: grid; gap: var(--spacing-M); }
+@media (max-width: 991px) { html[data-system="v2"] .home-fednet__cta-card { margin-top: calc(2 * var(--spacing-3XL)); } }
+html[data-system="v2"] .home-fednet__cta-icon { grid-column: 2; display: inline-flex; margin-top: var(--spacing-S); color: var(--text-headline); }
+html[data-system="v2"] .home-fednet__cta-text { grid-column: 3; display: grid; gap: var(--spacing-M); }
 html[data-system="v2"] .home-fednet__cta-heading { margin: 0; color: var(--text-headline); }
 html[data-system="v2"] .home-fednet__cta-body { display: grid; gap: var(--spacing-S); margin: 0; color: var(--text-body); }
 html[data-system="v2"] .home-fednet__cta-body p { margin: 0; }
-html[data-system="v2"] .home-fednet__cta-arrow { flex: none; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
+html[data-system="v2"] .home-fednet__cta-arrow { grid-column: 4; justify-self: end; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
 html[data-system="v2"] .home-fednet__cta-card:is(:hover, :focus-visible) .home-fednet__cta-arrow { opacity: 1; transform: translateX(4px); }
 
 /* ── Sections aren't tinted ─────────────────────────────────────────────

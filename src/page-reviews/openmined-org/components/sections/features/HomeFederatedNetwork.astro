@@ -171,12 +171,30 @@ const pillars = [
               </div>
             ))}
           </div>
+          {/* PORT SEAM (page reviews, v2 pass): "Start your own federated sub-network" as a
+              hover card inside the outline, under the pillars and as wide as them; no
+              button, an icon (colored on hover, v2/V2Pass.astro) and an arrow like the link cards. */}
+          {isV2 && (
+            <a class="home-fednet__cta-card card-float" href="/launch-subnet/" data-hover-hue="green">
+              <span class="icon home-fednet__cta-icon" set:html={iconSvg('network', { size: 32 })} />
+              <span class="home-fednet__cta-text">
+                <Text as="h4" class="home-fednet__cta-heading">Start your own federated sub-network</Text>
+                <span class="home-fednet__cta-body">
+                  <p>Launch a privacy-preserving network for your domain — whether that be in climate, healthcare, finance, or beyond.</p>
+                  <p>The federated AI network provides open-source infrastructure for secure, governed collaboration, where data stays distributed, and insights are derived without compromising ownership or control.</p>
+                </span>
+              </span>
+              <svg class="home-fednet__cta-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          )}
         </div>
       </div>
 
       <!-- ── Row 4: dark CTA ────────────────────────────────────────── -->
-      {/* PORT SEAM (page reviews, v2 pass): on v2 the CTA becomes a hover card below
-          the outline (after the section closes). */}
+      {/* PORT SEAM (page reviews, v2 pass): on v2 the CTA becomes a hover card in the
+          pillars row (above). */}
       {!isV2 && <div class="home-fednet__row home-fednet__row--cta">
         <div class="home-fednet__inner">
           <div class="home-fednet__cta">
@@ -192,26 +210,6 @@ const pillars = [
 
     </div>
 
-    {/* PORT SEAM (page reviews, v2 pass): "Start your own federated sub-network" as a
-        hover card below the outline, 8 of 12 columns, centered; no button, an icon
-        (colored on hover, v2/V2Pass.astro) and an arrow like the link cards. */}
-    {isV2 && (
-      <div class="home-fednet__subnet-cta grid-12">
-        <a class="home-fednet__cta-card card-float" href="/launch-subnet/" data-hover-hue="green">
-          <span class="icon home-fednet__cta-icon" set:html={iconSvg('network', { size: 32 })} />
-          <span class="home-fednet__cta-text">
-            <Text as="h4" class="home-fednet__cta-heading">Start your own federated sub-network</Text>
-            <span class="home-fednet__cta-body">
-              <p>Launch a privacy-preserving network for your domain — whether that be in climate, healthcare, finance, or beyond.</p>
-              <p>The federated AI network provides open-source infrastructure for secure, governed collaboration, where data stays distributed, and insights are derived without compromising ownership or control.</p>
-            </span>
-          </span>
-          <svg class="home-fednet__cta-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-      </div>
-    )}
   </div>
 </section>
 
