@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-26** — Page reviews' Options panel, **Button hover**: new option *K · Full OM gradient from green, secondary from violet* (`?buttons=k`). Primary buttons start the full OM gradient on green, secondary buttons on violet.
 - **2026-10-26** — Page reviews, SyftHub *How It Works*: the operators are **set icons** (`plus`, `arrow-right`, and a new own `equal`, both proposed); → and = take the **animated green two-tone icon treatment**, + stays in the muted text color.
 - **2026-10-26** — Page reviews, SyftHub: **no green product color**. SyftHub keeps the page's normal colors (solid button, solid step badges); Syft Space takes the outlined style (the secondary button, step badges as a line around the number with a line connector).
 - **2026-10-26** — Page reviews' Options panel saves **only a clicked choice**, so a fresh load always shows the working favorites as they change; picks saved before this are dropped.

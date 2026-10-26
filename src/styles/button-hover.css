@@ -17,7 +17,8 @@
    The page reviews' Options panel (src/page-reviews/ReviewBar.astro) can switch
    to the round's other options with data-btn-hover on <html> (BUTTON_HOVERS in
    the script): e and g take the full OM gradient from green, e adds the pointer
-   light; h starts at random, i on the clock with both buttons together. */
+   light; k takes it from green with secondary buttons from violet; h starts at
+   random, i on the clock with both buttons together. */
 .btn.has-flow { position: relative; isolation: isolate; }
 /* Doubled class: outranks the components' own :hover rules without !important. */
 .btn.has-flow.has-flow:is(:hover, :focus-visible) { background-color: transparent; border-color: transparent; color: var(--white); }
@@ -53,8 +54,9 @@
 @keyframes btn-flow-light { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
 @keyframes btn-flow-dark { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
-/* Options e and g: the full OM gradient, starting on green (the start is 0). */
-html:is([data-btn-hover="e"], [data-btn-hover="g"]) .btn-flow {
+/* Options e, g and k: the full OM gradient, starting on green (the start is 0;
+   k's secondary buttons start on violet, a third of the loop on). */
+html:is([data-btn-hover="e"], [data-btn-hover="g"], [data-btn-hover="k"]) .btn-flow {
   --flow-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
   background: var(--gradient-green);
 }

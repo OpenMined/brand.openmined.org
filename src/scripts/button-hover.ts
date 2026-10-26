@@ -16,18 +16,23 @@ export const BUTTON_HOVERS = [
   { key: 'j', label: 'J · Hue keys from the clock, secondary opposite', start: 'clock-opposite' },
   { key: 'i', label: 'I · Hue keys from the clock', start: 'clock' },
   { key: 'h', label: 'H · Hue keys from a random point', start: 'random' },
+  { key: 'k', label: 'K · Full OM gradient from green, secondary from violet', start: 'green-violet' },
   { key: 'g', label: 'G · Full OM gradient from green', start: 'green' },
   { key: 'e', label: 'E · Full OM gradient from green + pointer light', start: 'green' },
 ] as const;
 
 // One turn of the color loop per minute of clock time.
 const MINUTE = 60000;
+// Violet in the full OM gradient's loop: the run from green goes teal, blue, violet,
+// three of its nine steps (400px of 1200).
+const VIOLET = 1 / 3;
 
 /** Where the loop starts, as a fraction of one loop, for the current option. */
 function startFor(solid: boolean) {
   const key = document.documentElement.dataset.btnHover || 'j';
   const start = BUTTON_HOVERS.find((o) => o.key === key)?.start ?? 'clock-opposite';
   if (start === 'green') return 0;
+  if (start === 'green-violet') return solid ? 0 : VIOLET;
   if (start === 'random') return Math.random();
   const clock = (Date.now() % MINUTE) / MINUTE;
   return (clock + (start === 'clock-opposite' && !solid ? 0.5 : 0)) % 1;
