@@ -26,6 +26,8 @@ html[data-system="v2"] .link-card__lead { align-items: flex-start; }
 html[data-system="v2"] .link-card__icon { margin-top: var(--spacing-S); }
 /* Interactive cards: hover moves one level up the shadow ladder. */
 html[data-system="v2"] .link-card:hover { box-shadow: var(--shadow-raise-2); }
+/* Hover cards: top and bottom padding one step up the spacing scale (Kyle, 2026-10-26). */
+html[data-system="v2"] .link-card { padding-block: var(--spacing-4XL); }
 /* Press cards show logos in their own colors, so they're white plates in
    both modes: they're images (guidelines/logo-images-on-white). */
 html[data-system="v2"] .logo-card {
@@ -60,7 +62,7 @@ html[data-system="v2"] .home-fednet__cta-card {
   --card-float-shadow-hover: var(--shadow-raise-2);
   display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; align-items: start; gap: var(--spacing-2XL);
   margin-top: calc(2 * var(--spacing-5XL));
-  padding: var(--spacing-3XL);
+  padding: var(--spacing-4XL) var(--spacing-3XL);
   border-radius: var(--radius-md);
   background-color: var(--surface-raise-1);
   color: var(--text-body); text-align: left; text-decoration: none;

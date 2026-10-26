@@ -609,7 +609,7 @@ textarea.ctl { resize: vertical; min-height: 5em; }
    colored copy (the hue's two-tone, moving) and glow fade in over the mono one.
    The arrow stays mono and nudges right. */
 .hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-L);
-  padding: var(--spacing-2XL); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+  padding: var(--spacing-4XL) var(--spacing-3XL); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-body); text-decoration: none;
   --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
   transition: box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base)); }

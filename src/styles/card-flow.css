@@ -1,10 +1,11 @@
 /* Card colorflow (src/scripts/gl/card-flow.ts): the canvas a hovered card gets,
    across its lower third, behind the card's content and over its surface (the
    card is its own stacking context: position, isolation, overflow hidden). Its
-   top edge fades into the card. In quickly, out at the usual pace. */
+   top edge fades into the card. It sits 5% of the card's height below the bottom
+   edge (the card clips it), so the flow rides lower. In quickly, out at the usual pace. */
 .card-flow {
   --cf-o: 0.55;
-  position: absolute; left: 0; right: 0; bottom: 0; height: 34%;
+  position: absolute; left: 0; right: 0; bottom: -5%; height: 34%;
   z-index: -1; pointer-events: none;
   width: 100%;
   opacity: 0; transition: opacity 0.4s ease;
