@@ -10,6 +10,13 @@
  * the center and thin out toward the ends. (Slices laid end to end showed a
  * hatched seam at every join.)
  *
+ * Two-tone: a path that sets `--flow-tone` (its hue's two-tone companion,
+ * --gradient-two-tone-<hue>-companion) pulses in the companion alone,
+ * transparent → opaque → transparent, drawn over every line in its group:
+ * a highlight of the companion moving along the line. `--flow-tone` is a color or a gradient (`url(#id)`): a line that
+ * drains to gray passes a gradient of its companion shaped like its own.
+ * Lines without it pulse in their own stroke, on top.
+ *
  * Each slice is a shallow clone of its path (same class, style and scoped
  * attribute), so its color follows the mode with the line. Paths are staggered
  * so the pulses never march in step. Offscreen figures stop; reduced motion
@@ -17,9 +24,12 @@
  *
  * Tuning, per path or on any ancestor: data-flow-speed (units per second),
  * data-flow-length (pulse length, units), data-flow-rest (seconds between
- * pulses), data-flow-peak (opacity at the pulse's center).
+ * pulses), data-flow-peak (opacity at the pulse's center; 0.9, or TONE_PEAK
+ * for a companion highlight).
  */
 const SLICES = 16;
+/** Peak opacity of a companion highlight (its own data-flow-peak wins). */
+const TONE_PEAK = 0.8;
 
 type Flow = { slices: SVGPathElement[]; lens: number[]; W: number; period: number; speed: number; phase: number };
 
@@ -37,8 +47,11 @@ export function lineFlow(root: ParentNode = document) {
 
     const flows: Flow[] = paths.map((p, i) => {
       const len = p.getTotalLength();
-      const speed = num(p, 'speed', 36), W = num(p, 'length', 56), rest = num(p, 'rest', 3.5), peak = num(p, 'peak', 0.9);
-      const width = parseFloat(getComputedStyle(p).strokeWidth) + 2;
+      const cs = getComputedStyle(p);
+      const tone = Boolean(cs.getPropertyValue('--flow-tone').trim());
+      // A companion highlight stays semi-transparent over its line.
+      const speed = num(p, 'speed', 36), W = num(p, 'length', 56), rest = num(p, 'rest', 3.5), peak = num(p, 'peak', tone ? TONE_PEAK : 0.9);
+      const width = parseFloat(cs.strokeWidth) + 2;
       // Each dash's own opacity, so all of them stacked reach the peak.
       const a = 1 - (1 - peak) ** (1 / SLICES);
       const lens = Array.from({ length: SLICES }, (_, j) => W * (SLICES - j) / SLICES);
@@ -50,9 +63,13 @@ export function lineFlow(root: ParentNode = document) {
         s.style.strokeWidth = `${width}px`;
         s.style.strokeLinecap = 'butt';
         s.style.strokeDasharray = `${d} ${len + W * 4}`;
+        if (tone) s.style.stroke = 'var(--flow-tone)';
         return s;
       });
-      p.after(...slices);
+      // A companion pulse goes over every flowing line in its group, so no line
+      // drawn later covers it; an own-color pulse sits on its line.
+      if (tone) [...p.parentNode!.querySelectorAll(':scope > path[data-flow]')].at(-1)!.after(...slices);
+      else p.after(...slices);
       // Golden-ratio stagger: neighbors never pulse together.
       const period = (len + W) / speed + rest;
       return { slices, lens, W, period, speed, phase: ((i * 0.618) % 1) * period };

@@ -18,17 +18,14 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { BRANDS, PARTNERS_DIR } from '../../lib/partners';
 import PartnerLogo from '../../components/PartnerLogo.astro';
-import { MODES, HUES, GRADIENT_STOPS, EXTRA_STOPS, hex, target, listStops } from '../../lib/tokens';
+import { MODES, HUES, hex, listStops } from '../../lib/tokens';
 
-const foundation = doc('foundations/gradient');
-const { Content } = foundation;
 const diagrams = doc('patterns/diagrams');
 const DiagramsContent = diagrams.Content;
 const rules = byTag('graphics', 'Guideline', 'Behavior');
 const decisions = decisionsFor('graphics');
-const ref = (name: string) => target('light', `gradient-${name}`)?.replace('-key', '') ?? null;
 
-const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 
 /* Partner marks, from public/logos/partners/partners.json (the source of truth),
@@ -52,33 +49,8 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
 
   <section class="band" id="gradient">
     <div class="wrap">
-      <header class="sec"><h2>Gradient</h2><p>{foundation.description} Family stops are hue keys; gold, orange, lime and yellow are fitted to the palette.</p></header>
-      <article class="card spec-card">
-        <i class="spec__bar" aria-hidden="true"></i>
-        <div class="spec__stops">
-          {GRADIENT_STOPS.map(n => (
-            <span>
-              <i style={`background:var(--gradient-${n})`}></i>
-              <b>{n}</b>
-              {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />{ref(n) ? `${ref(n)} key` : 'fitted'}</code>)}
-            </span>
-          ))}
-        </div>
-        {EXTRA_STOPS.length > 0 && (
-          <div class="spec__extra">
-            <p class="muted">Extra stops, for graphics only: not in the spectrum, used by a graphic's own list.</p>
-            <div class="spec__stops">
-              {EXTRA_STOPS.map((n: string) => (
-                <span>
-                  <i style={`background:var(--gradient-${n})`}></i>
-                  <b>{n}</b>
-                  {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />fitted · exploring</code>)}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </article>
+      <header class="sec"><h2>Gradient</h2><p>Graphics draw from the brand gradient: nine stops from gold to yellow, the extra stops, and each graphic's own list. They're defined on <a href="/color/#gradient">Color</a>.</p></header>
+      <i class="spec__bar" aria-hidden="true"></i>
     </div>
   </section>
 
@@ -170,17 +142,10 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     </div>
   </section>
 
-  <section class="band" id="how">
-    <div class="wrap">
-      <header class="sec"><h2>How it works</h2></header>
-      <div class="prose"><Content /></div>
-    </div>
-  </section>
-
   <section class="band" id="tokens">
     <div class="wrap">
       <header class="sec"><h2>Tokens</h2></header>
-      <TokenTable names={[...foundation.tokens, ...HUES.map(h => `--${h}-key`), ...Array.from({ length: 6 }, (_, i) => `--series-${i + 1}`)]} />
+      <TokenTable names={['--gradient-spectrum', '--gradient-flow', '--gradient-map', ...HUES.map(h => `--${h}-key`), ...Array.from({ length: 6 }, (_, i) => `--series-${i + 1}`)]} />
     </div>
   </section>
 

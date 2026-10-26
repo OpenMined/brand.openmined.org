@@ -3,19 +3,26 @@
  *
  * The working values come from the v2 build via ../_working.ts, which every round reads so
  * the rounds can't disagree.
- * This file adds the one helper only the diagrams need.
+ * This file adds the helpers only the diagrams need.
  */
 export { TOKEN_CSS } from '../_working';
 
-/** The nine gradient stops as CSS values, for spreading along a node column. */
-export const SPEC = Array.from({ length: 9 }, (_, i) => `var(--spec-${i + 1})`);
+/** The two-tone companion of a palette hue. */
+export const tone = (hue: string) => `var(--gradient-two-tone-${hue}-companion)`;
 
-/** A color at position t (0–1) along the gradient, mixed in OKLCH between
- *  its two nearest stops — so a column of nodes walks the brand gradient
- *  without inventing a single value. `from`/`to` pick a sub-range of stops. */
-export function along(t: number, from = 0, to = 8): string {
-  const x = from + t * (to - from), i = Math.min(Math.floor(x), to - 1), f = x - i;
-  if (f < 0.02) return SPEC[i];
-  if (f > 0.98) return SPEC[i + 1];
-  return `color-mix(in oklch, ${SPEC[i]}, ${SPEC[i + 1]} ${Math.round(f * 100)}%)`;
+/** A gradient stop: an offset along the line (0–1), a color, and its opacity. */
+export type Stop = { offset: number; color: string; opacity?: number };
+
+/** Gradient stops for a line that drains to gray from `at` (0–1), and for its
+ *  companion pulse, which turns gray with it. Both are plain SVG gradients
+ *  rendered with the page: no script decides a color. */
+export function drainStops(color: string, tone: string, at: number): { line: Stop[]; tone: Stop[] } {
+  const gray = 'var(--connector)';
+  return {
+    line: [{ offset: 0, color }, { offset: at, color }, { offset: 1, color: gray }],
+    tone: [{ offset: 0, color: tone }, { offset: at, color: tone }, { offset: 1, color: gray }],
+  };
 }
+
+/** A stop's inline style. */
+export const stopStyle = (s: Stop) => `stop-color:${s.color}${s.opacity === undefined ? '' : `;stop-opacity:${s.opacity}`}`;

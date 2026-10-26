@@ -3,8 +3,8 @@ type: Color
 title: The brand gradient
 description: Nine stops from gold to yellow, drawn from the palette itself, so every graphic built on it follows when the palette changes.
 status: working
-tags: [graphics]
-tokens: [--gradient-spectrum, --gradient-flow, --gradient-map, --gradient-magenta, --gradient-gold, --gradient-orange, --gradient-red, --gradient-violet, --gradient-blue, --gradient-teal, --gradient-green, --gradient-lime, --gradient-yellow]
+tags: [color, graphics]
+tokens: [--gradient-spectrum, --gradient-flow, --gradient-map, --gradient-interactive, --gradient-magenta, --gradient-gold, --gradient-orange, --gradient-red, --gradient-violet, --gradient-blue, --gradient-teal, --gradient-green, --gradient-lime, --gradient-yellow]
 ---
 
 The gradient runs **gold, orange, red, violet, blue, teal, green, lime, yellow**, in that order, in every palette.
@@ -17,7 +17,9 @@ The gradient runs **gold, orange, red, violet, blue, teal, green, lime, yellow**
 
 The colorflow (`<om-stream>`), the gradient map (`<om-mesh>`) and the diamond (`<om-diamond>`) are drawn in the gradient.
 
-**Each graphic has its own list.** A graphic takes its colors from a list of its own, not from the spectrum's order: `--gradient-flow` for the colorflow, `--gradient-map` for the gradient map. A list names gradient stops or hue steps, in the order that graphic uses them, so it stays drawn from the palette while it's tuned to the graphic. Lists live in `tools/palette/inputs.json` and are generated as gradient tokens.
+**Each graphic has its own list.** A graphic takes its colors from a list of its own, not from the spectrum's order: `--gradient-flow` for the colorflow, `--gradient-map` for the gradient map. A list names gradient stops or hue steps, in the order that graphic uses them, so it stays drawn from the palette while it's tuned to the graphic. Lists live in `tools/palette/inputs.json` and are generated as gradient tokens. `--gradient-interactive` is the list for color that moves behind a white label (button hover): hue keys only, so the label keeps its contrast.
+
+**Two-tone companions.** A two-tone gradient's companion is a hue or a gradient stop, so graphics such as diagrams can pair a hue with gold, orange or lime. A stop has one value per mode and no steps.
 
 **Extra stops.** A graphic can need a color the spectrum doesn't carry. An extra stop is fitted like gold or orange but stays out of the spectrum, and only a graphic's list uses it. The first is **magenta** (exploring), for the gradient map's left side: v1's rose red and orchid violet blended into it, and v2's red and violet sit too far apart to.
 

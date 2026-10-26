@@ -13,7 +13,7 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import ColorIcon from '../../components/site/ColorIcon.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, TWO_TONE_COMPANION, type Mode } from '../../lib/tokens';
+import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, TWO_TONE_COMPANION, GRADIENT_STOPS, EXTRA_STOPS, GRADIENT_LISTS, listStops, target, type Mode } from '../../lib/tokens';
 
 import HUES_LIGHT from '../../../tokens/light/hues.json';
 import HUES_DARK from '../../../tokens/dark/hues.json';
@@ -56,10 +56,14 @@ const TEXT = ['text-headline', 'text-body', 'text-muted'];
 const LINES = ['line', 'line-strong'];
 const cr = (m: Mode, a: string, b: string) => contrast(hex(m, a), hex(m, b));
 
+/** The brand gradient: its stops, the graphics-only extra stops, and each graphic's own list. */
+const gradient = doc('foundations/gradient');
+const ref = (name: string) => target('light', `gradient-${name}`)?.replace('-key', '') ?? null;
+
 /** Two-tone gradients: one per hue, its companion read from the token's middle stop. */
 const twoTone = doc('foundations/two-tone');
 const TWO_TONE = HUES.map(h => ({ hue: h, token: `--gradient-two-tone-${h}`, companion: TWO_TONE_COMPANION[h] }));
-const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['two-tone', 'Two-tone'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['gradient', 'Gradient'], ['two-tone', 'Two-tone'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="color">
@@ -200,6 +204,53 @@ const ARR = iconSvg('arrow-right');
     </div>
   </section>
 
+  <section class="band" id="gradient">
+    <div class="wrap">
+      <header class="sec"><h2>{gradient.title}</h2><p>{gradient.description} Family stops are hue keys; gold, orange, lime and yellow are fitted to the palette. Status: <b>{gradient.status}</b>.</p></header>
+      <article class="card spec-card">
+        <i class="spec__bar" aria-hidden="true"></i>
+        <div class="spec__stops">
+          {GRADIENT_STOPS.map(n => (
+            <span>
+              <i style={`background:var(--gradient-${n})`}></i>
+              <b>{n}</b>
+              {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />{ref(n) ? `${ref(n)} key` : 'fitted'}</code>)}
+            </span>
+          ))}
+        </div>
+        {EXTRA_STOPS.length > 0 && (
+          <div class="spec__extra">
+            <p class="muted">Extra stops, for graphics only: not in the spectrum, used by a graphic's own list.</p>
+            <div class="spec__stops">
+              {EXTRA_STOPS.map((n: string) => (
+                <span>
+                  <i style={`background:var(--gradient-${n})`}></i>
+                  <b>{n}</b>
+                  {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />fitted · exploring</code>)}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        <div class="tbl-wrap">
+        <table class="tbl tbl--two-tone">
+          <thead><tr><th>List</th><th>Gradient</th><th>Stops</th></tr></thead>
+          <tbody>
+            {GRADIENT_LISTS.map(l => (
+              <tr>
+                <td><code>--gradient-{l.name}</code><br /><span class="muted">{l.status}</span></td>
+                <td><i class="tt-bar" style={`background:var(--gradient-${l.name})`}></i></td>
+                <td class="muted">{listStops(l.name).split(',').map(n => n.replace('gradient-', '').replace('-key', ' key')).join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+        <div class="prose"><gradient.Content /></div>
+      </article>
+    </div>
+  </section>
+
   <section class="band" id="two-tone">
     <div class="wrap">
       <header class="sec"><h2>{twoTone.title}</h2><p>{twoTone.description} Status: <b>{twoTone.status}</b>.</p></header>
@@ -211,7 +262,7 @@ const ARR = iconSvg('arrow-right');
             {TWO_TONE.map(t => (
               <tr>
                 <td><code>{t.token}</code></td>
-                <td><span class="tt-pair"><i class="tt-dot" style={`background:var(--${t.hue}-key)`}></i>{t.hue} + <i class="tt-dot" style={`background:var(--${t.companion}-key)`}></i>{t.companion}</span></td>
+                <td><span class="tt-pair"><i class="tt-dot" style={`background:var(--${t.hue}-key)`}></i>{t.hue} + <i class="tt-dot" style={`background:var(--gradient-two-tone-${t.hue}-companion)`}></i>{t.companion}</span></td>
                 <td><i class="tt-bar" style={`background:var(${t.token})`}></i></td>
                 <td><ColorIcon name="settings" hue={t.hue} size={28} /></td>
               </tr>

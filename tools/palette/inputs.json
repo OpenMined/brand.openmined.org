@@ -411,13 +411,14 @@
       "status": "exploring",
       "companions": {
         "red": "amber",
-        "amber": "red",
-        "green": "teal",
-        "teal": "blue",
-        "blue": "teal",
+        "amber": "gradient.gold",
+        "green": "gradient.lime",
+        "teal": "green",
+        "blue": "violet",
         "violet": "red"
       },
-      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red; blue changed to teal, 2026-10-14); teal and violet are first guesses, not yet seen in use.",
+      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red; blue changed to teal, 2026-10-14); teal and violet are first guesses, not yet seen in use. 2026-10-26 (Kyle): blue takes violet, green takes gradient lime, amber takes gradient gold, teal takes green.",
+      "_companion_values": "A companion is a hue (it takes steps.<mode>.companion) or a gradient stop written gradient.<stop> (gold, orange, lime, yellow, magenta …), which has one value per mode and no steps (Kyle, 2026-10-26: diagrams are graphics, so the graphics colors are fair companions).",
       "steps": {
         "light": { "base": "key", "lighter": "300", "companion": "400", "darker": "500" },
         "dark": { "base": "key", "lighter": "400", "companion": "key", "darker": "600" }

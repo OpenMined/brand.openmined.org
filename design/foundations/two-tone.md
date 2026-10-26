@@ -11,17 +11,19 @@ tokens: [--gradient-two-tone-red, --gradient-two-tone-amber, --gradient-two-tone
 
 **Steps by mode.** Dark: the hue's key, 600, the companion's key, 400. Light: the hue's key (500), 500, the companion's 400, 300. The pale stops widen the range so the motion reads on white; one step lighter throughout read washed out. Set in `tools/palette/inputs.json` (`gradient.two_tone.steps`).
 
-**Companions are chosen, not computed.** The next hue around the wheel isn't always a hue shift: gold to green read as a big color change (Kyle and Bennett, 2026-10-12), so gold takes red. Each companion is set by hand in `tools/palette/inputs.json` (`gradient.two_tone.companions`):
+**Companions are chosen, not computed.** The next hue around the wheel isn't always a hue shift: gold to green read as a big color change (Kyle and Bennett, 2026-10-12), so amber takes the gradient's gold instead. Each companion is set by hand in `tools/palette/inputs.json` (`gradient.two_tone.companions`):
 
 | Hue | Companion |
 | --- | --- |
 | red | amber |
-| amber (gold) | red |
-| green | teal |
-| teal | blue |
-| blue | teal |
+| amber (gold) | gold (gradient stop) |
+| green | lime (gradient stop) |
+| teal | green |
+| blue | violet |
 | violet | red |
 
-Teal's and violet's companions are first guesses, not yet seen in use.
+Violet's companion is a first guess, not yet seen in use.
 
-**In use.** Colored icons (the Color and interaction round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 4× the icon's width (96 units, 4s per loop), so the whole band never sits inside the icon at once. See *Color moves* (`behaviors/color-moves.md`).
+**A companion can be a gradient stop.** Written `gradient.<stop>` (`gradient.gold`, `gradient.lime`, `gradient.magenta` …), it takes that stop's value in each mode, with no step to choose: stops have no 50–950 series. Hues take the companion step above.
+
+**In use.** Colored icons (the Color and interaction round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 4× the icon's width (96 units, 4s per loop), so the whole band never sits inside the icon at once. Diagram lines (direction A): the pulse along a line is its companion alone, `--gradient-two-tone-<hue>-companion`, fading transparent → opaque → transparent, drawn over the lines. Diagram rings (Fig 2's cascade) brighten in their companion (`src/scripts/line-flow.ts`, `--flow-tone`). See *Color moves* (`behaviors/color-moves.md`).

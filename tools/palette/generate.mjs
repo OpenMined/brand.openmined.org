@@ -210,13 +210,24 @@ function gradientFile(mode) {
   const tt = IN.gradient.two_tone, twoTone = {};
   if (tt) {
     const st = tt.steps[mode], meta = { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } };
+    // A companion is a palette hue (takes the mode's companion step) or a gradient
+    // stop, `gradient.<stop>` (its own value per mode; stops have no steps).
+    const stopNames = [...IN.gradient.stops, ...(IN.gradient.extra ?? [])].map(s => s.name);
+    const companionRef = (h, c) => {
+      if (c.startsWith('gradient.')) {
+        if (!stopNames.includes(c.slice(9))) throw new Error(`two_tone: ${h}'s companion ${c} is not a gradient stop (${stopNames.join(', ')})`);
+        return c;
+      }
+      if (!IN.hues[c]) throw new Error(`two_tone: ${h}'s companion ${c} is not a hue (${Object.keys(IN.hues).join(', ')}) or gradient.<stop>`);
+      return `${c}.${st.companion}`;
+    };
     for (const [h, c] of Object.entries(tt.companions)) {
-      const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: `${c}.${st.companion}`, darker: `${h}.${st.darker}` };
+      const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: companionRef(h, c), darker: `${h}.${st.darker}` };
       for (const [role, ref] of Object.entries(refs))
         twoTone[`two-tone-${h}-${role}`] = { $type: 'color', $value: `{${ref}}`, $description: `Two-tone ${h}, ${role} stop (${ref}).`, $extensions: meta };
       const order = ['base', 'darker', 'companion', 'lighter', 'base'];
       twoTone[`two-tone-${h}`] = { $type: 'gradient', $value: order.map((r, i) => ({ color: `{gradient.two-tone-${h}-${r}}`, position: r4(i / (order.length - 1)) })),
-        $description: `Two-tone ${h}: its own steps, with ${c} passing through once.`, $extensions: meta };
+        $description: `Two-tone ${h}: its own steps, with ${c.replace('gradient.', '')} passing through once.`, $extensions: meta };
     }
   }
   return {

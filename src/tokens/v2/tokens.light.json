@@ -937,8 +937,8 @@
     "status": "exploring"
   },
   "--gradient-two-tone-amber-companion": {
-    "value": "var(--red-400)",
-    "resolved": "#e36d70",
+    "value": "var(--gradient-gold)",
+    "resolved": "#f6c97b",
     "type": "color",
     "status": "exploring"
   },
@@ -950,7 +950,7 @@
   },
   "--gradient-two-tone-amber": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-amber-base) 0%, var(--gradient-two-tone-amber-darker) 25%, var(--gradient-two-tone-amber-companion) 50%, var(--gradient-two-tone-amber-lighter) 75%, var(--gradient-two-tone-amber-base) 100%)",
-    "resolved": "linear-gradient(90deg, #bd7200 0%, #bd7200 25%, #e36d70 50%, #edaf71 75%, #bd7200 100%)",
+    "resolved": "linear-gradient(90deg, #bd7200 0%, #bd7200 25%, #f6c97b 50%, #edaf71 75%, #bd7200 100%)",
     "type": "gradient",
     "status": "exploring"
   },
@@ -967,8 +967,8 @@
     "status": "exploring"
   },
   "--gradient-two-tone-green-companion": {
-    "value": "var(--teal-400)",
-    "resolved": "#45a8c2",
+    "value": "var(--gradient-lime)",
+    "resolved": "#a9e18b",
     "type": "color",
     "status": "exploring"
   },
@@ -980,7 +980,7 @@
   },
   "--gradient-two-tone-green": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-green-base) 0%, var(--gradient-two-tone-green-darker) 25%, var(--gradient-two-tone-green-companion) 50%, var(--gradient-two-tone-green-lighter) 75%, var(--gradient-two-tone-green-base) 100%)",
-    "resolved": "linear-gradient(90deg, #0f946b 0%, #0f946b 25%, #45a8c2 50%, #86d0b0 75%, #0f946b 100%)",
+    "resolved": "linear-gradient(90deg, #0f946b 0%, #0f946b 25%, #a9e18b 50%, #86d0b0 75%, #0f946b 100%)",
     "type": "gradient",
     "status": "exploring"
   },
@@ -997,8 +997,8 @@
     "status": "exploring"
   },
   "--gradient-two-tone-teal-companion": {
-    "value": "var(--blue-400)",
-    "resolved": "#6092e7",
+    "value": "var(--green-400)",
+    "resolved": "#56b28c",
     "type": "color",
     "status": "exploring"
   },
@@ -1010,7 +1010,7 @@
   },
   "--gradient-two-tone-teal": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-teal-base) 0%, var(--gradient-two-tone-teal-darker) 25%, var(--gradient-two-tone-teal-companion) 50%, var(--gradient-two-tone-teal-lighter) 75%, var(--gradient-two-tone-teal-base) 100%)",
-    "resolved": "linear-gradient(90deg, #00859f 0%, #00859f 25%, #6092e7 50%, #7dcbe1 75%, #00859f 100%)",
+    "resolved": "linear-gradient(90deg, #00859f 0%, #00859f 25%, #56b28c 50%, #7dcbe1 75%, #00859f 100%)",
     "type": "gradient",
     "status": "exploring"
   },
@@ -1027,8 +1027,8 @@
     "status": "exploring"
   },
   "--gradient-two-tone-blue-companion": {
-    "value": "var(--teal-400)",
-    "resolved": "#45a8c2",
+    "value": "var(--violet-400)",
+    "resolved": "#9f7cdb",
     "type": "color",
     "status": "exploring"
   },
@@ -1040,7 +1040,7 @@
   },
   "--gradient-two-tone-blue": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-blue-base) 0%, var(--gradient-two-tone-blue-darker) 25%, var(--gradient-two-tone-blue-companion) 50%, var(--gradient-two-tone-blue-lighter) 75%, var(--gradient-two-tone-blue-base) 100%)",
-    "resolved": "linear-gradient(90deg, #2b67c9 0%, #2b67c9 25%, #45a8c2 50%, #98bfff 75%, #2b67c9 100%)",
+    "resolved": "linear-gradient(90deg, #2b67c9 0%, #2b67c9 25%, #9f7cdb 50%, #98bfff 75%, #2b67c9 100%)",
     "type": "gradient",
     "status": "exploring"
   },

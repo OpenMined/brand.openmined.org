@@ -18,9 +18,14 @@ export const EXTRA_STOPS = (INPUTS.gradient as any).extra?.map((s: { name: strin
  *  in order — what an embed's data-follow attribute takes. */
 export const listStops = (name: string) =>
   [...tok('light', `gradient-${name}`).value.matchAll(/var\(--([\w-]+)\)/g)].map(m => m[1]).join(',');
+/** Each graphic's own list (inputs gradient.lists): name and status. */
+export const GRADIENT_LISTS = Object.entries((INPUTS.gradient as any).lists as Record<string, { status?: string }>)
+  .map(([name, l]) => ({ name, status: l.status ?? 'exploring' }));
 export const SAT = INPUTS.saturation as { light: number; dark: number };
-/** Two-tone gradients: each hue's chosen companion, and its stops as mode-aware tokens. */
-export const TWO_TONE_COMPANION = (INPUTS.gradient as any).two_tone.companions as Record<string, string>;
+/** Two-tone gradients: each hue's chosen companion, and its stops as mode-aware tokens.
+ *  For labels, a gradient-stop companion (`gradient.gold`) shows as its stop name. */
+export const TWO_TONE_COMPANION = Object.fromEntries(Object.entries((INPUTS.gradient as any).two_tone.companions as Record<string, string>)
+  .map(([h, c]) => [h, c.replace(/^gradient\./, '')])) as Record<string, string>;
 export const twoToneStops = (h: string) => ['base', 'darker', 'companion', 'lighter', 'base'].map(r => `gradient-two-tone-${h}-${r}`);
 
 type Entry = { value: string; resolved: string; type: string; status?: string };

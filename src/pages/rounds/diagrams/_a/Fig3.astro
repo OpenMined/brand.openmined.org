@@ -9,6 +9,7 @@
  * student intact, and the student's ring says which sources answered.
  */
 import { spread, hcurve } from '../_geo';
+import { tone } from '../_tokens';
 
 const GROUPS = [
   { label: ['Peer-reviewed', 'journals'], hue: 'teal' },
@@ -20,6 +21,8 @@ const PER = 4, XS = 122, CY = 190, XU = 398;
 const Y = spread(GROUPS.length * PER, 40, 340);
 const G = (i: number) => GROUPS[Math.floor(i / PER)];
 const col = (i: number) => `var(--${G(i).hue}-key)`;
+// A line's pulse carries its hue's two-tone companion.
+const flow = (i: number) => `stroke:${col(i)};--flow-tone:${tone(G(i).hue)}`;
 const mid = (g: number) => (Y[g * PER] + Y[g * PER + PER - 1]) / 2;
 // The zone where attribution is erased
 const ZX = 226, ZR = 48;
@@ -47,7 +50,7 @@ const AI1 = 300, AI2 = 350, R = 17;
         ))}
 
         <g mask="url(#a3-outside)">
-          {Y.map((y, i) => <path d={hcurve(XS, y, ZX, CY, 0.55)} style={`stroke:${col(i)}`} class="line-src" data-flow />)}
+          {Y.map((y, i) => <path d={hcurve(XS, y, ZX, CY, 0.55)} style={flow(i)} class="line-src" data-flow />)}
         </g>
         <g clip-path="url(#a3-inside)">
           <circle cx={ZX} cy={CY} r={ZR} class="zone-bg" />
@@ -95,7 +98,7 @@ const AI1 = 300, AI2 = 350, R = 17;
         ))}
 
         {Y.map((y, i) => i >= PER && <path d={hcurve(XS, y, XU - 14, CY, 0.6)} style={`stroke:${col(i)}`} class="line-idle" />)}
-        {Y.map((y, i) => i < PER && <path d={hcurve(XS, y, XU - 14, CY, 0.6)} style={`stroke:${col(i)}`} class="line-kept" data-flow />)}
+        {Y.map((y, i) => i < PER && <path d={hcurve(XS, y, XU - 14, CY, 0.6)} style={flow(i)} class="line-kept" data-flow />)}
         {Y.map((y, i) => <circle cx={XS} cy={y} r="4.5" style={`fill:${col(i)}`} class={i < PER ? '' : 'idle'} />)}
 
         <circle cx={XU} cy={CY} r="10" class="ring" style="stroke:var(--teal-key)" />
