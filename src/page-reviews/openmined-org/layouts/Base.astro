@@ -246,14 +246,29 @@ const review = (Astro.locals as any).review as { page: 'home' | 'syfthub'; syste
           // Pointer position within the card, -1 (left/top) … 1 (right/bottom).
           const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
           const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
-          const max = parseFloat(getComputedStyle(card).getPropertyValue('--card-tilt-max')) || 0;
+          const cs = getComputedStyle(card);
+          const max = parseFloat(cs.getPropertyValue('--card-tilt-max')) || 0;
           if (!max) return; // --card-tilt-max: 0deg — lift only, tilt opted out
+
+          // PORT: the tilt is set as a distortion, not an angle, so cards of any
+          // size read alike. At full pointer travel the near edge looks
+          // --card-tilt-keystone % longer than the far edge on a 320px card; the
+          // target eases off as cards grow (× (size / 320) ^ --card-tilt-falloff,
+          // size = the longer side), since a large card's same percentage covers
+          // more pixels. Each axis then takes the angle that gives that keystone
+          // at its own length under the fixed perspective, so a wide card rocks
+          // as much up-down as left-right. --card-tilt-max caps thin cards.
+          const persp = parseFloat(cs.getPropertyValue('--card-tilt-perspective')) || 1000;
+          const k = ((parseFloat(cs.getPropertyValue('--card-tilt-keystone')) || 0) / 100) *
+            (Math.max(r.width, r.height) / 320) ** (parseFloat(cs.getPropertyValue('--card-tilt-falloff')) || 0);
+          // Edges at ±len/2 under rotation a: keystone = len·sin a / (persp − len/2·sin a).
+          const angle = (len: number) => Math.min(max, (Math.asin(Math.min(1, (2 * k * persp) / (len * (2 + k)))) * 180) / Math.PI);
 
           // Signs make the card press AWAY under the cursor: rotateY(+) sends the
           // right edge back, rotateX(+) brings the bottom forward. Negate both to
           // flip it to leaning toward the pointer instead.
-          card.style.setProperty('--card-tilt-y', `${(nx * max).toFixed(2)}deg`);
-          card.style.setProperty('--card-tilt-x', `${(-ny * max).toFixed(2)}deg`);
+          card.style.setProperty('--card-tilt-y', `${(nx * angle(r.width)).toFixed(2)}deg`);
+          card.style.setProperty('--card-tilt-x', `${(-ny * angle(r.height)).toFixed(2)}deg`);
           // Swap the transition to the fast track only while actually tracking.
           card.style.setProperty('--card-tilt-transition', 'var(--card-tilt-track)');
         };

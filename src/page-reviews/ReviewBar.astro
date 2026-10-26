@@ -9,7 +9,10 @@
  * <html> (src/scripts/button-hover.ts, BUTTON_HOVERS); icon speed sets
  * data-icon-speed (seconds per loop, src/lib/icon-speed.ts; v2/V2Pass.astro reads
  * it). Picks are remembered in this browser across review pages; ?buttons=<key>
- * and ?iconspeed=<s> in the URL set them.
+ * and ?iconspeed=<s> in the URL set them. Card light sets data-card-light
+ * (v2/motion.css; ?cardlight=light|shade). Card colorflow sets data-card-flow
+ * (src/scripts/gl/card-flow.ts; ?cardflow=off|ribbon|ribbon-wave), and its speed
+ * data-flow-speed (?flowspeed=1|2).
  * More sections can be added to OPTIONS later.
  *
  * Also points the ported page's own links somewhere sensible: links to a page
@@ -27,6 +30,19 @@ const reviewed = Object.fromEntries(PAGES.map((p) => [new URL(p.live).pathname, 
 const OPTIONS = [
   { param: 'buttons', attr: 'data-btn-hover', label: 'Button hover', def: 'j', choices: BUTTON_HOVERS.map(({ key, label }) => ({ key, label })) },
   { param: 'iconspeed', attr: 'data-icon-speed', label: 'Icon speed', def: String(ICON_SPEED_DEFAULT), choices: ICON_SPEEDS.map((t) => ({ key: String(t), label: `${t}s per loop` })) },
+  { param: 'cardflow', attr: 'data-card-flow', label: 'Card colorflow', def: 'ribbon-wave', choices: [
+    { key: 'off', label: 'None' },
+    { key: 'ribbon', label: 'Ribbon, mild wave' },
+    { key: 'ribbon-wave', label: 'Ribbon, strong wave' },
+  ] },
+  { param: 'flowspeed', attr: 'data-flow-speed', label: 'Card colorflow speed', def: '1', choices: [
+    { key: '1', label: '1× (the flow’s own pace)' },
+    { key: '2', label: '2× (twice as fast)' },
+  ] },
+  { param: 'cardlight', attr: 'data-card-light', label: 'Card light (light mode)', def: 'light', choices: [
+    { key: 'light', label: 'White light at the pointer' },
+    { key: 'shade', label: 'Shade away from the pointer, clear at it' },
+  ] },
 ];
 ---
 <nav class="rv" aria-label="Page review" data-section="always-dark">

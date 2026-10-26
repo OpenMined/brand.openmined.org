@@ -7,12 +7,17 @@
  * page); the arrow stays mono. The icon top-aligns with the text.
  */
 import { iconSvg } from '../../lib/icons';
-interface Props { href: string; icon: string; hue: string; title: string; text?: string }
-const { href, icon, hue, title, text } = Astro.props;
+interface Props {
+  href: string; icon: string; hue: string; title: string; text?: string;
+  /** A colorflow in the card's lower third on hover (src/scripts/gl/card-flow.ts):
+   *  a unit name from src/scripts/gl/units/hover-flow.ts. Exploring. */
+  flow?: string;
+}
+const { href, icon, hue, title, text, flow } = Astro.props;
 const svg = iconSvg(icon, { size: 32 });
 const ARR = iconSvg('arrow-right', { size: 24 });
 ---
-<a class="hcard" href={href}>
+<a class="hcard" href={href} data-hover-hue={hue} data-flow={flow}>
   <span class="hcard__icon" style={`--ci-stroke:url(#tt-${hue})`} aria-hidden="true">
     <span class="hcard__glow" set:html={svg} /><Fragment set:html={svg} /><span class="hcard__color" set:html={svg} />
   </span>

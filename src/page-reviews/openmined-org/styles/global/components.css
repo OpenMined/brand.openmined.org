@@ -33,8 +33,10 @@
      --card-float-shadow-hover  raised    (default: --shadow-md)
      --card-float-lift          travel    (default: -2px)
      --card-float-scale         swell     (default: 1.005; set to 1 to disable)
-     --card-tilt-max            tilt      (default: 3deg; set to 0deg to disable)
-     --card-tilt-perspective    depth     (default: 1000px — lower = stronger)
+     --card-tilt-keystone       tilt      (default: 1.1 — % the near edge outgrows the far one, on a 320px card)
+     --card-tilt-falloff        tilt      (default: -0.3 — how the keystone eases on larger cards; 0 = same %)
+     --card-tilt-max            ceiling   (default: 6deg, for thin cards; set to 0deg to disable the tilt)
+     --card-tilt-perspective    depth     (default: 1000px)
      --card-tilt-track          tracking  (default: 90ms linear)
 
    The rule is one step up the shadow scale, so both card families read as the
@@ -60,17 +62,24 @@
    `:hover` — hold it across the settle (`transition: z-index 0s linear <dur>`)
    or the flicker comes back with it.
 
-   The tilt keeps that headroom: at 3deg and 1000px perspective a 420px card's
-   near edge projects ~2px wider per side, still inside the 20px gutter. Raising
-   --card-tilt-max or dropping --card-tilt-perspective far enough to overlap runs
+   The tilt keeps that headroom: at a 1.1% keystone a card's near edge projects
+   under 1% wider per side (~2px on a 420px card), still inside the 20px gutter.
+   Raising --card-tilt-keystone far enough to overlap runs
    into the same non-animatable z-index trap above. */
 .card-float {
   /* Tilt knobs. Declared (not fallback-only) because the tilt script READS
      --card-tilt-max off the computed style — a value that lives only in a
      var() fallback is invisible to getComputedStyle. Set --card-tilt-max: 0deg
      on a card or a page to keep the lift but opt out of the tilt. */
-  --card-tilt-max: 3deg;
   --card-tilt-track: 90ms linear;
+  /* PORT: the tilt is a distortion, not an angle (see the script in Base.astro):
+     one setting for every card size. Fitted at 1.6 (the ~320px logo cards at
+     their original 3deg, the 860px sub-network card where it was tuned by eye),
+     then tuned down to 1.1 (Kyle, 2026-10-26). The ceiling only holds thin cards back. */
+  --card-tilt-keystone: 1.1;
+  --card-tilt-falloff: -0.3;
+  --card-tilt-max: 6deg;
+  --card-tilt-perspective: 1000px;
 
   box-shadow: var(--card-float-shadow, none);
   /* Two speeds, one property. While the pointer is inside a card the script sets
@@ -87,7 +96,7 @@
      angling along the tilted plane. The tilt vars sit at 0deg unless the script
      is driving them, so every non-pointer path keeps exactly the lift + swell +
      shadow this had before the tilt landed. */
-  transform: perspective(var(--card-tilt-perspective, 1000px))
+  transform: perspective(var(--card-tilt-perspective))
              translateY(var(--card-float-lift, -2px))
              rotateX(var(--card-tilt-x, 0deg))
              rotateY(var(--card-tilt-y, 0deg))

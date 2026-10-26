@@ -11,6 +11,8 @@
  *    marked data-icon-hue="<hue>" with that hue; hover cards' icons color on the
  *    card's hover (the card's data-hover-hue, or the next of a set order).
  *    Form fields (the round's option C): the pointer light follows the pointer.
+ *  - Card colorflow (src/scripts/gl/card-flow.ts): hover cards with a hue fade in
+ *    a small colorflow in their two-tone, in the structure picked in Options.
  */
 import { listStops, twoToneStops } from '../../lib/tokens';
 const stops = listStops('map');
@@ -39,8 +41,18 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
 </script>
 <script>
   import { buttonHover } from '../../scripts/button-hover';
+  import { cardFlows } from '../../scripts/gl/card-flow';
+  import { HOVER_FLOWS } from '../../scripts/gl/units/hover-flow';
   // Only on v2 routes (the port's seams can render it elsewhere).
-  if (document.documentElement.dataset.system === 'v2') buttonHover();
+  if (document.documentElement.dataset.system === 'v2') {
+    buttonHover();
+    // Card colorflow: hover cards with a hue (data-hover-hue, set with their icon
+    // below) fade in a colorflow in its two-tone. The structure is the review
+    // Options panel's pick (data-card-flow on <html>), and its speed
+    // (data-flow-speed), read on each hover.
+    const h = document.documentElement;
+    cardFlows(document.querySelectorAll('.card-float'), () => HOVER_FLOWS[h.dataset.cardFlow ?? ''] ?? null, () => Number(h.dataset.flowSpeed) || 1);
+  }
 </script>
 <script is:inline define:vars={{ twoTone }}>
   (() => {
@@ -65,6 +77,8 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       card.classList.add('has-light');
       card.insertAdjacentHTML('beforeend', '<span class="card-light" aria-hidden="true"></span>');
       follow(card);
+      // The card's width, for lights sized to the card (motion.css, Card light: shade).
+      card.addEventListener('pointerenter', () => card.style.setProperty('--cw', `${card.offsetWidth}px`));
     });
 
     // Icons in a set hue: the hue's two-tone gradient token (its companion set per
@@ -78,11 +92,14 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
     document.querySelectorAll('[data-icon-hue]').forEach((el) => targets.push([el, el.dataset.iconHue]));
     // Hover cards with an icon: colored only on hover. The card may name its hue
     // (data-hover-hue on the card); otherwise the next of HOVER, in page order.
+    // The pick is written back to the card, for its colorflow (below).
     const HOVER = ['amber', 'blue', 'green', 'teal', 'violet', 'red'];
     const hoverIcons = [];
     document.querySelectorAll('.card-float').forEach((card) => {
       const el = card.querySelector('span.icon');
-      if (el && el.querySelector('svg')) hoverIcons.push([el, card.dataset.hoverHue || HOVER[hoverIcons.length % HOVER.length]]);
+      if (!el || !el.querySelector('svg')) return;
+      card.dataset.hoverHue ||= HOVER[hoverIcons.length % HOVER.length];
+      hoverIcons.push([el, card.dataset.hoverHue]);
     });
     if (!targets.length && !hoverIcons.length) return;
     // Stops 1 and 3 (the lighter and darker shades) mix back toward the base by --ci-keep

@@ -15,6 +15,8 @@
  */
 import { ICON_SPEEDS, ICON_SPEED_DEFAULT } from '../../../lib/icon-speed';
 import Site from '../../../layouts/Site.astro';
+import HoverCard from '../../../components/site/HoverCard.astro';
+import TwoToneDefs from '../../../components/site/TwoToneDefs.astro';
 import { iconSvg, liveToSet } from '../../../lib/icons';
 import { twoToneStops, TWO_TONE_COMPANION, listStops } from '../../../lib/tokens';
 
@@ -77,6 +79,12 @@ const PRESS = [
   { org: 'Partner three', title: 'Federated learning in practice' },
 ];
 const ARROW = iconSvg('arrow-right', { size: 24 });
+// Card colorflow: three structures for the flow a hover card fades in across its
+// lower third (src/scripts/gl/units/hover-flow.ts), in the card's two-tone.
+const FLOWS = [
+  { k: 'ribbon', name: 'Ribbon, mild wave', note: 'A thick soft band near the bottom edge, mostly its top half showing, shaped as one mild sine wave across the card at any size (0.13 of the strip’s height) with small ripples on top; its color moves along it through the hue’s two-tone: base, darker, companion, lighter.' },
+  { k: 'ribbon-wave', name: 'Ribbon, strong wave', fav: true, note: 'A thick soft band near the bottom edge, mostly its top half showing, shaped as one sine wave across the card at any size, twice as tall (0.26 of the strip’s height) so the curve reads plainly, with small ripples on top; its color moves along it through the hue’s two-tone.' },
+];
 /** Form fields: a pointer light inside the field on hover; a gray line on focus. */
 const FIELD_ROWS: { k: string; name: string; note: string; hover?: string; focus?: string; vals: string; fav?: string }[] = [
   { k: 'a', name: 'A · Before', note: 'No change on hover; on focus the inset deepens. Click a field to focus it.', vals: '--shadow-sunken' },
@@ -236,6 +244,27 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       </div>
     </section>
 
+    <section class="band" id="flows">
+      <div class="wrap">
+        <header class="sec">
+          <h2>3b · Card colorflow</h2>
+          <p>Hover a card: a small colorflow fades in across its lower third, behind the text, in the card’s hue and its two-tone companion. One WebGL context draws every flow on the page; a card’s flow is made on hover and removed after it fades. Reduced motion shows a still frame. Two wave heights, each on three cards and one wide card.</p>
+        </header>
+        {FLOWS.map(f => (
+          <div class="mo-row">
+            <p class="mo-row__h"><b>{f.name}{f.fav && <span class="mo-fav">Working favorite · both modes</span>}</b> <span>{f.note}</span> <code>lower third · 0.55 light, 0.45 dark · two-tone stops</code></p>
+            <div class="hcards">
+              {CARDS.slice(0, 3).map(c => <HoverCard href="#flows" icon={liveToSet(c.live) ?? c.live} hue={c.hue} title={c.title} text={c.body} flow={f.k} />)}
+            </div>
+            <div class="mo-flow-wide">
+              <HoverCard href="#flows" icon="network" hue={CARDS[3].hue} title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that be in climate, healthcare, finance, or beyond." flow={f.k} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <TwoToneDefs />
+    </section>
+
     <section class="band" id="links">
       <div class="wrap">
         <header class="sec">
@@ -367,6 +396,11 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
       sync(); rm.addEventListener('change', sync);
     })();
   </script>
+  <script>
+    import { cardFlows } from '../../../scripts/gl/card-flow';
+    import { HOVER_FLOWS } from '../../../scripts/gl/units/hover-flow';
+    cardFlows(document.querySelectorAll<HTMLElement>('#flows .hcard'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);
+  </script>
 </Site>
 
 <style is:global>
@@ -443,6 +477,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      the line. All three stroke with the hue's moving gradient, so the glow
      moves with the line. Cards as the page reviews' v2 pass draws them. */
   .mo-row { display: grid; gap: var(--spacing-M); }
+  .mo-flow-wide { max-width: 860px; }
   .mo-row + .mo-row { margin-top: var(--spacing-2XL); }
   .mo-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-XL); }
   @media (max-width: 1000px) { .mo-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
