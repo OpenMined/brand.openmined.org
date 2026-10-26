@@ -32,13 +32,15 @@ interface Props {
   connector?: boolean;
   /** Accent color for number badges. 'green' uses --color-green-600. */
   accent?: 'green';
+  /** PORT SEAM (page reviews, v2 pass): outlined number badges (v2/pass.css). */
+  outline?: boolean;
 }
-const { steps, start = 1, as = 'h5', connector = false, accent } = Astro.props;
+const { steps, start = 1, as = 'h5', connector = false, accent, outline = false } = Astro.props;
 const TitleTag = as;
 ---
 
 <ol
-  class:list={['step-list', { 'step-list--connector': connector, 'step-list--accent-green': accent === 'green' }]}
+  class:list={['step-list', { 'step-list--connector': connector, 'step-list--accent-green': accent === 'green', 'step-list--outline': outline }]}
   style={start !== 1 ? `--step-start:${start}` : undefined}
 >
   {steps.map((step: Step, i: number) => (

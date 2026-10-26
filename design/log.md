@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-26** — Page reviews, SyftHub *How It Works*: the operators are **set icons** (`plus`, `arrow-right`, and a new own `equal`, both proposed); → and = take the **animated green two-tone icon treatment**, + stays in the muted text color.
+- **2026-10-26** — Page reviews, SyftHub: **no green product color**. SyftHub keeps the page's normal colors (solid button, solid step badges); Syft Space takes the outlined style (the secondary button, step badges as a line around the number with a line connector).
 - **2026-10-26** — Page reviews' Options panel saves **only a clicked choice**, so a fresh load always shows the working favorites as they change; picks saved before this are dropped.
 - **2026-10-26** — Page reviews, home: *Start your own federated sub-network* is a hover card **inside the section's outline**, under the three pillars and as wide as them, twice the row's padding above it (96px) and the padding (48px) below; its text keeps a 640px measure, icon and text centered in the full card width, the arrow at the right edge.
 - **2026-10-26** — Guideline *Violet and blue never tell things apart* is scoped to **color as a label**: where color is a flourish (a spectrum like Fig 1's five groups, a two-tone gradient), violet and blue may sit side by side.

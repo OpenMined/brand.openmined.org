@@ -109,6 +109,12 @@
       "style": "line",
       "status": "proposed"
     },
+    "equal": {
+      "src": "own",
+      "style": "line",
+      "status": "proposed",
+      "note": "Flow operator (SyftHub How It Works), next to plus and arrow-right"
+    },
     "eye": {
       "src": "iconoir",
       "style": "line",
@@ -223,6 +229,12 @@
       "src": "iconoir",
       "style": "line",
       "status": "proposed"
+    },
+    "plus": {
+      "src": "iconoir",
+      "style": "line",
+      "status": "proposed",
+      "note": "Flow operator (SyftHub How It Works), next to equal and arrow-right"
     },
     "profile-circle": {
       "src": "iconoir",

@@ -13,6 +13,10 @@ import StepList from '../components/elements/StepList.astro';
 import Icon from '../components/elements/Icon.astro';
 import Button from '../components/ui/Button.astro';
 
+// PORT SEAM (page reviews, v2 pass): SyftHub drops its green and takes the page's
+// normal colors; Syft Space takes the outlined style (its button and step badges).
+const isV2 = (Astro.locals as any).review?.system === 'v2';
+
 const spaceFeatures = [
   'Upload documents or connect vector databases',
   'Connect OpenAI, Anthropic, Ollama, or any provider',
@@ -239,18 +243,18 @@ const flowOps = [
           <ul class="syh-products__list">
             {spaceFeatures.map((f) => <li>{f}</li>)}
           </ul>
-          <Button href="http://syft.docs.openmined.org/space/quickstart">Deploy a Space -></Button>
+          <Button href="http://syft.docs.openmined.org/space/quickstart" variant={isV2 ? 'outline' : undefined}>Deploy a Space -></Button>
         </div>
 
         <div class="syh-products__card">
           <!-- Live: SyftHub title and CTA button in --color-green-600 -->
-          <h4 class="syh-products__product syh-products__product--green">SyftHub</h4>
+          <h4 class:list={['syh-products__product', { 'syh-products__product--green': !isV2 }]}>SyftHub</h4>
           <h6 class="syh-products__tagline">The Directory for Collective Intelligence</h6>
           <p class="syh-products__desc">A registry that maps who has knowledge, what they're willing to share, and how to reach them. No middleman holding data—just the connective tissue that lets seekers find what they need and providers share on their terms.</p>
           <ul class="syh-products__list">
             {hubFeatures.map((f) => <li>{f}</li>)}
           </ul>
-          <Button href="https://syfthub.openmined.org/" class="btn--green">Explore SyftHub -></Button>
+          <Button href="https://syfthub.openmined.org/" class={isV2 ? undefined : 'btn--green'}>Explore SyftHub -></Button>
         </div>
 
       </div>
@@ -298,15 +302,15 @@ const flowOps = [
           <p class="syh-paths__product-label">Syft Space</p>
           <h4 class="syh-paths__path-heading">Get Queryable in 3 Steps</h4>
           <p class="syh-paths__path-intro">Publish your knowledge to the network</p>
-          <StepList steps={spaceSteps} connector />
+          <StepList steps={spaceSteps} connector outline={isV2} />
         </div>
 
         <!-- SyftHub: green connector, green label, dim quote card -->
         <div class="syh-paths__col">
-          <p class="syh-paths__product-label syh-paths__product-label--green">SyftHub</p>
+          <p class:list={['syh-paths__product-label', { 'syh-paths__product-label--green': !isV2 }]}>SyftHub</p>
           <h4 class="syh-paths__path-heading">Query the Network</h4>
           <p class="syh-paths__path-intro">Pull insights from multiple sources with full attribution</p>
-          <StepList steps={hubSteps} connector accent="green" />
+          <StepList steps={hubSteps} connector accent={isV2 ? undefined : 'green'} />
           <!-- Live: dim surface card with subtle citation text, below the steps list -->
           <div class="syh-paths__quote">
             <p>"Climate change is accelerating faster than predicted<sup>1</sup> with ice sheet loss contributing 40% more to sea level rise.<sup>2</sup>"</p>

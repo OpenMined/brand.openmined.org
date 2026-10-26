@@ -102,21 +102,29 @@ html[data-system="v2"] .btn--outline:hover {
   border-color: var(--accent-key);
 }
 
-/* ── SyftHub's color: green, one hue throughout ─────────────────────────
-   The live page marks SyftHub in green (title, label, button, step badges,
-   connector). With no product color defined, the alternate color is the
-   accent's, green (decision 2026-10-12), kept consistent across the page.
-   Fills use the key with a white label (guidelines/color-fills-use-the-key);
-   text uses green fg, the colored-text role. */
-html[data-system="v2"] :is(.syh-products__product--green, .syh-paths__product-label--green) { color: var(--green-fg); }
-html[data-system="v2"] .btn.btn--green { background-color: var(--accent-key) !important; color: var(--white) !important; }
-html[data-system="v2"] .btn.btn--green:hover { background-color: var(--green-600) !important; color: var(--white) !important; }
-/* !important: the component's scoped selectors (0,4,0) and (0,7,1) outrank the v2 prefix. */
-html[data-system="v2"] .step-list--accent-green .step-list__num { background-color: var(--accent-key) !important; color: var(--white) !important; }
-html[data-system="v2"] .step-list--accent-green.step-list--connector .step-list__item:not(:last-child)::after { background-color: var(--accent-key) !important; }
+/* ── SyftHub and Syft Space: solid and outlined, no product color ──────
+   The live page marks SyftHub in green against Syft Space. Here SyftHub keeps
+   the page's normal colors (solid button, solid step badges) and Syft Space
+   takes the outlined style: the secondary button, and step badges drawn as a
+   line around the number (Kyle, 2026-10-26; guidelines/outlines-are-lines).
+   The markup drops the green classes (pages/SyftHub.astro). */
 html[data-system="v2"] .step-list__num { color: var(--surface-base); }
-/* Flow diagram operators: marks in a graphic, in the accent key. */
-html[data-system="v2"] .flow__op--accent { color: var(--accent-key); }
+/* The badge keeps the page behind it so the connector stops at its edge; the
+   inset line keeps its size, so the connector still meets its center.
+   !important: the component's scoped selectors (0,4,0) and (0,7,1) outrank the v2 prefix. */
+html[data-system="v2"] .step-list--outline .step-list__num {
+  background-color: var(--surface-base) !important;
+  color: var(--text-headline) !important;
+  box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong);
+}
+html[data-system="v2"] .step-list--outline.step-list--connector .step-list__item:not(:last-child)::after {
+  width: var(--stroke-sm);
+  background-color: var(--line-strong) !important;
+}
+/* Flow diagram operators: set icons (FlowDiagram.astro); + in the muted text color,
+   → and = in green, the animated two-tone icon treatment (V2Pass). */
+html[data-system="v2"] .flow__op--icon { display: inline-flex; color: var(--text-muted); }
+html[data-system="v2"] .flow__op--icon svg { display: block; }
 
 /* ── Links: text never changes color (components/link) ─────────────────
    Kyle and Bennett, 2026-10-12. A link with an underline keeps it, and on

@@ -18,6 +18,7 @@
  * be exactly nodes.length - 1 operators.
  */
 import Icon from './Icon.astro';
+import { iconSvg } from '../../../../lib/icons';
 
 interface Node { icon: string; label: string }
 interface Op { glyph: string; accent?: boolean }
@@ -26,6 +27,10 @@ interface Props {
   operators: Op[];
 }
 const { nodes, operators } = Astro.props;
+// PORT SEAM (page reviews, v2 pass): operators are set icons, the accent ones in
+// green with the animated two-tone treatment (data-icon-hue, v2/V2Pass.astro).
+const isV2 = (Astro.locals as any).review?.system === 'v2';
+const OP_ICONS: Record<string, string> = { '+': 'plus', '->': 'arrow-right', '=': 'equal' };
 ---
 
 <div class="flow">
@@ -36,10 +41,19 @@ const { nodes, operators } = Astro.props;
         <span class="flow__label">{node.label}</span>
       </div>
       {i < operators.length && (
-        <span
-          class:list={['flow__op', { 'flow__op--accent': operators[i].accent }]}
-          aria-hidden="true"
-        >{operators[i].glyph}</span>
+        isV2 ? (
+          <span
+            class:list={['flow__op', 'flow__op--icon', { 'flow__op--accent': operators[i].accent }]}
+            aria-hidden="true"
+            data-icon-hue={operators[i].accent ? 'green' : undefined}
+            set:html={iconSvg(OP_ICONS[operators[i].glyph], { size: 32 })}
+          />
+        ) : (
+          <span
+            class:list={['flow__op', { 'flow__op--accent': operators[i].accent }]}
+            aria-hidden="true"
+          >{operators[i].glyph}</span>
+        )
       )}
     </>
   ))}

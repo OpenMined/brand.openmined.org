@@ -63,11 +63,11 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
     group: 'Color',
     items: [
       {
-        title: 'SyftHub has a product color',
+        title: 'SyftHub and Syft Space: solid and outlined',
         pages: ['syfthub'],
         rule: 'guidelines/accent-by-intent',
-        did: 'The live page marks SyftHub in green: its title, label, button, step badges and connector. Now one green throughout, the accent’s color: green fg for text; the button, step badges and connector in the green key (the accent key), with white labels.',
-        open: 'White on the green key is 3.84:1, under AA for body-size text (the strong status chips carry the same flag). Whether products get their own hues is still open.',
+        did: 'The live page marks SyftHub in green against Syft Space. Now no product color: SyftHub keeps the page’s normal colors (solid button, solid step badges and connector), Syft Space takes the outlined style (the secondary button; step badges as a line around the number, a line connector).',
+        open: 'Whether products get their own hues is still open.',
         review: 'Oct 12: the solid fill read washed out; colored fills use the key, as the status chips do (guidelines/color-fills-use-the-key). One hue per color-themed page, and the accent color wherever a color is needed but not specified: teal at first, then green (decisions/2026-10-12-green-is-the-accent-color).',
       },
       {
@@ -87,7 +87,7 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         pages: ['home', 'syfthub'],
         rule: 'guidelines/one-solid-button',
         did: 'Every outlined button is secondary: a 1px outline in the body text color, no fill, headline label. Both stay grayscale at rest; on hover they fill with the accent in motion, button hover J (components/button), white label.',
-        open: 'SyftHub’s green button is colored at rest, with no motion. Focus styling is still open (an accent-key ring stands in).',
+        open: 'Focus styling is still open (an accent-key ring stands in).',
         review: 'Oct 12 (meeting): Bennett didn’t like the quiet button; secondary = body-color outline, no fill; hover = the primary’s accent fill.',
       },
       {
