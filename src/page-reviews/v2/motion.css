@@ -27,7 +27,7 @@ html[data-system="v2"] .card-light {
 }
 html[data-system="v2"][data-theme="dark"] .card-float:not([data-section="always-light"]) > .card-light { --cl-o: 0.03; }
 html[data-system="v2"] .card-float.has-light:hover > .card-light { opacity: var(--cl-o); transition-duration: 0.15s; }
-/* Card light option "shade" (review Options panel, data-card-light): in light,
+/* Card light option "shade" (review Options panel, data-card-light; the default): in light,
    the card darkens on hover except around the pointer, sized to the card: clear
    within 0.3 of its width around the pointer, full shade from one width out
    (--cw, set by V2Pass on pointer enter). The shade is the page's base surface,
@@ -44,6 +44,8 @@ html[data-system="v2"][data-card-light="shade"][data-theme="dark"] .card-float:n
   mix-blend-mode: normal;
   background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
 }
+/* Card light option "none": no pointer light on hover cards, in either mode. */
+html[data-system="v2"][data-card-light="none"] .card-light { display: none; }
 
 /* ── Icons in a set hue ──────────────────────────────────────────────── */
 html[data-system="v2"] .color-icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
