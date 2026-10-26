@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-26** — Page reviews' Options panel saves **only a clicked choice**, so a fresh load always shows the working favorites as they change; picks saved before this are dropped.
 - **2026-10-26** — Page reviews, home: *Start your own federated sub-network* is a hover card **inside the section's outline**, under the three pillars and as wide as them, twice the row's padding above it (96px) and the padding (48px) below; its text keeps a 640px measure, icon and text centered in the full card width, the arrow at the right edge.
 - **2026-10-26** — Guideline *Violet and blue never tell things apart* is scoped to **color as a label**: where color is a flourish (a spectrum like Fig 1's five groups, a two-tone gradient), violet and blue may sit side by side.
 - **2026-10-26** — **The guide's hover cards carry the working favorites** (Interface, every `HoverCard`): the tilt as a distortion (`src/scripts/card-tilt.ts`, the page reviews' math), the shade light in light mode (white 0.03 in dark), and the strong-wave ribbon colorflow by default (`flow`, wired in `Site.astro`). *Hover cards*, *Color moves* (diagram lines and hover cards settled; the shared renderer) and *Explanatory diagrams* (direction A's motion; ready for review) updated. Color and interaction round: the white light is the favorite in dark mode only.

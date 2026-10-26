@@ -71,17 +71,18 @@ const OPTIONS = [
 
 <script is:inline define:vars={{ OPTIONS }}>
   // Options: URL parameter, then this browser's last pick, then the default.
+  // Only a clicked choice is saved, so a fresh load follows the defaults as they
+  // change; the key is versioned so picks saved before that rule are dropped.
   (() => {
-    const KEY = 'page-review-options';
+    const KEY = 'page-review-options-2';
     let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch {}
+    try { localStorage.removeItem('page-review-options'); saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch {}
     const q = new URLSearchParams(location.search);
     const h = document.documentElement;
     OPTIONS.forEach((o) => {
       const keys = o.choices.map((c) => c.key);
       const pick = [q.get(o.param), saved[o.param]].find((v) => keys.includes(v)) || o.def;
       h.setAttribute(o.attr, pick);
-      saved[o.param] = pick;
       document.querySelectorAll(`#rv-options input[name="${o.param}"]`).forEach((r) => {
         r.checked = r.value === pick;
         r.addEventListener('change', () => {
@@ -91,7 +92,6 @@ const OPTIONS = [
         });
       });
     });
-    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch {}
   })();
 </script>
 
