@@ -1074,6 +1074,42 @@
     "type": "gradient",
     "status": "exploring"
   },
+  "--gradient-highlight-red": {
+    "value": "var(--amber-400)",
+    "resolved": "#d89040",
+    "type": "color",
+    "status": "exploring"
+  },
+  "--gradient-highlight-amber": {
+    "value": "var(--gradient-gold)",
+    "resolved": "#f6c97b",
+    "type": "color",
+    "status": "exploring"
+  },
+  "--gradient-highlight-green": {
+    "value": "var(--gradient-lime)",
+    "resolved": "#a9e18b",
+    "type": "color",
+    "status": "exploring"
+  },
+  "--gradient-highlight-teal": {
+    "value": "var(--green-400)",
+    "resolved": "#56b28c",
+    "type": "color",
+    "status": "exploring"
+  },
+  "--gradient-highlight-blue": {
+    "value": "var(--teal-400)",
+    "resolved": "#45a8c2",
+    "type": "color",
+    "status": "exploring"
+  },
+  "--gradient-highlight-violet": {
+    "value": "var(--gradient-magenta)",
+    "resolved": "#be357d",
+    "type": "color",
+    "status": "exploring"
+  },
   "--shadow-sunken": {
     "value": "inset 0 1px 5px 0 rgb(70 65 89 / 0.07)",
     "resolved": "inset 0 1px 5px 0 rgb(70 65 89 / 0.07)",

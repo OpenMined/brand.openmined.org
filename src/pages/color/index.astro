@@ -13,7 +13,7 @@ import DecisionList from '../../components/site/DecisionList.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import ColorIcon from '../../components/site/ColorIcon.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, TWO_TONE_COMPANION, GRADIENT_STOPS, EXTRA_STOPS, GRADIENT_LISTS, listStops, target, type Mode } from '../../lib/tokens';
+import { MODES, HUES, STEPS, SERIES, STATUS, SAT, hex, primitive, stepOf, contrast, stepLabel, readout, TWO_TONE_COMPANION, HIGHLIGHT, GRADIENT_STOPS, EXTRA_STOPS, GRADIENT_LISTS, listStops, target, type Mode } from '../../lib/tokens';
 
 import HUES_LIGHT from '../../../tokens/light/hues.json';
 import HUES_DARK from '../../../tokens/dark/hues.json';
@@ -63,7 +63,10 @@ const ref = (name: string) => target('light', `gradient-${name}`)?.replace('-key
 /** Two-tone gradients: one per hue, its companion read from the token's middle stop. */
 const twoTone = doc('foundations/two-tone');
 const TWO_TONE = HUES.map(h => ({ hue: h, token: `--gradient-two-tone-${h}`, companion: TWO_TONE_COMPANION[h] }));
-const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['gradient', 'Gradient'], ['two-tone', 'Two-tone'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+/** Highlights: one per hue, the lit-up part of a moving line, shown pulsing along a line in the hue. */
+const highlight = doc('foundations/highlight');
+const HIGHLIGHTS = HUES.map(h => ({ hue: h, token: `--gradient-highlight-${h}`, color: HIGHLIGHT[h] }));
+const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['gradient', 'Gradient'], ['two-tone', 'Two-tone'], ['highlight', 'Highlights'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="color">
@@ -276,6 +279,29 @@ const ARR = iconSvg('arrow-right');
     <TwoToneDefs />
   </section>
 
+  <section class="band" id="highlight">
+    <div class="wrap">
+      <header class="sec"><h2>{highlight.title}</h2><p>{highlight.description} Status: <b>{highlight.status}</b>.</p></header>
+      <article class="card">
+        <div class="tbl-wrap">
+        <table class="tbl tbl--two-tone">
+          <thead><tr><th>Token</th><th>Highlight</th><th>On a line</th></tr></thead>
+          <tbody>
+            {HIGHLIGHTS.map(t => (
+              <tr>
+                <td><code>{t.token}</code></td>
+                <td><span class="tt-pair"><i class="tt-dot" style={`background:var(--${t.hue}-key)`}></i>{t.hue} + <i class="tt-dot" style={`background:var(${t.token})`}></i>{t.color}</span></td>
+                <td><svg class="hl-line" viewBox="0 0 240 12" aria-hidden="true"><path d="M2 6H238" style={`stroke:var(--${t.hue}-key);--flow-tone:var(${t.token})`} data-flow /></svg></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+        <div class="prose"><highlight.Content /></div>
+      </article>
+    </div>
+  </section>
+
   <section class="band" id="how">
     <div class="wrap">
       <header class="sec"><h2>How it works</h2></header>
@@ -315,3 +341,8 @@ const ARR = iconSvg('arrow-right');
     </div>
   </section>
 </Site>
+
+<script>
+  import { lineFlow } from '../../scripts/line-flow';
+  lineFlow();
+</script>

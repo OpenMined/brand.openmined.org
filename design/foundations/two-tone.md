@@ -1,7 +1,7 @@
 ---
 type: Color
 title: Two-tone gradients
-description: One gradient per palette hue, for icons and anything else that names a primary hue. The hue keeps its key and shades; a companion chosen for that hue passes through once.
+description: One gradient per palette hue, for icons, hover cards and anything else that names a primary hue. The hue keeps its key and shades; a companion chosen for that hue passes through once.
 status: exploring
 tags: [color, graphics]
 tokens: [--gradient-two-tone-red, --gradient-two-tone-amber, --gradient-two-tone-green, --gradient-two-tone-teal, --gradient-two-tone-blue, --gradient-two-tone-violet]
@@ -26,4 +26,4 @@ Violet's companion is a first guess, not yet seen in use.
 
 **A companion can be a gradient stop.** Written `gradient.<stop>` (`gradient.gold`, `gradient.lime`, `gradient.magenta` …), it takes that stop's value in each mode, with no step to choose: stops have no 50–950 series. Hues take the companion step above.
 
-**In use.** Colored icons (the Color and interaction round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 4× the icon's width (96 units, 4s per loop), so the whole band never sits inside the icon at once. Diagram lines (direction A): the pulse along a line is its companion alone, `--gradient-two-tone-<hue>-companion`, fading transparent → opaque → transparent, drawn over the lines. Diagram rings (Fig 2's cascade) brighten in their companion (`src/scripts/line-flow.ts`, `--flow-tone`). See *Color moves* (`behaviors/color-moves.md`).
+**In use.** Colored icons (the Color and interaction round's option E, the page reviews): the gradient moves inside the stroke from bottom left to top right, over 4× the icon's width (96 units, 4s per loop), so the whole band never sits inside the icon at once. Hover cards: a colorflow in the card's two-tone stops (*Hover cards*). Diagram lines don't use the companion: their pulse is the hue's highlight, which brightens the line instead of passing a second color through it (*Highlights*, `foundations/highlight.md`). See *Color moves* (`behaviors/color-moves.md`).

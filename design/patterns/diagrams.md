@@ -14,7 +14,7 @@ tags: [graphics]
 
 **Colors.** Both follow [Graphics use fixed steps, never roles](#guidelines-graphics-use-fixed-steps): hue keys and fixed steps, the same in both modes.
 
-**Motion (direction A).** Color moves along the lines (*Color moves*): each colored line carries a highlight in its hue's two-tone companion, travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. The second graphic's rings brighten in their companion, from the innermost out, one after another. Every line color is a hue key, so each has a companion: groups of sources share a hue (Fig 1: five groups of three). Gray lines pulse faintly in their own gray. Reduced motion: still.
+**Motion (direction A).** Color moves along the lines (*Color moves*): each colored line carries its hue's highlight (*Highlights*), travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. The second graphic's rings brighten in their highlight, from the innermost out, one after another. Every line color is a hue key, so each has a highlight: groups of sources share a hue (Fig 1: five groups of three). Gray lines pulse faintly in their own gray. Reduced motion: still.
 
 ## Still open
 

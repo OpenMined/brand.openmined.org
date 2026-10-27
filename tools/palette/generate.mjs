@@ -6,7 +6,7 @@
  *
  *   tokens/base/gray.json      gray 50–950, white, black   (same in both modes)
  *   tokens/{light,dark}/hues.json      each hue 50–950, mode offset applied
- *   tokens/{light,dark}/gradient.json  the nine stops, extra stops, the spectrum, each graphic's list and the two-tone gradients
+ *   tokens/{light,dark}/gradient.json  the nine stops, extra stops, the spectrum, each graphic's list, the two-tone gradients and the highlights
  *   tokens/{light,dark}/shadows.json   the level ladder, cast in a gray step
  *
  * The output files are the source of truth; this script is the tool that
@@ -207,27 +207,43 @@ function gradientFile(mode) {
   // per mode (inputs gradient.two_tone). Each stop is also a color token
   // (two-tone-<hue>-base / -lighter / -companion / -darker), so a consumer that
   // draws the stops itself (an SVG gradient) follows the mode and the section.
+  // A companion or highlight is a palette hue (takes the given step), a hue at a
+  // step of its own (`violet.300`, the same in both modes), or a gradient stop,
+  // `gradient.<stop>` (its own value per mode; stops have no steps).
+  const stopNames = [...IN.gradient.stops, ...(IN.gradient.extra ?? [])].map(s => s.name);
+  const colorRef = (set, h, c, step) => {
+    if (c.startsWith('gradient.')) {
+      if (!stopNames.includes(c.slice(9))) throw new Error(`${set}: ${h}'s ${c} is not a gradient stop (${stopNames.join(', ')})`);
+      return c;
+    }
+    const [hue, own] = c.split('.');
+    if (own) {
+      if (!IN.hues[hue] || !SERIES.includes(own)) throw new Error(`${set}: ${h}'s ${c} is not a hue step (${Object.keys(IN.hues).join(', ')} . ${SERIES.join(', ')})`);
+      return c;
+    }
+    if (!IN.hues[c]) throw new Error(`${set}: ${h}'s ${c} is not a hue (${Object.keys(IN.hues).join(', ')}) or gradient.<stop>`);
+    return `${c}.${step}`;
+  };
   const tt = IN.gradient.two_tone, twoTone = {};
   if (tt) {
     const st = tt.steps[mode], meta = { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } };
-    // A companion is a palette hue (takes the mode's companion step) or a gradient
-    // stop, `gradient.<stop>` (its own value per mode; stops have no steps).
-    const stopNames = [...IN.gradient.stops, ...(IN.gradient.extra ?? [])].map(s => s.name);
-    const companionRef = (h, c) => {
-      if (c.startsWith('gradient.')) {
-        if (!stopNames.includes(c.slice(9))) throw new Error(`two_tone: ${h}'s companion ${c} is not a gradient stop (${stopNames.join(', ')})`);
-        return c;
-      }
-      if (!IN.hues[c]) throw new Error(`two_tone: ${h}'s companion ${c} is not a hue (${Object.keys(IN.hues).join(', ')}) or gradient.<stop>`);
-      return `${c}.${st.companion}`;
-    };
     for (const [h, c] of Object.entries(tt.companions)) {
-      const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: companionRef(h, c), darker: `${h}.${st.darker}` };
+      const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: colorRef('two_tone', h, c, st.companion), darker: `${h}.${st.darker}` };
       for (const [role, ref] of Object.entries(refs))
         twoTone[`two-tone-${h}-${role}`] = { $type: 'color', $value: `{${ref}}`, $description: `Two-tone ${h}, ${role} stop (${ref}).`, $extensions: meta };
       const order = ['base', 'darker', 'companion', 'lighter', 'base'];
       twoTone[`two-tone-${h}`] = { $type: 'gradient', $value: order.map((r, i) => ({ color: `{gradient.two-tone-${h}-${r}}`, position: r4(i / (order.length - 1)) })),
         $description: `Two-tone ${h}: its own steps, with ${c.replace('gradient.', '')} passing through once.`, $extensions: meta };
+    }
+  }
+  // Highlights: one color per hue, the brighter part of a moving line in that hue
+  // (inputs gradient.highlight). Chosen by hand to read lighter than the hue.
+  const hl = IN.gradient.highlight, highlight = {};
+  if (hl) {
+    const meta = { 'org.openmined': { status: hl.status ?? 'exploring', generated: true } };
+    for (const [h, c] of Object.entries(hl.colors)) {
+      const ref = colorRef('highlight', h, c, hl.steps[mode]);
+      highlight[`highlight-${h}`] = { $type: 'color', $value: `{${ref}}`, $description: `Highlight on a ${h} line (${ref}).`, $extensions: meta };
     }
   }
   return {
@@ -238,6 +254,7 @@ function gradientFile(mode) {
       spectrum: { $type: 'gradient', $value: value, $description: 'The full brand arc, gold → yellow.', $extensions: { 'org.openmined': { status: 'working', generated: true } } },
       ...lists,
       ...twoTone,
+      ...highlight,
     },
   };
 }

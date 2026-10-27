@@ -38,7 +38,7 @@ tags: [color, graphics, interface]
 
 **Settled so far.** Icons have a color mode, with two-tone gradients (a companion per hue); button and link hovers are working favorites (*Green at rest, gradients in motion*, 2026-10-13).
 
-- **Diagram lines** (direction A): a highlight in the line's two-tone companion travels along each colored line, over it at 0.8, so the line shows through; lines that drain to gray carry a highlight that turns gray with them. Rings brighten in their companion, one after another.
+- **Diagram lines** (direction A): the line's highlight (one per hue, lighter than it: *Highlights*) travels along each colored line, over it at 0.8, so the line shows through; lines that drain to gray carry a highlight that turns gray with them. Rings brighten in their highlight, one after another.
 - **Hover cards**: a colorflow in the card's two-tone rises in its lower third (*Hover cards*).
 - Small animated graphics that come and go (hover flows) share one renderer per page (`src/scripts/gl/`); the large brand graphics stay standalone embeds.
 

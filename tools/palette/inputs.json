@@ -424,6 +424,21 @@
         "dark": { "base": "key", "lighter": "400", "companion": "key", "darker": "600" }
       },
       "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps the key and 500, takes 300 for the lighter stop and 400 for the companion (Kyle, 2026-10-14: 400 for both still read subtle in light; one step lighter throughout read washed out)."
+    },
+    "highlight": {
+      "_note": "One highlight per palette hue (gradient.highlight-<hue>): the brighter, more energetic part of a moving line in that hue, such as the pulse along a diagram line or a ring. It reads as the same line lit up, not a second color, so each is chosen to be lighter than its hue in both modes, toward yellow on the wheel. Separate from the two-tone companions, which pass a second color through an icon or a card (Kyle, 2026-10-27: violet's red and blue's violet read as other colors on the diagrams).",
+      "status": "exploring",
+      "colors": {
+        "red": "amber",
+        "amber": "gradient.gold",
+        "green": "gradient.lime",
+        "teal": "green",
+        "blue": "teal",
+        "violet": "gradient.magenta"
+      },
+      "_colors": "2026-10-27 (Kyle): red, amber, green and teal as their two-tone companions, which already read as highlights on the diagrams; blue takes teal, violet takes blue; then violet takes its own 300 (blue's dark key barely lifted the line), then the gradient's magenta (300 didn't read right; magenta approved on the diagrams). A value is a hue (it takes steps.<mode>), a hue at its own step (violet.300, both modes) or a gradient stop, gradient.<stop>.",
+      "steps": { "light": "400", "dark": "key" },
+      "_steps": "The step a hue highlight takes, per mode: the same as the two-tone companion step."
     }
   },
   "categorical": [

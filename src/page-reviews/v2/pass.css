@@ -56,13 +56,14 @@ html[data-system="v2"] .home-fednet__row:last-child { border-bottom: 0; }
    and text sit centered in the full card width, the arrow at the right edge. Icon
    left (colored on hover by V2Pass), text left-aligned, no button. A level and its
    shadow are the edge (cards are a level); the lift and the pointer light come with
-   .card-float. */
+   .card-float. It is the large hover card (components/hover-card): full width, content
+   centered at a 640px measure, 48px top and bottom. */
 html[data-system="v2"] .home-fednet__cta-card {
   --card-float-shadow: var(--shadow-raise-1);
   --card-float-shadow-hover: var(--shadow-raise-2);
   display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; align-items: start; gap: var(--spacing-2XL);
   margin-top: calc(2 * var(--spacing-5XL));
-  padding: var(--spacing-4XL) var(--spacing-3XL);
+  padding: var(--spacing-5XL) var(--spacing-3XL);
   border-radius: var(--radius-md);
   background-color: var(--surface-raise-1);
   color: var(--text-body); text-align: left; text-decoration: none;

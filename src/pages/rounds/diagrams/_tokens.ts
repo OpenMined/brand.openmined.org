@@ -7,14 +7,14 @@
  */
 export { TOKEN_CSS } from '../_working';
 
-/** The two-tone companion of a palette hue. */
-export const tone = (hue: string) => `var(--gradient-two-tone-${hue}-companion)`;
+/** The highlight of a palette hue: the brighter part of a moving line (foundations/highlight). */
+export const tone = (hue: string) => `var(--gradient-highlight-${hue})`;
 
 /** A gradient stop: an offset along the line (0–1), a color, and its opacity. */
 export type Stop = { offset: number; color: string; opacity?: number };
 
 /** Gradient stops for a line that drains to gray from `at` (0–1), and for its
- *  companion pulse, which turns gray with it. Both are plain SVG gradients
+ *  highlight pulse, which turns gray with it. Both are plain SVG gradients
  *  rendered with the page: no script decides a color. */
 export function drainStops(color: string, tone: string, at: number): { line: Stop[]; tone: Stop[] } {
   const gray = 'var(--connector)';

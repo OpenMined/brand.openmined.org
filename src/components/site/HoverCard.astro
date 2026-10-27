@@ -6,7 +6,8 @@
  * mode the card shades except around it); the icon takes its hue's two-tone
  * gradient, moving (needs <TwoToneDefs /> on the page); the arrow stays mono; a
  * colorflow in the card's two-tone fades in across its lower third (wired in
- * Site.astro). The icon top-aligns with the text.
+ * Site.astro). The icon top-aligns with the text. Large: full width of its
+ * container, the content centered at a 640px measure, more padding.
  */
 import { iconSvg } from '../../lib/icons';
 interface Props {
@@ -15,12 +16,14 @@ interface Props {
    *  a unit name from src/scripts/gl/units/hover-flow.ts, 'off' for none.
    *  Default: the strong-wave ribbon (the working favorite). */
   flow?: string;
+  /** 'large': full width, content centered at a measure (a card standing alone). */
+  size?: 'default' | 'large';
 }
-const { href, icon, hue, title, text, flow = 'ribbon-wave' } = Astro.props;
+const { href, icon, hue, title, text, flow = 'ribbon-wave', size = 'default' } = Astro.props;
 const svg = iconSvg(icon, { size: 32 });
 const ARR = iconSvg('arrow-right', { size: 24 });
 ---
-<a class="hcard" href={href} data-hover-hue={hue} data-flow={flow}>
+<a class:list={['hcard', size === 'large' && 'hcard--large']} href={href} data-hover-hue={hue} data-flow={flow}>
   <span class="hcard__icon" style={`--ci-stroke:url(#tt-${hue})`} aria-hidden="true">
     <span class="hcard__glow" set:html={svg} /><Fragment set:html={svg} /><span class="hcard__color" set:html={svg} />
   </span>

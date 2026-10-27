@@ -596,6 +596,8 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .tt-pair { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .tt-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
 .tt-bar { display: block; width: 100%; min-width: 160px; height: 22px; border-radius: var(--radius-sm); }
+.hl-line { display: block; width: 240px; max-width: 100%; height: auto; overflow: visible; }
+.hl-line path { fill: none; stroke-width: 2.5; stroke-linecap: round; }
 .colorway__icons { display: flex; flex-wrap: wrap; gap: var(--spacing-XL); margin-bottom: var(--spacing-M); }
 
 /* ── Hover cards (components/site/HoverCard.astro, components/hover-card.md) ──
@@ -635,5 +637,12 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 [data-theme="dark"] .hcard__light { --hl-o: 0.03; mix-blend-mode: normal;
   background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }
 .hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: 0.15s; }
+/* Large: full width of its container, icon and text centered at a 640px measure, the
+   arrow at the right edge; padding one step up (48px top and bottom). */
+.hcard--large { display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; gap: var(--spacing-2XL); padding-block: var(--spacing-5XL); }
+.hcard--large .hcard__icon { grid-column: 2; }
+.hcard--large .hcard__text { grid-column: 3; }
+.hcard--large .hcard__arrow { grid-column: 4; justify-self: end; }
+.hcards-large { margin-top: var(--spacing-XL); }
 .hcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
 @media (max-width: 900px) { .hcards { grid-template-columns: minmax(0, 1fr); } }

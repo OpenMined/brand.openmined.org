@@ -27,6 +27,10 @@ export const SAT = INPUTS.saturation as { light: number; dark: number };
 export const TWO_TONE_COMPANION = Object.fromEntries(Object.entries((INPUTS.gradient as any).two_tone.companions as Record<string, string>)
   .map(([h, c]) => [h, c.replace(/^gradient\./, '')])) as Record<string, string>;
 export const twoToneStops = (h: string) => ['base', 'darker', 'companion', 'lighter', 'base'].map(r => `gradient-two-tone-${h}-${r}`);
+/** Highlights: each hue's chosen highlight color (inputs gradient.highlight), labeled as above;
+ *  a hue at its own step (`violet.300`) shows as `violet 300`. */
+export const HIGHLIGHT = Object.fromEntries(Object.entries((INPUTS.gradient as any).highlight.colors as Record<string, string>)
+  .map(([h, c]) => [h, c.replace(/^gradient\./, '').replace('.', ' ')])) as Record<string, string>;
 
 type Entry = { value: string; resolved: string; type: string; status?: string };
 const FILES: Record<Mode, Record<string, Entry>> = { light: LIGHT as any, dark: DARK as any };

@@ -185,6 +185,12 @@
   --gradient-two-tone-violet-companion: var(--red-400);
   --gradient-two-tone-violet-darker: var(--violet-500);
   --gradient-two-tone-violet: linear-gradient(90deg, var(--gradient-two-tone-violet-base) 0%, var(--gradient-two-tone-violet-darker) 25%, var(--gradient-two-tone-violet-companion) 50%, var(--gradient-two-tone-violet-lighter) 75%, var(--gradient-two-tone-violet-base) 100%);
+  --gradient-highlight-red: var(--amber-400);
+  --gradient-highlight-amber: var(--gradient-gold);
+  --gradient-highlight-green: var(--gradient-lime);
+  --gradient-highlight-teal: var(--green-400);
+  --gradient-highlight-blue: var(--teal-400);
+  --gradient-highlight-violet: var(--gradient-magenta);
   --shadow-sunken: inset 0 1px 5px 0 rgb(70 65 89 / 0.07);
   --shadow-raise-1: 0 2px 10px -4px rgb(70 65 89 / 0.05);
   --shadow-raise-2: 0 6px 16px -4px rgb(70 65 89 / 0.12), 0 2px 4px 0 rgb(70 65 89 / 0.048);
@@ -418,6 +424,12 @@
   --gradient-two-tone-violet-companion: var(--red-key);
   --gradient-two-tone-violet-darker: var(--violet-600);
   --gradient-two-tone-violet: linear-gradient(90deg, var(--gradient-two-tone-violet-base) 0%, var(--gradient-two-tone-violet-darker) 25%, var(--gradient-two-tone-violet-companion) 50%, var(--gradient-two-tone-violet-lighter) 75%, var(--gradient-two-tone-violet-base) 100%);
+  --gradient-highlight-red: var(--amber-key);
+  --gradient-highlight-amber: var(--gradient-gold);
+  --gradient-highlight-green: var(--gradient-lime);
+  --gradient-highlight-teal: var(--green-key);
+  --gradient-highlight-blue: var(--teal-key);
+  --gradient-highlight-violet: var(--gradient-magenta);
   --shadow-sunken: inset 0 1px 5px 0 rgb(0 0 0 / 0.196);
   --shadow-raise-1: 0 2px 10px -4px rgb(0 0 0 / 0.14);
   --shadow-raise-2: 0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px 0 rgb(0 0 0 / 0.134);

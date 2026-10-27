@@ -21,7 +21,7 @@ const PER = 4, XS = 122, CY = 190, XU = 398;
 const Y = spread(GROUPS.length * PER, 40, 340);
 const G = (i: number) => GROUPS[Math.floor(i / PER)];
 const col = (i: number) => `var(--${G(i).hue}-key)`;
-// A line's pulse carries its hue's two-tone companion.
+// A line's pulse carries its hue's highlight.
 const flow = (i: number) => `stroke:${col(i)};--flow-tone:${tone(G(i).hue)}`;
 const mid = (g: number) => (Y[g * PER] + Y[g * PER + PER - 1]) / 2;
 // The zone where attribution is erased

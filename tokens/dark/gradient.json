@@ -775,6 +775,72 @@
           "generated": true
         }
       }
+    },
+    "highlight-red": {
+      "$type": "color",
+      "$value": "{amber.key}",
+      "$description": "Highlight on a red line (amber.key).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "highlight-amber": {
+      "$type": "color",
+      "$value": "{gradient.gold}",
+      "$description": "Highlight on a amber line (gradient.gold).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "highlight-green": {
+      "$type": "color",
+      "$value": "{gradient.lime}",
+      "$description": "Highlight on a green line (gradient.lime).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "highlight-teal": {
+      "$type": "color",
+      "$value": "{green.key}",
+      "$description": "Highlight on a teal line (green.key).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "highlight-blue": {
+      "$type": "color",
+      "$value": "{teal.key}",
+      "$description": "Highlight on a blue line (teal.key).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
+    },
+    "highlight-violet": {
+      "$type": "color",
+      "$value": "{gradient.magenta}",
+      "$description": "Highlight on a violet line (gradient.magenta).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring",
+          "generated": true
+        }
+      }
     }
   }
 }

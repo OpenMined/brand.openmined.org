@@ -2,6 +2,12 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-27** — Hover cards: a **large** style (`size="large"`, `.hcard--large`), from the home page's sub-network card: full width of its container, icon and text centered at a 640px measure, the arrow at the right edge, **48px top and bottom** (one step up). The sub-network card (page reviews) takes it; shown on the Interface page.
+- **2026-10-27** — Hover cards: the colorflow sits **10% of the card's height lower** (`bottom: -10%`, was −5%), on the guide and the page reviews.
+- **2026-10-27** — Highlights: **violet takes the gradient's magenta**, approved on the diagrams (its own 300 didn't read right).
+- **2026-10-27** — Highlights: **violet takes its own 300** (both modes), so its line stays violet and lights up clearly; blue's dark key barely lifted it. A highlight can name a hue step of its own (`violet.300`).
+- **2026-10-27** — New **highlights**, one per hue (`--gradient-highlight-<hue>`, exploring; `foundations/highlight.md`): the brighter part of a moving line, chosen to read lighter than its hue. Red amber, amber gold, green lime, teal green (as their companions), **blue teal, violet blue** (their companions, violet and red, read as other colors on the diagrams). The diagram round's line and ring pulses take the highlight; icons and hover cards keep the two-tone companion. Shown on the Color page.
+- **2026-10-26** — Button hover: the shimmer's second layer (−40°, 180px, 8.7s, 0.27) is **white stripes** (were dark), so both crossing layers show under lighten-only.
 - **2026-10-26** — Hover cards: one padding everywhere, **40px top and bottom, 32px at the sides** (the page reviews' link cards and sub-network card were 32px all round, the guide's 24px). Card colorflow sits **5% of the card's height lower** (`bottom: -5%`, clipped by the card), on the guide and the page reviews.
 - **2026-10-26** — Button hover: the shimmer's two layers blend **lighten-only** (`mix-blend-mode: lighten`), so they never make the colors darker; every button on the brand site and the page reviews (`src/styles/button-hover.css`). The round's own buttons are unchanged.
 - **2026-10-26** — Page reviews' Options panel, **Button hover**: new option *K · Full OM gradient from green, secondary from violet* (`?buttons=k`). Primary buttons start the full OM gradient on green, secondary buttons on violet.
