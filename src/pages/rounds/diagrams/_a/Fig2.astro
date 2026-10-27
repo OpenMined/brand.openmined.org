@@ -14,6 +14,7 @@
  * Color moves as a cascade, not a flow: each ring's whole stroke brightens and
  * fades at once in its hue's highlight (a copy 1px wider on each side, over the ring), ring by ring from Individual
  * out to Philosophical; the loop (3.5s = four 0.5s steps + a 1.5s pulse) restarts as the last ring fades, with no gap. Reduced motion: still.
+ * Paused offscreen (data-flow-pause, src/scripts/line-flow.ts).
  */
 import { arc } from '../_geo';
 import { tone } from '../_tokens';
@@ -30,7 +31,7 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
 ---
 
 <div class="fig fig-a">
-  <svg viewBox="0 0 640 312" role="img" aria-label="Five rings spread outward from a missing attribution-based control: individual, institutional, societal, geopolitical, and philosophical (centralization).">
+  <svg viewBox="0 0 640 312" data-flow-pause role="img" aria-label="Five rings spread outward from a missing attribution-based control: individual, institutional, societal, geopolitical, and philosophical (centralization).">
     <line x1="40" x2="600" y1={CY} y2={CY} class="base" />
     {LEVELS.map((l, i) => (
       <g>
@@ -61,6 +62,7 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
   .ring { fill: none; stroke-width: 1.75; }
   .ring-pulse { fill: none; stroke-width: 3.75; opacity: 0; animation: ring-cascade 3.5s ease-in-out infinite; }
   @keyframes ring-cascade { 0% { opacity: 0; } 17% { opacity: 0.8; } 43%, 100% { opacity: 0; } }
+  [data-paused] .ring-pulse { animation-play-state: paused; }
   @media (prefers-reduced-motion: reduce) { .ring-pulse { animation: none; } }
   .lvl {
     font-size: 13px; font-weight: 500; fill: var(--c-h);
@@ -75,3 +77,8 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
   .root__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 28px; font-size: 14px; color: var(--c-b); }
   .root__list li::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 10px; transform: rotate(45deg) translateY(-2px); background: var(--c-m); }
 </style>
+
+<script>
+  import { lineFlow } from '../../../../scripts/line-flow';
+  lineFlow();
+</script>

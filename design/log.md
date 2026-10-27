@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-27** — Diagram motion runs lighter, no visible change: the browser runs each line pulse (Web Animations, no script per frame); a pulse's copies are hidden between pulses, so nothing is drawn; Fig 2's ring cascade pauses offscreen like the lines; and reduced motion is followed live when it's switched with the page open.
 - **2026-10-27** — Diagram line pulses: step 4 at **0.65** (was 0.69): 0.15, 0.28, 0.49, 0.65, 0.80 from the end in.
 - **2026-10-27** — Diagram line pulses: the tails keep more strength, steps **0.15, 0.28, 0.49, 0.69, 0.80** from the end in (1.3× at the middle of the tail, the end and center unchanged).
 - **2026-10-27** — Diagram line pulses: steps **0.15, 0.23, 0.38, 0.57, 0.80** from the end in, small near the end and larger toward the center (an ease-in), so the tails step as smoothly as the middle.

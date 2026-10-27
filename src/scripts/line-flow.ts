@@ -20,9 +20,15 @@
  * Lines without it pulse in their own stroke, on top.
  *
  * Each slice is a shallow clone of its path (same class, style and scoped
- * attribute), so its color follows the mode with the line. Paths are staggered
- * so the pulses never march in step. Offscreen figures stop; reduced motion
- * leaves the lines still.
+ * attribute), so its color follows the mode with the line. The browser runs the
+ * motion (one Web Animation per slice: no script per frame); between pulses the
+ * slices are hidden, so nothing is drawn. Paths are staggered so the pulses
+ * never march in step. Offscreen figures pause; reduced motion leaves the lines
+ * still, and is followed live if it's switched while the page is open.
+ *
+ * A figure with CSS animations of its own (Fig 2's rings) marks its svg
+ * `data-flow-pause`: it gets `data-paused` while offscreen or under reduced
+ * motion, for its CSS to pause on (`[data-paused] … { animation-play-state: paused }`).
  *
  * Tuning, per path or on any ancestor: data-flow-speed (units per second),
  * data-flow-length (pulse length, units), data-flow-rest (seconds between
@@ -41,8 +47,6 @@ const STEP = 0.75;
 /** Peak opacity of a highlight (its own data-flow-peak wins). */
 const TONE_PEAK = 0.8;
 
-type Flow = { slices: SVGPathElement[]; lens: number[]; W: number; len: number; period: number; speed: number; phase: number; resting: boolean };
-
 const num = (el: Element, key: string, fallback: number) => {
   const v = el.closest(`[data-flow-${key}]`)?.getAttribute(`data-flow-${key}`);
   return v ? Number(v) : fallback;
@@ -59,14 +63,16 @@ const alphasFor = (peak: number) => {
   });
 };
 
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
 export function lineFlow(root: ParentNode = document) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   root.querySelectorAll<SVGSVGElement>('svg').forEach((svg) => {
     const paths = [...svg.querySelectorAll<SVGPathElement>('path[data-flow]')];
-    if (!paths.length || 'flowing' in svg.dataset) return;
+    if ((!paths.length && !svg.hasAttribute('data-flow-pause')) || 'flowing' in svg.dataset) return;
     svg.dataset.flowing = '';
 
-    const flows: Flow[] = paths.map((p, i) => {
+    const slices: SVGPathElement[] = [];
+    const anims = paths.flatMap((p, i) => {
       const len = p.getTotalLength();
       const cs = getComputedStyle(p);
       const tone = Boolean(cs.getPropertyValue('--flow-tone').trim());
@@ -76,7 +82,7 @@ export function lineFlow(root: ParentNode = document) {
       const alphas = alphasFor(peak);
       const n = LEVELS.length;
       const lens = alphas.map((_, j) => W * (1 - STEP * j / n));
-      const slices = lens.map((d, j) => {
+      const own = lens.map((d, j) => {
         const s = p.cloneNode(false) as SVGPathElement;
         s.removeAttribute('data-flow'); s.removeAttribute('marker-end'); s.removeAttribute('marker-start');
         s.setAttribute('aria-hidden', 'true');
@@ -84,36 +90,42 @@ export function lineFlow(root: ParentNode = document) {
         s.style.strokeWidth = `${width}px`;
         s.style.strokeLinecap = 'butt';
         s.style.strokeDasharray = `${d} ${len + W * 4}`;
+        s.style.visibility = 'hidden';
         if (tone) s.style.stroke = 'var(--flow-tone)';
         return s;
       });
+      slices.push(...own);
       // A highlight pulse goes over every flowing line in its group, so no line
       // drawn later covers it; an own-color pulse sits on its line.
-      if (tone) [...p.parentNode!.querySelectorAll(':scope > path[data-flow]')].at(-1)!.after(...slices);
-      else p.after(...slices);
-      // Golden-ratio stagger: neighbors never pulse together.
-      const period = (len + W) / speed + rest;
-      return { slices, lens, W, len, period, speed, phase: ((i * 0.618) % 1) * period, resting: false };
+      if (tone) [...p.parentNode!.querySelectorAll(':scope > path[data-flow]')].at(-1)!.after(...own);
+      else p.after(...own);
+      // The pulse's head runs from the path's start to past its end (travel),
+      // then rests out of sight, hidden. Golden-ratio stagger: neighbors never
+      // pulse together.
+      const travel = (len + W) / speed, period = travel + rest, end = travel / period;
+      const phase = ((i * 0.618) % 1) * period;
+      return own.map((s, j) => {
+        const at = (head: number) => `${-(head - (W + lens[j]) / 2)}px`;
+        return s.animate([
+          { offset: 0, strokeDashoffset: at(0), visibility: 'visible' },
+          { offset: end, strokeDashoffset: at(len + W), visibility: 'visible' },
+          { offset: end, strokeDashoffset: at(len + W), visibility: 'hidden' },
+          { offset: 1, strokeDashoffset: at(len + W), visibility: 'hidden' },
+        ], { duration: period * 1000, delay: -phase * 1000, iterations: Infinity, easing: 'linear' });
+      });
     });
 
-    let raf = 0, visible = false;
-    const frame = (t: number) => {
-      const sec = t / 1000;
-      for (const f of flows) {
-        // The pulse's head runs from the path's start to past its end, then rests.
-        const head = ((sec + f.phase) % f.period) * f.speed;
-        // Past the end the pulse is out of sight: place it there once, then
-        // leave it untouched until the next one starts.
-        const resting = head > f.len + f.W;
-        if (resting && f.resting) continue;
-        f.resting = resting;
-        f.slices.forEach((s, j) => { s.style.strokeDashoffset = String(-(head - (f.W + f.lens[j]) / 2)); });
-      }
-      raf = visible ? requestAnimationFrame(frame) : 0;
+    // Run only while on screen and motion is allowed; otherwise paused, and the
+    // slices hidden under reduced motion so the lines stand still.
+    let onScreen = false;
+    const update = () => {
+      const run = onScreen && !reduced.matches;
+      anims.forEach((a) => (run ? a.play() : a.pause()));
+      slices.forEach((s) => { s.style.display = reduced.matches ? 'none' : ''; });
+      svg.toggleAttribute('data-paused', !run);
     };
-    new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      if (visible && !raf) raf = requestAnimationFrame(frame);
-    }).observe(svg);
+    update();
+    reduced.addEventListener('change', update);
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(svg);
   });
 }
