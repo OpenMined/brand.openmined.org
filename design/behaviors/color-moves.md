@@ -20,6 +20,15 @@ tags: [color, graphics, interface]
 - The logo.
 - Reduced motion: the color stays and the motion stops.
 
+**Where it runs (for agents and other platforms).** Not every move works everywhere. Before using one, check what it needs:
+
+- **Anywhere** (documents, slides, PDF, images): the still look only. Colors, two-tone and highlight colors, a diagram's still frame.
+- **Any web page, CSS and SVG only** (HTML decks and Claude artifacts too): button hovers, the moving icon two-tone, link hovers.
+- **Web, with a script:** diagram line pulses (`src/scripts/line-flow.ts`) and the `<om-diamond>`/`<om-stream>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load the brand site's embeds; paste the script in or use the still frame.
+- **The brand site only, for now:** hover card colorflows (the site's shared WebGL renderer).
+
+Where a move can't run, use its still frame: the same colors, standing still, as under reduced motion. Never fake the motion with a different look.
+
 **Choosing where color goes.** For now this is a designer's call, made piece by piece. Some icons stay mono and some take a colored, moving state. Blanket rules come later, if the work shows any.
 
 **Leanings, not rules yet.**
@@ -38,7 +47,7 @@ tags: [color, graphics, interface]
 
 **Settled so far.** Icons have a color mode, with two-tone gradients (a companion per hue); button and link hovers are working favorites (*Green at rest, gradients in motion*, 2026-10-13).
 
-- **Diagram lines** (direction A): the line's highlight (one per hue, lighter than it: *Highlights*) travels along each colored line, over it at 0.8, so the line shows through; lines that drain to gray carry a highlight that turns gray with them. Rings brighten in their highlight, one after another.
+- **Diagram lines** (direction A): the line's highlight (one per hue, lighter than it: *Highlights*) travels along each colored line, over it at 0.8 at its center and fading in a bell to nothing at its ends, so the line shows through; lines that drain to gray carry a highlight that turns gray with them. Rings brighten in their highlight, one after another.
 - **Hover cards**: a colorflow in the card's two-tone rises in its lower third (*Hover cards*).
 - Small animated graphics that come and go (hover flows) share one renderer per page (`src/scripts/gl/`); the large brand graphics stay standalone embeds.
 

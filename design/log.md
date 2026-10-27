@@ -2,6 +2,15 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-27** — Diagram line pulses: step 4 at **0.65** (was 0.69): 0.15, 0.28, 0.49, 0.65, 0.80 from the end in.
+- **2026-10-27** — Diagram line pulses: the tails keep more strength, steps **0.15, 0.28, 0.49, 0.69, 0.80** from the end in (1.3× at the middle of the tail, the end and center unchanged).
+- **2026-10-27** — Diagram line pulses: steps **0.15, 0.23, 0.38, 0.57, 0.80** from the end in, small near the end and larger toward the center (an ease-in), so the tails step as smoothly as the middle.
+- **2026-10-27** — Diagram line pulses: **56 units** (2/3 of 84), **5 steps** (0.25, 0.40, 0.55, 0.68, 0.80 from the end in), each 4.2 units, so the ramp takes 16.8 at each end and the center holds full strength for 22.4.
+- **2026-10-27** — Diagram line pulses: steps set by hand, **0.25, 0.40, 0.68, 0.80** from the end in (a highlight's; own-color pulses scale to their 0.9), and **half as long**: 5.25 units each (were 10.5), so an 84-unit pulse holds full strength for its middle 52.5. Still 4 dashes.
+- **2026-10-27** — Diagram line pulses: **4 nested dashes** (were 8), each taking the bell's value at its inner edge so all four show (0.12, 0.40, 0.68, 0.80 from the end in); at its middle, the outermost was near invisible.
+- **2026-10-27** — Diagram line pulses are **1.5× longer**: 84 units (were 56), the same bell fade and speed.
+- **2026-10-27** — *Color moves*: new **Where it runs**, for agents and other platforms: which moves work anywhere (stills), on any web page (CSS and SVG), only with a script, or only on the brand site for now, and to use the still frame where a move can't run. The overview's *How to use it* points to it.
+- **2026-10-27** — Diagram line pulses: the fade follows a **bell** (half strength halfway out, near nothing at the ends) instead of a long plateau with a hard edge, from **8 nested dashes** (were 16); a pulse that has passed the line's end is left alone until the next starts; and a figure's lines are set up **once** (two figures on a page doubled every line's copies). About 4× fewer elements and 2.5–3× less browser work per frame.
 - **2026-10-27** — Hover cards: a **large** style (`size="large"`, `.hcard--large`), from the home page's sub-network card: full width of its container, icon and text centered at a 640px measure, the arrow at the right edge, **48px top and bottom** (one step up). The sub-network card (page reviews) takes it; shown on the Interface page.
 - **2026-10-27** — Hover cards: the colorflow sits **10% of the card's height lower** (`bottom: -10%`, was −5%), on the guide and the page reviews.
 - **2026-10-27** — Highlights: **violet takes the gradient's magenta**, approved on the diagrams (its own 300 didn't read right).
