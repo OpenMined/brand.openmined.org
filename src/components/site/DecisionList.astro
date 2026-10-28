@@ -4,21 +4,26 @@
  * full record. The records stay complete in design/decisions/; this is only how
  * the page shows them. A link to a decision's anchor opens its row.
  */
-import type { Doc } from '../../lib/design';
+import { doc, type Doc } from '../../lib/design';
 interface Props { docs: Doc[] }
 const { docs } = Astro.props;
 const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
 const anchor = (slug: string) => slug.replace(/\//g, '-');
+/** A deprecated decision names its replacement (frontmatter replacedBy: a decision's file name). */
+const replacement = (d: Doc) => (d.data.replacedBy ? doc(`decisions/${d.data.replacedBy}`) : null);
 ---
 <div class="decisions">
   {docs.map(d => (
     <details class="decision" id={anchor(d.slug)}>
       <summary>
         <span class="decision__date">{day(d.data.date)}</span>
-        <span class="decision__title">{d.title}</span>
+        <span class="decision__title">{d.title}{d.status === 'deprecated' && <span class="decision__status"> · deprecated</span>}</span>
         <span class="decision__sum">{d.description}</span>
       </summary>
-      <div class="guide-prose decision__body"><d.Content /></div>
+      <div class="guide-prose decision__body">
+        {d.status === 'deprecated' && <p class="decision__replaced">Deprecated{replacement(d) && <>: replaced by <a href={`#${anchor(replacement(d)!.slug)}`}>{replacement(d)!.title}</a></>}.</p>}
+        <d.Content />
+      </div>
     </details>
   ))}
 </div>

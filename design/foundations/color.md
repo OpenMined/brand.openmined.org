@@ -4,7 +4,7 @@ title: Color
 description: One gray and six hues, each in eleven steps from 50 to 950, with roles that say what each color is for.
 status: working
 tags: [color]
-tokens: [--line, --line-strong, --text-headline, --text-body, --text-muted, --on-solid, --accent-solid, --accent-hover, --accent-on, --accent-subtle, --accent-soft, --accent-fg]
+tokens: [--on-key, --line, --line-strong, --text-headline, --text-body, --text-muted, --accent-solid, --accent-hover, --accent-on, --accent-subtle, --accent-soft, --accent-fg]
 ---
 
 The palette has one gray and six hues (violet, blue, teal, green, amber, red), and every scale runs **50, 100–900, 950**, light to dark. White and black sit outside the scales.
@@ -20,17 +20,16 @@ The palette has one gray and six hues (violet, blue, teal, green, amber, red), a
 
 ## Roles
 
-Components use roles, never steps. Each role names a step per mode:
+Components use roles, never steps. Each hue and status has four roles, and each names a step per mode:
 
 | Role | Light | Dark | For |
 | --- | --- | --- | --- |
 | `subtle` | 100 | 800 | A quiet colored background: callout, selected row |
 | `soft` | 200 | 700 | A decorative rule, a selected outline, an area fill. No text |
 | `fg` | 600 | 400 | Colored text, links, icons. AA on every surface |
-| `key` | 500 | 500 | Marks: chart series, dots, progress, strokes. A colored fill with a white label: strong status chips, colored buttons (*Color fills use the key*) |
-| `solid` | 600 | 300 | A fill that carries a label in an interface: checked controls, selected states. A colored fill in a page takes the `key` (*Color fills use the key*) |
-| `hover` | 700 | 200 | One step past solid |
-| `on` | white | gray 950 | Text or icon on any solid, every hue |
+| `key` | 500 | 500 | Marks: chart series, dots, progress, strokes. The colored fill: strong status chips, colored buttons (*Color fills use the key*) |
+
+One label serves every key: **`--on-key`**, white in both modes, for text or an icon on any hue's or status's key (*White on every colored fill*).
 
 **Status** colors are their own roles, each pointing at a hue: `success` → green, `warning` → amber, `danger` → red, `info` → blue. `--danger-fg` is `--red-fg`, so a status can move to another hue without touching a component.
 

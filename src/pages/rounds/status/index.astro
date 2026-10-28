@@ -18,8 +18,8 @@ const GROUNDS = [
 ];
 /** The local custom properties each chip reads: its status's roles and hue steps. */
 const vars = (s: string, h: string) =>
-  [`--c-sub:var(--${s}-subtle)`, `--c-fg:var(--${s}-fg)`, `--c-key:var(--${h}-key)`, `--c-solid:var(--${s}-solid)`, `--c-on:var(--${s}-on)`,
-   ...['200', '400', '500', '600', '700'].map(n => `--c-${n}:var(--${h}-${n})`)].join(';');
+  [`--c-sub:var(--${s}-subtle)`, `--c-fg:var(--${s}-fg)`, `--c-key:var(--${h}-key)`,
+   ...['200', '300', '400', '500', '600', '700'].map(n => `--c-${n}:var(--${h}-${n})`)].join(';');
 
 /** Text and fill per option and mode, as token names, for the contrast readout. null fill = the ground. */
 type Pair = (m: Mode, s: string, h: string) => { text: string; fill: string | null };
@@ -34,7 +34,7 @@ const minContrast = (pair: Pair) => Object.fromEntries(MODES.map(m => {
 
 const STRONG = [
   { k: 's0', name: 'Current', note: 'solid + on. Light fills at 600 with white text; dark fills at 300 with dark text, the pastel look.',
-    pair: ((m, s) => ({ text: `${s}-on`, fill: `${s}-solid` })) as Pair },
+    pair: ((m, s, h) => (m === 'light' ? { text: 'white', fill: `${h}-600` } : { text: 'gray-950', fill: `${h}-300` })) as Pair },
   { k: 's1', name: 'Full color, both modes', note: 'The 600 step with white text in both modes. Dark mode loses the pastel fill; light is unchanged.',
     pair: ((m, s, h) => ({ text: 'white', fill: `${h}-600` })) as Pair },
   { k: 's2', name: 'Key fill', note: 'The 500 key with white text: the punchiest fill. White reaches only 3.8:1 on green and amber.',
@@ -134,7 +134,8 @@ const ARR = iconSvg('arrow-right');
   .schip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; font-size: 0.78rem; font-weight: 500; line-height: 1.4; border-radius: var(--radius-full); }
   .is-sharp .schip { border-radius: var(--radius-sm); }
   .schip i { width: 7px; height: 7px; border-radius: 50%; background: var(--c-key); flex: none; }
-  .schip--s0 { background: var(--c-solid); color: var(--c-on); }
+  .schip--s0 { background: var(--c-600); color: var(--white); }
+  [data-theme="dark"] .schip--s0 { background: var(--c-300); color: var(--gray-950); }
   .schip--s1 { background: var(--c-600); color: var(--white); }
   .schip--s2 { background: var(--c-500); color: var(--white); }
   .schip--q0 { background: var(--c-sub); color: var(--c-fg); }

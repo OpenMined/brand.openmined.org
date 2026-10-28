@@ -1,16 +1,16 @@
 ---
 type: Guideline
-title: One label color per step
-description: A step takes the same label color in every hue.
+title: White on every colored fill
+description: Text on a colored fill is white, in every hue and both modes. Swatch readouts take one color per step.
 status: working
 tags: [color]
-tokens: [--on-solid]
+tokens: [--on-key]
 ---
 
-**Rule.** Text on a fill takes one color per step, the same in every hue: gray 950 on 100–300, white on 500–800 (the `--{hue}-on` role).
+**Rule.** A colored fill is the hue's key, and its label is `--on-key`: white, the same for every hue and status, in both modes.
 
-**Why.** Picking the label per hue makes a row of labeled fills mix dark and white text.
+**Why.** One label color keeps a row of colored fills consistent, and the key keeps each hue's own character.
 
-**Watch.** The key (500) keeps each hue's own lightness, so white doesn't reach 4.5:1 on all of them (3.8:1 on green and amber). The strong status chip uses it anyway; that contrast is accepted for chip labels (decision *Status chips: full pill, contrast accepted*).
+**Watch.** White on the key is below AA's 4.5:1 for normal text on teal (4.3:1), green and amber (3.8:1). That's accepted for chip and button labels (decision *Four roles per hue; one white label on the key*). Use the key for short labels, never for text people must read to act on.
 
-**Swatch readouts** (hex values printed on a color sample) follow one color per step too: gray 800 from 50 to 400, gray 50 from 500 up. Steps 50, 400, 900, and 950 have no label rule yet.
+**Swatch readouts** (hex values printed on a color sample) take one color per step: gray 800 from 50 to 400, gray 50 from 500 up.

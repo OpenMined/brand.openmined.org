@@ -168,24 +168,6 @@
     "type": "color",
     "status": "working"
   },
-  "--violet-solid": {
-    "value": "var(--violet-300)",
-    "resolved": "#c8aef9",
-    "type": "color",
-    "status": "working"
-  },
-  "--violet-hover": {
-    "value": "var(--violet-200)",
-    "resolved": "#e3d6ff",
-    "type": "color",
-    "status": "working"
-  },
-  "--violet-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
-    "type": "color",
-    "status": "working"
-  },
   "--blue-50": {
     "value": "#f7faff",
     "resolved": "#f7faff",
@@ -273,24 +255,6 @@
   "--blue-fg": {
     "value": "var(--blue-400)",
     "resolved": "#6593e0",
-    "type": "color",
-    "status": "working"
-  },
-  "--blue-solid": {
-    "value": "var(--blue-300)",
-    "resolved": "#98bfff",
-    "type": "color",
-    "status": "working"
-  },
-  "--blue-hover": {
-    "value": "var(--blue-200)",
-    "resolved": "#ccdfff",
-    "type": "color",
-    "status": "working"
-  },
-  "--blue-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -384,24 +348,6 @@
     "type": "color",
     "status": "working"
   },
-  "--teal-solid": {
-    "value": "var(--teal-300)",
-    "resolved": "#84cade",
-    "type": "color",
-    "status": "working"
-  },
-  "--teal-hover": {
-    "value": "var(--teal-200)",
-    "resolved": "#c2e5f0",
-    "type": "color",
-    "status": "working"
-  },
-  "--teal-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
-    "type": "color",
-    "status": "working"
-  },
   "--green-50": {
     "value": "#f5fcf8",
     "resolved": "#f5fcf8",
@@ -489,24 +435,6 @@
   "--green-fg": {
     "value": "var(--green-400)",
     "resolved": "#5fb08e",
-    "type": "color",
-    "status": "working"
-  },
-  "--green-solid": {
-    "value": "var(--green-300)",
-    "resolved": "#8cceb1",
-    "type": "color",
-    "status": "working"
-  },
-  "--green-hover": {
-    "value": "var(--green-200)",
-    "resolved": "#c5e7d7",
-    "type": "color",
-    "status": "working"
-  },
-  "--green-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -600,24 +528,6 @@
     "type": "color",
     "status": "working"
   },
-  "--amber-solid": {
-    "value": "var(--amber-300)",
-    "resolved": "#e9b179",
-    "type": "color",
-    "status": "working"
-  },
-  "--amber-hover": {
-    "value": "var(--amber-200)",
-    "resolved": "#f6d8bb",
-    "type": "color",
-    "status": "working"
-  },
-  "--amber-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
-    "type": "color",
-    "status": "working"
-  },
   "--red-50": {
     "value": "#fff8f8",
     "resolved": "#fff8f8",
@@ -705,24 +615,6 @@
   "--red-fg": {
     "value": "var(--red-400)",
     "resolved": "#dd7274",
-    "type": "color",
-    "status": "working"
-  },
-  "--red-solid": {
-    "value": "var(--red-300)",
-    "resolved": "#fea0a0",
-    "type": "color",
-    "status": "working"
-  },
-  "--red-hover": {
-    "value": "var(--red-200)",
-    "resolved": "#ffd1cf",
-    "type": "color",
-    "status": "working"
-  },
-  "--red-on": {
-    "value": "var(--on-solid)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -1674,11 +1566,11 @@
     "type": "color",
     "status": "working"
   },
-  "--on-solid": {
-    "value": "var(--gray-950)",
-    "resolved": "#16141b",
+  "--on-key": {
+    "value": "var(--white)",
+    "resolved": "#ffffff",
     "type": "color",
-    "status": "exploring"
+    "status": "working"
   },
   "--success-subtle": {
     "value": "var(--green-subtle)",
@@ -1698,27 +1590,9 @@
     "type": "color",
     "status": "working"
   },
-  "--success-solid": {
-    "value": "var(--green-solid)",
-    "resolved": "#8cceb1",
-    "type": "color",
-    "status": "working"
-  },
-  "--success-hover": {
-    "value": "var(--green-hover)",
-    "resolved": "#c5e7d7",
-    "type": "color",
-    "status": "working"
-  },
   "--success-key": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
-    "type": "color",
-    "status": "working"
-  },
-  "--success-on": {
-    "value": "var(--green-on)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -1740,27 +1614,9 @@
     "type": "color",
     "status": "working"
   },
-  "--warning-solid": {
-    "value": "var(--amber-solid)",
-    "resolved": "#e9b179",
-    "type": "color",
-    "status": "working"
-  },
-  "--warning-hover": {
-    "value": "var(--amber-hover)",
-    "resolved": "#f6d8bb",
-    "type": "color",
-    "status": "working"
-  },
   "--warning-key": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
-    "type": "color",
-    "status": "working"
-  },
-  "--warning-on": {
-    "value": "var(--amber-on)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -1782,27 +1638,9 @@
     "type": "color",
     "status": "working"
   },
-  "--danger-solid": {
-    "value": "var(--red-solid)",
-    "resolved": "#fea0a0",
-    "type": "color",
-    "status": "working"
-  },
-  "--danger-hover": {
-    "value": "var(--red-hover)",
-    "resolved": "#ffd1cf",
-    "type": "color",
-    "status": "working"
-  },
   "--danger-key": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
-    "type": "color",
-    "status": "working"
-  },
-  "--danger-on": {
-    "value": "var(--red-on)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },
@@ -1824,27 +1662,9 @@
     "type": "color",
     "status": "working"
   },
-  "--info-solid": {
-    "value": "var(--blue-solid)",
-    "resolved": "#98bfff",
-    "type": "color",
-    "status": "working"
-  },
-  "--info-hover": {
-    "value": "var(--blue-hover)",
-    "resolved": "#ccdfff",
-    "type": "color",
-    "status": "working"
-  },
   "--info-key": {
     "value": "var(--blue-key)",
     "resolved": "#3368c1",
-    "type": "color",
-    "status": "working"
-  },
-  "--info-on": {
-    "value": "var(--blue-on)",
-    "resolved": "#16141b",
     "type": "color",
     "status": "working"
   },

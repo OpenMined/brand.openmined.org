@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Each hue's key is the step graphics use (500 in the 50\u2013950 series); series is the categorical chart order. Graphics reference these aliases, never a step number, so a renumber never touches a graphic.",
+  "$description": "Hand-written. Each hue's key is the step graphics use and the colored fill, labeled with --on-key (500 in the 50\u2013950 series); series is the categorical chart order. Graphics reference these aliases, never a step number, so a renumber never touches a graphic.",
   "violet": {
     "key": {
       "$type": "color",

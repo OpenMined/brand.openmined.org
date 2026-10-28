@@ -2,7 +2,8 @@
 type: Decision
 title: Error is a surface, not a rule
 description: A validation error renders as a solid card one level above the form, not an outline around the field.
-status: working
+status: deprecated
+replacedBy: 2026-10-09-errors-are-text
 date: 2026-09-17
 tags: [interface]
 ---

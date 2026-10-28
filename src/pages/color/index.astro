@@ -30,7 +30,7 @@ const rules = byTag('color', 'Guideline', 'Behavior');
 const decisions = decisionsFor('color');
 
 /** Roles that land on a gray step, listed on the gray card. */
-const GRAY_ROLES = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surface-raise-2', 'line', 'line-strong', 'text-headline', 'text-body', 'text-muted', 'on-solid'];
+const GRAY_ROLES = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surface-raise-2', 'line', 'line-strong', 'text-headline', 'text-body', 'text-muted'];
 /** White before the scale, black after it: the ends sit where they fall in lightness. */
 const GRAYS = ['white', ...STEPS.map(s => `gray-${s}`), 'black'];
 const grayUse = (m: Mode, g: string) => GRAY_ROLES.filter(r => primitive(m, r) === g).map(r => r.replace('surface-', ''));
@@ -38,10 +38,10 @@ const grayName = (g: string) => g.replace('gray-', '');
 /** A swatch's readout color as a token, never a literal (gray is the same in both modes). */
 const readoutColor = (m: Mode, h: string) => h === hex(m, 'gray-800') ? 'var(--gray-800)' : 'var(--gray-50)';
 
-const HUE_ROLES = ['subtle', 'soft', 'fg', 'key', 'solid', 'hover'];
+const HUE_ROLES = ['subtle', 'soft', 'fg', 'key'];
 const ROLE_USE: Record<string, string> = {
   subtle: 'Quiet colored background', soft: 'Decorative rule, area fill', fg: 'Colored text, links, icons',
-  key: 'Marks; colored fills with a white label', solid: 'An interface fill carrying a label', hover: 'One step past solid',
+  key: 'Marks, and the colored fill, labeled in --on-key (white)',
 };
 const rolesAt = (m: Mode, s: string) => HUE_ROLES.filter(r => stepOf(m, `blue-${r}`) === s);
 const statusOf = (h: string) => Object.entries(STATUS).filter(([, v]) => v === h).map(([k]) => k);
@@ -138,7 +138,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
                   <td>{stepOf('light', `blue-${r}`)}</td><td>{stepOf('dark', `blue-${r}`)}</td>
                   <td><span class="ex">{HUES.map(h => (
                     r === 'fg' ? <b class="ex__txt" style={`color:var(--${h}-fg)`}>Aa</b>
-                    : r === 'solid' || r === 'hover' ? <span class="ex__chip" style={`background:var(--${h}-${r});color:var(--${h}-on)`}>Aa</span>
+                    : r === 'key' ? <span class="ex__chip" style={`background:var(--${h}-key);color:var(--on-key)`}>Aa</span>
                     : r === 'subtle' ? <span class="ex__chip" style={`background:var(--${h}-subtle);color:var(--${h}-fg)`}>Aa</span>
                     : <span class="ex__chip" style={`background:var(--${h}-${r})`}></span>
                   ))}</span></td>
@@ -150,7 +150,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
       </article>
       <article class="card">
         <h3>Status</h3>
-        <p>Four statuses, each a hue by role: <code>--success-fg</code>, <code>--danger-key</code> and so on, with every role a hue has. Components name the status, never the hue. The <a href="/interface/#status-chips">status chips</a> draw with <code>fg</code> (quiet) and <code>key</code> (strong).</p>
+        <p>Four statuses, each a hue by role: <code>--success-fg</code>, <code>--danger-key</code> and so on, with every role a hue has. Components name the status, never the hue. The <a href="/interface/#status-chips">status chips</a> draw with <code>fg</code> (quiet), and <code>key</code> labeled in <code>--on-key</code> (strong).</p>
         <div class="tbl-wrap">
           <table class="tbl tbl--roles">
             <thead><tr><th>Status</th><th>Hue</th><th>fg</th><th class="num">fg on the page, lowest</th><th>key</th><th class="num">White on key</th></tr></thead>

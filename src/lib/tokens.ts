@@ -56,9 +56,9 @@ export const stepOf = (mode: Mode, name: string) => primitive(mode, name).replac
 
 /** Series order: series-N → its hue. */
 export const SERIES = Array.from({ length: 6 }, (_, i) => target('light', `series-${i + 1}`)!.replace('-key', ''));
-/** Status → hue, read from the build (`danger-solid` → `red-solid`). */
+/** Status → hue, read from the build (`danger-fg` → `red-fg`). */
 export const STATUS: Record<string, string> = Object.fromEntries(
-  ['success', 'warning', 'danger', 'info'].map(s => [s, target('light', `${s}-solid`)!.replace('-solid', '')]));
+  ['success', 'warning', 'danger', 'info'].map(s => [s, target('light', `${s}-fg`)!.replace('-fg', '')]));
 
 /* ── Contrast ─────────────────────────────────────────────────────── */
 const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -73,7 +73,7 @@ export function contrast(a: string, b: string): number {
   return (x + 0.05) / (y + 0.05);
 }
 
-/** One label color per step, shared by every hue: the ink with the better worst case. */
+/** Swatch readout color per step, shared by every hue: the gray with the better worst case. */
 export function stepLabel(mode: Mode, step: string): string {
   const ink = { dark: hex(mode, 'gray-800'), light: hex(mode, 'gray-50') };
   const fills = HUES.map(h => hex(mode, `${h}-${step}`));

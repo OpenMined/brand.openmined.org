@@ -99,14 +99,13 @@
       }
     }
   },
-  "on-solid": {
+  "on-key": {
     "$type": "color",
-    "$value": "{gray.950}",
-    "$description": "Text or icon placed on any solid fill.",
+    "$value": "{white}",
+    "$description": "Text or icon on any key: every hue and status, both modes.",
     "$extensions": {
       "org.openmined": {
-        "status": "exploring",
-        "placeholder": "text-and-lines round"
+        "status": "working"
       }
     }
   },
@@ -137,33 +136,6 @@
         "org.openmined": {
           "status": "working",
           "was": "{violet.300}"
-        }
-      }
-    },
-    "solid": {
-      "$value": "{violet.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{violet.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
         }
       }
     }
@@ -197,33 +169,6 @@
           "was": "{blue.300}"
         }
       }
-    },
-    "solid": {
-      "$value": "{blue.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{blue.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
     }
   },
   "teal": {
@@ -253,33 +198,6 @@
         "org.openmined": {
           "status": "working",
           "was": "{teal.300}"
-        }
-      }
-    },
-    "solid": {
-      "$value": "{teal.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{teal.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
         }
       }
     }
@@ -313,33 +231,6 @@
           "was": "{green.300}"
         }
       }
-    },
-    "solid": {
-      "$value": "{green.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{green.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
     }
   },
   "amber": {
@@ -369,33 +260,6 @@
         "org.openmined": {
           "status": "working",
           "was": "{amber.300}"
-        }
-      }
-    },
-    "solid": {
-      "$value": "{amber.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{amber.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
         }
       }
     }
@@ -429,33 +293,6 @@
           "was": "{red.300}"
         }
       }
-    },
-    "solid": {
-      "$value": "{red.300}",
-      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{red.200}",
-      "$description": "One step past solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{on-solid}",
-      "$description": "Text or icon on this hue's solid.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
     }
   },
   "success": {
@@ -487,35 +324,8 @@
         }
       }
     },
-    "solid": {
-      "$value": "{green.solid}",
-      "$description": "Success → green.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{green.hover}",
-      "$description": "Success → green.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
     "key": {
       "$value": "{green.key}",
-      "$description": "Success → green.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{green.on}",
       "$description": "Success → green.",
       "$extensions": {
         "org.openmined": {
@@ -553,35 +363,8 @@
         }
       }
     },
-    "solid": {
-      "$value": "{amber.solid}",
-      "$description": "Warning → amber.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{amber.hover}",
-      "$description": "Warning → amber.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
     "key": {
       "$value": "{amber.key}",
-      "$description": "Warning → amber.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{amber.on}",
       "$description": "Warning → amber.",
       "$extensions": {
         "org.openmined": {
@@ -619,35 +402,8 @@
         }
       }
     },
-    "solid": {
-      "$value": "{red.solid}",
-      "$description": "Danger → red.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{red.hover}",
-      "$description": "Danger → red.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
     "key": {
       "$value": "{red.key}",
-      "$description": "Danger → red.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{red.on}",
       "$description": "Danger → red.",
       "$extensions": {
         "org.openmined": {
@@ -685,35 +441,8 @@
         }
       }
     },
-    "solid": {
-      "$value": "{blue.solid}",
-      "$description": "Info → blue.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{blue.hover}",
-      "$description": "Info → blue.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
     "key": {
       "$value": "{blue.key}",
-      "$description": "Info → blue.",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "on": {
-      "$value": "{blue.on}",
       "$description": "Info → blue.",
       "$extensions": {
         "org.openmined": {

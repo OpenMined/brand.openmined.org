@@ -2,7 +2,8 @@
 type: Decision
 title: One label color per step; the key carries no text
 description: A row of badges mixed white and dark labels. Every step now takes one label color in every hue.
-status: working
+status: deprecated
+replacedBy: 2026-10-28-four-roles-one-label-on-key
 date: 2026-09-24
 tags: [color]
 ---

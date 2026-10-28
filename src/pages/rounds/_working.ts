@@ -101,17 +101,15 @@ const ROLE_USE: Record<string, string> = {
   subtle: 'Badge, callout, selected-row background',
   soft: 'Decorative rule, selected outline, area fill',
   fg: 'Colored text, links, icons — AA on every surface',
-  key: 'Marks with no text: chart series, dots, progress, strokes',
-  solid: 'Fills carrying a label: white in light, ink in dark, every hue',
-  hover: 'One step past solid',
+  key: 'Marks, and colored fills with a white label (on)',
 };
 export const ROLE_ROWS = Object.entries(ROLE_USE).map(([role, use]) => ({
   role, use, light: hueStep('light', `blue-${role}`), dark: hueStep('dark', `blue-${role}`),
 }));
-/** Status → hue, read from the build (`danger-solid` → `red-solid` → red). */
+/** Status → hue, read from the build (`danger-fg` → `red-fg` → red). */
 export const ROLE_HUE: Record<string, string | null> = {
   accent: null,
-  ...Object.fromEntries(['success', 'warning', 'danger', 'info'].map(s => [s, target(tok('light', `${s}-solid`).value)!.replace('-solid', '')])),
+  ...Object.fromEntries(['success', 'warning', 'danger', 'info'].map(s => [s, target(tok('light', `${s}-fg`).value)!.replace('-fg', '')])),
 };
 
 /* ── Color maths, for readouts and contrast notes only ────────────── */

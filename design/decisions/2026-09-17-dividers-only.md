@@ -2,7 +2,8 @@
 type: Decision
 title: Dividers only
 description: Outlines removed from inputs, buttons and cards. The only rules left are dividers between things.
-status: working
+status: deprecated
+replacedBy: 2026-10-12-outlines-are-lines
 date: 2026-09-17
 tags: [surfaces]
 tokens: [--line]
