@@ -7,8 +7,8 @@
     "prebuild": "mkdir -p public/tokens && cp src/tokens/*.css src/tokens/*.json public/tokens/",
     "build": "astro build",
     "preview": "astro preview",
-    "lint": "stylelint \"src/**/*.{css,astro}\"",
-    "lint:fix": "stylelint \"src/**/*.{css,astro}\" --fix",
+    "lint": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\"",
+    "lint:fix": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" --fix",
     "tokens": "node tools/palette/generate.mjs && node tools/tokens/build.mjs",
     "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check",
     "icons:import": "node tools/icons/import.mjs"

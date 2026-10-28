@@ -1308,6 +1308,12 @@
     "type": "color",
     "status": "exploring"
   },
+  "--line-focus": {
+    "value": "var(--gray-400)",
+    "resolved": "#8d8b9e",
+    "type": "color",
+    "status": "exploring"
+  },
   "--text-headline": {
     "value": "var(--gray-50)",
     "resolved": "#fafafc",

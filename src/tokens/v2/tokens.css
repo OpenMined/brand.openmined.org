@@ -224,6 +224,7 @@
   --surface-raise-2: var(--white);
   --line: var(--gray-200);
   --line-strong: var(--gray-600);
+  --line-focus: var(--gray-500);
   --text-headline: var(--gray-800);
   --text-body: var(--gray-600);
   --text-muted: var(--gray-500);
@@ -487,6 +488,7 @@
   --surface-raise-2: var(--gray-700);
   --line: var(--gray-600);
   --line-strong: var(--gray-200);
+  --line-focus: var(--gray-400);
   --text-headline: var(--gray-50);
   --text-body: var(--gray-200);
   --text-muted: var(--gray-400);

@@ -11,6 +11,8 @@ export default defineConfig({
       alias: {
         '@tokens': path.join(root, 'src/tokens'),
         '@brand':  path.join(root, 'src/components'),
+        // v2 components (CSS and plain JS modules), the source at the repo root.
+        '@components': path.join(root, 'components'),
       },
     },
   },

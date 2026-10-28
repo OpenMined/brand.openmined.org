@@ -1,0 +1,79 @@
+/* ════════════════════════════════════════════════════════════════════
+   FIELD — v2 component (design/components/form-field.md), exploring
+   ════════════════════════════════════════════════════════════════════
+   Text, email, number, select, textarea, file; the form and field layout
+   around them; errors. Needs: the v2 tokens. Script: field.js (fieldLights),
+   for the light that follows the pointer; without it, hover is the outline
+   alone. Checkbox, radio and toggle: control.css.
+
+   Markup:
+     <form class="fm">
+       <div class="fld">
+         <label class="fld__label" for="email">Email<span class="fld__req">*</span></label>
+         <p class="fld__desc">We only write about OpenMined.</p>
+         <input class="ctl" id="email" type="email" placeholder="you@example.org">
+         <ul class="fld__errs"><li>Enter an email address.</li></ul>
+       </div>
+       <div class="fld">
+         <label class="fld__label" for="role">Role</label>
+         <div class="fld__ctl--select"><select class="ctl" id="role">…</select></div>
+       </div>
+     </form>
+   Two columns: .fm-grid around the fields; .fld--full spans both. */
+.fm { display: grid; gap: var(--spacing-2xl); }
+.fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2xl); align-items: start; }
+@media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
+.fld { display: grid; gap: var(--spacing-xs); align-content: start; }
+.fld--full { grid-column: 1 / -1; }
+/* Form text (Bennett, 2026-10-09): labels and placeholders at body size
+   (--font-size-md) and weight 500; values, options and errors at body size,
+   regular; descriptions at small size (--font-size-sm), regular. */
+.fld__label { font-size: var(--font-size-md); font-weight: 500; color: var(--text-headline); }
+.fld__req { color: var(--text-body); margin-left: 0.25em; }
+.fld__desc { margin: 0; font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
+
+/* Field: flat on the sunken level at rest. Hover and focus (the Color and
+   interaction round's option C, grayscale; decisions 2026-10-17 and 2026-10-27):
+   on hover a soft white light inside the field follows the pointer (field.js),
+   in light with a gray-300 outline that turns white near the pointer, in dark a
+   gray-500 edge near the pointer; on focus a solid 1px line in --line-focus
+   (3:1 on every surface) with the inset. All painted on the field: a transparent
+   1px border (padding 1px less) and background layers, top first: the light, the
+   field's surface (padding box), the edge near the pointer, the focus line and
+   the hover outline (border box). */
+@property --ctl-fl { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@property --ctl-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+:root { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); }
+[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); }
+.ctl {
+  display: block; width: 100%; margin: 0; border: 1px solid transparent; font: inherit;
+  color: var(--text-headline);
+  border-radius: var(--radius-md); padding: calc(0.7em - 1px) calc(0.9em - 1px); font-size: var(--font-size-md);
+  background:
+    radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--white) var(--ctl-fl), transparent), transparent) padding-box,
+    linear-gradient(var(--surface-sunken), var(--surface-sunken)) padding-box,
+    radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--ctl-edge-c) var(--ctl-fe), transparent), transparent) border-box,
+    linear-gradient(color-mix(in oklch, var(--line-focus) var(--ctl-fo), transparent), color-mix(in oklch, var(--line-focus) var(--ctl-fo), transparent)) border-box,
+    linear-gradient(color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent), color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent)) border-box;
+  box-shadow: none;
+  transition: box-shadow var(--transition-base), --ctl-fl var(--transition-base), --ctl-fe var(--transition-base), --ctl-fh var(--transition-base), --ctl-fo var(--transition-base);
+}
+.ctl:not(:disabled):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); transition-duration: 0.15s; }
+.ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
+/* .is-focus: shows the focus state without focus (specimens). */
+.ctl.is-focus { box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
+.ctl::placeholder { color: var(--text-muted); font-weight: 500; }
+.ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
+/* Select: appearance none, so its own wrapper draws the arrow (portable: the control's own box) */
+select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
+.fld__ctl--select { position: relative; }
+.fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
+textarea.ctl { resize: vertical; min-height: 5em; }
+.ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
+.ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: var(--spacing-md); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
+
+/* Error: danger-colored text on whatever the form sits on — no box, no
+   outline (Bennett, 2026-10-08: colored boxes stacked on dark read muddy). */
+.fld__errs { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: var(--font-size-md); color: var(--danger-fg); }

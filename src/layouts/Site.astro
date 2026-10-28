@@ -10,10 +10,10 @@
  * src/lib/rounds.ts, with a way back to the guide). Kyle, 2026-10-13.
  */
 import '@tokens/v2/tokens.css';
+// The v2 components first, then the site's own styles, which lay them out.
+import '@components/index.css';
 import '../styles/site.css';
-import '../styles/button-hover.css';
 import '../styles/card-flow.css';
-import '../styles/link-hover.css';
 import ThemeToggle from '../components/site/ThemeToggle.astro';
 import { ROUNDS, REVIEW_PAGES, isCurrent } from '../lib/rounds';
 
@@ -91,10 +91,13 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
     </footer>
 
     <script>
-      import { buttonHover, hoverCards, fieldLights } from '../scripts/button-hover';
+      import { buttonHover } from '@components/button-hover.js';
+      import { fieldLights } from '@components/field.js';
+      import { hoverCards } from '@components/hover-card.js';
       import { cardFlows } from '../scripts/gl/card-flow';
       import { HOVER_FLOWS } from '../scripts/gl/units/hover-flow';
-      buttonHover();
+      // The Color and interaction round's own buttons (.mbtn) draw their own layers.
+      buttonHover('.btn:not(.mbtn)');
       hoverCards();
       // Hover cards' colorflow: each card names its unit (HoverCard's `flow`).
       cardFlows(document.querySelectorAll<HTMLElement>('.hcard[data-flow]'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);

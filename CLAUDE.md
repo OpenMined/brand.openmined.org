@@ -12,7 +12,7 @@ Standard Astro project at the repo root — no subdirectory wrapper.
 src/
   layouts/      — Base.astro: shell, fonts, token imports, theme init
   pages/        — one .astro file per page; index.astro is the reference page
-  components/   — brand UI primitives (Button, Input, ThemeToggle, etc.)
+  components/   — v1 brand UI primitives (Button, Input, ThemeToggle, etc.); site/ = the v2 site's own
   tokens/       — CSS custom properties and base styles
 public/
   logos/        — all approved logo SVGs (+ logos/raster/ PNG renders for surfaces that can't inline SVG)
@@ -40,6 +40,7 @@ Site-specific layouts, sections, navigation, content, or anything tied to a part
 
 - `@tokens` → `src/tokens/` — use for CSS imports in any component or layout
 - `@brand` → `src/components/` — use for component imports within the site
+- `@components` → `components/` — the v2 components (CSS and plain JS modules)
 
 ## Color mode system
 
@@ -114,6 +115,10 @@ Route every change to its source:
   (`exploring` · `working` = the current direction, not final · `released` · `deprecated`),
   optional `tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts`
   validates it and fails the build on a bad file.
+- **Components** (v2) → `components/` at the repo root: one CSS file per component, a small
+  ES module per moving part (each exports one function taking a selector; safe to call
+  again), bare class names, the ideal markup at the top of each CSS file. No framework, no
+  loader; `components/README.md`, `components/demo.html`. Decision 2026-10-27.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
   `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only; outlines only as lines, never containers).
 - `/v1/` is the released v1 reference; `/rounds/` is the archive of review rounds

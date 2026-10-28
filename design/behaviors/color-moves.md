@@ -23,8 +23,8 @@ tags: [color, graphics, interface]
 **Where it runs (for agents and other platforms).** Not every move works everywhere. Before using one, check what it needs:
 
 - **Anywhere** (documents, slides, PDF, images): the still look only. Colors, two-tone and highlight colors, a diagram's still frame.
-- **Any web page, CSS and SVG only** (HTML decks and Claude artifacts too): button hovers, the moving icon two-tone, link hovers.
-- **Web, with a script:** diagram line pulses (`src/scripts/line-flow.ts`) and the `<om-diamond>`/`<om-stream>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load the brand site's embeds; paste the script in or use the still frame.
+- **Any web page, CSS and SVG only** (HTML decks and Claude artifacts too): link hovers, the moving icon two-tone (its gradients are SVG markup).
+- **Web, with a script:** button hovers, the field and hover-card pointer lights and the card tilt (the v2 components' modules in `components/`, each one small and standalone), diagram line pulses (`src/scripts/line-flow.ts`) and the `<om-diamond>`/`<om-stream>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load the brand site's embeds; paste the script in or use the still frame.
 - **The brand site only, for now:** hover card colorflows (the site's shared WebGL renderer).
 
 Where a move can't run, use its still frame: the same colors, standing still, as under reduced motion. Never fake the motion with a different look.

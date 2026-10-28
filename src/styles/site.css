@@ -259,115 +259,11 @@ a:hover { text-decoration-color: currentColor; }
 .panel__eyebrow { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
 .panel__title { display: block; font-size: 15px; font-weight: 600; color: var(--text-headline); margin-top: 2px; }
 
-/* ── Interface specimens — ported from the surfaces round's form lab ─ */
-/* Buttons: one solid per group; the rest are secondary, an outline in the
-   line style (--stroke-sm, --line-strong = the body text color) over the
-   surface they sit on (Bennett, 2026-10-12: an outline as a line, not a
-   container). Every button carries the same border, so solid and secondary
-   are one size. Icon-only buttons stay bare: no outline, as in an interface's
-   chrome (menu, search, close). */
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 48px; padding: 11px 19px;
-  font: 500 1rem/1 var(--font-body); text-decoration: none; cursor: pointer;
-  border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-md);
-  background: transparent; color: var(--text-headline);
-  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
-}
-.btn--solid { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
-/* Hover takes the accent's color, --accent-key (green), on both: a green
-   fill with a white label (a colored fill uses the key, as the strong status
-   chips do). Grayscale at rest (decision 2026-10-12, exploring). */
-.btn:hover { background: var(--accent-key); border-color: var(--accent-key); color: var(--white); }
+/* ── Interface specimens ─────────────────────────────────────────────
+   Buttons, fields, controls, links, colored icons and hover cards are the v2
+   components (components/, imported in Site.astro); below is only how the
+   guide lays them out. */
 .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center; }
-
-/* Form: generic markup, fields −1 on the card they sit in */
-.fm { display: grid; gap: var(--spacing-2xl); }
-.fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2xl); align-items: start; }
-@media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
-.fld { display: grid; gap: var(--spacing-xs); align-content: start; }
-.fld--full { grid-column: 1 / -1; }
-/* Form text (Bennett, 2026-10-09): labels and placeholders at body size
-   (--font-size-md) and weight 500; values, options and errors at body size,
-   regular; descriptions at small size (--font-size-sm), regular. */
-.fld__label { font-size: var(--font-size-md); font-weight: 500; color: var(--text-headline); }
-.fld__req { color: var(--text-body); margin-left: 0.25em; }
-.fld__desc { font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
-/* Field: flat until focus — the recess IS the focus state, so the UA ring goes */
-/* Hover and focus (components/form-field; the Color and interaction round's
-   option C, grayscale): on hover a soft white light inside the field follows the
-   pointer (src/scripts/button-hover.ts fieldLights), in light with a gray-300
-   outline that turns white near the pointer, in dark a gray-500 edge near the
-   pointer; on focus a solid 1px gray-500 line with the inset. All painted on the
-   field: a transparent 1px border (padding 1px less) and background layers, top
-   first: the light, the field's surface (padding box), the edge near the
-   pointer, the focus line and the hover outline (border box). */
-@property --ctl-fl { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --ctl-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --ctl-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-@property --ctl-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-:root { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); --ctl-line-c: var(--gray-500); }
-/* Dark: the focus line is gray-400 (gray-500 fell under 3:1 on raise-1 and raise-2;
-   gray-400 is 4.45:1 or more on every surface). Light's gray-500 is 4.15:1 or more. */
-[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); --ctl-line-c: var(--gray-400); }
-.ctl {
-  display: block; width: 100%; margin: 0; border: 1px solid transparent; font: inherit;
-  color: var(--text-headline);
-  border-radius: var(--radius-md); padding: calc(0.7em - 1px) calc(0.9em - 1px); font-size: var(--font-size-md);
-  background:
-    radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--white) var(--ctl-fl), transparent), transparent) padding-box,
-    linear-gradient(var(--surface-sunken), var(--surface-sunken)) padding-box,
-    radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklch, var(--ctl-edge-c) var(--ctl-fe), transparent), transparent) border-box,
-    linear-gradient(color-mix(in oklch, var(--ctl-line-c) var(--ctl-fo), transparent), color-mix(in oklch, var(--ctl-line-c) var(--ctl-fo), transparent)) border-box,
-    linear-gradient(color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent), color-mix(in oklch, var(--ctl-outline-c) var(--ctl-fh), transparent)) border-box;
-  box-shadow: none;
-  transition: box-shadow var(--transition-base), --ctl-fl var(--transition-base), --ctl-fe var(--transition-base), --ctl-fh var(--transition-base), --ctl-fo var(--transition-base);
-}
-.ctl:not(:disabled):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); transition-duration: 0.15s; }
-.ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
-.ctl.is-focus { box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
-.ctl::placeholder { color: var(--text-muted); font-weight: 500; }
-.ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
-/* Control: checkbox, radio and toggle cast at rest; hover and focus below */
-.opts { list-style: none; display: grid; gap: var(--spacing-sm); }
-.opt { display: flex; align-items: center; gap: var(--spacing-sm); cursor: pointer; font-size: var(--font-size-md); color: var(--text-body); }
-.opt__box {
-  appearance: none; flex: none; position: relative; width: 18px; height: 18px; margin: 0; cursor: pointer;
-  border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--radius-sm);
-}
-.opt__box[type="radio"] { border-radius: 50%; }
-.opt__box:checked { background: var(--text-headline); }
-/* The mark sits 3px inside the box on every side — the recessed-control inset
-   (DECISIONS 2026-09-17), the same as the toggle's knob. The check is a mask, so
-   its color is a token; the path is drawn centered in that 12px area. */
-.opt__box[type="checkbox"]:checked::after {
-  content: ''; position: absolute; inset: 3px; background: var(--surface-raise-1);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-/* Radio: twice the inset (6px). A round mark needs more room than a square one to
-   read as a dot rather than a ring. */
-.opt__box[type="radio"]:checked::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-raise-1); }
-/* Toggle: a recess you operate, inset 3px */
-.switch { position: relative; width: 46px; height: 26px; flex: none; border: none; padding: 0; cursor: pointer;
-  border-radius: var(--radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
-.switch[aria-checked="true"] { background: var(--text-headline); }
-.switch__knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-raise-1); transition: transform var(--transition-base); }
-.switch[aria-checked="true"] .switch__knob { transform: translateX(20px); }
-/* Controls' hover and focus, the fields' language without the pointer light (too
-   small for it): on hover a 1px outline inside the edge, light gray-300, dark
-   gray-500 at 0.5 (a field's edge near the pointer); on keyboard focus the field's
-   gray line, 1px, drawn 2px outside the control, since inside it would sit on the
-   checked fill (gray-500 on the headline fill is 2.87:1). Outside, it reads against
-   the surface: 4.45:1 or more in both modes. */
-:root { --ctl-ring-c: var(--gray-300); }
-[data-theme="dark"] { --ctl-ring-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
-:is(.opt__box, .switch) { transition: box-shadow var(--transition-base), background-color var(--transition-base); }
-:is(.opt:hover .opt__box, .opt__box:hover, .switch:hover):not(:disabled) { box-shadow: var(--shadow-sunken), inset 0 0 0 1px var(--ctl-ring-c); transition-duration: 0.15s; }
-:is(.opt__box, .switch):focus-visible { outline: 1px solid var(--ctl-line-c); outline-offset: 2px; }
-/* Error: danger-colored text on whatever the form sits on — no box, no
-   outline (Bennett, 2026-10-08: colored boxes stacked on dark read muddy). */
-.fld__errs { list-style: none; display: grid; gap: 2px; font-size: var(--font-size-md); color: var(--danger-fg); }
 
 
 /* ── Typography specimens: the website's fluid ladder, shown as-is ── */
@@ -442,13 +338,6 @@ a:hover { text-decoration-color: currentColor; }
 @media (max-width: 900px) { .fm-split__text { position: static; } }
 .fm--one { gap: var(--spacing-xl); }
 .fm-sub { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; color: var(--text-body); padding-top: var(--spacing-md); border-top: 1px solid var(--line); }
-/* Select: appearance none, so its own wrapper draws the arrow (portable: the control's own box) */
-select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
-.fld__ctl--select { position: relative; }
-.fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
-textarea.ctl { resize: vertical; min-height: 5em; }
-.ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
-.ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: var(--spacing-md); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
 
 /* Corners (Surfaces page): a panel holding every corner size, and the outer
    corner compared at candidate values. The inner tiles stay at md. */
@@ -533,29 +422,7 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 
 /* Color page: midtone saturation preview under the gray ramp (exploring) */
 
-/* ── Links (ported from openmined.org, 2026-10-09) ───────────────────
-   Link text never changes color (Kyle and Bennett, 2026-10-12). Every line
-   is the line style: --stroke-sm in --line-strong, the same as the
-   secondary button's outline (Kyle, 2026-10-12).
-   Content link: see src/styles/link-hover.css.
-   Text button: no line at rest; on hover the line draws in from the left
-   and leaves to the right. Two registered properties carry
-   the two line lengths, so the load animation and the hover transition never
-   fight over background-size. */
-/* Content links: src/styles/link-hover.css (shared with the page reviews). */
-/* Text button — the live site's hover-line link (components.css .link-hover-line).
-   With an icon after the label (live types "->"; v2 uses Iconoir's arrow);
-   the line runs under the label only. */
-.link-text { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-headline); text-decoration: none; }
-.link-text__label {
-  background-image: linear-gradient(var(--line-strong), var(--line-strong)); background-repeat: no-repeat;
-  background-size: 0% var(--stroke-sm); background-position: right bottom; padding-bottom: 2px;
-  transition: background-size var(--transition-base);
-}
-.link-text:hover .link-text__label, .link-text:focus-visible .link-text__label { background-size: 100% var(--stroke-sm); background-position: left bottom; }
-@media (prefers-reduced-motion: reduce) {
-  .link-text__label { transition: none; }
-}
+/* Links: the v2 link component (components/link.css). The Interface page's demo: */
 .link-demo { display: grid; gap: var(--spacing-md); }
 .link-demo p { max-width: 36em; }
 
@@ -588,16 +455,8 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .om-prose code { font-size: 0.875em; }
 .om-prose .om-prose__small { font-size: var(--font-size-sm); color: var(--text-muted); }
 
-/* ── Colored icons: a hue's two-tone gradient in the stroke (ColorIcon) ──
-   The moving gradient comes from TwoToneDefs (tokens: --gradient-two-tone-<hue>);
-   a blurred copy behind is the glow: 6px, 0.25 in light, 0.4 in dark. The
-   wrapper hugs the icon so the copy sits on it. Exploring (behaviors/color-moves). */
-.two-tone-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-.color-icon { position: relative; isolation: isolate; display: inline-flex; width: fit-content; vertical-align: middle; }
-.color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.25; pointer-events: none; }
-[data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
-.color-icon svg { display: block; }
-.color-icon :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
+/* Two-tone table and highlight lines (Color page); colored icons are the v2
+   component (components/color-icon.css). */
 .tbl--two-tone td { padding: 8px 10px; vertical-align: middle; }
 .tt-pair { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .tt-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
@@ -606,49 +465,7 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .hl-line path { fill: none; stroke-width: 2.5; stroke-linecap: round; }
 .colorway__icons { display: flex; flex-wrap: wrap; gap: var(--spacing-xl); margin-bottom: var(--spacing-md); }
 
-/* ── Hover cards (components/site/HoverCard.astro, components/hover-card.md) ──
-   A level and its shadow; on hover or focus one level up and a 2px lift, and a
-   tilt away from the pointer (src/scripts/card-tilt.ts sets --card-tilt-x/-y; the
-   knobs below). The pointer light: in light mode the card shades except around
-   the pointer (the page's base multiplied in at 0.5, clear within 0.3 of the
-   card's width, full from one width out); in dark a faint white light (0.03).
-   The script sets --mx/--my/--cw. A colorflow fades in across the lower third
-   (src/styles/card-flow.css). The icon (32px) top-aligns 8px down; on hover its
-   colored copy (the hue's two-tone, moving) and glow fade in over the mono one.
-   The arrow stays mono and nudges right. */
-.hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-lg);
-  padding: var(--spacing-4xl) var(--spacing-3xl); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
-  color: var(--text-body); text-decoration: none;
-  --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
-  transition: box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base)); }
-.hcard:is(:hover, :focus-visible) { box-shadow: var(--shadow-raise-2);
-  transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg)); }
-@media (prefers-reduced-motion: reduce) { .hcard:is(:hover, :focus-visible) { transform: none; } }
-.hcard__text { flex: 1; display: grid; gap: 2px; font-size: var(--font-size-md); line-height: 1.5; }
-.hcard__text strong { color: var(--text-headline); font-weight: 700; }
-.hcard__arrow { display: flex; align-self: center; opacity: 0.3; transition: opacity 0.2s ease, transform 0.2s ease; }
-.hcard:is(:hover, :focus-visible) .hcard__arrow { opacity: 1; transform: translateX(4px); }
-.hcard__icon { position: relative; isolation: isolate; display: flex; flex: none; margin-top: var(--spacing-sm); color: var(--text-headline); }
-.hcard__icon > svg { transition: opacity var(--transition-base); }
-.hcard__icon > :is(.hcard__glow, .hcard__color) { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity var(--transition-base); }
-.hcard__icon > .hcard__glow { z-index: -1; filter: blur(6px); }
-.hcard__icon :is(.hcard__glow, .hcard__color) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }
-.hcard:is(:hover, :focus-visible) .hcard__icon > svg { opacity: 0; transition-duration: 0.15s; }
-.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__color { opacity: 1; transition-duration: 0.15s; }
-.hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.25; transition-duration: 0.15s; }
-[data-theme="dark"] .hcard:is(:hover, :focus-visible) .hcard__icon > .hcard__glow { opacity: 0.4; }
-.hcard__light { --hl-o: 0.5; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity var(--transition-base);
-  mix-blend-mode: multiply;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), transparent calc(var(--cw, 320px) * 0.3), var(--surface-base) var(--cw, 320px)); }
-[data-theme="dark"] .hcard__light { --hl-o: 0.03; mix-blend-mode: normal;
-  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }
-.hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: 0.15s; }
-/* Large: full width of its container, icon and text centered at a 640px measure, the
-   arrow at the right edge; padding one step up (48px top and bottom). */
-.hcard--large { display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; gap: var(--spacing-2xl); padding-block: var(--spacing-5xl); }
-.hcard--large .hcard__icon { grid-column: 2; }
-.hcard--large .hcard__text { grid-column: 3; }
-.hcard--large .hcard__arrow { grid-column: 4; justify-self: end; }
+/* Hover card rows (Interface page); the cards are the v2 component (components/hover-card.css). */
 .hcards-large { margin-top: var(--spacing-xl); }
 .hcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-xl); }
 @media (max-width: 900px) { .hcards { grid-template-columns: minmax(0, 1fr); } }

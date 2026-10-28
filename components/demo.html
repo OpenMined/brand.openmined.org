@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v2 components, standalone</title>
+  <!-- Nothing but the v2 tokens and the components: proof they need no framework. Serve the repo root.
+       Icons: Iconoir (regular), inlined at the set's 2 stroke. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Rubik:wght@400&display=swap">
+  <link rel="stylesheet" href="../src/tokens/v2/tokens.css">
+  <link rel="stylesheet" href="./index.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: var(--spacing-5xl) var(--spacing-lg); background: var(--surface-base); color: var(--text-body); font: 400 var(--font-size-md)/1.6 var(--font-body); }
+    main { max-width: 760px; margin: 0 auto; display: grid; gap: var(--spacing-5xl); }
+    h1, h2 { font-family: var(--font-display); font-weight: 400; color: var(--text-headline); margin: 0 0 var(--spacing-lg); }
+    .row { display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center; }
+    .panel { padding: var(--spacing-2xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+    ul { margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+<main>
+  <header class="row" style="justify-content: space-between">
+    <h1>v2 components</h1>
+    <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Dark mode" id="mode"><span class="switch__knob"></span></button>
+  </header>
+
+  <section>
+    <h2>Buttons</h2>
+    <div class="row">
+      <button class="btn btn--solid">Join the network</button>
+      <a class="btn" href="#">Read the docs</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <p class="content-links">A link inside running text, like <a href="#">attribution-based control</a>, keeps its color.</p>
+    <a class="link-text" href="#"><span class="link-text__label">See all posts</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </section>
+
+  <section>
+    <h2>Form</h2>
+    <form class="fm panel" onsubmit="return false">
+      <div class="fld">
+        <label class="fld__label" for="name">Full name<span class="fld__req">*</span></label>
+        <input class="ctl" id="name" placeholder="Jane Doe">
+      </div>
+      <div class="fld">
+        <label class="fld__label" for="email">Email</label>
+        <p class="fld__desc">We only write about OpenMined.</p>
+        <input class="ctl" id="email" type="email" placeholder="you@example.org">
+        <ul class="fld__errs"><li>Enter an email address.</li></ul>
+      </div>
+      <div class="fld">
+        <label class="fld__label" for="role">Role</label>
+        <div class="fld__ctl--select"><select class="ctl" id="role"><option>Researcher</option><option>Engineer</option></select></div>
+      </div>
+      <div class="fld">
+        <span class="fld__label">Interests</span>
+        <ul class="opts">
+          <li><label class="opt"><input class="opt__box" type="checkbox" checked><span>Federated learning</span></label></li>
+          <li><label class="opt"><input class="opt__box" type="checkbox"><span>Secure enclaves</span></label></li>
+        </ul>
+      </div>
+      <div class="fld">
+        <span class="fld__label">Contact</span>
+        <ul class="opts">
+          <li><label class="opt"><input class="opt__box" type="radio" name="c" checked><span>Email</span></label></li>
+          <li><label class="opt"><input class="opt__box" type="radio" name="c"><span>No contact</span></label></li>
+        </ul>
+      </div>
+      <div><button class="btn btn--solid" type="submit">Join</button></div>
+    </form>
+  </section>
+
+  <section>
+    <h2>Colored icon</h2>
+    <span class="color-icon" style="--ci-stroke:url(#tt-green)">
+      <span class="color-icon__glow" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.6224 10.3954L18.5247 7.7448L20 6L18 4L16.2647 5.48295L13.5578 4.36974L12.9353 2H10.981L10.3491 4.40113L7.70441 5.51596L6 4L4 6L5.45337 7.78885L4.3725 10.4463L2 11V13L4.40111 13.6555L5.51575 16.2997L4 18L6 20L7.79116 18.5403L10.397 19.6123L11 22H13L13.6045 19.6132L16.2551 18.5155C16.6969 18.8313 18 20 18 20L20 18L18.5159 16.2494L19.6139 13.598L21.9999 12.9772L22 11L19.6224 10.3954Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.6224 10.3954L18.5247 7.7448L20 6L18 4L16.2647 5.48295L13.5578 4.36974L12.9353 2H10.981L10.3491 4.40113L7.70441 5.51596L6 4L4 6L5.45337 7.78885L4.3725 10.4463L2 11V13L4.40111 13.6555L5.51575 16.2997L4 18L6 20L7.79116 18.5403L10.397 19.6123L11 22H13L13.6045 19.6132L16.2551 18.5155C16.6969 18.8313 18 20 18 20L20 18L18.5159 16.2494L19.6139 13.598L21.9999 12.9772L22 11L19.6224 10.3954Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </section>
+
+  <section>
+    <h2>Hover card</h2>
+    <a class="hcard" href="#">
+      <span class="hcard__icon" style="--ci-stroke:url(#tt-amber)" aria-hidden="true">
+        <span class="hcard__glow"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L5 14H11V21L19 10H13Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L5 14H11V21L19 10H13Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="hcard__color"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L5 14H11V21L19 10H13Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </span>
+      <span class="hcard__text"><strong>Quickstart</strong><span>Get up and running in 5 minutes</span></span>
+      <span class="hcard__arrow" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="hcard__light" aria-hidden="true"></span>
+    </a>
+  </section>
+</main>
+
+<script type="module">
+  import { buttonHover, fieldLights, hoverCards, twoTone } from './index.js';
+  twoTone();
+  buttonHover();
+  fieldLights();
+  hoverCards();
+  // The page's own: the switch sets the color mode.
+  const mode = document.getElementById('mode');
+  mode.addEventListener('click', () => {
+    const dark = document.documentElement.dataset.theme !== 'dark';
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    mode.setAttribute('aria-checked', String(dark));
+  });
+</script>
+</body>
+</html>

@@ -4,14 +4,14 @@
    V2Pass.astro adds the layers at runtime; everything here is scoped to
    html[data-system="v2"]. Exploring.
 
-   Buttons — src/styles/button-hover.css (shared with the brand site).
+   Buttons — the v2 component's hover (components/button-hover.css) and the Options variants (button-options.css).
 
    Icons — a set hue moving inside the stroke, its two-tone gradient token
    (--gradient-two-tone-<hue>, companion set per hue), bottom left → top right,
    96 units per 4s loop (the Options panel can change it); one blurred copy behind (6px; 0.25
    in light, 0.4 in dark). */
 
-/* ── Buttons: src/styles/button-hover.css (shared with the brand site). ── */
+/* ── Buttons: components/button-hover.css and button-options.css. ── */
 
 /* ── Hover cards: a soft light that follows the pointer ──────────────────
    Every .card-float (link cards, press cards). White, 480px across, over the

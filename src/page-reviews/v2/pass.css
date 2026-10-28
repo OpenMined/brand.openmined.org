@@ -131,7 +131,7 @@ html[data-system="v2"] .flow__op--icon svg { display: block; }
 
 /* ── Links: text never changes color (components/link) ─────────────────
    Kyle and Bennett, 2026-10-12. A link with an underline keeps it, and on
-   hover a moving gradient grows over it (src/styles/link-hover.css); a link without
+   hover a moving gradient grows over it (v2/link-hover.css, from components/link.css); a link without
    one (nav, footer, text buttons) draws one in its own text color. Both
    lines leave to the right. The content link's underline still draws in on
    load. Every line is the line style, --stroke-sm in --line-strong (the body
@@ -139,7 +139,7 @@ html[data-system="v2"] .flow__op--icon svg { display: block; }
    2026-10-12). Two registered properties carry the two line lengths, so the load
    animation (base line) and the hover transition (accent line) never fight
    over background-size. */
-/* Content links: src/styles/link-hover.css (shared with the brand site). */
+/* Content links: v2/link-hover.css (a copy of the v2 component, components/link.css). */
 
 /* Links without an underline: the same line, in from the left and out to
    the right (live returns it to the left). The current page holds it open,

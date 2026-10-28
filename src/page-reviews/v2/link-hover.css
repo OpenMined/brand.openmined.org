@@ -1,7 +1,9 @@
-/* ── Content link hover: color in motion ───────────────────────────────
+/* ── PAGE REVIEWS — content link hover on openmined.org's markup ─────────
+   A copy of the v2 link component's content link (components/link.css), with
+   the selectors the live markup needs (its prose and heading links, its link
+   classes). Kept as a copy while the reviews last; the component is the source.
    The working favorite from the Color and interaction round (/rounds/motion/, links, option B), exploring
-   (components/link, decisions/2026-10-12-if-color-then-motion). Shared by the
-   brand site and the page reviews; pure CSS, no markup.
+   (components/link, decisions/2026-10-12-if-color-then-motion). Pure CSS, no markup.
 
    Only links with a resting underline (content links) get color; links without
    one (nav, footer, text buttons) keep their own-color line (Kyle, 2026-10-13).
@@ -24,8 +26,6 @@
 @keyframes om-line-in { from { --om-line: 0%; } to { --om-line: 100%; } }
 @keyframes link-flow { from { --link-shift: 0%; } to { --link-shift: 900%; } }
 
-.link-content,
-.om-prose a:not([class]),
 html[data-system="v2"] .prose a:not([class]),
 html[data-system="v2"] p a:not([class]),
 html[data-system="v2"] h1 a:not([class]),
@@ -48,8 +48,6 @@ html[data-system="v2"] .link-inline {
   animation: om-line-in 0.4s ease forwards, link-flow 15s linear infinite paused;
   transition: --om-accent 0.4s ease;
 }
-.link-content:hover,
-.om-prose a:not([class]):hover,
 html[data-system="v2"] .prose a:not([class]):hover,
 html[data-system="v2"] p a:not([class]):hover,
 html[data-system="v2"] h1 a:not([class]):hover,
@@ -61,8 +59,6 @@ html[data-system="v2"] h6 a:not([class]):hover,
 html[data-system="v2"] .animated-line:hover,
 html[data-system="v2"] .animated-in-out:hover,
 html[data-system="v2"] .link-inline:hover,
-.link-content:focus-visible,
-.om-prose a:not([class]):focus-visible,
 html[data-system="v2"] .prose a:not([class]):focus-visible,
 html[data-system="v2"] p a:not([class]):focus-visible,
 html[data-system="v2"] h1 a:not([class]):focus-visible,
@@ -79,8 +75,6 @@ html[data-system="v2"] .link-inline:focus-visible {
   animation-play-state: running, running;
 }
 @media (prefers-reduced-motion: reduce) {
-.link-content,
-.om-prose a:not([class]),
 html[data-system="v2"] .prose a:not([class]),
 html[data-system="v2"] p a:not([class]),
 html[data-system="v2"] h1 a:not([class]),

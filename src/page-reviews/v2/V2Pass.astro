@@ -5,7 +5,7 @@
  *  - A gradient map (<om-mesh>, the brand embed, in the Graphics page's setting)
  *    behind each call-to-action that used the live raster. Its colors are
  *    --gradient-map's stops, re-read when the mode changes.
- *  - Color and interaction (motion.css; buttons via src/scripts/button-hover.ts). Icons
+ *  - Color and interaction (motion.css; buttons via the v2 component, components/button-hover.js, and button-options.ts). Icons
  *    take a set hue with a blurred copy behind: those inside
  *    [data-color-icons] in order (green, amber, red, blue), and any element
  *    marked data-icon-hue="<hue>" with that hue; hover cards' icons color on the
@@ -40,7 +40,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
   new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
 </script>
 <script>
-  import { buttonHover } from '../../scripts/button-hover';
+  import { reviewButtons } from './button-options';
   import { cardFlows } from '../../scripts/gl/card-flow';
   import { HOVER_FLOWS } from '../../scripts/gl/units/hover-flow';
   // Only on v2 routes (the port's seams can render it elsewhere).
@@ -55,7 +55,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
       btn.textContent = input.value;
       input.replaceWith(btn);
     });
-    buttonHover();
+    reviewButtons();
     // Card colorflow: hover cards with a hue (data-hover-hue, set with their icon
     // below) fade in a colorflow in its two-tone. The structure is the review
     // Options panel's pick (data-card-flow on <html>), and its speed

@@ -1,8 +1,13 @@
-/* ── Button hover: color in motion ─────────────────────────────────────
-   The working favorite from the Color and interaction round (/rounds/motion/, option J), exploring
-   (decisions/2026-10-17-button-hover-hue-keys, behaviors/color-moves).
-   Shared by the brand site and the page reviews; src/scripts/button-hover.ts
-   adds the layers (class .has-flow) to each button and sets where the loop starts.
+/* ════════════════════════════════════════════════════════════════════
+   BUTTON HOVER — color in motion, over button.css (design/components/button.md)
+   ════════════════════════════════════════════════════════════════════
+   Needs: the v2 tokens and the button's own look (button.css, or the
+   project's). Script: button-hover.js (buttonHover) adds the layers.
+
+   The working favorite from the Color and interaction round (/rounds/motion/,
+   option J), exploring (decisions/2026-10-17-button-hover-hue-keys,
+   behaviors/color-moves). button-hover.js adds the layers (class .has-flow) and sets
+   where the loop starts.
 
    On hover or keyboard focus the button fills with the hue keys
    (--gradient-interactive: green, teal, blue, violet, red, amber, blended in
@@ -13,15 +18,9 @@
    the wheel. Over it, a shimmer of white stripes in two crossing layers, at 20°
    (240px, 6s, 0.3) and at −40° (180px, 8.7s, 0.27), both blended lighten-only,
    so the shimmer never darkens the colors. One blurred copy behind is
-   the glow (8px, 0.3). No pointer light. Layers sit under the label.
-
-   The page reviews' Options panel (src/page-reviews/ReviewBar.astro) can switch
-   to the round's other options with data-btn-hover on <html> (BUTTON_HOVERS in
-   the script): e and g take the full OM gradient from green, e adds the pointer
-   light; k takes it from green with secondary buttons from violet; h starts at
-   random, i on the clock with both buttons together. */
+   the glow (8px, 0.3). Layers sit under the label. */
 .btn.has-flow { position: relative; isolation: isolate; }
-/* Doubled class: outranks the components' own :hover rules without !important. */
+/* Doubled class: outranks the button's own hover rules without !important. */
 .btn.has-flow.has-flow:is(:hover, :focus-visible) { background-color: transparent; border-color: transparent; color: var(--white); }
 .btn-flow {
   /* --gradient-interactive's stops, reversed (colors arrive from the loop's end),
@@ -57,19 +56,6 @@
 @keyframes btn-flow-color { from { transform: rotate(20deg) translateX(-600px); } to { transform: rotate(20deg) translateX(600px); } }
 @keyframes btn-flow-light { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
 @keyframes btn-flow-light-cross { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
-
-/* Options e, g and k: the full OM gradient, starting on green (the start is 0;
-   k's secondary buttons start on violet, a third of the loop on). */
-html:is([data-btn-hover="e"], [data-btn-hover="g"], [data-btn-hover="k"]) .btn-flow {
-  --flow-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
-  background: var(--gradient-green);
-}
-/* Option e: a neutral white light follows the pointer (0.3), in quickly. */
-.btn-flow__light {
-  position: absolute; inset: 0; opacity: 0; transition: opacity var(--transition-base);
-  background: radial-gradient(70px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
-}
-html[data-btn-hover="e"] .btn.has-flow:hover .btn-flow__light { opacity: 0.3; transition-duration: 0.15s; }
 
 @media (prefers-reduced-motion: reduce) {
   .btn-flow i { animation: none !important; }

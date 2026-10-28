@@ -26,3 +26,5 @@ tokens: [--surface-raise-1, --surface-base, --shadow-raise-1, --shadow-raise-2, 
 **Where it's used.** SyftHub's link cards (page reviews) and the Interface page; large: the home page's "Start your own federated sub-network" (page reviews) and the Interface page. Press cards, white plates showing logos, take the light and the tilt but have no icon, so no colorflow.
 
 *Open:* whether press cards take a hue and a colorflow; the colorflow's strength over text (0.55 light, 0.45 dark).
+
+**Code.** `components/hover-card.css` and `hover-card.js` (`hoverCards()`: the pointer light and the tilt; it also puts the two-tone gradients on the page). The colorflow runs on the brand site only for now (`src/scripts/gl/`). Plain CSS and ES modules, no build step: load the v2 tokens first, then only the files a page uses; each script exports one function that takes a selector and is safe to call again. The markup to match is at the top of each CSS file (`components/README.md`).

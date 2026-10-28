@@ -1,0 +1,23 @@
+/* ════════════════════════════════════════════════════════════════════
+   COLOR ICON — v2 component (design/foundations/two-tone.md), exploring
+   ════════════════════════════════════════════════════════════════════
+   A set icon in a hue's two-tone gradient, moving in the stroke, with a
+   blurred copy behind as its glow (the working favorite from the Color and
+   interaction round, behaviors/color-moves). Needs: the v2 tokens, and the
+   moving gradients once on the page: two-tone.js (twoTone).
+
+   Markup (hue: red, amber, green, teal, blue or violet; the icon twice, the
+   first copy for the glow):
+     <span class="color-icon" style="--ci-stroke:url(#tt-green)">
+       <span class="color-icon__glow" aria-hidden="true"><svg>…icon…</svg></span>
+       <svg>…icon…</svg>
+     </span>
+
+   The glow: 6px, 0.25 in light, 0.4 in dark. The wrapper hugs the icon so the
+   copy sits on it. */
+.two-tone-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.color-icon { position: relative; isolation: isolate; display: inline-flex; width: fit-content; vertical-align: middle; }
+.color-icon > .color-icon__glow { position: absolute; inset: 0; z-index: -1; filter: blur(6px); opacity: 0.25; pointer-events: none; }
+[data-theme="dark"] .color-icon > .color-icon__glow { opacity: 0.4; }
+.color-icon svg { display: block; }
+.color-icon :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-stroke); }

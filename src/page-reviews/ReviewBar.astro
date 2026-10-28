@@ -6,7 +6,7 @@
  *
  * Options (a popover above the bar): switches for trying the Color and
  * interaction round's options on the page. Button hover sets data-btn-hover on
- * <html> (src/scripts/button-hover.ts, BUTTON_HOVERS); icon speed sets
+ * <html> (v2/button-options.ts, BUTTON_HOVERS); icon speed sets
  * data-icon-speed (seconds per loop, src/lib/icon-speed.ts; v2/V2Pass.astro reads
  * it). Picks are remembered in this browser across review pages; ?buttons=<key>
  * and ?iconspeed=<s> in the URL set them. Card light sets data-card-light
@@ -20,7 +20,7 @@
  * to openmined.org.
  */
 import { PAGES, routeFor, type PageKey, type System } from './reviews';
-import { BUTTON_HOVERS } from '../scripts/button-hover';
+import { BUTTON_HOVERS } from './v2/button-options';
 import { ICON_SPEEDS, ICON_SPEED_DEFAULT } from '../lib/icon-speed';
 interface Props { page: PageKey; system: System }
 const { page, system } = Astro.props;

@@ -20,3 +20,5 @@ tokens: [--gradient-spectrum, --line-strong, --stroke-sm, --text-headline, --fon
 *Open:*
 - Focus styling for both.
 - **The pale stops (yellow, lime) fade into a light page as they pass** (2026-10-13); the hue keys (`--gradient-interactive`, the round's option C) would hold.
+
+**Code.** `components/link.css`, no script: `.link-content` on a link, or `.content-links` on a block of running text; `.link-text` for the text button. Plain CSS and ES modules, no build step: load the v2 tokens first, then only the files a page uses; each script exports one function that takes a selector and is safe to call again. The markup to match is at the top of each CSS file (`components/README.md`).

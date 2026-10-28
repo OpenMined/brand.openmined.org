@@ -2,12 +2,14 @@
    v2/tokens.css is the generated v2 token build (never edited here);
    bridge.css repoints the live token names at it; pass.css holds the
    component-level changes of the first pass; motion.css the color-in-motion
-   working favorites. */
+   working favorites. The button hover is the v2 component's own module
+   (components/button-hover.css), with the Options panel's variants. */
 @import './live.css';
 @import '../tokens/v2/tokens.css';
 @import './v2/bridge.css';
 @import './v2/pass.css';
 @import './v2/motion.css';
-@import '../styles/button-hover.css';
+@import '../../components/button-hover.css';
+@import './v2/button-options.css';
 @import '../styles/card-flow.css';
-@import '../styles/link-hover.css';
+@import './v2/link-hover.css';

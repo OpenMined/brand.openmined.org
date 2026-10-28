@@ -36,3 +36,5 @@ A form can then mix fields with an inner label and lists with a heading above th
 **Accessibility.** The gray line is the focus indicator on every control, and it reaches 3:1 against every surface and the field's own fill: gray-500 in light mode (4.15:1 on the fill, 5.07:1 or more on the surfaces), gray-400 in dark (4.45:1 or more). On checkboxes, radios and toggles it sits outside the control, because inside it would meet the checked fill (gray-500 on `--text-headline` is 2.87:1).
 
 **Generic first.** Style generic form markup; vendor forms (HubSpot today) get an adapter in the project that uses them, never vendor class names in the brand. Style the control or its own wrapper, never sibling order or nesting depth, so the mapping holds.
+
+**Code.** Fields: `components/field.css`, with `field.js` (`fieldLights()`) for the pointer light. Checkbox, radio and toggle: `components/control.css`, no script. Plain CSS and ES modules, no build step: load the v2 tokens first, then only the files a page uses; each script exports one function that takes a selector and is safe to call again. The markup to match is at the top of each CSS file (`components/README.md`).

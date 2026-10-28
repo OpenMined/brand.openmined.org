@@ -1,0 +1,15 @@
+/* PAGE REVIEWS — the Options panel's button hovers over the v2 button component
+   (components/button.css; the script is button-options.ts). data-btn-hover on
+   <html>: e and g take the full OM gradient from green, e adds the pointer
+   light; k takes it from green with secondary buttons from violet; h starts at
+   random, i on the clock with both buttons together (set in the script). */
+html:is([data-btn-hover="e"], [data-btn-hover="g"], [data-btn-hover="k"]) .btn-flow {
+  --flow-spectrum: repeating-linear-gradient(90deg, var(--gradient-green) 150px, var(--gradient-lime) 283.3px, var(--gradient-yellow) 416.7px, var(--gradient-gold) 550px, var(--gradient-orange) 683.3px, var(--gradient-red) 816.7px, var(--gradient-violet) 950px, var(--gradient-blue) 1083.3px, var(--gradient-teal) 1216.7px, var(--gradient-green) 1350px);
+  background: var(--gradient-green);
+}
+/* Option e: a neutral white light follows the pointer (0.3), in quickly. */
+.btn-flow__light {
+  position: absolute; inset: 0; opacity: 0; transition: opacity var(--transition-base);
+  background: radial-gradient(70px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent);
+}
+html[data-btn-hover="e"] .btn.has-flow:hover .btn-flow__light { opacity: 0.3; transition-duration: 0.15s; }
