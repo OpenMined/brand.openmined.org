@@ -51,7 +51,7 @@ const ARR = iconSvg('arrow-right');
         <p style="font-size:var(--font-size-md)"><code>--font-size-md</code> · 1rem. Body text: reading text, form labels, values and options.</p>
         <p style="font-size:var(--font-size-sm)"><code>--font-size-sm</code> · 0.875rem. Supporting text: form descriptions, captions, notes.</p>
       </div>
-      <TokenTable names={foundation.tokens} />
+      <TokenTable names={foundation.tokens.filter(t => t.startsWith('--font-size-'))} />
     </div>
   </section>
 
@@ -105,11 +105,13 @@ const ARR = iconSvg('arrow-right');
 
   <section class="band" id="families">
     <div class="wrap">
-      <header class="sec"><h2>Families</h2><p>Both are Google Fonts, so they also work in Google Docs without add-ons.</p></header>
+      <header class="sec"><h2>Families</h2><p>Rubik and Inter are Google Fonts, so they also work in Google Docs without add-ons. Code takes the system's monospace.</p></header>
       <div class="families">
         <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-display)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
         <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-body)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+        <article class="card"><span class="muted">Code · the system's monospace</span><p class="family__sample" style="font-family: var(--font-mono)">Mono</p><p class="muted" style="font-family: var(--font-mono)">syft.approve(request)</p></article>
       </div>
+      <TokenTable names={foundation.tokens.filter(t => !t.startsWith('--font-size-'))} />
     </div>
   </section>
 

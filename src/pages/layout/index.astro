@@ -1,0 +1,138 @@
+---
+/**
+ * BRAND SITE (v2) — Layout: spacing, the page and its grid, articles and
+ * breakouts, breakpoints, stacking. Words from design/foundations/spacing.md
+ * (tag `layout`); values from the v2 build; each token's use from its
+ * description (tokens/base/space.json, layout.json, layer.json). The grid and
+ * article drawings are to scale against the 1300px page.
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import TokenTable from '../../components/site/TokenTable.astro';
+import DecisionList from '../../components/site/DecisionList.astro';
+import { doc, decisionsFor } from '../../lib/design';
+import { tok } from '../../lib/tokens';
+import SPACE from '../../../tokens/base/space.json';
+import LAYER from '../../../tokens/base/layer.json';
+import LAYOUT from '../../../tokens/base/layout.json';
+
+const foundation = doc('foundations/spacing');
+const { Content } = foundation;
+const decisions = decisionsFor('layout');
+const steps = Object.entries(SPACE.spacing as Record<string, any>).filter(([k]) => !k.startsWith('$'))
+  .map(([k, t]) => ({ name: `--spacing-${k}`, px: tok('light', `--spacing-${k}`).resolved, use: t.$description as string }));
+const layers = Object.entries(LAYER.z as Record<string, any>).filter(([k]) => !k.startsWith('$'))
+  .map(([k, t]) => ({ name: `--z-${k}`, value: tok('light', `--z-${k}`).resolved, use: t.$description as string })).reverse();
+const PAGE = parseFloat(tok('light', '--page-width').resolved);
+const pct = (name: string) => `${(parseFloat(tok('light', name).resolved) / PAGE * 100).toFixed(2)}%`;
+const GAP = pct('--grid-gap');
+const spans = Object.entries((LAYOUT.grid.span as Record<string, any>)).filter(([k]) => !k.startsWith('$'))
+  .map(([k, t]) => ({ name: `--grid-span-${k}`, px: tok('light', `--grid-span-${k}`).resolved, use: t.$description as string, w: pct(`--grid-span-${k}`) })).reverse();
+const ZONES = [
+  { name: '--prose-full', cls: 'full', label: 'full · .breakout--full' },
+  { name: '--prose-wide', cls: 'wide', label: 'wide · .breakout' },
+  { name: '--prose-content', cls: 'content', label: 'content · every block' },
+].map(z => ({ ...z, px: tok('light', z.name).resolved, w: pct(z.name) }));
+const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid'], ['articles', 'Articles'], ['breakpoints', 'Breakpoints'], ['stacking', 'Stacking'], ['guidance', 'Guidance'], ...(decisions.length ? [['decisions', 'Decisions'] as [string, string]] : [])];
+---
+<Site title={foundation.title} description={foundation.description} current="layout">
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
+
+  <section class="band" id="spacing">
+    <div class="wrap">
+      <header class="sec"><h2>Spacing</h2><p>Every gap, padding and margin takes a step. Each bar is the step's length; the note is where the components use it today.</p></header>
+      <article class="card">
+        <ol class="space-steps">
+          {steps.map(s => (
+            <li>
+              <code>{s.name}</code>
+              <span class="space-steps__px">{s.px}</span>
+              <span class="space-steps__bar" style={`width:var(${s.name})`} aria-hidden="true"></span>
+              <span class="space-steps__use">{s.use}</span>
+            </li>
+          ))}
+        </ol>
+      </article>
+      <TokenTable names={steps.map(s => s.name)} />
+    </div>
+  </section>
+
+  <section class="band" id="grid">
+    <div class="wrap">
+      <header class="sec"><h2>Page and grid</h2><p>Content runs to the page width with a gutter outside it, on twelve columns. Drawn to scale against the 1300px page; below 991px the grid is one column.</p></header>
+      <article class="card">
+        <div class="grid-draw" style={`--gd-gap:${GAP}`} aria-label="Twelve columns across the page width">
+          {Array.from({ length: 12 }, (_, i) => <span>{i + 1}</span>)}
+        </div>
+        <ol class="span-draw">
+          {spans.map(s => (
+            <li>
+              <code>{s.name}</code>
+              <span class="span-draw__px">{s.px}</span>
+              <span class="span-draw__track"><span class="span-draw__bar" style={`width:${s.w}`}></span></span>
+              <span class="span-draw__use">{s.use}</span>
+            </li>
+          ))}
+        </ol>
+      </article>
+      <TokenTable names={['--page-width', '--page-width-wide', '--page-gutter', '--grid-columns', '--grid-gap', '--grid-column', ...spans.map(s => s.name).reverse()]} />
+    </div>
+  </section>
+
+  <section class="band" id="articles">
+    <div class="wrap">
+      <header class="sec"><h2>Articles</h2><p>A blog post or long read sits on three zones, as on openmined.org, and blocks are placed by zone name. Text and every block take the reading column; a figure, table or embed can break out to the wide zone, or leave the article for the page width. The reading column and the wide zone are set on their own, not from the grid. Drawn to scale.</p></header>
+      <article class="card">
+        <div class="zones" aria-label="The three article zones">
+          {ZONES.map(z => (
+            <div class={`zones__row zones__row--${z.cls}`} style={`width:${z.w}`}>
+              <span class="zones__label"><code>{z.name}</code> {z.px} · {z.label}</span>
+            </div>
+          ))}
+        </div>
+        <div class="zones-art" aria-label="An article with a wide and a full breakout">
+          <div class="zones-art__text" style={`width:${ZONES[2].w}`}><i></i><i></i><i></i><i></i></div>
+          <figure class="zones-art__fig" style={`width:${ZONES[1].w}`}><figcaption>.breakout</figcaption></figure>
+          <div class="zones-art__text" style={`width:${ZONES[2].w}`}><i></i><i></i><i></i></div>
+          <figure class="zones-art__fig zones-art__fig--full"><figcaption>.breakout--full</figcaption></figure>
+          <div class="zones-art__text" style={`width:${ZONES[2].w}`}><i></i><i></i></div>
+        </div>
+      </article>
+      <TokenTable names={['--prose-content', '--prose-wide', '--prose-full']} />
+    </div>
+  </section>
+
+  <section class="band" id="breakpoints">
+    <div class="wrap">
+      <header class="sec"><h2>Breakpoints</h2><p>Three widths where layouts change. Media queries can't read tokens, so write the number; the tokens name the set and serve scripts.</p></header>
+      <TokenTable names={['--breakpoint-lg', '--breakpoint-md', '--breakpoint-sm']} />
+    </div>
+  </section>
+
+  <section class="band" id="stacking">
+    <div class="wrap">
+      <header class="sec"><h2>Stacking</h2><p>Six fixed layers, highest first, so nothing invents a z-index.</p></header>
+      <article class="card">
+        <ol class="z-layers">
+          {layers.map(l => <li><code>{l.name}</code><span class="z-layers__val">{l.value}</span><span>{l.use}</span></li>)}
+        </ol>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="guidance">
+    <div class="wrap">
+      <header class="sec"><h2>Guidance</h2></header>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+
+  {decisions.length > 0 && (
+    <section class="band" id="decisions">
+      <div class="wrap">
+        <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+        <DecisionList docs={decisions} />
+      </div>
+    </section>
+  )}
+</Site>

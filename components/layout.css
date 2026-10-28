@@ -1,0 +1,66 @@
+/* ════════════════════════════════════════════════════════════════════
+   LAYOUT — v2 component (design/foundations/spacing.md, "Layout"), working
+   ════════════════════════════════════════════════════════════════════
+   The page container, the 12-column grid and the article grid with its
+   breakouts. Needs: the v2 tokens. No script. The same classes and values as
+   openmined.org (layout.css, prose.css), on the v2 tokens.
+
+   Markup:
+     <div class="container">…</div>                      content at the page width, gutters outside
+     <div class="container container--wide">…</div>      a wide band (1400px)
+     <div class="container grid-12">
+       <div style="grid-column: 2 / 12">…</div>          10 of 12 columns
+     </div>
+     <article class="container prose-article">
+       <p>Every block sits in the reading column.</p>
+       <figure class="breakout">…</figure>              wider than the text (860px)
+       <figure class="breakout--full">…</figure>        out to the page width (1300px)
+     </article>
+
+   The container keeps --page-gutter between its content and the viewport edge.
+   The grid collapses to one column below --breakpoint-lg (991px; media queries
+   can't read tokens, so the number is written out). */
+.container {
+  width: min(var(--page-width), 100% - 2 * var(--page-gutter));
+  margin-inline: auto;
+}
+.container--wide { width: min(var(--page-width-wide), 100% - 2 * var(--page-gutter)); }
+
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+}
+/* Below desktop the grid is one column, as on openmined.org; a component whose
+   children span set columns resets them there itself. */
+@media (max-width: 991px) {
+  .grid-12 { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── Article grid: three zones ────────────────────────────────────────
+      |<--------------------- full ---------------------->|  (--prose-full, 1300px)
+          |<------------- wide ------------->|                (--prose-wide, 860px)
+          |    |<--- content (640px) ---->|   |              (--prose-content)
+   Every child sits in the reading column; .breakout takes the wide zone, and
+   .breakout--full leaves the article for the page width, centered, kept inside
+   the gutters on narrow screens. The article owns no horizontal padding: the
+   gutter belongs to the container around it. */
+.prose-article {
+  display: grid;
+  grid-template-columns:
+    [full-start wide-start] minmax(0, 1fr)
+    [content-start] min(var(--prose-content), 100%)
+    [content-end] minmax(0, 1fr)
+    [wide-end full-end];
+  max-width: var(--prose-wide);
+  margin-inline: auto;
+}
+.prose-article > * { grid-column: content; }
+.prose-article > .breakout { grid-column: wide; margin-inline: 0; }
+.prose-article > .breakout--full {
+  grid-column: full;
+  width: min(var(--prose-full), 100vw - 2 * var(--page-gutter));
+  max-width: none;
+  justify-self: center;
+  margin-inline: 0;
+}

@@ -1,11 +1,105 @@
 {
-  "$description": "Hand-written. Page layout, the same in every mode.",
+  "$description": "Hand-written. Page layout, the same in every mode: the page container, the 12-column grid and its spans, the article (prose) zones, set apart from the grid so the reading column can be tuned alone (Kyle, 2026-10-27), and the breakpoints. Values from v1 and openmined.org, unchanged (layout.css, prose.css, read 2026-10-27; Kyle: keep v1's 1300).",
   "page": {
     "$type": "dimension",
     "width": {
-      "$value": { "value": 1240, "unit": "px" },
-      "$description": "The widest a page's content runs, gutters outside it.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --page-max (site.css); v1's grid ran to 1300px (--container-full)" } }
+      "$value": { "value": 1300, "unit": "px" },
+      "$description": "The page container: content runs to this width, a gutter outside it on each side. The grid's full width.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --container-full (1300px)" } }
+    },
+    "width-wide": {
+      "$value": { "value": 1400, "unit": "px" },
+      "$description": "Wide bands that run past the content: a footer bar, a full-bleed section with gutters.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --container-xfull (1400px)" } }
+    },
+    "gutter": {
+      "$value": "{spacing.xl}",
+      "$description": "The space kept between the container and the viewport edge, on each side.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .container (2 × --spacing-XL)" } }
+    }
+  },
+  "grid": {
+    "columns": {
+      "$type": "number",
+      "$value": 12,
+      "$description": "Columns across the page container.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 .grid-12" } }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{spacing.xl}",
+      "$description": "Between columns.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --grid-gap (20px)" } }
+    },
+    "column": {
+      "$type": "dimension",
+      "$value": { "value": 90, "unit": "px" },
+      "$description": "One column: (1300 − 11 gaps) / 12.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --grid-col-width (90px)" } }
+    },
+    "span": {
+      "$type": "dimension",
+      "4": {
+        "$value": { "value": 420, "unit": "px" },
+        "$description": "4 columns and their gaps.",
+        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-4" } }
+      },
+      "5": {
+        "$value": { "value": 530, "unit": "px" },
+        "$description": "5 columns: the form card's measure.",
+        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --col-5" } }
+      },
+      "6": {
+        "$value": { "value": 640, "unit": "px" },
+        "$description": "6 columns.",
+        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-6" } }
+      },
+      "8": {
+        "$value": { "value": 860, "unit": "px" },
+        "$description": "8 columns.",
+        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-8" } }
+      },
+      "10": {
+        "$value": { "value": 1080, "unit": "px" },
+        "$description": "10 columns: a content group with a column of air each side.",
+        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-10" } }
+      }
+    }
+  },
+  "prose": {
+    "$type": "dimension",
+    "content": {
+      "$value": { "value": 640, "unit": "px" },
+      "$description": "An article's reading column, where every block sits by default. A reading measure, set on its own: it starts equal to six columns but isn't tied to the grid.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-article content zone (col-6)" } }
+    },
+    "wide": {
+      "$value": { "value": 860, "unit": "px" },
+      "$description": "A breakout: a figure, table or embed wider than the text (.breakout). Set on its own; it starts equal to eight columns.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-article wide zone (col-8)" } }
+    },
+    "full": {
+      "$value": "{page.width}",
+      "$description": "A full breakout: out of the article to the page container (.breakout--full), inside the gutters on narrow screens.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .breakout--full (1300px)" } }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "lg": {
+      "$value": { "value": 991, "unit": "px" },
+      "$description": "Below desktop: the grid collapses to one column.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-lg" } }
+    },
+    "md": {
+      "$value": { "value": 767, "unit": "px" },
+      "$description": "Below tablet: text measures are lifted.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-md" } }
+    },
+    "sm": {
+      "$value": { "value": 479, "unit": "px" },
+      "$description": "Phones.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-sm" } }
     }
   }
 }

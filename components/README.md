@@ -37,6 +37,7 @@ motion itself.
 
 | Component | CSS | Script | Guidance |
 |---|---|---|---|
+| Page container, 12-column grid, article grid and breakouts | `layout.css` | none | `design/foundations/spacing.md` |
 | Button | `button.css` | none | `design/components/button.md` |
 | Button hover (color in motion) | `button-hover.css` | `button-hover.js`, `buttonHover()` | `design/components/button.md` |
 | Field, form layout, errors | `field.css` | `field.js`, `fieldLights()` (pointer light) | `design/components/form-field.md` |

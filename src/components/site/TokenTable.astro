@@ -3,6 +3,7 @@
  * Tokens table, read from the build (src/tokens/v2/tokens.{light,dark}.json) so
  * it can't drift from the values. A token that points at a gray step shows the
  * step's name; any other reference shows its target; a literal shows its value.
+ * Tokens the same in both modes (spacing, motion, type) show one Value column.
  */
 import LIGHT from '../../tokens/v2/tokens.light.json';
 import DARK from '../../tokens/v2/tokens.dark.json';
@@ -17,17 +18,18 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   const label = ref ? (/^gray-\d+$/.test(ref) ? ref.replace('-', ' ') : ref) : null;
   return { label, resolved: e.resolved, status: e.status ?? 'working' };
 };
+const same = names.every(n => T.light[n]?.value === T.dark[n]?.value);
 ---
 <div class="tbl-wrap">
   <table class="tbl">
-    <thead><tr><th>Token</th><th>Light</th><th>Dark</th><th>Status</th></tr></thead>
+    <thead><tr><th>Token</th>{same ? <th>Value</th> : <><th>Light</th><th>Dark</th></>}<th>Status</th></tr></thead>
     <tbody>
       {names.map(name => {
         const l = cell('light', name), d = cell('dark', name);
         return (
           <tr>
             <td><code>{name}</code></td>
-            {[l, d].map(c => <td><span class="tbl__val">{c.label ? <><code>{c.label}</code><small>{c.resolved}</small></> : <small>{c.resolved}</small>}</span></td>)}
+            {(same ? [l] : [l, d]).map(c => <td><span class="tbl__val">{c.label ? <><code>{c.label}</code><small>{c.resolved}</small></> : <small>{c.resolved}</small>}</span></td>)}
             <td>{l.status}</td>
           </tr>
         );

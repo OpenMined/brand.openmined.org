@@ -1,60 +1,60 @@
 {
-  "$description": "Hand-written. Spacing, the same in every mode. Carried from v1 unchanged (--spacing-3XS … --spacing-5XL), renamed lowercase to match the other v2 sizes (Kyle, 2026-10-27). v1's --spacing-full (88px) is not carried: nothing on v2 uses it.",
+  "$description": "Hand-written. Spacing, the same in every mode. Carried from v1 unchanged (--spacing-3XS … --spacing-5XL), renamed lowercase to match the other v2 sizes (Kyle, 2026-10-27). v1's --spacing-full (88px) is not carried: nothing on v2 uses it. Descriptions name where the v2 components use each step today; rules for choosing a step are still to come.",
   "spacing": {
     "$type": "dimension",
     "3xs": {
       "$value": { "value": 2, "unit": "px" },
-      "$description": "Hairline gaps: a mark against its label.",
+      "$description": "Not used by v2 yet.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XS" } }
     },
     "2xs": {
       "$value": { "value": 4, "unit": "px" },
-      "$description": "Tight gaps inside small parts.",
+      "$description": "Not used by v2 yet.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XS" } }
     },
     "xs": {
       "$value": { "value": 6, "unit": "px" },
-      "$description": "Between a label and its description.",
+      "$description": "Inside a field: between its label, description and control.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XS" } }
     },
     "sm": {
       "$value": { "value": 8, "unit": "px" },
-      "$description": "Between items in a list or a row of controls.",
+      "$description": "Between options in a checkbox or radio list.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-SM" } }
     },
     "md": {
       "$value": { "value": 12, "unit": "px" },
-      "$description": "Between related parts of one block.",
+      "$description": "Between buttons in a row.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-MD" } }
     },
     "lg": {
       "$value": { "value": 16, "unit": "px" },
-      "$description": "Inside small panels; between fields.",
+      "$description": "Between a hover card's icon and its text.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-LG" } }
     },
     "xl": {
       "$value": { "value": 20, "unit": "px" },
-      "$description": "Between groups inside a section.",
+      "$description": "Between cards in a row.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XL" } }
     },
     "2xl": {
       "$value": { "value": 24, "unit": "px" },
-      "$description": "Panel padding; between blocks.",
+      "$description": "Between fields in a form.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XL" } }
     },
     "3xl": {
       "$value": { "value": 32, "unit": "px" },
-      "$description": "Between sections of a page part.",
+      "$description": "A hover card's side padding.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XL" } }
     },
     "4xl": {
       "$value": { "value": 40, "unit": "px" },
-      "$description": "Large gaps between page parts.",
+      "$description": "A hover card's top and bottom padding.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-4XL" } }
     },
     "5xl": {
       "$value": { "value": 48, "unit": "px" },
-      "$description": "The largest step: between page sections.",
+      "$description": "A large hover card's top and bottom padding.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-5XL" } }
     }
   }

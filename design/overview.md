@@ -18,6 +18,7 @@ Every page on this site is a view of source files in the brand repository. Nothi
 | --- | --- | --- |
 | Every color, shadow, swatch and token table | `tokens/`<br>Values in the open Design Tokens format, built into `src/tokens/v2/` as CSS, JavaScript and JSON | Code, design tools, AI |
 | Rules, decisions, open questions, and these words | `design/`<br>One short Markdown file per idea, grouped by kind (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`, `decisions/`) | People, on these pages; AI, directly |
+| Buttons, fields, links, cards: the components and their code | `components/`<br>One CSS file per component and a small script for each one that moves, plain files any site can load; the markup to match is at the top of each | Code, AI |
 | Layout and live demos | The site's page templates | People |
 
 Change a value or a rule at its source and every page, project and AI agent gets the change. This overview is `design/overview.md`. The review rounds, where each decision was explored, are kept as evidence.
@@ -33,6 +34,7 @@ Change a value or a rule at its source and every page, project and AI agent gets
 
 ## How to use it
 
+- **Use the components as they are.** Load the files a page needs from `components/` and match their markup; don't rebuild a component by eye, or the values tuned by hand drift.
 - **Use tokens by name, never by value.** Write `var(--surface-raise-1)`, not the hex it resolves to. Names stay stable when values are retuned.
 - **Prefer roles over steps.** `--text-muted` or `--danger-fg` says what a color is for; a step like `--gray-500` only says what it looks like. Graphics are the exception: they use fixed steps through each hue's `key`, so their colors hold when the mode switches.
 - **Check where it runs.** Colors and stills work anywhere, documents and slides too; some motion needs a web page or a script (*Color moves*, "Where it runs"). Where a move can't run, use its still frame.

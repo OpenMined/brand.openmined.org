@@ -14,16 +14,27 @@ import HoverCard from '../../components/site/HoverCard.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import Icon from '../../components/site/Icon.astro';
+import CodeRef from '../../components/site/CodeRef.astro';
+import { componentCode } from '../../lib/components';
 
 const button = doc('components/button');
 const link = doc('components/link');
 const hoverCard = doc('components/hover-card');
 const form = doc('components/form-field');
+const motion = doc('foundations/motion');
+// Each component's files and reference markup, read from components/.
+const CODE = {
+  button: componentCode(['button', 'button-hover'], ['button-hover']),
+  link: componentCode(['link']),
+  hoverCard: componentCode(['hover-card'], ['hover-card']),
+  field: componentCode(['field'], ['field']),
+  control: componentCode(['control']),
+};
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
-const components = [button, link, form];
+const components = [button, link, form, motion];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
 const TEXT_FIELDS = [
   { id: 'name', type: 'text', label: 'Full name', req: true, desc: 'Single-line text: the default field type.', ph: 'Jane Doe' },
@@ -48,6 +59,7 @@ const TEXT_FIELDS = [
         </div>
         <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the hue keys flowing under a faint shimmer, with a glow, starting where the clock puts them, the secondary opposite the primary.</p>
       </article>
+      <CodeRef code={CODE.button} />
     </div>
   </section>
 
@@ -66,6 +78,7 @@ const TEXT_FIELDS = [
           <p class="muted">An action that reads as text: no underline at rest; on hover the line slides in from the left and leaves to the right: the same line as the content link's underline and the secondary button's outline. Nav and footer links work the same way. The icon follows the label and isn’t underlined.</p>
         </article>
       </div>
+      <CodeRef code={CODE.link} />
     </div>
   </section>
 
@@ -81,6 +94,7 @@ const TEXT_FIELDS = [
         <HoverCard href="#hover-cards" icon="network" hue="green" size="large" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that be in climate, healthcare, finance, or beyond." />
       </div>
       <p class="muted">Hover a card: it lifts and tilts away from the pointer, the light follows the pointer (in light mode the card shades except around it), the icon takes its hue's moving two-tone and a colorflow in the same two-tone rises in the lower third. The arrow stays mono.</p>
+      <CodeRef code={CODE.hoverCard} />
       <TwoToneDefs />
     </div>
   </section>
@@ -99,6 +113,8 @@ const TEXT_FIELDS = [
             </ul>
             <p>The gray focus line reaches 3:1 on every surface: gray-500 in light mode, gray-400 in dark. Vendor forms map onto this markup with an adapter in the project that uses them.</p>
           </div>
+          <CodeRef code={CODE.field} />
+          <CodeRef code={CODE.control} />
         </div>
         <article class="card fm-split__form">
           <form class="fm fm--one" onsubmit="return false">
@@ -188,6 +204,13 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
+  <section class="band" id="motion">
+    <div class="wrap">
+      <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p><p class="status">Status: <b>{motion.status}</b></p></header>
+      <TokenTable names={motion.tokens} />
+    </div>
+  </section>
+
   <section class="band" id="components">
     <div class="wrap">
       <header class="sec"><h2>Components</h2></header>
@@ -197,8 +220,8 @@ const TEXT_FIELDS = [
 
   <section class="band" id="tokens">
     <div class="wrap">
-      <header class="sec"><h2>Tokens</h2><p>The accent roles controls use. Surfaces and shadows are on the <a href="/surfaces/#tokens">Surfaces</a> page.</p></header>
-      <TokenTable names={['--accent-solid', '--accent-hover', '--accent-on', '--accent-subtle', '--accent-soft', '--accent-fg', '--on-solid']} />
+      <header class="sec"><h2>Tokens</h2><p>The accent roles controls use, and the focus line fields and controls share. Surfaces and shadows are on the <a href="/surfaces/#tokens">Surfaces</a> page.</p></header>
+      <TokenTable names={['--accent-solid', '--accent-hover', '--accent-on', '--accent-subtle', '--accent-soft', '--accent-fg', '--on-solid', '--line-focus']} />
     </div>
   </section>
 
@@ -223,8 +246,7 @@ const TEXT_FIELDS = [
         <div>
           <ul>
             <li><b>A colored accent.</b> Whether the solid button takes a hue at rest. The static accent is green and steps up to a gradient in motion (decided 2026-10-13).</li>
-            <li><b>Field focus contrast.</b> A text field shows focus with a solid gray line and the inset (decided 2026-10-17). The line has to reach 3:1 against the surface it sits on (WCAG 2.4.7 and 1.4.11); still to check.</li>
-            <li><b>Focus rings.</b> Everything else (buttons, links, checkboxes, radios, toggles) needs a visible ring for keyboard users. Checkboxes and radios keep the browser's ring for now; the site uses a temporary 2px accent outline. The ring's style, color and offset, and how it sits with the inset on fields, are still to decide.</li>
+            <li><b>Focus rings for buttons and links.</b> Form controls show focus with the gray line (<code>--line-focus</code>, 3:1 on every surface; decided 2026-10-27). Buttons use a temporary 2px accent outline and links have none of their own yet; their ring's style, color and offset are still to decide.</li>
           </ul>
         </div>
       </div>

@@ -949,8 +949,104 @@
     "status": "working"
   },
   "--page-width": {
-    "value": "1240px",
-    "resolved": "1240px",
+    "value": "1300px",
+    "resolved": "1300px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--page-width-wide": {
+    "value": "1400px",
+    "resolved": "1400px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--page-gutter": {
+    "value": "var(--spacing-xl)",
+    "resolved": "20px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-columns": {
+    "value": "12",
+    "resolved": "12",
+    "type": "number",
+    "status": "working"
+  },
+  "--grid-gap": {
+    "value": "var(--spacing-xl)",
+    "resolved": "20px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-column": {
+    "value": "90px",
+    "resolved": "90px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-span-4": {
+    "value": "420px",
+    "resolved": "420px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-span-5": {
+    "value": "530px",
+    "resolved": "530px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-span-6": {
+    "value": "640px",
+    "resolved": "640px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-span-8": {
+    "value": "860px",
+    "resolved": "860px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--grid-span-10": {
+    "value": "1080px",
+    "resolved": "1080px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--prose-content": {
+    "value": "640px",
+    "resolved": "640px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--prose-wide": {
+    "value": "860px",
+    "resolved": "860px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--prose-full": {
+    "value": "var(--page-width)",
+    "resolved": "1300px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--breakpoint-lg": {
+    "value": "991px",
+    "resolved": "991px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--breakpoint-md": {
+    "value": "767px",
+    "resolved": "767px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--breakpoint-sm": {
+    "value": "479px",
+    "resolved": "479px",
     "type": "dimension",
     "status": "working"
   },

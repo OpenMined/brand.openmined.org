@@ -1,0 +1,17 @@
+---
+/**
+ * A component's code under its specimen: the files to load, the function to call,
+ * and the reference markup, read from components/ (src/lib/components.ts).
+ */
+import type { ComponentCode } from '../../lib/components';
+interface Props { code: ComponentCode }
+const { code } = Astro.props;
+---
+<details class="code-ref">
+  <summary>
+    <span class="code-ref__label">Code</span>
+    {code.css.map((f) => <code>{f}</code>)}
+    {code.js.map((j) => <code>{j.file} · {j.fns.join(', ')}</code>)}
+  </summary>
+  {code.markup && <pre><code>{code.markup}</code></pre>}
+</details>
