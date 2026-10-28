@@ -6,7 +6,7 @@
    (components/link, decisions/2026-10-12-if-color-then-motion). Pure CSS, no markup.
 
    Only links with a resting underline (content links) get color; links without
-   one (nav, footer, text buttons) keep their own-color line (Kyle, 2026-10-13).
+   one (nav, footer, text buttons) keep their own-color line.
    Link text never changes color. The underline (--stroke-sm in --line-strong)
    draws in from the left on load. On hover or keyboard focus a 1px line in the
    full OM gradient grows over it from the left and leaves to the right; the

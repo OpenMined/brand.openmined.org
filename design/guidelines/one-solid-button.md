@@ -6,7 +6,7 @@ status: working
 tags: [interface]
 ---
 
-**Rule.** In a button group (a form's actions, a card's calls to action) exactly one button is solid. The rest are secondary: an outline in the body text color, no fill (decision 2026-10-12).
+**Rule.** In a button group (a form's actions, a card's calls to action) exactly one button is solid. The rest are secondary: an outline in the body text color, no fill.
 
 **Why.** One solid button says which action is primary. The secondary's outline is a line over the same surface, so it stays lighter than the solid fill (see *Outlines are lines, not containers*).
 

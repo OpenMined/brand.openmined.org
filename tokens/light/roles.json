@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written roles, light mode. Each role points at a primitive; status `working` = agreed, `exploring` = placeholder or snapped value awaiting its round. Names per brand-v2-lab proposals/2026-10-07-a0-naming-and-token-layout.md.",
+  "$description": "Hand-written roles, light mode. Each role points at a primitive. Status: `working` is the current direction; `exploring` is a placeholder or an option still being compared.",
   "surface": {
     "$type": "color",
     "sunken": {
@@ -43,7 +43,7 @@
     "$type": "color",
     "$root": {
       "$value": "{gray.300}",
-      "$description": "Dividers: a single edge between two things. One step darker than the sunken level, so it shows there too (type round, 2026-10-28).",
+      "$description": "Dividers: a single edge between two things. One step darker than the sunken level, so it shows there too.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -52,7 +52,7 @@
     },
     "strong": {
       "$value": "{gray.600}",
-      "$description": "The line style: outlines, the secondary button's outline, link underlines. The same gray step as text.body (Kyle, 2026-10-12), so every drawn line matches; never a container (decision 2026-10-12).",
+      "$description": "The line style: outlines, the secondary button's outline, link underlines. The same gray step as text.body, so every drawn line matches; never a container.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -61,7 +61,7 @@
     },
     "focus": {
       "$value": "{gray.500}",
-      "$description": "The focus line on form controls: a field's edge on focus, 1px outside a checkbox, radio or toggle. Reaches 3:1 on every surface and the field's fill (gray-500 in light, gray-400 in dark; decision 2026-10-27).",
+      "$description": "The focus line on form controls: a field's edge on focus, 1px outside a checkbox, radio or toggle. Reaches 3:1 on every surface and the field's fill (gray-500 in light, gray-400 in dark).",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -114,7 +114,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{violet.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -141,7 +141,7 @@
     },
     "solid": {
       "$value": "{violet.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -171,7 +171,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{blue.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -198,7 +198,7 @@
     },
     "solid": {
       "$value": "{blue.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -228,7 +228,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{teal.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -255,7 +255,7 @@
     },
     "solid": {
       "$value": "{teal.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -285,7 +285,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{green.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -312,7 +312,7 @@
     },
     "solid": {
       "$value": "{green.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -342,7 +342,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{amber.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -369,7 +369,7 @@
     },
     "solid": {
       "$value": "{amber.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -399,7 +399,7 @@
     "$type": "color",
     "subtle": {
       "$value": "{red.100}",
-      "$description": "Quiet colored background: badge, callout, selected row.",
+      "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -426,7 +426,7 @@
     },
     "solid": {
       "$value": "{red.600}",
-      "$description": "A fill that carries a label: buttons, solid badges, checked controls.",
+      "$description": "A fill that carries a label in an interface: checked controls, selected states.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -773,7 +773,7 @@
     },
     "key": {
       "$value": "{green.key}",
-      "$description": "The accent's color: green, for wherever a color is needed and none is specified (hover lines, icon and button hover, a page's alternate color). The rest of the accent stays grayscale. Kyle, 2026-10-12.",
+      "$description": "The accent's color: green, for wherever a color is needed and none is specified (hover lines, icon and button hover, a page's alternate color). The rest of the accent stays grayscale.",
       "$extensions": {
         "org.openmined": {
           "status": "exploring"

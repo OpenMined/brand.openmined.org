@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   FIELD — v2 component (design/components/form-field.md), exploring
+   FIELD — v2 component (design/components/form-field.md)
    ════════════════════════════════════════════════════════════════════
    Text, email, number, select, textarea, file; the form and field layout
    around them; errors. Needs: the v2 tokens. Script: field.js (fieldLights),
@@ -25,15 +25,15 @@
 @media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
 .fld { display: grid; gap: var(--spacing-xs); align-content: start; }
 .fld--full { grid-column: 1 / -1; }
-/* Form text (Bennett, 2026-10-09): labels and placeholders at body size
+/* Form text: labels and placeholders at body size
    (--font-size-md) and weight 500; values, options and errors at body size,
    regular; descriptions at small size (--font-size-sm), regular. */
 .fld__label { font-size: var(--font-size-md); font-weight: 500; color: var(--text-headline); }
 .fld__req { color: var(--text-body); margin-left: 0.25em; }
 .fld__desc { margin: 0; font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
 
-/* Field: flat on the sunken level at rest. Hover and focus (the Color and
-   interaction round's option C, grayscale; decisions 2026-10-17 and 2026-10-27):
+/* Field: flat on the sunken level at rest. Hover and focus, grayscale (decisions
+   2026-10-17-field-hover-and-focus-line, 2026-10-27-controls-outline-and-focus-line):
    on hover a soft white light inside the field follows the pointer (field.js),
    in light with a gray-300 outline that turns white near the pointer, in dark a
    gray-500 edge near the pointer; on focus a solid 1px line in --line-focus
@@ -75,5 +75,5 @@ textarea.ctl { resize: vertical; min-height: 5em; }
 .ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: var(--spacing-md); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
 
 /* Error: danger-colored text on whatever the form sits on — no box, no
-   outline (Bennett, 2026-10-08: colored boxes stacked on dark read muddy). */
+   outline: colored boxes stacked on dark read muddy. */
 .fld__errs { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: var(--font-size-md); color: var(--danger-fg); }

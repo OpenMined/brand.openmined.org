@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   BUTTON — v2 component (design/components/button.md), exploring
+   BUTTON — v2 component (design/components/button.md)
    ════════════════════════════════════════════════════════════════════
    Needs: the v2 tokens (src/tokens/v2/tokens.css). The color in motion on
    hover is its own module, button-hover.css + button-hover.js; without it,
@@ -13,7 +13,7 @@
 
    One solid per group; the rest are secondary, an outline in the line style
    (--stroke-sm, --line-strong = the body text color) over the surface they
-   sit on (Bennett, 2026-10-12: an outline as a line, not a container). Every
+   sit on: a line, not a container. Every
    button carries the same border, so solid and secondary are one size.
    An icon beside the label is 20px, in the label's color, sm (8px) from it.
    Icon-only buttons (.btn--icon) stay bare: no outline, as in an interface's
@@ -32,6 +32,6 @@
 .btn--solid { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
 /* Without button-hover, hover takes the accent's color, --accent-key (green), on
    both: a green fill with a white label (a colored fill uses the key, as the
-   strong status chips do). Grayscale at rest (decision 2026-10-12, exploring). */
+   strong status chips do). Grayscale at rest. */
 .btn:hover { background: var(--accent-key); border-color: var(--accent-key); color: var(--white); }
 .btn:focus-visible { outline: 2px solid var(--accent-solid); outline-offset: 2px; }

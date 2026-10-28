@@ -6,9 +6,9 @@ status: working
 tags: [graphics, icons]
 ---
 
-**Rule.** A partner or tool logo comes from `public/logos/partners/` and is used as its owner supplies it. OpenMined's colors don't apply: never recolor, restyle or redraw a mark, and never imply an endorsement or partnership that doesn't exist.
+**Rule.** A partner or tool logo comes from `public/logos/partners/` and is used as its owner supplies it. OpenMined's colors don't apply: never recolor, restyle, or redraw a mark, and never imply an endorsement or partnership that doesn't exist.
 
-**One color by default.** Show partner marks in one color, the color of the text around them, as the live site does: every brand's `icon.svg` is a one-color glyph (`currentColor`). Use `icon-color.svg`, the official color, where a layout calls for color. `logo*.svg` are wordmark lockups where officially available. *Open:* confirm, owner by owner, that each allows a one-color version of its mark; `partners.json` doesn't record that yet. `partners.json` records each mark's owner, source, variants and known gaps.
+**One color by default.** Show partner marks in one color, the color of the text around them: every brand's `icon.svg` is a one-color glyph (`currentColor`). Use `icon-color.svg`, the official color, where a layout calls for color. `logo*.svg` are wordmark lockups where officially available. *Open:* confirm, owner by owner, that each allows a one-color version of its mark; `partners.json` doesn't record that yet. `partners.json` records each mark's owner, source, variants, and known gaps.
 
 **Why.** The marks are trademarks, used to name the product (nominative use). Some owners restrict how their mark appears; Google's four-color G, for example, stays as it is.
 

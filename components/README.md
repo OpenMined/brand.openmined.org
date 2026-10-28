@@ -3,7 +3,7 @@
 The OpenMined v2 interface components as plain CSS and JavaScript modules: no
 framework, no build step, no loader. Use them in plain HTML, any framework, a CMS,
 HubSpot or a Claude artifact. The guidance for each lives in `design/components/`;
-these files are the code. All `exploring` until the v2 release.
+these files are the code. Each component's status is in its guidance file.
 
 ## Use
 

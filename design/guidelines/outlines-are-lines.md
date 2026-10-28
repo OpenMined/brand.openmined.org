@@ -15,6 +15,8 @@ tokens: [--line, --line-strong, --stroke-sm, --stroke-md]
 
 **Exception: surface examples.** A specimen that shows the `base` level, such as a panel demonstrating the four levels on a page of the same color, may take a 1px `--line` hairline around it. A base panel on a base page has no other edge. Keep this to brand and surface examples.
 
-**Raised levels inside an outline.** A card or band on its own level, with its shadow, may sit inside an outlined area (decision *Raised levels may sit inside an outline*, 2026-10-28). The outline still has the page's surface on both sides; the raised thing inside keeps its level as its edge. Reviewed examples: the home page's "Start your own federated sub-network" hover card inside the outlined federated-network section (page reviews), and the system diagram on the overview, its outlined outer sections holding surfaces.
+**Raised levels inside an outline.** A card or band on its own level, with its shadow, may sit inside an outlined area (decision *Raised levels may sit inside an outline*). The outline still has the page's surface on both sides; the raised thing inside keeps its level as its edge. Examples: a large hover card inside an outlined section, and the system diagram on the overview, its outlined outer sections holding surfaces.
 
-**Don't.** Put a border on a card that already sits on a different level, or around a fill of another color. Hide an outline with `border-color: transparent`.
+**Don't.** Put a border on a card that already sits on a different level, or around a fill of another color. Hide an outline with `border-color: transparent` to switch it off at rest.
+
+**Buttons are the exception.** A button's border stays in place in every state, so solid and secondary are one size. On hover the fill covers the button and the border goes with it: transparent under the moving fill, or the fill's own color without the hover script (*Buttons*). At rest the secondary's outline always shows.

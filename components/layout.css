@@ -1,9 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════
-   LAYOUT — v2 component (design/foundations/spacing.md, "Layout"), working
+   LAYOUT — v2 component (design/foundations/spacing.md, "Layout")
    ════════════════════════════════════════════════════════════════════
    The page container, the 12-column grid and the article grid with its
-   breakouts. Needs: the v2 tokens. No script. The same classes and values as
-   openmined.org (layout.css, prose.css), on the v2 tokens.
+   breakouts. Needs: the v2 tokens. No script.
 
    Markup:
      <div class="container">…</div>                      content at the page width, gutters outside
@@ -31,7 +30,7 @@
   grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   column-gap: var(--grid-gap);
 }
-/* Below desktop the grid is one column, as on openmined.org; a component whose
+/* Below desktop the grid is one column; a component whose
    children span set columns resets them there itself. */
 @media (max-width: 991px) {
   .grid-12 { grid-template-columns: minmax(0, 1fr); }

@@ -11,6 +11,6 @@ tokens: [--surface-base, --line]
 
 **Why.** A slight tint doesn't read as structure. It reads as a slightly different gray, and in light mode it makes the page look muddy.
 
-**Do.** Keep every band on the page level, and use a `--line` divider between them. To set a section apart on purpose, switch its whole mode with `data-section` (`always-dark`, `always-light` or `invert`). That is a full inversion, not a tint, and it is allowed (see [Color modes and sections](#behaviors-color-modes)).
+**Do.** Keep every band on the page level, and use a `--line` divider between them. To set a section apart on purpose, switch its whole mode with `data-section` (`always-dark`, `always-light`, or `invert`). That is a full inversion, not a tint, and it is allowed (see [Color modes and sections](#behaviors-color-modes)).
 
 **Don't.** Paint a section `--surface-sunken` or `--surface-raise-1` to set it apart.

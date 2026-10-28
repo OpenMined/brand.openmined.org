@@ -1,22 +1,21 @@
 ---
 type: Pattern
 title: Explanatory diagrams
-description: Diagrams use attribution in color (direction A), drawn on the first three graphics of the Attribution-Based Control article; the technical plate (direction B) is kept for comparison.
+description: Diagrams carry attribution in color. Each data source keeps a hue; where attribution is lost the colors drain to gray, and where it's kept they reach the answer.
 status: working
 tags: [graphics]
 ---
 
-**Status.** Direction A, attribution in color, with its motion, is the working approach (Kyle, 2026-10-28); direction B is kept for comparison. The article text is kept verbatim; only the figures change.
+**Attribution in color.** Color carries the argument: each data source keeps a hue. Where attribution is lost (inside a model trained the usual way) the colors drain to gray; where it's kept they arrive intact and ring the answer. Sources can share a hue in groups, so a figure with many sources stays readable. A hierarchy of scale is drawn as rings spreading outward.
 
-**Direction A, attribution in color.** Color carries the argument: each data source keeps a hue. In traditional AI the colors drain to gray inside the model; with attribution-based control they arrive intact and ring the answer. The second graphic becomes rings spreading outward, ordered by scale.
+**Colors.** Hue keys and fixed steps, the same in both modes ([Graphics use fixed steps, never roles](#guidelines-graphics-use-fixed-steps)). Lines are `--line`, the outer outline `--stroke-md` (*Lines*).
 
-**Direction B, technical plate.** A few colors with one job each: teal for people with data, violet for people seeking insight, ink for the model, red for the problem. Numbered markers with a key replace floating callouts. The second graphic stays a tree, as cards.
+**Motion.** Color moves along the lines (*Color moves*): each colored line carries its hue's highlight (*Highlights*), travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. Rings brighten in their highlight, from the innermost out, one after another. Gray lines pulse faintly in their own gray. Under reduced motion, the diagram is still.
 
-**Colors.** Both follow [Graphics use fixed steps, never roles](#guidelines-graphics-use-fixed-steps): hue keys and fixed steps, the same in both modes.
+**Labels.** In the brand fonts (*Graphics use the brand fonts*).
 
-**Motion (direction A).** Color moves along the lines (*Color moves*): each colored line carries its hue's highlight (*Highlights*), travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. The second graphic's rings brighten in their highlight, from the innermost out, one after another. Every line color is a hue key, so each has a highlight: groups of sources share a hue (Fig 1: five groups of three). Gray lines pulse faintly in their own gray. Reduced motion: still.
+**Not in use: the technical plate.** An alternative kept for reference: a few colors with one job each (teal for people with data, violet for people seeking insight, gray for the model, red for the problem), with numbered markers and a key in place of floating callouts.
 
-## Still open
-
-- The rings' weak spots: one ring is a different kind of level, concentric rings can read as containment, and the figure shows five levels where the text names four.
-- At phone width the diagram labels shrink to about 8–9px.
+*Open:*
+- Rings can read as containment, and one ring is a different kind of level from the others.
+- At phone width, labels shrink to about 8–9px.

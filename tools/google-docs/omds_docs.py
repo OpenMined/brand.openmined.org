@@ -42,7 +42,7 @@ LOGO_ASPECT = 300 / 76  # canonical SVG viewBox
 
 # ── The one Docs-specific decision: point sizes per named style ─────────────
 # Web headings (61/47/36/27px) are a display scale for screens; on a page they
-# read as posters. These are OpenMined's *print* sizes — the calibration Bennett
+# read as posters. These are OpenMined's *print* sizes — the calibration
 # set in the 2025 gallery templates (OpenMined Doc / Pageless / Letterhead / Bet
 # Idea: 10pt body, 26pt title, 20/16 H1/H2), adopted as canon 2026-09-08.
 # Subtitle and H6 were undefined in those templates (Docs fell back to Arial);
@@ -55,10 +55,10 @@ DOC_PT = {
     "NORMAL_TEXT": 10,
 }
 # Print leading. The web body line-height (1.5) is a screen value; at 10pt on paper it
-# reads loose (Bennett, 2026-09-08). Headings keep their CSS leading (1.2 / 1.3).
+# reads loose (2026-09-08). Headings keep their CSS leading (1.2 / 1.3).
 DOC_LINE = {"NORMAL_TEXT": 130, "HEADING_5": 130, "HEADING_6": 130}
 # Space *below* a heading on paper: tighter than the web prose margin (spacing-L), so a
-# heading hugs its text — more space above than below (Bennett, 2026-09-08).
+# heading hugs its text — more space above than below (2026-09-08).
 DOC_HEADING_BELOW_TOKEN = "--spacing-S"
 PAGE_MARGIN_PT = 72  # 1 inch
 
@@ -277,7 +277,7 @@ def named_style_requests(style_map: dict, tab_id: str | None = None) -> list[dic
             },
             "paragraphStyle": {
                 # Title + Subtitle centered (the doc's masthead, and the logo in the page header
-                # sits in a Title-styled paragraph); body and Heading 1–6 left. Bennett 2026-09-08.
+                # sits in a Title-styled paragraph); body and Heading 1–6 left. 2026-09-08.
                 "alignment": "CENTER" if typ in ("TITLE", "SUBTITLE") else "START",
                 "lineSpacing": s["line"],
                 "spaceAbove": _pt(s["above"]),

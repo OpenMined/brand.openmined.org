@@ -1,6 +1,6 @@
 /**
  * FIELD — the light inside a field that follows the pointer on hover
- * (field.css; design/components/form-field.md; exploring). Safe to call again.
+ * (field.css; design/components/form-field.md). Safe to call again.
  *
  *   import { fieldLights } from './field.js';
  *   fieldLights();                          // every .ctl

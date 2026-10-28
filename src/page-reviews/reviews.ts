@@ -13,7 +13,7 @@ export const SOURCE = {
   date: '2026-10-09',
 };
 
-/** Only v2 routes exist now (the live ports were dropped 2026-10-13, Kyle: not
+/** Only v2 routes exist now (the live ports were dropped 2026-10-13: not
  *  needed; openmined.org is the reference). The port's seams still branch on
  *  `system`, so the ported files keep their live markup unchanged. */
 export type System = 'live' | 'v2';

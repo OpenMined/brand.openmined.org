@@ -73,7 +73,7 @@ const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
 
   <section class="band" id="status">
     <div class="wrap">
-      <header class="sec"><h2>Status icons</h2><p>One of two exceptions to mono (the other is <a href="#color">color mode</a>): a status icon takes its status's <code>fg</code> role.</p></header>
+      <header class="sec"><h2>Status icons</h2><p>One of two exceptions to mono (the other is <a href="#color">in color</a>): a status icon takes its status's <code>fg</code> role.</p></header>
       <article class="card">
         <ul class="icon-status">
           {STATUS.map(x => (
@@ -86,7 +86,7 @@ const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
 
   <section class="band" id="color">
     <div class="wrap">
-      <header class="sec"><h2>In color</h2><p>A color mode for icons where the design calls for it: the hue’s two-tone gradient moves in the stroke, with a soft glow behind (<em>if color, then motion</em>). Mono stays the default. Each colorway is named by its primary hue; the companion comes with it. Exploring.</p></header>
+      <header class="sec"><h2>In color</h2><p>Icons in color, where the design calls for it: the hue’s two-tone gradient moves in the stroke, with a soft glow behind (<em>if color, then motion</em>). Mono stays the default. Each colorway is named by its primary hue; the companion comes with it.</p></header>
       <div class="grid grid--3">
         {COLORWAYS.map(c => (
           <article class="card colorway">

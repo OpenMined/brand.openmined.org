@@ -20,13 +20,13 @@ html[data-system="v2"] :is(
 /* Hover cards with an icon: the icon top-aligns with the text, at the offset it
    has when the text is two lines (8px for the link card's 32px icon beside its
    title and subtitle), so longer text grows below it; the arrow stays centered
-   (Kyle, 2026-10-13). The sub-network card's icon takes the same 8px, which sits
+   (2026-10-13). The sub-network card's icon takes the same 8px, which sits
    it just below the top of its headline's capitals, as on the link cards. */
 html[data-system="v2"] .link-card__lead { align-items: flex-start; }
 html[data-system="v2"] .link-card__icon { margin-top: var(--spacing-S); }
 /* Interactive cards: hover moves one level up the shadow ladder. */
 html[data-system="v2"] .link-card:hover { box-shadow: var(--shadow-raise-2); }
-/* Hover cards: top and bottom padding one step up the spacing scale (Kyle, 2026-10-26). */
+/* Hover cards: top and bottom padding one step up the spacing scale (2026-10-26). */
 html[data-system="v2"] .link-card { padding-block: var(--spacing-4XL); }
 /* Press cards show logos in their own colors, so they're white plates in
    both modes: they're images (guidelines/logo-images-on-white). */
@@ -38,8 +38,8 @@ html[data-system="v2"] .logo-card {
 /* ── The federated-network section: an outline, not a card ─────────────
    guidelines/outlines-are-lines (decision 2026-10-12). Back to the live
    style: a 1px line-strong outline over the page, so the colorflow behind
-   it shows through (Kyle liked it; Bennett: "used as a line and not a
-   container"). Its row rules are drawn in the same line, as live does. Its
+   it shows through (kept in review: a line, not a
+   container). Its row rules are drawn in the same line, as live does. Its
    CTA row is now a hover card inside it (see below); the outline keeps
    the outer corner. */
 html[data-system="v2"] .home-fednet__card {
@@ -51,7 +51,7 @@ html[data-system="v2"] .home-fednet__card {
 html[data-system="v2"] .home-fednet__row { border-bottom-color: var(--line-strong); }
 html[data-system="v2"] .home-fednet__row:last-child { border-bottom: 0; }
 /* "Start your own federated sub-network": a hover card inside the outline, in the
-   pillars row under the three pillars and as wide as them (Kyle, 2026-10-26; Bennett,
+   pillars row under the three pillars and as wide as them (2026-10-26 and
    Oct 14), twice the row's padding below it. Its text keeps a 640px measure; icon
    and text sit centered in the full card width, the arrow at the right edge. Icon
    left (colored on hover by V2Pass), text left-aligned, no button. A level and its
@@ -84,8 +84,7 @@ html[data-system="v2"] .button-cta--bright { background-color: var(--surface-bas
 
 /* ── Buttons: one solid, the rest secondary ─────────────────────────────
    components/button, guidelines/one-solid-button. Outline → secondary: an
-   outline in the body text color, no fill, headline label (Bennett,
-   2026-10-12: close to live, minus live's green outline-and-text hover).
+   outline in the body text color, no fill, headline label (2026-10-12: close to live, minus live's green outline-and-text hover).
    Grayscale at rest; on hover both take the accent key, green (decision
    2026-10-12): a green fill with a white label (the solid button's via
    bridge.css, --color-interactive-hover). */
@@ -109,7 +108,7 @@ html[data-system="v2"] .btn--outline:hover {
    The live page marks SyftHub in green against Syft Space. Here SyftHub keeps
    the page's normal colors (solid button, solid step badges) and Syft Space
    takes the outlined style: the secondary button, and step badges drawn as a
-   line around the number (Kyle, 2026-10-26; guidelines/outlines-are-lines).
+   line around the number (2026-10-26; guidelines/outlines-are-lines).
    The markup drops the green classes (pages/SyftHub.astro). */
 html[data-system="v2"] .step-list__num { color: var(--surface-base); }
 /* The badge keeps the page behind it so the connector stops at its edge; the
@@ -130,13 +129,12 @@ html[data-system="v2"] .flow__op--icon { display: inline-flex; color: var(--text
 html[data-system="v2"] .flow__op--icon svg { display: block; }
 
 /* ── Links: text never changes color (components/link) ─────────────────
-   Kyle and Bennett, 2026-10-12. A link with an underline keeps it, and on
+   2026-10-12. A link with an underline keeps it, and on
    hover a moving gradient grows over it (v2/link-hover.css, from components/link.css); a link without
    one (nav, footer, text buttons) draws one in its own text color. Both
    lines leave to the right. The content link's underline still draws in on
    load. Every line is the line style, --stroke-sm in --line-strong (the body
-   text color), the same as the secondary button's outline (Kyle,
-   2026-10-12). Two registered properties carry the two line lengths, so the load
+   text color), the same as the secondary button's outline. Two registered properties carry the two line lengths, so the load
    animation (base line) and the hover transition (accent line) never fight
    over background-size. */
 /* Content links: v2/link-hover.css (a copy of the v2 component, components/link.css). */

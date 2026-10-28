@@ -15,7 +15,7 @@ tokens: [--surface-base, --text-body]
 
 **Modes, not levels.** A section context doesn't add a surface. The same four levels repeat inside it, with that mode's values: a card in a dark section on a light page is the dark `raise-1`.
 
-**Everything follows the section.** Surfaces, text, lines, hue keys, status colors and shadows all take the section's mode. A shadow falls on the ground beneath, so a raised element inside a dark section casts the dark-mode shadow.
+**Everything follows the section.** Surfaces, text, lines, hue keys, status colors, and shadows all take the section's mode. A shadow falls on the ground beneath, so a raised element inside a dark section casts the dark-mode shadow.
 
 **A section paints its own ground.** An element with `data-section` sets its background to `--surface-base` and its text to `--text-body`, so the switch is visible and text doesn't keep the page's color.
 

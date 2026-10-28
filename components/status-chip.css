@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   STATUS CHIP — v2 component (design/components/status-chip.md), exploring
+   STATUS CHIP — v2 component (design/components/status-chip.md)
    ════════════════════════════════════════════════════════════════════
    A short label that says a thing's status. Needs: the v2 tokens. No script;
    not interactive.
@@ -11,7 +11,7 @@
    Quiet (the default): no fill, a 1px ring and the text in the status's fg
    role, over the surface it sits on (an outline as a line). Strong: the
    status's key as the fill, white text (Color fills use the key). Fully round
-   (--radius-full), caption-size text at 500 (decision 2026-10-28). Without a
+   (--radius-full), caption-size text at 500 (decisions/2026-10-28-status-chips). Without a
    status, the quiet chip draws in the body text color. */
 .status-chip {
   --chip-fg: var(--text-body); --chip-key: var(--text-headline);

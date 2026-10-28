@@ -1,6 +1,6 @@
 /**
- * LINK CARD — the tilt (tilt.js; link-card.css; design/components/link-card.md;
- * exploring). Safe to call again.
+ * LINK CARD — the tilt (tilt.js; link-card.css; design/components/link-card.md).
+ * Safe to call again.
  *
  *   import { linkCards } from './link-card.js';
  *   linkCards();             // every .lcard

@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   LINK — v2 component (design/components/link.md), exploring
+   LINK — v2 component (design/components/link.md)
    ════════════════════════════════════════════════════════════════════
    The content link (a link in running text) and the text button. Needs: the
    v2 tokens. No script.
@@ -9,17 +9,14 @@
      <div class="content-links"><p>Every plain <a href="…">link</a> in here is a content link.</p></div>
      <a class="link-text" href="…"><span class="link-text__label">See all posts</span> <svg>…arrow…</svg></a>
 
-   Link text never changes color (Kyle and Bennett, 2026-10-12). Every line is
+   Link text never changes color. Every line is
    the line style: --stroke-sm in --line-strong, the same as the secondary
    button's outline. */
 
 /* ── Content link: color in motion ─────────────────────────────────────
-   The working favorite from the Color and interaction round (/rounds/motion/,
-   links, option B), exploring (decisions/2026-10-12-if-color-then-motion).
-   Pure CSS. .link-content on the link, or .content-links on a block of
+   See decisions/2026-10-12-if-color-then-motion. Pure CSS. .link-content on the link, or .content-links on a block of
    running text for its plain links (a:not([class])); links without a resting
-   underline (nav, footer, text buttons) keep their own-color line (Kyle,
-   2026-10-13).
+   underline (nav, footer, text buttons) keep their own-color line.
 
    The underline draws in from the left on load. On hover or keyboard focus a
    1px line in the full OM gradient grows over it from the left and leaves to
@@ -62,9 +59,9 @@
 }
 
 /* ── Text button ──────────────────────────────────────────────────────
-   openmined.org's hover-line link (components.css .link-hover-line). No line
+   No line
    at rest; on hover the line draws in from the left and leaves to the right.
-   With an icon after the label (live types "->"; v2 uses Iconoir's arrow);
+   With an icon after the label;
    the line runs under the label only. */
 .link-text { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-headline); text-decoration: none; }
 .link-text__label {

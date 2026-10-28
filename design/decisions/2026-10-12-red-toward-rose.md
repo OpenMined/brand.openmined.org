@@ -10,7 +10,7 @@ tokens: [--red-key, --danger-key]
 
 **Context.** Ink's red (key hue 24) reads as a generic red. The live site's rose red and the magenta in its CTA raster (hue 353) sit well toward magenta, and v2's red and violet (hue 300) leave a wide gap between them.
 
-**Decision.** Try a red pulled slightly toward rose: the light-mode key is `oklch(0.55 0.17 20.6)` (Kyle, 2026-10-12), which lands on `#c13b44` (hue 21.1 after rounding to hex). Every pinned red step rotates by the same 3.7° and takes the same chroma increase (× 1.033), keeping its lightness; the generated steps (50, 400, 900, 950) follow. The shared lightness ladder holds, and contrast is unchanged: white on the key 5.28:1, `--danger-fg` 6.69:1 on the page in light mode and 5.60:1 in dark.
+**Decision.** Try a red pulled slightly toward rose: the light-mode key is `oklch(0.55 0.17 20.6)` (design lead, 2026-10-12), which lands on `#c13b44` (hue 21.1 after rounding to hex). Every pinned red step rotates by the same 3.7° and takes the same chroma increase (× 1.033), keeping its lightness; the generated steps (50, 400, 900, 950) follow. The shared lightness ladder holds, and contrast is unchanged: white on the key 5.28:1, `--danger-fg` 6.69:1 on the page in light mode and 5.60:1 in dark.
 
 **Tried first.** Hue 16.8 the same day read too pink and was dropped.
 

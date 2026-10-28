@@ -1,11 +1,11 @@
 {
   "_about": "Inputs to tools/palette/generate.mjs. Pinned values are agreed colors, copied once (2026-10-07) from brand-v2-working: gray from src/pages/rounds/_working.ts GRAY (the surfaces round's display-adjusted values), hues from src/pages/rounds/color/_palettes.json palette 'ink' (written by brand-v2-lab generate.py). Edit here, then regenerate; never edit tokens/ generated files by hand.",
   "new_steps_status": "working",
-  "_new_steps_status": "Status of the generated (unpinned) steps: gray 300–500 and each hue's 50, 400, 900, 950. Working since 2026-10-28 (Kyle, status pass): in use since the spectrum was approved on 2026-10-07. They stay generated: a retune recomputes them.",
+  "_new_steps_status": "Status of the generated (unpinned) steps: gray 300–500 and each hue's 50, 400, 900, 950. Working since 2026-10-28 (status pass): in use since the spectrum was approved on 2026-10-07. They stay generated: a retune recomputes them.",
   "saturation": {
     "light": 1.1,
     "dark": 1,
-    "_note": "Per-mode chroma factor on every hue step and fitted gradient stop (color round, 2026-09-25). Gray takes no offset. Dark was 0.95 until 2026-10-09; set to 1 (no desaturation) to try a less muted dark mode (Bennett, 2026-10-08), exploring."
+    "_note": "Per-mode chroma factor on every hue step and fitted gradient stop (color round, 2026-09-25). Gray takes no offset. Dark was 0.95 until 2026-10-09; set to 1 (no desaturation) to try a less muted dark mode (2026-10-08), exploring."
   },
   "white": "#ffffff",
   "black": "#000000",
@@ -55,14 +55,14 @@
         "t": 0.8
       },
       "_rule": "OKLCH lerp from gray 200 to gray 600 at t",
-      "_retune": "2026-10-28 (Kyle, type round): 400 from t 0.5 to 0.475 (10% toward 300) and 500 from t 0.75 to 0.8 (20% toward 600), so --text-muted reaches AA on every surface in both modes."
+      "_retune": "2026-10-28 (type round): 400 from t 0.5 to 0.475 (10% toward 300) and 500 from t 0.75 to 0.8 (20% toward 600), so --text-muted reaches AA on every surface in both modes."
     },
     "midtone_boost": {
       "amount": 0.008,
       "center": 54,
       "width": 15,
       "_rule": "Applied after pinning and lerp, to every gray step: chroma += amount × exp(−(L − center)² / (2 · width²)), L on 0–100, each step's own L and H kept; chroma pulled back to fit sRGB if needed. Set amount 0 to turn it off.",
-      "_note": "Default from 2026-10-12 (Bennett and Kyle): the Color page's suggested boost with the center moved from 58 to 54. Exploring; judge it in context."
+      "_note": "Default from 2026-10-12: the Color page's suggested boost with the center moved from 58 to 54. Exploring; judge it in context."
     }
   },
   "hues": {
@@ -227,7 +227,7 @@
       }
     },
     "red": {
-      "_note": "Working since 2026-10-28 (Kyle, status pass; first tried 2026-10-12): red pulled slightly toward rose to read as OpenMined's red rather than a generic one. Re-keyed to oklch(0.55 0.17 20.6) as the light-mode key: every pinned step's OKLCH hue rotated -3.7° and its chroma scaled × 1.033 (base key chroma 0.150 → 0.155, × 1.1 in light), lightness kept, so the shared lightness ladder holds. A first try at hue 16.8 read too pink and was dropped the same day. The previous red is kept below as backup_2026_10_12: to restore it, move it back to pinned.",
+      "_note": "Working since 2026-10-28 (status pass; first tried 2026-10-12): red pulled slightly toward rose to read as OpenMined's red rather than a generic one. Re-keyed to oklch(0.55 0.17 20.6) as the light-mode key: every pinned step's OKLCH hue rotated -3.7° and its chroma scaled × 1.033 (base key chroma 0.150 → 0.155, × 1.1 in light), lightness kept, so the shared lightness ladder holds. A first try at hue 16.8 read too pink and was dropped the same day. The previous red is kept below as backup_2026_10_12: to restore it, move it back to pinned.",
       "pinned": {
         "100": {
           "hex": "#ffefef",
@@ -392,7 +392,7 @@
           "green.key"
         ],
         "status": "working",
-        "_for": "Color that moves behind a white label (button hover, motion round option F): the wheel in hue keys only, green → teal → blue → violet → red → amber → green, so the label never drops below the green key's contrast (about 3.8:1). The spectrum's fitted stops (gold, orange, lime, yellow) stay for graphics; white on them is 1.3–2.5:1 (2026-10-13)."
+        "_for": "Color that moves behind a white label (button hover): the wheel in hue keys only, green → teal → blue → violet → red → amber → green, so the label never drops below the green key's contrast (about 3.8:1). The spectrum's fitted stops (gold, orange, lime, yellow) stay for graphics; white on them is 1.3–2.5:1 (2026-10-13)."
       },
       "map": {
         "stops": [
@@ -406,11 +406,11 @@
           "lime"
         ],
         "status": "working",
-        "_for": "The gradient map (<om-mesh>): one color per point, in the embed's point order (top, top left, left, bottom-left corner, bottom left, bottom middle, bottom right, right). Matches the live raster: magenta on the left, no blue (Bennett, 2026-10-08: 'red on the left is too red, blue area too heavy'). A list entry is a gradient stop name, or a hue step such as violet.400."
+        "_for": "The gradient map (<om-mesh>): one color per point, in the embed's point order (top, top left, left, bottom-left corner, bottom left, bottom middle, bottom right, right). Magenta on the left and no blue, as in the website's gradient image. A list entry is a gradient stop name, or a hue step such as violet.400."
       }
     },
     "two_tone": {
-      "_note": "One two-tone gradient per palette hue (gradient.two-tone-<hue>), for icons and any other use that names a primary hue: the hue's key, its darker step, the companion, its lighter step, its key. The companion is chosen per hue, not the next hue around the wheel (Kyle and Bennett, 2026-10-12: gold to green read as a big color change, not a hue shift; gold takes red). Generated in both modes.",
+      "_note": "One two-tone gradient per palette hue (gradient.two-tone-<hue>), for icons and any other use that names a primary hue: the hue's key, its darker step, the companion, its lighter step, its key. The companion is chosen per hue, not the next hue around the wheel (2026-10-12: gold to green read as a big color change, not a hue shift; gold takes red). Generated in both modes.",
       "status": "working",
       "companions": {
         "red": "amber",
@@ -420,16 +420,16 @@
         "blue": "violet",
         "violet": "red"
       },
-      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red; blue changed to teal, 2026-10-14); teal and violet are first guesses, not yet seen in use. 2026-10-26 (Kyle): blue takes violet, green takes gradient lime, amber takes gradient gold, teal takes green.",
-      "_companion_values": "A companion is a hue (it takes steps.<mode>.companion) or a gradient stop written gradient.<stop> (gold, orange, lime, yellow, magenta …), which has one value per mode and no steps (Kyle, 2026-10-26: diagrams are graphics, so the graphics colors are fair companions).",
+      "_companions": "red, amber, green and blue as reviewed on the icons (motion round E, gold changed to red; blue changed to teal, 2026-10-14); teal and violet are first guesses, not yet seen in use. 2026-10-26: blue takes violet, green takes gradient lime, amber takes gradient gold, teal takes green.",
+      "_companion_values": "A companion is a hue (it takes steps.<mode>.companion) or a gradient stop written gradient.<stop> (gold, orange, lime, yellow, magenta …), which has one value per mode and no steps (2026-10-26: diagrams are graphics, so the graphics colors are fair companions).",
       "steps": {
         "light": { "base": "key", "lighter": "300", "companion": "400", "darker": "500" },
         "dark": { "base": "key", "lighter": "400", "companion": "key", "darker": "600" }
       },
-      "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps the key and 500, takes 300 for the lighter stop and 400 for the companion (Kyle, 2026-10-14: 400 for both still read subtle in light; one step lighter throughout read washed out)."
+      "_steps": "Which step of the hue (and of its companion) each stop takes, per mode. Light keeps the key and 500, takes 300 for the lighter stop and 400 for the companion (2026-10-14: 400 for both still read subtle in light; one step lighter throughout read washed out)."
     },
     "highlight": {
-      "_note": "One highlight per palette hue (gradient.highlight-<hue>): the brighter, more energetic part of a moving line in that hue, such as the pulse along a diagram line or a ring. It reads as the same line lit up, not a second color, so each is chosen to be lighter than its hue in both modes, toward yellow on the wheel. Separate from the two-tone companions, which pass a second color through an icon or a card (Kyle, 2026-10-27: violet's red and blue's violet read as other colors on the diagrams).",
+      "_note": "One highlight per palette hue (gradient.highlight-<hue>): the brighter, more energetic part of a moving line in that hue, such as the pulse along a diagram line or a ring. It reads as the same line lit up, not a second color, so each is chosen to be lighter than its hue in both modes, toward yellow on the wheel. Separate from the two-tone companions, which pass a second color through an icon or a card (2026-10-27: violet's red and blue's violet read as other colors on the diagrams).",
       "status": "working",
       "colors": {
         "red": "amber",
@@ -439,7 +439,7 @@
         "blue": "teal",
         "violet": "gradient.magenta"
       },
-      "_colors": "2026-10-27 (Kyle): red, amber, green and teal as their two-tone companions, which already read as highlights on the diagrams; blue takes teal, violet takes blue; then violet takes its own 300 (blue's dark key barely lifted the line), then the gradient's magenta (300 didn't read right; magenta approved on the diagrams). A value is a hue (it takes steps.<mode>), a hue at its own step (violet.300, both modes) or a gradient stop, gradient.<stop>.",
+      "_colors": "2026-10-27: red, amber, green and teal as their two-tone companions, which already read as highlights on the diagrams; blue takes teal, violet takes blue; then violet takes its own 300 (blue's dark key barely lifted the line), then the gradient's magenta (300 didn't read right; magenta approved on the diagrams). A value is a hue (it takes steps.<mode>), a hue at its own step (violet.300, both modes) or a gradient stop, gradient.<stop>.",
       "steps": { "light": "400", "dark": "key" },
       "_steps": "The step a hue highlight takes, per mode: the same as the two-tone companion step."
     }

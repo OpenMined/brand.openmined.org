@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Page layout, the same in every mode: the page container, the 12-column grid and its spans, the article (prose) zones, set apart from the grid so the reading column can be tuned alone (Kyle, 2026-10-27), and the breakpoints. Values from v1 and openmined.org, unchanged (layout.css, prose.css, read 2026-10-27; Kyle: keep v1's 1300).",
+  "$description": "Hand-written. Page layout, the same in every mode: the page container, the 12-column grid and its spans, the article (prose) zones, set apart from the grid so the reading column can be tuned alone, and the breakpoints.",
   "page": {
     "$type": "dimension",
     "width": {

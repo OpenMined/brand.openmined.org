@@ -50,7 +50,7 @@ html[data-system="v2"][data-card-light="none"] .card-light { display: none; }
 /* ── Icons in a set hue ──────────────────────────────────────────────── */
 html[data-system="v2"] .color-icon-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 /* How much of the key stays in the shades (0% = 400 and 600). Per mode, the same
-   for now: dark matched light after Bennett's review. */
+   for now: dark matched light after review. */
 html[data-system="v2"] .color-icon-defs { --ci-keep: 0%; }
 html[data-system="v2"][data-theme="dark"] .color-icon-defs { --ci-keep: 0%; }
 /* The wrapper hugs the icon, so the glow copy (inset 0) lands on it even where the

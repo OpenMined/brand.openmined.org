@@ -1,9 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════
-   COLOR ICON — v2 component (design/foundations/two-tone.md), exploring
+   COLOR ICON — v2 component (design/foundations/two-tone.md)
    ════════════════════════════════════════════════════════════════════
    A set icon in a hue's two-tone gradient, moving in the stroke, with a
-   blurred copy behind as its glow (the working favorite from the Color and
-   interaction round, behaviors/color-moves). Needs: the v2 tokens, and the
+   blurred copy behind as its glow (behaviors/color-moves). Needs: the v2 tokens, and the
    moving gradients once on the page: two-tone.js (twoTone).
 
    Markup (hue: red, amber, green, teal, blue or violet; the icon twice, the

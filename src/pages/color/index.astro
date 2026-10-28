@@ -35,13 +35,13 @@ const GRAY_ROLES = ['surface-sunken', 'surface-base', 'surface-raise-1', 'surfac
 const GRAYS = ['white', ...STEPS.map(s => `gray-${s}`), 'black'];
 const grayUse = (m: Mode, g: string) => GRAY_ROLES.filter(r => primitive(m, r) === g).map(r => r.replace('surface-', ''));
 const grayName = (g: string) => g.replace('gray-', '');
-/** A swatch's readout ink as a token, never a literal (gray is the same in both modes). */
-const ink = (m: Mode, h: string) => h === hex(m, 'gray-800') ? 'var(--gray-800)' : 'var(--gray-50)';
+/** A swatch's readout color as a token, never a literal (gray is the same in both modes). */
+const readoutColor = (m: Mode, h: string) => h === hex(m, 'gray-800') ? 'var(--gray-800)' : 'var(--gray-50)';
 
 const HUE_ROLES = ['subtle', 'soft', 'fg', 'key', 'solid', 'hover'];
 const ROLE_USE: Record<string, string> = {
   subtle: 'Quiet colored background', soft: 'Decorative rule, area fill', fg: 'Colored text, links, icons',
-  key: 'Marks with no text', solid: 'A fill carrying a label', hover: 'One step past solid',
+  key: 'Marks; colored fills with a white label', solid: 'An interface fill carrying a label', hover: 'One step past solid',
 };
 const rolesAt = (m: Mode, s: string) => HUE_ROLES.filter(r => stepOf(m, `blue-${r}`) === s);
 const statusOf = (h: string) => Object.entries(STATUS).filter(([, v]) => v === h).map(([k]) => k);
@@ -76,22 +76,22 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
 
   <section class="band" id="palette">
     <div class="wrap">
-      <header class="sec"><h2>Palette</h2><p>Ink: one gray and six hues, 50–950. Hues are offset per mode (saturation ×{SAT.light.toFixed(2)} light, ×{SAT.dark.toFixed(2)} dark); gray is the same in both. Labels under each step show which roles land on it in the current mode. Steps marked <em>new</em> are provisional.</p></header>
+      <header class="sec"><h2>Palette</h2><p>One gray and six hues, 50–950. Hues are offset per mode (saturation ×{SAT.light.toFixed(2)} light, ×{SAT.dark.toFixed(2)} dark); gray is the same in both. Labels under each step show which roles land on it in the current mode. Steps marked <em>provisional</em> have no job yet.</p></header>
       <article class="card spec-card" aria-label="Gray">
         <h3>Gray</h3>
         <div class="grays__row">
           {GRAYS.map(g => (
             <div class="grays__cell" data-gray={g.startsWith('gray-') ? grayName(g) : undefined}>
               <span class="sw" style={`background:var(--${g})`}>
-                <code class="only-light js-ghex" style={`color:${ink('light', readout('light', hex('light', g)))}`}>{hex('light', g)}</code>
-                <code class="only-dark js-ghex" style={`color:${ink('dark', readout('dark', hex('dark', g)))}`}>{hex('dark', g)}</code>
+                <code class="only-light js-ghex" style={`color:${readoutColor('light', readout('light', hex('light', g)))}`}>{hex('light', g)}</code>
+                <code class="only-dark js-ghex" style={`color:${readoutColor('dark', readout('dark', hex('dark', g)))}`}>{hex('dark', g)}</code>
               </span>
-              <b class="grays__step">{grayName(g)}{g.startsWith('gray-') && ['300', '400', '500'].includes(grayName(g)) && ' · new'}</b>
+              <b class="grays__step">{grayName(g)}</b>
               {MODES.map(m => <em class={`grays__use only-${m}`}>{grayUse(m, g).join(' · ')}</em>)}
             </div>
           ))}
         </div>
-        <p class="muted">The grays carry a slight midtone saturation boost, most in the middle steps (amount 0.008, center 54, width 15; built into the tokens). Explored in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all#gray-boost">color round</a>.</p>
+        <p class="muted">The grays carry a slight midtone saturation boost, most in the middle steps (amount 0.008, center 54, width 15; built into the tokens).</p>
       </article>
       <article class="card spec-card" aria-label="Hues">
         <h3>Hues</h3>
@@ -100,7 +100,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
             <span></span>
             {STEPS.map(s => (
               <span class="ramps__step">
-                <b>{s}{['50', '400', '900', '950'].includes(s) && ' · new'}</b>
+                <b>{s}{['50', '900', '950'].includes(s) && ' · provisional'}</b>
                 {MODES.map(m => <em class={`only-${m}`}>{rolesAt(m, s).join(' · ') || '—'}</em>)}
               </span>
             ))}
@@ -110,7 +110,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
               <span class="ramps__hue">{h}<small>{statusOf(h).join(' · ')}</small></span>
               {STEPS.map(s => (
                 <span class="sw" style={`background:var(--${h}-${s})`}>
-                  {MODES.map(m => <code class={`only-${m}`} style={`color:${ink(m, stepLabel(m, s))}`}>{hex(m, `${h}-${s}`)}</code>)}
+                  {MODES.map(m => <code class={`only-${m}`} style={`color:${readoutColor(m, stepLabel(m, s))}`}>{hex(m, `${h}-${s}`)}</code>)}
                 </span>
               ))}
             </div>

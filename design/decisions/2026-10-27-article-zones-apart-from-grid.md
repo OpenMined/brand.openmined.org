@@ -10,7 +10,7 @@ tokens: [--prose-content, --prose-wide, --prose-full, --grid-span-6, --grid-span
 
 **Context.** The article grid (`.prose-article`, from openmined.org's blog) places blocks by named zones: `content`, `wide` and `full`. On the live site the zones' widths read the grid spans directly (`--col-6`, `--col-8`), and the first v2 tokens did the same (`--prose-content` → `--grid-span-6`, `--prose-wide` → `--grid-span-8`). Tuning the reading column would then have meant changing a grid span, moving every layout that uses it.
 
-**Decision.** Kyle, 2026-10-27. `--prose-content` (640px) and `--prose-wide` (860px) are values of their own. They start equal to six and eight columns, so nothing moves. A reading width is a typographic measure and is tuned as one; the grid spans keep their layout use. `--prose-full` stays a reference to `--page-width`: a full breakout means the page.
+**Decision.** Design lead, 2026-10-27. `--prose-content` (640px) and `--prose-wide` (860px) are values of their own. They start equal to six and eight columns, so nothing moves. A reading width is a typographic measure and is tuned as one; the grid spans keep their layout use. `--prose-full` stays a reference to `--page-width`: a full breakout means the page.
 
 **Alternatives.** Zones as grid spans, as on the live site: one source for both, but the reading column can't change alone.
 

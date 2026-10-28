@@ -8,9 +8,9 @@ tags: [surfaces, interface]
 tokens: [--line-strong, --stroke-sm, --stroke-md]
 ---
 
-**Context.** Applying v2 to the live home page (the page reviews) lost a section Kyle liked: "The Federated AI Network", a card drawn as a thin outline with the colorflow showing through it. Dividers-only ruled it out. Reviewing it with Bennett, the dislike turned out to be narrower than "outlines": the infographics round's outer outlines and the outlined secondary button both read well, and both show the same surface inside and out.
+**Context.** Applying v2 to the live home page (the page reviews) lost a section worth keeping: "The Federated AI Network", a card drawn as a thin outline with the colorflow showing through it. Dividers-only ruled it out. In review, the objection turned out to be narrower than "outlines": the infographics round's outer outlines and the outlined secondary button both read well, and both show the same surface inside and out.
 
-**Decision.** Outlines come back as lines: thin and stark, with the same fill inside and outside. What stays out is the app-style bordered container, an outline around an area with a different fill inside (Bennett: "is just like everywhere now"). A card that sits on a different level still uses its level and shadow as its edge, never a border. Outlines are 1px (`--stroke-sm`) in `--line-strong`; a graphic's outer outline may take `--stroke-md` (1.5px). This supersedes *Dividers only* (2026-09-17).
+**Decision.** Outlines come back as lines: thin and stark, with the same fill inside and outside. What stays out is the app-style bordered container, an outline around an area with a different fill inside, which reads as the look of every app right now. A card that sits on a different level still uses its level and shadow as its edge, never a border. Outlines are 1px (`--stroke-sm`) in `--line-strong`; a graphic's outer outline may take `--stroke-md` (1.5px). This supersedes *Dividers only* (2026-09-17).
 
 **Alternatives.** Keep dividers-only and give up the outlined home section and the outlined secondary button. Allow outlines anywhere, the look the system set out to avoid.
 

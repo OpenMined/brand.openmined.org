@@ -37,7 +37,7 @@
  */
 /** The stacked strength of each step, from the pulse's end in, as shares of its
  *  peak: with a highlight's 0.8, 0.15 → 0.28 → 0.49 → 0.65 → 0.80. One dash per
- *  step, tuned by eye (Kyle, 2026-10-27): small steps at the faint end, where the
+ *  step, tuned by eye: small steps at the faint end, where the
  *  eye sees a step as a bigger change, and the tails holding some strength. */
 const LEVELS = [0.15, 0.28, 0.49, 0.65, 0.8].map((v) => v / 0.8);
 /** Each step's length as a share of the even spacing (steps filling the whole

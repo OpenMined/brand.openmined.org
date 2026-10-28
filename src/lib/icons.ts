@@ -65,7 +65,7 @@ export function iconSvg(name: string, { size = '1em', label, cls = '' }: { size?
   let svg = readFileSync(iconFile(name), 'utf8').trim();
   if (e.src === 'own') checkOwn(name, svg, e.style ?? 'line');
   // Brand marks are fills in every version: a brand drawn in outline has its own
-  // line weight, so it's flattened to a fill before it comes in (Kyle, 2026-10-12).
+  // line weight, so it's flattened to a fill before it comes in.
   if (e.src === 'partner' && /stroke="(?!none)[^"]*"/.test(svg)) throw new Error(`Partner mark "${name}" is drawn with strokes; flatten it to a fill (public/logos/partners/${name}/icon.svg).`);
   const px = typeof size === 'number' ? `${size}px` : size;
   const n = iconPx(size);

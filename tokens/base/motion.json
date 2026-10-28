@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Motion timing, the same in every mode. v1's one transition (--transition-base: 0.4s ease), split into a duration and an easing, with the shorthand kept (Kyle, 2026-10-27). The color moves' own timings (button hover, line pulses, icons) live with their components.",
+  "$description": "Hand-written. Motion timing, the same in every mode: one duration and one easing for state changes, and --transition-base, both together. The color moves' own timings (button hover, line pulses, icons) live with their components.",
   "duration": {
     "$type": "duration",
     "base": {

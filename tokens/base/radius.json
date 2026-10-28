@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Corner radius, the same in every mode. A short ladder biased sharp (Bennett, 2026-10-08: 'intentionally less rounded than your typical vibed corner'): md is the default, lg only for the outer of two nested rounded things, sm only for marks too small for md. Replaces v1's --border-radius-XS…XL for v2.",
+  "$description": "Hand-written. Corner radius, the same in every mode. A short ladder biased sharp, sharper than the soft corners common in AI-generated layouts: md is the default, lg only for the outer of two nested rounded things, sm only for marks too small for md.",
   "radius": {
     "$type": "dimension",
     "sm": {
@@ -19,7 +19,7 @@
     },
     "full": {
       "$value": { "value": 999, "unit": "px" },
-      "$description": "Fully round ends: toggles, pills, dots.",
+      "$description": "Fully round ends: toggles, pills, dots, status chips.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --border-radius-full (999px), unchanged" } }
     }
   }

@@ -1,6 +1,6 @@
 /**
  * BUTTON HOVER — color in motion on hover (button-hover.css; design/components/button.md,
- * decisions/2026-10-17-button-hover-hue-keys; exploring). Adds the glow and fill
+ * decisions/2026-10-17-button-hover-hue-keys). Adds the glow and fill
  * layers to each button and sets where the color loop starts. Skips disabled
  * buttons, pressed toggles (aria-pressed) and buttons already set up, so it is
  * safe to call again after content is added.

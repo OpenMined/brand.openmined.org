@@ -73,7 +73,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
 
   <section class="band" id="motion">
     <div class="wrap">
-      <header class="sec"><h2>Colorflow and gradient map</h2><p>The two animated graphics built on the gradient, ported from the color round. Both read the v2 gradient stops on this page, so they follow the palette and the color mode.</p></header>
+      <header class="sec"><h2>Colorflow and gradient map</h2><p>The two animated graphics built on the gradient. Both read the gradient stops on this page, so they follow the palette and the color mode.</p></header>
       <article class="card">
         <h3>Colorflow <code>&lt;om-stream&gt;</code></h3>
         <p class="muted">A ribbon in six of the gradient's stops, its own list <code>--gradient-flow</code> (red, gold, violet, blue, teal, green): the order the site's home hero uses.</p>
@@ -83,7 +83,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
       </article>
       <article class="card">
         <h3>Gradient map <code>&lt;om-mesh&gt;</code></h3>
-        <p class="muted">The site's call-to-action background rebuilt as a live mesh: eight points ringing the box and blending toward the center, in the color round's "Clouds" setting. Its colors are its own list, <code>--gradient-map</code>: magenta on the left and no blue, as in the live raster. Its colors are compared in the <a href="/rounds/gradient-map/">gradient map round</a>.</p>
+        <p class="muted">A call-to-action background as a live mesh: eight points ringing the box and blending toward the center. Its colors are its own list, <code>--gradient-map</code>: magenta on the left and no blue.</p>
         <div class="mesh-stage">
           <om-mesh class="mesh-stage__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
           <div class="mesh-stage__card">
@@ -109,7 +109,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
 
   <section class="band" id="logo">
     <div class="wrap">
-      <header class="sec"><h2>Logos and embeds</h2><p>OpenMined's logo keeps its own colors in every palette and mode; partner marks are used as their owners supply them. The animated embeds show v2 colors here because this page passes them in; used on their own, they fall back to built-in colors that are still v1 until they're re-tuned.</p></header>
+      <header class="sec"><h2>Logos and embeds</h2><p>OpenMined's logo keeps its own colors in every palette and mode; partner marks are used as their owners supply them. The animated embeds take their colors from the page (<a href="#gradient">Gradient</a>); without them they fall back to built-in colors that aren't the v2 palette yet.</p></header>
       <div class="grid grid--2">
         <article class="card">
           <img class="only-light logo-spec" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" />
@@ -118,7 +118,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
         </article>
         <article class="card">
           <h3>Embeds</h3>
-          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components. Shown live on the <a href="/v1/">v1 reference</a> and in the <a href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all">color round</a>.</p>
+          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components.</p>
         </article>
       </div>
       <article class="card">

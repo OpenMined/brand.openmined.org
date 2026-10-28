@@ -1,5 +1,5 @@
 /**
- * POINTER — shared helper for the v2 components (exploring). A light that eases
+ * POINTER — shared helper for the v2 components. A light that eases
  * toward the pointer each frame, so it trails a little: sets --mx and --my on
  * the element, in px from its top left; the component's CSS draws the light.
  * Used by field.js and hover-card.js. Safe to call twice on one element.

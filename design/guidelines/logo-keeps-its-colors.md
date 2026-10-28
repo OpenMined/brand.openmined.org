@@ -8,6 +8,6 @@ tags: [graphics]
 
 **Rule.** Use the logo files as they are. Don't recolor the logo or icon from the palette.
 
-**Why.** Recolored versions were compared in review and rejected; the palette's darker blues read too heavy at the bottom of the mark.
+**Why.** Recolored from the palette, the mark's darker blues read too heavy at its base.
 
 **Sections.** A graphic section may pin a mode (`always-dark` or `always-light`) when it needs a specific ground, logo included.

@@ -19,7 +19,7 @@
  *
  * Pinned steps are agreed values: copied, never recomputed (status `working`).
  * New steps take the status inputs.json sets in new_steps_status (`exploring`
- * until reviewed; `working` since 2026-10-28, Kyle). They stay generated.
+ * until reviewed; `working` since 2026-10-28). They stay generated.
  * The color maths matches src/pages/rounds/_working.ts exactly, so a pinned
  * color renders byte-for-byte as it does on the working pages today.
  */
@@ -170,7 +170,7 @@ function grayFile() {
 
 function huesFile(mode) {
   return {
-    $description: `Hue primitives, 50–950, ${mode} mode: chroma × ${IN.saturation[mode]} on every step. The key (500) is the agreed Ink key. ${NOTE}`,
+    $description: `Hue primitives, 50–950, ${mode} mode: chroma × ${IN.saturation[mode]} on every step. The key (500) is the agreed key. ${NOTE}`,
     ...Object.fromEntries(HUES.map(h => {
       const r = hue11(h, mode);
       return [h, { $type: 'color', ...Object.fromEntries(SERIES.map(s => [s, colorToken(r[s])])) }];

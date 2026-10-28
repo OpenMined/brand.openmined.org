@@ -6,22 +6,22 @@ status: working
 tags: [overview]
 ---
 
-The OpenMined Design System is the shared source for how OpenMined looks: its colors, surfaces, type, components and graphics, with the reasons behind them. Websites, apps, documents and graphics all draw from it, and AI tools read it the same way people do.
+The OpenMined Design System is the shared source for how OpenMined looks: its colors, surfaces, type, components, and graphics, with the reasons behind them. Websites, apps, documents, and graphics all draw from it, and AI tools read it the same way people do.
 
-This is version 2, in progress. It evolves the existing brand rather than replacing it. Every page shows the current working favorites: the direction the review rounds settled on, not yet final. Each value and rule carries its own status. The structure comes first (the token files, the guidance files and the build that keeps them in step), so each design decision that follows has a place to live.
+This is version 2. It evolves the existing brand rather than replacing it. Each value and rule carries its own status, so you can tell what's settled from what's still moving.
 
 ## How it's built
 
-Every page on this site is a view of source files in the brand repository. Nothing is typed into a page by hand: each page reads the same files that code and AI tools read.
+Every page on this site is a view of source files in the brand repository: each page reads the same files that code and AI tools read.
 
 | What you see on a page | Where it comes from | Who reads it |
 | --- | --- | --- |
-| Every color, shadow, swatch and token table | `tokens/`<br>Values in the open Design Tokens format, built into `src/tokens/v2/` as CSS, JavaScript and JSON | Code, design tools, AI |
+| Every color, shadow, swatch, and token table | `tokens/`<br>Values in the open Design Tokens format, built into `src/tokens/v2/` as CSS, JavaScript, and JSON | Code, design tools, AI |
 | Rules, decisions, open questions, and these words | `design/`<br>One short Markdown file per idea, grouped by kind (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`, `decisions/`) | People, on these pages; AI, directly |
 | Buttons, fields, links, cards: the components and their code | `components/`<br>One CSS file per component and a small script for each one that moves, plain files any site can load; the markup to match is at the top of each | Code, AI |
 | Layout and live demos | The site's page templates | People |
 
-Change a value or a rule at its source and every page, project and AI agent gets the change. This overview is `design/overview.md`. The review rounds, where each decision was explored, are kept as evidence.
+Change a value or a rule at its source and every page, project, and AI agent gets the change. This overview is `design/overview.md`.
 
 ## Principles
 
@@ -46,8 +46,8 @@ Change a value or a rule at its source and every page, project and AI agent gets
 
 ## What stays human
 
-Some calls are made by people on purpose. In these areas AI can research, prepare options and produce files, but a person makes the call. A working list, to iterate:
+Some calls are made by people on purpose. In these areas AI can research, prepare options, and produce files, but a person makes the call.
 
-- **Taste decisions on new visual directions.** Choosing between options in a review round, and approving a direction. AI can generate and compare the options.
+- **Taste decisions on new visual directions.** Choosing between design options, and approving a direction. AI can generate and compare the options.
 - **Imagery: concept and composition.** A person sets what an image says and how it's laid out. Production can run through AI generation, but prompt-and-accept is not the model.
-- **The logo and brand marks.** Used as supplied: never generated, redrawn or recolored by AI.
+- **The logo and brand marks.** Used as supplied: never generated, redrawn, or recolored by AI.

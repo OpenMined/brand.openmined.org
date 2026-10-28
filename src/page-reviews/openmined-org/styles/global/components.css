@@ -75,7 +75,7 @@
   /* PORT: the tilt is a distortion, not an angle (see the script in Base.astro):
      one setting for every card size. Fitted at 1.6 (the ~320px logo cards at
      their original 3deg, the 860px sub-network card where it was tuned by eye),
-     then tuned down to 1.1 (Kyle, 2026-10-26). The ceiling only holds thin cards back. */
+     then tuned down to 1.1 (2026-10-26). The ceiling only holds thin cards back. */
   --card-tilt-keystone: 1.1;
   --card-tilt-falloff: -0.3;
   --card-tilt-max: 6deg;

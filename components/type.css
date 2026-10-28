@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   TYPE — v2 component (design/foundations/typography.md), working
+   TYPE — v2 component (design/foundations/typography.md)
    ════════════════════════════════════════════════════════════════════
    Body text, the heading scale, the text styles and the inline elements.
    Needs: the v2 tokens, and the fonts: Rubik 400, and Inter 400, 500, 600,
@@ -7,8 +7,7 @@
      <link rel="preconnect" href="https://fonts.googleapis.com">
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
-   No script. Carried from openmined.org's type
-   system with obvious cleanup (2026-10-28).
+   No script.
 
    Markup:
      <h1>Page title</h1>                     or any element with class="h1" … "h6"
@@ -24,8 +23,7 @@
    maximum tokens, reaching the maximum at the 1300px page width (the rate is
    max / 13 vw). h1–h4 are Rubik 400, with leading that tightens as they grow
    (1.05 to 1.2) and slight tracking (-0.01em); h5–h6 are Inter 400 on pages and
-   in interfaces, Inter 600 at a smaller maximum in a long read (type round,
-   2026-10-28). A surface that needs a
+   in interfaces, Inter 600 at a smaller maximum in a long read. A surface that needs a
    smaller ceiling caps the heading with its own maximum, never a new size:
      .page-hero h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, 3rem); }
    Headings balance their lines and paragraphs avoid a lone last word. */
@@ -55,7 +53,7 @@ h4, .h4, .prose h4 { font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--fon
 h5, .h5 { font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); line-height: var(--line-height-h5); }
 h6, .h6 { font-size: clamp(var(--font-size-h6-min), 1.54vw, var(--font-size-h6-max)); line-height: var(--line-height-text); }
 /* In a long read, h5 and h6 step up in weight and down in size, so they stay
-   apart from each other and from body text (openmined.org's prose treatment). */
+   apart from each other and from body text. */
 .prose h5 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h5-min), 1.54vw, var(--font-size-prose-h5-max)); line-height: var(--line-height-text); }
 .prose h6 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h6-min), 1.38vw, var(--font-size-prose-h6-max)); line-height: var(--line-height-text); }
 
@@ -76,7 +74,7 @@ strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline
    digit keeps one width and columns still align. Tables set tabular figures
    throughout; a numeric cell (.num) also right-aligns and tightens; .tabular
    does the same for numbers outside a table (stat tiles, chart labels). Inter
-   draws proportional digits by default (type round, 2026-10-28). */
+   draws proportional digits by default. */
 table { font-variant-numeric: tabular-nums; }
 :is(td, th).num { text-align: right; }
 :is(td, th).num, .tabular { font-variant-numeric: tabular-nums; letter-spacing: calc(var(--tracking-numbers) * 1em); }
@@ -90,7 +88,7 @@ table { font-variant-numeric: tabular-nums; }
    Code: the mono family, a touch smaller than the text around it, on a tint of
    the code block's own ground (gray 950), so it is always darker than the
    surface, like the block: 6% in light mode (the edge of visible), 35% in dark,
-   where a dark tint needs more to show (type review, 2026-10-28). The strength
+   where a dark tint needs more to show. The strength
    follows the mode and the section contexts, as the tokens do. A block of code (pre) is always dark,
    in both modes, so highlighted code reads the same everywhere. */
 :root, [data-section="always-light"], [data-theme="dark"] [data-section="invert"] { --code-tint: 6%; }

@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Line widths, the same in every mode. Outlines are lines, not containers (decision 2026-10-12): an outline only ever shows the same surface on both sides. Two widths at most, as in the infographics round.",
+  "$description": "Hand-written. Line widths, the same in every mode. An outline only ever shows the same surface on both sides (Outlines are lines, not containers). Two widths at most.",
   "stroke": {
     "$type": "dimension",
     "sm": {

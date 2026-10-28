@@ -8,9 +8,9 @@ tags: [icons, color]
 tokens: [--gradient-two-tone-green, --gradient-two-tone-amber, --gradient-two-tone-red, --gradient-two-tone-blue]
 ---
 
-**Context.** *Status icons take their status color* kept every other icon in the text's color, with no gradients or hue keys. *If color, then motion* (2026-10-12) and the motion round tried icons in color: Bennett and Kyle liked the two-tone gradient moving in the stroke (option E), and the hue's companion was made a token per hue (*Two-tone gradients*).
+**Context.** *Status icons take their status color* kept every other icon in the text's color, with no gradients or hue keys. *If color, then motion* (2026-10-12) and the motion round tried icons in color: the two-tone gradient moving in the stroke (option E) was chosen in review, and the hue's companion was made a token per hue (*Two-tone gradients*).
 
-**Decision.** Two icon modes (Kyle and Bennett, 2026-10-12; working favorite 2026-10-13). **Mono**, the default: the text's color. **Color**, chosen per design: the icon's hue's two-tone gradient (`--gradient-two-tone-<hue>`) moves inside the stroke, bottom left to top right, with one blurred copy behind as its glow (6px; 0.15 light, 0.4 dark). In a hover card the icon is mono at rest and takes its color only on hover. Status icons keep their status colors and don't move.
+**Decision.** Two icon modes (brand owner and design lead, 2026-10-12; working favorite 2026-10-13). **Mono**, the default: the text's color. **Color**, chosen per design: the icon's hue's two-tone gradient (`--gradient-two-tone-<hue>`) moves inside the stroke, bottom left to top right, with one blurred copy behind as its glow (6px; 0.15 light, 0.4 dark). In a hover card the icon is mono at rest and takes its color only on hover. Status icons keep their status colors and don't move.
 
 **Alternatives.** Mono only (the earlier rule). Filled, glowing marks like the /research diamonds, kept for small graphics rather than icons.
 

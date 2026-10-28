@@ -12,4 +12,4 @@ tags: [overview, surfaces]
 
 **Example.** Borders on everything is the first worked case: the bordered container with a different fill inside is out, and outlines survive only as lines over the same surface. Expect others.
 
-**Check.** Apply this to every new element, graphic and layout, before it becomes part of the system.
+**Check.** Apply this to every new element, graphic, and layout, before it becomes part of the system.

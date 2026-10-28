@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Type, the same in every mode: font families, the text sizes, the heading scale (fluid between a minimum and a maximum), leading and weights. Carried from openmined.org's type system with obvious cleanup (2026-10-28, Kyle); see design/foundations/typography.md. Sizes in rem at a 16px root.",
+  "$description": "Hand-written. Type, the same in every mode: font families, the text sizes, the heading scale (fluid between a minimum and a maximum), leading and weights. See design/foundations/typography.md. Sizes in rem at a 16px root.",
   "font-size": {
     "$type": "dimension",
     "xs": {
@@ -20,7 +20,7 @@
     "lg-min": {
       "$value": { "value": 1.125, "unit": "rem" },
       "$description": "Lead at its smallest (narrow screens): it grows with the window to --font-size-lg at the 1300px page width, like the headings.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "new in the type review (2026-10-28, Kyle): 18px, the h5 minimum" } }
+      "$extensions": { "org.openmined": { "status": "working", "was": "new in v2: 18px, the h5 minimum" } }
     },
     "lg": {
       "$value": { "value": 1.3125, "unit": "rem" },

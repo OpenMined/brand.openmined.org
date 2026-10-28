@@ -4,9 +4,8 @@
    Needs: the v2 tokens and the button's own look (button.css, or the
    project's). Script: button-hover.js (buttonHover) adds the layers.
 
-   The working favorite from the Color and interaction round (/rounds/motion/,
-   option J), exploring (decisions/2026-10-17-button-hover-hue-keys,
-   behaviors/color-moves). button-hover.js adds the layers (class .has-flow) and sets
+   See decisions/2026-10-17-button-hover-hue-keys and behaviors/color-moves.
+   button-hover.js adds the layers (class .has-flow) and sets
    where the loop starts.
 
    On hover or keyboard focus the button fills with the hue keys
@@ -48,8 +47,8 @@
 .btn-flow i:nth-child(1) { width: 2700px; height: 300px; margin: -150px 0 0 -1350px; background: var(--flow-spectrum); transform: rotate(20deg) translateX(-600px); }
 .btn.has-flow:is(:hover, :focus-visible, .is-flowing) .btn-flow i:nth-child(1) { animation: btn-flow-color 30s linear infinite; animation-delay: calc(var(--flow-start, 0) * -30s); }
 /* The shimmer: two layers of white stripes crossing, 1400px squares slid one stripe
-   period (large enough that no button sees a square's edge), each at 0.15
-   (Kyle, 2026-10-28; were 0.3 and 0.27). Lighten-only (Kyle, 2026-10-26): neither layer makes the colors darker. The blend
+   period (large enough that no button sees a square's edge), each at 0.15.
+   Lighten-only: neither layer makes the colors darker. The blend
    stays inside the fill (.btn-flow--fill is its own stacking context). */
 .btn-flow i:is(:nth-child(2), :nth-child(3)) { mix-blend-mode: lighten; }
 .btn-flow i:nth-child(2) { width: 1400px; height: 1400px; margin: -700px 0 0 -700px; opacity: 0.15;

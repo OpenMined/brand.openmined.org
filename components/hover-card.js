@@ -1,6 +1,6 @@
 /**
  * HOVER CARD — the pointer light, sized to the card, and the tilt (tilt.js; hover-card.css;
- * design/components/hover-card.md; exploring). Puts the two-tone gradients the
+ * design/components/hover-card.md). Puts the two-tone gradients the
  * icon needs on the page (two-tone.js). Safe to call again.
  *
  *   import { hoverCards } from './hover-card.js';

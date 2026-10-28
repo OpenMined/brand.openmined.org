@@ -10,7 +10,7 @@ tokens: [--line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4,
 
 **Context.** v2 type was carried from openmined.org with obvious cleanup. The type round (`/rounds/type/`) showed the calls that change how it looks, with today's value first in each.
 
-**Decision.** Kyle, 2026-10-28.
+**Decision.** Design lead, 2026-10-28.
 - **Display headings:** the tight leading ramp (h1 1.05, h2 1.1, h3 1.15, h4 1.2) with slight tracking on the display face (−0.01em, `--tracking-display`).
 - **h5 and h6:** keep the website's two treatments. Page styles are the default, the ones an app interface or a presentation would pick: Inter 400, 18–21 and 16–20px. Long reads keep theirs: Inter 600, 18–20 and 16–18px. Other long-read variations may come as reviews go on.
 - **Caption:** `--font-size-xs` is 12px (was 11), the caption's size.

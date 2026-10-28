@@ -1,7 +1,7 @@
 /**
  * TWO-TONE — the moving two-tone gradients colored icons and hover cards draw
- * their strokes with (design/foundations/two-tone.md, behaviors/color-moves;
- * exploring). One SVG gradient per hue, #tt-<hue>, read from its tokens' stops
+ * their strokes with (design/foundations/two-tone.md, behaviors/color-moves).
+ * One SVG gradient per hue, #tt-<hue>, read from its tokens' stops
  * (--gradient-two-tone-<hue>-base, -darker, -companion, -lighter: mode-aware).
  * Bottom left → top right, repeating every 96 units of the 24 grid (4× the icon,
  * so the band never fits inside it), slid one period per 4s. Paused under

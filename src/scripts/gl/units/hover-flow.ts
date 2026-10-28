@@ -51,7 +51,7 @@ vec3 tone(float t) {
 }
 `;
 
-// The flow's pace: twice its first-built speed (Kyle, 2026-10-26).
+// The flow's pace: twice its first-built speed.
 const COORDS = `
   float u = vUV.x;
   float X = vUV.x * uRes.x / (uDpr * 110.0);

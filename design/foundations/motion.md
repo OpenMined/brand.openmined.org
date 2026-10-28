@@ -7,9 +7,9 @@ tags: [interface]
 tokens: [--duration-base, --ease-base, --transition-base]
 ---
 
-**State changes** (hover, focus, a theme switch, a surface lifting) take `--duration-base` (0.4s) at `--ease-base` (CSS's `ease`). `--transition-base` is both together, for a transition: `transition: color var(--transition-base)`. The values are v1's single transition, split into its parts (2026-10-27).
+**State changes** (hover, focus, a theme switch, a surface lifting) take `--duration-base` (0.4s) at `--ease-base` (CSS's `ease`). `--transition-base` is both together, for a transition: `transition: color var(--transition-base)`.
 
-**Coming in, going out.** A hover state may come in faster than it leaves: the field, card and button lights fade in at 0.15s and out at the base duration, so the response feels immediate and the exit stays calm.
+**Coming in, going out.** A hover state may come in faster than it leaves: the field, card, and button lights fade in at 0.15s and out at the base duration, so the response feels immediate and the exit stays calm.
 
 **The color moves keep their own timings**: the button hover's 30s loop, the icons' 4s two-tone, the link's 15s flow, the diagram pulses. They are tuned per move and recorded with it (*Color moves*, the component files), not drawn from these tokens.
 

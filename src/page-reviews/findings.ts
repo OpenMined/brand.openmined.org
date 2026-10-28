@@ -11,7 +11,7 @@ export type Finding = {
   rule?: string;
   did: string;
   open: string;
-  /** Kyle's response in review, with its date. */
+  /** The design lead's response in review, with its date. */
   review?: string;
 };
 
@@ -88,7 +88,7 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         rule: 'guidelines/one-solid-button',
         did: 'Every outlined button is secondary: a 1px outline in the body text color, no fill, headline label. Both stay grayscale at rest; on hover they fill with the accent in motion, button hover J (components/button), white label.',
         open: 'Focus styling is still open (an accent-key ring stands in).',
-        review: 'Oct 12 (meeting): Bennett didn’t like the quiet button; secondary = body-color outline, no fill; hover = the primary’s accent fill.',
+        review: 'Oct 12 (review): the quiet button didn’t read as a button; secondary = body-color outline, no fill; hover = the primary’s accent fill.',
       },
       {
         title: 'Links: the line changes, the text doesn’t',

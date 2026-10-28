@@ -11,6 +11,6 @@ tags: [icons]
 
 **Why.** The live site's icons are already mostly outlined and one color, but from mixed sources: a hosted set of 61 with 2px and 1.5px strokes (five already Iconoir) and Ionicons on opt-in pages. Iconoir's regular set gives one family across 1,383 icons, and of the live site's 53 non-brand icons, 49 have an Iconoir counterpart (36 the same idea, 11 the closest one, 2 status icons) and 4 have none. Its filled set covers only 288, so outlined is the only style it can deliver in full. Icons are inlined at build time from the package, with no CDN.
 
-**Decided by** Kyle, 2026-10-09 ("outlined is right… monocolor"; "iconoir will be for v2").
+**Decided by** the design lead, 2026-10-09: outlined and one color, from Iconoir, for v2.
 
 **Revisit when** an icon OpenMined needs has no good Iconoir match often enough to call for a set of our own.

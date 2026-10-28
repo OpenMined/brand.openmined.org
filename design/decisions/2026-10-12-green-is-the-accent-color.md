@@ -8,7 +8,7 @@ tags: [color, interface]
 tokens: [--accent-key, --green-key]
 ---
 
-**Context.** Applying v2 to openmined.org's home and SyftHub pages (the page reviews) turned up several places that need a color with none assigned: the hover line on links, icon and button hover, and SyftHub's alternate color, which the live site draws in green. Picking a hue each time would scatter them. Teal was tried first the same day, then changed to green (Kyle, 2026-10-12).
+**Context.** Applying v2 to openmined.org's home and SyftHub pages (the page reviews) turned up several places that need a color with none assigned: the hover line on links, icon and button hover, and SyftHub's alternate color, which the live site draws in green. Picking a hue each time would scatter them. Teal was tried first the same day, then changed to green (design lead, 2026-10-12).
 
 **Decision.** Green is the accent's color, through a new role, `--accent-key` (the green key). It's used:
 - for hover lines on links and text buttons (the content link's line was the teal key from 2026-10-09; it moves to green);
@@ -16,7 +16,7 @@ tokens: [--accent-key, --green-key]
 - for button hover: both the solid and the quiet button fill green, with a white label;
 - as a page's alternate color when one isn't specified (SyftHub keeps green, now the accent key).
 
-The rest of the accent stays grayscale: buttons are unchanged at rest (Kyle, 2026-10-12).
+The rest of the accent stays grayscale: buttons are unchanged at rest.
 
 **Also.** A page with a color theme keeps to one hue throughout (SyftHub: its title, labels, button, step markers and connector all take green).
 

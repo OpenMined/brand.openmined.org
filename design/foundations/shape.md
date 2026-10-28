@@ -7,13 +7,13 @@ tags: [surfaces]
 tokens: [--radius-sm, --radius-md, --radius-lg, --radius-full]
 ---
 
-OpenMined's corners are intentionally less rounded than the soft, generic corners common in AI-generated layouts. The ladder is short so that every corner on a page comes from one of four values.
+OpenMined's corners are sharper than the soft, generic corners common in AI-generated layouts. The ladder is short so that every corner on a page comes from one of four values.
 
 | Token | Value | Use it for |
 | --- | --- | --- |
 | `--radius-sm` | 4px | Marks too small for the default: checkboxes, swatch chips, a file input's button. |
 | `--radius-md` | 6px | The default. Buttons, fields, tiles, and any card that holds no rounded shapes. |
-| `--radius-lg` | 10px | The outer of two nested shapes: a panel that holds fields, tiles or cards. |
+| `--radius-lg` | 10px | The outer of two nested shapes: a panel that holds fields, tiles, or cards. |
 | `--radius-full` | fully round | Toggles, pills, dots, status chips. |
 
 **Nesting.** When a rounded shape sits inside another, the outer one takes `--radius-lg` and the inner one `--radius-md`. A single level of nesting is the limit the ladder covers. Deeper nesting is a sign the layout has too many boxes.
@@ -22,4 +22,4 @@ OpenMined's corners are intentionally less rounded than the soft, generic corner
 
 *Open:*
 - The `--radius-lg` value (10px) is a first pick between 8 and 12.
-- Corners in infographics and diagrams, where boxes nest more deeply. This is part of the infographics round.
+- Corners in infographics and diagrams, where boxes nest more deeply.

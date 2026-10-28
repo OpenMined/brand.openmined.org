@@ -36,7 +36,7 @@ const CODE = {
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 const components = [button, link, linkCard, statusChip, form, motion];
 /** Status chips: a label per status, as a list of things might carry them. */
 const CHIPS = [['success', 'Approved'], ['warning', 'Pending review'], ['danger', 'Failed'], ['info', 'New']];
@@ -51,7 +51,7 @@ const TEXT_FIELDS = [
 ];
 ---
 <Site title="Interface" description="Buttons, links, hover cards and form controls, and their states, on the surface levels." current="interface">
-  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="exploring" nav={NAV} />
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="working" nav={NAV} />
 
   <section class="band" id="buttons">
     <div class="wrap">
@@ -151,10 +151,10 @@ const TEXT_FIELDS = [
         <div class="fm-split__text">
           <header class="sec"><h2>Forms</h2><p>{form.description}</p><p class="status">Status: <b>{form.status}</b></p></header>
           <div class="guide-prose">
-            <p>Every control a form renders, in generic markup, from the surfaces round's form lab. Kinds are named for how they behave:</p>
+            <p>Every control a form renders, in generic markup. Kinds are named for how they behave:</p>
             <ul>
               <li><b>Field</b> (text, email, select, date, textarea, file): flat on the sunken level at rest. On hover a soft light follows the pointer, with a gray outline in light mode; on focus a solid gray line with the inset.</li>
-              <li><b>Control</b> (checkbox, radio, toggle): a recess you operate, casting its inset at rest. Checked fills with the headline ink. On hover the fields' gray outline; on keyboard focus their gray line, just outside the control.</li>
+              <li><b>Control</b> (checkbox, radio, toggle): a recess you operate, casting its inset at rest. Checked fills with <code>--text-headline</code>. On hover the fields' gray outline; on keyboard focus their gray line, just outside the control.</li>
               <li><b>Error</b>: danger-colored text under the field, on whatever the form sits on. No box and no outline.</li>
             </ul>
             <p>The gray focus line reaches 3:1 on every surface: gray-500 in light mode, gray-400 in dark. Vendor forms map onto this markup with an adapter in the project that uses them.</p>
@@ -275,20 +275,6 @@ const TEXT_FIELDS = [
     <div class="wrap">
       <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
       <DecisionList docs={decisions} />
-    </div>
-  </section>
-
-  <section class="band" id="open">
-    <div class="wrap">
-      <header class="sec"><h2>Still open</h2><p>Not yet decided.</p></header>
-      <div class="notes">
-        <div>
-          <ul>
-            <li><b>A colored accent.</b> Whether the solid button takes a hue at rest. The static accent is green and steps up to a gradient in motion (decided 2026-10-13).</li>
-            <li><b>Focus rings for buttons and links.</b> Form controls show focus with the gray line (<code>--line-focus</code>, 3:1 on every surface; decided 2026-10-27). Buttons use a temporary 2px accent outline and links have none of their own yet; their ring's style, color and offset are still to decide.</li>
-          </ul>
-        </div>
-      </div>
     </div>
   </section>
 

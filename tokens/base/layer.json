@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Stacking order (z-index), the same in every mode. Carried from v1 unchanged (Kyle, 2026-10-27).",
+  "$description": "Hand-written. Stacking order (z-index), the same in every mode: six fixed layers, so nothing invents a z-index.",
   "z": {
     "$type": "number",
     "below": {

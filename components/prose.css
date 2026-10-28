@@ -1,12 +1,11 @@
 /* ════════════════════════════════════════════════════════════════════
-   PROSE — v2 component (design/patterns/prose.md), working
+   PROSE — v2 component (design/patterns/prose.md)
    ════════════════════════════════════════════════════════════════════
    The long-read scope: a blog post, a whitepaper, a letter. Styles the bare
    elements of flowing content and the rhythm between them; anything carrying
    a class keeps its own styling. Needs: the v2 tokens and type.css (headings,
    code, blockquote). Content links: add .content-links (link.css). Width and
-   breakouts: .prose-article (layout.css). No script. Carried from
-   openmined.org's prose.css, its rhythm consolidated and opened up.
+   breakouts: .prose-article (layout.css). No script.
 
    Markup:
      <article class="prose content-links">              (+ prose-article for the zones)
@@ -21,7 +20,7 @@
    Rhythm: one rule owns each gap (adjacent siblings), so it's the same in
    block flow, flex and the article grid, and it follows the tag, never the
    size a heading renders at. Space above a heading holds whatever comes before
-   it, and steps down by level (the type round's Spacious, 2026-10-28):
+   it, and steps down by level:
    --prose-gap-h2 (88), -h3 (48), -h4 (40), -h5 (32, also h6). Between blocks
    --prose-gap (16), also after h3–h6 and before a list; --prose-gap-wide (24)
    after an h2, a list, a table or anything wider than the text (a figure, a
@@ -76,7 +75,7 @@
 .prose hr { border: 0; border-top: var(--stroke-sm) solid var(--line); }
 .prose .prose-divider { text-align: center; letter-spacing: 0.5em; color: var(--text-muted); }
 
-/* Pull quote (type round, 2026-10-28; new in v2): a line lifted from the text,
+/* Pull quote: a line lifted from the text,
    in the display face at h3 size, on the line style at its left, broken out to
    the wide zone in an article (.prose-article). */
 .prose .pullquote {
