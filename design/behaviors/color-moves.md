@@ -27,7 +27,7 @@ tags: [color, graphics, interface]
 - **Web, with a script:** button hovers, the field and hover-card pointer lights, the card tilt (the modules in `components/`, each small and standalone), diagram line pulses (`src/scripts/line-flow.ts`), and the `<om-diamond>` and `<om-stream>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load the brand site's embeds; paste the script in or use the still frame.
 - **The brand site only:** hover card colorflows (the site's shared WebGL renderer).
 
-Where a move can't run, use its still frame: the same colors, standing still, as under reduced motion. Never fake the motion with a different look.
+Where a move can't run, use its still frame: the same colors, standing still, as under reduced motion. Never fake the motion with a different look. Interactive elements have their own plain layer for these places, built into every component: *Interaction states*.
 
 **Moves in use.**
 

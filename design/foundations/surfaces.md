@@ -22,6 +22,7 @@ Every element sits on one of four levels. Each level is a gray step and a shadow
 - **Shadows belong to the levels.** `raise-1` and `raise-2` cast their own shadow, `sunken` takes an inset one (a control you operate casts it at rest, a field only on focus; see *Form controls*), and `base` casts nothing: an element sitting on the page is not above anything.
 - **Light mode has four levels at most.** White is the light `raise-2`, so there is no lighter surface above it. A modal or overlay has to be shown some other way than a fifth surface.
 - **Elements opt in to a level.** Nothing gets a surface just by being a `section` or a `div`.
+- **Cards that move on hover sit on the page.** A link card or hover card rises from `raise-1` to `raise-2`, so it never sits inside a raised panel, where there's no level left to rise to.
 - **Code blocks aren't a level.** A block of code is always dark, in both modes (*Typography*), so it never uses `--surface-sunken`.
 
 ## Open

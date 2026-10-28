@@ -22,7 +22,8 @@ p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
 body { background: var(--surface-base); min-height: 100vh; }
 a { color: var(--text-headline); text-decoration-color: var(--line-strong); text-decoration-thickness: var(--stroke-sm); text-underline-offset: 3px; transition: text-decoration-color var(--transition-base); }
 a:hover { text-decoration-color: currentColor; }
-:focus-visible { outline: 2px solid var(--accent-solid); outline-offset: 2px; }
+/* Focus: the fields' focus line, on everything (design/behaviors/interaction-states.md). */
+:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
 
 /* The guide's block titles (a card, a rule, a component): Inter at body size,
    bold like the hover card's title (typography.md, weights: 700 for card
@@ -81,6 +82,12 @@ a:hover { text-decoration-color: currentColor; }
 :is(.bar__link, .bar__group):hover { background: var(--surface-sunken); transition-duration: 0.15s; }
 :is(.bar__link, .bar__group)[aria-current='page'] { background: var(--surface-sunken); }
 .bar__sep { width: var(--stroke-sm); align-self: stretch; background: var(--line); margin: var(--spacing-2xs) var(--spacing-3xs); }
+
+/* The Interface page's interactive-layer switch, under its intro. */
+/* A recessed control sits on a raised surface (Recessed controls sit on a raised surface): raise-1, holding the toggle (lg outside a rounded control). */
+.layer-toggle { display: inline-flex; align-items: center; gap: var(--spacing-md); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); font-size: var(--font-size-sm); }
+.layer-toggle label { cursor: pointer; }
+.layer-toggle b { color: var(--text-headline); }
 
 /* ── Hero ────────────────────────────────────────────────────────── */
 .hero { padding-top: var(--spacing-section); display: grid; gap: var(--spacing-2xl); justify-items: start; }

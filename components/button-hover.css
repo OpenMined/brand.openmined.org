@@ -2,7 +2,10 @@
    BUTTON HOVER — color in motion, over button.css (design/components/button.md)
    ════════════════════════════════════════════════════════════════════
    Needs: the v2 tokens and the button's own look (button.css, or the
-   project's). Script: button-hover.js (buttonHover) adds the layers.
+   project's). Script: button-hover.js (buttonHover) adds the layers. This is
+   the full state, an add-on: button.css holds the minimal states, which apply
+   wherever this doesn't run (no script, touch, or inside
+   [data-interaction="minimal"]).
 
    See decisions/2026-10-17-button-hover-hue-keys and behaviors/color-moves.
    button-hover.js adds the layers (class .has-flow) and sets
@@ -20,7 +23,9 @@
    the glow (8px, 0.3). Layers sit under the label. */
 .btn.has-flow { position: relative; isolation: isolate; }
 /* Doubled class: outranks the button's own hover rules without !important. */
-.btn.has-flow.has-flow:is(:hover, :focus-visible) { background-color: transparent; border-color: transparent; color: var(--white); }
+.btn.has-flow.has-flow:is(:hover, :focus-visible):not([data-interaction="minimal"] *) { background-color: transparent; border-color: transparent; color: var(--white); }
+/* Inside a minimal region the layers stay hidden, even if the script ran first. */
+[data-interaction="minimal"] .btn-flow { display: none; }
 .btn-flow {
   /* --gradient-interactive's stops, reversed (colors arrive from the loop's end),
      with green where the loop starts (750px in: the strip's center less one
@@ -61,6 +66,23 @@
 @keyframes btn-flow-light { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
 @keyframes btn-flow-light-cross { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 
+/* Pressed: the moving fill darkens by the pressed wash, a black layer at
+   --state-pressed-wash percent over the flow and shimmer, and the glow dims to
+   half. In at 0.15s, out at the base duration, like the lights. */
+.btn-flow--fill::after { content: ''; position: absolute; inset: 0; background: var(--black); opacity: 0; transition: opacity var(--transition-base); }
+.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--fill::after { opacity: calc(var(--state-pressed-wash) / 100); transition-duration: 0.15s; }
+.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--glow { opacity: 0.15; transition-duration: 0.15s; }
+
 @media (prefers-reduced-motion: reduce) {
   .btn-flow i { animation: none !important; }
 }
+
+/* Icon-only buttons never fill: the icon takes the accent's two-tone, green's,
+   moving in its stroke (two-tone.js puts the gradients on the page), falling back
+   to the green key. */
+.btn--icon.has-tone { --btn-tone: url(#tt-green) var(--accent-key); }
+.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) svg :is(path, circle, rect, line, polyline, polygon, ellipse) {
+  stroke: var(--btn-tone);
+}
+/* Pressed: the icon's two-tone darkens by the pressed wash. */
+.btn--icon.has-tone:active:not([data-interaction="minimal"] *) svg { filter: brightness(calc(1 - var(--state-pressed-wash) / 100)); }

@@ -204,6 +204,8 @@
   --breakpoint-md: 767px;
   --breakpoint-sm: 479px;
   --measure: var(--prose-content);
+  --state-pressed-wash: 20;
+  --state-disabled-opacity: 0.55;
   --gradient-gold: #f6c97b;
   --gradient-orange: #ee8b4d;
   --gradient-red: var(--red-key);
@@ -495,6 +497,8 @@
   --breakpoint-md: 767px;
   --breakpoint-sm: 479px;
   --measure: var(--prose-content);
+  --state-pressed-wash: 20;
+  --state-disabled-opacity: 0.55;
   --gradient-gold: #f3ca84;
   --gradient-orange: #e88e58;
   --gradient-red: var(--red-key);

@@ -1188,6 +1188,18 @@
     "type": "dimension",
     "status": "working"
   },
+  "--state-pressed-wash": {
+    "value": "20",
+    "resolved": "20",
+    "type": "number",
+    "status": "exploring"
+  },
+  "--state-disabled-opacity": {
+    "value": "0.55",
+    "resolved": "0.55",
+    "type": "number",
+    "status": "working"
+  },
   "--gradient-gold": {
     "value": "#f6c97b",
     "resolved": "#f6c97b",

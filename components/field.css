@@ -33,10 +33,13 @@
 .fld__desc { margin: 0; font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
 
 /* Field: flat on the sunken level at rest. Hover and focus, grayscale (decisions
-   2026-10-17-field-hover-and-focus-line, 2026-10-27-controls-outline-and-focus-line):
-   on hover a soft white light inside the field follows the pointer (field.js),
-   in light with a gray-300 outline that turns white near the pointer, in dark a
-   gray-500 edge near the pointer; on focus a solid 1px line in --line-focus
+   2026-10-17-field-hover-and-focus-line, 2026-10-27-controls-outline-and-focus-line).
+   Minimal (this file alone): on hover (pointer devices only) a faint 1px outline,
+   the controls' hover line (gray-300 in light, gray-500 at 0.5 in dark). Full
+   (field.js marks the field .has-light): a soft white light inside the field
+   follows the pointer, in light with a gray-300 outline that turns white near
+   the pointer, in dark a gray-500 edge near the pointer; never inside
+   [data-interaction="minimal"]. On focus a solid 1px line in --line-focus
    (3:1 on every surface) with the inset. All painted on the field: a transparent
    1px border (padding 1px less) and background layers, top first: the light, the
    field's surface (padding box), the edge near the pointer, the focus line and
@@ -46,7 +49,7 @@
 @property --ctl-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 @property --ctl-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 :root { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); }
-[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); }
+[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); --ctl-outline-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
 .ctl {
   display: block; width: 100%; margin: 0; border: 1px solid transparent; font: inherit;
   color: var(--text-headline);
@@ -60,7 +63,10 @@
   box-shadow: none;
   transition: box-shadow var(--transition-base), --ctl-fl var(--transition-base), --ctl-fe var(--transition-base), --ctl-fh var(--transition-base), --ctl-fo var(--transition-base);
 }
-.ctl:not(:disabled):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); transition-duration: 0.15s; }
+@media (hover: hover) {
+  .ctl:not(:disabled):hover { --ctl-fh: 100%; transition-duration: 0.15s; }
+  .ctl.has-light:not(:disabled):not([data-interaction="minimal"] *):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); }
+}
 .ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
 /* .is-focus: shows the focus state without focus (specimens). */
 .ctl.is-focus { box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }

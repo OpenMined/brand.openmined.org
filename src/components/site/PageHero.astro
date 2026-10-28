@@ -1,5 +1,5 @@
 ---
-/** Topic page header: eyebrow, title, summary, status, and the on-page nav. */
+/** Topic page header: eyebrow, title, summary, status, anything the page adds (the slot), and the on-page nav. */
 interface Props { eyebrow: string; title: string; description: string; status: string; nav: [string, string][]; source?: string }
 const { eyebrow, title, description, status, nav, source = 'values from the v2 token build' } = Astro.props;
 ---
@@ -8,5 +8,6 @@ const { eyebrow, title, description, status, nav, source = 'values from the v2 t
   <h1>{title}</h1>
   <p class="text-lead">{description}</p>
   <p class="status">Status: <b>{status}</b>{source && ` · ${source}`}</p>
+  <slot />
   <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a class="link-text" href={`#${id}`}><span class="link-text__label">{t}</span></a>)}</nav>
 </section>

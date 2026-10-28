@@ -11,7 +11,11 @@ tokens: [--surface-raise-1, --surface-raise-2, --shadow-raise-1, --shadow-raise-
 
 **When.** Lists of links where each needs a sentence: related pages, "see also", archives. A hover card is for a link that should come to life (an entry point, a call to action); a link card stays quiet, so a row of them doesn't turn into a row of colored, moving things (*Color moves*: avoid the kaleidoscope look).
 
-**On hover or keyboard focus.** One level up, surface and shadow (`--surface-raise-2`, `--shadow-raise-2`), a 2px lift, and the hover card's tilt away from the pointer (`tilt.js`, the same knobs). The arrow, faint at rest (0.3), comes to full strength and nudges right. No light, no color, no colorflow. Under reduced motion the level changes and nothing moves.
+**On hover or keyboard focus.** One level up, surface and shadow (`--surface-raise-2`, `--shadow-raise-2`), a 2px lift, and the hover card's tilt away from the pointer (`tilt.js`, the same knobs). The arrow, faint at rest (0.3), comes to full strength and nudges right. No light, no color, no colorflow. **Pressed:** the card settles back onto the page, its shadow back to `raise-1` and the lift gone. Under reduced motion the level changes and nothing moves.
+
+**On the page only.** A link card sits on the page (`--surface-base`), never inside a raised panel: it rests on `raise-1` and rises to `raise-2`, the top of the ladder, so there's no level left above it in a panel. Inside a panel, use a text button or a link.
+
+**States.** In both interactive layers (*Interaction states*); the code is the spec.
 
 **Layout.** Padding 24px (`--spacing-2xl`), `--radius-md`. The title is Inter 700 at body size, as the hover card's; the text small and muted. The title may be a heading where the page's outline needs one.
 

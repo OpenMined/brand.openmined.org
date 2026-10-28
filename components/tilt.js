@@ -22,6 +22,8 @@ export function cardTilt(card) {
     raf = 0;
     const e = latest, r = card.getBoundingClientRect();
     if (!e || !r.width || !r.height) return;
+    // Checked live, so a region switched to minimal stops tilting at once.
+    if (card.closest('[data-interaction="minimal"]')) { ['--card-tilt-x', '--card-tilt-y', '--card-tilt-transition'].forEach((p) => card.style.removeProperty(p)); return; }
     const cs = getComputedStyle(card);
     const max = parseFloat(cs.getPropertyValue('--card-tilt-max')) || 0;
     if (!max) return;

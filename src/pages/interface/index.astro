@@ -27,7 +27,7 @@ const motion = doc('foundations/motion');
 // Each component's files and reference markup, read from components/.
 const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
-  link: componentCode(['link']),
+  link: componentCode(['link', 'link-flow']),
   hoverCard: componentCode(['hover-card'], ['hover-card']),
   linkCard: componentCode(['link-card'], ['link-card']),
   statusChip: componentCode(['status-chip']),
@@ -51,7 +51,17 @@ const TEXT_FIELDS = [
 ];
 ---
 <Site title="Interface" description="Buttons, links, hover cards and form controls, and their states, on the surface levels." current="interface">
-  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="working" nav={NAV} />
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="working" nav={NAV}>
+    <!-- The interactive layer this page shows (design/behaviors/interaction-states.md): set before
+         the components below render, remembered for this page only. -->
+    <script is:inline>
+      try { if (localStorage.getItem('interface-layer') === 'minimal') document.documentElement.setAttribute('data-interaction', 'minimal'); } catch {}
+    </script>
+    <div class="layer-toggle">
+      <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label"><span class="switch__knob"></span></button>
+      <label id="layer-label" for="layer-switch"><b class="js-layer-name">Full interactive layer</b> <span class="muted">· switch on for the minimal interactive layer (<a href="#behaviors-interaction-states">Interaction states</a>)</span></label>
+    </div>
+  </PageHero>
 
   <section class="band" id="buttons">
     <div class="wrap">
@@ -67,6 +77,7 @@ const TEXT_FIELDS = [
           <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
           <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
           <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
+          <button type="button" class="btn" disabled>Disabled</button>
         </div>
         <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the hue keys flowing under a faint shimmer, with a glow, starting where the clock puts them, the secondary opposite the primary.</p>
       </article>
@@ -288,4 +299,22 @@ const TEXT_FIELDS = [
       </div>
     </div>
   </section>
+
+<script>
+  // The layer switch: minimal sets data-interaction="minimal" on the page; the label names the layer shown.
+  const html = document.documentElement;
+  const sw = document.getElementById('layer-switch');
+  const sync = () => {
+    const minimal = html.getAttribute('data-interaction') === 'minimal';
+    sw?.setAttribute('aria-checked', String(minimal));
+    document.querySelectorAll('.js-layer-name').forEach((el) => { el.textContent = minimal ? 'Minimal interactive layer' : 'Full interactive layer'; });
+  };
+  sw?.addEventListener('click', () => {
+    const minimal = html.getAttribute('data-interaction') !== 'minimal';
+    if (minimal) html.setAttribute('data-interaction', 'minimal'); else html.removeAttribute('data-interaction');
+    try { localStorage.setItem('interface-layer', minimal ? 'minimal' : 'full'); } catch {}
+    sync();
+  });
+  sync();
+</script>
 </Site>

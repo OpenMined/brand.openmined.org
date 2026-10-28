@@ -7,7 +7,7 @@
 
    Markup (hue: red, amber, green, teal, blue or violet; the icon twice, the
    first copy for the glow):
-     <span class="color-icon" style="--ci-stroke:url(#tt-green)">
+     <span class="color-icon" style="--ci-stroke:url(#tt-green) var(--green-key)">
        <span class="color-icon__glow" aria-hidden="true"><svg>…icon…</svg></span>
        <svg>…icon…</svg>
      </span>

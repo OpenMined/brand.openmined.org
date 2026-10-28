@@ -9,7 +9,7 @@ tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, 
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
 
-- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat at rest**. On hover a soft white light inside the field follows the pointer: in light mode with a gray 300 outline that turns white near the pointer, in dark mode a gray 500 edge near the pointer. On focus a solid 1px line in `--line-focus` (gray 500 in light mode, gray 400 in dark), with the inset `--shadow-sunken` (decisions *Fields light up on hover and take a gray line on focus*; *Controls take the fields' outline and focus line*). All grayscale.
+- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat at rest**. In the minimal layer, hover draws a faint 1px outline, the controls' hover line. In the full layer (`field.js`) a soft white light inside the field follows the pointer: in light mode with a gray 300 outline that turns white near the pointer, in dark mode a gray 500 edge near the pointer. On focus a solid 1px line in `--line-focus` (gray 500 in light mode, gray 400 in dark), with the inset `--shadow-sunken` (decisions *Fields light up on hover and take a gray line on focus*; *Controls take the fields' outline and focus line*). All grayscale.
 - **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`. On hover the fields' outline, 1px inside the edge (gray 300 in light mode, gray 500 at 0.5 in dark), with no pointer light: the control is too small for one. On keyboard focus the fields' gray line, 1px, drawn 2px outside the control.
 - **Recess** (a progress track, a well inside a card): a recess you don't touch. It never casts.
 
@@ -30,6 +30,8 @@ A form can then mix fields with an inner label and lists with a heading above th
 **Placeholder text** uses `--text-muted`, which reaches 4.5:1 on the sunken field.
 
 **Errors are text.** A validation error is `--danger-fg` text directly under the field, on whatever surface the form sits on: no box, no outline, no fill. Colored boxes stacked on a dark page read as a muddy mix of panels.
+
+**States.** In both interactive layers (*Interaction states*); the code is the spec.
 
 **Geometry.** Fields and buttons take `--radius-md`; checkboxes `--radius-sm`; toggles `--radius-full`. The gap between a recessed control's outer surface and the part inside it is 3px in every state: a toggle's knob, a checkbox's check. A radio's dot takes twice that (6px), because a round mark needs more room to read as a dot rather than a ring.
 

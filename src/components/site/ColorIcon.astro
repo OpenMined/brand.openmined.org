@@ -10,4 +10,4 @@ const { name, hue, size = 32, label } = Astro.props;
 const svg = iconSvg(name, { size, label });
 const copy = iconSvg(name, { size });
 ---
-<span class="color-icon" data-hue={hue} style={`--ci-stroke:url(#tt-${hue})`}><span class="color-icon__glow" aria-hidden="true" set:html={copy} /><Fragment set:html={svg} /></span>
+<span class="color-icon" data-hue={hue} style={`--ci-stroke:url(#tt-${hue}) var(--${hue}-key)`}><span class="color-icon__glow" aria-hidden="true" set:html={copy} /><Fragment set:html={svg} /></span>

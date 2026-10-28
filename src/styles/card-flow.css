@@ -14,3 +14,5 @@
 }
 [data-theme="dark"] .card-flow { --cf-o: 0.45; }
 .card-flow.is-on { opacity: var(--cf-o); transition-duration: 0.25s; }
+/* Minimal: no colorflow (design/behaviors/interaction-states.md). */
+[data-interaction="minimal"] .card-flow { display: none; }

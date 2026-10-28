@@ -1,0 +1,25 @@
+{
+  "$description": "Hand-written. Interaction states, the same in every mode: the dark wash a fill takes while pressed (the share of black mixed in, in OKLCH), and the opacity of anything disabled. See design/behaviors/interaction-states.md.",
+  "state": {
+    "$type": "number",
+    "pressed-wash": {
+      "$value": 20,
+      "$description": "A fill while pressed: this percentage of black mixed into it. color-mix(in oklch, var(--accent-key), var(--black) calc(var(--state-pressed-wash) * 1%)).",
+      "$extensions": {
+        "org.openmined": {
+          "status": "exploring"
+        }
+      }
+    },
+    "disabled-opacity": {
+      "$value": 0.55,
+      "$description": "Anything disabled: a field, a control, a button. It also takes the not-allowed cursor and no hover.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "working",
+          "was": "the form field's disabled opacity"
+        }
+      }
+    }
+  }
+}

@@ -23,8 +23,8 @@ const { href, icon, hue, title, text, flow = 'ribbon-wave', size = 'default' } =
 const svg = iconSvg(icon, { size: 32 });
 const ARR = iconSvg('arrow-right', { size: 24 });
 ---
-<a class:list={['hcard', size === 'large' && 'hcard--large']} href={href} data-hover-hue={hue} data-flow={flow}>
-  <span class="hcard__icon" style={`--ci-stroke:url(#tt-${hue})`} aria-hidden="true">
+<a class:list={['hcard', size === 'large' && 'hcard--large']} href={href} data-hover-hue={hue} data-flow={flow} style={`--ci-key:var(--${hue}-key)`}>
+  <span class="hcard__icon" style={`--ci-stroke:url(#tt-${hue}) var(--${hue}-key)`} aria-hidden="true">
     <span class="hcard__glow" set:html={svg} /><Fragment set:html={svg} /><span class="hcard__color" set:html={svg} />
   </span>
   <span class="hcard__text"><strong>{title}</strong>{text && <span>{text}</span>}</span>

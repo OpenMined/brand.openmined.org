@@ -18,7 +18,8 @@
    tilts away from the pointer (tilt.js, the hover card's knobs); the arrow,
    faint at rest, comes to full strength and nudges right, in at 0.15s and out
    at the base duration; the lift takes the base duration both ways, as the
-   hover card's does. */
+   hover card's does. It sits on the page, never inside a raised panel, so it
+   always has a level to rise to. */
 .lcard {
   position: relative; display: grid; align-content: start; gap: var(--spacing-xs);
   padding: var(--spacing-2xl); border-radius: var(--radius-md);
@@ -27,18 +28,35 @@
   --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
   transition: background-color var(--transition-base), box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base));
 }
-.lcard:is(:hover, :focus-visible) {
-  background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
-  transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
+/* Hover (pointer devices only, so a tap never leaves it on) and keyboard focus. */
+@media (hover: hover) {
+  .lcard:hover {
+    background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
+    transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
+  }
+  .lcard:hover .lcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: 0.15s; }
 }
+.lcard:focus-visible {
+  background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); transform: perspective(var(--card-tilt-perspective)) translateY(-2px);
+  outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px;
+}
+.lcard:focus-visible .lcard__arrow { opacity: 1; transform: translateX(4px); }
 .lcard__title {
   display: flex; align-items: center; gap: var(--spacing-xs);
   font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-bold);
   line-height: var(--line-height-text); letter-spacing: 0; color: var(--text-headline);
 }
 .lcard__arrow { flex: none; width: 16px; height: 16px; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }
-.lcard:is(:hover, :focus-visible) .lcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: 0.15s; }
 .lcard__text { font-size: var(--font-size-sm); color: var(--text-muted); }
+/* Pressed: the card settles back onto the page, its shadow back to raise-1 and
+   the lift gone, keeping raise-2's surface and the tilt. */
+.lcard:active {
+  box-shadow: var(--shadow-raise-1); transition-duration: 0.15s;
+  transform: perspective(var(--card-tilt-perspective)) translateY(0) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
+}
+/* Minimal: the level change only, no lift or tilt (design/behaviors/interaction-states.md). */
+[data-interaction="minimal"] .lcard:is(:hover, :focus-visible) { transform: none; }
+[data-interaction="minimal"] .lcard:is(:hover, :focus-visible) .lcard__arrow { transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .lcard, .lcard__arrow { transition: none; }
   .lcard:is(:hover, :focus-visible) { transform: none; }
