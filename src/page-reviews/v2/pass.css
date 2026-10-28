@@ -171,6 +171,16 @@ html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], tex
 html[data-system="v2"] .hs-form ::placeholder { color: var(--text-muted); font-weight: 500; }
 html[data-system="v2"] .hs-form .actions input[type="submit"] { border-radius: var(--radius-md); }
 html[data-system="v2"] .hs-form .actions input[type="submit"]:hover { color: var(--white); }
+/* The submit as a <button> (V2Pass swaps it in so it can take the button hover,
+   components/button): the live input's look, on the v2 tokens. */
+html[data-system="v2"] .hs-form .actions button[type="submit"] {
+  padding: 11px 21px; font: inherit; font-size: 16px; font-weight: 500; min-height: 48px; margin: 0;
+  border: 0; border-radius: var(--radius-md); cursor: pointer;
+  background: var(--button-dark-color); color: var(--button-light-color);
+  transition: background var(--transition-base), color var(--transition-base);
+}
+html[data-system="v2"] .hs-form .actions button[type="submit"]:is(:hover, :focus-visible) { color: var(--white); }
+html[data-system="v2"] .form-button-fullwidth .hs-form .actions button[type="submit"] { display: block; width: 100%; text-align: center; }
 /* Checkbox: a control, a recess you operate; casts its inset at rest; checked
    fills with the headline color. */
 html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-booleancheckbox-display)::before {

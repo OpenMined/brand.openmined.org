@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Text sizes, the same in every mode. The first v2 type tokens (2026-10-09, from forms: Bennett asked for a small text size for consistent reuse). Two sizes so far; the full scale comes with the type round.",
+  "$description": "Hand-written. Font families and text sizes, the same in every mode. Families carried from the v2 site's own variables (2026-10-27). The first v2 type tokens (2026-10-09, from forms: Bennett asked for a small text size for consistent reuse). Two sizes so far; the full scale comes with the type round.",
   "font-size": {
     "$type": "dimension",
     "md": {
@@ -11,6 +11,24 @@
       "$value": { "value": 0.875, "unit": "rem" },
       "$description": "Small text: supporting text such as form descriptions, captions and notes. Regular weight.",
       "$extensions": { "org.openmined": { "status": "exploring" } }
+    }
+  },
+  "font": {
+    "$type": "fontFamily",
+    "display": {
+      "$value": ["Rubik", "system-ui", "sans-serif"],
+      "$description": "Headings and display text.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-d (site.css)" } }
+    },
+    "body": {
+      "$value": ["Inter", "system-ui", "sans-serif"],
+      "$description": "Body text, interface text and labels.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-b (site.css)" } }
+    },
+    "mono": {
+      "$value": ["ui-monospace", "SF Mono", "Menlo", "Consolas", "monospace"],
+      "$description": "Code and token names.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-m (site.css)" } }
     }
   }
 }

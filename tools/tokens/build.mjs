@@ -159,6 +159,20 @@ function cssValue(t, raw, literal = false) {
   switch (t.type) {
     case 'color': return colorCss(t.resolved);
     case 'dimension': return dim(t.resolved);
+    case 'duration': return `${t.resolved.value}${t.resolved.unit}`;
+    case 'cubicBezier': return `cubic-bezier(${t.resolved.join(', ')})`;
+    case 'number': return String(t.resolved);
+    case 'fontFamily': {
+      const names = Array.isArray(t.resolved) ? t.resolved : [t.resolved];
+      // A name with a space is quoted; one-word names and generic families aren't.
+      return names.map(n => (/\s/.test(n) ? `'${n}'` : n)).join(', ');
+    }
+    case 'transition': {
+      // Parts that were references stay var(), unless `literal`; a zero delay is left out.
+      const part = (k, f) => (!literal && typeof raw[k] === 'string' && REF.test(raw[k]) ? `var(${cssName(refPath(raw[k]))})` : f(t.resolved[k]));
+      const delay = t.resolved.delay.value ? ` ${part('delay', d => `${d.value}${d.unit}`)}` : '';
+      return `${part('duration', d => `${d.value}${d.unit}`)} ${part('timingFunction', b => `cubic-bezier(${b.join(', ')})`)}${delay}`;
+    }
     case 'shadow': {
       const layers = Array.isArray(t.resolved) ? t.resolved : [t.resolved];
       return layers.map(s => `${s.inset ? 'inset ' : ''}${dim(s.offsetX)} ${dim(s.offsetY)} ${dim(s.blur)} ${dim(s.spread)} ${colorCss(s.color)}`).join(', ');

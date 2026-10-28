@@ -107,8 +107,8 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>Families</h2><p>Both are Google Fonts, so they also work in Google Docs without add-ons.</p></header>
       <div class="families">
-        <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-d)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
-        <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-b)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+        <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-display)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+        <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-body)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
       </div>
     </div>
   </section>
@@ -121,7 +121,7 @@ const ARR = iconSvg('arrow-right');
           {LADDER.map(l => (
             <div class="ladder-type__row">
               <span class="ladder-type__meta"><b>{l.tag}</b><span>{l.family} 400 · lh {l.lh}</span><span>v1: {l.v1}px fixed</span><span>web: {l.min}–{l.max}px</span></span>
-              <span class="ladder-type__sample" style={`font-family: ${l.family === 'Rubik' ? 'var(--font-d)' : 'var(--font-b)'}; font-size: clamp(${l.min}px, ${l.vw}vw, ${l.max}px); line-height: ${l.lh}`}>Attribution-based control</span>
+              <span class="ladder-type__sample" style={`font-family: ${l.family === 'Rubik' ? 'var(--font-display)' : 'var(--font-body)'}; font-size: clamp(${l.min}px, ${l.vw}vw, ${l.max}px); line-height: ${l.lh}`}>Attribution-based control</span>
             </div>
           ))}
         </div>

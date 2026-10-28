@@ -87,7 +87,9 @@ html[data-system="v2"][data-theme="dark"] .card-float:hover .hover-icon > .hover
    the field takes a gray-300 outline, white near the pointer (0.5, 240px
    across), light inside 320px across at 0.4; in dark its edge lights up in
    gray-500 near the pointer (0.5) and the light inside is 0.0175. On focus a
-   solid 1px gray-500 line, with the sunken inset (pass.css). Everything is
+   solid 1px line, gray-500 light, gray-400 dark (3:1 on every surface), with the
+   sunken inset (pass.css). Checkboxes: the same outline on hover, the line 2px
+   outside on keyboard focus (the guide's controls, site.css). Everything is
    painted on the field: a transparent 1px border (padding 1px less, so the size
    holds) and background layers, top first: the pointer light, the field's own
    surface (padding box), the edge light near the pointer, the focus line and
@@ -99,7 +101,7 @@ html[data-system="v2"][data-theme="dark"] .card-float:hover .hover-icon > .hover
 html[data-system="v2"] .hs-form {
   --fl: 40%; --fe: 50%; --fh: 100%; --fh-c: var(--gray-300); --fe-c: var(--white); --fo-c: var(--gray-500);
 }
-html[data-system="v2"][data-theme="dark"] .hs-form { --fl: 1.75%; --fe: 50%; --fh: 0%; --fe-c: var(--gray-500); --fo-c: var(--gray-500); }
+html[data-system="v2"][data-theme="dark"] .hs-form { --fl: 1.75%; --fe: 50%; --fh: 0%; --fe-c: var(--gray-500); --fo-c: var(--gray-400); }
 html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select) {
   border: 1px solid transparent;
   padding: 0 calc(var(--spacing-L) - 1px);
@@ -114,3 +116,11 @@ html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], tex
 html[data-system="v2"] .hs-form textarea.hs-input { padding: calc(var(--spacing-L) - 1px); }
 html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select):hover { --fm-fl: var(--fl); --fm-fe: var(--fe); --fm-fh: var(--fh); transition-duration: 0.15s; }
 html[data-system="v2"] .hs-form :is(input[type="email"], input[type="text"], textarea, select):focus { --fm-fo: 100%; }
+
+/* Checkboxes (the guide's controls): on hover the fields' outline inside the edge,
+   light gray-300, dark gray-500 at 0.5; on keyboard focus the focus line 2px outside. */
+html[data-system="v2"] .hs-form { --cb-ring-c: var(--gray-300); }
+html[data-system="v2"][data-theme="dark"] .hs-form { --cb-ring-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
+html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-radio-display, .hs-form-booleancheckbox-display)::before { transition: box-shadow var(--transition-base), background-color var(--transition-base); }
+html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-radio-display, .hs-form-booleancheckbox-display):hover::before { box-shadow: var(--shadow-sunken), inset 0 0 0 1px var(--cb-ring-c); transition-duration: 0.15s; }
+html[data-system="v2"] .hs-form .inputs-list :is(.hs-form-checkbox-display, .hs-form-radio-display, .hs-form-booleancheckbox-display):has(input:focus-visible)::before { outline: 1px solid var(--fo-c); outline-offset: 2px; }

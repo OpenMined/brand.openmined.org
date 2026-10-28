@@ -32,6 +32,9 @@
 
   /* ── Text ──────────────────────────────────────────────────────────── */
   --text-subtle:         var(--text-muted);
+  /* v2's --font-mono (code) shares a name with the live site's graphic-label
+     face; the type round hasn't reached it, so the live face stays. */
+  --font-mono:           var(--font-sometype-mono);
 
   /* ── Lines: one divider color (guidelines/outlines-are-lines) ───────────── */
   --border-color:  var(--line);

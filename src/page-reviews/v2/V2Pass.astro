@@ -45,6 +45,16 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
   import { HOVER_FLOWS } from '../../scripts/gl/units/hover-flow';
   // Only on v2 routes (the port's seams can render it elsewhere).
   if (document.documentElement.dataset.system === 'v2') {
+    // HubSpot's submit is an <input>, which can't hold the hover layers: swap in a
+    // <button> with the same label (pass.css styles it as the live submit), as
+    // openmined.org would have to once HubSpot's form has rendered.
+    document.querySelectorAll<HTMLInputElement>('.hs-form .actions input[type="submit"]').forEach((input) => {
+      const btn = document.createElement('button');
+      btn.type = 'submit';
+      btn.className = `btn ${input.className}`;
+      btn.textContent = input.value;
+      input.replaceWith(btn);
+    });
     buttonHover();
     // Card colorflow: hover cards with a hue (data-hover-hue, set with their icon
     // below) fade in a colorflow in its two-tone. The structure is the review

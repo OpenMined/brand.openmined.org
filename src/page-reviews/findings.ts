@@ -101,7 +101,7 @@ export const FINDINGS: { group: string; items: Finding[] }[] = [
         title: 'Forms: raised fields become recesses',
         pages: ['home', 'syfthub'],
         rule: 'components/form-field',
-        did: 'Fields are sunken and flat at rest (the live fields cast a shadow), with a pointer light and gray outline on hover and a solid gray line on focus (the round’s option C); the form card is raise-1 with the outer corner (10px); checkboxes are controls with their inset at rest and an ink fill when checked.',
+        did: 'Fields are sunken and flat at rest (the live fields cast a shadow), with a pointer light and gray outline on hover and a solid gray line on focus (the round’s option C); the form card is raise-1 with the outer corner (10px); checkboxes are controls with their inset at rest, an ink fill when checked, the fields’ outline on hover and the gray line outside on keyboard focus; the submit takes the button hover (a <button> swapped in for HubSpot’s input).',
         open: 'Both forms put the label inside the field (placeholder only), which v2 lists as needing an accessible name. The forms are static mocks of the HubSpot embed.',
       },
       {

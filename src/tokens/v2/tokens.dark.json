@@ -810,6 +810,150 @@
     "type": "dimension",
     "status": "exploring"
   },
+  "--font-display": {
+    "value": "Rubik, system-ui, sans-serif",
+    "resolved": "Rubik, system-ui, sans-serif",
+    "type": "fontFamily",
+    "status": "working"
+  },
+  "--font-body": {
+    "value": "Inter, system-ui, sans-serif",
+    "resolved": "Inter, system-ui, sans-serif",
+    "type": "fontFamily",
+    "status": "working"
+  },
+  "--font-mono": {
+    "value": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
+    "resolved": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
+    "type": "fontFamily",
+    "status": "working"
+  },
+  "--spacing-3xs": {
+    "value": "2px",
+    "resolved": "2px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-2xs": {
+    "value": "4px",
+    "resolved": "4px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-xs": {
+    "value": "6px",
+    "resolved": "6px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-sm": {
+    "value": "8px",
+    "resolved": "8px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-md": {
+    "value": "12px",
+    "resolved": "12px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-lg": {
+    "value": "16px",
+    "resolved": "16px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-xl": {
+    "value": "20px",
+    "resolved": "20px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-2xl": {
+    "value": "24px",
+    "resolved": "24px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-3xl": {
+    "value": "32px",
+    "resolved": "32px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-4xl": {
+    "value": "40px",
+    "resolved": "40px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--spacing-5xl": {
+    "value": "48px",
+    "resolved": "48px",
+    "type": "dimension",
+    "status": "working"
+  },
+  "--duration-base": {
+    "value": "0.4s",
+    "resolved": "0.4s",
+    "type": "duration",
+    "status": "working"
+  },
+  "--ease-base": {
+    "value": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+    "resolved": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+    "type": "cubicBezier",
+    "status": "working"
+  },
+  "--transition-base": {
+    "value": "var(--duration-base) var(--ease-base)",
+    "resolved": "0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
+    "type": "transition",
+    "status": "working"
+  },
+  "--z-below": {
+    "value": "-1",
+    "resolved": "-1",
+    "type": "number",
+    "status": "working"
+  },
+  "--z-card": {
+    "value": "5",
+    "resolved": "5",
+    "type": "number",
+    "status": "working"
+  },
+  "--z-base": {
+    "value": "10",
+    "resolved": "10",
+    "type": "number",
+    "status": "working"
+  },
+  "--z-sticky": {
+    "value": "100",
+    "resolved": "100",
+    "type": "number",
+    "status": "working"
+  },
+  "--z-dropdown": {
+    "value": "1000",
+    "resolved": "1000",
+    "type": "number",
+    "status": "working"
+  },
+  "--z-overlay": {
+    "value": "9999",
+    "resolved": "9999",
+    "type": "number",
+    "status": "working"
+  },
+  "--page-width": {
+    "value": "1240px",
+    "resolved": "1240px",
+    "type": "dimension",
+    "status": "working"
+  },
   "--gradient-gold": {
     "value": "#f3ca84",
     "resolved": "#f3ca84",

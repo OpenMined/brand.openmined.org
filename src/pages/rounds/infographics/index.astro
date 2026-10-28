@@ -105,18 +105,18 @@ const VARIANTS = [
 </Site>
 
 <style is:global>
-  .info-pin { gap: var(--spacing-S); }
+  .info-pin { gap: var(--spacing-sm); }
   .info-pin .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
   .info-pin .btn[aria-pressed="true"] { background: var(--surface-sunken); }
   .info-shared { font-size: 0.85rem; max-width: 60em; }
-  .info-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-L); font-size: 0.85rem; line-height: 1.5; }
+  .info-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-lg); font-size: 0.85rem; line-height: 1.5; }
   @media (max-width: 900px) { .info-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .info-facts dt { font-size: 0.72rem; color: var(--text-muted); }
   .info-facts dd { margin: 0; color: var(--text-body); }
   /* The figure sits on the page itself: no card behind it. A pinned mode paints
      its own ground (site.css [data-section]), so the figure gets padding then. */
   .info-fig { margin: 0; border-radius: var(--radius-lg); }
-  .info-fig[data-section] { padding: var(--spacing-XL); }
+  .info-fig[data-section] { padding: var(--spacing-xl); }
   .info-scroll { overflow-x: auto; }
 </style>
 

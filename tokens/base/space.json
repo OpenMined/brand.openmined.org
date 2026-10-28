@@ -1,0 +1,61 @@
+{
+  "$description": "Hand-written. Spacing, the same in every mode. Carried from v1 unchanged (--spacing-3XS … --spacing-5XL), renamed lowercase to match the other v2 sizes (Kyle, 2026-10-27). v1's --spacing-full (88px) is not carried: nothing on v2 uses it.",
+  "spacing": {
+    "$type": "dimension",
+    "3xs": {
+      "$value": { "value": 2, "unit": "px" },
+      "$description": "Hairline gaps: a mark against its label.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XS" } }
+    },
+    "2xs": {
+      "$value": { "value": 4, "unit": "px" },
+      "$description": "Tight gaps inside small parts.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XS" } }
+    },
+    "xs": {
+      "$value": { "value": 6, "unit": "px" },
+      "$description": "Between a label and its description.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XS" } }
+    },
+    "sm": {
+      "$value": { "value": 8, "unit": "px" },
+      "$description": "Between items in a list or a row of controls.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-SM" } }
+    },
+    "md": {
+      "$value": { "value": 12, "unit": "px" },
+      "$description": "Between related parts of one block.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-MD" } }
+    },
+    "lg": {
+      "$value": { "value": 16, "unit": "px" },
+      "$description": "Inside small panels; between fields.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-LG" } }
+    },
+    "xl": {
+      "$value": { "value": 20, "unit": "px" },
+      "$description": "Between groups inside a section.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XL" } }
+    },
+    "2xl": {
+      "$value": { "value": 24, "unit": "px" },
+      "$description": "Panel padding; between blocks.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XL" } }
+    },
+    "3xl": {
+      "$value": { "value": 32, "unit": "px" },
+      "$description": "Between sections of a page part.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XL" } }
+    },
+    "4xl": {
+      "$value": { "value": 40, "unit": "px" },
+      "$description": "Large gaps between page parts.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-4XL" } }
+    },
+    "5xl": {
+      "$value": { "value": 48, "unit": "px" },
+      "$description": "The largest step: between page sections.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-5XL" } }
+    }
+  }
+}

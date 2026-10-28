@@ -1,13 +1,13 @@
 ---
 type: Typography
 title: Typography
-description: Rubik for display and Inter for text. v2 type has its first two tokens, the text sizes; the rest is the v1 baseline and the direction already decided.
+description: Rubik for display and Inter for text. v2 type has its first tokens, the font families and two text sizes; the rest is the v1 baseline and the direction already decided.
 status: exploring
 tags: [typography]
-tokens: [--font-size-md, --font-size-sm]
+tokens: [--font-display, --font-body, --font-mono, --font-size-md, --font-size-sm]
 ---
 
-v2's first type tokens are two text sizes: `--font-size-md` (1rem), the body size, and `--font-size-sm` (0.875rem), for supporting text such as form descriptions and captions, always at regular weight. They came out of the form review (Bennett, 2026-10-09: a small text size "for consistent reuse"). The full scale comes with the type round. The rest of this page shows the type the released brand uses today, and the direction already decided for v2.
+v2's first type tokens are the font families, `--font-display` (Rubik), `--font-body` (Inter) and `--font-mono` (the system monospace, for code), each with a sans-serif fallback, and two text sizes: `--font-size-md` (1rem), the body size, and `--font-size-sm` (0.875rem), for supporting text such as form descriptions and captions, always at regular weight. They came out of the form review (Bennett, 2026-10-09: a small text size "for consistent reuse"). The full scale comes with the type round. The rest of this page shows the type the released brand uses today, and the direction already decided for v2.
 
 ## Today (v1)
 

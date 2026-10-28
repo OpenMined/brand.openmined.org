@@ -1,21 +1,20 @@
 ---
 /**
  * BRAND SITE (v2) — the shell every page of the new site uses.
- * Styled with the v2 tokens it documents; v1's tokens.css is loaded only for
- * the non-color values v2 doesn't define yet (spacing, z-index, transitions).
+ * Styled with the v2 tokens it documents, and only those: v1's tokens.css isn't
+ * loaded (v2 has spacing, motion, stacking, fonts and page width since 2026-10-27).
  * The nav lists only pages that exist (lab PLAN, B: pages are made as each
  * topic is worked). Two headers: the brand guide's (its pages, then Review
  * rounds, v1 reference and the color mode) and, on any page under /rounds/ or
  * /page-reviews/ built on this layout, the review rounds' (every round and page review, from
  * src/lib/rounds.ts, with a way back to the guide). Kyle, 2026-10-13.
  */
-import '@tokens/tokens.css';
 import '@tokens/v2/tokens.css';
 import '../styles/site.css';
 import '../styles/button-hover.css';
 import '../styles/card-flow.css';
 import '../styles/link-hover.css';
-import ThemeToggle from '@brand/ThemeToggle.astro';
+import ThemeToggle from '../components/site/ThemeToggle.astro';
 import { ROUNDS, REVIEW_PAGES, isCurrent } from '../lib/rounds';
 
 interface Props {

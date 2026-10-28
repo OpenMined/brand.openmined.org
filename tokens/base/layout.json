@@ -1,0 +1,11 @@
+{
+  "$description": "Hand-written. Page layout, the same in every mode.",
+  "page": {
+    "$type": "dimension",
+    "width": {
+      "$value": { "value": 1240, "unit": "px" },
+      "$description": "The widest a page's content runs, gutters outside it.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --page-max (site.css); v1's grid ran to 1300px (--container-full)" } }
+    }
+  }
+}

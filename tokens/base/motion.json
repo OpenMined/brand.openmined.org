@@ -1,0 +1,27 @@
+{
+  "$description": "Hand-written. Motion timing, the same in every mode. v1's one transition (--transition-base: 0.4s ease), split into a duration and an easing, with the shorthand kept (Kyle, 2026-10-27). The color moves' own timings (button hover, line pulses, icons) live with their components.",
+  "duration": {
+    "$type": "duration",
+    "base": {
+      "$value": { "value": 0.4, "unit": "s" },
+      "$description": "State changes: hover, focus, a theme switch, a surface moving.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base (0.4s)" } }
+    }
+  },
+  "ease": {
+    "$type": "cubicBezier",
+    "base": {
+      "$value": [0.25, 0.1, 0.25, 1],
+      "$description": "The default easing (CSS ease).",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base (ease)" } }
+    }
+  },
+  "transition": {
+    "$type": "transition",
+    "base": {
+      "$value": { "duration": "{duration.base}", "delay": { "value": 0, "unit": "s" }, "timingFunction": "{ease.base}" },
+      "$description": "Duration and easing together, for a CSS transition: `transition: color var(--transition-base)`.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base, unchanged" } }
+    }
+  }
+}

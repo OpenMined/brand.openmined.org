@@ -112,18 +112,18 @@ const ARR = iconSvg('arrow-right');
 </Site>
 
 <style is:global>
-  .chips-shape { gap: var(--spacing-S); }
+  .chips-shape { gap: var(--spacing-sm); }
   .chips-shape .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
   .chips-shape .btn[aria-pressed="true"] { background: var(--surface-sunken); }
-  .chip-opts { display: grid; gap: var(--spacing-3XL); }
-  .chip-opt { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 5fr); gap: var(--spacing-2XL); align-items: start; }
-  @media (max-width: 900px) { .chip-opt { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-M); } }
+  .chip-opts { display: grid; gap: var(--spacing-3xl); }
+  .chip-opt { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 5fr); gap: var(--spacing-2xl); align-items: start; }
+  @media (max-width: 900px) { .chip-opt { grid-template-columns: minmax(0, 1fr); gap: var(--spacing-md); } }
   .chip-opt__head { display: grid; gap: 4px; font-size: 0.86rem; line-height: 1.5; }
   .chip-opt__cr { color: var(--text-muted); font-size: 0.8rem; }
   .chip-opt__cr .bad { color: var(--danger-fg); font-weight: 600; }
-  .chip-grounds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-M); }
+  .chip-grounds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-md); }
   @media (max-width: 700px) { .chip-grounds { grid-template-columns: minmax(0, 1fr); } }
-  .chip-ground { display: grid; gap: var(--spacing-S); padding: var(--spacing-L); border-radius: var(--radius-md); }
+  .chip-ground { display: grid; gap: var(--spacing-sm); padding: var(--spacing-lg); border-radius: var(--radius-md); }
   /* The base ground is the page itself: no box, so its edge is the hairline the
      dividers-only rule allows for surface examples. */
   .chip-ground--base { box-shadow: 0 0 0 1px var(--line); }

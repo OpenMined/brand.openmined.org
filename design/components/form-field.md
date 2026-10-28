@@ -1,16 +1,16 @@
 ---
 type: Component
 title: Form controls
-description: Fields are flat at rest, light up under the pointer on hover and take a gray line with the inset on focus. Checkboxes and radios are small recesses that cast at rest. Errors are colored text, not a box.
+description: Fields are flat at rest, light up under the pointer on hover and take a gray line with the inset on focus. Checkboxes, radios and toggles are small recesses that cast at rest and take the fields' outline and line. Errors are colored text, not a box.
 status: exploring
 tags: [interface]
-tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-500, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
+tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
 ---
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
 
-- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat at rest**. On hover a soft white light inside the field follows the pointer: in light mode with a gray-300 outline that turns white near the pointer, in dark mode a gray-500 edge near the pointer. On focus a solid 1px gray-500 line, with the inset `--shadow-sunken` (decision *Fields light up on hover and take a gray line on focus*, 2026-10-17; the Color and interaction round's option C). All grayscale.
-- **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`.
+- **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat at rest**. On hover a soft white light inside the field follows the pointer: in light mode with a gray-300 outline that turns white near the pointer, in dark mode a gray-500 edge near the pointer. On focus a solid 1px line, gray-500 in light mode and gray-400 in dark, with the inset `--shadow-sunken` (decisions *Fields light up on hover and take a gray line on focus*, 2026-10-17, the Color and interaction round's option C; *Controls take the fields' outline and focus line*, 2026-10-27). All grayscale.
+- **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`. On hover the fields' outline, 1px inside the edge (light gray-300, dark gray-500 at 0.5), with no pointer light: the control is too small for one. On keyboard focus the fields' gray line, 1px, drawn 2px outside the control.
 - **Recess** (a well, a footer strip, a badge): a recess you don't touch. It never casts.
 
 **Anatomy of a field.** Label, an optional description (`--text-body`), the control. A required mark sits after the label.
@@ -33,6 +33,6 @@ A form can then mix fields with an inner label and lists with a heading above th
 
 **Geometry.** Fields and buttons take `--radius-md`; checkboxes `--radius-sm`; toggles `--radius-full`. The gap between a recessed control's outer surface and the part inside it is 3px in every state: a toggle's knob, a checkbox's check. A radio's dot takes twice that (6px), because a round mark needs more room to read as a dot rather than a ring.
 
-**Accessibility.** On text fields the gray line and the inset are the focus indicator, so together they must reach 3:1 contrast against the surface; still to check. Checkboxes and radios keep the browser's focus ring: they already cast at rest, and without the ring a keyboard user would lose the focus signal.
+**Accessibility.** The gray line is the focus indicator on every control, and it reaches 3:1 against every surface and the field's own fill: gray-500 in light mode (4.15:1 on the fill, 5.07:1 or more on the surfaces), gray-400 in dark (4.45:1 or more). On checkboxes, radios and toggles it sits outside the control, because inside it would meet the checked fill (gray-500 on `--text-headline` is 2.87:1).
 
 **Generic first.** Style generic form markup; vendor forms (HubSpot today) get an adapter in the project that uses them, never vendor class names in the brand. Style the control or its own wrapper, never sibling order or nesting depth, so the mapping holds.

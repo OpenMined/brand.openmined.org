@@ -425,27 +425,27 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   [data-theme="dark"] .mo { --g1-o: var(--g1-o-d); }
   .mo [style*="--g1-o-l"] { --g1-o: var(--g1-o-l); }
   [data-theme="dark"] .mo [style*="--g1-o-d"] { --g1-o: var(--g1-o-d); }
-  .mo-fav { margin-left: var(--spacing-S); padding: 1px 8px; border-radius: var(--radius-full); font-size: 0.72rem; font-weight: 500;
+  .mo-fav { margin-left: var(--spacing-sm); padding: 1px 8px; border-radius: var(--radius-full); font-size: 0.72rem; font-weight: 500;
     border: var(--stroke-sm) solid var(--line-strong); color: var(--text-headline); white-space: nowrap; }
 
   /* The switches sit on a raise-1 panel: a recessed switch reads on a level,
      not on the page's base. */
-  .mo-ctl { display: flex; flex-wrap: wrap; gap: var(--spacing-L) var(--spacing-2XL); font-size: 0.9rem;
-    padding: var(--spacing-L) var(--spacing-XL); border-radius: var(--radius-md);
+  .mo-ctl { display: flex; flex-wrap: wrap; gap: var(--spacing-lg) var(--spacing-2xl); font-size: 0.9rem;
+    padding: var(--spacing-lg) var(--spacing-xl); border-radius: var(--radius-md);
     background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
-  .mo-speed { margin-top: var(--spacing-M); align-items: center; }
+  .mo-speed { margin-top: var(--spacing-md); align-items: center; }
   .mo-speed .btn { min-height: 36px; padding: 6px 12px; font-size: 0.85rem; }
   .mo-speed .btn[aria-pressed="true"] { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
-  .mo-ctl__item { display: inline-flex; align-items: center; gap: var(--spacing-S); cursor: pointer; }
+  .mo-ctl__item { display: inline-flex; align-items: center; gap: var(--spacing-sm); cursor: pointer; }
 
   /* ── Buttons ───────────────────────────────────────────────────────
      The fill and its glow copy are layers inside the button, under the
      label: glow, fill, label. At rest they're invisible and the
      button is the site's .btn; on hover the fill and glows fade in over it. */
-  .mo-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2XL); }
+  .mo-btns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2xl); }
   @media (max-width: 800px) { .mo-btns { grid-template-columns: minmax(0, 1fr); } }
-  .mo-panel { margin: 0; display: grid; gap: var(--spacing-M); align-content: start; }
-  .mo-stage { padding: var(--spacing-4XL) var(--spacing-2XL); display: grid; place-items: center; }
+  .mo-panel { margin: 0; display: grid; gap: var(--spacing-md); align-content: start; }
+  .mo-stage { padding: var(--spacing-4xl) var(--spacing-2xl); display: grid; place-items: center; }
   .mo-panel figcaption, .mo-row__h { display: grid; gap: 4px; font-size: 0.85rem; line-height: 1.5; }
   .mo-panel figcaption span, .mo-row__h span { color: var(--text-body); }
   .mo-panel figcaption code, .mo-row__h code { font-size: 0.75rem; color: var(--text-muted); }
@@ -471,15 +471,15 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
      Three copies of the icon stacked: two glow copies (blurred, faded) under
      the line. All three stroke with the hue's moving gradient, so the glow
      moves with the line. Cards as the page reviews' v2 pass draws them. */
-  .mo-row { display: grid; gap: var(--spacing-M); }
+  .mo-row { display: grid; gap: var(--spacing-md); }
   .mo-flow-wide { max-width: 860px; }
-  .mo-row + .mo-row { margin-top: var(--spacing-2XL); }
-  .mo-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-XL); }
+  .mo-row + .mo-row { margin-top: var(--spacing-2xl); }
+  .mo-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-xl); }
   @media (max-width: 1000px) { .mo-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .mo-cards { grid-template-columns: minmax(0, 1fr); } }
-  .mo-card { display: flex; flex-direction: column; gap: var(--spacing-L); padding: var(--spacing-2XL);
+  .mo-card { display: flex; flex-direction: column; gap: var(--spacing-lg); padding: var(--spacing-2xl);
     border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); color: var(--text-body); }
-  .mo-card__title { margin: 0; font-family: var(--font-d); font-weight: 400; font-size: 1.3rem; line-height: 1.25; }
+  .mo-card__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.3rem; line-height: 1.25; }
   .mo-card__body { margin: 0; font-size: var(--font-size-md); line-height: 1.55; }
 
   /* Copies always under the line: the icon is its own stacking context and
@@ -555,10 +555,10 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   /* ── Hover cards ───────────────────────────────────────────────────
      A white light that follows the pointer, over the card and its content:
      0.03 in dark, 0.2 in light and on always-light cards. */
-  .mo-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
-  .mo-press { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-XL); }
+  .mo-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-xl); }
+  .mo-press { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-xl); }
   @media (max-width: 900px) { .mo-links, .mo-press { grid-template-columns: minmax(0, 1fr); } }
-  .mo-row + .mo-row { margin-top: var(--spacing-2XL); }
+  .mo-row + .mo-row { margin-top: var(--spacing-2xl); }
   .mo-hcard { position: relative; isolation: isolate; overflow: hidden; text-decoration: none; color: var(--text-body);
     border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
     transition: box-shadow var(--transition-base), transform var(--transition-base); }
@@ -574,7 +574,7 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   [data-theme="dark"] .mo[data-range="subtle"] .mo-hcard:not([data-section="always-light"]) > .mo-hcard__light { --cl-o: 0.015; }
 
   /* Icon top-aligned at its two-line offset, so longer text grows below it; arrow centered. */
-  .mo-link { display: flex; align-items: flex-start; gap: var(--spacing-L); padding: var(--spacing-2XL); }
+  .mo-link { display: flex; align-items: flex-start; gap: var(--spacing-lg); padding: var(--spacing-2xl); }
   .mo-link__icon { display: flex; margin-top: 11px; color: var(--text-headline); }
   /* Hover-card icon: mono at rest; on the card's hover a colored copy (the hue's
      two-tone token, moving) fades in over it and its glow under it. */
@@ -593,9 +593,9 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   .mo-link__arrow { display: flex; align-self: center; opacity: 0.3; transition: opacity 0.2s, transform 0.2s; }
   .mo-hcard:hover .mo-link__arrow { opacity: 1; transform: translateX(3px); }
 
-  .mo-pcard { display: flex; flex-direction: column; justify-content: space-between; gap: var(--spacing-2XL);
-    min-height: 240px; padding: var(--spacing-4XL) var(--spacing-2XL) var(--spacing-L); background: var(--white); }
-  .mo-pcard__mark { align-self: center; margin-top: var(--spacing-2XL); font-family: var(--font-d); font-size: 1.8rem; color: var(--text-headline); }
+  .mo-pcard { display: flex; flex-direction: column; justify-content: space-between; gap: var(--spacing-2xl);
+    min-height: 240px; padding: var(--spacing-4xl) var(--spacing-2xl) var(--spacing-lg); background: var(--white); }
+  .mo-pcard__mark { align-self: center; margin-top: var(--spacing-2xl); font-family: var(--font-display); font-size: 1.8rem; color: var(--text-headline); }
   .mo-pcard__title { font-size: var(--font-size-md); color: var(--text-body); }
 
   /* ── Links ─────────────────────────────────────────────────────────
@@ -622,8 +622,8 @@ const defs = (prefix: string) => `<svg class="mo-defs" width="0" height="0" aria
   @property --mo-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
   @property --mo-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
   @property --mo-fa { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-  .mo-fm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-L); max-width: 720px;
-    padding: var(--spacing-XL); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+  .mo-fm { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-lg); max-width: 720px;
+    padding: var(--spacing-xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
     --fl: 40%; --fe: 50%; --fh: 100%; --fh-c: var(--gray-300); --fe-c: var(--white); --fo-1: var(--gray-500); --fo-2: var(--gray-200); }
   [data-theme="dark"] .mo-fm { --fl: 1.75%; --fe: 50%; --fh: 0%; --fe-c: var(--gray-500); --fo-1: var(--gray-500); --fo-2: var(--gray-600); }
   .mo-fm[data-focus="solid"] { --fo-2: var(--fo-1); }
