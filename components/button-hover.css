@@ -16,7 +16,7 @@
    so it changes over time but is the same for every button and visitor at a
    given moment; secondary buttons start half a loop on, opposite the primary on
    the wheel. Over it, a shimmer of white stripes in two crossing layers, at 20°
-   (240px, 6s, 0.3) and at −40° (180px, 8.7s, 0.27), both blended lighten-only,
+   (240px, 6s) and at −40° (180px, 8.7s), both at 0.15 and blended lighten-only,
    so the shimmer never darkens the colors. One blurred copy behind is
    the glow (8px, 0.3). Layers sit under the label. */
 .btn.has-flow { position: relative; isolation: isolate; }
@@ -24,8 +24,9 @@
 .btn.has-flow.has-flow:is(:hover, :focus-visible) { background-color: transparent; border-color: transparent; color: var(--white); }
 .btn-flow {
   /* --gradient-interactive's stops, reversed (colors arrive from the loop's end),
-     starting on green 150px in, so a run from 0 goes green → teal → blue → … */
-  --flow-spectrum: repeating-linear-gradient(90deg in oklch, var(--green-key) 150px, var(--amber-key) 350px, var(--red-key) 550px, var(--violet-key) 750px, var(--blue-key) 950px, var(--teal-key) 1150px, var(--green-key) 1350px);
+     with green where the loop starts (750px in: the strip's center less one
+     travel), so a run from 0 goes green → teal → blue → … */
+  --flow-spectrum: repeating-linear-gradient(90deg in oklch, var(--green-key) 750px, var(--amber-key) 950px, var(--red-key) 1150px, var(--violet-key) 1350px, var(--blue-key) 1550px, var(--teal-key) 1750px, var(--green-key) 1950px);
   /* Covers the button's border too: the script sets --flow-inset to minus its width. */
   position: absolute; inset: var(--flow-inset, 0); border-radius: inherit; pointer-events: none;
   overflow: hidden; background: var(--green-key);
@@ -37,20 +38,24 @@
 .btn.has-flow:is(:hover, :focus-visible) .btn-flow--glow { opacity: 0.3; }
 
 .btn-flow i { position: absolute; left: 50%; top: 50%; will-change: transform; }
-/* The color: a strip 1500 × 300px, slid 1200px (one loop) along its axis; a
-   negative delay starts it --flow-start of the way through. .is-flowing (the
+/* The color: a strip 2700 × 300px, slid 1200px (one loop) along its axis; a
+   negative delay starts it --flow-start of the way through. The strip runs
+   750px past the button's center on each side at either end of the slide, so a
+   button up to about 1300px wide never sees its end (at 1500px long, buttons
+   wider than about 300px showed a hard edge where the loop restarted). .is-flowing (the
    script) keeps it running while the fill fades out, so it doesn't snap back to
    its first frame on mouseout. */
-.btn-flow i:nth-child(1) { width: 1500px; height: 300px; margin: -150px 0 0 -750px; background: var(--flow-spectrum); transform: rotate(20deg) translateX(-600px); }
+.btn-flow i:nth-child(1) { width: 2700px; height: 300px; margin: -150px 0 0 -1350px; background: var(--flow-spectrum); transform: rotate(20deg) translateX(-600px); }
 .btn.has-flow:is(:hover, :focus-visible, .is-flowing) .btn-flow i:nth-child(1) { animation: btn-flow-color 30s linear infinite; animation-delay: calc(var(--flow-start, 0) * -30s); }
-/* The shimmer: two layers of white stripes crossing, 900px squares slid one stripe
-   period. Lighten-only (Kyle, 2026-10-26): neither layer makes the colors darker. The blend
+/* The shimmer: two layers of white stripes crossing, 1400px squares slid one stripe
+   period (large enough that no button sees a square's edge), each at 0.15
+   (Kyle, 2026-10-28; were 0.3 and 0.27). Lighten-only (Kyle, 2026-10-26): neither layer makes the colors darker. The blend
    stays inside the fill (.btn-flow--fill is its own stacking context). */
 .btn-flow i:is(:nth-child(2), :nth-child(3)) { mix-blend-mode: lighten; }
-.btn-flow i:nth-child(2) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.3;
+.btn-flow i:nth-child(2) { width: 1400px; height: 1400px; margin: -700px 0 0 -700px; opacity: 0.15;
   background: repeating-linear-gradient(90deg, transparent 0, var(--white) 120px, transparent 240px);
   animation: btn-flow-light 6s linear infinite; }
-.btn-flow i:nth-child(3) { width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: 0.27;
+.btn-flow i:nth-child(3) { width: 1400px; height: 1400px; margin: -700px 0 0 -700px; opacity: 0.15;
   background: repeating-linear-gradient(90deg, transparent 0, var(--white) 90px, transparent 180px);
   animation: btn-flow-light-cross 8.7s linear infinite; }
 @keyframes btn-flow-color { from { transform: rotate(20deg) translateX(-600px); } to { transform: rotate(20deg) translateX(600px); } }
