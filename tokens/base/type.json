@@ -200,6 +200,11 @@
       "$value": -0.01,
       "$description": "Letter spacing on the display face (h1–h4 and the pull quote), in em: write calc(var(--tracking-display) * 1em).",
       "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org (0); slight on display since the type round (2026-10-28)" } }
+    },
+    "numbers": {
+      "$value": -0.02,
+      "$description": "Letter spacing on tabular numbers (table cells marked .num, and .tabular), in em: tightens them while every digit keeps one width, so columns still align.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "type round (2026-10-28): tabular, tightened" } }
     }
   }
 }

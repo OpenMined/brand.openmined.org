@@ -66,7 +66,8 @@
 
 /* Tables: rows on dividers, small text, no boxes. Scrolls on narrow screens. */
 .prose table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); }
-.prose :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-md) var(--spacing-lg); border-bottom: var(--stroke-sm) solid var(--line); }
+.prose :is(th, td) { vertical-align: top; padding: var(--spacing-md) var(--spacing-lg); border-bottom: var(--stroke-sm) solid var(--line); }
+.prose :is(th, td):not(.num) { text-align: left; }
 .prose th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
 @media (max-width: 767px) { .prose table { display: block; overflow-x: auto; } }
 

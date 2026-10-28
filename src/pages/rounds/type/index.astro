@@ -220,9 +220,9 @@ const LINES = [
   </section>
   <section class="band" id="numbers">
     <div class="wrap">
-      <header class="sec"><h2>8 · Numbers in tables</h2><p>Inter draws its digits at different widths by default (proportional figures), so a column of numbers doesn't line up. Tabular figures give every digit the same width. The same table both ways; numeric columns are right-aligned in both.</p></header>
+      <header class="sec"><h2>8 · Numbers in tables</h2><p>Inter draws its digits at different widths by default (proportional figures), so a column of numbers doesn't line up. Tabular figures give every digit the same width; letter spacing can tighten them and the columns still align, since every digit keeps one width. The same table each way; numeric columns are right-aligned.</p></header>
       <div class="grid grid--2">
-        {[{ k: 'prop', name: 'Proportional figures', note: 'Today: Inter as drawn.' }, { k: 'tab', name: 'Tabular figures', note: 'Every digit the same width (font-variant-numeric: tabular-nums).' }].map(o => (
+        {[{ k: 'prop', name: 'Proportional figures', note: 'Inter as drawn.' }, { k: 'tab', name: 'Tabular figures', note: 'Every digit the same width.' }, { k: 'tab1', name: 'Tabular, tightened', note: 'Picked (28 Oct): tabular at −0.02em, columns still align.' }, { k: 'tab2', name: 'Tabular, tighter', note: 'Tabular at −0.04em.' }].map(o => (
           <article class="card">
             <span class="rt-meta"><b>{o.name}</b> · {o.note}</span>
             <div class={`prose rt-num rt-num--${o.k}`}>
@@ -331,4 +331,8 @@ const LINES = [
   .rt-num .rt-r { text-align: right; }
   .rt-num--prop table { font-variant-numeric: normal; }
   .rt-num--tab table { font-variant-numeric: tabular-nums; }
+  .rt-num--tab1 table { font-variant-numeric: tabular-nums; }
+  .rt-num--tab1 .rt-r { letter-spacing: -0.02em; }
+  .rt-num--tab2 table { font-variant-numeric: tabular-nums; }
+  .rt-num--tab2 .rt-r { letter-spacing: -0.04em; }
 </style>

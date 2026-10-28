@@ -18,6 +18,7 @@
      <p class="text-caption">A label on a graphic</p>
      <blockquote><p>A quotation, set off by a line.</p></blockquote>
      <p class="measure">Text kept to a reading width, outside an article.</p>
+     <td class="num">11,118</td>  ·  <span class="tabular">62,025</span>     (numbers that line up)
 
    Headings are fluid: each grows with the window between its minimum and
    maximum tokens, reaching the maximum at the 1300px page width (the rate is
@@ -69,6 +70,16 @@ strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline
 .text-small { font-size: var(--font-size-sm); line-height: var(--line-height-text); }
 .text-caption { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text); }
 .text-eyebrow { font-size: var(--font-size-md); }
+
+/* Numbers: tabular figures (every digit the same width) wherever numbers line up
+   in columns, tightened slightly (--tracking-numbers, -0.02em) since every
+   digit keeps one width and columns still align. Tables set tabular figures
+   throughout; a numeric cell (.num) also right-aligns and tightens; .tabular
+   does the same for numbers outside a table (stat tiles, chart labels). Inter
+   draws proportional digits by default (type round, 2026-10-28). */
+table { font-variant-numeric: tabular-nums; }
+:is(td, th).num { text-align: right; }
+:is(td, th).num, .tabular { font-variant-numeric: tabular-nums; letter-spacing: calc(var(--tracking-numbers) * 1em); }
 
 /* Measure: text outside an article kept to a reading width (a hero's lead, a
    section intro). The same width as the article column by default; set

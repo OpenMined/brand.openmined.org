@@ -4,7 +4,7 @@ title: Typography
 description: Rubik for display, Inter for text. A fluid heading scale, four text sizes, leading that tightens as headings grow and slight display tracking, carried from openmined.org's type system and settled in the type round.
 status: working
 tags: [typography]
-tokens: [--measure, --font-display, --font-body, --font-mono, --tracking-display, --font-size-prose-h5-max, --font-size-prose-h6-max, --line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4, --line-height-h5, --text-headline, --text-body, --text-muted, --font-size-xs, --font-size-sm, --font-size-md, --font-size-lg-min, --font-size-lg, --font-size-h1-min, --font-size-h1-max, --font-size-h2-min, --font-size-h2-max, --font-size-h3-min, --font-size-h3-max, --font-size-h4-min, --font-size-h4-max, --font-size-h5-min, --font-size-h5-max, --font-size-h6-min, --font-size-h6-max, --line-height-lead, --line-height-text, --line-height-prose, --font-weight-regular, --font-weight-medium, --font-weight-semibold, --font-weight-bold]
+tokens: [--measure, --tracking-numbers, --font-display, --font-body, --font-mono, --tracking-display, --font-size-prose-h5-max, --font-size-prose-h6-max, --line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4, --line-height-h5, --text-headline, --text-body, --text-muted, --font-size-xs, --font-size-sm, --font-size-md, --font-size-lg-min, --font-size-lg, --font-size-h1-min, --font-size-h1-max, --font-size-h2-min, --font-size-h2-max, --font-size-h3-min, --font-size-h3-max, --font-size-h4-min, --font-size-h4-max, --font-size-h5-min, --font-size-h5-max, --font-size-h6-min, --font-size-h6-max, --line-height-lead, --line-height-text, --line-height-prose, --font-weight-regular, --font-weight-medium, --font-weight-semibold, --font-weight-bold]
 ---
 
 v2 type is openmined.org's type system, carried into the brand as tokens with obvious cleanup and settled in the type round (Kyle, 2026-10-28). The website built the system the released brand lacked: fluid headings, per-level sizes, a rhythm for long reads.
@@ -41,6 +41,8 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 **Inline elements.** Code in the mono family at 0.875em on a tint of the code block's own ground, gray 950, so it's always darker than the surface (6% in light, 35% in dark); a code block is always dark (gray 950 with gray 50 text) in both modes. Keyboard keys (`kbd`) take a line-style outline. A blockquote is set off by the line style on its left, its source in small muted text. Long reads add figures, captions, tables, breaks and the pull quote (*Prose*).
 
 **Cleanup from the website.** Every heading's rate is its maximum ÷ 13. Sizes are tokens in rem. The heading fallback is a sans (v1 fell back to serif). Code uses the brand's mono family; quotes and rules use the v2 line style.
+
+**Numbers.** Wherever numbers line up in columns, digits take one width (tabular figures), tightened by `--tracking-numbers` (−0.02em); the columns still align, since every digit keeps one width. Tables set tabular figures throughout; a numeric cell takes `.num` (right-aligned, tightened); `.tabular` does the same for numbers outside a table, such as stat tiles and chart labels (type round, 2026-10-28).
 
 **Measure.** Text outside an article (a hero's lead, a section intro, a card's text) keeps to a reading width: `.measure`, at `--measure`, the same 640px as the article column. Set `--measure` on the element when a block needs another width. Best practices to come.
 

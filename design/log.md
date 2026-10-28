@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-28** — **Tabular figures, tightened** (Kyle, type round): tables set numbers with every digit the same width; a numeric cell (`.num`) right-aligns and takes `--tracking-numbers` (−0.02em), as does `.tabular` outside a table (`components/type.css`).
 - **2026-10-28** — **Measure** (`--measure`, `.measure` in `components/type.css`): text outside an article keeps to a reading width, 640px like the article column, settable per element; best practices to come. **Fonts snippet** in `components/README.md`, the type module and *Typography*: Rubik 400, Inter 400, 500, 600, 700 and 400 italic; the guide and the components demo now load 700 and italic (bold and italic text were synthesized). Type round: new section **8 · Numbers in tables**, proportional against tabular figures. Fixed: the short sample's pull quote had been replaced by stray text.
 - **2026-10-28** — Prose rhythm: the pull quote, like every element wider than the text (figures, embeds, breakouts), takes 24px (`--prose-gap-wide`) above and below; it had 16.
 - **2026-10-28** — **Prose rhythm: Spacious** (Kyle, type round): space above a heading steps down by level, whatever comes before it: `--prose-gap-h2` 88px, `-h3` 48, `-h4` 40, `-h5` 32 (h5 and h6); 24px after a list and before a figure. Stacked headings keep 24, an h2 after the divider keeps 48. The opt-in `.spacious-sections` and `--prose-gap-spacious` are gone (Spacious is the default); `--prose-gap-section` is now only around a rule.
