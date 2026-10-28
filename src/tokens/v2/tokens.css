@@ -286,12 +286,11 @@
   --info-soft: var(--blue-soft);
   --info-fg: var(--blue-fg);
   --info-key: var(--blue-key);
-  --accent-solid: var(--gray-800);
-  --accent-hover: var(--gray-700);
-  --accent-on: var(--gray-50);
-  --accent-subtle: var(--gray-200);
-  --accent-soft: var(--gray-200);
-  --accent-fg: var(--accent-solid);
+  --emphasis: var(--gray-800);
+  --on-emphasis: var(--gray-50);
+  --accent-subtle: var(--green-subtle);
+  --accent-soft: var(--green-soft);
+  --accent-fg: var(--green-fg);
   --accent-key: var(--green-key);
 }
 
@@ -579,11 +578,10 @@
   --info-soft: var(--blue-soft);
   --info-fg: var(--blue-fg);
   --info-key: var(--blue-key);
-  --accent-solid: var(--gray-50);
-  --accent-hover: var(--gray-200);
-  --accent-on: var(--gray-950);
-  --accent-subtle: var(--gray-700);
-  --accent-soft: var(--gray-600);
-  --accent-fg: var(--accent-solid);
+  --emphasis: var(--gray-50);
+  --on-emphasis: var(--gray-950);
+  --accent-subtle: var(--green-subtle);
+  --accent-soft: var(--green-soft);
+  --accent-fg: var(--green-fg);
   --accent-key: var(--green-key);
 }

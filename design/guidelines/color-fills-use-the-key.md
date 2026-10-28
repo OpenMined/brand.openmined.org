@@ -7,7 +7,7 @@ tags: [color, interface]
 tokens: [--accent-key, --green-key, --on-key]
 ---
 
-**Rule.** When a fill is a hue rather than gray, fill it with the hue's `key` (500) and label it with `--on-key`, white. This covers colored buttons, step markers, and strong status chips. Gray fills, such as the primary button, use the accent's own roles (`--accent-solid`, `--accent-on`).
+**Rule.** When a fill is a hue rather than gray, fill it with the hue's `key` (500) and label it with `--on-key`, white. This covers colored buttons, step markers, and strong status chips. Gray fills, such as the primary button, use `--emphasis` and `--on-emphasis`.
 
 **Why.** The key is the hue at its purest: a deeper step reads washed out on a large area, and the same color in fills and graphics keeps the hue recognizable.
 

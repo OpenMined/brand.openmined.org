@@ -89,7 +89,7 @@ html[data-system="v2"] .button-cta--bright { background-color: var(--surface-bas
    2026-10-12): a green fill with a white label (the solid button's via
    bridge.css, --color-interactive-hover). */
 html[data-system="v2"] .btn:hover { color: var(--white); }
-html[data-system="v2"] .btn:focus { background-color: var(--accent-solid); }
+html[data-system="v2"] .btn:focus { background-color: var(--emphasis); }
 html[data-system="v2"] .btn:focus-visible { outline: 2px solid var(--color-interactive-focus); outline-offset: 2px; }
 html[data-system="v2"] .btn--outline,
 html[data-system="v2"] .btn--outline:focus,

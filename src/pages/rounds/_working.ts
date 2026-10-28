@@ -175,7 +175,7 @@ function perMode(m: Mode): string[] {
 const BLOCKS = [
   ...HUES.map(h => `--${h}-tint:var(--${h}-subtle)`),
   ...Object.entries(ROLE_HUE).filter(([, h]) => h).flatMap(([r, h]) => [`--${r}-tint:var(--${r}-subtle)`, `--${r}-ring:var(--${h}-ring)`]),
-  '--accent-tint:var(--accent-subtle)', '--accent-key:var(--accent-solid)', '--accent-ring:var(--accent-solid)',
+  '--accent-tint:var(--line)', '--accent-key:var(--emphasis)', '--accent-ring:var(--emphasis)',
   ...SERIES.flatMap((h, i) => [`--series-${i + 1}-tint:var(--${h}-subtle)`, `--series-${i + 1}-soft:var(--${h}-soft)`,
     `--series-${i + 1}-key:var(--${h}-key)`, `--series-${i + 1}-fg:var(--${h}-fg)`]),
 ];

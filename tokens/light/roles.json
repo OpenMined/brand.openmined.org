@@ -445,37 +445,31 @@
       }
     }
   },
+  "emphasis": {
+    "$type": "color",
+    "$value": "{gray.800}",
+    "$description": "The strong gray fill: the primary button. The headline gray, a fill rather than text.",
+    "$extensions": {
+      "org.openmined": {
+        "status": "working"
+      }
+    }
+  },
+  "on-emphasis": {
+    "$type": "color",
+    "$value": "{gray.50}",
+    "$description": "Text or icon on --emphasis.",
+    "$extensions": {
+      "org.openmined": {
+        "status": "working"
+      }
+    }
+  },
   "accent": {
     "$type": "color",
-    "$description": "Accent \"none\": the interface is grayscale; color is spent on status and data.",
-    "solid": {
-      "$value": "{gray.800}",
-      "$extensions": {
-        "org.openmined": {
-          "status": "working"
-        }
-      }
-    },
-    "hover": {
-      "$value": "{gray.700}",
-      "$extensions": {
-        "org.openmined": {
-          "status": "exploring",
-          "snappedFrom": "gray 750 (#353243)"
-        }
-      }
-    },
-    "on": {
-      "$value": "{gray.50}",
-      "$extensions": {
-        "org.openmined": {
-          "status": "exploring",
-          "snappedFrom": "gray 50 (#fcfcfd)"
-        }
-      }
-    },
     "subtle": {
-      "$value": "{gray.200}",
+      "$value": "{green.subtle}",
+      "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -483,17 +477,17 @@
       }
     },
     "soft": {
-      "$value": "{gray.200}",
+      "$value": "{green.soft}",
+      "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "snappedFrom": "gray 400 (#cfcdd6)"
+          "status": "working"
         }
       }
     },
     "fg": {
-      "$value": "{accent.solid}",
-      "$description": "Accent text: the same as solid while accent is none.",
+      "$value": "{green.fg}",
+      "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
           "status": "working"
@@ -502,10 +496,10 @@
     },
     "key": {
       "$value": "{green.key}",
-      "$description": "The accent's color: green, for wherever a color is needed and none is specified (hover lines, icon and button hover, a page's alternate color). The rest of the accent stays grayscale.",
+      "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring"
+          "status": "working"
         }
       }
     }

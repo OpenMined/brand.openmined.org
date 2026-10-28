@@ -4,13 +4,13 @@ title: Buttons
 description: One solid button per group, carrying the label on the accent; every other button in the group is secondary, an outline with no fill.
 status: working
 tags: [interface]
-tokens: [--accent-solid, --accent-on, --accent-key, --text-headline, --line-strong, --stroke-sm]
+tokens: [--emphasis, --on-emphasis, --accent-key, --on-key, --text-headline, --line-strong, --stroke-sm]
 ---
 
 **Anatomy.** A label, with an optional icon; or an icon alone.
 
 **Variants.**
-- **Solid**: `--accent-solid` fill with an `--accent-on` label. One per group.
+- **Solid**: `--emphasis` fill with an `--on-emphasis` label. One per group.
 - **Secondary**: a `--stroke-sm` outline in `--line-strong` (the line style, the same gray step as `--text-body`), no fill, the label in `--text-headline`. Every other button in the group.
 
 **States.** Both stay grayscale at rest. Every state works in two layers (*Interaction states*); the code below is the spec.

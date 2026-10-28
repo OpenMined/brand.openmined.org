@@ -101,7 +101,7 @@ a:hover { text-decoration-color: currentColor; }
   background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-headline); font-size: var(--font-size-xs);
 }
-.eyebrow__dot { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--accent-solid); box-shadow: 0 0 0 3px var(--accent-subtle); }
+.eyebrow__dot { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--emphasis); box-shadow: 0 0 0 3px var(--line); }
 
 /* ── Bands, sections, cards ──────────────────────────────────────── */
 .band { padding-block: var(--spacing-section); }

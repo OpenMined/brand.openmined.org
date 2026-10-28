@@ -1,14 +1,14 @@
 ---
 type: Guideline
 title: Use accent by intent
-description: Use the accent roles where you mean "the interactive, brand-emphasis thing". While accent is grayscale, pick by intent, not by how it looks.
+description: "Use the accent roles where you mean the interactive color, and --emphasis for the strong gray fill. Pick by intent, not by how a color looks, so a change of accent reaches everything it should."
 status: working
 tags: [color, interface]
-tokens: [--accent-solid, --accent-fg, --accent-subtle]
+tokens: [--accent-key, --accent-fg, --accent-subtle, --emphasis, --on-emphasis]
 ---
 
-**Rule.** Use `--accent-*` for interactive and brand-emphasis elements: the primary button, a selected state, a focus ring, an interactive highlight. Use `--text-headline`, `--line`, and the other roles when you mean exactly those.
+**Rule.** Use `--accent-*` where you mean the interactive color: a hover line, a hover fill, a selected state's tint, an interactive highlight. The accent is a hue (green today) with that hue's roles: `--accent-subtle`, `--accent-soft`, `--accent-fg`, `--accent-key`, labeled with `--on-key`. Use `--emphasis` with `--on-emphasis` for the strong gray fill, the primary button. Use `--text-headline`, `--line` and the other roles when you mean exactly those.
 
-**Why.** Accent is grayscale today, so `--accent-solid` renders the same as `--text-headline`. If accent later gets a color, every use of `--accent-*` changes together. A wrong pick changes the wrong thing, or misses the change, and nothing on screen today shows the difference.
+**Why.** The accent points at a hue, as `--success-*` points at green. If the accent hue changes, every `--accent-*` changes together; a `--green-*` written where the accent was meant would be left behind, and nothing on screen today shows the difference.
 
-**Don't.** Reach for `--accent-fg` for a dark heading because it looks right, or use `--text-headline` for a primary button's fill.
+**Don't.** Write `--green-key` for a hover color, use `--accent-*` for something that's green because it's green (a chart series, a success state), or use `--text-headline` for the primary button's fill.

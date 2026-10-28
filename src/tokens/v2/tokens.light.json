@@ -1680,39 +1680,33 @@
     "type": "color",
     "status": "working"
   },
-  "--accent-solid": {
+  "--emphasis": {
     "value": "var(--gray-800)",
     "resolved": "#221f2d",
     "type": "color",
     "status": "working"
   },
-  "--accent-hover": {
-    "value": "var(--gray-700)",
-    "resolved": "#282636",
-    "type": "color",
-    "status": "exploring"
-  },
-  "--accent-on": {
+  "--on-emphasis": {
     "value": "var(--gray-50)",
     "resolved": "#fafafc",
     "type": "color",
-    "status": "exploring"
+    "status": "working"
   },
   "--accent-subtle": {
-    "value": "var(--gray-200)",
-    "resolved": "#dddde2",
+    "value": "var(--green-subtle)",
+    "resolved": "#e8f7f0",
     "type": "color",
     "status": "working"
   },
   "--accent-soft": {
-    "value": "var(--gray-200)",
-    "resolved": "#dddde2",
+    "value": "var(--green-soft)",
+    "resolved": "#c2e8d6",
     "type": "color",
-    "status": "exploring"
+    "status": "working"
   },
   "--accent-fg": {
-    "value": "var(--accent-solid)",
-    "resolved": "#221f2d",
+    "value": "var(--green-fg)",
+    "resolved": "#006f4f",
     "type": "color",
     "status": "working"
   },
@@ -1720,6 +1714,6 @@
     "value": "var(--green-key)",
     "resolved": "#0f946b",
     "type": "color",
-    "status": "exploring"
+    "status": "working"
   }
 }

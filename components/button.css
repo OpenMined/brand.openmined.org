@@ -39,7 +39,7 @@
 }
 .btn > svg { flex: none; width: 20px; height: 20px; }
 .btn--icon { min-width: 48px; padding: 0; border: 0; }
-.btn--solid { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
+.btn--solid { background: var(--emphasis); border-color: var(--emphasis); color: var(--on-emphasis); }
 /* Gray buttons fill with the accent's green on hover and focus, and take the
    pressed wash over it while pressed. Hover only where there is a pointer to hover
    with, so a tap never leaves it on; keyboard focus shows the same fill everywhere. */

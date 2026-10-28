@@ -43,9 +43,9 @@
   --border-subtle: 1px solid var(--line);
 
   /* ── Interactive: the accent role (guidelines/accent-by-intent) ────── */
-  --button-dark-color:          var(--accent-solid);
-  --button-light-color:         var(--accent-on);
-  --color-interactive-default:  var(--accent-solid);
+  --button-dark-color:          var(--emphasis);
+  --button-light-color:         var(--on-emphasis);
+  --color-interactive-default:  var(--emphasis);
   /* Hover takes the accent's color, green (decision 2026-10-12): button
      fills, icon hover, the live site's green hover everywhere. */
   --color-interactive-hover:    var(--accent-key);

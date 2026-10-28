@@ -181,12 +181,11 @@ export const COLORS = {
     "info-soft": "#ccdfff",
     "info-fg": "#184fab",
     "info-key": "#2b67c9",
-    "accent-solid": "#221f2d",
-    "accent-hover": "#282636",
-    "accent-on": "#fafafc",
-    "accent-subtle": "#dddde2",
-    "accent-soft": "#dddde2",
-    "accent-fg": "#221f2d",
+    "emphasis": "#221f2d",
+    "on-emphasis": "#fafafc",
+    "accent-subtle": "#e8f7f0",
+    "accent-soft": "#c2e8d6",
+    "accent-fg": "#006f4f",
     "accent-key": "#0f946b"
   },
   "dark": {
@@ -366,12 +365,11 @@ export const COLORS = {
     "info-soft": "#273f67",
     "info-fg": "#6593e0",
     "info-key": "#3368c1",
-    "accent-solid": "#fafafc",
-    "accent-hover": "#dddde2",
-    "accent-on": "#16141b",
-    "accent-subtle": "#282636",
-    "accent-soft": "#464159",
-    "accent-fg": "#fafafc",
+    "emphasis": "#fafafc",
+    "on-emphasis": "#16141b",
+    "accent-subtle": "#1b2d25",
+    "accent-soft": "#204938",
+    "accent-fg": "#5fb08e",
     "accent-key": "#29926d"
   }
 };

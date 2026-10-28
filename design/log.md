@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-28** — **The accent is a hue** (decision, design lead): `--accent-subtle`, `-soft`, `-fg` and `-key` point at green's roles, as the statuses do; elements stay gray at rest. The primary button's gray fill and label are `--emphasis` and `--on-emphasis` (same values); `--accent-solid`, `--accent-hover` and `--accent-on` are removed (286 tokens per mode). *Use accent by intent* is rewritten around the two.
 - **2026-10-28** — Wording: "interactive layers" throughout (full and minimal), not "tiers"; the decision is *Interactive layers: minimal built in, full added on*.
 - **2026-10-28** — Minimal fields take a faint 1px outline on hover (the controls' hover line, gray 300 light, gray 500 at 0.5 dark), no pointer light. The light is the full layer: it runs only on fields `field.js` marks `.has-light`, never inside a minimal region (before, without the script, a fixed light sat at the field's center). Field hover applies only where a pointer can hover.
 - **2026-10-28** — Minimal content links draw their green line in from the left on hover and leave to the right, like the full link but still in color, instead of fading the underline's color. Plain background lines, so it works in any browser.

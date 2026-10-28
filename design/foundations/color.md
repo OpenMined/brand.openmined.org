@@ -4,7 +4,7 @@ title: Color
 description: One gray and six hues, each in eleven steps from 50 to 950, with roles that say what each color is for.
 status: working
 tags: [color]
-tokens: [--on-key, --line, --line-strong, --text-headline, --text-body, --text-muted, --accent-solid, --accent-hover, --accent-on, --accent-subtle, --accent-soft, --accent-fg]
+tokens: [--on-key, --line, --line-strong, --text-headline, --text-body, --text-muted, --emphasis, --on-emphasis, --accent-subtle, --accent-soft, --accent-fg, --accent-key]
 ---
 
 The palette has one gray and six hues (violet, blue, teal, green, amber, red), and every scale runs **50, 100–900, 950**, light to dark. White and black sit outside the scales.
@@ -33,7 +33,9 @@ One label serves every key: **`--on-key`**, white in both modes, for text or an 
 
 **Status** colors are their own roles, each pointing at a hue: `success` → green, `warning` → amber, `danger` → red, `info` → blue. `--danger-fg` is `--red-fg`, so a status can move to another hue without touching a component.
 
-**Accent** is the role for interactive and brand-emphasis elements: the primary button's fill is `--accent-solid`. It is grayscale, with one colored role, `--accent-key`: the green key, for wherever a color is needed and none is specified (a page's alternate color, colored fills). Where the accent moves it becomes a gradient: the brand gradient on link hover, the hue keys on button hover, a hue's two-tone on icons in color (decisions *Green is the accent's color*, *Green at rest, gradients in motion*). Pick accent roles by intent, not by look ([Use accent by intent](#guidelines-accent-by-intent)).
+**Accent** is the interactive color, and it's a hue: green, with green's roles (`--accent-subtle`, `--accent-soft`, `--accent-fg`, `--accent-key`), as `--success-*` points at green. Elements are gray at rest; the accent arrives with interaction, as the still green of the minimal layer (`--accent-key`). Where the accent moves it becomes a gradient: the brand gradient on link hover, the hue keys on button hover, a hue's two-tone on icons in color (decisions *Green is the accent's color*, *Green at rest, gradients in motion*). Pick accent roles by intent, not by look ([Use accent by intent](#guidelines-accent-by-intent)).
+
+**Emphasis** is the strong gray fill, the primary button: `--emphasis` (the headline gray as a fill) with `--on-emphasis` as its label.
 
 ## Text and lines
 
@@ -50,7 +52,6 @@ Every text role reaches 4.5:1 on all four surface levels in both modes. *Typogra
 
 ## Open
 
-- Whether the accent takes a hue at rest, on the solid button and elsewhere.
 - `soft` covers both strokes and area fills, which may need different steps.
 - Light `--accent-soft` and `--accent-subtle` resolve to the same step.
 - Whether the palette needs a saturated stop, and whether the website's deep magenta (`#ab3c81`, which no step reaches) needs one.
