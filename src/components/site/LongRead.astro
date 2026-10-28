@@ -1,0 +1,77 @@
+---
+/**
+ * A sample long read for reviewing prose rhythm and flow: every element a long
+ * read carries, in realistic order, in OpenMined's dense paragraph form (the
+ * Typography page, the type round). Figures are placeholders.
+ */
+---
+<div class="prose prose-article content-links">
+  <h2>Answering questions about data you can't see</h2>
+  <p>Most of the data that could answer society's hardest questions sits behind walls that exist for good reasons. Hospital records are private because patients were promised they would be. A publisher's archive is its business, built over decades and worth protecting. A government's statistics carry legal obligations about who may see them and for what. Copying any of it to a central place, even for a good cause, breaks the promises those walls keep, and so most of it is never used for research at all.</p>
+  <p>Attribution-based control takes a different route. Instead of moving data to a question, it moves the question to the data, runs it where the data already lives, and returns only the answer, with a record of exactly which sources contributed to it. The owner never hands over a copy, and the researcher never holds one. What crosses the wall is the result both sides agreed to, nothing more, and every step of the exchange is logged so either side can check it later.<sup><a href="#prose">1</a></sup></p>
+  <h3>What changes for a researcher</h3>
+  <p>For a researcher, the change starts with what they no longer have to do. There is no data-sharing agreement to negotiate for each source, no secure enclave to stand up, and no copy to protect once the work is done. In exchange, they write their question as code that each owner can read before it runs, and they accept that some questions will be declined. A researcher who works this way gives up one thing and gains several:</p>
+  <ul>
+    <li>They never hold a copy of the data, so there's nothing to leak, lose or misuse after the project ends.</li>
+    <li>They can ask questions of many sources at once, where before each source needed its own agreement and its own transfer.</li>
+    <li>Every answer arrives with its provenance: which sources contributed, under what terms, and with what code.</li>
+    <li>Results can be repeated, because the question and its code are recorded alongside the answer they produced.</li>
+  </ul>
+  <p>The trade is a slower first question. The code has to be reviewed by each owner before it runs, and an owner who has never seen a request before will take longer to approve it than one who has. After that first review, a well-written question can run again and again as the data changes, and a second researcher asking a similar question can often reuse the reviewed code rather than starting over. Over a project's life, most researchers find the time spent on review is less than the time they used to spend on access.</p>
+  <figure class="breakout">
+    <div class="type-article__media" aria-hidden="true"><span>.breakout · 860px</span></div>
+    <figcaption>Figure 1. A question travels to each data owner; only the agreed result comes back.</figcaption>
+  </figure>
+  <p>Nothing in this exchange depends on trust between the two sides. The owner never has to share data to be useful, and the researcher never has to promise to forget what they saw, because they never see it. Each side can verify what the other did from the record alone, which matters most when the two have never worked together and may never meet. That is what lets the approach scale beyond a few close partnerships.</p>
+  <h3>What changes for a data owner</h3>
+  <p>An owner sees each request before anything runs, along with the code, the stated purpose and the identity of the person asking. The review is short when the request is clear, and it follows the same steps every time, so an organization can train a few people to handle it rather than routing every request to its lawyers. The steps are deliberately plain:</p>
+  <ol>
+    <li>Read the code and the stated purpose, and check that the two describe the same thing.</li>
+    <li>Check the purpose against the agreement with this researcher and the terms the data was collected under.</li>
+    <li>Approve, decline, or ask for a change, with a note the researcher will see.</li>
+  </ol>
+  <p>Approval is a single call once the review is done. The same interface that shows the owner the request lets them approve it, decline it or attach conditions, and every decision is recorded with the request it applies to. In code, the whole review reads like this:</p>
+  <pre><code>request = datasite.requests[0]
+request.review()
+request.approve()</code></pre>
+  <p>Once approved, the code runs where the data lives, on the owner's own infrastructure and under their own controls. The owner can inspect the result before it leaves, hold it back if it reveals more than the agreement allows, and stop any request at any time with <code>request.revoke()</code>. None of this requires the owner to understand the researcher's field in depth; it requires them to understand their own data and what they have agreed to share about it.</p>
+  <aside class="pullquote"><p>The researcher gets an answer, never a row, and the owner never gives up a copy of their data.</p></aside>
+  <p>That single constraint shapes everything else. Because only answers leave, an owner can say yes to questions they would never have answered by handing over a copy, and a researcher can ask across sources that would never agree to pool their data in one place. The questions that become possible are not just larger versions of old ones; they are questions that could not be asked at all while the only way to answer them was to move the data first.</p>
+  <p>It also changes what a mistake costs. A badly written question returns a poor answer, not a leak. The owner reviews, the code runs, and the worst outcome is a result nobody can use, which the researcher can fix and send again. Compared with a breach of a central copy, which can't be undone, that is a different kind of risk, and one that organizations that hold sensitive data are far more willing to take.</p>
+  <h2>Where it's used today</h2>
+  <p>The first deployments were in places where the walls around data are highest, because that is where the gap between what could be learned and what is learned is widest. They span medicine, publishing and public statistics, and they were set up by very different organizations with very different rules. Three patterns repeat across them, and each says something about where the approach fits best.</p>
+  <h4>Medical research</h4>
+  <p>Hospitals run studies across sites without pooling patient records. Each site keeps its records on its own systems, under its own ethics approvals, and the study receives only the combined statistics it needs, computed at each site and brought together at the end. For conditions where any one hospital sees only a handful of patients, that is the difference between a study that can draw conclusions and one that can't.</p>
+  <blockquote><p>We could finally study the whole population, not the slice we were allowed to copy.</p><cite>A clinical researcher, 2026</cite></blockquote>
+  <p>The studies that come out of this aren't larger for the sake of it. They reach patients that central collections leave out: smaller hospitals that can't take on the burden of a data transfer, rarer conditions spread thinly across many sites, and regions with stricter rules about moving records. Those are often the patients research has served least.</p>
+  <h4>Publishing and AI</h4>
+  <p>Publishers let models answer from their archives while keeping the archives, and see exactly which articles contributed to each answer. That attribution is the point: it lets a publisher decide which work can be used and on what terms, and it gives readers a way to follow an answer back to the reporting it came from. The table below sets the three settings side by side.</p>
+  <table>
+    <thead><tr><th>Setting</th><th>Who holds the data</th><th>What leaves</th></tr></thead>
+    <tbody>
+      <tr><td>Medical research</td><td>Each hospital</td><td>Agreed statistics</td></tr>
+      <tr><td>Publishing</td><td>Each publisher</td><td>Answers with attribution</td></tr>
+      <tr><td>Public statistics</td><td>The agency</td><td>Approved aggregates</td></tr>
+    </tbody>
+  </table>
+  <p>In each setting the owner keeps the same control. What changes is what counts as an acceptable answer: a statistic with enough patients behind it, an answer that names its sources, an aggregate that can't be traced to a person. That definition is written into the agreement before the first question is asked, so the review of each request is a check against terms both sides already know.</p>
+  <h5>A note on scale</h5>
+  <p>Each of these started with a handful of owners and a few researchers who were willing to work through the first reviews by hand. The same review steps hold as the number grows; what changes is the tooling around them, from templates for common questions to dashboards that show an owner every request at once. Nothing about the model itself has to change to go from five owners to five hundred.</p>
+  <h6>What stays the same</h6>
+  <p>The owner always decides. No setting lets a request run without review, and no agreement can grant standing approval for questions nobody has seen.</p>
+  <p>That rule holds even for the owner's own staff, and it is the reason the system can be trusted by people who never meet each other. It is also the rule most often questioned by newcomers, who expect it to slow everything down, and the one experienced users are least willing to give up.</p>
+  <p class="prose-divider" aria-hidden="true">⬩⬩⬩</p>
+  <h2>What comes next</h2>
+  <p>The next step is making the first question faster. Today, a researcher approaching a new owner can wait weeks for a first review, most of it spent establishing what the request means and whether it fits the owner's terms. Two pieces of work aim at that delay directly:</p>
+  <ul>
+    <li>Templates for common questions, reviewed once by an owner and then reused by many researchers without a fresh review each time.</li>
+    <li>Clearer agreements, written so that an owner's review is a check against known terms rather than a negotiation from scratch.</li>
+  </ul>
+  <figure class="breakout--full">
+    <div class="type-article__media" aria-hidden="true"><span>.breakout--full · the page width</span></div>
+    <figcaption>Figure 2. A full breakout leaves the article for the page width.</figcaption>
+  </figure>
+  <p>Both aim at the same thing: questions that are easy to ask and easy to trust, about data that stays where it lives. If they work, the slow first question stops being the price of entry, and the approach becomes the ordinary way to do research across organizations rather than the careful exception it is today.</p>
+  <hr />
+  <p class="text-small"><sup>1</sup> Attribution-based control is described in more detail on openmined.org. Figures and quotes here are placeholders for this sample.</p>
+</div>

@@ -82,6 +82,48 @@
       "$value": "{page.width}",
       "$description": "A full breakout: out of the article to the page container (.breakout--full), inside the gutters on narrow screens.",
       "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .breakout--full (1300px)" } }
+    },
+    "gap": {
+      "$value": "{spacing.lg}",
+      "$description": "Between blocks in a long read; after h3–h6; before a list.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose > * + * (16px)" } }
+    },
+    "gap-wide": {
+      "$value": "{spacing.2xl}",
+      "$description": "After an h2, a figure, a table, an embed or a list; before a figure; between stacked headings.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose (24px)" } }
+    },
+    "gap-section": {
+      "$value": "{spacing.3xl}",
+      "$description": "Around a rule (hr).",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose * + h2, hr (32px)" } }
+    },
+    "gap-break": {
+      "$value": "{spacing.5xl}",
+      "$description": "Around the ⬩⬩⬩ divider between passages, including an h2 right after it.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-divider (48px)" } }
+    },
+    "gap-h2": {
+      "$value": { "value": 88, "unit": "px" },
+      "$description": "Above an h2, whatever comes before it: the full section break.",
+      "$extensions": {
+        "org.openmined": { "status": "working", "was": "openmined.org .spacious-sections (88px, the live opt-in); the default since the type round (2026-10-28)" }
+      }
+    },
+    "gap-h3": {
+      "$value": "{spacing.5xl}",
+      "$description": "Above an h3.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+    },
+    "gap-h4": {
+      "$value": "{spacing.4xl}",
+      "$description": "Above an h4.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+    },
+    "gap-h5": {
+      "$value": "{spacing.3xl}",
+      "$description": "Above an h5 or h6.",
+      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
     }
   },
   "breakpoint": {
@@ -100,6 +142,14 @@
       "$value": { "value": 479, "unit": "px" },
       "$description": "Phones.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-sm" } }
+    }
+  },
+  "measure": {
+    "$type": "dimension",
+    "$root": {
+      "$value": "{prose.content}",
+      "$description": "The reading width for text outside articles: a hero's lead, a section intro, a card's text. One reading width with the article column; set another on the element when a block needs it (style=\"--measure: 32em\").",
+      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .measure (--measure, set per use); v2 2026-10-28" } }
     }
   }
 }

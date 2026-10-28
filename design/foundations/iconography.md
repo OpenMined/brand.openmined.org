@@ -2,7 +2,7 @@
 type: Iconography
 title: Icons
 description: Outlined icons from Iconoir, mono by default in the color of the text around them. Status icons take their status color; an icon in color mode takes its hue's two-tone.
-status: exploring
+status: working
 tags: [icons]
 tokens: [--success-fg, --danger-fg, --warning-fg, --info-fg]
 ---
@@ -39,4 +39,4 @@ Two exceptions to mono. **Status icons** take their status's `fg` role, the role
 - A decorative icon is hidden from screen readers; an icon that is the only content of a button carries its label.
 - **Partner marks used inline** (an integrations list, a "Sign in with" button) follow these sizes and alignment, but not the style or color rules: they're used as supplied.
 
-*Open:* whether "icons are lines, except where otherwise chosen" becomes the working rule, as review decides individual icons (the set already carries a `solid` style for the exceptions); size tokens (`--icon-sm/md/lg`) once the interface round needs them; the four live icons with no Iconoir match (enforcement, handshake, network discovery, scale) and whether OpenMined draws its own; whether status icons stay filled, as on the live site, or go outlined; official files for the brands with no partner mark yet.
+*Open:* the Iconoir audit, still to do before release (icons with hard-set strokes: map pin, network, microphone; the DNA icon reads chunky); whether "icons are lines, except where otherwise chosen" becomes the working rule, as review decides individual icons (the set already carries a `solid` style for the exceptions); size tokens (`--icon-sm/md/lg`) once the interface round needs them; the four live icons with no Iconoir match (enforcement, handshake, network discovery, scale) and whether OpenMined draws its own; whether status icons stay filled, as on the live site, or go outlined; official files for the brands with no partner mark yet.

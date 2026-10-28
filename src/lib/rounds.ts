@@ -24,6 +24,7 @@ export const ROUNDS: Round[] = [
   { key: 'gradient-map', label: 'Gradient map', href: '/rounds/gradient-map/', opened: '2026-10-09', about: 'Each atmospheric graphic’s own list of palette colors, starting with the gradient map.', lives: [['Graphics: colorflow and gradient map', '/graphics/#motion']] },
   { key: 'icons', label: 'Icons', href: '/rounds/icons/', opened: '2026-10-09', about: 'Every icon in openmined.org’s style guide, mapped to the v2 set.', lives: [['Icons: the set', '/icons/#set']] },
   { key: 'motion', label: 'Color and interaction', href: '/rounds/motion/', opened: '2026-10-12', about: 'If color, then motion, and interaction beyond it: button and link hovers, icons in color, hover cards, form fields.', lives: [['Interface: buttons, links, hover cards', '/interface/#buttons'], ['Interface: form fields', '/interface/#forms'], ['Icons: in color', '/icons/#color'], ['Color: two-tone', '/color/#two-tone']] },
+  { key: 'type', label: 'Type', href: '/rounds/type/', opened: '2026-10-28', about: 'The type review: display leading and tracking, h5 and h6, the caption size, muted text, the line roles and the pull quote.', lives: [['Typography', '/typography/']] },
 ];
 
 /** Page reviews: the notes page, then each reviewed page. */

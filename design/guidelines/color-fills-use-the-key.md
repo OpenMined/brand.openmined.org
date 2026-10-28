@@ -2,7 +2,7 @@
 type: Guideline
 title: Color fills use the key
 description: A colored fill that carries a label (a button, a step marker, a strong badge) uses the hue's key with a white label, not its solid step.
-status: exploring
+status: working
 tags: [color, interface]
 tokens: [--accent-key, --green-key]
 ---

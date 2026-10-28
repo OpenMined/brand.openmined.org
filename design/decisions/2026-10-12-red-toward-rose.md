@@ -2,7 +2,7 @@
 type: Decision
 title: Red moves toward rose (trial)
 description: The red hue rotates about 4° toward magenta, with a touch more chroma, so it reads as OpenMined's red rather than a generic one. Lightness is unchanged; the previous red is kept as a backup.
-status: exploring
+status: working
 date: 2026-10-12
 tags: [color]
 tokens: [--red-key, --danger-key]

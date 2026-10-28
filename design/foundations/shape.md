@@ -2,7 +2,7 @@
 type: Shape
 title: Corners
 description: Four corner radii, biased sharp. Six pixels is the default; a larger corner only on the outer of two nested shapes.
-status: exploring
+status: working
 tags: [surfaces]
 tokens: [--radius-sm, --radius-md, --radius-lg, --radius-full]
 ---

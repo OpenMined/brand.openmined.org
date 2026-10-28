@@ -1,0 +1,90 @@
+/* ════════════════════════════════════════════════════════════════════
+   PROSE — v2 component (design/patterns/prose.md), working
+   ════════════════════════════════════════════════════════════════════
+   The long-read scope: a blog post, a whitepaper, a letter. Styles the bare
+   elements of flowing content and the rhythm between them; anything carrying
+   a class keeps its own styling. Needs: the v2 tokens and type.css (headings,
+   code, blockquote). Content links: add .content-links (link.css). Width and
+   breakouts: .prose-article (layout.css). No script. Carried from
+   openmined.org's prose.css, its rhythm consolidated and opened up.
+
+   Markup:
+     <article class="prose content-links">              (+ prose-article for the zones)
+       <h2>A section</h2>
+       <p>Paragraphs, <a href="…">links</a>, lists.</p>
+       <figure><img src="…" alt="…"><figcaption>A caption.</figcaption></figure>
+       <blockquote><p>A quotation.</p><cite>Its source</cite></blockquote>
+       <aside class="pullquote"><p>A line lifted from the text.</p></aside>     (wide zone in a .prose-article)
+       <p class="prose-divider" aria-hidden="true">⬩⬩⬩</p>
+       <hr>
+     </article>
+   Rhythm: one rule owns each gap (adjacent siblings), so it's the same in
+   block flow, flex and the article grid, and it follows the tag, never the
+   size a heading renders at. Space above a heading holds whatever comes before
+   it, and steps down by level (the type round's Spacious, 2026-10-28):
+   --prose-gap-h2 (88), -h3 (48), -h4 (40), -h5 (32, also h6). Between blocks
+   --prose-gap (16), also after h3–h6 and before a list; --prose-gap-wide (24)
+   after an h2, a list, a table or anything wider than the text (a figure, a
+   breakout, the pull quote) and before anything wider, and
+   between stacked headings; --prose-gap-section (32) around a rule;
+   --prose-gap-break (48) around the divider, an h2 after it included. */
+.prose p, .prose li { line-height: var(--line-height-prose); }
+
+.prose > * + *,
+.prose :where(blockquote, li, .pullquote) > * + * { margin-top: var(--prose-gap); }
+.prose :where(figure, table, .breakout, .breakout--full, .pullquote, h2, ul, ol) + * { margin-top: var(--prose-gap-wide); }
+.prose :where(h3, h4, h5, h6) + * { margin-top: var(--prose-gap); }
+.prose * + :where(figure, .breakout, .breakout--full, .pullquote) { margin-top: var(--prose-gap-wide); }
+.prose * + h2 { margin-top: var(--prose-gap-h2); }
+.prose * + h3 { margin-top: var(--prose-gap-h3); }
+.prose * + h4 { margin-top: var(--prose-gap-h4); }
+.prose * + :is(h5, h6) { margin-top: var(--prose-gap-h5); }
+.prose :is(h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) { margin-top: var(--prose-gap-wide); }
+.prose * + hr, .prose :where(hr) + * { margin-top: var(--prose-gap-section); }
+.prose * + .prose-divider, .prose .prose-divider + * { margin-top: var(--prose-gap-break); }
+.prose > :first-child { margin-top: 0; }
+
+/* Lists: OpenMined's diamond marker on bulleted lists; numbers stay numbers. */
+:where(.prose) :where(ul, ol, figure, blockquote, pre, table) { margin: 0; }  /* resets weigh nothing, so the rhythm wins */
+.prose ol { padding-left: var(--spacing-2xl); }
+.prose ul { list-style: none; padding-left: var(--spacing-sm); }
+.prose ul > li { position: relative; padding-left: 0.875em; }
+.prose ul > li::before {
+  content: ""; position: absolute; top: 0.875em; left: 0; width: 0.25em; height: 0.25em;
+  background-color: currentColor; transform: translateY(-50%) rotate(45deg);
+}
+.prose :is(ul, ol) > li + li { margin-top: var(--spacing-sm); }
+
+/* Figures and media: the medium corner, no frame. A caption sits under its
+   figure in small, medium-weight, muted text. */
+.prose :is(img, video) { display: block; width: 100%; height: auto; border-radius: var(--radius-md); }
+.prose figcaption {
+  padding-top: var(--spacing-sm); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-text); color: var(--text-muted);
+}
+.prose iframe { max-width: 100%; border: 0; border-radius: var(--radius-md); }
+
+/* Tables: rows on dividers, small text, no boxes. Scrolls on narrow screens. */
+.prose table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); }
+.prose :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-md) var(--spacing-lg); border-bottom: var(--stroke-sm) solid var(--line); }
+.prose th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+@media (max-width: 767px) { .prose table { display: block; overflow-x: auto; } }
+
+/* Breaks: a rule is a divider line; the ⬩⬩⬩ divider is a centered mark with
+   equal air above and below. */
+.prose hr { border: 0; border-top: var(--stroke-sm) solid var(--line); }
+.prose .prose-divider { text-align: center; letter-spacing: 0.5em; color: var(--text-muted); }
+
+/* Pull quote (type round, 2026-10-28; new in v2): a line lifted from the text,
+   in the display face at h3 size, on the line style at its left, broken out to
+   the wide zone in an article (.prose-article). */
+.prose .pullquote {
+  grid-column: wide; padding-left: var(--spacing-xl); border-left: var(--stroke-sm) solid var(--line-strong);
+  font-family: var(--font-display); font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max));
+  line-height: var(--line-height-h3); letter-spacing: calc(var(--tracking-display) * 1em); color: var(--text-headline);
+}
+.prose .pullquote p { line-height: inherit; }
+
+/* Footnote markers: a superscript link takes no underline. */
+.prose sup { font-size: 0.75em; line-height: 0; }
+.prose a:has(> sup) { background-image: none; padding: 0; }

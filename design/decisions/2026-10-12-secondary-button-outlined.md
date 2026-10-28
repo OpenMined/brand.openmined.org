@@ -2,7 +2,7 @@
 type: Decision
 title: The secondary button is an outline
 description: Every button that isn't the group's solid one is an outline in the body text color, with no fill. It replaces the quiet button.
-status: exploring
+status: working
 date: 2026-10-12
 tags: [interface]
 tokens: [--line-strong, --stroke-sm, --accent-key]

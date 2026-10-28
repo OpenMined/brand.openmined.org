@@ -1,146 +1,209 @@
 ---
 /**
- * BRAND SITE (v2) — Typography. Rev 1, status `exploring`: v2 type hasn't
- * started. Shows the v1 baseline and the website's fluid system — the one the
- * brand is to extract (decided 2026-09-15). Sizes below are read from:
- *   v1       src/tokens/global.css (h1–h6 element defaults)
- *   website  openmined-org src/styles/tokens.css (--hN-min/max) and
- *            src/styles/global/typography.css (the clamp() middle values)
+ * BRAND SITE (v2) — Typography: a view of the v2 type tokens (tokens/base/type.json,
+ * layout.json prose rhythm) and the type and prose components (components/type.css,
+ * prose.css). Specimens use the components' own classes (.h1 … .h6, .text-*, .prose),
+ * so they show exactly what a page that loads them gets; the guide's own chrome keeps
+ * its placeholder type until it moves onto v2. Words from design/ (tag `typography`).
  */
 import Site from '../../layouts/Site.astro';
-import { iconSvg } from '../../lib/icons';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
+import LongRead from '../../components/site/LongRead.astro';
+import { iconSvg } from '../../lib/icons';
 import { doc, decisionsFor } from '../../lib/design';
-const prose = doc('patterns/prose');
+import { tok, hex, contrast, target, MODES } from '../../lib/tokens';
+import { componentCode } from '../../lib/components';
 
 const foundation = doc('foundations/typography');
-const { Content } = foundation;
+const prose = doc('patterns/prose');
 const decisions = decisionsFor('typography');
-
-const LADDER = [
-  { tag: 'h1', family: 'Rubik', v1: 61, min: 36, vw: 4.69, max: 61, lh: 1.2 },
-  { tag: 'h2', family: 'Rubik', v1: 47, min: 28, vw: 3.62, max: 47, lh: 1.2 },
-  { tag: 'h3', family: 'Rubik', v1: 36, min: 24, vw: 2.77, max: 36, lh: 1.2 },
-  { tag: 'h4', family: 'Rubik', v1: 27, min: 22, vw: 2.08, max: 27, lh: 1.2 },
-  { tag: 'h5', family: 'Inter', v1: 21, min: 18, vw: 1.62, max: 21, lh: 1.4 },
-  { tag: 'h6', family: 'Inter', v1: 20, min: 16, vw: 1.54, max: 20, lh: 1.5 },
+const px = (name: string) => `${Math.round(parseFloat(tok('light', name).resolved) * 16)}px`;
+const LEVELS = [1, 2, 3, 4, 5, 6].map(n => ({
+  n, face: n <= 4 ? 'Rubik 400' : 'Inter 400 · 600 in a long read', lh: n <= 5 ? `--line-height-h${n}` : '--line-height-text',
+  min: px(`--font-size-h${n}-min`), max: px(`--font-size-h${n}-max`),
+}));
+const STYLES = [
+  { name: 'Lead', cls: 'text-lead', spec: 'lg · 18 → 21px · 1.4 · muted', sample: 'An introduction that sits under a page title.' },
+  { name: 'Body', cls: '', spec: 'md (16px) · 1.5', sample: 'Researchers can answer questions about data they never see.' },
+  { name: 'Small', cls: 'text-small', spec: 'sm (14px) · 1.5', sample: 'Supporting text: a note, a source, a form description.' },
+  { name: 'Caption', cls: 'text-caption', spec: 'xs (12px) · 500', sample: 'Figure 1 · data stays with its owner' },
+  { name: 'Eyebrow', cls: 'text-eyebrow', spec: 'body text, a hook', sample: 'Federated learning' },
+  { name: 'Strong, emphasis', cls: '', spec: 'semibold 600 · italic', sample: '<strong>Strong</strong> and <em>emphasis</em> inside body text.' },
+  { name: 'Inline code', cls: '', spec: 'mono · 0.875em · gray 950 at 6% · 35% dark', sample: 'Install with <code>pip install syft</code>.' },
+  { name: 'Keyboard', cls: '', spec: 'mono · line-style outline', sample: 'Press <kbd>Esc</kbd> to close.' },
 ];
-/** Text styles other than headings: v2 token where one exists, else the live site's value (openmined.org typography.css / base.css). */
-const STYLES: { name: string; spec: string; source: string; style: string; sample: string }[] = [
-  { name: 'Body', spec: 'Inter 400 · 1rem · lh 1.5 · --text-body', source: '--font-size-md', style: 'font-size:var(--font-size-md);line-height:1.5', sample: 'Researchers can answer questions about data they never see.' },
-  { name: 'Small', spec: 'Inter 400 · 0.875rem · lh 1.5', source: '--font-size-sm', style: 'font-size:var(--font-size-sm);line-height:1.5', sample: 'Supporting text: descriptions, captions, notes.' },
-  { name: 'Lead', spec: 'Inter 400 · 21px · lh 1.4 · muted', source: 'live .text-subtitle · no token yet', style: 'font-size:21px;line-height:1.4;color:var(--text-muted)', sample: 'An introduction that sits under a page title.' },
-  { name: 'Label', spec: 'Inter 500 · 1rem', source: '--font-size-md · forms', style: 'font-size:var(--font-size-md);font-weight:500;color:var(--text-headline)', sample: 'Email Address' },
-  { name: 'Caption', spec: 'Inter 500 · 11px', source: 'live .text-caption · no token yet', style: 'font-size:11px;font-weight:500', sample: 'Figure 1. Data stays with its owner.' },
-  { name: 'Eyebrow', spec: 'live: body text, no style of its own', source: 'live .text-eyebrow · open', style: 'font-size:var(--font-size-md)', sample: 'Federated learning' },
-  { name: 'Strong, emphasis', spec: 'Inter 600 · italic', source: 'element defaults', style: '', sample: '<b>Strong</b> and <em>emphasis</em> inside body text.' },
-  { name: 'Inline code', spec: 'Mono · 0.875em', source: 'element default', style: '', sample: 'Install with <code>pip install syft</code>.' },
-];
-const NAV: [string, string][] = [['sizes', 'Text sizes'], ['styles', 'Text styles'], ['prose', 'Prose'], ['families', 'Families'], ['scale', 'Heading scale'], ['how', 'Where it stands'], ['decisions', 'Decisions'], ['see', 'See it']];
+/* Text colors: each role's step and value per mode, and its contrast on each surface. */
+const SURFACES = ['sunken', 'base', 'raise-1', 'raise-2'];
+const TEXT = [
+  { t: 'text-headline', use: 'Headings, strong text, labels.' },
+  { t: 'text-body', use: 'Body text, interface text.' },
+  { t: 'text-muted', use: 'Secondary text: the lead, captions, notes, placeholders.' },
+].map(r => ({ ...r, modes: MODES.map(m => ({ m, step: (target(m, r.t) ?? '').replace('-', ' '), hex: hex(m, r.t), min: Math.min(...SURFACES.map(s => contrast(hex(m, r.t), hex(m, `surface-${s}`)))) })) }));
+const RHYTHM = ['--prose-gap', '--prose-gap-wide', '--prose-gap-section', '--prose-gap-break', '--prose-gap-h2', '--prose-gap-h3', '--prose-gap-h4', '--prose-gap-h5'];
+const CODE = { type: componentCode(['type']), prose: componentCode(['prose']) };
+const NAV: [string, string][] = [['scale', 'Heading scale'], ['styles', 'Text styles'], ['color', 'Text color'], ['prose', 'Prose'], ['families', 'Families'], ['leading', 'Leading and weights'], ['guidance', 'Guidance'], ['decisions', 'Decisions'], ['see', 'See it']];
 const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="typography">
-  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="two v2 text sizes so far" />
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
 
-  <section class="band" id="sizes">
+  <section class="band" id="scale">
     <div class="wrap">
-      <header class="sec"><h2>Text sizes</h2><p>The first v2 type tokens: the body size and a small size for supporting text, both regular weight by default. The full scale comes with the type round.</p><p class="status">Status: <b>exploring</b></p></header>
-      <div class="text-sizes">
-        <p style="font-size:var(--font-size-md)"><code>--font-size-md</code> · 1rem. Body text: reading text, form labels, values and options.</p>
-        <p style="font-size:var(--font-size-sm)"><code>--font-size-sm</code> · 0.875rem. Supporting text: form descriptions, captions, notes.</p>
-      </div>
-      <TokenTable names={foundation.tokens.filter(t => t.startsWith('--font-size-'))} />
+      <header class="sec"><h2>Heading scale</h2><p class="measure">Each level grows with the window between its minimum and maximum, reaching the maximum at the 1300px page width. Resize the window to see them move.</p></header>
+      <article class="card">
+        <div class="type-scale type-specimen">
+          {LEVELS.map(l => (
+            <div class="type-scale__row">
+              <span class="type-scale__meta"><b>h{l.n}</b><span>{l.face}</span><span>{l.min} → {l.max}{l.n >= 5 ? ` (${l.n === 5 ? '20' : '18'}px in a long read)` : ''}</span><code>--font-size-h{l.n}-min/max</code></span>
+              <p class={`h${l.n}`}>Data stays where it lives</p>
+            </div>
+          ))}
+        </div>
+      </article>
+      <BuildRef code={CODE.type} tokens={[...LEVELS.flatMap(l => [`--font-size-h${l.n}-min`, `--font-size-h${l.n}-max`]), '--font-size-prose-h5-max', '--font-size-prose-h6-max']} />
     </div>
   </section>
 
   <section class="band" id="styles">
     <div class="wrap">
-      <header class="sec"><h2>Text styles</h2><p>The styles besides headings that pages need. Body and small use the v2 text sizes; the rest show the live site's values until the type round gives them tokens. Links are on the <a href="/interface/#links">Interface</a> page.</p></header>
+      <header class="sec"><h2>Text styles</h2><p class="measure">Four text sizes and the styles built on them, with the inline elements text carries.</p></header>
       <article class="card">
-        <div class="tbl-wrap">
-          <table class="tbl text-styles">
-            <thead><tr><th>Style</th><th>Spec</th><th>From</th><th>Sample</th></tr></thead>
-            <tbody>{STYLES.map(t => <tr><td><b>{t.name}</b></td><td>{t.spec}</td><td><code>{t.source}</code></td><td class="text-styles__sample" style={t.style}><Fragment set:html={t.sample} /></td></tr>)}</tbody>
-          </table>
+        <div class="type-styles type-specimen">
+          {STYLES.map(s => (
+            <div class="type-styles__row">
+              <span class="type-scale__meta"><b>{s.name}</b><span>{s.spec}</span>{s.cls && <code>.{s.cls}</code>}</span>
+              <p class={s.cls || undefined} set:html={s.sample} />
+            </div>
+          ))}
+          <div class="type-styles__row">
+            <span class="type-scale__meta"><b>Measure</b><span>640px reading width, outside an article</span><code>.measure</code></span>
+            <p class="measure">A section intro or a hero's lead keeps to a reading width, so its lines stay comfortable to read however wide the page runs. Without a measure, a paragraph on a wide screen stretches across the whole layout and the eye loses its place at the start of each line.</p>
+          </div>
+          <div class="type-styles__row">
+            <span class="type-scale__meta"><b>Blockquote</b><span>line style on the left</span></span>
+            <blockquote><p>We could finally study the whole population, not the slice we were allowed to copy.</p><cite>A researcher, 2026</cite></blockquote>
+          </div>
         </div>
       </article>
+      <BuildRef code={CODE.type} tokens={['--font-size-xs', '--font-size-sm', '--font-size-md', '--font-size-lg-min', '--font-size-lg', '--measure']} />
+    </div>
+  </section>
+
+  <section class="band" id="color">
+    <div class="wrap">
+      <header class="sec"><h2>Text color</h2><p class="measure">Three roles carry all text. Each names a gray step per mode and reaches AA (4.5:1) on every surface in both.</p></header>
+      <div class="text-colors">
+        {TEXT.map(r => (
+          <article class="card text-color">
+            <span class="text-color__chip" style={`background:var(--${r.t})`} aria-hidden="true"></span>
+            <div class="text-color__about">
+              <b><code>--{r.t}</code></b>
+              <span>{r.use}</span>
+              {r.modes.map(x => <span class="text-color__mode">{x.m}: {x.step} · {x.hex} · lowest {x.min.toFixed(2)}:1</span>)}
+            </div>
+            <div class="text-color__levels">
+              {SURFACES.map(s => <span class={`text-color__level text-color__level--${s}`} style={`color:var(--${r.t})`}>Aa {s}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+      <BuildRef tokens={TEXT.map(r => `--${r.t}`)} />
     </div>
   </section>
 
   <section class="band" id="prose">
     <div class="wrap">
-      <header class="sec"><h2>Prose</h2><p>{prose.description}</p><p class="status">Status: <b>{prose.status}</b> · rhythm ported from openmined.org</p></header>
-      <article class="card">
-        <div class="om-prose content-links">
+      <header class="sec"><h2>Prose</h2><p class="measure">{prose.description} A sample long read, in the article's reading column with one breakout.</p><p class="status">Status: <b>{prose.status}</b></p></header>
+      <article class="card type-article">
+        <div class="prose prose-article content-links">
           <h2>Data stays where it lives</h2>
-          <p>Most of the world's useful data can't be shared. It sits with hospitals, publishers and governments, behind good reasons: privacy, competition, law. <a href="#prose">Attribution-based control</a> lets a researcher ask a question of that data without ever seeing it.</p>
-          <p>The owner keeps the data. The researcher gets an answer, and a record of exactly which sources produced it.</p>
+          <p>Most of the world's useful data can't be shared. It sits with hospitals, publishers and governments, behind good reasons: privacy, competition, law. Copying it to one place for research, however well meant, breaks the promises those reasons protect, so most of it is never studied at all. <a href="#prose">Attribution-based control</a> lets a researcher ask a question of that data without ever seeing it, and returns an answer with a record of where it came from.<sup><a href="#prose">1</a></sup></p>
+          <p>The owner keeps the data, on their own systems and under their own rules. The researcher gets an answer, and a record of exactly which sources produced it and under what terms. Neither has to trust the other's promises about what happens next, because each can check the record for themselves, and nothing that wasn't agreed ever crosses between them.</p>
           <h3>How a question travels</h3>
-          <p>A question goes out to every data owner that agreed to take part. Each one runs it locally and returns a result, never a row.</p>
+          <p>A question goes out to every data owner that agreed to take part. Each one reviews the code, runs it locally on data that never leaves their servers, and returns a result, never a row. The answers are combined only at the end, and only in the form the owners approved, so a study can draw on many sources without any of them giving up control of their own:</p>
           <ul>
             <li>The owner reviews the code before it runs.</li>
             <li>Only the agreed result leaves the owner's servers.</li>
             <li>Every answer is signed and logged.</li>
           </ul>
-          <blockquote><p>“We could finally study the whole population, not the slice we were allowed to copy.”</p></blockquote>
+          <figure class="breakout">
+            <div class="type-article__media" aria-hidden="true"><span>.breakout · 860px</span></div>
+            <figcaption>A figure breaks out to the wide zone; its caption follows it.</figcaption>
+          </figure>
+          <p>Approval takes a single call once an owner has read the request. The same interface that shows them the code and its stated purpose lets them approve it, decline it or ask for a change, and every decision is recorded with the request it applies to. Run it with <code>syft.approve(request)</code>, or decline it:</p>
+          <pre><code>request = datasite.requests[0]
+request.approve()</code></pre>
+          <aside class="pullquote"><p>The researcher gets an answer, never a row, and the owner never gives up a copy of their data.</p></aside>
+          <p>That single constraint shapes everything else. Because only answers leave, an owner can say yes to questions they would never have answered by handing over a copy. A badly written question returns a poor answer, not a leak, which makes the risk of saying yes one that cautious organizations can actually take.</p>
           <h4>What the owner sees</h4>
-          <p>Each request arrives with its code, its purpose and the researcher's identity. Run it with <code>syft.approve()</code> or decline it.</p>
+          <p>Each request arrives with its code, its purpose and the researcher's identity, so the owner can judge it against their own terms rather than the researcher's description of it. The review follows the same steps every time, which lets an organization train a few people to handle requests instead of sending each one to its lawyers:</p>
+          <ol>
+            <li>Read the code.</li>
+            <li>Check the purpose against the agreement.</li>
+            <li>Approve or decline.</li>
+          </ol>
+          <blockquote><p>We could finally study the whole population, not the slice we were allowed to copy.</p><cite>A researcher, 2026</cite></blockquote>
+          <table>
+            <thead><tr><th>Step</th><th>Who</th><th>What leaves</th></tr></thead>
+            <tbody>
+              <tr><td>Ask</td><td>Researcher</td><td>A question and its code</td></tr>
+              <tr><td>Review</td><td>Data owner</td><td>Nothing</td></tr>
+              <tr><td>Answer</td><td>Data owner</td><td>The agreed result</td></tr>
+            </tbody>
+          </table>
           <h5>A fifth-level heading</h5>
-          <p>Inter 600 in prose, where the display face would be too large.</p>
+          <p>In a long read, h5 and h6 switch to Inter at 600, where the display face would be too large for a heading this close to the text. They mark groups inside a section, and they stay clearly apart from the paragraphs around them without competing with the section's own heading.</p>
           <h6>A sixth-level heading</h6>
-          <p>The smallest heading, still distinct from body text.</p>
+          <p>The smallest heading, still apart from body text. It suits a run of short labeled passages, such as the steps of a method or the answers in a list of questions, where each needs a name but none deserves a break of its own.</p>
+          <p class="prose-divider" aria-hidden="true">⬩⬩⬩</p>
+          <p>A divider marks a break between passages, with more air than a heading.</p>
           <hr />
-          <p class="om-prose__small">Small text closes a section: a source, a note, a date. Updated 9 October 2026.</p>
+          <p class="text-small">Small text closes a long read: a source, a note, a date. <sup>1</sup> Footnotes take no underline on their marker.</p>
         </div>
       </article>
-      <div class="notes"><div><ul>
-        <li><b>Ported:</b> the flow rhythm (16px between blocks), each heading's break (32 before and 24 after an h2; 24 before and 16 after h3–h6), stacked headings, the rule, list and quote treatment, and the live heading sizes.</li>
-        <li><b>Left in the website:</b> heading downsizing per post, the WordPress shims and the opt-in spacious sections.</li>
-        <li><b>Open for Bennett:</b> whether a minimal prose rhythm belongs in the brand at all. The type plan's lean is rhythm yes, the elaborate cascade no; this example shows that minimal version.</li>
-      </ul></div></div>
+      <details class="type-long">
+        <summary>A longer long read, for reviewing rhythm and flow</summary>
+        <article class="card type-article">
+          <LongRead />
+        </article>
+      </details>
+      <BuildRef code={CODE.prose} tokens={[...RHYTHM, '--line-height-prose', '--prose-content', '--prose-wide']} />
     </div>
   </section>
 
   <section class="band" id="families">
     <div class="wrap">
-      <header class="sec"><h2>Families</h2><p>Rubik and Inter are Google Fonts, so they also work in Google Docs without add-ons. Code takes the system's monospace.</p></header>
+      <header class="sec"><h2>Families</h2><p class="measure">Rubik and Inter are Google Fonts, so they also work in Google Docs without add-ons. Code takes the system's monospace.</p></header>
       <div class="families">
         <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-display)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
         <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-body)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
         <article class="card"><span class="muted">Code · the system's monospace</span><p class="family__sample" style="font-family: var(--font-mono)">Mono</p><p class="muted" style="font-family: var(--font-mono)">syft.approve(request)</p></article>
       </div>
-      <TokenTable names={foundation.tokens.filter(t => !t.startsWith('--font-size-'))} />
+      <BuildRef tokens={['--font-display', '--font-body', '--font-mono']} />
     </div>
   </section>
 
-  <section class="band" id="scale">
+  <section class="band" id="leading">
     <div class="wrap">
-      <header class="sec"><h2>Heading scale</h2><p>Rendered with the website's fluid sizes: each level scales with the viewport between a minimum and a maximum. v1 uses the maximum at every width. Resize the window to see them move.</p></header>
-      <article class="card">
-        <div class="ladder-type">
-          {LADDER.map(l => (
-            <div class="ladder-type__row">
-              <span class="ladder-type__meta"><b>{l.tag}</b><span>{l.family} 400 · lh {l.lh}</span><span>v1: {l.v1}px fixed</span><span>web: {l.min}–{l.max}px</span></span>
-              <span class="ladder-type__sample" style={`font-family: ${l.family === 'Rubik' ? 'var(--font-display)' : 'var(--font-body)'}; font-size: clamp(${l.min}px, ${l.vw}vw, ${l.max}px); line-height: ${l.lh}`}>Attribution-based control</span>
-            </div>
-          ))}
-        </div>
-      </article>
+      <header class="sec"><h2>Leading and weights</h2><p class="measure">Leading is unitless, so it follows each text's own size; the display levels tighten as they grow. The display face takes slight tracking.</p></header>
+      <TokenTable names={['--line-height-h1', '--line-height-h2', '--line-height-h3', '--line-height-h4', '--line-height-h5', '--line-height-lead', '--line-height-text', '--line-height-prose', '--font-weight-regular', '--font-weight-medium', '--font-weight-semibold', '--font-weight-bold', '--tracking-display']} />
     </div>
   </section>
 
-  <section class="band" id="how">
+  <section class="band" id="guidance">
     <div class="wrap">
-      <header class="sec"><h2>Where it stands</h2></header>
-      <div class="prose"><Content /></div>
+      <header class="sec"><h2>Guidance</h2></header>
+      <div class="guide-prose"><foundation.Content /></div>
+      <div class="guide-prose"><h2>{prose.title}</h2><prose.Content /></div>
     </div>
   </section>
 
   <section class="band" id="decisions">
     <div class="wrap">
-      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <header class="sec"><h2>Decisions</h2><p class="measure">Why things are the way they are, oldest first. Open a row for the full record.</p></header>
       <DecisionList docs={decisions} />
     </div>
   </section>
@@ -149,8 +212,8 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/v1/#typography"><h3 class="card__h">v1 reference: typography <Fragment set:html={ARR} /></h3><p>The released type specimen, with prose.</p></a>
-        <a class="card card--link" href="https://openmined.org/"><h3 class="card__h">openmined.org <Fragment set:html={ARR} /></h3><p>The live site, where the fluid system runs on real pages.</p></a>
+        <a class="card card--link" href="https://openmined.org/"><h3 class="card__h">openmined.org <Fragment set:html={ARR} /></h3><p>The live site, where this type system runs on real pages.</p></a>
+        <a class="card card--link" href="/v1/#typography"><h3 class="card__h">v1 reference: typography <Fragment set:html={ARR} /></h3><p>The released type specimen.</p></a>
       </div>
     </div>
   </section>

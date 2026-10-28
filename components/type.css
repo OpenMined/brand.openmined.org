@@ -1,0 +1,104 @@
+/* ════════════════════════════════════════════════════════════════════
+   TYPE — v2 component (design/foundations/typography.md), working
+   ════════════════════════════════════════════════════════════════════
+   Body text, the heading scale, the text styles and the inline elements.
+   Needs: the v2 tokens, and the fonts: Rubik 400, and Inter 400, 500, 600,
+   700 and 400 italic, from Google Fonts (paste into <head>):
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
+   No script. Carried from openmined.org's type
+   system with obvious cleanup (2026-10-28).
+
+   Markup:
+     <h1>Page title</h1>                     or any element with class="h1" … "h6"
+     <p class="text-lead">An introduction under the title.</p>   (fluid: 18 → 21px)
+     <p>Body text, with <strong>strong</strong>, <em>emphasis</em> and <code>code</code>.</p>
+     <p class="text-small">Supporting text: a note, a source.</p>
+     <p class="text-caption">A label on a graphic</p>
+     <blockquote><p>A quotation, set off by a line.</p></blockquote>
+     <p class="measure">Text kept to a reading width, outside an article.</p>
+
+   Headings are fluid: each grows with the window between its minimum and
+   maximum tokens, reaching the maximum at the 1300px page width (the rate is
+   max / 13 vw). h1–h4 are Rubik 400, with leading that tightens as they grow
+   (1.05 to 1.2) and slight tracking (-0.01em); h5–h6 are Inter 400 on pages and
+   in interfaces, Inter 600 at a smaller maximum in a long read (type round,
+   2026-10-28). A surface that needs a
+   smaller ceiling caps the heading with its own maximum, never a new size:
+     .page-hero h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, 3rem); }
+   Headings balance their lines and paragraphs avoid a lone last word. */
+body {
+  font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-text); color: var(--text-body);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Headings ─────────────────────────────────────────────────────────
+   Each level as the element, as a class (style without the tag) and inside a
+   long read; the selectors are a list, so each keeps its own weight. */
+h1, .h1, .prose h1, h2, .h2, .prose h2, h3, .h3, .prose h3, h4, .h4, .prose h4 {
+  font-family: var(--font-display); font-weight: var(--font-weight-regular);
+  color: var(--text-headline); letter-spacing: calc(var(--tracking-display) * 1em);
+  text-wrap: balance;
+}
+h5, .h5, .prose h5, h6, .h6, .prose h6 {
+  font-family: var(--font-body); font-weight: var(--font-weight-regular);
+  color: var(--text-headline); letter-spacing: 0;
+  text-wrap: balance;
+}
+h1, .h1, .prose h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, var(--font-size-h1-max)); line-height: var(--line-height-h1); }
+h2, .h2, .prose h2 { font-size: clamp(var(--font-size-h2-min), 3.62vw, var(--font-size-h2-max)); line-height: var(--line-height-h2); }
+h3, .h3, .prose h3 { font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max)); line-height: var(--line-height-h3); }
+h4, .h4, .prose h4 { font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); line-height: var(--line-height-h4); }
+h5, .h5 { font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); line-height: var(--line-height-h5); }
+h6, .h6 { font-size: clamp(var(--font-size-h6-min), 1.54vw, var(--font-size-h6-max)); line-height: var(--line-height-text); }
+/* In a long read, h5 and h6 step up in weight and down in size, so they stay
+   apart from each other and from body text (openmined.org's prose treatment). */
+.prose h5 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h5-min), 1.54vw, var(--font-size-prose-h5-max)); line-height: var(--line-height-text); }
+.prose h6 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h6-min), 1.38vw, var(--font-size-prose-h6-max)); line-height: var(--line-height-text); }
+
+p, li, blockquote, figcaption, dd { text-wrap: pretty; }
+strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+
+/* ── Text styles ──────────────────────────────────────────────────────
+   Lead: the introduction under a page title. Small: supporting text. Caption:
+   the smallest text, labels on graphics. Eyebrow: a short label over a
+   heading, in body text (a hook; it adds nothing of its own). */
+.text-lead { font-size: clamp(var(--font-size-lg-min), 1.62vw, var(--font-size-lg)); line-height: var(--line-height-lead); color: var(--text-muted); }
+.text-small { font-size: var(--font-size-sm); line-height: var(--line-height-text); }
+.text-caption { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text); }
+.text-eyebrow { font-size: var(--font-size-md); }
+
+/* Measure: text outside an article kept to a reading width (a hero's lead, a
+   section intro). The same width as the article column by default; set
+   --measure on the element for another. */
+.measure { max-width: var(--measure); }
+
+/* ── Inline elements ──────────────────────────────────────────────────
+   Code: the mono family, a touch smaller than the text around it, on a tint of
+   the code block's own ground (gray 950), so it is always darker than the
+   surface, like the block: 6% in light mode (the edge of visible), 35% in dark,
+   where a dark tint needs more to show (type review, 2026-10-28). The strength
+   follows the mode and the section contexts, as the tokens do. A block of code (pre) is always dark,
+   in both modes, so highlighted code reads the same everywhere. */
+:root, [data-section="always-light"], [data-theme="dark"] [data-section="invert"] { --code-tint: 6%; }
+[data-theme="dark"], [data-section="always-dark"], [data-section="invert"] { --code-tint: 35%; }
+code {
+  font-family: var(--font-mono); font-size: 0.875em;
+  padding: 0.15em 0.35em; border-radius: var(--radius-sm); color: var(--text-headline);
+  background: color-mix(in oklch, var(--gray-950) var(--code-tint), transparent);
+}
+pre {
+  font-family: var(--font-mono); font-size: var(--font-size-sm); line-height: var(--line-height-text);
+  padding: var(--spacing-lg) var(--spacing-xl); border-radius: var(--radius-md); overflow-x: auto;
+  background: var(--gray-950); color: var(--gray-50);
+}
+pre code { padding: 0; border-radius: 0; background: none; color: inherit; font-size: inherit; }
+kbd {
+  font-family: var(--font-mono); font-size: 0.875em; padding: 0.1em 0.4em; border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); color: var(--text-headline);
+}
+/* Blockquote: a quotation, set off by the line style on its left. */
+blockquote { padding-left: var(--spacing-lg); border-left: var(--stroke-sm) solid var(--line-strong); }
+blockquote cite, blockquote footer { display: block; margin-top: var(--spacing-sm); font-size: var(--font-size-sm); font-style: normal; color: var(--text-muted); }

@@ -7,6 +7,15 @@ these files are the code. All `exploring` until the v2 release.
 
 ## Use
 
+**Fonts.** The type module needs Rubik 400, and Inter 400, 500, 600, 700 and 400
+italic. Paste into `<head>`:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
+```
+
 1. Load the v2 tokens: `src/tokens/v2/tokens.css` (generated from `tokens/`).
 2. Load only the component CSS a page uses, or `index.css` for all of them.
 3. For components that move, import their script and call its function once the
@@ -38,6 +47,8 @@ motion itself.
 | Component | CSS | Script | Guidance |
 |---|---|---|---|
 | Page container, 12-column grid, article grid and breakouts | `layout.css` | none | `design/foundations/spacing.md` |
+| Body text, headings, text styles, code, blockquote | `type.css` | none | `design/foundations/typography.md` |
+| Long reads: rhythm, lists, figures, captions, tables, pull quote | `prose.css` | none | `design/patterns/prose.md` |
 | Button | `button.css` | none | `design/components/button.md` |
 | Button hover (color in motion) | `button-hover.css` | `button-hover.js`, `buttonHover()` | `design/components/button.md` |
 | Field, form layout, errors | `field.css` | `field.js`, `fieldLights()` (pointer light) | `design/components/form-field.md` |

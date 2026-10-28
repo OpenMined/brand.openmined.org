@@ -2,7 +2,7 @@
 type: Guideline
 title: One label color per step
 description: A step takes the same label color in every hue.
-status: exploring
+status: working
 tags: [color]
 tokens: [--on-solid]
 ---

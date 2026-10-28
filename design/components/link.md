@@ -2,7 +2,7 @@
 type: Component
 title: Links
 description: Link text never changes color. A link with an underline gets the accent drawn over it on hover; a link without one draws an underline in its own color.
-status: exploring
+status: working
 tags: [interface]
 tokens: [--gradient-spectrum, --line-strong, --stroke-sm, --text-headline, --font-size-md]
 ---

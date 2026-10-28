@@ -2,7 +2,7 @@
 type: Decision
 title: If color, then motion
 description: Color used for expression moves while it's on screen, or arrives with an interaction. Color that carries meaning is exempt, and so is the logo. A working rule to test, not a settled one.
-status: exploring
+status: working
 date: 2026-10-12
 tags: [color, graphics, interface]
 ---

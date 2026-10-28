@@ -2,7 +2,7 @@
 type: Component
 title: Form controls
 description: Fields are flat at rest, light up under the pointer on hover and take a gray line with the inset on focus. Checkboxes, radios and toggles are small recesses that cast at rest and take the fields' outline and line. Errors are colored text, not a box.
-status: exploring
+status: working
 tags: [interface]
 tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
 ---

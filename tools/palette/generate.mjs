@@ -18,7 +18,8 @@
  *   node tools/palette/generate.mjs --report  print every step's L / C / H
  *
  * Pinned steps are agreed values: copied, never recomputed (status `working`).
- * New steps are provisional (status `exploring`) until tuned and display-checked.
+ * New steps take the status inputs.json sets in new_steps_status (`exploring`
+ * until reviewed; `working` since 2026-10-28, Kyle). They stay generated.
  * The color maths matches src/pages/rounds/_working.ts exactly, so a pinned
  * color renders byte-for-byte as it does on the working pages today.
  */
@@ -148,7 +149,7 @@ function colorValue(hex) {
   return { colorSpace: 'oklch', components: [r4(L / 100), r4(C), r2(H)], hex };
 }
 function colorToken(st, extra = {}) {
-  const meta = { status: st.pinned ? 'working' : 'exploring', generated: true, pinned: Boolean(st.pinned) };
+  const meta = { status: st.pinned ? 'working' : (IN.new_steps_status ?? 'exploring'), generated: true, pinned: Boolean(st.pinned) };
   if (st.was) meta.was = st.was;
   if (st.rule) meta.rule = st.rule;
   if (st.clipped) meta.gamutMapped = true;

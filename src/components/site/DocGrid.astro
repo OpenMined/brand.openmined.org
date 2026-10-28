@@ -12,7 +12,7 @@ const anchor = (slug: string) => slug.replace(/\//g, '-');
     <article class="doc" id={anchor(d.slug)}>
       <h3>{d.title}</h3>
       <span class="doc__meta">{meta === 'date' ? day(d.data.date) : d.type} · {d.status}</span>
-      <div class="prose"><d.Content /></div>
+      <div class="guide-prose"><d.Content /></div>
     </article>
   ))}
 </div>

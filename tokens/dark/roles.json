@@ -46,8 +46,7 @@
       "$description": "Dividers: a single edge between two things.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "placeholder": "text-and-lines round"
+          "status": "working"
         }
       }
     },
@@ -56,8 +55,7 @@
       "$description": "The line style: outlines, the secondary button's outline, link underlines. The same gray step as text.body (Kyle, 2026-10-12), so every drawn line matches; never a container (decision 2026-10-12).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "placeholder": "text-and-lines round"
+          "status": "working"
         }
       }
     },
@@ -66,7 +64,7 @@
       "$description": "The focus line on form controls: a field's edge on focus, 1px outside a checkbox, radio or toggle. Reaches 3:1 on every surface and the field's fill (gray-500 in light, gray-400 in dark; decision 2026-10-27).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring"
+          "status": "working"
         }
       }
     }
@@ -78,8 +76,7 @@
       "$description": "Titles.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "placeholder": "text-and-lines round"
+          "status": "working"
         }
       }
     },
@@ -88,8 +85,7 @@
       "$description": "Running text.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "placeholder": "text-and-lines round"
+          "status": "working"
         }
       }
     },
@@ -98,8 +94,7 @@
       "$description": "Captions, labels.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
-          "placeholder": "text-and-lines round"
+          "status": "working"
         }
       }
     }
@@ -140,7 +135,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{violet.300}"
         }
       }
@@ -198,7 +193,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{blue.300}"
         }
       }
@@ -256,7 +251,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{teal.300}"
         }
       }
@@ -314,7 +309,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{green.300}"
         }
       }
@@ -372,7 +367,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{amber.300}"
         }
       }
@@ -430,7 +425,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "was": "{red.300}"
         }
       }

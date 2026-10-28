@@ -97,7 +97,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH lerp from gray 200 to gray 600 at t, t = 0.25",
@@ -117,26 +117,26 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.6448,
-          0.0281,
-          290.42
+          0.6577,
+          0.0265,
+          290.75
         ],
-        "hex": "#8d8b9e"
+        "hex": "#918fa1"
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
-          "rule": "OKLCH lerp from gray 200 to gray 600 at t, t = 0.5",
+          "rule": "OKLCH lerp from gray 200 to gray 600 at t, t = 0.475",
           "beforeBoost": {
             "colorSpace": "oklch",
             "components": [
-              0.6455,
-              0.0207,
-              289.09
+              0.6588,
+              0.0206,
+              289.1
             ],
-            "hex": "#8d8c9a"
+            "hex": "#91909e"
           }
         }
       }
@@ -145,26 +145,26 @@
       "$value": {
         "colorSpace": "oklch",
         "components": [
-          0.5179,
-          0.0361,
-          291.06
+          0.4911,
+          0.0382,
+          292.57
         ],
-        "hex": "#68657c"
+        "hex": "#615d75"
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
-          "rule": "OKLCH lerp from gray 200 to gray 600 at t, t = 0.75",
+          "rule": "OKLCH lerp from gray 200 to gray 600 at t, t = 0.8",
           "beforeBoost": {
             "colorSpace": "oklch",
             "components": [
-              0.5185,
-              0.0282,
-              290.48
+              0.4917,
+              0.0302,
+              292.49
             ],
-            "hex": "#686678"
+            "hex": "#615e71"
           }
         }
       }

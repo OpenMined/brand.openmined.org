@@ -2,7 +2,7 @@
 type: Decision
 title: "Fields light up on hover and take a gray line on focus"
 description: "Grayscale field states: a soft light that follows the pointer and a gray outline on hover; a solid 1px gray-500 line with the inset on focus."
-status: exploring
+status: working
 date: 2026-10-17
 tags: [interface]
 tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-500, --white]

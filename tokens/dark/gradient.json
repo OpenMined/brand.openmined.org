@@ -145,7 +145,7 @@
       "$description": "Extra stop: graphics only, not in the spectrum.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": true,
           "was": "fitted stop #b83e7c × 1"
@@ -271,7 +271,7 @@
       "$description": "Color that moves behind a white label (button hover, motion round option F): the wheel in hue keys only, green → teal → blue → violet → red → amber → green, so the label never drops below the green key's contrast (about 3.8:1). The spectrum's fitted stops (gold, orange, lime, yellow) stay for graphics; white on them is 1.3–2.5:1 (2026-10-13).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -315,7 +315,7 @@
       "$description": "The gradient map (<om-mesh>): one color per point, in the embed's point order (top, top left, left, bottom-left corner, bottom left, bottom middle, bottom right, right). Matches the live raster: magenta on the left, no blue (Bennett, 2026-10-08: 'red on the left is too red, blue area too heavy'). A list entry is a gradient stop name, or a hue step such as violet.400.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -326,7 +326,7 @@
       "$description": "Two-tone red, base stop (red.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -337,7 +337,7 @@
       "$description": "Two-tone red, lighter stop (red.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -348,7 +348,7 @@
       "$description": "Two-tone red, companion stop (amber.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -359,7 +359,7 @@
       "$description": "Two-tone red, darker stop (red.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -391,7 +391,7 @@
       "$description": "Two-tone red: its own steps, with amber passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -402,7 +402,7 @@
       "$description": "Two-tone amber, base stop (amber.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -413,7 +413,7 @@
       "$description": "Two-tone amber, lighter stop (amber.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -424,7 +424,7 @@
       "$description": "Two-tone amber, companion stop (gradient.gold).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -435,7 +435,7 @@
       "$description": "Two-tone amber, darker stop (amber.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -467,7 +467,7 @@
       "$description": "Two-tone amber: its own steps, with gold passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -478,7 +478,7 @@
       "$description": "Two-tone green, base stop (green.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -489,7 +489,7 @@
       "$description": "Two-tone green, lighter stop (green.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -500,7 +500,7 @@
       "$description": "Two-tone green, companion stop (gradient.lime).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -511,7 +511,7 @@
       "$description": "Two-tone green, darker stop (green.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -543,7 +543,7 @@
       "$description": "Two-tone green: its own steps, with lime passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -554,7 +554,7 @@
       "$description": "Two-tone teal, base stop (teal.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -565,7 +565,7 @@
       "$description": "Two-tone teal, lighter stop (teal.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -576,7 +576,7 @@
       "$description": "Two-tone teal, companion stop (green.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -587,7 +587,7 @@
       "$description": "Two-tone teal, darker stop (teal.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -619,7 +619,7 @@
       "$description": "Two-tone teal: its own steps, with green passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -630,7 +630,7 @@
       "$description": "Two-tone blue, base stop (blue.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -641,7 +641,7 @@
       "$description": "Two-tone blue, lighter stop (blue.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -652,7 +652,7 @@
       "$description": "Two-tone blue, companion stop (violet.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -663,7 +663,7 @@
       "$description": "Two-tone blue, darker stop (blue.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -695,7 +695,7 @@
       "$description": "Two-tone blue: its own steps, with violet passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -706,7 +706,7 @@
       "$description": "Two-tone violet, base stop (violet.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -717,7 +717,7 @@
       "$description": "Two-tone violet, lighter stop (violet.400).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -728,7 +728,7 @@
       "$description": "Two-tone violet, companion stop (red.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -739,7 +739,7 @@
       "$description": "Two-tone violet, darker stop (violet.600).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -771,7 +771,7 @@
       "$description": "Two-tone violet: its own steps, with red passing through once.",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -782,7 +782,7 @@
       "$description": "Highlight on a red line (amber.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -793,7 +793,7 @@
       "$description": "Highlight on a amber line (gradient.gold).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -804,7 +804,7 @@
       "$description": "Highlight on a green line (gradient.lime).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -815,7 +815,7 @@
       "$description": "Highlight on a teal line (green.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -826,7 +826,7 @@
       "$description": "Highlight on a blue line (teal.key).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }
@@ -837,7 +837,7 @@
       "$description": "Highlight on a violet line (gradient.magenta).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true
         }
       }

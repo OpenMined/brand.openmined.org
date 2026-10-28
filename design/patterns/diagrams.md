@@ -1,12 +1,12 @@
 ---
 type: Pattern
 title: Explanatory diagrams
-description: Two directions for diagrams, drawn on the first three graphics of the Attribution-Based Control article. Not yet chosen.
-status: exploring
+description: Diagrams use attribution in color (direction A), drawn on the first three graphics of the Attribution-Based Control article; the technical plate (direction B) is kept for comparison.
+status: working
 tags: [graphics]
 ---
 
-**Status.** Direction A, with its motion, is ready for review; direction B is kept for comparison. The article text is kept verbatim; only the figures change.
+**Status.** Direction A, attribution in color, with its motion, is the working approach (Kyle, 2026-10-28); direction B is kept for comparison. The article text is kept verbatim; only the figures change.
 
 **Direction A, attribution in color.** Color carries the argument: each data source keeps a hue. In traditional AI the colors drain to gray inside the model; with attribution-based control they arrive intact and ring the answer. The second graphic becomes rings spreading outward, ordered by scale.
 
@@ -18,6 +18,5 @@ tags: [graphics]
 
 ## Still open
 
-- Pick, redirect or combine the directions (a hybrid of B's cards and A's colors is possible).
 - The rings' weak spots: one ring is a different kind of level, concentric rings can read as containment, and the figure shows five levels where the text names four.
 - At phone width the diagram labels shrink to about 8–9px.

@@ -2,7 +2,7 @@
 type: Guideline
 title: Outlines are lines, not containers
 description: An outline may surround an area only when the same surface shows inside and outside it. Never a bordered box with a different fill inside.
-status: exploring
+status: working
 tags: [surfaces]
 tokens: [--line, --line-strong, --stroke-sm, --stroke-md]
 ---
@@ -15,6 +15,6 @@ tokens: [--line, --line-strong, --stroke-sm, --stroke-md]
 
 **Exception: surface examples.** A specimen that shows the `base` level, such as a panel demonstrating the four levels on a page of the same color, may take a 1px `--line` hairline around it. A base panel on a base page has no other edge. Keep this to brand and surface examples.
 
-**Don't.** Put a border on a card that already sits on a different level, or around a fill of another color. Hide an outline with `border-color: transparent`.
+**Raised levels inside an outline.** A card or band on its own level, with its shadow, may sit inside an outlined area (decision *Raised levels may sit inside an outline*, 2026-10-28). The outline still has the page's surface on both sides; the raised thing inside keeps its level as its edge. Reviewed examples: the home page's "Start your own federated sub-network" hover card inside the outlined federated-network section (page reviews), and the system diagram on the overview, its outlined outer sections holding surfaces.
 
-*Open:* whether a band inside an outlined area may step up a level. The home page's "Start your own federated sub-network" row is built raise-1 to judge in context.
+**Don't.** Put a border on a card that already sits on a different level, or around a fill of another color. Hide an outline with `border-color: transparent`.

@@ -2,7 +2,7 @@
 type: Decision
 title: Green is the accent's color
 description: Where a color is needed and none is specified, use green through the new --accent-key. Buttons stay grayscale at rest and take it on hover.
-status: exploring
+status: working
 date: 2026-10-12
 tags: [color, interface]
 tokens: [--accent-key, --green-key]

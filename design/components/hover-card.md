@@ -2,7 +2,7 @@
 type: Component
 title: Hover cards
 description: "A card that is a link: it comes to life on hover. Icon left, text left-aligned, arrow right; on hover it lifts and tilts, a light follows the pointer, the icon takes its color and a colorflow rises in its lower third."
-status: exploring
+status: working
 tags: [interface]
 tokens: [--surface-raise-1, --surface-base, --shadow-raise-1, --shadow-raise-2, --gradient-two-tone-green, --gradient-two-tone-green-companion, --white]
 ---

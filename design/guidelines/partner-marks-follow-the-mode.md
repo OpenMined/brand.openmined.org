@@ -2,7 +2,7 @@
 type: Guideline
 title: Partner marks follow the color mode
 description: Every partner mark reads in light and dark. One-color marks take the text color; a color mark with dark ink gets a dark-mode file; the build fails on one that would vanish.
-status: exploring
+status: working
 tags: [graphics, icons]
 ---
 

@@ -13,7 +13,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100",
@@ -92,7 +92,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -187,7 +187,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -206,7 +206,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
@@ -228,7 +228,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100",
@@ -308,7 +308,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -403,7 +403,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -422,7 +422,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
@@ -444,7 +444,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100"
@@ -520,7 +520,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -617,7 +617,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -636,7 +636,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
@@ -658,7 +658,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100"
@@ -734,7 +734,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -830,7 +830,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -849,7 +849,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
@@ -871,7 +871,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100",
@@ -949,7 +949,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -1046,7 +1046,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -1065,7 +1065,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"
@@ -1087,7 +1087,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "a lighter wash: L 98.4, chroma 0.45 x step 100, hue of 100",
@@ -1167,7 +1167,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "OKLCH midpoint of 300 and the key (500)"
@@ -1262,7 +1262,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "dark-mode fill: L 22, chroma 0.8 x step 800, hue of 800"
@@ -1281,7 +1281,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "exploring",
+          "status": "working",
           "generated": true,
           "pinned": false,
           "rule": "L 16.5, chroma 0.62 x step 800, hue of 800"

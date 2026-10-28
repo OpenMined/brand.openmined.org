@@ -1,0 +1,24 @@
+---
+/**
+ * The machine detail at the end of a section: the component's files, the function
+ * to call, its reference markup (read from components/, src/lib/components.ts) and
+ * the section's tokens, collapsed so the page reads as examples and guidance first.
+ */
+import type { ComponentCode } from '../../lib/components';
+import TokenTable from './TokenTable.astro';
+interface Props { code?: ComponentCode; tokens?: string[]; label?: string }
+const { code, tokens = [], label = code ? 'Code and tokens' : 'Tokens' } = Astro.props;
+---
+<details class="build-ref">
+  <summary>{label}</summary>
+  <div class="build-ref__body">
+    {code && (
+      <p class="build-ref__files">
+        {code.css.map((f) => <code>{f}</code>)}
+        {code.js.map((j) => <code>{j.file} · {j.fns.join(', ')}</code>)}
+      </p>
+    )}
+    {code?.markup && <pre class="build-ref__markup"><code>{code.markup}</code></pre>}
+    {tokens.length > 0 && <TokenTable names={tokens} />}
+  </div>
+</details>
