@@ -1,0 +1,28 @@
+/* ════════════════════════════════════════════════════════════════════
+   STATUS CHIP — v2 component (design/components/status-chip.md), exploring
+   ════════════════════════════════════════════════════════════════════
+   A short label that says a thing's status. Needs: the v2 tokens. No script;
+   not interactive.
+
+   Markup (status: success, warning, danger or info):
+     <span class="status-chip status-chip--success">Approved</span>                       quiet
+     <span class="status-chip status-chip--strong status-chip--danger">Failed</span>      strong
+
+   Quiet (the default): no fill, a 1px ring and the text in the status's fg
+   role, over the surface it sits on (an outline as a line). Strong: the
+   status's key as the fill, white text (Color fills use the key). Fully round
+   (--radius-full), caption-size text at 500 (decision 2026-10-28). Without a
+   status, the quiet chip draws in the body text color. */
+.status-chip {
+  --chip-fg: var(--text-body); --chip-key: var(--text-headline);
+  display: inline-flex; align-items: center; gap: var(--spacing-xs);
+  padding: var(--spacing-2xs) var(--spacing-sm); border-radius: var(--radius-full);
+  font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text);
+  color: var(--chip-fg); box-shadow: inset 0 0 0 var(--stroke-sm) var(--chip-fg);
+  white-space: nowrap;
+}
+.status-chip--strong { background: var(--chip-key); color: var(--white); box-shadow: none; }
+.status-chip--success { --chip-fg: var(--success-fg); --chip-key: var(--success-key); }
+.status-chip--warning { --chip-fg: var(--warning-fg); --chip-key: var(--warning-key); }
+.status-chip--danger { --chip-fg: var(--danger-fg); --chip-key: var(--danger-key); }
+.status-chip--info { --chip-fg: var(--info-fg); --chip-key: var(--info-key); }

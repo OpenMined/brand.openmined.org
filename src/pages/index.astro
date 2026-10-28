@@ -4,7 +4,7 @@
  * The v1 reference page lives at /v1/ until v2 is released.
  */
 import Site from '../layouts/Site.astro';
-import { iconSvg } from '../lib/icons';
+import LinkCard from '../components/site/LinkCard.astro';
 import InfoDiagram from '../components/site/InfoDiagram.astro';
 import { doc } from '../lib/design';
 
@@ -14,13 +14,12 @@ const overview = doc('overview');
 const cut = overview.html.indexOf('<h2 id="principles"');
 if (cut < 0) throw new Error('overview.md: no Principles heading to place the diagram before');
 const [before, after] = [overview.html.slice(0, cut), overview.html.slice(cut)];
-const ARR = iconSvg('arrow-right');
 ---
 <Site title="Overview" description={overview.description} current="overview">
   <section class="wrap wrap--read hero">
-    <span class="eyebrow"><span class="eyebrow__dot"></span>v2 · in progress</span>
+    <p class="text-eyebrow">v2 · in progress</p>
     <h1>OpenMined Design System</h1>
-    <p class="lead">{overview.description}</p>
+    <p class="text-lead">{overview.description}</p>
     <p class="status">Status: <b>{overview.status}</b></p>
     <div class="card note-card"><p><b>This home page is a placeholder.</b> A proper front door, for people and for AI agents, comes once more of the system is decided. Start with the overview below, or a topic in the nav.</p></div>
   </section>
@@ -40,8 +39,8 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap wrap--read">
       <header class="sec"><h2>Archives</h2><p>Reachable while v2 is in progress.</p></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/rounds/"><h3 class="card__h">Review rounds <Fragment set:html={ARR} /></h3><p>Every round: when it opened, what it explored, and where its working favorites live in the guide.</p></a>
-        <a class="card card--link" href="/v1/"><h3 class="card__h">v1 reference <Fragment set:html={ARR} /></h3><p>The released brand: tokens, components, logos and embeds, as served today.</p></a>
+        <LinkCard href="/rounds/" title="Review rounds">Every round: when it opened, what it explored, and where its working favorites live in the guide.</LinkCard>
+        <LinkCard href="/v1/" title="v1 reference">The released brand: tokens, components, logos and embeds, as served today.</LinkCard>
       </div>
     </div>
   </section>

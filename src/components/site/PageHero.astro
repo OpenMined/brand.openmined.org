@@ -4,9 +4,9 @@ interface Props { eyebrow: string; title: string; description: string; status: s
 const { eyebrow, title, description, status, nav, source = 'values from the v2 token build' } = Astro.props;
 ---
 <section class="wrap hero">
-  <span class="eyebrow"><span class="eyebrow__dot"></span>{eyebrow}</span>
+  <p class="text-eyebrow">{eyebrow}</p>
   <h1>{title}</h1>
-  <p class="lead">{description}</p>
+  <p class="text-lead">{description}</p>
   <p class="status">Status: <b>{status}</b>{source && ` · ${source}`}</p>
-  <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a href={`#${id}`}>{t}</a>)}</nav>
+  <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a class="link-text" href={`#${id}`}><span class="link-text__label">{t}</span></a>)}</nav>
 </section>

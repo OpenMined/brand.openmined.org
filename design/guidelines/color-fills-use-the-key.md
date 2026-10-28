@@ -11,4 +11,4 @@ tokens: [--accent-key, --green-key]
 
 **Why.** On a large area, `solid` (600 in light mode) reads washed out next to the key; the key keeps the hue's own character (Kyle, 2026-10-12, on SyftHub's button).
 
-**Watch.** White on the key is under AA's 4.5:1 for some hues (teal 4.32, green and amber 3.8). Flagged until interface text is worked out, as on the status chips.
+**Watch.** White on the key is under AA's 4.5:1 for some hues (teal 4.32, green and amber 3.8). Flagged until interface text is worked out; accepted for now on the strong status chip (decision *Status chips: full pill, contrast accepted*, 2026-10-28).

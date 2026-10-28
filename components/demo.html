@@ -32,6 +32,7 @@
     <div class="row">
       <button class="btn btn--solid">Join the network</button>
       <a class="btn" href="#">Read the docs</a>
+      <button class="btn btn--icon" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 17L21 21M3 11C3 15.4183 6.58172 19 11 19C13.213 19 15.2161 18.1015 16.6644 16.6493C18.1077 15.2022 19 13.2053 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11Z" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
   </section>
 
@@ -98,14 +99,33 @@
       <span class="hcard__light" aria-hidden="true"></span>
     </a>
   </section>
+
+  <section>
+    <h2>Status chips</h2>
+    <div class="row">
+      <span class="status-chip status-chip--success">Approved</span>
+      <span class="status-chip status-chip--warning">Pending</span>
+      <span class="status-chip status-chip--strong status-chip--danger">Failed</span>
+      <span class="status-chip status-chip--strong status-chip--info">New</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Link card</h2>
+    <a class="lcard" href="#">
+      <span class="lcard__title">Review rounds <svg class="lcard__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="lcard__text">Every round: when it opened and what it explored.</span>
+    </a>
+  </section>
 </main>
 
 <script type="module">
-  import { buttonHover, fieldLights, hoverCards, twoTone } from './index.js';
+  import { buttonHover, fieldLights, hoverCards, linkCards, twoTone } from './index.js';
   twoTone();
   buttonHover();
   fieldLights();
   hoverCards();
+  linkCards();
   // The page's own: the switch sets the color mode.
   const mode = document.getElementById('mode');
   mode.addEventListener('click', () => {

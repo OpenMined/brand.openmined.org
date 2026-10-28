@@ -1080,6 +1080,12 @@
     "type": "dimension",
     "status": "working"
   },
+  "--spacing-section": {
+    "value": "88px",
+    "resolved": "88px",
+    "type": "dimension",
+    "status": "exploring"
+  },
   "--duration-base": {
     "value": "0.4s",
     "resolved": "0.4s",

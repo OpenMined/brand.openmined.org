@@ -13,7 +13,7 @@ tokens: [--gradient-spectrum, --line-strong, --stroke-sm, --text-headline, --fon
 
 **Text button.** An action that reads as text: a short label, usually with an icon after it (an arrow for "go", a download glyph for "download"). Weight 500, headline color. No line at rest; on hover the line slides in under the label, not under the icon. The live site's `link-hover-line`, which types an arrow as `->`, so its line runs under the arrow too; v2 uses the Iconoir arrow and keeps the line under the label (Kyle, 2026-10-12: keep as is for now).
 
-**Nav and footer links.** No underline at rest, so they work like the text button: the line on hover, and on the current page it stays. The live footer brightens its links on hover; in v2 they hold their color.
+**Nav and footer links.** No underline at rest, so they work like the text button: the line on hover, and on the current page it stays. The live footer brightens its links on hover; in v2 they hold their color. The brand guide's on-page nav follows this; its top bar keeps a sunken wash on hover and on the current page, a recorded exception until a tab nav is defined (Kyle, 2026-10-28).
 
 **Reduced motion.** The content link's underline shows at once and the colored line appears without growing or flowing; the text button's line appears without sliding.
 

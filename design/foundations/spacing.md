@@ -1,13 +1,13 @@
 ---
 type: Spacing
 title: Layout
-description: Eleven spacing steps from 2 to 48px, a 1300px page on twelve columns, an article's reading column with wide and full breakouts, three breakpoints and a fixed stacking order. The values are v1's and openmined.org's, carried over unchanged.
+description: Eleven spacing steps from 2 to 48px and a section step (88px), a 1300px page on twelve columns, an article's reading column with wide and full breakouts, three breakpoints and a fixed stacking order. The values are v1's and openmined.org's, carried over unchanged.
 status: working
 tags: [layout]
-tokens: [--spacing-3xs, --spacing-2xs, --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl, --spacing-2xl, --spacing-3xl, --spacing-4xl, --spacing-5xl, --page-width, --page-width-wide, --page-gutter, --grid-columns, --grid-gap, --grid-column, --grid-span-4, --grid-span-5, --grid-span-6, --grid-span-8, --grid-span-10, --prose-content, --prose-wide, --prose-full, --breakpoint-lg, --breakpoint-md, --breakpoint-sm, --z-below, --z-card, --z-base, --z-sticky, --z-dropdown, --z-overlay]
+tokens: [--spacing-section, --spacing-3xs, --spacing-2xs, --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl, --spacing-2xl, --spacing-3xl, --spacing-4xl, --spacing-5xl, --page-width, --page-width-wide, --page-gutter, --grid-columns, --grid-gap, --grid-column, --grid-span-4, --grid-span-5, --grid-span-6, --grid-span-8, --grid-span-10, --prose-content, --prose-wide, --prose-full, --breakpoint-lg, --breakpoint-md, --breakpoint-sm, --z-below, --z-card, --z-base, --z-sticky, --z-dropdown, --z-overlay]
 ---
 
-**Spacing.** Eleven steps: 2, 4, 6, 8, 12, 16, 20, 24, 32, 40 and 48px (`--spacing-3xs` to `--spacing-5xl`). They are v1's steps unchanged, renamed lowercase to match the other v2 sizes (2026-10-27). Use a step for every gap, padding and margin, never a value between them. v1's 88px step (`--spacing-full`) was not carried: nothing in v2 uses it.
+**Spacing.** Eleven steps: 2, 4, 6, 8, 12, 16, 20, 24, 32, 40 and 48px (`--spacing-3xs` to `--spacing-5xl`). They are v1's steps unchanged, renamed lowercase to match the other v2 sizes (2026-10-27). Use a step for every gap, padding and margin, never a value between them. v1's 88px step returns as `--spacing-section`, the space above and below each section of a page (the brand guide's bands), exploring (2026-10-28).
 
 How each step is used today comes from the components: a field's parts sit `xs` apart, options in a list `sm`, buttons in a row `md`, a hover card's icon and text `lg`, cards in a row `xl`, fields in a form `2xl`; a hover card is padded `4xl` top and bottom and `3xl` at the sides, `5xl` top and bottom when large. The 2 and 4px steps aren't used yet.
 

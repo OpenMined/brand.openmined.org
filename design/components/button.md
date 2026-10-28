@@ -7,7 +7,7 @@ tags: [interface]
 tokens: [--accent-solid, --accent-on, --accent-key, --text-headline, --line-strong, --stroke-sm]
 ---
 
-**Anatomy.** A label, with an optional icon.
+**Anatomy.** A label, with an optional icon; or an icon alone.
 
 **Variants.**
 - **Solid**: `--accent-solid` fill with an `--accent-on` label. One per group.
@@ -17,7 +17,9 @@ tokens: [--accent-solid, --accent-on, --accent-key, --text-headline, --line-stro
 
 **Colored.** A button in a hue other than ink (a page's alternate color) fills with that hue's key, white label; see [Color fills use the key](#guidelines-color-fills-use-the-key).
 
-**Icon only.** A button that is just an icon (menu, search, close) stays bare: no outline, as in an interface's chrome.
+**With an icon.** An icon beside the label, on either side: 20px, in the label's color, 8px (`--spacing-sm`) from it. Put the icon after the label for "go" (an arrow), before it for an action with a known glyph (download).
+
+**Icon only** (`.btn--icon`). A button that is just an icon (menu, search, close) stays bare: no outline, as in an interface's chrome, square at the button's 48px height, with an accessible name (`aria-label`). Hover is the same fill as every button (2026-10-28).
 
 **Size.** At least 48px tall in the reviewed form lab, with `--radius-md` corners. In the brand site's specimens the solid button carries a matching border so both are one size.
 

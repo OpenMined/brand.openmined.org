@@ -5,6 +5,8 @@
  */
 export { buttonHover, clockStart } from './button-hover.js';
 export { fieldLights } from './field.js';
-export { hoverCards, cardTilt } from './hover-card.js';
+export { hoverCards } from './hover-card.js';
+export { linkCards } from './link-card.js';
+export { cardTilt } from './tilt.js';
 export { twoTone, twoToneDefsSvg, HUES } from './two-tone.js';
 export { followPointer } from './pointer.js';

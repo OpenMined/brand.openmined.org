@@ -1,0 +1,46 @@
+/* ════════════════════════════════════════════════════════════════════
+   LINK CARD — v2 component (design/components/link-card.md), exploring
+   ════════════════════════════════════════════════════════════════════
+   A card that is a link, plain: a title with an arrow, and a line or two of
+   text. The hover card's quieter sibling, for lists of links (see also, related
+   pages): no icon, no light, no color. Needs: the v2 tokens. Script:
+   link-card.js (linkCards), for the tilt; without it, hover is the lift alone.
+
+   Markup:
+     <a class="lcard" href="…">
+       <span class="lcard__title">Review rounds <svg class="lcard__arrow" aria-hidden="true">…arrow-right…</svg></span>
+       <span class="lcard__text">Every round: when it opened and what it explored.</span>
+     </a>
+   The title may be a heading (<h3 class="lcard__title">) where the outline needs one.
+
+   At rest a card on the page (raise-1 and its shadow). On hover or keyboard
+   focus it moves one level up, surface and shadow (raise-2), lifts 2px and
+   tilts away from the pointer (tilt.js, the hover card's knobs); the arrow,
+   faint at rest, comes to full strength and nudges right, in at 0.15s and out
+   at the base duration; the lift takes the base duration both ways, as the
+   hover card's does. */
+.lcard {
+  position: relative; display: grid; align-content: start; gap: var(--spacing-xs);
+  padding: var(--spacing-2xl); border-radius: var(--radius-md);
+  background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+  color: var(--text-body); text-decoration: none;
+  --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
+  transition: background-color var(--transition-base), box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base));
+}
+.lcard:is(:hover, :focus-visible) {
+  background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
+  transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
+}
+.lcard__title {
+  display: flex; align-items: center; gap: var(--spacing-xs);
+  font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-text); letter-spacing: 0; color: var(--text-headline);
+}
+.lcard__arrow { flex: none; width: 16px; height: 16px; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }
+.lcard:is(:hover, :focus-visible) .lcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: 0.15s; }
+.lcard__text { font-size: var(--font-size-sm); color: var(--text-muted); }
+@media (prefers-reduced-motion: reduce) {
+  .lcard, .lcard__arrow { transition: none; }
+  .lcard:is(:hover, :focus-visible) { transform: none; }
+  .lcard:is(:hover, :focus-visible) .lcard__arrow { transform: none; }
+}

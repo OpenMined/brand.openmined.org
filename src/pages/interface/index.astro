@@ -5,7 +5,7 @@
  * v2 build. Focus rings are still open.
  */
 import Site from '../../layouts/Site.astro';
-import { iconSvg } from '../../lib/icons';
+import LinkCard from '../../components/site/LinkCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
@@ -14,12 +14,14 @@ import HoverCard from '../../components/site/HoverCard.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import Icon from '../../components/site/Icon.astro';
-import CodeRef from '../../components/site/CodeRef.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
 import { componentCode } from '../../lib/components';
 
 const button = doc('components/button');
 const link = doc('components/link');
 const hoverCard = doc('components/hover-card');
+const linkCard = doc('components/link-card');
+const statusChip = doc('components/status-chip');
 const form = doc('components/form-field');
 const motion = doc('foundations/motion');
 // Each component's files and reference markup, read from components/.
@@ -27,14 +29,17 @@ const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
   link: componentCode(['link']),
   hoverCard: componentCode(['hover-card'], ['hover-card']),
+  linkCard: componentCode(['link-card'], ['link-card']),
+  statusChip: componentCode(['status-chip']),
   field: componentCode(['field'], ['field']),
   control: componentCode(['control']),
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
-const ARR = iconSvg('arrow-right');
-const components = [button, link, form, motion];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['open', 'Still open'], ['see', 'See it']];
+const components = [button, link, linkCard, statusChip, form, motion];
+/** Status chips: a label per status, as a list of things might carry them. */
+const CHIPS = [['success', 'Approved'], ['warning', 'Pending review'], ['danger', 'Failed'], ['info', 'New']];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
 const TEXT_FIELDS = [
   { id: 'name', type: 'text', label: 'Full name', req: true, desc: 'Single-line text: the default field type.', ph: 'Jane Doe' },
@@ -57,9 +62,15 @@ const TEXT_FIELDS = [
           <button type="button" class="btn">Cancel</button>
           <button type="button" class="btn">Save draft</button>
         </div>
+        <div class="actions">
+          <button type="button" class="btn btn--solid"><Icon name="download" size={20} />Download</button>
+          <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
+          <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
+          <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
+        </div>
         <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the hue keys flowing under a faint shimmer, with a glow, starting where the clock puts them, the secondary opposite the primary.</p>
       </article>
-      <CodeRef code={CODE.button} />
+      <BuildRef code={CODE.button} tokens={['--accent-solid', '--accent-hover', '--accent-on', '--accent-subtle', '--accent-soft', '--accent-fg', '--on-solid']} />
     </div>
   </section>
 
@@ -78,7 +89,7 @@ const TEXT_FIELDS = [
           <p class="muted">An action that reads as text: no underline at rest; on hover the line slides in from the left and leaves to the right: the same line as the content link's underline and the secondary button's outline. Nav and footer links work the same way. The icon follows the label and isn’t underlined.</p>
         </article>
       </div>
-      <CodeRef code={CODE.link} />
+      <BuildRef code={CODE.link} tokens={link.tokens} />
     </div>
   </section>
 
@@ -94,8 +105,43 @@ const TEXT_FIELDS = [
         <HoverCard href="#hover-cards" icon="network" hue="green" size="large" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that be in climate, healthcare, finance, or beyond." />
       </div>
       <p class="muted">Hover a card: it lifts and tilts away from the pointer, the light follows the pointer (in light mode the card shades except around it), the icon takes its hue's moving two-tone and a colorflow in the same two-tone rises in the lower third. The arrow stays mono.</p>
-      <CodeRef code={CODE.hoverCard} />
+      <BuildRef code={CODE.hoverCard} tokens={hoverCard.tokens} />
       <TwoToneDefs />
+    </div>
+  </section>
+
+  <section class="band" id="link-cards">
+    <div class="wrap">
+      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p><p class="status">Status: <b>{linkCard.status}</b></p></header>
+      <div class="grid grid--3">
+        <LinkCard href="#link-cards" title="Review rounds">Every round: when it opened, what it explored, and where its favorites live.</LinkCard>
+        <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
+        <LinkCard href="#link-cards" title="Typography">Rubik for display, Inter for text, on a fluid scale.</LinkCard>
+      </div>
+      <BuildRef code={CODE.linkCard} tokens={linkCard.tokens} />
+    </div>
+  </section>
+
+  <section class="band" id="status-chips">
+    <div class="wrap">
+      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p><p class="status">Status: <b>{statusChip.status}</b></p></header>
+      <article class="card">
+        <div class="status-rows">
+          <div class="status-row">
+            <span class="status-row__lab"><b>Quiet</b> · ring and text in <code>fg</code></span>
+            <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--${s}`}>{t}</span>)}</div>
+          </div>
+          <div class="status-row">
+            <span class="status-row__lab"><b>Strong</b> · <code>key</code> fill, white text</span>
+            <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--strong status-chip--${s}`}>{t}</span>)}</div>
+          </div>
+          <div class="status-row">
+            <span class="status-row__lab"><b>No status</b> · body text</span>
+            <div class="actions"><span class="status-chip">Draft</span></div>
+          </div>
+        </div>
+      </article>
+      <BuildRef code={CODE.statusChip} tokens={statusChip.tokens} />
     </div>
   </section>
 
@@ -113,8 +159,8 @@ const TEXT_FIELDS = [
             </ul>
             <p>The gray focus line reaches 3:1 on every surface: gray-500 in light mode, gray-400 in dark. Vendor forms map onto this markup with an adapter in the project that uses them.</p>
           </div>
-          <CodeRef code={CODE.field} />
-          <CodeRef code={CODE.control} />
+          <BuildRef code={CODE.field} tokens={['--line-focus']} label="Field: code and tokens" />
+          <BuildRef code={CODE.control} label="Controls: code" />
         </div>
         <article class="card fm-split__form">
           <form class="fm fm--one" onsubmit="return false">
@@ -218,13 +264,6 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
-  <section class="band" id="tokens">
-    <div class="wrap">
-      <header class="sec"><h2>Tokens</h2><p>The accent roles controls use, and the focus line fields and controls share. Surfaces and shadows are on the <a href="/surfaces/#tokens">Surfaces</a> page.</p></header>
-      <TokenTable names={['--accent-solid', '--accent-hover', '--accent-on', '--accent-subtle', '--accent-soft', '--accent-fg', '--on-solid', '--line-focus']} />
-    </div>
-  </section>
-
   <section class="band" id="rules">
     <div class="wrap">
       <header class="sec"><h2>Rules</h2></header>
@@ -257,9 +296,9 @@ const TEXT_FIELDS = [
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/rounds/motion/"><h3 class="card__h">Color and interaction round <Fragment set:html={ARR} /></h3><p>Button and link hovers, hover cards, and the form field hover and focus options.</p></a>
-        <a class="card card--link" href="/rounds/surfaces/#forms"><h3 class="card__h">Surfaces round: form lab <Fragment set:html={ARR} /></h3><p>Every control the embedded forms render, in generic markup, with their states.</p></a>
-        <a class="card card--link" href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all#interface"><h3 class="card__h">Color round: interface <Fragment set:html={ARR} /></h3><p>Roles applied to interface elements, with the accent switch.</p></a>
+        <LinkCard href="/rounds/motion/" title="Color and interaction round">Button and link hovers, hover cards, and the form field hover and focus options.</LinkCard>
+        <LinkCard href="/rounds/surfaces/#forms" title="Surfaces round: form lab">Every control the embedded forms render, in generic markup, with their states.</LinkCard>
+        <LinkCard href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all#interface" title="Color round: interface">Roles applied to interface elements, with the accent switch.</LinkCard>
       </div>
     </div>
   </section>

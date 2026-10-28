@@ -58,4 +58,4 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Graphics.** Text in graphics uses these families too (*Graphics use the brand fonts*); the diamond's Sometype Mono labels on openmined.org are a grandfathered exception.
 
-*Open:* moving this guide's own type, a placeholder, onto v2 type. Muted text sits close to body text in light mode (1.55:1 between them), kept so it reaches AA on the sunken level where forms put it; if that matters in practice, a second role for sunken surfaces (`--text-muted-sunken`) could let muted lighten everywhere else (Kyle, 2026-10-28: wait and see).
+*Open:* a style for block titles (a card's, a rule's): the guide sets them in Inter 700 at body size, not yet a text style. Muted text sits close to body text in light mode (1.55:1 between them), kept so it reaches AA on the sunken level where forms put it; if that matters in practice, a second role for sunken surfaces (`--text-muted-sunken`) could let muted lighten everywhere else (Kyle, 2026-10-28: wait and see).

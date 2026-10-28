@@ -1,5 +1,5 @@
 {
-  "$description": "Hand-written. Spacing, the same in every mode. Carried from v1 unchanged (--spacing-3XS … --spacing-5XL), renamed lowercase to match the other v2 sizes (Kyle, 2026-10-27). v1's --spacing-full (88px) is not carried: nothing on v2 uses it. Descriptions name where the v2 components use each step today; rules for choosing a step are still to come.",
+  "$description": "Hand-written. Spacing, the same in every mode. Carried from v1 unchanged (--spacing-3XS … --spacing-5XL), renamed lowercase to match the other v2 sizes (Kyle, 2026-10-27). v1's --spacing-full (88px) returns as --spacing-section, the space between a page's sections (exploring, 2026-10-28). Descriptions name where the v2 components use each step today; rules for choosing a step are still to come.",
   "spacing": {
     "$type": "dimension",
     "3xs": {
@@ -56,6 +56,11 @@
       "$value": { "value": 48, "unit": "px" },
       "$description": "A large hover card's top and bottom padding.",
       "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-5XL" } }
+    },
+    "section": {
+      "$value": { "value": 88, "unit": "px" },
+      "$description": "Between a page's sections: above and below each band of a topic page.",
+      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --spacing-full (88px)" } }
     }
   }
 }

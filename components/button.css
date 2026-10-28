@@ -8,21 +8,27 @@
    Markup:
      <button class="btn btn--solid">Join</button>       primary, one per group
      <a class="btn" href="…">Read the docs</a>          secondary
+     <a class="btn" href="…">Read more <svg aria-hidden="true">…20px icon…</svg></a>     with an icon, either side
+     <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…</svg></button>   icon only
 
    One solid per group; the rest are secondary, an outline in the line style
    (--stroke-sm, --line-strong = the body text color) over the surface they
    sit on (Bennett, 2026-10-12: an outline as a line, not a container). Every
    button carries the same border, so solid and secondary are one size.
-   Icon-only buttons stay bare: no outline, as in an interface's chrome
-   (menu, search, close). */
+   An icon beside the label is 20px, in the label's color, sm (8px) from it.
+   Icon-only buttons (.btn--icon) stay bare: no outline, as in an interface's
+   chrome (menu, search, close), square at the button's height; they need an
+   accessible name (aria-label). Hover is the same fill. */
 .btn {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-sm);
   min-height: 48px; padding: 11px 19px;
   font: 500 1rem/1 var(--font-body); text-decoration: none; cursor: pointer;
   border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-md);
   background: transparent; color: var(--text-headline);
   transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
 }
+.btn > svg { flex: none; width: 20px; height: 20px; }
+.btn--icon { min-width: 48px; padding: 0; border: 0; }
 .btn--solid { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--accent-on); }
 /* Without button-hover, hover takes the accent's color, --accent-key (green), on
    both: a green fill with a white label (a colored fill uses the key, as the

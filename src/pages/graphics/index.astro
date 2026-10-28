@@ -6,9 +6,9 @@
  * rounds' page-local names (ALIASES_CSS).
  */
 import Site from '../../layouts/Site.astro';
-import { iconSvg } from '../../lib/icons';
+import LinkCard from '../../components/site/LinkCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
-import TokenTable from '../../components/site/TokenTable.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import FigA from '../rounds/diagrams/_a/Fig1.astro';
@@ -25,8 +25,7 @@ const DiagramsContent = diagrams.Content;
 const rules = byTag('graphics', 'Guideline', 'Behavior');
 const decisions = decisionsFor('graphics');
 
-const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
-const ARR = iconSvg('arrow-right');
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 
 /* Partner marks, from public/logos/partners/partners.json (the source of truth),
    through src/lib/partners.ts, which also fails the build on a color file that
@@ -58,7 +57,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     <div class="wrap">
       <header class="sec"><h2>Hue keys</h2><p>The color graphics and chart marks use: each hue's 500, named <code>--{'{hue}'}-key</code>. A fixed step, not a role, so a graphic's colors hold when the mode switches (only the mode's saturation offset changes them).</p></header>
       <article class="card">
-        <div class="spec__stops" style="grid-template-columns: repeat(6, minmax(0, 1fr))">
+        <div class="spec__stops" style="--stops: 6">
           {HUES.map(h => (
             <span>
               <i style={`background:var(--${h}-key)`}></i>
@@ -68,6 +67,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
           ))}
         </div>
       </article>
+      <BuildRef tokens={['--gradient-spectrum', '--gradient-flow', '--gradient-map', ...HUES.map(h => `--${h}-key`), ...Array.from({ length: 6 }, (_, i) => `--series-${i + 1}`)]} />
     </div>
   </section>
 
@@ -112,8 +112,8 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
       <header class="sec"><h2>Logos and embeds</h2><p>OpenMined's logo keeps its own colors in every palette and mode; partner marks are used as their owners supply them. The animated embeds show v2 colors here because this page passes them in; used on their own, they fall back to built-in colors that are still v1 until they're re-tuned.</p></header>
       <div class="grid grid--2">
         <article class="card">
-          <img class="only-light" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" style="height:40px;width:auto;align-self:flex-start" />
-          <img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" height="40" style="height:40px;width:auto;align-self:flex-start" />
+          <img class="only-light logo-spec" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" />
+          <img class="only-dark logo-spec" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" height="40" />
           <p class="muted">Full color on light; reversed on dark. All logo files are on the <a href="/v1/#logos">v1 reference</a>.</p>
         </article>
         <article class="card">
@@ -142,13 +142,6 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     </div>
   </section>
 
-  <section class="band" id="tokens">
-    <div class="wrap">
-      <header class="sec"><h2>Tokens</h2></header>
-      <TokenTable names={['--gradient-spectrum', '--gradient-flow', '--gradient-map', ...HUES.map(h => `--${h}-key`), ...Array.from({ length: 6 }, (_, i) => `--series-${i + 1}`)]} />
-    </div>
-  </section>
-
   <section class="band" id="rules">
     <div class="wrap">
       <header class="sec"><h2>Rules</h2></header>
@@ -167,8 +160,8 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--3">
-        <a class="card card--link" href="/rounds/diagrams/"><h3 class="card__h">Diagram round <Fragment set:html={ARR} /></h3><p>The Attribution-Based Control article's opening, with its graphics redrawn in two directions: the original, A (attribution in color, chosen) and B (technical plate).</p></a>
-        <a class="card card--link" href="/rounds/gradient-map/"><h3 class="card__h">Gradient map round <Fragment set:html={ARR} /></h3><p>The gradient map's colors compared, with its saturation control.</p></a>
+        <LinkCard href="/rounds/diagrams/" title="Diagram round">The Attribution-Based Control article's opening, with its graphics redrawn in two directions: the original, A (attribution in color, chosen) and B (technical plate).</LinkCard>
+        <LinkCard href="/rounds/gradient-map/" title="Gradient map round">The gradient map's colors compared, with its saturation control.</LinkCard>
       </div>
     </div>
   </section>

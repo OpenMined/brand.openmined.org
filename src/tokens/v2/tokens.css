@@ -186,6 +186,7 @@
   --spacing-3xl: 32px;
   --spacing-4xl: 40px;
   --spacing-5xl: 48px;
+  --spacing-section: 88px;
   --duration-base: 0.4s;
   --ease-base: cubic-bezier(0.25, 0.1, 0.25, 1);
   --transition-base: var(--duration-base) var(--ease-base);
@@ -506,6 +507,7 @@
   --spacing-3xl: 32px;
   --spacing-4xl: 40px;
   --spacing-5xl: 48px;
+  --spacing-section: 88px;
   --duration-base: 0.4s;
   --ease-base: cubic-bezier(0.25, 0.1, 0.25, 1);
   --transition-base: var(--duration-base) var(--ease-base);

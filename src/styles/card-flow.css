@@ -8,7 +8,7 @@
   position: absolute; left: 0; right: 0; bottom: -10%; height: 34%;
   z-index: -1; pointer-events: none;
   width: 100%;
-  opacity: 0; transition: opacity 0.4s ease;
+  opacity: 0; transition: opacity var(--transition-base);
   -webkit-mask-image: linear-gradient(to top, var(--white) 55%, transparent);
   mask-image: linear-gradient(to top, var(--white) 55%, transparent);
 }

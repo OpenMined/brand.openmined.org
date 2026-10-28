@@ -58,7 +58,7 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body class={inRounds ? 'rounds-shell' : 'guide'}>
     <header class="bar">
       <div class="bar__inner">
         {inRounds ? <>
@@ -83,7 +83,8 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       </div>
     </header>
 
-    <main>
+    <!-- Plain links in the guide's text are content links (design/components/link.md). -->
+    <main class={inRounds ? undefined : 'content-links'}>
       <slot />
     </main>
 
@@ -95,11 +96,13 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       import { buttonHover } from '@components/button-hover.js';
       import { fieldLights } from '@components/field.js';
       import { hoverCards } from '@components/hover-card.js';
+      import { linkCards } from '@components/link-card.js';
       import { cardFlows } from '../scripts/gl/card-flow';
       import { HOVER_FLOWS } from '../scripts/gl/units/hover-flow';
       // The Color and interaction round's own buttons (.mbtn) draw their own layers.
       buttonHover('.btn:not(.mbtn)');
       hoverCards();
+      linkCards();
       // Hover cards' colorflow: each card names its unit (HoverCard's `flow`).
       cardFlows(document.querySelectorAll<HTMLElement>('.hcard[data-flow]'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);
       // The round's own fields (.mo-fm) run their own light.

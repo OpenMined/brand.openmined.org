@@ -56,9 +56,11 @@ motion itself.
 | Content link, text button | `link.css` | none | `design/components/link.md` |
 | Colored icon (two-tone) | `color-icon.css` | `two-tone.js`, `twoTone()` | `design/foundations/two-tone.md` |
 | Hover card | `hover-card.css` | `hover-card.js`, `hoverCards()` | `design/components/hover-card.md` |
+| Link card | `link-card.css` | `link-card.js`, `linkCards()` | `design/components/link-card.md` |
+| Status chip | `status-chip.css` | none | `design/components/status-chip.md` |
 
 Shared by the scripts, imported by them: `pointer.js` (the light that follows the
-pointer) and `two-tone.js` (the moving gradients). `index.css` and `index.js`
+pointer), `tilt.js` (the card tilt) and `two-tone.js` (the moving gradients). `index.css` and `index.js`
 gather everything.
 
 Not here yet: the hover card colorflow (the brand site's WebGL renderer,

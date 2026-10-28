@@ -9,6 +9,8 @@
 import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
+import { componentCode } from '../../lib/components';
 import DecisionList from '../../components/site/DecisionList.astro';
 import { doc, decisionsFor } from '../../lib/design';
 import { tok } from '../../lib/tokens';
@@ -33,6 +35,7 @@ const ZONES = [
   { name: '--prose-wide', cls: 'wide', label: 'wide · .breakout' },
   { name: '--prose-content', cls: 'content', label: 'content · every block' },
 ].map(z => ({ ...z, px: tok('light', z.name).resolved, w: pct(z.name) }));
+const CODE = componentCode(['layout']);
 const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid'], ['articles', 'Articles'], ['breakpoints', 'Breakpoints'], ['stacking', 'Stacking'], ['guidance', 'Guidance'], ...(decisions.length ? [['decisions', 'Decisions'] as [string, string]] : [])];
 ---
 <Site title={foundation.title} description={foundation.description} current="layout">
@@ -53,7 +56,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid
           ))}
         </ol>
       </article>
-      <TokenTable names={steps.map(s => s.name)} />
+      <BuildRef tokens={steps.map(s => s.name)} />
     </div>
   </section>
 
@@ -75,7 +78,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid
           ))}
         </ol>
       </article>
-      <TokenTable names={['--page-width', '--page-width-wide', '--page-gutter', '--grid-columns', '--grid-gap', '--grid-column', ...spans.map(s => s.name).reverse()]} />
+      <BuildRef code={CODE} tokens={['--page-width', '--page-width-wide', '--page-gutter', '--grid-columns', '--grid-gap', '--grid-column', ...spans.map(s => s.name).reverse()]} />
     </div>
   </section>
 
@@ -98,7 +101,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid
           <div class="zones-art__text" style={`width:${ZONES[2].w}`}><i></i><i></i></div>
         </div>
       </article>
-      <TokenTable names={['--prose-content', '--prose-wide', '--prose-full']} />
+      <BuildRef code={CODE} tokens={['--prose-content', '--prose-wide', '--prose-full']} />
     </div>
   </section>
 

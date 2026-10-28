@@ -7,10 +7,10 @@
  * Words come from design/ (files tagged `surfaces`); values from src/tokens/v2/.
  */
 import Site from '../../layouts/Site.astro';
-import { iconSvg } from '../../lib/icons';
+import LinkCard from '../../components/site/LinkCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import Icon from '../../components/site/Icon.astro';
-import TokenTable from '../../components/site/TokenTable.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
@@ -40,8 +40,7 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   return { label: stepLabel(e.value), resolved: e.resolved, status: e.status ?? 'working' };
 };
 const level = (mode: 'light' | 'dark', name: string) => { const c = cell(mode, name); return `${c.label ?? ''} · ${c.resolved}`; };
-const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['lines', 'Lines'], ['how', 'How it works'], ['tokens', 'Tokens'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
-const ARR = iconSvg('arrow-right');
+const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['lines', 'Lines'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
 ---
 <Site title={foundation.title} description={foundation.description} current="surfaces">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV as [string, string][]} />
@@ -67,6 +66,7 @@ const ARR = iconSvg('arrow-right');
           ))}
         </div>
       </div>
+      <BuildRef tokens={foundation.tokens} />
     </div>
   </section>
 
@@ -118,7 +118,7 @@ const ARR = iconSvg('arrow-right');
         </div>
       </div>
       <div class="guide-prose"><shape.Content /></div>
-      <TokenTable names={shape.tokens} />
+      <BuildRef tokens={shape.tokens} />
     </div>
   </section>
 
@@ -148,7 +148,7 @@ const ARR = iconSvg('arrow-right');
         </figure>
       </div>
       <div class="guide-prose"><lines.Content /></div>
-      <TokenTable names={lines.tokens} />
+      <BuildRef tokens={lines.tokens} />
     </div>
   </section>
 
@@ -156,13 +156,6 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>How it works</h2></header>
       <div class="guide-prose"><Content /></div>
-    </div>
-  </section>
-
-  <section class="band" id="tokens">
-    <div class="wrap">
-      <header class="sec"><h2>Tokens</h2><p>Read from the build, so this table can't drift from the values. Use the name; the value can be retuned.</p></header>
-      <TokenTable names={foundation.tokens} />
     </div>
   </section>
 
@@ -184,7 +177,7 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>See it</h2><p>The review rounds where these values were set.</p></header>
       <div class="grid grid--2">
-        <a class="card card--link" href="/rounds/surfaces/"><h3 class="card__h">Surfaces round <Fragment set:html={ARR} /></h3><p>Levels, shadows, outlines and a form lab, with a live editor.</p></a>
+        <LinkCard href="/rounds/surfaces/" title="Surfaces round">Levels, shadows, outlines and a form lab, with a live editor.</LinkCard>
       </div>
     </div>
   </section>

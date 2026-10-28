@@ -7,6 +7,7 @@
  * (/rounds/icons/). All drawings come through src/lib/icons.ts.
  */
 import Site from '../../layouts/Site.astro';
+import LinkCard from '../../components/site/LinkCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
@@ -36,7 +37,6 @@ const STATUS = [
 /** Colorways: each hue's two-tone gradient (--gradient-two-tone-<hue>) on a few set icons. */
 const COLORWAYS = HUES.map(h => ({ hue: h, companion: TWO_TONE_COMPANION[h] }));
 const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
-const ARR = iconSvg('arrow-right');
 ---
 <Site title={foundation.title} description={foundation.description} current="icons">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="Iconoir regular, inlined at build" />
@@ -61,9 +61,9 @@ const ARR = iconSvg('arrow-right');
         <article class="card">
           <h3>On their own</h3>
           <div class="actions">
-            <button type="button" class="btn icon-btn"><Icon name="menu" size={20} label="Menu" /></button>
-            <button type="button" class="btn icon-btn"><Icon name="search" size={20} label="Search" /></button>
-            <button type="button" class="btn icon-btn"><Icon name="xmark" size={20} label="Close" /></button>
+            <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
+            <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
+            <button type="button" class="btn btn--icon" aria-label="Close"><Icon name="xmark" size={20} /></button>
           </div>
           <p class="muted">Universal icons only, each with an accessible name.</p>
         </article>
@@ -163,10 +163,10 @@ const ARR = iconSvg('arrow-right');
     <div class="wrap">
       <header class="sec"><h2>See it</h2></header>
       <div class="grid grid--3">
-        <a class="card card--link" href="/rounds/motion/"><h3 class="card__h">Color and interaction round <Fragment set:html={ARR} /></h3><p>Icons in color: the glow and two-tone options, side by side.</p></a>
-        <a class="card card--link" href="/rounds/icons/"><h3 class="card__h">Icons round <Fragment set:html={ARR} /></h3><p>Every icon on the live site, next to the set icon that replaces it.</p></a>
-        <a class="card card--link" href="https://iconoir.com"><h3 class="card__h">Iconoir <Fragment set:html={ARR} /></h3><p>Browse all 1,383 outlined icons. Use the regular set; we draw it at a 2 stroke.</p></a>
-        <a class="card card--link" href="/graphics/#logo"><h3 class="card__h">Partner marks <Fragment set:html={ARR} /></h3><p>Brand logos for tools and partners, used as supplied.</p></a>
+        <LinkCard href="/rounds/motion/" title="Color and interaction round">Icons in color: the glow and two-tone options, side by side.</LinkCard>
+        <LinkCard href="/rounds/icons/" title="Icons round">Every icon on the live site, next to the set icon that replaces it.</LinkCard>
+        <LinkCard href="https://iconoir.com" title="Iconoir">Browse all 1,383 outlined icons. Use the regular set; we draw it at a 2 stroke.</LinkCard>
+        <LinkCard href="/graphics/#logo" title="Partner marks">Brand logos for tools and partners, used as supplied.</LinkCard>
       </div>
     </div>
   </section>
