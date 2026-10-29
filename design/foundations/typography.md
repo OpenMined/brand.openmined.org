@@ -28,7 +28,7 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Two treatments for h5 and h6.** On pages, in interfaces, and in presentations, h5 and h6 are Inter 400 (the default, `.h5`, `.h6`). In a long read (`.prose`) they step up to Inter 600 at a smaller maximum, so they stay apart from each other and from body text.
 
-**Leading.** The display levels tighten as they grow: `--line-height-h1` 1.05, `-h2` 1.1, `-h3` 1.15, `-h4` 1.2; `--line-height-h5` 1.4; `--line-height-lead` 1.4; `--line-height-text` (1.5) for body, interface text, h6, and h5–h6 in a long read; `--line-height-prose` (1.75) for paragraphs and list items in a long read. Unitless, so each follows its text's own size.
+**Leading.** The display levels (`--line-height-h1` to `-h4`) are 1.2, as on openmined.org; `--line-height-h5` 1.4; `--line-height-lead` 1.4; `--line-height-text` (1.5) for body, interface text, h6, and h5–h6 in a long read; `--line-height-prose` (1.75) for paragraphs and list items in a long read. Unitless, so each follows its text's own size.
 
 **Tracking.** The display face (h1–h4 and the pull quote) takes `--tracking-display`, −0.01em: `letter-spacing: calc(var(--tracking-display) * 1em)`. Inter is set as drawn.
 

@@ -143,9 +143,9 @@
   --font-display: Rubik, system-ui, sans-serif;
   --font-body: Inter, system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --line-height-h1: 1.05;
-  --line-height-h2: 1.1;
-  --line-height-h3: 1.15;
+  --line-height-h1: 1.2;
+  --line-height-h2: 1.2;
+  --line-height-h3: 1.2;
   --line-height-h4: 1.2;
   --line-height-h5: 1.4;
   --line-height-lead: 1.4;
@@ -435,9 +435,9 @@
   --font-display: Rubik, system-ui, sans-serif;
   --font-body: Inter, system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --line-height-h1: 1.05;
-  --line-height-h2: 1.1;
-  --line-height-h3: 1.15;
+  --line-height-h1: 1.2;
+  --line-height-h2: 1.2;
+  --line-height-h3: 1.2;
   --line-height-h4: 1.2;
   --line-height-h5: 1.4;
   --line-height-lead: 1.4;

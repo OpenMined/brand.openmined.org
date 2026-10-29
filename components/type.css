@@ -22,7 +22,7 @@
    Headings are fluid: each grows with the window between its minimum and
    maximum tokens, reaching the maximum at the 1300px page width (the rate is
    max / 13 vw). h1–h4 are Rubik 400, with leading that tightens as they grow
-   (1.05 to 1.2) and slight tracking (-0.01em); h5–h6 are Inter 400 on pages and
+   (1.2) and slight tracking (-0.01em); h5–h6 are Inter 400 on pages and
    in interfaces, Inter 600 at a smaller maximum in a long read. A surface that needs a
    smaller ceiling caps the heading with its own maximum, never a new size:
      .page-hero h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, 3rem); }

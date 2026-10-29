@@ -131,24 +131,24 @@
   "line-height": {
     "$type": "number",
     "h1": {
-      "$value": 1.05,
-      "$description": "h1. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$value": 1.2,
+      "$description": "h1. Every display level at 1.2, as openmined.org.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "tight ramp (1.05) from the type round (2026-10-28) to 2026-10-29; openmined.org 1.2 before" } }
     },
     "h2": {
-      "$value": 1.1,
-      "$description": "h2. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$value": 1.2,
+      "$description": "h2. Every display level at 1.2, as openmined.org.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "tight ramp (1.1) from the type round (2026-10-28) to 2026-10-29; openmined.org 1.2 before" } }
     },
     "h3": {
-      "$value": 1.15,
-      "$description": "h3. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$value": 1.2,
+      "$description": "h3. Every display level at 1.2, as openmined.org.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "tight ramp (1.15) from the type round (2026-10-28) to 2026-10-29; openmined.org 1.2 before" } }
     },
     "h4": {
       "$value": 1.2,
-      "$description": "h4. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$description": "h4. Every display level at 1.2, as openmined.org.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "tight ramp (1.2) from the type round (2026-10-28) to 2026-10-29; openmined.org 1.2 before" } }
     },
     "h5": {
       "$value": 1.4,

@@ -823,20 +823,20 @@
     "status": "released"
   },
   "--line-height-h1": {
-    "value": "1.05",
-    "resolved": "1.05",
+    "value": "1.2",
+    "resolved": "1.2",
     "type": "number",
     "status": "released"
   },
   "--line-height-h2": {
-    "value": "1.1",
-    "resolved": "1.1",
+    "value": "1.2",
+    "resolved": "1.2",
     "type": "number",
     "status": "released"
   },
   "--line-height-h3": {
-    "value": "1.15",
-    "resolved": "1.15",
+    "value": "1.2",
+    "resolved": "1.2",
     "type": "number",
     "status": "released"
   },

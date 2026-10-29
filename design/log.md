@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-29** — **Display leading back to 1.2** (new decision): h1 to h4 at 1.2, as openmined.org, replacing the type round's tight ramp (1.05 to 1.2). Tracking unchanged.
 - **2026-10-29** — Home example: the hero diamond is the site's own embed again (in the example kit: the blob, both outlines and the labels as one element, colors from the tokens), so it sits at the live size; it was the system's `<om-diamond>` scaled up with outlines drawn around it. Examples show the favicon.
 - **2026-10-29** — *Steps*: the title takes the h5 size (Inter 400, 18–21px, as on the SyftHub page) instead of semibold body size, with 16px to its text.
 - **2026-10-29** — The **SyftHub example** is rebuilt on the example kit and matches the reviewed page section by section: hero, quick-start link cards, the two products (SyftHub solid, Syft Space outlined), the flow diagram, core components, the two paths as steps with the quote, applications, key benefits, developer tools, the closing callout and calls to action, and the join panel. The kit's header takes the site's height (128px, 88px on phones).
