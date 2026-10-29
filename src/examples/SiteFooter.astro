@@ -1,29 +1,46 @@
 ---
-/** Example partial: a site footer, locked dark in both modes (data-section). A
- *  pattern for the full-page examples, not a component. */
-const COLS: [string, string[]][] = [['Learn more', ['Foundation', 'Blog', 'Careers']], ['Solutions', ['Syft Space', 'SyftHub', 'PySyft']], ['Programs', ['Research', 'Fellowships', 'Courses']]];
+/** Example partial: openmined.org's footer as reviewed, locked dark in both modes
+ *  (data-section): follow us, three link columns, the mission call to action, and
+ *  the bottom bar. A pattern for the full-page examples, not a component. */
+import { iconSvg } from '../lib/icons';
+const COLS: [string, string[]][] = [
+  ['Learn More', ['Foundation', 'Blog', 'Careers']],
+  ['Solutions', ['Syft Space | SyftHub', 'syft-flwr', 'SyftBox [Beta]', 'PySyft', 'Attribution-Based Control']],
+  ['Programs', ['Research', 'Research Fellowship', 'Research Grants', 'NAIRR Pilot Partnership', 'FL Project Co-Design']],
+];
+/* YouTube is on the live footer too; the set has no YouTube mark yet (a known gap). */
+const SOCIAL: [string, string][] = [['LinkedIn', 'linkedin'], ['X', 'x'], ['GitHub', 'github'], ['Bluesky', 'bluesky']];
 ---
 <footer class="sf page-band" data-section="always-dark">
-  <div class="container sf__in">
-    <div class="sf__cols">
+  <div class="container">
+    <div class="sf__follow"><span>Follow us</span>{SOCIAL.map(([l, n]) => <a class="btn btn--icon" href="#" aria-label={l} set:html={iconSvg(n, { size: 20 })} />)}</div>
+    <div class="sf__in">
       {COLS.map(([h, items]) => <div><p class="sf__h">{h}</p><ul>{items.map(i => <li><a class="link-text" href="#"><span class="link-text__label">{i}</span></a></li>)}</ul></div>)}
-    </div>
-    <div class="sf__cta">
-      <p class="h4">Support the mission</p>
-      <p>Our vision for the future is ambitious. Here is how you can help.</p>
-      <div class="sf__actions"><a class="btn btn--solid" href="#">Get involved</a><a class="btn" href="#">Donate</a></div>
+      <div class="sf__cta">
+        <p class="h3">Support the Mission</p>
+        <p>Our vision for the future is ambitious. Here is how you can help:</p>
+        <div class="sf__actions"><a class="btn btn--solid" href="#">Get Involved</a><a class="btn" href="#">Donate</a></div>
+      </div>
     </div>
   </div>
-  <div class="container sf__base text-small"><img src="/logos/OpenMined-Icon.svg" alt="" width="20" height="20" /> © 2026 OpenMined Foundation</div>
+  <div class="sf__bar">
+    <img src="/logos/OpenMined-Icon.svg" alt="" width="32" height="32" />
+    <span><a class="link-text" href="#"><span class="link-text__label">Privacy Policy</span></a><span class="sf__sep" aria-hidden="true"></span>© 2026 OpenMined Foundation</span>
+  </div>
 </footer>
 <style is:inline>
-  .sf { padding-block: var(--spacing-5xl) var(--spacing-2xl); }
-  .sf__in { display: grid; grid-template-columns: 2fr 1fr; gap: var(--spacing-4xl); }
-  .sf__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-2xl); }
-  .sf__h { margin: 0 0 var(--spacing-md); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
-  .sf ul { display: grid; gap: var(--spacing-xs); margin: 0; padding: 0; list-style: none; }
-  .sf__cta p { margin: 0 0 var(--spacing-md); }
-  .sf__actions { display: flex; gap: var(--spacing-md); }
-  .sf__base { display: flex; align-items: center; gap: var(--spacing-sm); margin-top: var(--spacing-4xl); padding-top: var(--spacing-lg); border-top: var(--stroke-sm) solid var(--line); color: var(--text-muted); }
-  @media (max-width: 991px) { .sf__in { grid-template-columns: 1fr; } }
+  .sf { padding-top: var(--spacing-3xl); }
+  .sf__follow { display: flex; align-items: center; gap: var(--spacing-xs); padding-bottom: var(--spacing-xl); border-bottom: var(--stroke-sm) solid var(--line); font-weight: var(--font-weight-medium); color: var(--text-headline); }
+  .sf__follow span { margin-right: var(--spacing-lg); }
+  .sf__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.2fr); gap: var(--spacing-3xl); padding-block: var(--spacing-5xl) var(--spacing-section); }
+  .sf__h { margin: 0 0 var(--spacing-md); font-weight: var(--font-weight-medium); color: var(--text-headline); }
+  .sf ul { display: grid; gap: var(--spacing-sm); margin: 0; padding: 0; list-style: none; }
+  .sf .link-text { font-weight: var(--font-weight-regular); color: var(--text-body); }
+  .sf__cta p { margin: 0 0 var(--spacing-lg); }
+  .sf__cta .h3 { margin-top: 0; color: var(--text-headline); }
+  .sf__actions { display: flex; flex-wrap: wrap; gap: var(--spacing-lg); margin-top: var(--spacing-2xl); }
+  .sf__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); padding: var(--spacing-md) var(--spacing-lg); border-top: var(--stroke-sm) solid var(--line); color: var(--text-body); }
+  .sf__bar > span { display: flex; align-items: center; gap: var(--spacing-lg); }
+  .sf__sep { width: var(--stroke-sm); height: 16px; background: var(--line); }
+  @media (max-width: 991px) { .sf__in { grid-template-columns: 1fr 1fr; } }
 </style>

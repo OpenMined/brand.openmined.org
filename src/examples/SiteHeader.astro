@@ -1,37 +1,51 @@
 ---
-/** Example partial: a site header (logo, nav as gray items, one solid button, color
- *  mode switch). A pattern for the full-page examples, not a component: each site
- *  owns its header. */
+/** Example partial: openmined.org's header as reviewed (page review, rounds archive):
+ *  logo, nav as gray items, search and social icon buttons, one solid button, and a
+ *  small color mode switch. A pattern for the full-page examples, not a component:
+ *  each site owns its header. */
 import { iconSvg } from '../lib/icons';
 interface Props { current?: string }
 const { current } = Astro.props;
-const NAV = ['Home', 'Foundation', 'Research', 'Blog', 'Careers', 'SyftHub'];
+const NAV = ['Home', 'Foundation', 'Research', 'Blog', 'Careers'];
+const icon = (n: string, s = 20) => iconSvg(n, { size: s });
 ---
 <header class="sh">
   <div class="container sh__in">
-    <a class="sh__logo" href="#"><img class="sh__mark sh__mark--light" src="/logos/OpenMined-Logo.svg" alt="OpenMined" /><img class="sh__mark sh__mark--dark" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" /></a>
+    <a class="sh__logo" href="#" aria-label="OpenMined, home"><img class="sh__mark sh__mark--light" src="/logos/OpenMined-Logo.svg" alt="" /><img class="sh__mark sh__mark--dark" src="/logos/OpenMined-Logo-Dark.svg" alt="" /></a>
     <nav class="sh__nav" aria-label="Main">
       {NAV.map(n => <a class="sh__link" href="#" aria-current={n === current ? 'page' : undefined}>{n}</a>)}
+      <a class="sh__link sh__link--menu" href="#" aria-current={current === 'Solutions' ? 'page' : undefined}>Solutions <Fragment set:html={icon('nav-arrow-down', 16)} /></a>
+      <a class="sh__link" href="#">Donate</a>
     </nav>
     <div class="sh__tools">
-      <button class="btn btn--icon" aria-label="Search" set:html={iconSvg('search', { size: 20 })} />
-      <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
-      <a class="btn btn--solid" href="#">Get involved</a>
+      <button class="btn btn--icon" aria-label="Search" set:html={icon('search')} />
+      <span class="sh__social">
+        <a class="btn btn--icon" href="#" aria-label="LinkedIn" set:html={icon('linkedin')} />
+        <a class="btn btn--icon" href="#" aria-label="X" set:html={icon('x')} />
+        <a class="btn btn--icon" href="#" aria-label="GitHub" set:html={icon('github')} />
+      </span>
+      <a class="btn btn--solid sh__cta" href="#">Get Involved</a>
     </div>
   </div>
+  <button type="button" class="switch sh__mode" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
 </header>
 <style is:inline>
-  .sh { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--surface-base); border-bottom: var(--stroke-sm) solid var(--line); }
-  .sh__in { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); min-height: 72px; }
-  .sh__mark { display: block; height: 28px; width: auto; }
+  .sh { position: relative; padding-block: var(--spacing-4xl) var(--spacing-xl); }
+  .sh__in { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); }
+  .sh__mark { display: block; height: 48px; width: auto; }
   .sh__mark--dark { display: none; }
   [data-theme="dark"] .sh__mark--light { display: none; }
   [data-theme="dark"] .sh__mark--dark { display: block; }
-  .sh__nav { display: flex; gap: var(--spacing-2xs); }
-  .sh__link { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--text-body); text-decoration: none; transition: background-color var(--transition-base), color var(--transition-base); }
+  .sh__nav { display: flex; align-items: center; gap: var(--spacing-2xs); margin-left: auto; }
+  .sh__link { display: inline-flex; align-items: center; gap: var(--spacing-2xs); padding: var(--spacing-xs) var(--spacing-md); border-radius: var(--radius-md); font-size: var(--font-size-md); color: var(--text-body); text-decoration: none; transition: background-color var(--transition-base), color var(--transition-base); }
   @media (hover: hover) { .sh__link:hover { background: var(--surface-sunken); color: var(--text-headline); } }
-  .sh__link[aria-current="page"] { background: var(--surface-sunken); color: var(--text-headline); }
+  .sh__link[aria-current="page"] { color: var(--text-headline); }
   .sh__link:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
-  .sh__tools { display: flex; align-items: center; gap: var(--spacing-sm); }
+  .sh__tools { display: flex; align-items: center; gap: var(--spacing-xs); }
+  .sh__social { display: flex; margin-inline: var(--spacing-sm); }
+  .sh__tools .btn--icon { min-width: 36px; min-height: 36px; }
+  .sh__cta { min-height: 40px; padding-block: 0; }
+  .sh__mode { position: absolute; top: var(--spacing-xs); right: var(--spacing-md); transform: scale(0.75); transform-origin: top right; }
+  @media (max-width: 1199px) { .sh__social { display: none; } }
   @media (max-width: 991px) { .sh__nav { display: none; } }
 </style>

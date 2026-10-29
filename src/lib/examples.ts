@@ -32,7 +32,7 @@ export const EXAMPLES: Example[] = [
     description: 'An internal tool in the minimal interactive layer: summary cards, tabs, a table with status chips, tags and pagination, and a color mode switch.',
     shows: ['behaviors/interaction-states', 'components/table', 'components/tabs', 'components/status-chip', 'components/card'] },
   { slug: 'home', kind: 'page', motion: true, title: 'Home page',
-    description: 'openmined.org\'s home page in v2: header, a hero with the colorflow, the federated-network section, partner marks, the press room, the join form over the gradient map, and the footer.',
+    description: 'openmined.org\'s home page in v2, as reviewed: the header, the hero with the diamond and the colorflow, the federated network (subnets, pillars, the sub-network card), partnerships, the full press room, the join form over the gradient map, and the footer.',
     shows: ['overview', 'components/hover-card', 'components/link-card', 'guidelines/partner-marks-follow-the-mode', 'behaviors/color-moves'] },
   { slug: 'syfthub', kind: 'page', motion: true, title: 'Product page',
     description: 'SyftHub\'s page in v2: a centered hero, quick-start hover cards, two products, the two paths as steps, applications as icon cards, developer link cards and a closing call to action.',

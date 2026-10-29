@@ -1,104 +1,250 @@
 ---
-/** Example: openmined.org's home page in v2 (src/lib/examples.ts). Rebuilt from
- *  the home page review on the served files: header, hero with the colorflow, the
- *  federated-network section, partner marks, the press room, the join form, footer. */
-import { readFileSync } from 'node:fs';
+/** Example: openmined.org's home page in v2, as reviewed (the home page review, tag
+ *  rounds-archive): the same sections, words, marks and layout, built from the
+ *  system's components and embeds. Org logos are the page's own (public/examples/home/).
+ *  The hero's two outlined diamonds and labels are drawn here around <om-diamond>; the
+ *  live site draws them in its own embed. */
 import Example from '../../layouts/Example.astro';
-import HoverCard from '../../components/site/HoverCard.astro';
 import SiteHeader from '../../examples/SiteHeader.astro';
 import SiteFooter from '../../examples/SiteFooter.astro';
+import ORGS from '../../examples/data/organizations.json';
+import { readFileSync } from 'node:fs';
+import { iconSvg } from '../../lib/icons';
 import { listStops } from '../../lib/tokens';
 import { FOLLOW_JS } from '../../lib/examples';
-const PARTNERS = ['microsoft', 'meta', 'reddit', 'pytorch', 'nist'];
-const mono = (o: string) => readFileSync(`public/logos/orgs/${o}/logo-mono.svg`, 'utf8');
-const PRESS = [['microsoft', 'Expanding our commitments to countering violent extremism online'], ['pytorch', 'OpenMined and PyTorch partner to launch fellowship funding'], ['royal-society', 'From privacy to partnership: the role of PETs in data governance'], ['nist', 'Winners announced in the US-UK PETs prize challenges']];
+
+type Org = { id: string; name: string; logo: string; monochrome?: boolean; roles: string[] };
+const orgs = ORGS as Org[];
+const byId = Object.fromEntries(orgs.map(o => [o.id, o]));
+/** A mark as the page shows it: one-color marks inline (they take the text color), the rest as images. */
+const mark = (o: Org) => o.monochrome && o.logo.endsWith('.svg')
+  ? readFileSync(`public${o.logo}`, 'utf8').replace(/<\?xml[^>]*>/, '').replace(/<svg/, `<svg role="img" aria-label="${o.name}"`)
+  : `<img src="${o.logo}" alt="${o.name}">`;
+const PARTNERS = orgs.filter(o => o.roles.includes('partner'));
+/** The partnership strip shows every mark in one color, the text color (as the live site
+ *  and the review do): an SVG's own fills and strokes become currentColor. Image-only marks
+ *  stay as supplied. */
+const monoMark = (o: Org) => o.logo.endsWith('.svg')
+  ? readFileSync(`public${o.logo}`, 'utf8').replace(/<\?xml[^>]*>/, '')
+      .replace(/(fill|stroke)="(?!none|url)[^"]*"/g, '$1="currentColor"')
+      .replace(/(fill|stroke):\s*(?!none|url)[^;"]+/g, '$1:currentColor')
+      .replace(/<svg/, `<svg role="img" aria-label="${o.name}"`)
+  : `<img src="${o.logo}" alt="${o.name}">`;
+
+const SUBNETS = [
+  ['Publishers', 'Control your distribution in the AI era. Make your assets AI-ready and queryable with guaranteed attribution, fair compensation, and tracking reader engagement — all without losing custody.', 'Join the Beta'],
+  ['Genomics', "Run collaborative genomic research without ever centralizing raw data. BioVault is a free, open-source subnetwork where insights flow freely while sensitive files stay secure on participants' devices.", 'Join the Beta'],
+  ['Creators', "Turn everything you've created into a knowledge base your audience can explore. Know what they're curious about, engage them at scale, and unlock new revenue from content you already have.", 'Get early access'],
+  ['AI Auditors', 'Enable third-party AI audits without exposing proprietary models or user data. Cryptographic infrastructure ensures auditors get verified answers… not copies of model weights, training data, or user logs.', 'Learn More'],
+];
+const PILLARS = [
+  ['globe', 'teal', 'Open, Public Good Infrastructure', 'No vendor lock-in, no black boxes — just open protocols that ensure the network remains truly decentralized and free.'],
+  ['code-brackets-square', 'blue', 'Flexible Federated Computation', 'Run exactly the computation you need — from simple analytics to complex model inference — all executed securely where the data lives.'],
+  ['settings', 'amber', 'Full Control Over Your Data', 'Decide who can use your data, for what purpose, and the privacy, attribution, or pricing rules — and the network enforces them for you.'],
+];
+const PRESS: [string, string][] = [
+  ['deepmind', 'Piloting the world’s first double-blind AI evaluations'], ['anthropic', 'Secure Enclaves for AI Evaluation'],
+  ['aisi', 'Frontier AI Taskforce: second progress report'], ['royal-society', 'From privacy to partnership: The role of PETs in data governance and collaborative analysis'],
+  ['uk-dsit', 'Privacy-preserving third-party audits on Unreleased Digital Assets with PySyft'], ['us-nist', 'Winners Announced in First Phase of UK-US PETs Prize Challenges'],
+  ['us-white-house', 'OSTP-NSF-PCAST Event on Opportunities at the AI Research Frontier'], ['us-senate', 'Driving US Innovation in AI: A Roadmap for AI Policy in the US Senate'],
+  ['us-executive-office', 'National Strategy to Advance Privacy-Preserving Data Sharing and Analytics'], ['us-nsf', 'Democratizing the future of AI R&D: NSF to launch National AI Research Resource pilot'],
+  ['us-census', 'A New Model for International, Privacy-Preserving Data Science'], ['us-ntia', 'AI Accountability Policy Report'],
+  ['christchurch-call', 'Christchurch Call Initiative on Algorithmic Outcomes'], ['microsoft', 'Expanding our commitments to countering violent extremism online'],
+  ['x', 'Investing in privacy enhancing tech to advance transparency in ML'], ['reddit', 'Introducing a New Subreddit for Researchers'],
+  ['meta', 'Privacy and Machine Learning Courses'], ['google', 'Partnering with Google to make differential privacy more widely accessible'],
+  ['pytorch', 'OpenMined and PyTorch partner to launch fellowship funding for privacy-preserving ML community'], ['un-big-data', 'The PET Guide'],
+  ['technologists-public-good', 'Facilitating Access to Non-Public Data: A World in Which All Data is “Open”'], ['stanford-ssir', 'Reimagining Our High-Tech World'],
+];
+const arrow = iconSvg('arrow-right', { size: 16 });
+const net = iconSvg('network', { size: 32 });
+const colorIcon = (name: string, hue: string) => {
+  const svg = iconSvg(name, { size: 32 });
+  return `<span class="color-icon" style="--ci-stroke:url(#tt-${hue}) var(--${hue}-key)"><span class="color-icon__glow" aria-hidden="true">${svg}</span>${svg}</span>`;
+};
 ---
-<Example slug="home" init={`omds.themeToggle(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
+<Example slug="home" init={`omds.themeToggle(); omds.twoTone(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
   <Fragment slot="head">
     <script type="module" src="/embeds/om-stream.js" is:inline></script>
+    <script type="module" src="/embeds/om-diamond.js" is:inline></script>
     <script type="module" src="/embeds/om-mesh.js" is:inline></script>
     <style is:inline>
-      .band { padding-block: var(--spacing-section); }
-      .hero { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-4xl); align-items: center; padding-block: var(--spacing-5xl); }
-      .hero h1 { margin: 0 0 var(--spacing-xl); }
-      .hero ul { margin: 0 0 var(--spacing-3xl); padding-left: var(--spacing-xl); }
-      .hero om-stream { display: block; width: 100%; }
-      .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
-      .statement { max-width: var(--measure); margin: 0 auto; text-align: center; }
-      .statement .actions { justify-content: center; margin-top: var(--spacing-2xl); }
-      .region { display: grid; gap: var(--spacing-4xl); padding: var(--spacing-4xl); border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); }
-      .region__intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); align-items: end; }
-      .region__intro h2, .region__intro p { margin: 0; }
-      .marks { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-3xl) var(--spacing-5xl); margin: 0; padding: 0; list-style: none; color: var(--text-muted); }
-      .marks svg { display: block; height: 28px; width: auto; }
-      .press h2, .partners h2 { margin: 0 0 var(--spacing-3xl); }
-      .partners h2 { text-align: center; }
-      .cta { position: relative; isolation: isolate; overflow: hidden; }
+      .inner { max-width: 1080px; margin-inline: auto; }
+      /* Hero */
+      .hero { position: relative; padding-block: var(--spacing-5xl) calc(2 * var(--spacing-section) + var(--spacing-5xl)); }
+      .hero__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: var(--spacing-2xl); }
+      .hero h1 { margin: 0 0 var(--spacing-3xl); font-size: clamp(var(--font-size-h1-min), 4.69vw, 2.75rem); }
+      .hero__taglines { margin: 0 0 var(--spacing-4xl); }
+      .hero__taglines span { display: block; }
+      .hero__help { display: flex; flex-wrap: wrap; gap: 0 var(--spacing-lg); }
+      .hero__help .link-text { font-weight: var(--font-weight-semibold); }
+      .hero__visual { position: relative; aspect-ratio: 3 / 2; }
+      .hero__visual om-diamond { position: absolute; inset: 0 22%; opacity: 0.5; }
+      .hero__diamond { position: absolute; top: 50%; width: 47.1%; aspect-ratio: 1; border: var(--stroke-sm) solid var(--text-headline); transform: translate(-50%, -50%) rotate(45deg); }
+      .hero__diamond--l { left: 33%; }
+      .hero__diamond--r { left: 67%; }
+      .hero__label { position: absolute; top: 50%; transform: translateY(-50%); font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-mono); color: var(--line); white-space: nowrap; }
+      .hero__label--l { left: 2%; }
+      .hero__label--r { right: 2%; }
+      .hero__bio { max-width: 735px; margin: var(--spacing-5xl) auto 0; text-align: center; }
+      .hero__bio p { margin: 0 0 var(--spacing-4xl); }
+      .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-xl); }
+      .hero__stream { position: absolute; left: 0; right: 0; bottom: -320px; z-index: -1; pointer-events: none; }
+      .hero__stream om-stream { display: block; width: 100%; opacity: 0.55; }
+      main { position: relative; isolation: isolate; }
+      /* The federated network: an outlined region (Outlines are lines) */
+      .fed { border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-md); }
+      .fed__part { padding: var(--spacing-5xl) var(--spacing-3xl); }
+      .fed__part + .fed__part { border-top: var(--stroke-sm) solid var(--line-strong); }
+      .fed__intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-3xl); align-items: start; padding-block: var(--spacing-4xl); }
+      .fed__intro h2 { margin: var(--spacing-2xs) 0 0; }
+      .fed__intro p { margin: 0 0 var(--spacing-lg); }
+      .fed__label { margin: 0 0 var(--spacing-3xl); text-align: center; color: var(--text-body); }
+      .fed__subnets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-3xl); }
+      .fed__subnets h3, .fed__pillars h3 { margin: 0 0 var(--spacing-xl); font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); font-family: var(--font-display); }
+      .fed__subnets p, .fed__pillars p { margin: 0 0 var(--spacing-3xl); }
+      .fed__subnets .link-text { font-weight: var(--font-weight-regular); }
+      .fed__pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-3xl); }
+      .fed__pillars .color-icon { display: inline-block; margin-bottom: var(--spacing-lg); }
+      .fed__pillars .color-icon svg { width: 32px; height: 32px; }
+      .subnet-card .hcard__text { gap: var(--spacing-sm); }
+      .subnet-card .hcard__text strong.h4 { margin: 0 0 var(--spacing-xs); font-family: var(--font-display); font-weight: var(--font-weight-regular); }
+      /* Partnerships */
+      .band { padding-block: var(--spacing-5xl); }
+      .partners__label { margin: 0 0 var(--spacing-3xl); text-align: center; }
+      .partners ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-3xl) var(--spacing-4xl); margin: 0; padding: 0; list-style: none; color: var(--text-body); }
+      .partners li { display: flex; align-items: center; height: 48px; }
+      .partners li :is(svg, img) { height: 100%; max-width: 160px; width: auto; }
+      /* Press room */
+      .press h2 { margin: 0; padding-bottom: var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
+      .press .card-grid { margin-top: var(--spacing-3xl); }
+      .press .lcard__logo :is(svg, img) { position: absolute; inset: 12% 5% 34%; width: 90%; height: 54%; }
+      .press .lcard--logo { color: var(--gray-900); min-height: 320px; }
+      .explore { text-align: center; padding-bottom: var(--spacing-section); }
+      .explore h2 { margin: 0 0 var(--spacing-xl); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
+      /* Call to action over the gradient map */
+      .cta { position: relative; isolation: isolate; overflow: hidden; padding-block: var(--spacing-section); }
       .cta__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
-      .cta__panel { max-width: 480px; margin: 0 auto; padding: var(--spacing-3xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-2); }
-      .cta__panel h2 { margin: 0 0 var(--spacing-2xl); text-align: center; }
+      .cta__panel { max-width: 510px; margin: 0 auto; padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-2xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-2); text-align: center; }
+      .cta__panel > img { width: 48px; height: 48px; }
+      .cta__panel h2 { margin: var(--spacing-lg) 0 var(--spacing-xl); font-size: clamp(var(--font-size-h3-min), 2.77vw, 2.25rem); }
+      .cta__panel > p { margin: 0 0 var(--spacing-2xl); }
+      .cta__panel .fm { text-align: left; gap: var(--spacing-xl); }
       .cta__panel .btn { width: 100%; }
-      @media (max-width: 991px) { .hero, .region__intro { grid-template-columns: 1fr; } .region { padding: var(--spacing-2xl); } }
+      .cta__fine { margin: var(--spacing-lg) 0 0; }
+      .cta__fine p { margin: 0 0 var(--spacing-xs); }
+      @media (max-width: 991px) {
+        .hero__grid, .fed__intro { grid-template-columns: 1fr; }
+        .fed__subnets { grid-template-columns: 1fr 1fr; }
+        .fed__pillars { grid-template-columns: 1fr; }
+      }
     </style>
   </Fragment>
   <SiteHeader current="Home" />
   <main>
-    <section class="container hero">
-      <div>
-        <h1>The missing layer for collective intelligence</h1>
-        <ul class="text-lead"><li>Unlock insights from data you can't access</li><li>Create value from data you can't share</li></ul>
-        <div class="actions"><a class="btn btn--solid" href="#">Get involved</a><a class="btn" href="#">About the Foundation</a></div>
+    <section class="hero">
+      <div class="container inner">
+        <div class="hero__grid">
+          <div>
+            <h1>The missing layer for collective intelligence</h1>
+            <p class="hero__taglines"><span>-&gt; Unlock insights from data you can't access.</span><span>-&gt; Create value from data you can't share.</span></p>
+            <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-text" href="#"><span class="link-text__label">{l}</span></a>)}</div>
+          </div>
+          <div class="hero__visual" aria-hidden="true">
+            <om-diamond></om-diamond>
+            <span class="hero__diamond hero__diamond--l"></span><span class="hero__diamond hero__diamond--r"></span>
+            <span class="hero__label hero__label--l">Non-Public Data</span><span class="hero__label hero__label--r">Attributable Insights</span>
+          </div>
+        </div>
+        <div class="hero__bio content-links">
+          <p>We're OpenMined, a non-profit community building technology that enables secure computation across siloed data — unlocking collective intelligence while preserving <a href="#">attribution-based control</a>.</p>
+          <div class="hero__ctas"><a class="btn btn--solid" href="#">Donate</a><a class="btn" href="#">About the Foundation</a></div>
+        </div>
       </div>
-      <om-stream aspect-ratio="1.2" data-follow={listStops('flow')} aria-hidden="true"></om-stream>
-    </section>
-
-    <section class="band">
-      <div class="container statement">
-        <p class="text-lead">We're OpenMined, a non-profit community building technology that enables secure computation across siloed data, unlocking collective intelligence while preserving <a class="link-content" href="#">attribution-based control</a>.</p>
-      </div>
+      <div class="hero__stream" aria-hidden="true"><om-stream aspect-ratio="2.42" crop-top="0.28" crop-bottom="0.01" data-follow={listStops('flow')}></om-stream></div>
     </section>
 
     <section class="container">
-      <div class="region">
-        <div class="region__intro">
-          <div><p class="text-eyebrow">Meet Syft</p><h2>The federated AI network</h2></div>
-          <p class="text-lead">The network coordinates secure, governed computation across sites, without moving data.</p>
+      <div class="fed">
+        <div class="fed__part">
+          <div class="inner fed__intro">
+            <div><p>Meet Syft:</p><h2>The Federated AI Network</h2></div>
+            <div><p>The network coordinates secure, governed computation across silos — without moving data — making it possible to study information that would otherwise remain private.</p><p>This is how collective intelligence becomes real: when people and communities across information silos connect — respecting their choices and values as they do so, for us to study at any scale, not just what a single group could achieve alone.</p></div>
+          </div>
         </div>
-        <div class="card-grid">
-          <HoverCard href="#" icon="lock" hue="teal" title="Open, public infrastructure" text="No vendor lock-in: open protocols keep the network decentralized." />
-          <HoverCard href="#" icon="flash" hue="blue" title="Flexible federated computation" text="From analytics to model inference, run where the data lives." />
-          <HoverCard href="#" icon="shield-check" hue="green" title="Full control over your data" text="Decide who can use your data, for what, and on which terms." />
+        <div class="fed__part">
+          <div class="inner">
+            <p class="fed__label">Supported Subnets</p>
+            <div class="fed__subnets">
+              {SUBNETS.map(([t, b, l]) => <div><h3>{t}</h3><p>{b}</p><a class="link-text" href="#"><span class="link-text__label">{l}</span><Fragment set:html={arrow} /></a></div>)}
+            </div>
+          </div>
         </div>
-        <HoverCard href="#" icon="network" hue="violet" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain: climate, healthcare, finance or beyond." size="large" />
+        <div class="fed__part">
+          <div class="inner">
+            <div class="fed__pillars">
+              {PILLARS.map(([icon, hue, t, b]) => <div><Fragment set:html={colorIcon(icon, hue)} /><h3>{t}</h3><p>{b}</p></div>)}
+            </div>
+            <a class="hcard hcard--large subnet-card" href="#" data-hover-hue="green" data-flow="ribbon-wave" style="--ci-key:var(--green-key)">
+              <span class="hcard__icon" style="--ci-stroke:url(#tt-green) var(--green-key)" aria-hidden="true"><span class="hcard__glow" set:html={net} /><Fragment set:html={net} /><span class="hcard__color" set:html={net} /></span>
+              <span class="hcard__text"><strong class="h4">Start your own federated sub-network</strong><span>Launch a privacy-preserving network for your domain — whether that be in climate, healthcare, finance, or beyond.</span><span>The federated AI network provides open-source infrastructure for secure, governed collaboration, where data stays distributed, and insights are derived without compromising ownership or control.</span></span>
+              <span class="hcard__arrow" aria-hidden="true" set:html={iconSvg('arrow-right', { size: 24 })} />
+              <span class="hcard__light" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="band partners">
       <div class="container">
-        <h2 class="h4">Partnerships</h2>
-        <ul class="marks">{PARTNERS.map(o => <li set:html={mono(o)} />)}</ul>
+        <p class="partners__label">Partnerships</p>
+        <ul>{PARTNERS.map(o => <li set:html={monoMark(o)} />)}</ul>
       </div>
     </section>
 
     <section class="band press">
       <div class="container">
-        <h2>Press room</h2>
+        <h2>Press Room</h2>
         <div class="card-grid card-grid--4">
-          {PRESS.map(([org, title]) => <a class="lcard lcard--logo" data-section="always-light" href="#"><span class="lcard__logo"><img src={`/logos/orgs/${org}/logo.svg`} alt="" /></span><span class="lcard__text">{title}</span></a>)}
+          {PRESS.map(([id, title]) => byId[id] && (
+            <a class="lcard lcard--logo" data-section="always-light" href="#">
+              <span class="lcard__logo" set:html={mark(byId[id])} />
+              <span class="lcard__text">{title}</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <section class="band cta">
+    <section class="band explore">
+      <h2>Keep Exploring</h2>
+      <a class="btn btn--solid" href="#">Read the latest updates</a>
+    </section>
+
+    <section class="cta">
       <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
       <div class="container">
         <div class="cta__panel">
-          <h2 class="h3">Take control of your data's future</h2>
+          <img src="/logos/OpenMined-Icon.svg" alt="" />
+          <h2>Take Control of Your Data's Future</h2>
+          <p>Join the OpenMined community to stay informed, get involved, and shape how privacy and AI evolve together.</p>
           <form class="fm" onsubmit="return false">
-            <div class="fld"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" autocomplete="email" placeholder="you@example.org" required aria-required="true"></div>
-            <ul class="opts"><li><label class="opt"><input class="opt__box" type="checkbox" checked><span>Get email updates</span></label></li></ul>
+            <div class="fm-grid">
+              <div class="fld"><input class="ctl" aria-label="First name" placeholder="First name" autocomplete="given-name"></div>
+              <div class="fld"><input class="ctl" aria-label="Last name" placeholder="Last name" autocomplete="family-name"></div>
+              <div class="fld fld--full"><input class="ctl" type="email" aria-label="Email" placeholder="Email" autocomplete="email" required aria-required="true"></div>
+              <div class="fld fld--full"><textarea class="ctl" rows="3" aria-label="What data access problem are you working on?" placeholder="What data access problem are you working on?"></textarea></div>
+            </div>
+            <ul class="opts">
+              <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get email updates</span></label></li>
+              <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get an OpenMined Slack Community invite</span></label></li>
+            </ul>
             <button class="btn btn--solid" type="submit">Join</button>
           </form>
+          <div class="cta__fine text-small content-links">
+            <p>Joining subscribes you to the <em>OpenMined Newsletter</em> and confirms you agree with our <a href="#">privacy policy</a>.</p>
+            <p><a href="#">Explore ways to get involved ↗</a></p>
+          </div>
         </div>
       </div>
     </section>

@@ -6,6 +6,8 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   site: 'https://design.openmined.org',
+  // No dev toolbar: it injects itself into every page, the framed examples included.
+  devToolbar: { enabled: false },
   vite: {
     resolve: {
       alias: {
