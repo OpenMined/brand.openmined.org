@@ -61,8 +61,20 @@ const group = (label, files, list) => {
 
 console.log(`Impact of changing --${target}`);
 console.log(`\nTokens that resolve through it (${names.length})\n  ${names.join('\n  ')}`);
-group('Guidance (design/)', walk('design', p => p.endsWith('.md')), names);
-group('Components (components/)', walk('components', p => /\.(css|js)$/.test(p)), names);
+const guides = group('Guidance (design/)', walk('design', p => p.endsWith('.md') && !p.includes('/design/media/')), names);
+const comps = group('Components (components/)', walk('components', p => /\.(css|js)$/.test(p)), names);
+// Medium pages (design/media/) that name one of those guidance or component files: their
+// pages pull the files in, so they change with them.
+const guideSlugs = guides.map(([f]) => f.replace(/^design\//, '').replace(/\.md$/, ''));
+const compNames = comps.map(([f]) => f.replace(/^components\//, '').replace(/\.(css|js)$/, ''));
+const media = walk('design/media', p => p.endsWith('.md')).map(f => {
+  const fm = readFileSync(f, 'utf8').split('---')[1] ?? '';
+  const named = [...guideSlugs.filter(s => new RegExp(`(^|[\\s\\[,-])${esc(s)}($|[\\s,\\]])`, 'm').test(fm)),
+    ...compNames.filter(c => new RegExp(`components: \\[[^\\]]*\\b${esc(c)}\\b`).test(fm))];
+  return [relative(ROOT, f), [...new Set(named)]];
+}).filter(([, n]) => n.length);
+console.log(`\nMedium pages that pull them in (${media.length})`);
+for (const [f, n] of media) console.log(`  ${f}  ${n.join(', ')}`);
 const pages = group('Pages, examples and diagrams', [...walk('src/pages', p => /\.(astro|ts)$/.test(p)), ...walk('src/examples', p => p.endsWith('.astro')), ...walk('src/diagrams', p => /\.(astro|ts)$/.test(p)), ...walk('src/components/site', p => p.endsWith('.astro')), ...walk('src/styles', p => p.endsWith('.css'))], names);
 const pairs = JSON.parse(readFileSync(join(ROOT, 'tools/contrast/pairs.json'), 'utf8'));
 const inPairs = pairs.rules.filter(r => [...r.fg, ...r.bg].some(n => names.includes(`--${n}`) || /\{(hue|status)\}/.test(n) && names.some(x => new RegExp(`^--${n.replace(/\{(hue|status)\}/, '[a-z]+')}$`).test(x))));

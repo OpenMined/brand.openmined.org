@@ -127,7 +127,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="hover-cards">
     <div class="wrap">
-      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class="status">Status: <b>{hoverCard.status}</b></p>}</header>
+      <header class="sec" id="components-hover-card"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class="status">Status: <b>{hoverCard.status}</b></p>}</header>
       <div class="hcards">
         <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
         <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />

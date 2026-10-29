@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import Site from '../layouts/Site.astro';
 import InfoDiagram from '../components/site/InfoDiagram.astro';
 import { doc, DOCS } from '../lib/design';
-import { example } from '../lib/examples';
+import { MEDIA, LEVEL_LABEL } from '../lib/media';
 import { iconSvg } from '../lib/icons';
 import { VERSION } from '../lib/serve';
 
@@ -24,9 +24,8 @@ const parts = Object.fromEntries(
 for (const k of ['intro', 'how-its-built', 'principles', 'how-to-use-it', 'feedback', 'what-stays-human'])
   if (!(k in parts)) throw new Error(`overview.md: no "${k}" section for the front page`);
 
-type Medium = { name: string; level: 'covered' | 'partly' | 'not-yet'; line: string; start: string; example?: string };
-const MEDIA = coverage.data.media as Medium[];
-const LEVEL = { covered: ['Covered', 'success'], partly: ['Partly', 'warning'], 'not-yet': ['Not yet', ''] } as const;
+/** What are you making: one card per medium (design/media/), each opening its page. */
+const plural = (n: number, one: string) => `${n} ${one}${n === 1 ? '' : 's'}`;
 const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
 
 /** The system at a glance: one card per guide page, each with a small live specimen. */
@@ -100,15 +99,14 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
       <header class="sec"><h2>What are you making?</h2><p>{coverage.description}</p></header>
       <div class="making">
         {MEDIA.map((m) => (
-          <article class="card card--compact making__item">
-            <div class="making__head">
-              <h3 class="card__title">{m.name}</h3>
-              <span class:list={['status-chip', LEVEL[m.level][1] && `status-chip--${LEVEL[m.level][1]}`]}>{LEVEL[m.level][0]}</span>
-            </div>
-            <p>{m.line}</p>
-            <p class="text-small"><b>Start:</b> {m.start}</p>
-            {m.example && <a class="link-text" href={`/examples/${m.example}/`} target="_blank" rel="noopener"><span class="link-text__label">Example: {example(m.example).title}</span><span class="visually-hidden"> (opens in a new tab)</span><Fragment set:html={iconSvg('arrow-right', { size: 16 })} /></a>}
-          </article>
+          <a class="lcard making__item" href={`/making/${m.slug}/`}>
+            <span class="making__head">
+              <h3 class="lcard__title">{m.title}<Fragment set:html={ARR} /></h3>
+              <span class:list={['status-chip', LEVEL_LABEL[m.level][1] && `status-chip--${LEVEL_LABEL[m.level][1]}`]}>{LEVEL_LABEL[m.level][0]}</span>
+            </span>
+            <span class="lcard__text">{m.description}</span>
+            <span class="text-small muted">{[plural(m.guidance.length, 'guide'), m.components.length && plural(m.components.length, 'component'), m.examples.length && plural(m.examples.length, 'example')].filter(Boolean).join(' · ')}</span>
+          </a>
         ))}
       </div>
       <div class="grid grid--2 making__lists">

@@ -4,7 +4,7 @@
  * Layout (lab DECISIONS 2026-10-08, after the Open Design System Format's
  * conventional bundle): overview.md (the entry every reader starts from) and
  * log.md at the root; foundations/, components/, patterns/, behaviors/,
- * guidelines/, decisions/. index.md and log.md are reserved names (a listing
+ * guidelines/, decisions/, media/ (one file per thing you might make). index.md and log.md are reserved names (a listing
  * and a change history, per the Open Knowledge Format): no frontmatter needed,
  * and index.md is to be generated, not hand-written.
  *
@@ -18,7 +18,7 @@ const FILES = Object.fromEntries(Object.entries(ALL).filter(([p]) => !RESERVED.t
 /** The change history, design/log.md, rendered as-is. */
 export const LOG = ALL['/design/log.md']?.Content;
 
-export const TYPES = ['Design System', 'Elevation', 'Color', 'Typography', 'Iconography', 'Logo', 'Spacing', 'Shape', 'Motion', 'Component', 'Pattern', 'Behavior', 'Guideline', 'Accessibility', 'Voice', 'Decision'] as const;
+export const TYPES = ['Design System', 'Elevation', 'Color', 'Typography', 'Iconography', 'Logo', 'Spacing', 'Shape', 'Motion', 'Component', 'Pattern', 'Behavior', 'Guideline', 'Accessibility', 'Voice', 'Decision', 'Medium'] as const;
 /** draft: in progress, never on the public site (src/lib/release-gate.ts); released: on the site,
  *  use it; deprecated: being replaced, names its replacement. Decision 2026-10-29. */
 export const STATUSES = ['draft', 'released', 'deprecated'] as const;

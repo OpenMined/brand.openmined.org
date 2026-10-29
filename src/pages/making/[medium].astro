@@ -1,0 +1,103 @@
+---
+/**
+ * BRAND SITE (v2) — one page per thing you might make (design/media/, src/lib/media.ts):
+ * where to start, the guidance and component files that medium needs, its examples and
+ * what isn't covered yet. The medium file only names them; every title, description,
+ * markup block and example is pulled from its own source, so nothing here is a copy.
+ */
+import type { GetStaticPaths } from 'astro';
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import { MEDIA, LEVEL_LABEL, docHref, type Medium } from '../../lib/media';
+import { iconSvg } from '../../lib/icons';
+
+export const getStaticPaths = (() => MEDIA.map(m => ({ params: { medium: m.slug }, props: { m } }))) satisfies GetStaticPaths;
+const { m } = Astro.props as { m: Medium };
+const Body = m.doc.Content;
+const hasBody = m.doc.html.trim().length > 0;
+const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
+const nav: [string, string][] = [
+  ['start', 'Start'],
+  ...(m.guidance.length ? [['guidance', 'Guidance'] as [string, string]] : []),
+  ...(m.components.length ? [['components', 'Components'] as [string, string]] : []),
+  ...(m.examples.length ? [['examples', 'Examples'] as [string, string]] : []),
+  ...(m.gaps.length ? [['not-yet', 'Not covered yet'] as [string, string]] : []),
+];
+const [levelText, levelTone] = LEVEL_LABEL[m.level];
+---
+<Site title={m.title} description={m.description} current="overview">
+  <PageHero eyebrow="What are you making" title={m.title} description={m.description} nav={nav} source="">
+    <p class="making-meta">
+      <span class:list={['status-chip', levelTone && `status-chip--${levelTone}`]}>{levelText}</span>
+      <span class="text-small muted">Updated {m.updated} · <a class="link-content" href={`/design/${m.doc.path}`}>This page as Markdown</a> · <a class="link-content" href="/#making">Everything you might make</a></span>
+    </p>
+  </PageHero>
+
+  <section class="band" id="start">
+    <div class="wrap">
+      <header class="sec"><h2>Start</h2></header>
+      <div class="grid grid--3">
+        {m.start.map(s => s.href
+          ? <a class="lcard" href={s.href}><h3 class="lcard__title">{s.label}<Fragment set:html={ARR} /></h3>{s.note && <span class="lcard__text">{s.note}</span>}</a>
+          : <div class="card card--compact"><h3 class="card__title">{s.label}</h3>{s.note && <p>{s.note}</p>}</div>)}
+      </div>
+      {hasBody && <div class="guide-prose measure making-body"><Body /></div>}
+    </div>
+  </section>
+
+  {m.guidance.length > 0 && (
+    <section class="band" id="guidance">
+      <div class="wrap">
+        <header class="sec"><h2>Guidance</h2><p>The rules that matter most here. Each opens where it lives on this site.</p></header>
+        <div class="grid grid--3">
+          {m.guidance.map(d => <a class="lcard" href={docHref(d)}><h3 class="lcard__title">{d.title}<Fragment set:html={ARR} /></h3><span class="lcard__text">{d.description}</span></a>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {m.components.length > 0 && (
+    <section class="band" id="components">
+      <div class="wrap">
+        <header class="sec"><h2>Components</h2><p>Each is in <a class="link-content" href="/omds.css">/omds.css</a>, or take its files one by one. The markup is from the top of each CSS file.</p></header>
+        <div class="making-components">
+          {m.components.map(c => (
+            <article class="making-component">
+              <h3>{c.guide ? <a class="link-content" href={docHref(c.guide)}>{c.guide.title}</a> : c.files[0].name}</h3>
+              {c.guide && <p>{c.guide.description}</p>}
+              <p class="text-small">{c.files.flatMap(f => [f.css, f.js].filter(Boolean)).map((u, i) => <>{i > 0 && ' · '}<a class="link-content" href={u}>{u}</a></>)}</p>
+              {c.files.filter(f => f.markup).map(f => <details><summary class="text-small">Markup{c.files.length > 1 && `: ${f.name}.css`}</summary><pre class="code-block"><code>{f.markup}</code></pre></details>)}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {m.examples.length > 0 && (
+    <section class="band" id="examples">
+      <div class="wrap">
+        <header class="sec"><h2>Examples</h2><p>Built from the served files: open one and copy it. Examples show the rules in use; they aren't rules.</p></header>
+        <div class="grid grid--3">
+          {m.examples.map(e => (
+            <a class="lcard making-example" href={`/examples/${e.slug}/`} target="_blank" rel="noopener">
+              <span class="making-example__still">{['light', 'dark'].map(mode => <img class={`only-${mode}`} src={`/examples/thumbs/${e.slug}-${mode}.webp`} alt="" width="720" height="450" loading="lazy" decoding="async" />)}</span>
+              <h3 class="lcard__title">{e.title}<span class="visually-hidden"> (opens in a new tab)</span><Fragment set:html={ARR} /></h3>
+              <span class="lcard__text">{e.description}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {m.gaps.length > 0 && (
+    <section class="band" id="not-yet">
+      <div class="wrap">
+        <header class="sec"><h2>Not covered yet</h2></header>
+        <ul class="making-gaps">{m.gaps.map(g => <li>{g}</li>)}</ul>
+        <p>If you need something that isn't here, <a class="link-content" href="/#feedback">tell us</a>: it decides what comes next.</p>
+      </div>
+    </section>
+  )}
+</Site>

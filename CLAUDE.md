@@ -21,6 +21,9 @@ Nothing is typed into a page by hand. Route every change to its source:
   module per moving part (each exports one function taking a selector; safe to call again),
   bare class names, the markup at the top of each CSS file. No framework, no loader.
   `components/README.md`. Decision 2026-10-27.
+- **Media** (what you're making) → `design/media/`, one file per medium naming its start, guidance,
+  component files and examples; `/making/<medium>/` pulls the rest from their sources
+  (`src/lib/media.ts`). Every example must be on a medium's page. Decision 2026-10-29.
 - **Examples** → `src/pages/examples/` on `src/layouts/Example.astro`, listed in
   `src/lib/examples.ts`: bare pages built from the served files (plus, for website pages, the example kit in
   `src/examples/`: not system), so the built HTML is what someone copies. Examples have no

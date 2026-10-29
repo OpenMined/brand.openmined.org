@@ -22,19 +22,7 @@ interface Props {
 }
 const { title, description = 'OpenMined brand and design system: tokens, guidance and assets.', current } = Astro.props;
 
-/** Pages of the new site, in order. Add one when its page is built. */
-const PAGES = [
-  { key: 'overview', label: 'Overview', href: '/' },
-  { key: 'surfaces', label: 'Surfaces', href: '/surfaces/' },
-  { key: 'layout', label: 'Layout', href: '/layout/' },
-  { key: 'color', label: 'Color', href: '/color/' },
-  { key: 'graphics', label: 'Graphics', href: '/graphics/' },
-  { key: 'icons', label: 'Icons', href: '/icons/' },
-  { key: 'logos', label: 'Logos', href: '/logo/' },
-  { key: 'interface', label: 'Interface', href: '/interface/' },
-  { key: 'typography', label: 'Typography', href: '/typography/' },
-  { key: 'examples', label: 'Examples', href: '/examples/' },
-];
+import { PAGES } from '../lib/pages';
 ---
 <!DOCTYPE html>
 <html lang="en">

@@ -5,7 +5,7 @@ import { EXAMPLES } from '../lib/examples';
 import { HOST, STAMP, respond } from '../lib/serve';
 
 const KINDS: [string, string][] = [
-  ['overview', 'Start here'], ['foundations/', 'Foundations'], ['components/', 'Components'], ['patterns/', 'Patterns'],
+  ['overview', 'Start here'], ['media/', 'By medium (read the one for what you\'re making first)'], ['foundations/', 'Foundations'], ['components/', 'Components'], ['patterns/', 'Patterns'],
   ['behaviors/', 'Behaviors'], ['guidelines/', 'Guidelines'], ['decisions/', 'Decisions'],
 ];
 const line = (d: (typeof DOCS)[number]) => `- [${d.title}](${HOST}/design/${d.path}): ${d.description}${d.status === 'deprecated' ? ' (deprecated)' : ''}`;

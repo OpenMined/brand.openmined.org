@@ -23,7 +23,9 @@ Once a week the design lead goes through what's new (an AI session can do the so
    lists (pages and examples, both modes) before and after. The call is made with that in front
    of you.
 4. **Close the loop** on the issue: the commit, or why it stays local, or when it comes back.
-5. Update `design/coverage.md` when something moves from *not yet* to *next*, or ships.
+5. Update `design/coverage.md` when something moves from *not yet* to *next*, or ships, and the
+   medium's file in `design/media/` (its level, what it pulls in, its gaps and `updated` date)
+   when a change reaches it (`npm run impact` lists them).
 
 ## Making a change
 

@@ -56,12 +56,14 @@ you copy the file.
   is illustration. Where an example and the guidance differ, follow the guidance and report the
   difference as feedback.
 
-## Claude artifacts
+## By what you're making
 
-Artifacts load scripts only from a few public CDNs and styles only from Google Fonts, so a
-linked `/omds.css` fails silently. Start from `/starter/artifact.html` (or `-full` for motion):
-everything is already inlined. For a graphic, paste the one-file embed from `/embeds/single/`.
-Dashboards and tools stay in the minimal layer. Fonts load from Google Fonts as usual.
+One file per medium in `/design/media/` (listed in `/llms.txt` under *By medium*): where to
+start, the guidance and component files that medium needs, its examples, and what isn't covered
+yet. Its lists are names: guidance at `/design/<name>.md`, components at `/components/<name>.css`
+(and `.js`), examples at `/examples/<name>/`. Read the one for what you're making first: `web-pages.md`, `claude-artifacts.md`
+(artifacts can't load `/omds.css` by URL: start from the starter), `internal-tools.md`,
+`graphics.md`, `slides.md`, `google-docs.md`, `product-apps.md`.
 
 ## Feedback
 
