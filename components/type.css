@@ -21,8 +21,8 @@
 
    Headings are fluid: each grows with the window between its minimum and
    maximum tokens, reaching the maximum at the 1300px page width (the rate is
-   max / 13 vw). h1–h4 are Rubik 400, with leading that tightens as they grow
-   (1.2) and slight tracking (-0.01em); h5–h6 are Inter 400 on pages and
+   max / 13 vw). h1–h4 are Rubik 400 at 1.2 leading (1.3 for h4 in a long
+   read) with no tracking (--tracking-display, 0), as openmined.org; h5–h6 are Inter 400 on pages and
    in interfaces, Inter 600 at a smaller maximum in a long read. A surface that needs a
    smaller ceiling caps the heading with its own maximum, never a new size:
      .page-hero h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, 3rem); }
@@ -50,6 +50,7 @@ h1, .h1, .prose h1 { font-size: clamp(var(--font-size-h1-min), 4.69vw, var(--fon
 h2, .h2, .prose h2 { font-size: clamp(var(--font-size-h2-min), 3.62vw, var(--font-size-h2-max)); line-height: var(--line-height-h2); }
 h3, .h3, .prose h3 { font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max)); line-height: var(--line-height-h3); }
 h4, .h4, .prose h4 { font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); line-height: var(--line-height-h4); }
+.prose h4 { line-height: var(--line-height-prose-h4); }
 h5, .h5 { font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); line-height: var(--line-height-h5); }
 h6, .h6 { font-size: clamp(var(--font-size-h6-min), 1.54vw, var(--font-size-h6-max)); line-height: var(--line-height-text); }
 /* In a long read, h5 and h6 step up in weight and down in size, so they stay
@@ -70,9 +71,8 @@ strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline
 .text-eyebrow { font-size: var(--font-size-md); }
 
 /* Numbers: tabular figures (every digit the same width) wherever numbers line up
-   in columns, tightened slightly (--tracking-numbers, -0.02em) since every
-   digit keeps one width and columns still align. Tables set tabular figures
-   throughout; a numeric cell (.num) also right-aligns and tightens; .tabular
+   in columns, with --tracking-numbers (0, as drawn). Tables set tabular figures
+   throughout; a numeric cell (.num) also right-aligns; .tabular
    does the same for numbers outside a table (stat tiles, chart labels). Inter
    draws proportional digits by default. */
 table { font-variant-numeric: tabular-nums; }

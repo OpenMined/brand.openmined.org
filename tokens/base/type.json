@@ -150,6 +150,11 @@
       "$description": "h4. Every display level at 1.2, as openmined.org.",
       "$extensions": { "org.openmined": { "status": "released", "was": "tight ramp (1.2) from the type round (2026-10-28) to 2026-10-29; openmined.org 1.2 before" } }
     },
+    "prose-h4": {
+      "$value": 1.3,
+      "$description": "h4 in a long read (.prose).",
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose h4 (1.3); 2026-10-29, was the page h4's" } }
+    },
     "h5": {
       "$value": 1.4,
       "$description": "h5 on pages and in interfaces.",
@@ -197,14 +202,14 @@
   "tracking": {
     "$type": "number",
     "display": {
-      "$value": -0.01,
+      "$value": 0,
       "$description": "Letter spacing on the display face (h1–h4 and the pull quote), in em: write calc(var(--tracking-display) * 1em).",
-      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org (0); slight on display since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "−0.01 from the type round (2026-10-28) to 2026-10-29; openmined.org 0 before" } }
     },
     "numbers": {
-      "$value": -0.02,
+      "$value": 0,
       "$description": "Letter spacing on tabular numbers (table cells marked .num, and .tabular), in em: tightens them while every digit keeps one width, so columns still align.",
-      "$extensions": { "org.openmined": { "status": "released", "was": "type round (2026-10-28): tabular, tightened" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "−0.02 from the type round (2026-10-28) to 2026-10-29; openmined.org sets none" } }
     }
   }
 }

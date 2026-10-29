@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-29** — **No tracking, as openmined.org** (new decision): the display face and tabular numbers are set as drawn (`--tracking-display` and `--tracking-numbers` at 0, from −0.01em and −0.02em). New `--line-height-prose-h4` (1.3) for h4 in a long read, as the site, so every line height matches it too.
 - **2026-10-29** — **Display leading back to 1.2** (new decision): h1 to h4 at 1.2, as openmined.org, replacing the type round's tight ramp (1.05 to 1.2). Tracking unchanged.
 - **2026-10-29** — Home example: the hero diamond is the site's own embed again (in the example kit: the blob, both outlines and the labels as one element, colors from the tokens), so it sits at the live size; it was the system's `<om-diamond>` scaled up with outlines drawn around it. Examples show the favicon.
 - **2026-10-29** — *Steps*: the title takes the h5 size (Inter 400, 18–21px, as on the SyftHub page) instead of semibold body size, with 16px to its text.

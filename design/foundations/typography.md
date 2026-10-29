@@ -1,7 +1,7 @@
 ---
 type: Typography
 title: Typography
-description: Rubik for display, Inter for text. A fluid heading scale, four text sizes, leading that tightens as headings grow, and slight display tracking.
+description: Rubik for display, Inter for text. A fluid heading scale, four text sizes, display leading at 1.2, and no tracking, as openmined.org.
 status: released
 tags: [typography]
 tokens: [--measure, --tracking-numbers, --font-display, --font-body, --font-mono, --tracking-display, --font-size-prose-h5-max, --font-size-prose-h6-max, --line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4, --line-height-h5, --text-headline, --text-body, --text-muted, --font-size-xs, --font-size-sm, --font-size-md, --font-size-lg-min, --font-size-lg, --font-size-h1-min, --font-size-h1-max, --font-size-h2-min, --font-size-h2-max, --font-size-h3-min, --font-size-h3-max, --font-size-h4-min, --font-size-h4-max, --font-size-h5-min, --font-size-h5-max, --font-size-h6-min, --font-size-h6-max, --line-height-lead, --line-height-text, --line-height-prose, --font-weight-regular, --font-weight-medium, --font-weight-semibold, --font-weight-bold]
@@ -28,9 +28,9 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Two treatments for h5 and h6.** On pages, in interfaces, and in presentations, h5 and h6 are Inter 400 (the default, `.h5`, `.h6`). In a long read (`.prose`) they step up to Inter 600 at a smaller maximum, so they stay apart from each other and from body text.
 
-**Leading.** The display levels (`--line-height-h1` to `-h4`) are 1.2, as on openmined.org; `--line-height-h5` 1.4; `--line-height-lead` 1.4; `--line-height-text` (1.5) for body, interface text, h6, and h5–h6 in a long read; `--line-height-prose` (1.75) for paragraphs and list items in a long read. Unitless, so each follows its text's own size.
+**Leading.** The display levels (`--line-height-h1` to `-h4`) are 1.2, as on openmined.org (`--line-height-prose-h4`, 1.3, for h4 in a long read); `--line-height-h5` 1.4; `--line-height-lead` 1.4; `--line-height-text` (1.5) for body, interface text, h6, and h5–h6 in a long read; `--line-height-prose` (1.75) for paragraphs and list items in a long read. Unitless, so each follows its text's own size.
 
-**Tracking.** The display face (h1–h4 and the pull quote) takes `--tracking-display`, −0.01em: `letter-spacing: calc(var(--tracking-display) * 1em)`. Inter is set as drawn.
+**Tracking.** Both faces are set as drawn, as on openmined.org: `--tracking-display` is 0. The display face (h1–h4 and the pull quote) reads it as `letter-spacing: calc(var(--tracking-display) * 1em)`, so it can be tuned in one place.
 
 **Text color.** `--text-headline` for headings and strong text, `--text-body` for body, `--text-muted` for secondary text (the lead, captions, notes, placeholders). Muted reaches 4.5:1 on every surface in both modes.
 
@@ -42,7 +42,7 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Fallbacks.** Rubik and Inter fall back to the system sans, never a serif; mono to the system monospace.
 
-**Numbers.** Wherever numbers line up in columns, digits take one width (tabular figures), tightened by `--tracking-numbers` (−0.02em); the columns still align, since every digit keeps one width. Tables set tabular figures throughout; a numeric cell takes `.num` (right-aligned, tightened); `.tabular` does the same for numbers outside a table, such as stat tiles and chart labels.
+**Numbers.** Wherever numbers line up in columns, digits take one width (tabular figures), with `--tracking-numbers` (0, as drawn). Tables set tabular figures throughout; a numeric cell takes `.num` (right-aligned); `.tabular` does the same for numbers outside a table, such as stat tiles and chart labels.
 
 **Measure.** Text outside an article (a hero's lead, a section intro, a card's text) keeps to a reading width: `.measure`, at `--measure`, the same 640px as the article column. Set `--measure` on the element when a block needs another width.
 
