@@ -11,7 +11,7 @@ export const getStaticPaths = (() => [
 
 export const GET = ({ params }: { params: { file: string } }) => {
   if (params.file === 'index.json') return respond(JSON.stringify({
-    about: 'The OpenMined icon set: Iconoir regular plus our own drawings and partner marks. Use only these names. Each SVG is drawn on a 24 grid in currentColor; set the size with width/height and keep the stroke at 2 up to 24px.',
+    about: 'The OpenMined icon set: Iconoir regular plus our own drawings and partner marks. Use only these names. Each SVG is drawn on a 24 grid in currentColor at 24px with a 2px stroke. At another size set width and height, and keep the drawn line at 2px: stroke-width 2 up to 24px, then 48 ÷ size (1.5 at 32px, 1 at 48px), set on the svg element (--icon-stroke).',
     icons: Object.entries(ICONS).map(([name, e]) => ({ name, url: `/icons/set/${name}.svg`, source: e.src, style: e.style ?? 'line' })),
   }, null, 2), 'json');
   return new Response(iconSvg(params.file.replace(/\.svg$/, ''), { size: 24 }), { headers: { 'Content-Type': 'image/svg+xml' } });

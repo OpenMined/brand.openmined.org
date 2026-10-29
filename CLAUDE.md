@@ -40,7 +40,7 @@ and fails the build on a bad file.
 `draft` (in progress) → `released` → `deprecated` (names its replacement), on every token
 (`$extensions["org.openmined"].status`) and guidance file. **Everything on the public site is
 released.** `npm run build` fails if any token or file is `draft` (`src/lib/release-gate.ts`);
-`npm run dev` and `npm run build:review` show drafts. Decision 2026-10-30.
+`npm run dev` and `npm run build:review` show drafts. Decision 2026-10-29.
 
 ## Tokens
 
@@ -105,7 +105,7 @@ renders of the logos for Docs. `tools/google-docs/README.md`.
 
 v1 is tagged `v1.0.0`. Its served files (`/tokens/tokens.css`, `global.css`, `typography.css`,
 `google-docs.json`, copied from `src/tokens/` at prebuild) stay at their paths, unlinked, for
-existing projects. The review rounds and page reviews were removed 2026-10-30; tag
+existing projects. The review rounds and page reviews were removed 2026-10-29; tag
 `rounds-archive` keeps them runnable (`git checkout rounds-archive && npm run dev`).
 
 ## Deploying

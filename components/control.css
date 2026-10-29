@@ -44,8 +44,9 @@
    focus the fields' line, 1px, drawn 2px outside the control, since inside it
    would sit on the checked fill (gray-500 on the headline fill is 2.87:1).
    Outside, it reads against the surface: 3:1 or more in both modes. */
-:root { --ctl-ring-c: var(--gray-300); }
-[data-theme="dark"] { --ctl-ring-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
+/* The same mode contexts and order as the tokens (light, then dark), so a section locked to a mode gets its own. */
+:root, [data-section="always-light"], [data-theme="dark"] [data-section="invert"] { --ctl-ring-c: var(--gray-300); }
+[data-theme="dark"], [data-section="always-dark"], [data-section="invert"] { --ctl-ring-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
 :is(.opt__box, .switch) { transition: box-shadow var(--transition-base), background-color var(--transition-base); }
 :is(.opt:hover .opt__box, .opt__box:hover, .switch:hover):not(:disabled) { box-shadow: var(--shadow-sunken), inset 0 0 0 1px var(--ctl-ring-c); transition-duration: 0.15s; }
 :is(.opt__box, .switch):focus-visible { outline: 1px solid var(--line-focus); outline-offset: 2px; }

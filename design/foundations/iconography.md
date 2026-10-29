@@ -18,7 +18,7 @@ Icons are **outlined** and **mono** by default. They take the color of the text 
 
 ## The set
 
-Every icon v2 uses has an entry in `icons/set.json`, by name: where its drawing comes from (Iconoir, our own, or a partner mark), its style (`line`, or `solid` where chosen), its review status (`proposed`, then `approved`), and a note. Components ask for the name, never a file, so changing an entry changes that icon everywhere, and a name that isn't in the set stops the build: the set is always the full list of icons in use. The same file maps each icon v1 and openmined.org use to the set icon that replaces it. The *Set* table on this page is a view of it; `icons/README.md` has the steps for reviewing and changing icons.
+Every icon v2 uses has an entry in `icons/set.json`, by name (served as `/icons/set/index.json`, each drawing at `/icons/set/<name>.svg`): where its drawing comes from (Iconoir, our own, or a partner mark), its style (`line`, or `solid` where chosen), its review status (`proposed`, then `approved`), and a note. Components ask for the name, never a file, so changing an entry changes that icon everywhere, and a name that isn't in the set stops the build: the set is always the full list of icons in use. The same file maps each icon v1 and openmined.org use to the set icon that replaces it. The *Set* table on this page is a view of it; `icons/README.md` has the steps for reviewing and changing icons.
 
 ## Color
 

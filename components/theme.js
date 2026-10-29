@@ -11,6 +11,9 @@
  *   import { themeInit, themeToggle } from './theme.js';
  *   themeInit();            // as early as possible (in <head>, to avoid a flash)
  *   themeToggle();          // every [data-theme-toggle]
+ *
+ * A page that sets data-theme itself in <head> should read the saved choice first
+ * (localStorage 'omds-theme'), as the starters and examples do.
  */
 const KEY = 'omds-theme';
 const html = () => document.documentElement;

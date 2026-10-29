@@ -3,7 +3,7 @@ type: Design System
 title: What's covered
 description: "What the system covers for each thing you might make, what comes next, and what it doesn't cover yet. Next is a plan, not a promise."
 status: released
-updated: 2026-10-30
+updated: 2026-10-29
 tags: [overview]
 media:
   - name: Web pages

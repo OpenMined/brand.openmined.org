@@ -1,7 +1,7 @@
 /* ════════════════════════════════════════════════════════════════════
    BUTTON — v2 component (design/components/button.md)
    ════════════════════════════════════════════════════════════════════
-   Needs: the v2 tokens (src/tokens/v2/tokens.css). This file is the whole
+   Needs: the v2 tokens (/tokens/omds.css). This file is the whole
    button with its minimal states: every state works from it alone, in plain
    CSS, with no motion. The color in motion on hover (the full state) is an
    add-on: button-hover.css + button-hover.js. Interactive layers:

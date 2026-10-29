@@ -95,7 +95,7 @@ const PRESS = [['microsoft', 'Expanding our commitments to countering violent ex
         <div class="cta__panel">
           <h2 class="h3">Take control of your data's future</h2>
           <form class="fm" onsubmit="return false">
-            <div class="fld"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" placeholder="you@example.org"></div>
+            <div class="fld"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" autocomplete="email" placeholder="you@example.org" required aria-required="true"></div>
             <ul class="opts"><li><label class="opt"><input class="opt__box" type="checkbox" checked><span>Get email updates</span></label></li></ul>
             <button class="btn btn--solid" type="submit">Join</button>
           </form>

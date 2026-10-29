@@ -34,9 +34,12 @@ const head = `<!--
 <link rel="stylesheet" href="/omds.css">
 <script is:inline>
   (() => {
+    // ?theme= first, then the reader's saved choice (theme.js), then the system's.
+    const ok = (v) => v === 'dark' || v === 'light';
+    let saved = null; try { saved = localStorage.getItem('omds-theme'); } catch {}
     const q = new URLSearchParams(location.search).get('theme');
     const sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', q === 'dark' || q === 'light' ? q : sys);
+    document.documentElement.setAttribute('data-theme', ok(q) ? q : ok(saved) ? saved : sys);
   })();
 </script>
 <slot name="head" />

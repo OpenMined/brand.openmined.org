@@ -67,6 +67,10 @@ export function iconSvg(name: string, { size = '1em', label, cls = '' }: { size?
   // Brand marks are fills in every version: a brand drawn in outline has its own
   // line weight, so it's flattened to a fill before it comes in.
   if (e.src === 'partner' && /stroke="(?!none)[^"]*"/.test(svg)) throw new Error(`Partner mark "${name}" is drawn with strokes; flatten it to a fill (public/logos/partners/${name}/icon.svg).`);
+  // Iconoir sets stroke-width on the root, but a few drawings repeat it on their shapes
+  // (database, map-pin, microphone, network, server, view-structure-up: always the root's
+  // 1.5), which would beat the stroke the set gives by size.
+  if (e.src === 'iconoir') svg = svg.replace(/(<(?!svg\b)[a-z]+\b[^>]*?)\s+stroke-width="[^"]*"/g, '$1');
   const px = typeof size === 'number' ? `${size}px` : size;
   const n = iconPx(size);
   // --icon-stroke lets an imported drawing on another grid compensate (tools/icons/import.mjs).

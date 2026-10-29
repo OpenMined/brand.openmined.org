@@ -16,7 +16,8 @@ italic. Paste into `<head>`:
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
 ```
 
-1. Load the v2 tokens: `src/tokens/v2/tokens.css` (generated from `tokens/`).
+1. Load the v2 tokens: `/tokens/omds.css` on the site (in the repo, `src/tokens/v2/tokens.css`,
+   generated from `tokens/`). Or load `/omds.css`: the tokens and every component in one file.
 2. Load only the component CSS a page uses, or `index.css` for all of them.
 3. For components that move, import their script and call its function once the
    markup is on the page. Every function is safe to call again: call it after
@@ -83,5 +84,6 @@ gather everything.
 On the site, `/omds.css` is the tokens and every component CSS in one file, and `/omds.js`
 every script in one module, for pasting (a Claude artifact) or linking.
 
-`demo.html` shows every component with nothing but these files and the tokens:
-serve the repo root (`python3 -m http.server`) and open `/components/demo.html`.
+Examples of every component put together are at `/examples/` on the site. In the repository,
+`demo.html` shows the components with nothing but these files and the tokens (serve the repo
+root with `python3 -m http.server` and open `/components/demo.html`).

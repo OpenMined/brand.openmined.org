@@ -24,6 +24,6 @@ tokens: [--gradient-highlight-red, --gradient-highlight-amber, --gradient-highli
 
 **Steps by mode.** A hue highlight takes the hue's 400 in light mode and its key in dark mode, the same steps as a two-tone companion (`gradient.highlight.steps`). A highlight can also name a step of its own (`violet.300`), the same in both modes. A gradient-stop highlight (`gradient.<stop>`) takes that stop's value in each mode.
 
-**In use.** Diagram lines: the pulse along a colored line is its highlight alone, over the line at 0.8 at its center and fading in a bell to nothing at its ends. Where a line drains to gray, its highlight turns gray with it. Diagram rings brighten in their highlight (`src/scripts/line-flow.ts`, `--flow-tone`). See *Color moves* (`behaviors/color-moves.md`).
+**In use.** Diagram lines: the pulse along a colored line is its highlight alone, over the line at 0.8 at its center and fading in a bell to nothing at its ends. Where a line drains to gray, its highlight turns gray with it. Diagram rings brighten in their highlight (`components/line-flow.js`, `--flow-tone`). See *Color moves* (`behaviors/color-moves.md`).
 
 **Watch.** Where hue tells groups apart, a highlight in a neighboring group's hue can briefly read as that group. It's a flourish, so *Violet and blue never tell things apart* doesn't apply, but check it on the figure.

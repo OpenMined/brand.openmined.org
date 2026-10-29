@@ -1,5 +1,6 @@
 /* v2 components, all of them. Each file stands alone; import only the ones a
-   page uses. Load the v2 tokens first (src/tokens/v2/tokens.css). */
+   page uses. Load the v2 tokens first (/tokens/omds.css on the site;
+   src/tokens/v2/tokens.css in the repo), or use /omds.css: tokens and all of these. */
 @import './page.css';
 @import './layout.css';
 @import './type.css';

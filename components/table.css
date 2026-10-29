@@ -14,7 +14,7 @@
        </table>
      </div>
      <table class="table table--rows">…</table>        rows take the hover wash (a table you act on)
-     <table class="table table--compact">…</table>     tighter rows, for dashboards
+     <table class="table table--compact">…</table>     tighter rows, centered, for dashboards
 
    Small text, rows divided by the lighter line, no fills and no outer box
    (Outlines are lines; Dividers separate). Headers in the headline color at
@@ -28,6 +28,8 @@
 .table thead th { vertical-align: bottom; }
 .table tbody tr:last-child :is(th, td) { border-bottom: 0; }
 .table--compact :is(th, td) { padding: var(--spacing-xs) var(--spacing-sm); }
+/* Dense rows hold chips, tags and bars: center them on the row. */
+.table--compact tbody :is(th, td) { vertical-align: middle; }
 .table--rows tbody tr { transition: background-color var(--transition-base); }
 @media (hover: hover) { .table--rows tbody tr:hover { background: var(--surface-sunken); } }
 .table--rows tbody tr:is([aria-current], .is-current) { background: var(--surface-sunken); }

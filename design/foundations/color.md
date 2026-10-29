@@ -44,7 +44,7 @@ One label serves every key: **`--on-key`**, white in both modes, for text or an 
 | `--text-headline` | gray 800 | gray 50 | Headings, strong text, labels |
 | `--text-body` | gray 600 | gray 200 | Body and interface text |
 | `--text-muted` | gray 500 | gray 400 | Secondary text: the lead, captions, notes, placeholders |
-| `--line` | gray 300 | gray 600 | Dividers, and every line in a diagram |
+| `--line` | gray 300 | gray 600 | Dividers, and bases and dividers inside a diagram (connectors are `--diagram-connector`, *Diagrams*) |
 | `--line-strong` | gray 600 | gray 200 | The line style: outlines, the secondary button, link underlines |
 | `--line-focus` | gray 500 | gray 400 | Focus on form controls |
 

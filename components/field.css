@@ -48,8 +48,9 @@
 @property --ctl-fe { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 @property --ctl-fo { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
 @property --ctl-fh { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
-:root { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); }
-[data-theme="dark"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); --ctl-outline-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
+/* The same mode contexts and order as the tokens (light, then dark), so a section locked to a mode gets its own. */
+:root, [data-section="always-light"], [data-theme="dark"] [data-section="invert"] { --ctl-hl: 40%; --ctl-edge: 50%; --ctl-outline: 100%; --ctl-outline-c: var(--gray-300); --ctl-edge-c: var(--white); }
+[data-theme="dark"], [data-section="always-dark"], [data-section="invert"] { --ctl-hl: 1.75%; --ctl-edge: 50%; --ctl-outline: 0%; --ctl-edge-c: var(--gray-500); --ctl-outline-c: color-mix(in oklch, var(--gray-500) 50%, transparent); }
 .ctl {
   display: block; width: 100%; margin: 0; border: 1px solid transparent; font: inherit;
   color: var(--text-headline);

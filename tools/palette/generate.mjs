@@ -19,7 +19,7 @@
  *
  * Pinned steps are agreed values: copied, never recomputed (status `released`).
  * New steps take the status inputs.json sets in new_steps_status (`draft` until
- * reviewed; `released` since 2026-10-30). They stay generated.
+ * reviewed; `released` since 2026-10-29). They stay generated.
  * The color maths matched the rounds' _working.ts exactly (tag rounds-archive), so a pinned
  * color renders byte-for-byte as it does on the working pages today.
  */

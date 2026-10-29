@@ -1,5 +1,5 @@
 /**
- * The release gate (decision 2026-10-30, statuses): everything on the public site
+ * The release gate (decision 2026-10-29, statuses): everything on the public site
  * is released. A production build (`npm run build`) fails if any guidance file or
  * token is still `draft`. `npm run dev` and a review build (`npm run build:review`,
  * OMDS_DRAFTS=1) let drafts through, so work in progress can sit beside released

@@ -28,9 +28,9 @@ ${FOLLOW_JS}`}>
         <p>Join the OpenMined community to stay informed, get involved, and shape how privacy and AI evolve together.</p>
         <form class="fm" onsubmit="return false">
           <div class="fm-grid">
-            <div class="fld"><label class="fld__label" for="first">First name<span class="fld__req">*</span></label><input class="ctl" id="first" autocomplete="given-name"></div>
+            <div class="fld"><label class="fld__label" for="first">First name<span class="fld__req">*</span></label><input class="ctl" id="first" autocomplete="given-name" required aria-required="true"></div>
             <div class="fld"><label class="fld__label" for="last">Last name</label><input class="ctl" id="last" autocomplete="family-name"></div>
-            <div class="fld fld--full"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" autocomplete="email" placeholder="you@example.org"></div>
+            <div class="fld fld--full"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" autocomplete="email" placeholder="you@example.org" required aria-required="true"></div>
             <div class="fld fld--full"><label class="fld__label" for="problem">What data access problem are you working on?</label><textarea class="ctl" id="problem" rows="3"></textarea></div>
           </div>
           <ul class="opts">
