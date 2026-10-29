@@ -2,12 +2,12 @@
 /** Example: openmined.org's home page in v2, as reviewed (the home page review, tag
  *  rounds-archive): the same sections, words, marks and layout, built from the
  *  system's components and embeds. Org logos are the page's own (public/examples/home/).
- *  The hero's two outlined diamonds and labels are drawn here around <om-diamond>; the
- *  live site draws them in its own embed. The page shell (header, footer, widths, join
- *  panel) is the example kit (src/examples/kit/); each section's values come from the
- *  review's CSS. */
+ *  The hero diamond is the site's own embed (the kit's DiamondHero). The page shell
+ *  (header, footer, widths, join panel) is the example kit (src/examples/kit/); each
+ *  section's values come from the review's CSS. */
 import Website from '../../examples/kit/Website.astro';
 import JoinPanel from '../../examples/kit/JoinPanel.astro';
+import DiamondHero from '../../examples/kit/DiamondHero.astro';
 import ORGS from '../../examples/data/organizations.json';
 import { readFileSync } from 'node:fs';
 import { iconSvg } from '../../lib/icons';
@@ -66,7 +66,6 @@ const colorIcon = (name: string, hue: string) => {
 <Website slug="home" current="Home" init={`omds.themeToggle(); omds.twoTone(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
   <Fragment slot="head">
     <script type="module" src="/embeds/om-stream.js" is:inline></script>
-    <script type="module" src="/embeds/om-diamond.js" is:inline></script>
     <script type="module" src="/embeds/om-mesh.js" is:inline></script>
     <style is:inline>
       main { position: relative; isolation: isolate; }
@@ -78,15 +77,6 @@ const colorIcon = (name: string, hue: string) => {
       .hero__taglines span { display: block; text-wrap: balance; }
       .hero__help { display: flex; flex-wrap: wrap; gap: 0 var(--spacing-lg); }
       .hero__help .link-text { font-weight: var(--font-weight-semibold); }
-      /* The diamond at the review's proportions: its 760×620 stage, cropped */
-      .hero__visual { position: relative; aspect-ratio: 1.237; }
-      .hero__visual om-diamond { position: absolute; z-index: 1; left: 50%; top: 50%; width: 108.8%; transform: translate(-50%, -50%); pointer-events: none; }
-      .hero__diamond { position: absolute; top: 50%; width: 44.7%; aspect-ratio: 1; border: var(--stroke-sm) solid var(--text-headline); transform: translate(-50%, -50%) rotate(45deg); }
-      .hero__diamond--l { left: 34.2%; }
-      .hero__diamond--r { left: 65.8%; z-index: 2; }
-      .hero__label { position: absolute; top: 50%; transform: translateY(-50%); font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-mono); color: var(--text-headline); z-index: 3; white-space: nowrap; }
-      .hero__label--l { left: 5.9%; }
-      .hero__label--r { right: 5.9%; }
       .hero__bio { max-width: 735px; margin: 0 auto; text-align: center; }
       .hero__bio p { margin: 0 0 var(--spacing-4xl); }
       .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-sm) var(--spacing-xl); }
@@ -157,11 +147,7 @@ const colorIcon = (name: string, hue: string) => {
           <p class="hero__taglines"><span>-&gt; Unlock insights from data you can't access.</span><span>-&gt; Create value from data you can't share.</span></p>
           <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-text" href="#"><span class="link-text__label">{l}</span></a>)}</div>
         </div>
-        <div class="hero__visual" aria-hidden="true">
-          <om-diamond></om-diamond>
-          <span class="hero__diamond hero__diamond--l"></span><span class="hero__diamond hero__diamond--r"></span>
-          <span class="hero__label hero__label--l">Non-Public Data</span><span class="hero__label hero__label--r">Attributable Insights</span>
-        </div>
+        <div aria-hidden="true"><DiamondHero /></div>
       </div>
       <div class="hero__bio content-links">
         <p>We're OpenMined, a non-profit community building technology that enables secure computation across siloed data — unlocking collective intelligence while preserving <a href="#">attribution-based control</a>.</p>

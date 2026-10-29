@@ -14,6 +14,8 @@ styles inline, with a header comment saying so.
   `<main>`, footer); `chrome={false}` for a section (styles only).
 - `kit.css`: widths (`kit-col-10/8/6`), the content section, the join panel, text wrapping.
 - `Header.astro`, `Footer.astro`, `Section.astro`, `JoinPanel.astro`.
+- `DiamondHero.astro`: the home hero's diamond, the site's own embed (blob, outlines, labels in
+  one element), colors from the tokens. The system's diamond is `<om-diamond>` (the blob alone).
 
 When a value is taken from the review, take it from the review's CSS, not from a screenshot.
 Revisit as system once the website shell has been designed as such.

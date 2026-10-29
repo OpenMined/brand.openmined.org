@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-29** — Home example: the hero diamond is the site's own embed again (in the example kit: the blob, both outlines and the labels as one element, colors from the tokens), so it sits at the live size; it was the system's `<om-diamond>` scaled up with outlines drawn around it. Examples show the favicon.
 - **2026-10-29** — *Steps*: the title takes the h5 size (Inter 400, 18–21px, as on the SyftHub page) instead of semibold body size, with 16px to its text.
 - **2026-10-29** — The **SyftHub example** is rebuilt on the example kit and matches the reviewed page section by section: hero, quick-start link cards, the two products (SyftHub solid, Syft Space outlined), the flow diagram, core components, the two paths as steps with the quote, applications, key benefits, developer tools, the closing callout and calls to action, and the join panel. The kit's header takes the site's height (128px, 88px on phones).
 - **2026-10-29** — **Example kit** for the website examples (`src/examples/kit/`, not system): header, footer, widths, a content section and the join panel, with values taken from the reviewed pages' CSS. The Home example moves onto it and matches the reviewed page section by section, including the footer. *Link card* fix: a logo card's logo keeps the card's full width and its caption sits at the bottom (a short caption shrank the logo).
