@@ -17,3 +17,28 @@
 /logos/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+
+# v2: everything the site serves for people and AI agents (src/lib/serve.ts), so
+# any project or tool can fetch it.
+/omds.css
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+/omds.js
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+/components/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+/design/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+/icons/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+/llms.txt
+  Access-Control-Allow-Origin: *
+/AGENTS.md
+  Access-Control-Allow-Origin: *
+  Content-Type: text/markdown; charset=utf-8
+/manifest.json
+  Access-Control-Allow-Origin: *

@@ -1,7 +1,7 @@
 {
   "name": "openmined-brand-reference",
   "type": "module",
-  "version": "0.1.0",
+  "version": "2.0.0-pre",
   "scripts": {
     "dev": "astro dev",
     "prebuild": "mkdir -p public/tokens && cp src/tokens/*.css src/tokens/*.json public/tokens/",

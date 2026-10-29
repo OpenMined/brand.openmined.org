@@ -5,7 +5,7 @@ import path from 'path';
 const root = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  site: 'https://brand.openmined.org',
+  site: 'https://design.openmined.org',
   vite: {
     resolve: {
       alias: {
