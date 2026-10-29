@@ -3,7 +3,7 @@ type: Guideline
 title: The logo keeps its own colors
 description: The logo and icon keep their canonical colors in every palette and mode.
 status: released
-tags: [graphics]
+tags: [logos]
 ---
 
 **Rule.** Use the logo files as they are. Don't recolor the logo or icon from the palette.

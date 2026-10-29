@@ -14,6 +14,6 @@ export const GET = () => respond(JSON.stringify({
   design: { index: '/design/index.json', files: DOCS.map(d => `/design/${d.path}`).sort() },
   icons: { index: '/icons/set/index.json', count: Object.keys(ICONS).length },
   examples: EXAMPLES.map(e => ({ url: `/examples/${e.slug}/`, title: e.title, kind: e.kind, shows: e.shows.map(s => `/design/${s}.md`) })),
-  embeds: walk('public/embeds', f => f.endsWith('.js')).map(f => `/embeds/${f}`),
+  embeds: [...walk('public/embeds', f => f.endsWith('.js')).map(f => `/embeds/${f}`), '/embeds/brand-colors.js'],
   feedback: 'https://github.com/OpenMined/brand.openmined.org/issues/new?template=feedback.yml',
 }, null, 2), 'json');

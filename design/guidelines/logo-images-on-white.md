@@ -3,7 +3,7 @@ type: Guideline
 title: Logo images sit on white
 description: A logo that comes as an image file, such as the press room's, sits on a white plate in either mode. Vector partner marks follow the mode instead.
 status: released
-tags: [graphics]
+tags: [logos]
 ---
 
 **Rule.** An organization's logo supplied as an image (a PNG or JPEG, such as the logos in the press room on openmined.org's home page) sits on white (`--white`) in either page mode: a press card or logo tile is a white plate.

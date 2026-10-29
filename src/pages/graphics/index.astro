@@ -12,33 +12,22 @@ import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import FigA from '../../diagrams/Abc1.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
-import { BRANDS, PARTNERS_DIR } from '../../lib/partners';
-import PartnerLogo from '../../components/PartnerLogo.astro';
 import { MODES, HUES, hex, listStops } from '../../lib/tokens';
+
+/** How to load each embed, shown with it. */
+const USE = {
+  diamond: `<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>\n<om-diamond style="max-width:420px"></om-diamond>\n<!-- gradient="spectrum" (a name from /embeds/brand-colors.js) or colors="#…,#…" -->`,
+  stream: `<script type="module" src="https://design.openmined.org/embeds/om-stream.js"></script>\n<om-stream aspect-ratio="2"></om-stream>\n<!-- gradient="stream" | colors="…" · aspect-ratio · crop-top · crop-bottom · rot-speed · rot-axis="along|across|spiral" -->`,
+  mesh: `<script type="module" src="https://design.openmined.org/embeds/om-mesh.js"></script>\n<om-mesh mode="clouds" style="position:absolute; inset:0"></om-mesh>\n<!-- colors="…" (eight stops) · haze="…" · mode · speed · drift · opacity · saturation: see the file's header -->`,
+};
 
 const diagrams = doc('patterns/diagrams');
 const DiagramsContent = diagrams.Content;
 const rules = byTag('graphics', 'Guideline', 'Behavior');
 const decisions = decisionsFor('graphics');
 
-const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['embeds', 'Using the embeds'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 
-/* Partner marks, from public/logos/partners/partners.json (the source of truth),
-   through src/lib/partners.ts, which also fails the build on a color file that
-   doesn't read in one mode. One color by default, like the live site: every
-   brand's icon.svg is a one-color glyph (currentColor), inlined so it takes the
-   text color in both modes. The official color files are one toggle away, and
-   follow the mode (PartnerLogo swaps in a brand's dark file). */
-const PARTNERS = Object.entries(BRANDS)
-  .map(([key, b]) => ({
-    key, name: b.name, owner: b.trademark, gaps: (b.gaps ?? []).length,
-    color: Boolean(b.iconColor && existsSync(join(PARTNERS_DIR, b.iconColor))), dark: Boolean(b.dark?.iconColor), derived: Boolean(b.dark?.derived),
-    mono: readFileSync(join(PARTNERS_DIR, b.icon), 'utf8').replace(/<svg/, '<svg class="partner__glyph" aria-hidden="true" focusable="false"'),
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name));
-const partnerRule = doc('guidelines/partner-marks-as-supplied');
 ---
 <Site title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette." current="graphics">
   <PageHero eyebrow="Visual language" title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette so a palette change reaches every graphic." status="released" nav={NAV} />
@@ -104,38 +93,26 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     </div>
   </section>
 
-  <section class="band" id="logo">
+  <section class="band" id="embeds">
     <div class="wrap">
-      <header class="sec"><h2>Logos and embeds</h2><p>OpenMined's logo keeps its own colors in every palette and mode; partner marks are used as their owners supply them. The animated embeds take their colors from the page (<a href="#gradient">Gradient</a>); without them they fall back to built-in colors that aren't the v2 palette yet.</p></header>
-      <div class="grid grid--2">
+      <header class="sec"><h2>Using the embeds</h2><p>The animated brand graphics are framework-free web components in <code>/embeds/</code>: one script tag and an element, in any page. Each is independent; several on a page are fine, and each cleans up when removed. They draw with the v2 colors (<code>/embeds/brand-colors.js</code>, generated from the tokens, light mode's values); to follow the page's mode, pass the page's own colors, as the graphics on this page do (<code>data-follow</code>, in the examples). A Claude artifact can't load them by URL: paste the file in. The logo and partner marks are on <a href="/logo/">Logos</a>.</p></header>
+      <div class="grid grid--3">
         <article class="card">
-          <img class="only-light logo-spec" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" />
-          <img class="only-dark logo-spec" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" height="40" />
-          <p class="muted">Full color on light; reversed on dark.</p>
+          <h3>Diamond <code>&lt;om-diamond&gt;</code></h3>
+          <om-diamond class="diamond-stage" aria-hidden="true"></om-diamond>
+          <pre class="code-block"><code>{USE.diamond}</code></pre>
         </article>
         <article class="card">
-          <h3>Embeds</h3>
-          <p class="muted"><code>&lt;om-diamond&gt;</code>, <code>&lt;om-stream&gt;</code> (the colorflow) and <code>&lt;om-mesh&gt;</code> (the gradient map) are framework-free web components.</p>
+          <h3>Colorflow <code>&lt;om-stream&gt;</code></h3>
+          <p class="muted">Shown above, under <a href="#motion">Colorflow and gradient map</a>.</p>
+          <pre class="code-block"><code>{USE.stream}</code></pre>
+        </article>
+        <article class="card">
+          <h3>Gradient map <code>&lt;om-mesh&gt;</code></h3>
+          <p class="muted">Shown above, behind its card.</p>
+          <pre class="code-block"><code>{USE.mesh}</code></pre>
         </article>
       </div>
-      <article class="card">
-        <h3>Partner marks</h3>
-        <p class="muted">{partnerRule.description} {PARTNERS.length} tools and partners, from <code>public/logos/partners/</code> (<code>partners.json</code> records each mark's owner, official source, variants and gaps). One color by default, in the color of the text around them; {PARTNERS.filter(p => p.color).length} also have an official color file, shown in the page's mode. {PARTNERS.filter(p => p.dark).length} need a dark-mode file to read on dark ({PARTNERS.filter(p => p.dark).map(p => p.name).join(' and ')}; {PARTNERS.filter(p => p.derived).length ? 'derived by us until the official files are fetched' : 'from their owners'}). The build fails on any color file that would vanish in one mode.</p>
-        <div class="actions partners-view" role="group" aria-label="Show partner marks in">
-          <button type="button" class="btn js-pview" aria-pressed="true" data-view="mono">One color</button>
-          <button type="button" class="btn js-pview" aria-pressed="false" data-view="color">Official color</button>
-        </div>
-        <ul class="partners">
-          {PARTNERS.map(p => (
-            <li title={`${p.name}, a trademark of ${p.owner}`}>
-              <span class="partner__mark partner__mark--mono"><Fragment set:html={p.mono} /></span>
-              <span class="partner__mark partner__mark--color">{p.color ? <PartnerLogo brand={p.key} variant="icon-color" size={32} alt="" /> : <Fragment set:html={p.mono} />}</span>
-              <span class="partner__name">{p.name}</span>
-            </li>
-          ))}
-        </ul>
-        <p class="muted">Each mark is the trademark of its owner. Rules: <a href="#guidelines-partner-marks-as-supplied">Partner marks are used as supplied</a>. Used inline next to text, they follow the <a href="/icons/#sizes">icon sizes</a>.</p>
-      </article>
     </div>
   </section>
 
@@ -156,6 +133,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
   <ExampleLinks slugs={["diagram-abc-1", "diagram-abc-2", "diagram-abc-3"]} />
   <script type="module" src="/embeds/om-stream.js" is:inline></script>
   <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+  <script type="module" src="/embeds/om-diamond.js" is:inline></script>
   <script is:inline>
     // Palette-following embeds (ported from the color round): each [data-follow]
     // element gets its `colors` (and `haze`) from the named v2 tokens, re-read
@@ -173,10 +151,5 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
       sync();
       new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });
     })();
-    // Partner marks: one color (default) or the official color files
-    document.querySelectorAll('.js-pview').forEach(b => b.addEventListener('click', () => {
-      document.querySelector('.partners')?.classList.toggle('is-color', b.dataset.view === 'color');
-      document.querySelectorAll('.js-pview').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-    }));
   </script>
 </Site>

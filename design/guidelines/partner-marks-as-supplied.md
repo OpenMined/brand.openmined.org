@@ -3,7 +3,7 @@ type: Guideline
 title: Partner marks are used as supplied
 description: Other companies' logos are their trademarks. Use the official file, never recolor or redraw it, and never imply endorsement.
 status: released
-tags: [graphics, icons]
+tags: [logos, icons]
 ---
 
 **Rule.** A partner or tool logo comes from `public/logos/partners/` and is used as its owner supplies it. OpenMined's colors don't apply: never recolor, restyle, or redraw a mark, and never imply an endorsement or partnership that doesn't exist.

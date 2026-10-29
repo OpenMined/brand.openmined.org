@@ -19,10 +19,12 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   return { label, resolved: e.resolved, status: e.status ?? 'released' };
 };
 const same = names.every(n => T.light[n]?.value === T.dark[n]?.value);
+/** Status shows only when a row isn't released (everything on the public site is). */
+const showStatus = names.some(n => (T.light[n]?.status ?? 'released') !== 'released');
 ---
 <div class="tbl-wrap">
   <table class="tbl">
-    <thead><tr><th>Token</th>{same ? <th>Value</th> : <><th>Light</th><th>Dark</th></>}<th>Status</th></tr></thead>
+    <thead><tr><th>Token</th>{same ? <th>Value</th> : <><th>Light</th><th>Dark</th></>}{showStatus && <th>Status</th>}</tr></thead>
     <tbody>
       {names.map(name => {
         const l = cell('light', name), d = cell('dark', name);
@@ -30,7 +32,7 @@ const same = names.every(n => T.light[n]?.value === T.dark[n]?.value);
           <tr>
             <td><code>{name}</code></td>
             {(same ? [l] : [l, d]).map(c => <td><span class="tbl__val">{c.label ? <><code>{c.label}</code><small>{c.resolved}</small></> : <small>{c.resolved}</small>}</span></td>)}
-            <td>{l.status}</td>
+            {showStatus && <td>{l.status}</td>}
           </tr>
         );
       })}
