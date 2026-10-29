@@ -218,7 +218,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
 
   <section class="band" id="gradient">
     <div class="wrap">
-      <header class="sec"><h2>{gradient.title}</h2><p>{gradient.description} Family stops are hue keys; gold, orange, lime and yellow are fitted to the palette. Status: <b>{gradient.status}</b>.</p></header>
+      <header class="sec"><h2>{gradient.title}</h2><p>{gradient.description} Family stops are hue keys; gold, orange, lime and yellow are fitted to the palette.{gradient.status !== 'released' && <> Status: <b>{gradient.status}</b>.</>}</p></header>
       <article class="card spec-card">
         <i class="spec__bar" aria-hidden="true"></i>
         <div class="spec__stops">
@@ -238,7 +238,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
                 <span>
                   <i style={`background:var(--gradient-${n})`}></i>
                   <b>{n}</b>
-                  {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />fitted · exploring</code>)}
+                  {MODES.map(m => <code class={`only-${m}`}>{hex(m, `gradient-${n}`)}<br />fitted</code>)}
                 </span>
               ))}
             </div>
@@ -250,7 +250,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
           <tbody>
             {GRADIENT_LISTS.map(l => (
               <tr>
-                <td><code>--gradient-{l.name}</code><br /><span class="muted">{l.status}</span></td>
+                <td><code>--gradient-{l.name}</code>{l.status !== 'released' && <><br /><span class="muted">{l.status}</span></>}</td>
                 <td><i class="tt-bar" style={`background:var(--gradient-${l.name})`}></i></td>
                 <td class="muted">{listStops(l.name).split(',').map(n => n.replace('gradient-', '').replace('-key', ' key')).join(', ')}</td>
               </tr>
@@ -265,7 +265,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
 
   <section class="band" id="two-tone">
     <div class="wrap">
-      <header class="sec"><h2>{twoTone.title}</h2><p>{twoTone.description} Status: <b>{twoTone.status}</b>.</p></header>
+      <header class="sec"><h2>{twoTone.title}</h2><p>{twoTone.description}{twoTone.status !== 'released' && <> Status: <b>{twoTone.status}</b>.</>}</p></header>
       <article class="card">
         <div class="tbl-wrap">
         <table class="tbl tbl--two-tone">
@@ -290,7 +290,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
 
   <section class="band" id="highlight">
     <div class="wrap">
-      <header class="sec"><h2>{highlight.title}</h2><p>{highlight.description} Status: <b>{highlight.status}</b>.</p></header>
+      <header class="sec"><h2>{highlight.title}</h2><p>{highlight.description}{highlight.status !== 'released' && <> Status: <b>{highlight.status}</b>.</>}</p></header>
       <article class="card">
         <div class="tbl-wrap">
         <table class="tbl tbl--two-tone">

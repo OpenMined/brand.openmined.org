@@ -1,5 +1,5 @@
 /**
- * Shared WebGL renderer (behaviors/color-moves, exploring).
+ * Shared WebGL renderer (behaviors/color-moves).
  *
  * One WebGL context and one animation loop for the whole page, drawing any
  * number of short-lived placements: a hover card's colorflow, and later any

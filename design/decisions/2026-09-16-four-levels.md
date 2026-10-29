@@ -2,7 +2,7 @@
 type: Decision
 title: Four surface levels, not eight
 description: The v1 brand had eight surface tokens; in practice people picked the wrong one. v2 has four levels.
-status: working
+status: released
 date: 2026-09-16
 tags: [surfaces]
 tokens: [--surface-sunken, --surface-base, --surface-raise-1, --surface-raise-2]

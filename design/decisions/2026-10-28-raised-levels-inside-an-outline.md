@@ -2,7 +2,7 @@
 type: Decision
 title: "Raised levels may sit inside an outline"
 description: "A card or band on its own level, with its shadow, may sit inside an outlined area; the outline keeps the page's surface on both sides. Settles the open question in Outlines are lines."
-status: working
+status: released
 date: 2026-10-28
 tags: [surfaces]
 tokens: [--line-strong, --stroke-sm, --surface-raise-1, --shadow-raise-1]

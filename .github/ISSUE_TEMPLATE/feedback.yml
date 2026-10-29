@@ -1,0 +1,75 @@
+# Feedback on the OpenMined Design System: the one inbox (lab research
+# 2026-10-28, feedback and deployment audit). People file it here; agents file it
+# with `gh issue create` (the OMDS skill does this after showing the person the
+# text). The design lead reviews new feedback weekly and routes each item to its
+# layer. Labels: `feedback` plus one `layer:` label, set at review.
+name: Design system feedback
+description: Something missing, wrong or unclear in the design system, found while making something with it.
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for telling us. One issue per thing you noticed. Screenshots help most.
+  - type: dropdown
+    id: making
+    attributes:
+      label: What were you making?
+      options:
+        - Web page
+        - Claude artifact
+        - Internal tool or dashboard
+        - Slides
+        - Google Doc
+        - Graphic or diagram
+        - Product app
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where is it?
+      description: A link, a repo and path, or "one-off" if it isn't kept anywhere.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened?
+      options:
+        - Something I needed isn't covered
+        - Something looks or works wrong
+        - The guidance was unclear or contradictory
+        - I had to work around the system
+        - An idea
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Tell us about it
+      description: What you needed, what the system gave you, and what you did instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which part of the system does it touch? (best guess)
+      options:
+        - A value (a color, size, shadow)
+        - A role (which token to use for what)
+        - A rule or guideline
+        - A component
+        - An example
+        - The skill or AI instructions
+        - Don't know
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Screenshots, links, or file:line.
+  - type: input
+    id: version
+    attributes:
+      label: Design system version
+      description: From the project's omds.json or the comment at the top of the CSS, if you know it.

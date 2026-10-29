@@ -2,7 +2,7 @@
 type: Decision
 title: "Four roles per hue; one white label on the key"
 description: "Each hue and status keeps subtle, soft, fg and key. solid, hover and the per-hue on are gone: the key is the colored fill, and one token, --on-key, labels it in white in every hue and both modes, below AA on green, amber and teal, accepted."
-status: working
+status: released
 date: 2026-10-28
 tags: [color, interface]
 tokens: [--on-key, --green-key, --amber-key, --teal-key]

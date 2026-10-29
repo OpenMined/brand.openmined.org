@@ -2,7 +2,7 @@
 type: Behavior
 title: Color modes and sections
 description: Light and dark swap every value under the same names. A section can pin a mode or invert the page's; the four levels repeat inside it.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--surface-base, --text-body]
 ---

@@ -2,7 +2,7 @@
 type: Guideline
 title: Keep shadow blur at 16px or less
 description: The outermost blur sets the widest visible band in a shadow. Past 16px, the bands show as steps on screen.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--shadow-raise-1, --shadow-raise-2]
 ---

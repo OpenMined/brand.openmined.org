@@ -2,7 +2,7 @@
 type: Decision
 title: "Status chips: full pill, contrast accepted"
 description: "Status chips stay fully round, and the strong chip's white on the key is accepted for now though some statuses fall under 4.5:1. Closes the status round's two open questions."
-status: working
+status: released
 date: 2026-10-28
 tags: [interface, color]
 tokens: [--radius-full, --success-key, --warning-key, --danger-key, --info-key, --white]

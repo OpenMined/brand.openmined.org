@@ -2,7 +2,7 @@
 type: Elevation
 title: Surfaces
 description: Four surface levels, each with its own shadow. One below the page, the page, and two above.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--surface-sunken, --surface-base, --surface-raise-1, --surface-raise-2, --shadow-sunken, --shadow-raise-1, --shadow-raise-2]
 ---

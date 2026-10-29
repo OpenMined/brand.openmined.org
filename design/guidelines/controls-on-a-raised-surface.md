@@ -2,7 +2,7 @@
 type: Guideline
 title: Recessed controls sit on a raised surface
 description: Fields, toggles, checkboxes and radios are recesses, so they sit on a card or panel (raise-1 or raise-2), never directly on the page.
-status: working
+status: released
 tags: [interface, surfaces]
 tokens: [--surface-sunken, --surface-base, --surface-raise-1, --surface-raise-2]
 ---

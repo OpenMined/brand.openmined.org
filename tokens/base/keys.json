@@ -6,7 +6,7 @@
       "$value": "{violet.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -17,7 +17,7 @@
       "$value": "{blue.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -28,7 +28,7 @@
       "$value": "{teal.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -39,7 +39,7 @@
       "$value": "{green.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -50,7 +50,7 @@
       "$value": "{amber.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -61,7 +61,7 @@
       "$value": "{red.500}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -72,7 +72,7 @@
       "$value": "{violet.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -80,7 +80,7 @@
       "$value": "{green.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -88,7 +88,7 @@
       "$value": "{blue.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -96,7 +96,7 @@
       "$value": "{amber.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -104,7 +104,7 @@
       "$value": "{teal.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -112,7 +112,7 @@
       "$value": "{red.key}",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }

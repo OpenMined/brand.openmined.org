@@ -5,109 +5,109 @@
     "xs": {
       "$value": { "value": 0.75, "unit": "rem" },
       "$description": "The smallest text: captions and labels on graphics. Weight 500.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .text-caption (11px); 12px since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .text-caption (11px); 12px since the type round (2026-10-28)" } }
     },
     "sm": {
       "$value": { "value": 0.875, "unit": "rem" },
       "$description": "Small text: figure captions, form descriptions, table text, notes. Regular weight unless a style says otherwise.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .text-small (14px): small text, captions, form descriptions" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .text-small (14px): small text, captions, form descriptions" } }
     },
     "md": {
       "$value": { "value": 1, "unit": "rem" },
       "$description": "Body text: the default size for reading text, form labels, values and options.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org body (16px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org body (16px)" } }
     },
     "lg-min": {
       "$value": { "value": 1.125, "unit": "rem" },
       "$description": "Lead at its smallest (narrow screens): it grows with the window to --font-size-lg at the 1300px page width, like the headings.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "new in v2: 18px, the h5 minimum" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "new in v2: 18px, the h5 minimum" } }
     },
     "lg": {
       "$value": { "value": 1.3125, "unit": "rem" },
       "$description": "Lead at its largest, reached at the 1300px page width: the introduction under a page title.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .text-subtitle (21px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .text-subtitle (21px)" } }
     },
     "h1": {
       "min": {
         "$value": { "value": 2.25, "unit": "rem" },
         "$description": "h1 at its smallest (narrow screens). Page titles.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h1-min/max (36–61px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h1-min/max (36–61px)" } }
       },
       "max": {
         "$value": { "value": 3.8125, "unit": "rem" },
         "$description": "h1 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h1-min/max (36–61px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h1-min/max (36–61px)" } }
       }
     },
     "h2": {
       "min": {
         "$value": { "value": 1.75, "unit": "rem" },
         "$description": "h2 at its smallest (narrow screens). Section headings; an article's top-level heading.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h2-min/max (28–47px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h2-min/max (28–47px)" } }
       },
       "max": {
         "$value": { "value": 2.9375, "unit": "rem" },
         "$description": "h2 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h2-min/max (28–47px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h2-min/max (28–47px)" } }
       }
     },
     "h3": {
       "min": {
         "$value": { "value": 1.5, "unit": "rem" },
         "$description": "h3 at its smallest (narrow screens). Sub-sections.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h3-min/max (24–36px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h3-min/max (24–36px)" } }
       },
       "max": {
         "$value": { "value": 2.25, "unit": "rem" },
         "$description": "h3 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h3-min/max (24–36px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h3-min/max (24–36px)" } }
       }
     },
     "h4": {
       "min": {
         "$value": { "value": 1.375, "unit": "rem" },
         "$description": "h4 at its smallest (narrow screens). Minor headings.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h4-min/max (22–27px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h4-min/max (22–27px)" } }
       },
       "max": {
         "$value": { "value": 1.6875, "unit": "rem" },
         "$description": "h4 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --h4-min/max (22–27px)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --h4-min/max (22–27px)" } }
       }
     },
     "h5": {
       "min": {
         "$value": { "value": 1.125, "unit": "rem" },
         "$description": "h5 at its smallest. Page and interface text headings: Inter 400.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h5 (18–21px, Inter 400)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h5 (18–21px, Inter 400)" } }
       },
       "max": {
         "$value": { "value": 1.3125, "unit": "rem" },
         "$description": "h5 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h5 (18–21px, Inter 400)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h5 (18–21px, Inter 400)" } }
       }
     },
     "h6": {
       "min": {
         "$value": { "value": 1.0, "unit": "rem" },
         "$description": "h6 at its smallest. Page and interface text headings: Inter 400.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h6 (16–20px, Inter 400)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h6 (16–20px, Inter 400)" } }
       },
       "max": {
         "$value": { "value": 1.25, "unit": "rem" },
         "$description": "h6 at its largest, reached at the 1300px page width.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h6 (16–20px, Inter 400)" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h6 (16–20px, Inter 400)" } }
       }
     },
     "prose-h5-max": {
       "$value": { "value": 1.25, "unit": "rem" },
       "$description": "h5 in a long read (.prose) at its largest: Inter 600, from the shared h5 minimum.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose h5 (18–20px, Inter 600)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose h5 (18–20px, Inter 600)" } }
     },
     "prose-h6-max": {
       "$value": { "value": 1.125, "unit": "rem" },
       "$description": "h6 in a long read (.prose) at its largest: Inter 600, from the shared h6 minimum.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose h6 (16–18px, Inter 600)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose h6 (16–18px, Inter 600)" } }
     }
   },
   "font": {
@@ -115,17 +115,17 @@
     "display": {
       "$value": ["Rubik", "system-ui", "sans-serif"],
       "$description": "Headings and display text.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-d (site.css)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "the v2 site's --font-d (site.css)" } }
     },
     "body": {
       "$value": ["Inter", "system-ui", "sans-serif"],
       "$description": "Body text, interface text and labels.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-b (site.css)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "the v2 site's --font-b (site.css)" } }
     },
     "mono": {
       "$value": ["ui-monospace", "SF Mono", "Menlo", "Consolas", "monospace"],
       "$description": "Code and token names.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "the v2 site's --font-m (site.css)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "the v2 site's --font-m (site.css)" } }
     }
   },
   "line-height": {
@@ -133,42 +133,42 @@
     "h1": {
       "$value": 1.05,
       "$description": "h1. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
     },
     "h2": {
       "$value": 1.1,
       "$description": "h2. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
     },
     "h3": {
       "$value": 1.15,
       "$description": "h3. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
     },
     "h4": {
       "$value": 1.2,
       "$description": "h4. The display levels tighten as they grow (a ramp).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h1–h4 (1.2); tight ramp since the type round (2026-10-28)" } }
     },
     "h5": {
       "$value": 1.4,
       "$description": "h5 on pages and in interfaces.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org h5 (1.4)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org h5 (1.4)" } }
     },
     "lead": {
       "$value": 1.4,
       "$description": "Lead text.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .text-subtitle (1.4)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .text-subtitle (1.4)" } }
     },
     "text": {
       "$value": 1.5,
       "$description": "Body and interface text; h6; h5 and h6 in a long read; captions and tables.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org body (1.5)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org body (1.5)" } }
     },
     "prose": {
       "$value": 1.75,
       "$description": "Paragraphs and list items in long reads (.prose).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose p, li (1.75)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose p, li (1.75)" } }
     }
   },
   "font-weight": {
@@ -176,22 +176,22 @@
     "regular": {
       "$value": 400,
       "$description": "Body text and the display headings.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org" } }
     },
     "medium": {
       "$value": 500,
       "$description": "Labels, captions, buttons.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org" } }
     },
     "semibold": {
       "$value": 600,
       "$description": "Strong text, h5 and h6 in a long read, table headers.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org" } }
     },
     "bold": {
       "$value": 700,
       "$description": "Card titles.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .link-card__title" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .link-card__title" } }
     }
   },
   "tracking": {
@@ -199,12 +199,12 @@
     "display": {
       "$value": -0.01,
       "$description": "Letter spacing on the display face (h1–h4 and the pull quote), in em: write calc(var(--tracking-display) * 1em).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org (0); slight on display since the type round (2026-10-28)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org (0); slight on display since the type round (2026-10-28)" } }
     },
     "numbers": {
       "$value": -0.02,
       "$description": "Letter spacing on tabular numbers (table cells marked .num, and .tabular), in em: tightens them while every digit keeps one width, so columns still align.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "type round (2026-10-28): tabular, tightened" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round (2026-10-28): tabular, tightened" } }
     }
   }
 }

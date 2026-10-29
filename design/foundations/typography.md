@@ -2,7 +2,7 @@
 type: Typography
 title: Typography
 description: Rubik for display, Inter for text. A fluid heading scale, four text sizes, leading that tightens as headings grow, and slight display tracking.
-status: working
+status: released
 tags: [typography]
 tokens: [--measure, --tracking-numbers, --font-display, --font-body, --font-mono, --tracking-display, --font-size-prose-h5-max, --font-size-prose-h6-max, --line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4, --line-height-h5, --text-headline, --text-body, --text-muted, --font-size-xs, --font-size-sm, --font-size-md, --font-size-lg-min, --font-size-lg, --font-size-h1-min, --font-size-h1-max, --font-size-h2-min, --font-size-h2-max, --font-size-h3-min, --font-size-h3-max, --font-size-h4-min, --font-size-h4-max, --font-size-h5-min, --font-size-h5-max, --font-size-h6-min, --font-size-h6-max, --line-height-lead, --line-height-text, --line-height-prose, --font-weight-regular, --font-weight-medium, --font-weight-semibold, --font-weight-bold]
 ---

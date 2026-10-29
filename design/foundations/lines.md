@@ -2,7 +2,7 @@
 type: Shape
 title: Lines
 description: One line style, the body text color at 1px, for every outline, the secondary button, and link underlines. A lighter divider separates things.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--line-strong, --line, --line-focus, --stroke-sm, --stroke-md]
 ---

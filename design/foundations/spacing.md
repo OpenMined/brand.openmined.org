@@ -2,7 +2,7 @@
 type: Spacing
 title: Layout
 description: Eleven spacing steps from 2 to 48px and a section step (88px), a 1300px page on twelve columns, an article's reading column with wide and full breakouts, three breakpoints, and a fixed stacking order.
-status: working
+status: released
 tags: [layout]
 tokens: [--spacing-section, --spacing-3xs, --spacing-2xs, --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl, --spacing-2xl, --spacing-3xl, --spacing-4xl, --spacing-5xl, --page-width, --page-width-wide, --page-gutter, --grid-columns, --grid-gap, --grid-column, --grid-span-4, --grid-span-5, --grid-span-6, --grid-span-8, --grid-span-10, --prose-content, --prose-wide, --prose-full, --breakpoint-lg, --breakpoint-md, --breakpoint-sm, --z-below, --z-card, --z-base, --z-sticky, --z-dropdown, --z-overlay]
 ---

@@ -2,7 +2,7 @@
 type: Behavior
 title: Color moves
 description: Expressive color comes with persistent motion or with an interaction. A rule, where each move can run, the moves in use, and the leanings that aren't rules yet.
-status: working
+status: released
 tags: [color, graphics, interface]
 ---
 

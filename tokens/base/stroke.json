@@ -5,12 +5,12 @@
     "sm": {
       "$value": { "value": 1, "unit": "px" },
       "$description": "The default: dividers, outlines, the secondary button's outline, inner lines and arrows in a diagram.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --border-* (1px), unchanged" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --border-* (1px), unchanged" } }
     },
     "md": {
       "$value": { "value": 1.5, "unit": "px" },
       "$description": "A heavier outer outline in a graphic, one step above the lines inside it.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "the infographics round's 1.5px outer outline" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "the infographics round's 1.5px outer outline" } }
     }
   }
 }

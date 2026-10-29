@@ -2,7 +2,7 @@
 type: Behavior
 title: Shadows apply at rest
 description: Shadows belong to the levels and show at rest. Hover modifies them, only on links and buttons, and only along the ladder.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--shadow-sunken, --shadow-raise-1, --shadow-raise-2]
 ---

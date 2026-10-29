@@ -93,7 +93,7 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
 
   <section class="band" id="corners">
     <div class="wrap">
-      <header class="sec"><h2>{shape.title}</h2><p>{shape.description}</p><p class="status">Status: <b>{shape.status}</b></p></header>
+      <header class="sec"><h2>{shape.title}</h2><p>{shape.description}</p>{shape.status !== 'released' && <p class=\"status\">Status: <b>{shape.status}</b></p>}</header>
       <div class="corners">
         <div class="corners__panel" aria-label="A panel holding fields, tiles and controls">
           <div class="corners__row">
@@ -124,7 +124,7 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
 
   <section class="band" id="lines">
     <div class="wrap">
-      <header class="sec"><h2>{lines.title}</h2><p>{lines.description}</p><p class="status">Status: <b>{lines.status}</b></p></header>
+      <header class="sec"><h2>{lines.title}</h2><p>{lines.description}</p>{lines.status !== 'released' && <p class=\"status\">Status: <b>{lines.status}</b></p>}</header>
       <div class="lines">
         <figure class="lines__opt">
           <div class="lines__stage"><span class="lines__outline">An outline over the page</span></div>

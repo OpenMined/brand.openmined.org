@@ -2,7 +2,7 @@
 type: Decision
 title: Iconoir for v2 icons
 description: v2 takes its icons from Iconoir's outlined set instead of Ionicons. Icons are outlined and one color.
-status: working
+status: released
 date: 2026-10-09
 tags: [icons]
 ---

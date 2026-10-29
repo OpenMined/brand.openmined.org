@@ -2,7 +2,7 @@
 type: Guideline
 title: Outlines are lines, not containers
 description: An outline may surround an area only when the same surface shows inside and outside it. Never a bordered box with a different fill inside.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--line, --line-strong, --stroke-sm, --stroke-md]
 ---

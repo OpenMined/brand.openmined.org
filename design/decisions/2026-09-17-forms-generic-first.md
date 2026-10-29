@@ -2,7 +2,7 @@
 type: Decision
 title: Form styles are generic first
 description: Style generic form elements; map them onto HubSpot with an adapter that lives in the website.
-status: working
+status: released
 date: 2026-09-17
 tags: [interface]
 ---

@@ -86,7 +86,8 @@ v2 values are **open-format token files** (Design Tokens 2025.10) in `tokens/`, 
 source of truth: `base/` (gray, white, black, hue keys, chart series — the same in
 every mode), `light/` and `dark/` (hues with the per-mode offset, gradient, shadows,
 roles), and `resolver.json`. Status per token in `$extensions["org.openmined"]`:
-`exploring` (placeholder or option) → `working` (the current direction, not final) → `released`.
+`draft` (in progress; never on the public site: `npm run build` fails on it, `npm run build:review`
+shows it) → `released` → `deprecated` (names its replacement). Decision 2026-10-30.
 
 - `tools/palette/generate.mjs` writes the generated files (gray, hues, gradient,
   shadows) from `tools/palette/inputs.json`. Retune = edit inputs, regenerate.
@@ -112,7 +113,7 @@ Route every change to its source:
   decision gets a new record). `overview.md` is the entry; `log.md` the change history
   (add a line for every change). `index.md` is reserved for a generated listing.
 - **Frontmatter** on every file: `type`, `title`, `description`, `status`
-  (`exploring` · `working` = the current direction, not final · `released` · `deprecated`),
+  (`draft` · `released` · `deprecated`; see above),
   optional `tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts`
   validates it and fails the build on a bad file.
 - **Components** (v2) → `components/` at the repo root: one CSS file per component, a small

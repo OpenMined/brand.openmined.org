@@ -2,7 +2,7 @@
 type: Guideline
 title: Partner marks are used as supplied
 description: Other companies' logos are their trademarks. Use the official file, never recolor or redraw it, and never imply endorsement.
-status: working
+status: released
 tags: [graphics, icons]
 ---
 

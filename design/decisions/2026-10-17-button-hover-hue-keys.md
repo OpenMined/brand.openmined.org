@@ -2,7 +2,7 @@
 type: Decision
 title: "Button hover runs the hue keys from the clock"
 description: "Button hover fills with the hue keys, not the full OM gradient, starting where the clock puts it (one turn a minute), the secondary opposite the primary; no pointer light."
-status: working
+status: released
 date: 2026-10-17
 tags: [color, interface]
 tokens: [--gradient-interactive, --green-key, --teal-key, --blue-key, --violet-key, --red-key, --amber-key]

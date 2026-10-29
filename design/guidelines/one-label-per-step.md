@@ -2,7 +2,7 @@
 type: Guideline
 title: White on every colored fill
 description: Text on a colored fill is white, in every hue and both modes. Swatch readouts take one color per step.
-status: working
+status: released
 tags: [color]
 tokens: [--on-key]
 ---

@@ -2,7 +2,7 @@
 type: Decision
 title: The gradient draws from the palette
 description: Every gradient stop with a hue family is that family's key; only the family-less stops are fitted.
-status: working
+status: released
 date: 2026-09-25
 tags: [graphics]
 ---

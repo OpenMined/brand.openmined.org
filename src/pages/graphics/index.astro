@@ -98,7 +98,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
 
   <section class="band" id="diagrams">
     <div class="wrap">
-      <header class="sec"><h2>Diagrams</h2><p>{diagrams.description} Status: <b>{diagrams.status}</b>.</p></header>
+      <header class="sec"><h2>Diagrams</h2><p>{diagrams.description}{diagrams.status !== 'released' && <> Status: <b>{diagrams.status}</b>.</>}</p></header>
       <figure class="dex">
         <FigA />
         <figcaption class="dex__cap">Direction A, attribution in color: each source keeps its hue; where attribution is lost the colors drain to gray, and where it's kept they reach the person asking.</figcaption>

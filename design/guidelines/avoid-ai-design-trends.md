@@ -2,7 +2,7 @@
 type: Guideline
 title: Avoid trends, AI design trends especially
 description: A treatment that reads as "of this moment" is a cost. One that reads as AI-generated house style is the worst case.
-status: working
+status: released
 tags: [overview, surfaces]
 ---
 

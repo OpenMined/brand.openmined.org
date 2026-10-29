@@ -16,7 +16,7 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   if (!e) throw new Error(`TokenTable: ${name} is not in the v2 build`);
   const ref = e.value.match(/^var\(--([\w-]+)\)$/)?.[1] ?? null;
   const label = ref ? (/^gray-\d+$/.test(ref) ? ref.replace('-', ' ') : ref) : null;
-  return { label, resolved: e.resolved, status: e.status ?? 'working' };
+  return { label, resolved: e.resolved, status: e.status ?? 'released' };
 };
 const same = names.every(n => T.light[n]?.value === T.dark[n]?.value);
 ---

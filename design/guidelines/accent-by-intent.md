@@ -2,7 +2,7 @@
 type: Guideline
 title: Use accent by intent
 description: "Use the accent roles where you mean the interactive color, and --emphasis for the strong gray fill. Pick by intent, not by how a color looks, so a change of accent reaches everything it should."
-status: working
+status: released
 tags: [color, interface]
 tokens: [--accent-key, --accent-fg, --accent-subtle, --emphasis, --on-emphasis]
 ---

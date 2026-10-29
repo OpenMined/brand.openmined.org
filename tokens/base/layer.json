@@ -5,32 +5,32 @@
     "below": {
       "$value": -1,
       "$description": "Behind its container: background extensions.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-below" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-below" } }
     },
     "card": {
       "$value": 5,
       "$description": "A full-cover link over a card; a card's canvas.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-card" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-card" } }
     },
     "base": {
       "$value": 10,
       "$description": "An element lifted over its neighbors.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-base" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-base" } }
     },
     "sticky": {
       "$value": 100,
       "$description": "The sticky header.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-sticky" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-sticky" } }
     },
     "dropdown": {
       "$value": 1000,
       "$description": "Dropdowns and popovers.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-dropdown" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-dropdown" } }
     },
     "overlay": {
       "$value": 9999,
       "$description": "Modals and other overlays.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --z-overlay" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --z-overlay" } }
     }
   }
 }

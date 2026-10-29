@@ -2,7 +2,7 @@
 type: Component
 title: Status chips
 description: "A short label that says a thing's status. Quiet: a ring and text in the status's color, no fill. Strong: the status's key as the fill, a white label. Fully round."
-status: working
+status: released
 tags: [interface]
 tokens: [--success-fg, --success-key, --warning-fg, --warning-key, --danger-fg, --danger-key, --info-fg, --info-key, --on-key, --radius-full, --stroke-sm, --font-size-xs]
 ---

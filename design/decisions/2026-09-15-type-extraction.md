@@ -2,7 +2,7 @@
 type: Decision
 title: The brand takes an extraction of the website's type
 description: The brand takes the website's type foundation and drops its complex overrides.
-status: working
+status: released
 date: 2026-09-15
 tags: [typography]
 ---

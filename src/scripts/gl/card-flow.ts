@@ -1,5 +1,5 @@
 /**
- * Card colorflow (behaviors/color-moves, exploring): on hover or keyboard focus a
+ * Card colorflow (behaviors/color-moves): on hover or keyboard focus a
  * card fades in a small colorflow across its lower third, in its hue's two-tone
  * stops (--gradient-two-tone-<hue>-base / -darker / -companion / -lighter, read
  * on the card, so the color mode and data-section apply). The hue is the card's

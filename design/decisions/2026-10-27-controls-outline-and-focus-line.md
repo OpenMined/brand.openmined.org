@@ -2,7 +2,7 @@
 type: Decision
 title: "Controls take the fields' outline and focus line"
 description: "Checkbox, radio and toggle take the fields' gray hover outline and focus line, the line 2px outside; the focus line is gray-400 in dark mode so it reaches 3:1 on every surface."
-status: working
+status: released
 date: 2026-10-27
 tags: [interface]
 tokens: [--gray-300, --gray-400, --gray-500, --shadow-sunken, --text-headline]

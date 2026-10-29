@@ -19,7 +19,9 @@ const FILES = Object.fromEntries(Object.entries(ALL).filter(([p]) => !RESERVED.t
 export const LOG = ALL['/design/log.md']?.Content;
 
 export const TYPES = ['Design System', 'Elevation', 'Color', 'Typography', 'Iconography', 'Spacing', 'Shape', 'Motion', 'Component', 'Pattern', 'Behavior', 'Guideline', 'Accessibility', 'Voice', 'Decision'] as const;
-export const STATUSES = ['exploring', 'working', 'released', 'deprecated'] as const;
+/** draft: in progress, never on the public site (src/lib/release-gate.ts); released: on the site,
+ *  use it; deprecated: being replaced, names its replacement. Decision 2026-10-30. */
+export const STATUSES = ['draft', 'released', 'deprecated'] as const;
 
 export type Doc = {
   path: string;            // design-relative, e.g. foundations/surfaces.md

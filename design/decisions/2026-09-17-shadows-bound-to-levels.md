@@ -2,7 +2,7 @@
 type: Decision
 title: Shadows are bound to the levels
 description: Each level has its own shadow, and v1's sm/md/lg scale is retired. The shadow values were re-derived for the levels.
-status: working
+status: released
 date: 2026-09-17
 tags: [surfaces]
 tokens: [--shadow-sunken, --shadow-raise-1, --shadow-raise-2]

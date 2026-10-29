@@ -65,7 +65,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="buttons">
     <div class="wrap">
-      <header class="sec"><h2>Buttons</h2><p>{button.description}</p><p class="status">Status: <b>{button.status}</b></p></header>
+      <header class="sec"><h2>Buttons</h2><p>{button.description}</p>{button.status !== 'released' && <p class=\"status\">Status: <b>{button.status}</b></p>}</header>
       <article class="card">
         <div class="actions">
           <button type="button" class="btn btn--solid">Submit</button>
@@ -87,7 +87,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="links">
     <div class="wrap">
-      <header class="sec"><h2>Links</h2><p>{link.description}</p><p class="status">Status: <b>{link.status}</b></p></header>
+      <header class="sec"><h2>Links</h2><p>{link.description}</p>{link.status !== 'released' && <p class=\"status\">Status: <b>{link.status}</b></p>}</header>
       <div class="grid grid--2">
         <article class="card link-demo">
           <h3>Content link</h3>
@@ -106,7 +106,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="hover-cards">
     <div class="wrap">
-      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p><p class="status">Status: <b>{hoverCard.status}</b></p></header>
+      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class=\"status\">Status: <b>{hoverCard.status}</b></p>}</header>
       <div class="hcards">
         <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
         <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />
@@ -123,7 +123,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="link-cards">
     <div class="wrap">
-      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p><p class="status">Status: <b>{linkCard.status}</b></p></header>
+      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p>{linkCard.status !== 'released' && <p class=\"status\">Status: <b>{linkCard.status}</b></p>}</header>
       <div class="grid grid--3">
         <LinkCard href="#link-cards" title="Review rounds">Every round: when it opened, what it explored, and where its favorites live.</LinkCard>
         <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
@@ -135,7 +135,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="status-chips">
     <div class="wrap">
-      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p><p class="status">Status: <b>{statusChip.status}</b></p></header>
+      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p>{statusChip.status !== 'released' && <p class=\"status\">Status: <b>{statusChip.status}</b></p>}</header>
       <article class="card">
         <div class="status-rows">
           <div class="status-row">
@@ -160,7 +160,7 @@ const TEXT_FIELDS = [
     <div class="wrap">
       <div class="fm-split">
         <div class="fm-split__text">
-          <header class="sec"><h2>Forms</h2><p>{form.description}</p><p class="status">Status: <b>{form.status}</b></p></header>
+          <header class="sec"><h2>Forms</h2><p>{form.description}</p>{form.status !== 'released' && <p class=\"status\">Status: <b>{form.status}</b></p>}</header>
           <div class="guide-prose">
             <p>Every control a form renders, in generic markup. Kinds are named for how they behave:</p>
             <ul>
@@ -263,7 +263,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="motion">
     <div class="wrap">
-      <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p><p class="status">Status: <b>{motion.status}</b></p></header>
+      <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p>{motion.status !== 'released' && <p class=\"status\">Status: <b>{motion.status}</b></p>}</header>
       <TokenTable names={motion.tokens} />
     </div>
   </section>

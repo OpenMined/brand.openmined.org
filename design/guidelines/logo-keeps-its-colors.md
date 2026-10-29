@@ -2,7 +2,7 @@
 type: Guideline
 title: The logo keeps its own colors
 description: The logo and icon keep their canonical colors in every palette and mode.
-status: working
+status: released
 tags: [graphics]
 ---
 

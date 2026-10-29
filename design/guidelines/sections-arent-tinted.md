@@ -2,7 +2,7 @@
 type: Guideline
 title: Sections aren't tinted
 description: Don't tell sections apart with a slightly different background. A boundary is a divider; a deliberate full mode switch is allowed.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--surface-base, --line]
 ---

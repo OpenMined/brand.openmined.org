@@ -2,7 +2,7 @@
 type: Guideline
 title: Logo images sit on white
 description: A logo that comes as an image file, such as the press room's, sits on a white plate in either mode. Vector partner marks follow the mode instead.
-status: working
+status: released
 tags: [graphics]
 ---
 

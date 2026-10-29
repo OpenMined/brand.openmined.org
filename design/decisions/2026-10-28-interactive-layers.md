@@ -2,7 +2,7 @@
 type: Decision
 title: "Interactive layers: minimal built in, full added on"
 description: "Every interactive element has a minimal state in plain CSS, with the accent's still green where the full state moves color; the full state is an add-on. Colored fills darken with a wash; focus and disabled follow the fields."
-status: working
+status: released
 date: 2026-10-28
 tags: [interface]
 tokens: [--accent-key, --line-focus, --state-pressed-wash, --state-disabled-opacity]

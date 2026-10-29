@@ -5,17 +5,17 @@
     "width": {
       "$value": { "value": 1300, "unit": "px" },
       "$description": "The page container: content runs to this width, a gutter outside it on each side. The grid's full width.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --container-full (1300px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --container-full (1300px)" } }
     },
     "width-wide": {
       "$value": { "value": 1400, "unit": "px" },
       "$description": "Wide bands that run past the content: a footer bar, a full-bleed section with gutters.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --container-xfull (1400px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --container-xfull (1400px)" } }
     },
     "gutter": {
       "$value": "{spacing.xl}",
       "$description": "The space kept between the container and the viewport edge, on each side.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .container (2 × --spacing-XL)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .container (2 × --spacing-XL)" } }
     }
   },
   "grid": {
@@ -23,46 +23,46 @@
       "$type": "number",
       "$value": 12,
       "$description": "Columns across the page container.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 .grid-12" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 .grid-12" } }
     },
     "gap": {
       "$type": "dimension",
       "$value": "{spacing.xl}",
       "$description": "Between columns.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --grid-gap (20px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --grid-gap (20px)" } }
     },
     "column": {
       "$type": "dimension",
       "$value": { "value": 90, "unit": "px" },
       "$description": "One column: (1300 − 11 gaps) / 12.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --grid-col-width (90px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --grid-col-width (90px)" } }
     },
     "span": {
       "$type": "dimension",
       "4": {
         "$value": { "value": 420, "unit": "px" },
         "$description": "4 columns and their gaps.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-4" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "v1 --col-4" } }
       },
       "5": {
         "$value": { "value": 530, "unit": "px" },
         "$description": "5 columns: the form card's measure.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org --col-5" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org --col-5" } }
       },
       "6": {
         "$value": { "value": 640, "unit": "px" },
         "$description": "6 columns.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-6" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "v1 --col-6" } }
       },
       "8": {
         "$value": { "value": 860, "unit": "px" },
         "$description": "8 columns.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-8" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "v1 --col-8" } }
       },
       "10": {
         "$value": { "value": 1080, "unit": "px" },
         "$description": "10 columns: a content group with a column of air each side.",
-        "$extensions": { "org.openmined": { "status": "working", "was": "v1 --col-10" } }
+        "$extensions": { "org.openmined": { "status": "released", "was": "v1 --col-10" } }
       }
     }
   },
@@ -71,59 +71,59 @@
     "content": {
       "$value": { "value": 640, "unit": "px" },
       "$description": "An article's reading column, where every block sits by default. A reading measure, set on its own: it starts equal to six columns but isn't tied to the grid.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-article content zone (col-6)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose-article content zone (col-6)" } }
     },
     "wide": {
       "$value": { "value": 860, "unit": "px" },
       "$description": "A breakout: a figure, table or embed wider than the text (.breakout). Set on its own; it starts equal to eight columns.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-article wide zone (col-8)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose-article wide zone (col-8)" } }
     },
     "full": {
       "$value": "{page.width}",
       "$description": "A full breakout: out of the article to the page container (.breakout--full), inside the gutters on narrow screens.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .breakout--full (1300px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .breakout--full (1300px)" } }
     },
     "gap": {
       "$value": "{spacing.lg}",
       "$description": "Between blocks in a long read; after h3–h6; before a list.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose > * + * (16px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose > * + * (16px)" } }
     },
     "gap-wide": {
       "$value": "{spacing.2xl}",
       "$description": "After an h2, a figure, a table, an embed or a list; before a figure; between stacked headings.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose (24px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose (24px)" } }
     },
     "gap-section": {
       "$value": "{spacing.3xl}",
       "$description": "Around a rule (hr).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose * + h2, hr (32px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose * + h2, hr (32px)" } }
     },
     "gap-break": {
       "$value": "{spacing.5xl}",
       "$description": "Around the ⬩⬩⬩ divider between passages, including an h2 right after it.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .prose-divider (48px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose-divider (48px)" } }
     },
     "gap-h2": {
       "$value": { "value": 88, "unit": "px" },
       "$description": "Above an h2, whatever comes before it: the full section break.",
       "$extensions": {
-        "org.openmined": { "status": "working", "was": "openmined.org .spacious-sections (88px, the live opt-in); the default since the type round (2026-10-28)" }
+        "org.openmined": { "status": "released", "was": "openmined.org .spacious-sections (88px, the live opt-in); the default since the type round (2026-10-28)" }
       }
     },
     "gap-h3": {
       "$value": "{spacing.5xl}",
       "$description": "Above an h3.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
     },
     "gap-h4": {
       "$value": "{spacing.4xl}",
       "$description": "Above an h4.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
     },
     "gap-h5": {
       "$value": "{spacing.3xl}",
       "$description": "Above an h5 or h6.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
     }
   },
   "breakpoint": {
@@ -131,17 +131,17 @@
     "lg": {
       "$value": { "value": 991, "unit": "px" },
       "$description": "Below desktop: the grid collapses to one column.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-lg" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --breakpoint-lg" } }
     },
     "md": {
       "$value": { "value": 767, "unit": "px" },
       "$description": "Below tablet: text measures are lifted.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-md" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --breakpoint-md" } }
     },
     "sm": {
       "$value": { "value": 479, "unit": "px" },
       "$description": "Phones.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --breakpoint-sm" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --breakpoint-sm" } }
     }
   },
   "measure": {
@@ -149,7 +149,7 @@
     "$root": {
       "$value": "{prose.content}",
       "$description": "The reading width for text outside articles: a hero's lead, a section intro, a card's text. One reading width with the article column; set another on the element when a block needs it (style=\"--measure: 32em\").",
-      "$extensions": { "org.openmined": { "status": "working", "was": "openmined.org .measure (--measure, set per use); v2 2026-10-28" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .measure (--measure, set per use); v2 2026-10-28" } }
     }
   }
 }

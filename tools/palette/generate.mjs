@@ -17,9 +17,9 @@
  *   node tools/palette/generate.mjs --check   exit 1 if the files are stale
  *   node tools/palette/generate.mjs --report  print every step's L / C / H
  *
- * Pinned steps are agreed values: copied, never recomputed (status `working`).
- * New steps take the status inputs.json sets in new_steps_status (`exploring`
- * until reviewed; `working` since 2026-10-28). They stay generated.
+ * Pinned steps are agreed values: copied, never recomputed (status `released`).
+ * New steps take the status inputs.json sets in new_steps_status (`draft` until
+ * reviewed; `released` since 2026-10-30). They stay generated.
  * The color maths matches src/pages/rounds/_working.ts exactly, so a pinned
  * color renders byte-for-byte as it does on the working pages today.
  */
@@ -149,7 +149,7 @@ function colorValue(hex) {
   return { colorSpace: 'oklch', components: [r4(L / 100), r4(C), r2(H)], hex };
 }
 function colorToken(st, extra = {}) {
-  const meta = { status: st.pinned ? 'working' : (IN.new_steps_status ?? 'exploring'), generated: true, pinned: Boolean(st.pinned) };
+  const meta = { status: st.pinned ? 'released' : (IN.new_steps_status ?? 'draft'), generated: true, pinned: Boolean(st.pinned) };
   if (st.was) meta.was = st.was;
   if (st.rule) meta.rule = st.rule;
   if (st.clipped) meta.gamutMapped = true;
@@ -159,7 +159,7 @@ function colorToken(st, extra = {}) {
 
 function grayFile() {
   const g = gray11();
-  const fixed = hex => ({ $value: colorValue(hex), $extensions: { 'org.openmined': { status: 'working', generated: true, pinned: true } } });
+  const fixed = hex => ({ $value: colorValue(hex), $extensions: { 'org.openmined': { status: 'released', generated: true, pinned: true } } });
   return {
     $description: `Gray, 50–950, plus white and black outside the scale. Neutrals take no mode offset; every step takes the midtone boost (amount ${IN.gray.midtone_boost?.amount ?? 0}, center ${IN.gray.midtone_boost?.center}, width ${IN.gray.midtone_boost?.width}; pre-boost value in beforeBoost). ${NOTE}`,
     gray: { $type: 'color', ...Object.fromEntries(SERIES.map(s => [s, colorToken(g[s])])) },
@@ -184,7 +184,7 @@ function gradientFile(mode) {
   stops.forEach((st, i) => {
     const position = r4(i / (n - 1));
     if (st.ref) {
-      tokens[st.name] = { $value: `{${st.ref}.key}`, $description: `Family stop: the ${st.ref} key.`, $extensions: { 'org.openmined': { status: 'working', generated: true } } };
+      tokens[st.name] = { $value: `{${st.ref}.key}`, $description: `Family stop: the ${st.ref} key.`, $extensions: { 'org.openmined': { status: 'released', generated: true } } };
     } else {
       const [hex, clipped] = saturate(st.hex, IN.saturation[mode]);
       tokens[st.name] = colorToken({ hex, pinned: true, was: `fitted stop ${st.hex} × ${IN.saturation[mode]}`, clipped }, { $description: 'Fitted stop: no hue family; fitted to the palette.' });
@@ -195,14 +195,14 @@ function gradientFile(mode) {
   for (const st of IN.gradient.extra ?? []) {
     const [hex, clipped] = saturate(st.hex, IN.saturation[mode]);
     tokens[st.name] = colorToken({ hex, pinned: true, was: `fitted stop ${st.hex} × ${IN.saturation[mode]}`, clipped }, { $description: 'Extra stop: graphics only, not in the spectrum.' });
-    tokens[st.name].$extensions['org.openmined'].status = st.status ?? 'exploring';
+    tokens[st.name].$extensions['org.openmined'].status = st.status ?? 'draft';
   }
   // Lists: each graphic's own stops, in the order it uses them. An entry is a stop
   // name (gradient.<name>) or a hue step (violet.400).
   const lists = Object.fromEntries(Object.entries(IN.gradient.lists ?? {}).map(([name, l]) => {
     const n = l.stops.length;
     const v = l.stops.map((ref, i) => ({ color: ref.includes('.') ? `{${ref}}` : `{gradient.${ref}}`, position: r4(i / (n - 1)) }));
-    return [name, { $type: 'gradient', $value: v, $description: l._for, $extensions: { 'org.openmined': { status: l.status ?? 'exploring', generated: true } } }];
+    return [name, { $type: 'gradient', $value: v, $description: l._for, $extensions: { 'org.openmined': { status: l.status ?? 'draft', generated: true } } }];
   }));
   // Two-tone: one gradient per hue, its companion chosen by hand and its steps set
   // per mode (inputs gradient.two_tone). Each stop is also a color token
@@ -227,7 +227,7 @@ function gradientFile(mode) {
   };
   const tt = IN.gradient.two_tone, twoTone = {};
   if (tt) {
-    const st = tt.steps[mode], meta = { 'org.openmined': { status: tt.status ?? 'exploring', generated: true } };
+    const st = tt.steps[mode], meta = { 'org.openmined': { status: tt.status ?? 'draft', generated: true } };
     for (const [h, c] of Object.entries(tt.companions)) {
       const refs = { base: `${h}.${st.base}`, lighter: `${h}.${st.lighter}`, companion: colorRef('two_tone', h, c, st.companion), darker: `${h}.${st.darker}` };
       for (const [role, ref] of Object.entries(refs))
@@ -241,7 +241,7 @@ function gradientFile(mode) {
   // (inputs gradient.highlight). Chosen by hand to read lighter than the hue.
   const hl = IN.gradient.highlight, highlight = {};
   if (hl) {
-    const meta = { 'org.openmined': { status: hl.status ?? 'exploring', generated: true } };
+    const meta = { 'org.openmined': { status: hl.status ?? 'draft', generated: true } };
     for (const [h, c] of Object.entries(hl.colors)) {
       const ref = colorRef('highlight', h, c, hl.steps[mode]);
       highlight[`highlight-${h}`] = { $type: 'color', $value: `{${ref}}`, $description: `Highlight on a ${h} line (${ref}).`, $extensions: meta };
@@ -252,7 +252,7 @@ function gradientFile(mode) {
     gradient: {
       $type: 'color',
       ...tokens,
-      spectrum: { $type: 'gradient', $value: value, $description: 'The full brand arc, gold → yellow.', $extensions: { 'org.openmined': { status: 'working', generated: true } } },
+      spectrum: { $type: 'gradient', $value: value, $description: 'The full brand arc, gold → yellow.', $extensions: { 'org.openmined': { status: 'released', generated: true } } },
       ...lists,
       ...twoTone,
       ...highlight,
@@ -275,7 +275,7 @@ function shadowsFile(mode) {
       $type: 'shadow',
       ...Object.fromEntries(Object.entries(S.levels).map(([lvl, v]) => {
         const layers = v.layers.map(l => layer(l, v.inset));
-        return [lvl, { $value: layers.length === 1 ? layers[0] : layers, $extensions: { 'org.openmined': { status: 'working', generated: true, ink: `{${inkName}}` } } }];
+        return [lvl, { $value: layers.length === 1 ? layers[0] : layers, $extensions: { 'org.openmined': { status: 'released', generated: true, ink: `{${inkName}}` } } }];
       })),
     },
   };

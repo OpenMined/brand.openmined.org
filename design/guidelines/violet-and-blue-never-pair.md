@@ -2,7 +2,7 @@
 type: Guideline
 title: Violet and blue never tell things apart
 description: Where color is a label, violet and blue are never adjacent and never carry different meanings. Where color is a flourish (a spectrum, a two-tone gradient), the rule doesn't apply.
-status: working
+status: released
 tags: [color, graphics]
 tokens: [--violet-key, --blue-key, --gradient-two-tone-blue]
 ---

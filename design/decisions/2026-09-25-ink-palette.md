@@ -2,7 +2,7 @@
 type: Decision
 title: Ink is the palette
 description: Ink chosen as the working palette, with a per-mode saturation offset.
-status: working
+status: released
 date: 2026-09-25
 tags: [color]
 ---

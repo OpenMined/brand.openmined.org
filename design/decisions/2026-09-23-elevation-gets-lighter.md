@@ -2,7 +2,7 @@
 type: Decision
 title: Elevation gets lighter as it rises
 description: In both modes, a higher level is a lighter surface.
-status: working
+status: released
 date: 2026-09-23
 tags: [surfaces]
 tokens: [--surface-raise-1, --surface-raise-2]

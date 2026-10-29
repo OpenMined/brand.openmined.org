@@ -2,7 +2,7 @@
 type: Pattern
 title: Explanatory diagrams
 description: Diagrams carry attribution in color. Each data source keeps a hue; where attribution is lost the colors drain to gray, and where it's kept they reach the answer.
-status: working
+status: released
 tags: [graphics]
 ---
 

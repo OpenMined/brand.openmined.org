@@ -5,62 +5,62 @@
     "3xs": {
       "$value": { "value": 2, "unit": "px" },
       "$description": "Not used by the components.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XS" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-3XS" } }
     },
     "2xs": {
       "$value": { "value": 4, "unit": "px" },
       "$description": "A status chip's top and bottom padding.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XS" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-2XS" } }
     },
     "xs": {
       "$value": { "value": 6, "unit": "px" },
       "$description": "Inside a field: between its label, description and control.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XS" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-XS" } }
     },
     "sm": {
       "$value": { "value": 8, "unit": "px" },
       "$description": "Between options in a checkbox or radio list.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-SM" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-SM" } }
     },
     "md": {
       "$value": { "value": 12, "unit": "px" },
       "$description": "Between buttons in a row.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-MD" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-MD" } }
     },
     "lg": {
       "$value": { "value": 16, "unit": "px" },
       "$description": "Between a hover card's icon and its text.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-LG" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-LG" } }
     },
     "xl": {
       "$value": { "value": 20, "unit": "px" },
       "$description": "Between cards in a row.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-XL" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-XL" } }
     },
     "2xl": {
       "$value": { "value": 24, "unit": "px" },
       "$description": "Between fields in a form.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-2XL" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-2XL" } }
     },
     "3xl": {
       "$value": { "value": 32, "unit": "px" },
       "$description": "A hover card's side padding.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-3XL" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-3XL" } }
     },
     "4xl": {
       "$value": { "value": 40, "unit": "px" },
       "$description": "A hover card's top and bottom padding.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-4XL" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-4XL" } }
     },
     "5xl": {
       "$value": { "value": 48, "unit": "px" },
       "$description": "A large hover card's top and bottom padding.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --spacing-5XL" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-5XL" } }
     },
     "section": {
       "$value": { "value": 88, "unit": "px" },
       "$description": "Between a page's sections: above and below each band of a topic page.",
-      "$extensions": { "org.openmined": { "status": "exploring", "was": "v1 --spacing-full (88px)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --spacing-full (88px)" } }
     }
   }
 }

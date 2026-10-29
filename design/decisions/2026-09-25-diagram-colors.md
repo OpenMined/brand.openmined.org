@@ -2,7 +2,7 @@
 type: Decision
 title: Diagram colors stay the same across modes
 description: Diagrams use fixed palette steps, never roles, so switching mode doesn't reshade them.
-status: working
+status: released
 date: 2026-09-25
 tags: [graphics]
 ---

@@ -2,7 +2,7 @@
 type: Decision
 title: Recessed controls inset 3px
 description: The gap between a recessed control's outer surface and the part inside it is 3px, in every state.
-status: working
+status: released
 date: 2026-09-17
 tags: [interface]
 ---

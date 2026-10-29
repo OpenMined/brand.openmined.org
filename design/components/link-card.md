@@ -2,7 +2,7 @@
 type: Component
 title: Link cards
 description: "A card that is a link, plain: a title with an arrow and a line of text. On hover it moves one level up, lifts and tilts away from the pointer. The hover card's quieter sibling."
-status: exploring
+status: released
 tags: [interface]
 tokens: [--surface-raise-1, --surface-raise-2, --shadow-raise-1, --shadow-raise-2, --text-headline, --text-muted, --font-size-md, --font-size-sm]
 ---

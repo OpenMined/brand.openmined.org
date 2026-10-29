@@ -2,7 +2,7 @@
 type: Decision
 title: "The accent is a hue; the gray fill is emphasis"
 description: "The accent points at green and takes a hue's four roles, as the statuses do; the primary button's gray fill becomes --emphasis with --on-emphasis. Elements stay gray at rest."
-status: working
+status: released
 date: 2026-10-28
 tags: [color, interface]
 tokens: [--accent-subtle, --accent-soft, --accent-fg, --accent-key, --emphasis, --on-emphasis]

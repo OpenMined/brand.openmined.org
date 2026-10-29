@@ -2,7 +2,7 @@
 type: Guideline
 title: Graphics use the brand fonts
 description: Text in a graphic, animated or still, is set in the brand's own families. An exception names its reason.
-status: working
+status: released
 tags: [graphics, typography]
 tokens: [--font-display, --font-body]
 ---

@@ -2,7 +2,7 @@
 type: Pattern
 title: Prose
 description: Long reads in place. Generous space above every heading, stepping down by level, each gap owned by one rule, so the rhythm holds in any layout; lists, figures, captions, tables, quotes, and breaks in one scope.
-status: working
+status: released
 tags: [typography]
 tokens: [--prose-gap, --prose-gap-wide, --prose-gap-section, --prose-gap-break, --prose-gap-h2, --prose-gap-h3, --prose-gap-h4, --prose-gap-h5, --line-height-prose, --font-size-sm]
 ---

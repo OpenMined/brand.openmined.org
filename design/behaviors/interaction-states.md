@@ -2,7 +2,7 @@
 type: Behavior
 title: Interaction states
 description: "Two interactive layers: minimal (plain CSS, no motion) is built into every component, full (color in motion) is an add-on. The rules for anything without a component; the component files are the spec."
-status: working
+status: released
 tags: [interface]
 tokens: [--accent-key, --line-focus, --surface-sunken, --state-pressed-wash, --state-disabled-opacity]
 ---

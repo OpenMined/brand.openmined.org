@@ -2,7 +2,7 @@
 type: Motion
 title: Motion timing
 description: One duration and one easing for state changes, 0.4s at CSS's ease, with a shorthand for transitions. The color moves keep their own timings.
-status: working
+status: released
 tags: [interface]
 tokens: [--duration-base, --ease-base, --transition-base]
 ---

@@ -2,7 +2,7 @@
 type: Color
 title: Two-tone gradients
 description: One gradient per palette hue, for icons, hover cards, and anything else that names a primary hue. The hue keeps its key and shades; a companion chosen for that hue passes through once.
-status: working
+status: released
 tags: [color, graphics]
 tokens: [--gradient-two-tone-red, --gradient-two-tone-amber, --gradient-two-tone-green, --gradient-two-tone-teal, --gradient-two-tone-blue, --gradient-two-tone-violet]
 ---

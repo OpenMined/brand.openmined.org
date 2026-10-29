@@ -2,7 +2,7 @@
 type: Decision
 title: Errors are text, not a box
 description: "A validation error is danger-colored text directly under its field, on whatever surface the form sits on: no box, no outline, no fill."
-status: working
+status: released
 date: 2026-10-09
 tags: [interface]
 tokens: [--danger-fg]

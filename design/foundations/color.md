@@ -2,7 +2,7 @@
 type: Color
 title: Color
 description: One gray and six hues, each in eleven steps from 50 to 950, with roles that say what each color is for.
-status: working
+status: released
 tags: [color]
 tokens: [--on-key, --line, --line-strong, --text-headline, --text-body, --text-muted, --emphasis, --on-emphasis, --accent-subtle, --accent-soft, --accent-fg, --accent-key]
 ---

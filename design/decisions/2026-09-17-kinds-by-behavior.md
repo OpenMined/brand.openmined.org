@@ -2,7 +2,7 @@
 type: Decision
 title: A kind is defined by behavior, not level
 description: Three things at the sunken level needed three behaviors, so control kinds are named for how they behave.
-status: working
+status: released
 date: 2026-09-17
 tags: [interface]
 ---

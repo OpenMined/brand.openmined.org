@@ -4,1716 +4,1716 @@
     "value": "#fafafc",
     "resolved": "#fafafc",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-100": {
     "value": "#f3f3f6",
     "resolved": "#f3f3f6",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-200": {
     "value": "#dddde2",
     "resolved": "#dddde2",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-300": {
     "value": "#b4b4c0",
     "resolved": "#b4b4c0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-400": {
     "value": "#918fa1",
     "resolved": "#918fa1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-500": {
     "value": "#615d75",
     "resolved": "#615d75",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-600": {
     "value": "#464159",
     "resolved": "#464159",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-700": {
     "value": "#282636",
     "resolved": "#282636",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-800": {
     "value": "#221f2d",
     "resolved": "#221f2d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-900": {
     "value": "#1b1824",
     "resolved": "#1b1824",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gray-950": {
     "value": "#16141b",
     "resolved": "#16141b",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--white": {
     "value": "#ffffff",
     "resolved": "#ffffff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--black": {
     "value": "#000000",
     "resolved": "#000000",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-50": {
     "value": "#faf9ff",
     "resolved": "#faf9ff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-100": {
     "value": "#f5f1ff",
     "resolved": "#f5f1ff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-200": {
     "value": "#e3d6ff",
     "resolved": "#e3d6ff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-300": {
     "value": "#c8aef9",
     "resolved": "#c8aef9",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-400": {
     "value": "#9e7fd5",
     "resolved": "#9e7fd5",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-500": {
     "value": "#7750b1",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-600": {
     "value": "#603a94",
     "resolved": "#603a94",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-700": {
     "value": "#463661",
     "resolved": "#463661",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-800": {
     "value": "#2c2439",
     "resolved": "#2c2439",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-900": {
     "value": "#1d1727",
     "resolved": "#1d1727",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-950": {
     "value": "#100c17",
     "resolved": "#100c17",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-key": {
     "value": "var(--violet-500)",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-subtle": {
     "value": "var(--violet-800)",
     "resolved": "#2c2439",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-soft": {
     "value": "var(--violet-700)",
     "resolved": "#463661",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--violet-fg": {
     "value": "var(--violet-400)",
     "resolved": "#9e7fd5",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-50": {
     "value": "#f7faff",
     "resolved": "#f7faff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-100": {
     "value": "#edf4ff",
     "resolved": "#edf4ff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-200": {
     "value": "#ccdfff",
     "resolved": "#ccdfff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-300": {
     "value": "#98bfff",
     "resolved": "#98bfff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-400": {
     "value": "#6593e0",
     "resolved": "#6593e0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-500": {
     "value": "#3368c1",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-600": {
     "value": "#2051a3",
     "resolved": "#2051a3",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-700": {
     "value": "#273f67",
     "resolved": "#273f67",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-800": {
     "value": "#1d293c",
     "resolved": "#1d293c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-900": {
     "value": "#121b29",
     "resolved": "#121b29",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-950": {
     "value": "#080e19",
     "resolved": "#080e19",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-key": {
     "value": "var(--blue-500)",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-subtle": {
     "value": "var(--blue-800)",
     "resolved": "#1d293c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-soft": {
     "value": "var(--blue-700)",
     "resolved": "#273f67",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--blue-fg": {
     "value": "var(--blue-400)",
     "resolved": "#6593e0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-50": {
     "value": "#f4fbfd",
     "resolved": "#f4fbfd",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-100": {
     "value": "#e8f7fb",
     "resolved": "#e8f7fb",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-200": {
     "value": "#c2e5f0",
     "resolved": "#c2e5f0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-300": {
     "value": "#84cade",
     "resolved": "#84cade",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-400": {
     "value": "#51a7be",
     "resolved": "#51a7be",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-500": {
     "value": "#00859f",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-600": {
     "value": "#00697e",
     "resolved": "#00697e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-700": {
     "value": "#194652",
     "resolved": "#194652",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-800": {
     "value": "#192c32",
     "resolved": "#192c32",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-900": {
     "value": "#0f1d22",
     "resolved": "#0f1d22",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-950": {
     "value": "#061013",
     "resolved": "#061013",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-key": {
     "value": "var(--teal-500)",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-subtle": {
     "value": "var(--teal-800)",
     "resolved": "#192c32",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-soft": {
     "value": "var(--teal-700)",
     "resolved": "#194652",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--teal-fg": {
     "value": "var(--teal-400)",
     "resolved": "#51a7be",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-50": {
     "value": "#f5fcf8",
     "resolved": "#f5fcf8",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-100": {
     "value": "#e9f7f0",
     "resolved": "#e9f7f0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-200": {
     "value": "#c5e7d7",
     "resolved": "#c5e7d7",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-300": {
     "value": "#8cceb1",
     "resolved": "#8cceb1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-400": {
     "value": "#5fb08e",
     "resolved": "#5fb08e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-500": {
     "value": "#29926d",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-600": {
     "value": "#006f4f",
     "resolved": "#006f4f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-700": {
     "value": "#204938",
     "resolved": "#204938",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-800": {
     "value": "#1b2d25",
     "resolved": "#1b2d25",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-900": {
     "value": "#101e18",
     "resolved": "#101e18",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-950": {
     "value": "#07110c",
     "resolved": "#07110c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-key": {
     "value": "var(--green-500)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-subtle": {
     "value": "var(--green-800)",
     "resolved": "#1b2d25",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-soft": {
     "value": "var(--green-700)",
     "resolved": "#204938",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--green-fg": {
     "value": "var(--green-400)",
     "resolved": "#5fb08e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-50": {
     "value": "#fff9f3",
     "resolved": "#fff9f3",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-100": {
     "value": "#fef1e5",
     "resolved": "#fef1e5",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-200": {
     "value": "#f6d8bb",
     "resolved": "#f6d8bb",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-300": {
     "value": "#e9b179",
     "resolved": "#e9b179",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-400": {
     "value": "#d3924c",
     "resolved": "#d3924c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-500": {
     "value": "#bc730c",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-600": {
     "value": "#854f00",
     "resolved": "#854f00",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-700": {
     "value": "#583814",
     "resolved": "#583814",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-800": {
     "value": "#352516",
     "resolved": "#352516",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-900": {
     "value": "#24180c",
     "resolved": "#24180c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-950": {
     "value": "#150c05",
     "resolved": "#150c05",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-key": {
     "value": "var(--amber-500)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-subtle": {
     "value": "var(--amber-800)",
     "resolved": "#352516",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-soft": {
     "value": "var(--amber-700)",
     "resolved": "#583814",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--amber-fg": {
     "value": "var(--amber-400)",
     "resolved": "#d3924c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-50": {
     "value": "#fff8f8",
     "resolved": "#fff8f8",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-100": {
     "value": "#ffefef",
     "resolved": "#ffefef",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-200": {
     "value": "#ffd1cf",
     "resolved": "#ffd1cf",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-300": {
     "value": "#fea0a0",
     "resolved": "#fea0a0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-400": {
     "value": "#dd7274",
     "resolved": "#dd7274",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-500": {
     "value": "#bb4349",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-600": {
     "value": "#9d2d36",
     "resolved": "#9d2d36",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-700": {
     "value": "#622d2e",
     "resolved": "#622d2e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-800": {
     "value": "#3a2120",
     "resolved": "#3a2120",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-900": {
     "value": "#271514",
     "resolved": "#271514",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-950": {
     "value": "#180a09",
     "resolved": "#180a09",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-key": {
     "value": "var(--red-500)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-subtle": {
     "value": "var(--red-800)",
     "resolved": "#3a2120",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-soft": {
     "value": "var(--red-700)",
     "resolved": "#622d2e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--red-fg": {
     "value": "var(--red-400)",
     "resolved": "#dd7274",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-1": {
     "value": "var(--violet-key)",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-2": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-3": {
     "value": "var(--blue-key)",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-4": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-5": {
     "value": "var(--teal-key)",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--series-6": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--radius-sm": {
     "value": "4px",
     "resolved": "4px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--radius-md": {
     "value": "6px",
     "resolved": "6px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--radius-lg": {
     "value": "10px",
     "resolved": "10px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--radius-full": {
     "value": "999px",
     "resolved": "999px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--stroke-sm": {
     "value": "1px",
     "resolved": "1px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--stroke-md": {
     "value": "1.5px",
     "resolved": "1.5px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-xs": {
     "value": "0.75rem",
     "resolved": "0.75rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-sm": {
     "value": "0.875rem",
     "resolved": "0.875rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-md": {
     "value": "1rem",
     "resolved": "1rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-lg-min": {
     "value": "1.125rem",
     "resolved": "1.125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-lg": {
     "value": "1.3125rem",
     "resolved": "1.3125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h1-min": {
     "value": "2.25rem",
     "resolved": "2.25rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h1-max": {
     "value": "3.8125rem",
     "resolved": "3.8125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h2-min": {
     "value": "1.75rem",
     "resolved": "1.75rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h2-max": {
     "value": "2.9375rem",
     "resolved": "2.9375rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h3-min": {
     "value": "1.5rem",
     "resolved": "1.5rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h3-max": {
     "value": "2.25rem",
     "resolved": "2.25rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h4-min": {
     "value": "1.375rem",
     "resolved": "1.375rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h4-max": {
     "value": "1.6875rem",
     "resolved": "1.6875rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h5-min": {
     "value": "1.125rem",
     "resolved": "1.125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h5-max": {
     "value": "1.3125rem",
     "resolved": "1.3125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h6-min": {
     "value": "1rem",
     "resolved": "1rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-h6-max": {
     "value": "1.25rem",
     "resolved": "1.25rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-prose-h5-max": {
     "value": "1.25rem",
     "resolved": "1.25rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-size-prose-h6-max": {
     "value": "1.125rem",
     "resolved": "1.125rem",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--font-display": {
     "value": "Rubik, system-ui, sans-serif",
     "resolved": "Rubik, system-ui, sans-serif",
     "type": "fontFamily",
-    "status": "working"
+    "status": "released"
   },
   "--font-body": {
     "value": "Inter, system-ui, sans-serif",
     "resolved": "Inter, system-ui, sans-serif",
     "type": "fontFamily",
-    "status": "working"
+    "status": "released"
   },
   "--font-mono": {
     "value": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
     "resolved": "ui-monospace, 'SF Mono', Menlo, Consolas, monospace",
     "type": "fontFamily",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-h1": {
     "value": "1.05",
     "resolved": "1.05",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-h2": {
     "value": "1.1",
     "resolved": "1.1",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-h3": {
     "value": "1.15",
     "resolved": "1.15",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-h4": {
     "value": "1.2",
     "resolved": "1.2",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-h5": {
     "value": "1.4",
     "resolved": "1.4",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-lead": {
     "value": "1.4",
     "resolved": "1.4",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-text": {
     "value": "1.5",
     "resolved": "1.5",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--line-height-prose": {
     "value": "1.75",
     "resolved": "1.75",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--font-weight-regular": {
     "value": "400",
     "resolved": "400",
     "type": "fontWeight",
-    "status": "working"
+    "status": "released"
   },
   "--font-weight-medium": {
     "value": "500",
     "resolved": "500",
     "type": "fontWeight",
-    "status": "working"
+    "status": "released"
   },
   "--font-weight-semibold": {
     "value": "600",
     "resolved": "600",
     "type": "fontWeight",
-    "status": "working"
+    "status": "released"
   },
   "--font-weight-bold": {
     "value": "700",
     "resolved": "700",
     "type": "fontWeight",
-    "status": "working"
+    "status": "released"
   },
   "--tracking-display": {
     "value": "-0.01",
     "resolved": "-0.01",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--tracking-numbers": {
     "value": "-0.02",
     "resolved": "-0.02",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-3xs": {
     "value": "2px",
     "resolved": "2px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-2xs": {
     "value": "4px",
     "resolved": "4px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-xs": {
     "value": "6px",
     "resolved": "6px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-sm": {
     "value": "8px",
     "resolved": "8px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-md": {
     "value": "12px",
     "resolved": "12px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-lg": {
     "value": "16px",
     "resolved": "16px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-xl": {
     "value": "20px",
     "resolved": "20px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-2xl": {
     "value": "24px",
     "resolved": "24px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-3xl": {
     "value": "32px",
     "resolved": "32px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-4xl": {
     "value": "40px",
     "resolved": "40px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-5xl": {
     "value": "48px",
     "resolved": "48px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--spacing-section": {
     "value": "88px",
     "resolved": "88px",
     "type": "dimension",
-    "status": "exploring"
+    "status": "released"
   },
   "--duration-base": {
     "value": "0.4s",
     "resolved": "0.4s",
     "type": "duration",
-    "status": "working"
+    "status": "released"
   },
   "--ease-base": {
     "value": "cubic-bezier(0.25, 0.1, 0.25, 1)",
     "resolved": "cubic-bezier(0.25, 0.1, 0.25, 1)",
     "type": "cubicBezier",
-    "status": "working"
+    "status": "released"
   },
   "--transition-base": {
     "value": "var(--duration-base) var(--ease-base)",
     "resolved": "0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
     "type": "transition",
-    "status": "working"
+    "status": "released"
   },
   "--z-below": {
     "value": "-1",
     "resolved": "-1",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--z-card": {
     "value": "5",
     "resolved": "5",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--z-base": {
     "value": "10",
     "resolved": "10",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--z-sticky": {
     "value": "100",
     "resolved": "100",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--z-dropdown": {
     "value": "1000",
     "resolved": "1000",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--z-overlay": {
     "value": "9999",
     "resolved": "9999",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--page-width": {
     "value": "1300px",
     "resolved": "1300px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--page-width-wide": {
     "value": "1400px",
     "resolved": "1400px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--page-gutter": {
     "value": "var(--spacing-xl)",
     "resolved": "20px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-columns": {
     "value": "12",
     "resolved": "12",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--grid-gap": {
     "value": "var(--spacing-xl)",
     "resolved": "20px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-column": {
     "value": "90px",
     "resolved": "90px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-span-4": {
     "value": "420px",
     "resolved": "420px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-span-5": {
     "value": "530px",
     "resolved": "530px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-span-6": {
     "value": "640px",
     "resolved": "640px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-span-8": {
     "value": "860px",
     "resolved": "860px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--grid-span-10": {
     "value": "1080px",
     "resolved": "1080px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-content": {
     "value": "640px",
     "resolved": "640px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-wide": {
     "value": "860px",
     "resolved": "860px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-full": {
     "value": "var(--page-width)",
     "resolved": "1300px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap": {
     "value": "var(--spacing-lg)",
     "resolved": "16px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-wide": {
     "value": "var(--spacing-2xl)",
     "resolved": "24px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-section": {
     "value": "var(--spacing-3xl)",
     "resolved": "32px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-break": {
     "value": "var(--spacing-5xl)",
     "resolved": "48px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-h2": {
     "value": "88px",
     "resolved": "88px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-h3": {
     "value": "var(--spacing-5xl)",
     "resolved": "48px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-h4": {
     "value": "var(--spacing-4xl)",
     "resolved": "40px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--prose-gap-h5": {
     "value": "var(--spacing-3xl)",
     "resolved": "32px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--breakpoint-lg": {
     "value": "991px",
     "resolved": "991px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--breakpoint-md": {
     "value": "767px",
     "resolved": "767px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--breakpoint-sm": {
     "value": "479px",
     "resolved": "479px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--measure": {
     "value": "var(--prose-content)",
     "resolved": "640px",
     "type": "dimension",
-    "status": "working"
+    "status": "released"
   },
   "--state-pressed-wash": {
     "value": "20",
     "resolved": "20",
     "type": "number",
-    "status": "exploring"
+    "status": "released"
   },
   "--state-disabled-opacity": {
     "value": "0.55",
     "resolved": "0.55",
     "type": "number",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-gold": {
     "value": "#f3ca84",
     "resolved": "#f3ca84",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-orange": {
     "value": "#e88e58",
     "resolved": "#e88e58",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-red": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-violet": {
     "value": "var(--violet-key)",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-blue": {
     "value": "var(--blue-key)",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-teal": {
     "value": "var(--teal-key)",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-green": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-lime": {
     "value": "#addf92",
     "resolved": "#addf92",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-yellow": {
     "value": "#f3e6a5",
     "resolved": "#f3e6a5",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-magenta": {
     "value": "#b83e7c",
     "resolved": "#b83e7c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-spectrum": {
     "value": "linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 12.5%, var(--gradient-red) 25%, var(--gradient-violet) 37.5%, var(--gradient-blue) 50%, var(--gradient-teal) 62.5%, var(--gradient-green) 75%, var(--gradient-lime) 87.5%, var(--gradient-yellow) 100%)",
     "resolved": "linear-gradient(90deg, #f3ca84 0%, #e88e58 12.5%, #bb4349 25%, #7750b1 37.5%, #3368c1 50%, #00859f 62.5%, #29926d 75%, #addf92 87.5%, #f3e6a5 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-flow": {
     "value": "linear-gradient(90deg, var(--gradient-red) 0%, var(--gradient-gold) 20%, var(--gradient-violet) 40%, var(--gradient-blue) 60%, var(--gradient-teal) 80%, var(--gradient-green) 100%)",
     "resolved": "linear-gradient(90deg, #bb4349 0%, #f3ca84 20%, #7750b1 40%, #3368c1 60%, #00859f 80%, #29926d 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-interactive": {
     "value": "linear-gradient(90deg, var(--green-key) 0%, var(--teal-key) 16.67%, var(--blue-key) 33.33%, var(--violet-key) 50%, var(--red-key) 66.67%, var(--amber-key) 83.33%, var(--green-key) 100%)",
     "resolved": "linear-gradient(90deg, #29926d 0%, #00859f 16.67%, #3368c1 33.33%, #7750b1 50%, #bb4349 66.67%, #bc730c 83.33%, #29926d 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-map": {
     "value": "linear-gradient(90deg, var(--gradient-gold) 0%, var(--gradient-orange) 14.29%, var(--gradient-magenta) 28.57%, var(--gradient-violet) 42.86%, var(--gradient-violet) 57.14%, var(--gradient-teal) 71.43%, var(--gradient-green) 85.71%, var(--gradient-lime) 100%)",
     "resolved": "linear-gradient(90deg, #f3ca84 0%, #e88e58 14.29%, #b83e7c 28.57%, #7750b1 42.86%, #7750b1 57.14%, #00859f 71.43%, #29926d 85.71%, #addf92 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-red-base": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-red-lighter": {
     "value": "var(--red-400)",
     "resolved": "#dd7274",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-red-companion": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-red-darker": {
     "value": "var(--red-600)",
     "resolved": "#9d2d36",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-red": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-red-base) 0%, var(--gradient-two-tone-red-darker) 25%, var(--gradient-two-tone-red-companion) 50%, var(--gradient-two-tone-red-lighter) 75%, var(--gradient-two-tone-red-base) 100%)",
     "resolved": "linear-gradient(90deg, #bb4349 0%, #9d2d36 25%, #bc730c 50%, #dd7274 75%, #bb4349 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-amber-base": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-amber-lighter": {
     "value": "var(--amber-400)",
     "resolved": "#d3924c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-amber-companion": {
     "value": "var(--gradient-gold)",
     "resolved": "#f3ca84",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-amber-darker": {
     "value": "var(--amber-600)",
     "resolved": "#854f00",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-amber": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-amber-base) 0%, var(--gradient-two-tone-amber-darker) 25%, var(--gradient-two-tone-amber-companion) 50%, var(--gradient-two-tone-amber-lighter) 75%, var(--gradient-two-tone-amber-base) 100%)",
     "resolved": "linear-gradient(90deg, #bc730c 0%, #854f00 25%, #f3ca84 50%, #d3924c 75%, #bc730c 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-green-base": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-green-lighter": {
     "value": "var(--green-400)",
     "resolved": "#5fb08e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-green-companion": {
     "value": "var(--gradient-lime)",
     "resolved": "#addf92",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-green-darker": {
     "value": "var(--green-600)",
     "resolved": "#006f4f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-green": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-green-base) 0%, var(--gradient-two-tone-green-darker) 25%, var(--gradient-two-tone-green-companion) 50%, var(--gradient-two-tone-green-lighter) 75%, var(--gradient-two-tone-green-base) 100%)",
     "resolved": "linear-gradient(90deg, #29926d 0%, #006f4f 25%, #addf92 50%, #5fb08e 75%, #29926d 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-teal-base": {
     "value": "var(--teal-key)",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-teal-lighter": {
     "value": "var(--teal-400)",
     "resolved": "#51a7be",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-teal-companion": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-teal-darker": {
     "value": "var(--teal-600)",
     "resolved": "#00697e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-teal": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-teal-base) 0%, var(--gradient-two-tone-teal-darker) 25%, var(--gradient-two-tone-teal-companion) 50%, var(--gradient-two-tone-teal-lighter) 75%, var(--gradient-two-tone-teal-base) 100%)",
     "resolved": "linear-gradient(90deg, #00859f 0%, #00697e 25%, #29926d 50%, #51a7be 75%, #00859f 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-blue-base": {
     "value": "var(--blue-key)",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-blue-lighter": {
     "value": "var(--blue-400)",
     "resolved": "#6593e0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-blue-companion": {
     "value": "var(--violet-key)",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-blue-darker": {
     "value": "var(--blue-600)",
     "resolved": "#2051a3",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-blue": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-blue-base) 0%, var(--gradient-two-tone-blue-darker) 25%, var(--gradient-two-tone-blue-companion) 50%, var(--gradient-two-tone-blue-lighter) 75%, var(--gradient-two-tone-blue-base) 100%)",
     "resolved": "linear-gradient(90deg, #3368c1 0%, #2051a3 25%, #7750b1 50%, #6593e0 75%, #3368c1 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-violet-base": {
     "value": "var(--violet-key)",
     "resolved": "#7750b1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-violet-lighter": {
     "value": "var(--violet-400)",
     "resolved": "#9e7fd5",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-violet-companion": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-violet-darker": {
     "value": "var(--violet-600)",
     "resolved": "#603a94",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-two-tone-violet": {
     "value": "linear-gradient(90deg, var(--gradient-two-tone-violet-base) 0%, var(--gradient-two-tone-violet-darker) 25%, var(--gradient-two-tone-violet-companion) 50%, var(--gradient-two-tone-violet-lighter) 75%, var(--gradient-two-tone-violet-base) 100%)",
     "resolved": "linear-gradient(90deg, #7750b1 0%, #603a94 25%, #bb4349 50%, #9e7fd5 75%, #7750b1 100%)",
     "type": "gradient",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-red": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-amber": {
     "value": "var(--gradient-gold)",
     "resolved": "#f3ca84",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-green": {
     "value": "var(--gradient-lime)",
     "resolved": "#addf92",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-teal": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-blue": {
     "value": "var(--teal-key)",
     "resolved": "#00859f",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--gradient-highlight-violet": {
     "value": "var(--gradient-magenta)",
     "resolved": "#b83e7c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--shadow-sunken": {
     "value": "inset 0 1px 5px 0 rgb(0 0 0 / 0.196)",
     "resolved": "inset 0 1px 5px 0 rgb(0 0 0 / 0.196)",
     "type": "shadow",
-    "status": "working"
+    "status": "released"
   },
   "--shadow-raise-1": {
     "value": "0 2px 10px -4px rgb(0 0 0 / 0.14)",
     "resolved": "0 2px 10px -4px rgb(0 0 0 / 0.14)",
     "type": "shadow",
-    "status": "working"
+    "status": "released"
   },
   "--shadow-raise-2": {
     "value": "0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px 0 rgb(0 0 0 / 0.134)",
     "resolved": "0 6px 16px -4px rgb(0 0 0 / 0.336), 0 2px 4px 0 rgb(0 0 0 / 0.134)",
     "type": "shadow",
-    "status": "working"
+    "status": "released"
   },
   "--surface-sunken": {
     "value": "var(--gray-950)",
     "resolved": "#16141b",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--surface-base": {
     "value": "var(--gray-900)",
     "resolved": "#1b1824",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--surface-raise-1": {
     "value": "var(--gray-800)",
     "resolved": "#221f2d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--surface-raise-2": {
     "value": "var(--gray-700)",
     "resolved": "#282636",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--line": {
     "value": "var(--gray-600)",
     "resolved": "#464159",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--line-strong": {
     "value": "var(--gray-200)",
     "resolved": "#dddde2",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--line-focus": {
     "value": "var(--gray-400)",
     "resolved": "#918fa1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--text-headline": {
     "value": "var(--gray-50)",
     "resolved": "#fafafc",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--text-body": {
     "value": "var(--gray-200)",
     "resolved": "#dddde2",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--text-muted": {
     "value": "var(--gray-400)",
     "resolved": "#918fa1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--on-key": {
     "value": "var(--white)",
     "resolved": "#ffffff",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--success-subtle": {
     "value": "var(--green-subtle)",
     "resolved": "#1b2d25",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--success-soft": {
     "value": "var(--green-soft)",
     "resolved": "#204938",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--success-fg": {
     "value": "var(--green-fg)",
     "resolved": "#5fb08e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--success-key": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--warning-subtle": {
     "value": "var(--amber-subtle)",
     "resolved": "#352516",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--warning-soft": {
     "value": "var(--amber-soft)",
     "resolved": "#583814",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--warning-fg": {
     "value": "var(--amber-fg)",
     "resolved": "#d3924c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--warning-key": {
     "value": "var(--amber-key)",
     "resolved": "#bc730c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--danger-subtle": {
     "value": "var(--red-subtle)",
     "resolved": "#3a2120",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--danger-soft": {
     "value": "var(--red-soft)",
     "resolved": "#622d2e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--danger-fg": {
     "value": "var(--red-fg)",
     "resolved": "#dd7274",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--danger-key": {
     "value": "var(--red-key)",
     "resolved": "#bb4349",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--info-subtle": {
     "value": "var(--blue-subtle)",
     "resolved": "#1d293c",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--info-soft": {
     "value": "var(--blue-soft)",
     "resolved": "#273f67",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--info-fg": {
     "value": "var(--blue-fg)",
     "resolved": "#6593e0",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--info-key": {
     "value": "var(--blue-key)",
     "resolved": "#3368c1",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--emphasis": {
     "value": "var(--gray-50)",
     "resolved": "#fafafc",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--on-emphasis": {
     "value": "var(--gray-950)",
     "resolved": "#16141b",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--accent-subtle": {
     "value": "var(--green-subtle)",
     "resolved": "#1b2d25",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--accent-soft": {
     "value": "var(--green-soft)",
     "resolved": "#204938",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--accent-fg": {
     "value": "var(--green-fg)",
     "resolved": "#5fb08e",
     "type": "color",
-    "status": "working"
+    "status": "released"
   },
   "--accent-key": {
     "value": "var(--green-key)",
     "resolved": "#29926d",
     "type": "color",
-    "status": "working"
+    "status": "released"
   }
 }

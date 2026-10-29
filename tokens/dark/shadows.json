@@ -34,7 +34,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "working",
+          "status": "released",
           "generated": true,
           "ink": "{black}"
         }
@@ -71,7 +71,7 @@
       },
       "$extensions": {
         "org.openmined": {
-          "status": "working",
+          "status": "released",
           "generated": true,
           "ink": "{black}"
         }
@@ -138,7 +138,7 @@
       ],
       "$extensions": {
         "org.openmined": {
-          "status": "working",
+          "status": "released",
           "generated": true,
           "ink": "{black}"
         }

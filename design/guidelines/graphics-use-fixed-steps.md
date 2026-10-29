@@ -2,7 +2,7 @@
 type: Guideline
 title: Graphics use fixed steps, never roles
 description: A graphic's colors hold when the mode switches. Use a hue's key (or a fixed step), never an interface role.
-status: working
+status: released
 tags: [graphics]
 tokens: [--red-key, --teal-key, --violet-key]
 ---

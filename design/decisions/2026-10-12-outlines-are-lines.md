@@ -2,7 +2,7 @@
 type: Decision
 title: Outlines are lines, not containers
 description: An outline is allowed when the same surface shows on both sides of it. What stays out is the bordered box with a different fill inside.
-status: working
+status: released
 date: 2026-10-12
 tags: [surfaces, interface]
 tokens: [--line-strong, --stroke-sm, --stroke-md]

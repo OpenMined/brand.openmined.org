@@ -2,7 +2,7 @@
 type: Design System
 title: Overview
 description: What the OpenMined Design System is, the principles every value is judged against, and how to use it.
-status: working
+status: released
 tags: [overview]
 ---
 
@@ -38,11 +38,7 @@ Change a value or a rule at its source and every page, project, and AI agent get
 - **Use tokens by name, never by value.** Write `var(--surface-raise-1)`, not the hex it resolves to. Names stay stable when values are retuned.
 - **Prefer roles over steps.** `--text-muted` or `--danger-fg` says what a color is for; a step like `--gray-500` only says what it looks like. Graphics are the exception: they use fixed steps through each hue's `key`, so their colors hold when the mode switches.
 - **Check where it runs.** Colors and stills work anywhere, documents and slides too; some motion needs a web page or a script (*Color moves*, "Where it runs"). Where a move can't run, use its still frame.
-- **Check the status.** Every token and every guidance file carries one:
-  - `exploring`: a placeholder or an option still being compared. Previews only.
-  - `working`: the current direction, not final. Previews and drafts.
-  - `released`: part of a tagged release. Safe everywhere.
-  - `deprecated`: being replaced; it names its replacement.
+- **Check the status.** Every token and every guidance file carries one. Everything on this site is `released`: use it. A `deprecated` item names its replacement; move off it. Work in progress is `draft` and never appears here.
 
 ## What stays human
 

@@ -2,7 +2,7 @@
 type: Decision
 title: "Green at rest, gradients in motion"
 description: "Green stays the static accent. Where the accent moves, it steps up to a gradient: the full OM gradient on button and link hover, a hue's two-tone gradient on icons."
-status: working
+status: released
 date: 2026-10-13
 tags: [color, interface]
 tokens: [--accent-key, --gradient-spectrum, --gradient-two-tone-green]

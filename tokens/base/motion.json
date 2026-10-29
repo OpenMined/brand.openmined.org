@@ -5,7 +5,7 @@
     "base": {
       "$value": { "value": 0.4, "unit": "s" },
       "$description": "State changes: hover, focus, a theme switch, a surface moving.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base (0.4s)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --transition-base (0.4s)" } }
     }
   },
   "ease": {
@@ -13,7 +13,7 @@
     "base": {
       "$value": [0.25, 0.1, 0.25, 1],
       "$description": "The default easing (CSS ease).",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base (ease)" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --transition-base (ease)" } }
     }
   },
   "transition": {
@@ -21,7 +21,7 @@
     "base": {
       "$value": { "duration": "{duration.base}", "delay": { "value": 0, "unit": "s" }, "timingFunction": "{ease.base}" },
       "$description": "Duration and easing together, for a CSS transition: `transition: color var(--transition-base)`.",
-      "$extensions": { "org.openmined": { "status": "working", "was": "v1 --transition-base, unchanged" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "v1 --transition-base, unchanged" } }
     }
   }
 }

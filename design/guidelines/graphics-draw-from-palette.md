@@ -2,7 +2,7 @@
 type: Guideline
 title: Graphics draw from the palette
 description: No separate color scheme for graphics. Every graphic color is a palette step or a gradient stop.
-status: working
+status: released
 tags: [graphics]
 ---
 

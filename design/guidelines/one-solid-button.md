@@ -2,7 +2,7 @@
 type: Guideline
 title: One solid button per group
 description: Any group of buttons has exactly one solid button. The others are secondary, an outline with no fill.
-status: working
+status: released
 tags: [interface]
 ---
 

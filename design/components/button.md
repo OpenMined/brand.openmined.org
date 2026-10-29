@@ -2,7 +2,7 @@
 type: Component
 title: Buttons
 description: One solid button per group, carrying the label on the accent; every other button in the group is secondary, an outline with no fill.
-status: working
+status: released
 tags: [interface]
 tokens: [--emphasis, --on-emphasis, --accent-key, --on-key, --text-headline, --line-strong, --stroke-sm]
 ---

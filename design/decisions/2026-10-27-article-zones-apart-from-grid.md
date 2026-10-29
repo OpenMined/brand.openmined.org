@@ -2,7 +2,7 @@
 type: Decision
 title: "Article zones are set apart from the grid"
 description: "The article's reading column and wide zone are their own values (640 and 860px), not grid spans, so a reading measure can be tuned without moving the grid; the full zone stays the page width."
-status: working
+status: released
 date: 2026-10-27
 tags: [layout]
 tokens: [--prose-content, --prose-wide, --prose-full, --grid-span-6, --grid-span-8]

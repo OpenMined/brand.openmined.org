@@ -7,7 +7,7 @@
       "$description": "A well set into a surface (\u22121). Never a page or section ground.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -16,7 +16,7 @@
       "$description": "The page background (0).",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -25,7 +25,7 @@
       "$description": "A panel on the page (+1).",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -34,7 +34,7 @@
       "$description": "Raised more (+2): cards over panels, menus, popovers.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -46,7 +46,7 @@
       "$description": "Dividers: a single edge between two things. One step darker than the sunken level, so it shows there too.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -55,7 +55,7 @@
       "$description": "The line style: outlines, the secondary button's outline, link underlines. The same gray step as text.body, so every drawn line matches; never a container.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -64,7 +64,7 @@
       "$description": "The focus line on form controls: a field's edge on focus, 1px outside a checkbox, radio or toggle. Reaches 3:1 on every surface and the field's fill (gray-500 in light, gray-400 in dark).",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -76,7 +76,7 @@
       "$description": "Titles.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -85,7 +85,7 @@
       "$description": "Running text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -94,7 +94,7 @@
       "$description": "Captions, labels.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -105,7 +105,7 @@
     "$description": "Text or icon on any key: every hue and status, both modes.",
     "$extensions": {
       "org.openmined": {
-        "status": "working"
+        "status": "released"
       }
     }
   },
@@ -116,7 +116,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -125,7 +125,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -134,7 +134,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -146,7 +146,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -155,7 +155,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -164,7 +164,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -176,7 +176,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -185,7 +185,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -194,7 +194,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -206,7 +206,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -215,7 +215,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -224,7 +224,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -236,7 +236,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -245,7 +245,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -254,7 +254,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -266,7 +266,7 @@
       "$description": "Quiet colored background: callout, selected row.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -275,7 +275,7 @@
       "$description": "Decorative rule, selected outline, area fill. No text.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -284,7 +284,7 @@
       "$description": "Colored text, links, icons. AA on every surface.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -296,7 +296,7 @@
       "$description": "Success \u2192 green.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -305,7 +305,7 @@
       "$description": "Success \u2192 green.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -314,7 +314,7 @@
       "$description": "Success \u2192 green.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -323,7 +323,7 @@
       "$description": "Success \u2192 green.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -335,7 +335,7 @@
       "$description": "Warning \u2192 amber.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -344,7 +344,7 @@
       "$description": "Warning \u2192 amber.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -353,7 +353,7 @@
       "$description": "Warning \u2192 amber.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -362,7 +362,7 @@
       "$description": "Warning \u2192 amber.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -374,7 +374,7 @@
       "$description": "Danger \u2192 red.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -383,7 +383,7 @@
       "$description": "Danger \u2192 red.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -392,7 +392,7 @@
       "$description": "Danger \u2192 red.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -401,7 +401,7 @@
       "$description": "Danger \u2192 red.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -413,7 +413,7 @@
       "$description": "Info \u2192 blue.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -422,7 +422,7 @@
       "$description": "Info \u2192 blue.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -431,7 +431,7 @@
       "$description": "Info \u2192 blue.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -440,7 +440,7 @@
       "$description": "Info \u2192 blue.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }
@@ -451,7 +451,7 @@
     "$description": "The strong gray fill: the primary button. The headline gray, a fill rather than text.",
     "$extensions": {
       "org.openmined": {
-        "status": "working"
+        "status": "released"
       }
     }
   },
@@ -461,7 +461,7 @@
     "$description": "Text or icon on --emphasis.",
     "$extensions": {
       "org.openmined": {
-        "status": "working"
+        "status": "released"
       }
     }
   },
@@ -472,7 +472,7 @@
       "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -481,7 +481,7 @@
       "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -490,7 +490,7 @@
       "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     },
@@ -499,7 +499,7 @@
       "$description": "Accent \u2192 green: the interactive color, the same roles as a hue. Change the hue here and every accent follows.",
       "$extensions": {
         "org.openmined": {
-          "status": "working"
+          "status": "released"
         }
       }
     }

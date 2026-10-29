@@ -2,7 +2,7 @@
 type: Guideline
 title: "Icons are mono unless they're status or in color"
 description: "Icons are one color, the color of the text around them. Status icons take their status color; an icon in color takes its hue's two-tone gradient, moving."
-status: working
+status: released
 tags: [icons]
 tokens: [--success-fg, --danger-fg, --warning-fg, --info-fg, --gradient-two-tone-green]
 ---

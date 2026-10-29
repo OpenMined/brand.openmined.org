@@ -2,7 +2,7 @@
 type: Color
 title: Highlights
 description: One highlight per palette hue, for the brighter part of a moving line in that hue. It reads as the same line lit up, not a second color.
-status: working
+status: released
 tags: [color, graphics]
 tokens: [--gradient-highlight-red, --gradient-highlight-amber, --gradient-highlight-green, --gradient-highlight-teal, --gradient-highlight-blue, --gradient-highlight-violet]
 ---

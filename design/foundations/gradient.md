@@ -2,7 +2,7 @@
 type: Color
 title: The brand gradient
 description: Nine stops from gold to yellow, drawn from the palette itself, so every graphic built on it follows when the palette changes.
-status: working
+status: released
 tags: [color, graphics]
 tokens: [--gradient-spectrum, --gradient-flow, --gradient-map, --gradient-interactive, --gradient-magenta, --gradient-gold, --gradient-orange, --gradient-red, --gradient-violet, --gradient-blue, --gradient-teal, --gradient-green, --gradient-lime, --gradient-yellow]
 ---

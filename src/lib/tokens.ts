@@ -20,7 +20,7 @@ export const listStops = (name: string) =>
   [...tok('light', `gradient-${name}`).value.matchAll(/var\(--([\w-]+)\)/g)].map(m => m[1]).join(',');
 /** Each graphic's own list (inputs gradient.lists): name and status. */
 export const GRADIENT_LISTS = Object.entries((INPUTS.gradient as any).lists as Record<string, { status?: string }>)
-  .map(([name, l]) => ({ name, status: l.status ?? 'exploring' }));
+  .map(([name, l]) => ({ name, status: l.status ?? 'draft' }));
 export const SAT = INPUTS.saturation as { light: number; dark: number };
 /** Two-tone gradients: each hue's chosen companion, and its stops as mode-aware tokens.
  *  For labels, a gradient-stop companion (`gradient.gold`) shows as its stop name. */
@@ -41,7 +41,7 @@ export function tok(mode: Mode, name: string): Entry {
   return e;
 }
 export const hex = (mode: Mode, name: string) => tok(mode, name).resolved;
-export const statusOf = (mode: Mode, name: string) => tok(mode, name).status ?? 'working';
+export const statusOf = (mode: Mode, name: string) => tok(mode, name).status ?? 'released';
 /** The token a value points at: `var(--gray-100)` → `gray-100`; null for a literal. */
 export const target = (mode: Mode, name: string) => tok(mode, name).value.match(/^var\(--([\w-]+)\)$/)?.[1] ?? null;
 

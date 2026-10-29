@@ -2,7 +2,7 @@
 type: Decision
 title: "Icons have a color mode"
 description: "Icons are mono by default. Where a design calls for color, an icon takes its hue's two-tone gradient, moving, with a soft glow; in a hover card, only on hover."
-status: working
+status: released
 date: 2026-10-13
 tags: [icons, color]
 tokens: [--gradient-two-tone-green, --gradient-two-tone-amber, --gradient-two-tone-red, --gradient-two-tone-blue]

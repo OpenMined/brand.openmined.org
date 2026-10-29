@@ -2,7 +2,7 @@
 type: Decision
 title: "Type: display leading and tracking, two h5–h6 treatments, AA muted text"
 description: "The type round's picks: a tight leading ramp with slight display tracking; h5 and h6 as page and long-read treatments; 12px captions; gray 400 and 500 retuned so muted text passes AA; dividers one step darker in light; the pull quote wide, on a left line."
-status: working
+status: released
 date: 2026-10-28
 tags: [typography]
 tokens: [--line-height-h1, --line-height-h2, --line-height-h3, --line-height-h4, --tracking-display, --font-size-h5-max, --font-size-h6-max, --font-size-prose-h5-max, --font-size-prose-h6-max, --font-size-xs, --text-muted, --line, --gray-400, --gray-500]

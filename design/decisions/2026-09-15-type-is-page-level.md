@@ -2,7 +2,7 @@
 type: Decision
 title: The type ask is page-level finesse
 description: 'The feedback that the visual flow "feels off" means headline size against the hero, h2 sizing and spacing, and rhythm above the fold.'
-status: working
+status: released
 date: 2026-09-15
 tags: [typography]
 ---

@@ -2,7 +2,7 @@
 type: Guideline
 title: Sunken is never a ground
 description: The sunken level is a recess inside a surface, sized to a control. Never a section, band, or panel of content.
-status: working
+status: released
 tags: [surfaces]
 tokens: [--surface-sunken]
 ---

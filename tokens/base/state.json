@@ -7,7 +7,7 @@
       "$description": "A fill while pressed: this percentage of black mixed into it. color-mix(in oklch, var(--accent-key), var(--black) calc(var(--state-pressed-wash) * 1%)).",
       "$extensions": {
         "org.openmined": {
-          "status": "exploring"
+          "status": "released"
         }
       }
     },
@@ -16,7 +16,7 @@
       "$description": "Anything disabled: a field, a control, a button. It also takes the not-allowed cursor and no hover.",
       "$extensions": {
         "org.openmined": {
-          "status": "working",
+          "status": "released",
           "was": "the form field's disabled opacity"
         }
       }

@@ -2,7 +2,7 @@
 type: Decision
 title: Accent stays a semantic role
 description: Accent stays a role even while it's grayscale, so a future accent color needs no untangling.
-status: working
+status: released
 date: 2026-10-08
 tags: [color, interface]
 tokens: [--accent-solid]

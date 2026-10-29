@@ -1,5 +1,5 @@
 /**
- * Line flow: color in motion for diagram lines (behaviors/color-moves, exploring).
+ * Line flow: color in motion for diagram lines (behaviors/color-moves).
  *
  * A soft pulse travels along every SVG path marked `data-flow`, in the path's
  * own direction. The pulse is the link-hover trick drawn on a line: a band 1px

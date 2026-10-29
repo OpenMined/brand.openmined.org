@@ -2,7 +2,7 @@
 type: Decision
 title: "Components are plain CSS and JavaScript modules"
 description: "The v2 components live in components/ as one CSS file per component and one small ES module per moving part, with bare class names and the ideal markup as reference; no framework, no loader."
-status: working
+status: released
 date: 2026-10-27
 tags: [interface]
 ---
