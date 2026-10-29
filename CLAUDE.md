@@ -1,192 +1,115 @@
-# OpenMined Brand Reference
+# OpenMined Design System — working in this repo
 
-Canonical source for OpenMined's brand tokens, UI primitives, and logo assets. All OpenMined projects and sub-brands consume from this repo. Deploys to brand.openmined.org via standard Astro build.
+The source of the OpenMined Design System (v2). An Astro site at the repo root builds
+**design.openmined.org**, which serves everything people and AI agents need: tokens,
+guidance, components, icons, logos, graphics and examples. People using the system read the
+site (and agents `AGENTS.md` / `/llms.txt`); this file is for working on the system itself.
 
-**The code is canonical.** Check the files directly for what exists — don't rely on lists in this document.
+**The code is canonical.** Check the files for what exists; don't rely on lists here.
 
-## Repo structure
+## The site is a view of the sources
 
-Standard Astro project at the repo root — no subdirectory wrapper.
+Nothing is typed into a page by hand. Route every change to its source:
 
-```
-src/
-  layouts/      — Base.astro: shell, fonts, token imports, theme init
-  pages/        — one .astro file per page; index.astro is the reference page
-  components/   — v1 brand UI primitives (Button, Input, ThemeToggle, etc.); site/ = the v2 site's own
-  tokens/       — CSS custom properties and base styles
-public/
-  logos/        — all approved logo SVGs (+ logos/raster/ PNG renders for surfaces that can't inline SVG)
-  icons/        — custom SVG icons (currently empty)
-tools/
-  google-docs/  — OMDS → Google Docs named styles (template generator + restyle); see its README
-astro.config.mjs
-package.json
-```
-
-## What is canonical here
-
-- **`src/tokens/`** — all CSS custom properties and base styles. `tokens.css` is the single source of truth for every brand value; `global.css` covers resets, element defaults, section theming, and prose scope.
-- **`src/components/`** — brand UI primitives as Astro components. The reference site uses these directly; consuming projects copy them.
-- **`public/logos/`** — all approved logo SVGs, served at `/logos/` in the built site.
-- **`public/icons/`** — custom SVG icons when brand-specific glyphs are defined.
-
-## What does NOT belong here
-
-Site-specific layouts, sections, navigation, content, or anything tied to a particular project. `Logo.astro` is inherently project-specific (hardcodes logo paths) — each project ships its own. The logo SVG files are canonical here; the component is not.
-
-## Astro aliases
-
-`astro.config.mjs` defines two Vite path aliases:
-
-- `@tokens` → `src/tokens/` — use for CSS imports in any component or layout
-- `@brand` → `src/components/` — use for component imports within the site
-- `@components` → `components/` — the v2 components (CSS and plain JS modules)
-
-## Color mode system
-
-Tokens respond to `[data-theme="dark"]` on `<html>`. Three `data-section` values override this at the element level — apply to any element, not just `<section>`:
-
-- **`always-dark`** — locks surface and text tokens to dark values regardless of page theme
-- **`always-light`** — locks surface and text tokens to light values regardless of page theme
-- **`invert`** — remaps surface tokens to the `--dark-surface-*` parallel set, which flips with the page theme (dark surface in light mode, light surface in dark mode)
-
-**Rule:** inside any of these contexts, always use semantic tokens (`--surface-background-default`, `--text-body`, etc.) — never hardcoded palette values. The tokens resolve correctly for the context automatically.
-
-`always-dark` and `always-light` are fixed — they never respond to the page theme. `invert` does.
-
-## Icon system
-
-**v1** (released): Ionicons is the peer dependency; `/v1/` and the pre-v2 review rounds still load it.
-
-**v2** (`/` and every page on `Site.astro`): no Ionicons. Every icon is a name in `icons/set.json`
-(source: Iconoir regular, our own in `public/icons/`, or a partner mark; style; review status),
-resolved by `src/lib/icons.ts` (one lookup for `components/site/Icon.astro`, the page reviews and
-the Icons page). The stroke is set by size (2 up to 24px, then a 2px line); own drawings carry no
-stroke width or colors (`npm run icons:import` makes them); partner marks stay fills. A name missing
-from the set fails the build. `icons/README.md` has the review steps.
-
-## Enforcement (raw colors are un-shippable)
-
-**IMPORTANT — never hardcode a color.** Every color on a brand surface MUST be a design token: `var(--color-teal-600)`, `var(--surface-background-default)`, `var(--text-body)`, etc. Literal palette values live in exactly one file: `src/tokens/tokens.css` (v1). The in-progress v2 values live in `tokens/` and are generated into `src/tokens/v2/tokens.css` — see "v2 tokens" below.
-
-A stylelint gate (`stylelint.config.js`) makes this a hard rule, not a suggestion. Three rules — `color-no-hex`, `color-named`, and `declaration-strict-value` on color properties — fail the build on any raw hex, named color (`red`), or `rgb()`/`hsl()` literal. Run it with `npm run lint`. It runs in CI on every PR (`.github/workflows/lint.yml`, the merge blocker) and before every deploy (`deploy.yml`) — a violation cannot reach `brand.openmined.org`.
-
-**Exempt from the gate** (intentional, in `ignoreFiles`):
-- `src/tokens/tokens.css` — the palette source of truth; literal hex is correct here.
-- `src/tokens/v2/tokens.css` — **generated** (v2, in progress) from `tokens/` by `npm run tokens`; never edit it — `npm run tokens:check` fails CI if it differs from a rebuild.
-- `src/pages/diamond/`, `src/pages/stream/` — WebGL tuning tooling with their own local control-panel palette; not brand surfaces.
-
-WebGL shaders need numeric color values, so the embeds can't read `var(--…)` tokens — they import from `public/embeds/brand-colors.js`, the single JS-side color source (see Portable embeds). Never hand-type hex into a shader; add/adjust colors in `brand-colors.js` (kept in lockstep with `tokens.css` until the DTCG build unifies them).
-
-If you genuinely need a color the tokens don't cover, add it to `tokens.css` (or `brand-colors.js` for canvas) first, then reference it — don't reach around the gate.
-
-## v2 tokens (in progress — brand-v2, not released)
-
-v2 values are **open-format token files** (Design Tokens 2025.10) in `tokens/`, the
-source of truth: `base/` (gray, white, black, hue keys, chart series — the same in
-every mode), `light/` and `dark/` (hues with the per-mode offset, gradient, shadows,
-roles), and `resolver.json`. Status per token in `$extensions["org.openmined"]`:
-`draft` (in progress; never on the public site: `npm run build` fails on it, `npm run build:review`
-shows it) → `released` → `deprecated` (names its replacement). Decision 2026-10-30.
-
-- `tools/palette/generate.mjs` writes the generated files (gray, hues, gradient,
-  shadows) from `tools/palette/inputs.json`. Retune = edit inputs, regenerate.
-- `tools/tokens/build.mjs` validates `tokens/` (vendored schemas in
-  `tools/tokens/schemas/`), resolves every reference, and writes `src/tokens/v2/`
-  (`tokens.css`, `brand-colors.js`, `tokens.{light,dark}.json`). Outputs are
-  committed; never hand-edit them.
-- `npm run tokens` regenerates everything; `npm run tokens:check` is the CI gate.
-- Names and the word list: brand-v2-lab `proposals/2026-10-07-a0-naming-and-token-layout.md`.
-- v1 (`src/tokens/tokens.css`, `public/embeds/brand-colors.js`) is untouched until release.
-
-## v2 guidance and the brand site (in progress — branch `v2`)
-
-The new brand site (`/`, plus `/surfaces/`, `/color/`, `/graphics/`, `/interface/`,
-`/typography/`) is a **view of the source files** — nothing is typed into a page by hand.
-Route every change to its source:
-
-- **Values** (colors, shadows, any token) → `tokens/`, built into `src/tokens/v2/` (see above).
-- **Knowledge** (rules, decisions, open questions, the words on a page) → `design/`: one
-  typed Markdown file per idea, in the Open Design System Format's conventional folders
-  (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`) plus
-  `decisions/` (dated `YYYY-MM-DD-slug.md`, never edited to say something new — a changed
-  decision gets a new record). `overview.md` is the entry; `log.md` the change history
-  (add a line for every change). `index.md` is reserved for a generated listing.
-- **Frontmatter** on every file: `type`, `title`, `description`, `status`
-  (`draft` · `released` · `deprecated`; see above),
-  optional `tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts`
-  validates it and fails the build on a bad file.
-- **Components** (v2) → `components/` at the repo root: one CSS file per component, a small
-  ES module per moving part (each exports one function taking a selector; safe to call
-  again), bare class names, the ideal markup at the top of each CSS file. No framework, no
-  loader; `components/README.md`, `components/demo.html`. Decision 2026-10-27.
+- **Values** (colors, shadows, spacing, type, any token) → `tokens/`, built into `src/tokens/v2/`.
+- **Knowledge** (rules, decisions, open questions, the words on a page) → `design/`: one typed
+  Markdown file per idea, in `foundations/`, `components/`, `patterns/`, `behaviors/`,
+  `guidelines/`, plus `decisions/` (dated `YYYY-MM-DD-slug.md`, never edited to say something
+  new: a changed decision gets a new record). `overview.md` is the entry; `log.md` the change
+  history (add a line for every change). `index.md` is reserved for a generated listing.
+- **Components** → `components/` at the repo root: one CSS file per component, a small ES
+  module per moving part (each exports one function taking a selector; safe to call again),
+  bare class names, the markup at the top of each CSS file. No framework, no loader.
+  `components/README.md`. Decision 2026-10-27.
+- **Examples** → `src/pages/examples/` on `src/layouts/Example.astro`, listed in
+  `src/lib/examples.ts`: bare pages built only from the served files, so the built HTML is
+  what someone copies. Diagram sources live in `src/diagrams/`.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
-  `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only; outlines only as lines, never containers).
-- `/v1/` is the released v1 reference; `/rounds/` is the archive of review rounds
-  (`rounds/_legacy.ts` freezes the pre-v2 values for the closed rounds).
-- **Page reviews** (`/page-reviews/`): real openmined.org pages ported into `src/page-reviews/`
-  as a v2 pass (live ports dropped 2026-10-13; openmined.org is the reference; `v2/bridge.css` maps live token names to v2; `v2/pass.css`
-  holds component changes, each naming its rule). Working material, not guide pages; the
-  ported `openmined-org/` folder is lint-exempt. Findings go in `findings.ts`; settled ones
-  move to `design/`. See its README to refresh or remove.
-- Previews deploy only to the `v2` branch alias, built from a clean checkout of the pushed
-  commit — never `main` until release.
+  `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only).
+- **Served files** (`/omds.css`, `/omds.js`, `/components/*`, `/tokens/omds.*`,
+  `/tokens/source/*`, `/design/*.md`, `/icons/set/*`, `/llms.txt`, `/AGENTS.md`,
+  `/manifest.json`) are endpoints in `src/pages/` over `src/lib/serve.ts`, generated at build;
+  each CSS/JS file carries a stamp with the version and commit.
 
-## Portable embeds (`<om-diamond>` / `<om-stream>`)
+**Frontmatter** on every guidance file: `type`, `title`, `description`, `status`, optional
+`tags` (which pages show it) and `tokens` (names it governs). `src/lib/design.ts` validates it
+and fails the build on a bad file.
 
-The animated WebGL brand visuals are **framework-agnostic web components** in `public/embeds/`, meant to drop into any project — plain HTML, React, Astro, Webflow, anywhere. They are the canonical assets; the `DiamondEmbed.astro` / `StreamEmbed.astro` files are just thin wrappers the reference site uses to dogfood them.
+## Statuses
 
-**Consume — hosted (zero-build):**
-```html
-<script type="module" src="https://design.openmined.org/embeds/om-diamond.js"></script>
-<om-diamond></om-diamond>
-```
-**Consume — copied** (the OMDS sync pattern, no Astro needed): copy the whole `public/embeds/` folder (`om-*.js` + `brand-colors.js`) into the project and record the SHA.
+`draft` (in progress) → `released` → `deprecated` (names its replacement), on every token
+(`$extensions["org.openmined"].status`) and guidance file. **Everything on the public site is
+released.** `npm run build` fails if any token or file is `draft` (`src/lib/release-gate.ts`);
+`npm run dev` and `npm run build:review` show drafts. Decision 2026-10-30.
 
-**Attributes:** `gradient="spectrum"` (named gradient from `brand-colors.js`) or `colors="#f8c073,#52a8c5,…"` (explicit stops). `<om-stream>` also takes `aspect-ratio`, `crop-top`, `crop-bottom`, `rot-speed`, `rot-axis`. Size with normal CSS.
+## Tokens
 
-**Design notes:**
-- Each element is independent (multiple per page is fine) and self-cleans on removal — no global boot step.
-- Colors come from `brand-colors.js` only — on-brand by construction, so the embeds never hand-type hex.
-- Cross-origin hosting works because `public/_headers` sends `Access-Control-Allow-Origin: *` for `/embeds/*` (module scripts + their relative imports are fetched in CORS mode).
-- The `/diamond` and `/stream` pages are tuning tooling (gate-exempt), not the assets themselves.
+Open-format token files (Design Tokens 2025.10) in `tokens/`: `base/` (the same in every
+mode), `light/` and `dark/`, and `resolver.json`.
 
-## Partner / integration marks (`public/logos/partners/`)
+- `tools/palette/generate.mjs` writes the generated files (gray, hues, gradient, shadows) from
+  `tools/palette/inputs.json`. Retune = edit inputs, regenerate.
+- `tools/tokens/build.mjs` validates `tokens/` (vendored schemas in `tools/tokens/schemas/`),
+  resolves every reference, and writes `src/tokens/v2/` (`tokens.css`, `brand-colors.js`,
+  `tokens.{light,dark}.json`). Outputs are committed; never hand-edit them.
+- `npm run tokens` regenerates everything; `npm run tokens:check` is the CI gate.
 
-Third-party tool logos (GitHub, Slack, Notion, Asana, Claude, HubSpot, 1Password, Google, Ramp, …) used to identify integrations — **NOT OpenMined brand assets, and NOT governed by OMDS.** Each is the **trademark of its owner**, used nominatively. Rules:
+## Color modes
 
-- **Never recolor/restyle** a mark where the owner forbids it (e.g. Google's 4-color G stays as-is). OMDS color tokens do **not** apply to partner marks. Never imply endorsement.
-- **Never redraw** a partner mark — source it from the owner's official brand resources (or a CC0 Simple Icons glyph for monochrome icons), or leave it as a documented gap.
-- `partners.json` is the source of truth: per brand it records trademark owner, official source URL, available variants, brand color, and known gaps.
-- **Color mode:** every mark must read in light and dark. A color mark whose ink vanishes on dark gets `icon-color-dark.svg` / `logo-dark.svg` (recorded under `dark`; `derived` when we made it); `PartnerLogo.astro` swaps it in. `src/lib/partners.ts` fails the build on a color file that doesn't read in one mode (`modeCheck` records a stated exception). `README.md` carries the governance.
-- Per brand: `icon.svg` (monochrome, `fill="currentColor"` — inline + set `color` to theme it), `icon-color.svg` (official brand color), `logo*.svg` (wordmark lockups where officially available). The `PartnerLogo.astro` atom renders them.
+Tokens respond to `data-theme="dark"` on `<html>`. Three `data-section` values override it on
+any element: `always-dark`, `always-light` (fixed), and `invert` (flips with the page). Inside
+any of them, always use role tokens (`--surface-base`, `--text-body`, …), never palette steps;
+they resolve for the context.
+
+## Enforcement: raw colors are un-shippable
+
+**Never hardcode a color.** Every color is a token. Literal values live only in the token
+build (`src/tokens/v2/tokens.css`, generated) and v1's frozen `src/tokens/tokens.css`.
+
+`stylelint.config.js` fails on any raw hex, named color or `rgb()`/`hsl()` literal on a color
+property (`npm run lint`). CI runs it with `tokens:check` on every PR (`.github/workflows/lint.yml`)
+and before every deploy (`deploy.yml`). WebGL needs numbers, so embeds take colors from the
+JS token output (`brand-colors.js`), never hand-typed hex. If a color isn't covered, add a
+token first.
+
+## Icons
+
+Every icon is a name in `icons/set.json` (Iconoir regular, our own in `public/icons/`, or a
+partner mark), resolved by `src/lib/icons.ts` for the site and served at `/icons/set/`. Stroke
+by size (2 up to 24px). Own drawings carry no stroke width or colors (`npm run icons:import`);
+partner marks stay fills. A name missing from the set fails the build. `icons/README.md`.
+
+## Brand graphics (`<om-diamond>`, `<om-stream>`, `<om-mesh>`)
+
+Framework-free web components in `public/embeds/`, served at `/embeds/*` with open CORS. Each
+is independent and self-cleans. Colors come from `brand-colors.js`; an element with
+`data-follow` takes token colors at run time (see the examples' `FOLLOW_JS`). The hover-card
+colorflow and diagram pulses are components (`components/card-flow.js` on the shared renderer
+`flow.js`; `line-flow.js`).
+
+## Partner and organization marks
+
+`public/logos/partners/` (tools we integrate with) and `public/logos/orgs/` (organizations we
+work with) are **trademarks of their owners**, used nominatively, **not** governed by the
+system's tokens. Never recolor or redraw; source from the owner's brand resources.
+`partners.json` and `orgs.json` are the sources of truth; `src/lib/partners.ts` fails the
+build on a color file that doesn't read in one mode. `PartnerLogo.astro` renders them.
+
+## Google Docs
+
+`tools/google-docs/` derives Docs named styles from the **v1** CSS (`src/tokens/*.css`) and
+writes them via the Docs API; moving it to v2 is planned. `public/logos/raster/` holds PNG
+renders of the logos for Docs. `tools/google-docs/README.md`.
+
+## v1
+
+v1 is tagged `v1.0.0`. Its served files (`/tokens/tokens.css`, `global.css`, `typography.css`,
+`google-docs.json`, copied from `src/tokens/` at prebuild) stay at their paths, unlinked, for
+existing projects. The review rounds and page reviews were removed 2026-10-30; tag
+`rounds-archive` keeps them runnable (`git checkout rounds-archive && npm run dev`).
 
 ## Deploying
 
-Standard Astro build — no special config needed for GitHub Pages or Cloudflare Pages:
-
-- Build command: `npm run build`
-- Output directory: `dist/`
-
-For a subdirectory GitHub Pages deployment (e.g. `username.github.io/repo/`), add `base: '/repo-name/'` to `astro.config.mjs`.
-
-## Google Docs (Workspace)
-
-`tools/google-docs/` derives Google Docs named styles (Normal, Title, Subtitle, H1–H6),
-margins and header/footer from `src/tokens/` and writes them via the Docs API — it is
-how the OpenMined template gallery stays on-brand. Fonts, weights, line-heights,
-colors and spacing come from the CSS; the only Docs-specific table is the print
-point-size scale (`DOC_PT`). Re-run against a template's doc ID after a token change.
-Docs cannot inline SVG, so `public/logos/raster/` holds 1200 px PNG renders of the
-canonical logos (`rsvg-convert -w 1200`) for the letterhead header. Full notes in
-`tools/google-docs/README.md`.
-
-## Using in a project
-
-Copy `src/tokens/` and `src/components/` into the consuming project's `src/brand/`. Serve logos from `public/logos/`. Record the brand repo commit SHA in `src/brand/brand-version.txt` as the audit trail. Any edits to files in `src/brand/` are intentional project-specific divergence — document what changed and why.
-
-**Sync approaches (priority order):** local clone of this repo → GitHub raw file URLs → deployed brand reference at brand.openmined.org. No canonical sync script; use whichever approach is available and let the implementation follow from there.
-
-## Peer dependencies
-
-Projects must load ionicons in their base layout. CDN is fine for development; self-host before production.
+`npm run build` → `dist/`. Deploys are manual (Wrangler to Cloudflare Pages), built from a
+clean checkout of the pushed commit. Previews go to a branch alias; production only on an
+explicit go.

@@ -7,7 +7,7 @@
  * Words come from design/ (files tagged `surfaces`); values from src/tokens/v2/.
  */
 import Site from '../../layouts/Site.astro';
-import LinkCard from '../../components/site/LinkCard.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import Icon from '../../components/site/Icon.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
@@ -40,7 +40,7 @@ const cell = (mode: 'light' | 'dark', name: string) => {
   return { label: stepLabel(e.value), resolved: e.resolved, status: e.status ?? 'working' };
 };
 const level = (mode: 'light' | 'dark', name: string) => { const c = cell(mode, name); return `${c.label ?? ''} · ${c.resolved}`; };
-const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['lines', 'Lines'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 'Corners'], ['lines', 'Lines'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 ---
 <Site title={foundation.title} description={foundation.description} current="surfaces">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV as [string, string][]} />
@@ -173,12 +173,5 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2><p>The review rounds where these values were set.</p></header>
-      <div class="grid grid--2">
-        <LinkCard href="/rounds/surfaces/" title="Surfaces round">Levels, shadows, outlines and a form lab, with a live editor.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["dashboard", "landing-section", "join-form"]} />
 </Site>

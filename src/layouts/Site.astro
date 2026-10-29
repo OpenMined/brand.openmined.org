@@ -4,10 +4,8 @@
  * Styled with the v2 tokens it documents, and only those: v1's tokens.css isn't
  * loaded (v2 has spacing, motion, stacking, fonts and page width since 2026-10-27).
  * The nav lists only pages that exist (lab PLAN, B: pages are made as each
- * topic is worked). Two headers: the brand guide's (its pages, then Review
- * rounds, v1 reference and the color mode) and, on any page under /rounds/ or
- * /page-reviews/ built on this layout, the review rounds' (every round and page review, from
- * src/lib/rounds.ts, with a way back to the guide).
+ * topic is worked). One header: the guide's pages and the color mode. The review
+ * rounds and page reviews were removed 2026-10-30 (git tag rounds-archive).
  */
 import '@tokens/v2/tokens.css';
 // The v2 components first, then the site's own styles, which lay them out.
@@ -15,7 +13,6 @@ import '@components/index.css';
 import '../styles/site.css';
 import ThemeToggle from '../components/site/ThemeToggle.astro';
 import '../lib/release-gate';
-import { ROUNDS, REVIEW_PAGES, isCurrent } from '../lib/rounds';
 
 interface Props {
   title: string;
@@ -36,9 +33,6 @@ const PAGES = [
   { key: 'typography', label: 'Typography', href: '/typography/' },
   { key: 'examples', label: 'Examples', href: '/examples/' },
 ];
-/** Which header: the review rounds' on their pages (rounds and page reviews). */
-const path = Astro.url.pathname;
-const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/');
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -59,38 +53,25 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap" rel="stylesheet" />
   </head>
-  <body class={inRounds ? 'rounds-shell' : 'guide'}>
+  <body class="guide">
     <header class="bar">
       <div class="bar__inner">
-        {inRounds ? <>
-          <a class="bar__title" href="/">← Brand guide</a>
-          <nav class="bar__nav bar__nav--reviews" aria-label="Page reviews">
-            {REVIEW_PAGES.map((p, i) => <a class:list={[i === 0 ? 'bar__group' : 'bar__link']} href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
-          </nav>
-          <nav class="bar__nav bar__nav--rounds" aria-label="Review rounds">
-            {ROUNDS.map(p => <a class="bar__link" href={p.href} aria-current={isCurrent(p.href, path) ? 'page' : undefined}>{p.label}</a>)}
-          </nav>
-        </> : <>
-          <a class="bar__title" href="/">OpenMined Design System</a>
-          <span class="bar__tag">v2 · in progress</span>
-          <nav class="bar__nav" aria-label="Site">
-            {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
-            <span class="bar__sep" aria-hidden="true"></span>
-            <a class="bar__link" href="/rounds/">Review rounds</a>
-            <a class="bar__link" href="/v1/">v1 reference</a>
-          </nav>
-        </>}
+        <a class="bar__title" href="/">OpenMined Design System</a>
+        <span class="bar__tag">v2 · in progress</span>
+        <nav class="bar__nav" aria-label="Site">
+          {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
+        </nav>
         <ThemeToggle />
       </div>
     </header>
 
     <!-- Plain links in the guide's text are content links (design/components/link.md). -->
-    <main class={inRounds ? undefined : 'content-links'}>
+    <main class="content-links">
       <slot />
     </main>
 
     <footer class="foot">
-      <div class="wrap">Values from the v2 token build (<code>tokens/</code>); guidance from <code>design/</code>. Nothing here is released yet.</div>
+      <div class="wrap">Values from the v2 token build (<code>tokens/</code>); guidance from <code>design/</code>. Everything on this site is released; see the <a href="/manifest.json">version</a>.</div>
     </footer>
 
     <script>
@@ -103,8 +84,7 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       import { codeCopy } from '@components/code-copy.js';
       import { toc } from '@components/toc.js';
       import { lineFlow } from '@components/line-flow.js';
-      // The Color and interaction round's own buttons (.mbtn) draw their own layers.
-      buttonHover('.btn:not(.mbtn)');
+      buttonHover();
       hoverCards();
       linkCards();
       // Hover cards' colorflow: each card names its unit (HoverCard's `flow`).
@@ -113,8 +93,7 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       codeCopy();
       toc();
       lineFlow();
-      // The round's own fields (.mo-fm) run their own light.
-      fieldLights('.ctl:not(.mo-fm .ctl)');
+      fieldLights();
       document.addEventListener('click', (e: MouseEvent) => {
         if ((e.target as HTMLElement).closest('.js-switch-theme')) {
           const html = document.documentElement;

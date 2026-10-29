@@ -4,10 +4,10 @@
  * regular set, inlined at build time by components/site/Icon.astro (no CDN).
  * "The set" is a view of icons/set.json: every v2 icon (source, style, review
  * status). The live site's icons mapped to the set are on the icons round
- * (/rounds/icons/). All drawings come through src/lib/icons.ts.
+ * (the icons round, tag rounds-archive). All drawings come through src/lib/icons.ts.
  */
 import Site from '../../layouts/Site.astro';
-import LinkCard from '../../components/site/LinkCard.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
@@ -22,7 +22,7 @@ const foundation = doc('foundations/iconography');
 const { Content } = foundation;
 const rules = byTag('icons', 'Guideline', 'Behavior');
 const decisions = decisionsFor('icons');
-const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 
 const SRC: Record<string, string> = { iconoir: 'Iconoir', own: 'Our own', partner: 'Partner mark' };
 /** The v2 set, with the live icons each one replaces. */
@@ -159,15 +159,5 @@ const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--3">
-        <LinkCard href="/rounds/motion/" title="Color and interaction round">Icons in color: the glow and two-tone options, side by side.</LinkCard>
-        <LinkCard href="/rounds/icons/" title="Icons round">Every icon on the live site, next to the set icon that replaces it.</LinkCard>
-        <LinkCard href="https://iconoir.com" title="Iconoir">Browse all 1,383 outlined icons. Use the regular set; we draw it at a 2 stroke.</LinkCard>
-        <LinkCard href="/graphics/#logo" title="Partner marks">Brand logos for tools and partners, used as supplied.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["landing-section", "syfthub", "dashboard"]} />
 </Site>

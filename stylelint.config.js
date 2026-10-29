@@ -40,18 +40,6 @@ export default {
     // v2: generated from tokens/ by tools/tokens/build.mjs — the palette's literal
     // values are correct here, and --check fails CI if it is hand-edited.
     'src/tokens/v2/tokens.css',
-    // WebGL tuning tooling with its own local control-panel palette — not a
-    // brand surface. Known, tracked exception (see CLAUDE.md › Enforcement).
-    'src/pages/diamond/**',
-    'src/pages/stream/**',
-    // brand-v2 review rounds: candidate values shown side by side for a
-    // decision. Exploration needs raw values the gate would block; whatever
-    // is chosen graduates into tokens.css and the round page is removed.
-    'src/pages/rounds/**',
-    // Page reviews: a verbatim port of openmined.org pages (the "live" side of
-    // the comparison), with openmined.org's own palette. Not a brand surface.
-    // The v2 layer on top (src/page-reviews/v2/, the bar) stays gated.
-    'src/page-reviews/openmined-org/**',
   ],
 
   // Lint <style> blocks inside .astro components/pages.

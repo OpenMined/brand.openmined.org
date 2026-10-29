@@ -1,7 +1,6 @@
 ---
 /**
  * BRAND SITE (v2) — home: the overview, rendered from design/overview.md.
- * The v1 reference page lives at /v1/ until v2 is released.
  */
 import Site from '../layouts/Site.astro';
 import LinkCard from '../components/site/LinkCard.astro';
@@ -35,14 +34,5 @@ const [before, after] = [overview.html.slice(0, cut), overview.html.slice(cut)];
     </div>
   </section>
 
-  <section class="band">
-    <div class="wrap wrap--read">
-      <header class="sec"><h2>Archives</h2><p>Reachable while v2 is in progress.</p></header>
-      <div class="grid grid--2">
-        <LinkCard href="/rounds/" title="Review rounds">Every round: when it opened, what it explored, and where its working favorites live in the guide.</LinkCard>
-        <LinkCard href="/v1/" title="v1 reference">The released brand: tokens, components, logos and embeds, as served today.</LinkCard>
-      </div>
-    </div>
-  </section>
 
 </Site>

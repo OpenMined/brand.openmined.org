@@ -5,7 +5,7 @@
  * the v2 build. The diagram is src/diagrams/Abc1.astro (also an example).
  */
 import Site from '../../layouts/Site.astro';
-import LinkCard from '../../components/site/LinkCard.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
@@ -23,7 +23,7 @@ const DiagramsContent = diagrams.Content;
 const rules = byTag('graphics', 'Guideline', 'Behavior');
 const decisions = decisionsFor('graphics');
 
-const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'], ['motion', 'Colorflow and gradient map'], ['diagrams', 'Diagrams'], ['logo', 'Logos and embeds'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 
 /* Partner marks, from public/logos/partners/partners.json (the source of truth),
    through src/lib/partners.ts, which also fails the build on a color file that
@@ -111,7 +111,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
         <article class="card">
           <img class="only-light logo-spec" src="/logos/OpenMined-Logo.svg" alt="OpenMined" height="40" />
           <img class="only-dark logo-spec" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" height="40" />
-          <p class="muted">Full color on light; reversed on dark. All logo files are on the <a href="/v1/#logos">v1 reference</a>.</p>
+          <p class="muted">Full color on light; reversed on dark.</p>
         </article>
         <article class="card">
           <h3>Embeds</h3>
@@ -153,15 +153,7 @@ const partnerRule = doc('guidelines/partner-marks-as-supplied');
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--3">
-        <LinkCard href="/rounds/diagrams/" title="Diagram round">The Attribution-Based Control article's opening, with its graphics redrawn in two directions: the original, A (attribution in color, chosen) and B (technical plate).</LinkCard>
-        <LinkCard href="/rounds/gradient-map/" title="Gradient map round">The gradient map's colors compared, with its saturation control.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["diagram-abc-1", "diagram-abc-2", "diagram-abc-3"]} />
   <script type="module" src="/embeds/om-stream.js" is:inline></script>
   <script type="module" src="/embeds/om-mesh.js" is:inline></script>
   <script is:inline>

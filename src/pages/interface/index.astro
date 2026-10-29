@@ -5,6 +5,7 @@
  * v2 build. Focus rings are still open.
  */
 import Site from '../../layouts/Site.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import LinkCard from '../../components/site/LinkCard.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
@@ -54,13 +55,13 @@ const CODE = {
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['cards', 'Cards'], ['data', 'Data'], ['content', 'Content'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['cards', 'Cards'], ['data', 'Data'], ['content', 'Content'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = [button, link, linkCard, statusChip, card, tag, table, tabsDoc, accordion, steps, codeBlock, tocDoc, pagination, form, motion];
 /** A small dataset for the table and tabs demos. */
 const ROWS = [['SyftHub', '11,118', 'success', 'Live'], ['Syft Space', '2,904', 'info', 'Beta'], ['Data network pilot', '412', 'warning', 'Pending review'], ['Legacy gateway', '0', 'danger', 'Retired']];
 /** Status chips: a label per status, as a list of things might carry them. */
 const CHIPS = [['success', 'Approved'], ['warning', 'Pending review'], ['danger', 'Failed'], ['info', 'New']];
-/** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
+/** The form lab's text-type fields (from the surfaces round's form lab). */
 const TEXT_FIELDS = [
   { id: 'name', type: 'text', label: 'Full name', req: true, desc: 'Single-line text: the default field type.', ph: 'Jane Doe' },
   { id: 'email', type: 'email', label: 'Email address', req: true, desc: '', ph: 'Email Address', bare: true },
@@ -408,16 +409,7 @@ syft-space init --data ./records</code></pre>
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--2">
-        <LinkCard href="/rounds/motion/" title="Color and interaction round">Button and link hovers, hover cards, and the form field hover and focus options.</LinkCard>
-        <LinkCard href="/rounds/surfaces/#forms" title="Surfaces round: form lab">Every control the embedded forms render, in generic markup, with their states.</LinkCard>
-        <LinkCard href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all#interface" title="Color round: interface">Roles applied to interface elements, with the accent switch.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["dashboard", "join-form", "product-steps"]} />
 
 <script>
   // The layer switch: minimal sets data-interaction="minimal" on the page; the label names the layer shown.

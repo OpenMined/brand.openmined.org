@@ -7,7 +7,7 @@
  * its placeholder type until it moves onto v2. Words from design/ (tag `typography`).
  */
 import Site from '../../layouts/Site.astro';
-import LinkCard from '../../components/site/LinkCard.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
@@ -44,7 +44,7 @@ const TEXT = [
 ].map(r => ({ ...r, modes: MODES.map(m => ({ m, step: (target(m, r.t) ?? '').replace('-', ' '), hex: hex(m, r.t), min: Math.min(...SURFACES.map(s => contrast(hex(m, r.t), hex(m, `surface-${s}`)))) })) }));
 const RHYTHM = ['--prose-gap', '--prose-gap-wide', '--prose-gap-section', '--prose-gap-break', '--prose-gap-h2', '--prose-gap-h3', '--prose-gap-h4', '--prose-gap-h5'];
 const CODE = { type: componentCode(['type']), prose: componentCode(['prose']) };
-const NAV: [string, string][] = [['scale', 'Heading scale'], ['styles', 'Text styles'], ['color', 'Text color'], ['prose', 'Prose'], ['families', 'Families'], ['leading', 'Leading and weights'], ['guidance', 'Guidance'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['scale', 'Heading scale'], ['styles', 'Text styles'], ['color', 'Text color'], ['prose', 'Prose'], ['families', 'Families'], ['leading', 'Leading and weights'], ['guidance', 'Guidance'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 ---
 <Site title={foundation.title} description={foundation.description} current="typography">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
@@ -207,13 +207,5 @@ request.approve()</code></pre>
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2></header>
-      <div class="grid grid--2">
-        <LinkCard href="https://openmined.org/" title="openmined.org">The live site, where this type system runs on real pages.</LinkCard>
-        <LinkCard href="/v1/#typography" title="v1 reference: typography">The released type specimen.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["long-read", "home", "syfthub"]} />
 </Site>

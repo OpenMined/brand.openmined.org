@@ -1,8 +1,0 @@
-/* PORT (page reviews): openmined.org self-hosts these through the Astro 7 Fonts API,
-   which emits the three variables below. This repo is on Astro 4, so Base.astro loads
-   the same families from Google Fonts and this file supplies the variables. */
-:root {
-  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-rubik: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-sometype-mono: 'Sometype Mono', ui-monospace, monospace;
-}

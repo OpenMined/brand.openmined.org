@@ -1,0 +1,15 @@
+---
+/** The examples a guide page points to (src/lib/examples.ts), as link cards. */
+import LinkCard from './LinkCard.astro';
+import { example } from '../../lib/examples';
+interface Props { slugs: string[] }
+const list = Astro.props.slugs.map(example);
+---
+<section class="band" id="examples">
+  <div class="wrap">
+    <header class="sec"><h2>Examples</h2><p>Put together from the files this site serves: open one and copy it. <a class="link-content" href="/examples/">All examples</a>.</p></header>
+    <div class="grid grid--3">
+      {list.map(e => <LinkCard href={`/examples/${e.slug}/`} title={e.title}>{e.description}</LinkCard>)}
+    </div>
+  </div>
+</section>

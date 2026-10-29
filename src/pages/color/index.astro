@@ -5,7 +5,7 @@
  * values from src/tokens/v2/ via src/lib/tokens.ts.
  */
 import Site from '../../layouts/Site.astro';
-import LinkCard from '../../components/site/LinkCard.astro';
+import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
@@ -69,7 +69,7 @@ const TWO_TONE = HUES.map(h => ({ hue: h, token: `--gradient-two-tone-${h}`, com
 /** Highlights: one per hue, the lit-up part of a moving line, shown pulsing along a line in the hue. */
 const highlight = doc('foundations/highlight');
 const HIGHLIGHTS = HUES.map(h => ({ hue: h, token: `--gradient-highlight-${h}`, color: HIGHLIGHT[h] }));
-const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['gradient', 'Gradient'], ['two-tone', 'Two-tone'], ['highlight', 'Highlights'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Roles'], ['text', 'Text and lines'], ['series', 'Chart series'], ['gradient', 'Gradient'], ['two-tone', 'Two-tone'], ['highlight', 'Highlights'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 ---
 <Site title={foundation.title} description={foundation.description} current="color">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
@@ -332,15 +332,6 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
     </div>
   </section>
 
-  <section class="band" id="see">
-    <div class="wrap">
-      <header class="sec"><h2>See it</h2><p>The review rounds behind these values.</p></header>
-      <div class="grid grid--3">
-        <LinkCard href="/rounds/color/?p=ink&a=none&l=og&ml=0_1.1_0_all" title="Color round">Palettes compared on a mock page, charts, interface and graphics. Set to Ink.</LinkCard>
-        <LinkCard href="/rounds/spectrum/" title="Spectrum round">The approved 50–950 series and how the old steps map onto it.</LinkCard>
-        <LinkCard href="/rounds/naming/" title="Naming round">How many grays, and what to call them.</LinkCard>
-      </div>
-    </div>
-  </section>
+  <ExampleLinks slugs={["home", "dashboard", "diagram-abc-1"]} />
 </Site>
 
