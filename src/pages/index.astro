@@ -66,6 +66,35 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
     </div>
   </section>
 
+  <section class="band" id="system">
+    <div class="wrap">
+      <header class="sec"><h2>The system at a glance</h2></header>
+      <div class="glance">
+        {PAGES.map(([href, title, spec, text]) => (
+          <a class="lcard glance__card" href={href}>
+            <span class={`glance__spec glance__spec--${spec}`} aria-hidden="true">
+              {spec === 'color' && ['red', 'amber', 'green', 'teal', 'blue', 'violet'].map((h) => <i style={`background:var(--${h}-key)`}></i>)}
+              {spec === 'surfaces' && ['sunken', 'base', 'raise-1', 'raise-2'].map((l) => <i style={`background:var(--surface-${l});box-shadow:var(--shadow-${l === 'base' ? 'raise-1' : l === 'sunken' ? 'sunken' : l})`}></i>)}
+              {spec === 'type' && <><b>Aa</b><small>Aa</small></>}
+              {spec === 'layout' && Array.from({ length: 12 }, () => <i></i>)}
+              {spec === 'interface' && <><span class="btn btn--solid">Join</span><span class="btn">Read</span></>}
+              {spec === 'icons' && ['lock', 'network', 'shield-check', 'light-bulb'].map((n) => <Fragment set:html={iconSvg(n, { size: 24 })} />)}
+              {spec === 'graphics' && <i></i>}
+              {spec === 'logos' && <><img class="only-light" src="/logos/OpenMined-Logo.svg" alt="" /><img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="" /></>}
+            </span>
+            <h3 class="lcard__title">{title}<Fragment set:html={ARR} /></h3>
+            <span class="lcard__text">{text}</span>
+          </a>
+        ))}
+        <a class="lcard glance__card" href="/examples/">
+          <span class="glance__spec glance__spec--examples" aria-hidden="true"><i></i><i></i><i></i></span>
+          <h3 class="lcard__title">Examples<Fragment set:html={ARR} /></h3>
+          <span class="lcard__text">Sections, pages and graphics built from the served files: the rules in use, ready to copy.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <section class="band" id="making">
     <div class="wrap">
       <header class="sec"><h2>What are you making?</h2><p>{coverage.description}</p></header>
@@ -93,35 +122,6 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
         </div>
       </div>
       <div class="guide-prose measure"><CoverageNotes /></div>
-    </div>
-  </section>
-
-  <section class="band" id="system">
-    <div class="wrap">
-      <header class="sec"><h2>The system at a glance</h2></header>
-      <div class="glance">
-        {PAGES.map(([href, title, spec, text]) => (
-          <a class="lcard glance__card" href={href}>
-            <span class={`glance__spec glance__spec--${spec}`} aria-hidden="true">
-              {spec === 'color' && ['red', 'amber', 'green', 'teal', 'blue', 'violet'].map((h) => <i style={`background:var(--${h}-key)`}></i>)}
-              {spec === 'surfaces' && ['sunken', 'base', 'raise-1', 'raise-2'].map((l) => <i style={`background:var(--surface-${l});box-shadow:var(--shadow-${l === 'base' ? 'raise-1' : l === 'sunken' ? 'sunken' : l})`}></i>)}
-              {spec === 'type' && <><b>Aa</b><small>Aa</small></>}
-              {spec === 'layout' && Array.from({ length: 12 }, () => <i></i>)}
-              {spec === 'interface' && <><span class="btn btn--solid">Join</span><span class="btn">Read</span></>}
-              {spec === 'icons' && ['lock', 'network', 'shield-check', 'light-bulb'].map((n) => <Fragment set:html={iconSvg(n, { size: 24 })} />)}
-              {spec === 'graphics' && <i></i>}
-              {spec === 'logos' && <><img class="only-light" src="/logos/OpenMined-Logo.svg" alt="" /><img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="" /></>}
-            </span>
-            <h3 class="lcard__title">{title}<Fragment set:html={ARR} /></h3>
-            <span class="lcard__text">{text}</span>
-          </a>
-        ))}
-        <a class="lcard glance__card" href="/examples/">
-          <span class="glance__spec glance__spec--examples" aria-hidden="true"><i></i><i></i><i></i></span>
-          <h3 class="lcard__title">Examples<Fragment set:html={ARR} /></h3>
-          <span class="lcard__text">Sections, pages and graphics built from the served files: the rules in use, ready to copy.</span>
-        </a>
-      </div>
     </div>
   </section>
 
