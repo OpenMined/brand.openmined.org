@@ -27,11 +27,11 @@ const LAYERS = [
   { t: 'Primitives', s: 'blue-500, type sizes, durations' },
 ];
 const READERS = [
-  { t: 'AI agents', tag: 'planned', items: ['Find files through llms.txt', 'Fetch .md and token files', "Follow the skill's workflow", 'Run the lint on its own work', "Check against the don'ts"] },
+  { t: 'AI agents', tag: '', items: ['Find files through llms.txt', 'Fetch .md and token files', 'Copy a starter or an example', "Follow the skill's workflow", 'Send feedback'] },
   { t: 'Each project', tag: 'planned', s: 'website · apps · slides · new builds', items: ['The release it uses', 'Exceptions, each with a reason', 'Its own component tokens', 'AGENTS.md: the hard rules'] },
   { t: 'Design tools', tag: 'possible', items: ['Tokens Studio loads the token files', 'Figma imports the basic types'] },
 ];
-const STEPS = ['Exploring', 'Working', 'Released', 'Deprecated', 'Removed'];
+const STEPS = ['Draft', 'Released', 'Deprecated', 'Removed'];
 const ARROW_R = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M0 5H22" /><path d="M17 1L22 5L17 9" /></svg>';
 const ARROW_D = '<svg viewBox="0 0 10 20" aria-hidden="true"><path d="M5 0V18" /><path d="M1 13L5 18L9 13" /></svg>';
 const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /><path d="M7 1L2 5L7 9" /></svg>';
@@ -62,14 +62,14 @@ const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /
           <ul class="ig__legend">
             {(['specs', 'judgment', 'reasoning'] as Kind[]).map(k => <li style={`--k:var(--${KEY[k]}-key)`}><i></i><span class="ig__label">{k}</span></li>)}
           </ul>
-          <div class="ig__aside is-planned"><b>Examples beside each file</b><span class="ig__label">planned: rendered · wireframe · do and don’t</span></div>
+          <div class="ig__aside"><b>Examples</b><span class="ig__label">sections · pages · graphics; each names the files it puts to work</span></div>
         </section>
       </div>
       <p class="ig__note ig__label">Guidance names tokens by reference; no value is ever copied into prose</p>
       <div class="ig__pair ig__pair--low">
         <section class="ig__part ig__part--assets"><b class="ig__title">Assets</b><span class="ig__label">logos · embeds · templates</span></section>
         <span></span>
-        <section class="ig__part ig__part--built"><b class="ig__title">Built from the source</b><span class="ig__label">CSS · JS · JSON · later: .md, llms.txt, starter</span></section>
+        <section class="ig__part ig__part--built"><b class="ig__title">Built from the source</b><span class="ig__label">CSS · JS · JSON · .md · llms.txt · starters · examples</span></section>
       </div>
     </section>
 
@@ -78,7 +78,7 @@ const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /
     <section class="ig__outer ig__readers">
       <header class="ig__head"><span class="ig__label ig__caps">Read by</span></header>
       {READERS.map(r => (
-        <section class="ig__reader is-planned">
+        <section class:list={['ig__reader', r.tag && 'is-planned']}>
           <header class="ig__rhead"><b class="ig__title">{r.t}</b><span class="ig__label ig__caps">{r.tag}</span></header>
           {r.s && <span class="ig__label">{r.s}</span>}
           <ul>{r.items.map(it => <li>{it}</li>)}</ul>
@@ -94,7 +94,7 @@ const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /
         {STEPS.map((s, i) => (
           <>
             {i > 0 && <li class="ig__steparrow" aria-hidden="true"><Fragment set:html={ARROW_R} /></li>}
-            <li class={`ig__step${s === 'Working' ? ' is-on' : ''}`}>{s}</li>
+            <li class={`ig__step${s === 'Released' ? ' is-on' : ''}`}>{s}</li>
           </>
         ))}
       </ol>

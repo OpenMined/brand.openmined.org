@@ -1,38 +1,166 @@
 ---
 /**
- * BRAND SITE (v2) — home: the overview, rendered from design/overview.md.
+ * BRAND SITE (v2) — the front door (lab LAUNCH section 7): what this is, what you can
+ * make with it and how to start, the system at a glance, how it's built, what's
+ * covered, feedback and what's new, the principles. Words from design/overview.md and
+ * design/coverage.md; recent changes from design/log.md and decisions/; nothing typed here.
  */
+import { readFileSync } from 'node:fs';
 import Site from '../layouts/Site.astro';
-import LinkCard from '../components/site/LinkCard.astro';
 import InfoDiagram from '../components/site/InfoDiagram.astro';
-import { doc } from '../lib/design';
+import { doc, DOCS } from '../lib/design';
+import { example } from '../lib/examples';
+import { iconSvg } from '../lib/icons';
+import { VERSION } from '../lib/serve';
 
 const overview = doc('overview');
-// The diagram goes at the end of "How it's built", just before Principles; the
-// words on both sides are design/overview.md, unchanged.
-const cut = overview.html.indexOf('<h2 id="principles"');
-if (cut < 0) throw new Error('overview.md: no Principles heading to place the diagram before');
-const [before, after] = [overview.html.slice(0, cut), overview.html.slice(cut)];
+const coverage = doc('coverage');
+const CoverageNotes = coverage.Content;
+
+/** overview.md split at its h2s, so each part can sit in its own band. */
+const parts = Object.fromEntries(
+  overview.html.split(/(?=<h2 id=")/).map((chunk) => [chunk.match(/^<h2 id="([^"]+)"/)?.[1] ?? 'intro', chunk.replace(/^<h2[^>]*>.*?<\/h2>/, '')]),
+);
+for (const k of ['intro', 'how-its-built', 'principles', 'how-to-use-it', 'feedback', 'what-stays-human'])
+  if (!(k in parts)) throw new Error(`overview.md: no "${k}" section for the front page`);
+
+type Medium = { name: string; level: 'covered' | 'partly' | 'not-yet'; line: string; start: string; example?: string };
+const MEDIA = coverage.data.media as Medium[];
+const LEVEL = { covered: ['Covered', 'success'], partly: ['Partly', 'warning'], 'not-yet': ['Not yet', ''] } as const;
+const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
+
+/** The system at a glance: one card per guide page, each with a small live specimen. */
+const PAGES: [string, string, string, string][] = [
+  ['/color/', 'Color', 'color', 'One gray and six hues, eleven steps each, with roles for what each color does.'],
+  ['/surfaces/', 'Surfaces', 'surfaces', 'Four levels, their shadows, and lines instead of boxes.'],
+  ['/typography/', 'Typography', 'type', 'Rubik and Inter on a fluid scale, and the long-read rhythm.'],
+  ['/layout/', 'Layout', 'layout', 'The page, a 12-column grid, breakpoints and the article zones.'],
+  ['/interface/', 'Interface', 'interface', 'Buttons, links, fields, cards, tables, tabs and their states.'],
+  ['/icons/', 'Icons', 'icons', 'One outlined set, mono by default, in color with motion.'],
+  ['/graphics/', 'Graphics', 'graphics', 'The gradient, hue keys, diagrams and the animated brand graphics.'],
+  ['/logo/', 'Logos', 'logos', 'The logo files, partner marks and the organizations we work with.'],
+];
+
+/** What's new: the latest change-log lines and decisions. */
+const LOG = readFileSync('design/log.md', 'utf8').split('\n').filter((l) => l.startsWith('- **')).slice(0, 4)
+  .map((l) => { const m = l.match(/^- \*\*(\d{4}-\d{2}-\d{2})\*\* — (.*)$/); return m ? { date: m[1], text: m[2].replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\*([^*]+)\*/g, '$1').replace(/`([^`]+)`/g, '$1') } : null; })
+  .filter(Boolean) as { date: string; text: string }[];
+/** A log line's first sentences, enough to say what changed (60+ characters), at most about 200. */
+const clip = (t: string) => {
+  const parts = t.split(/(?<=\.)\s(?=[A-Z])/);
+  let s = parts.shift() ?? '';
+  while (s.length < 60 && parts.length) s += ` ${parts.shift()}`;
+  return s.length > 200 ? `${s.slice(0, s.lastIndexOf(' ', 197))}…` : s;
+};
+const DECISIONS = DOCS.filter((d) => d.type === 'Decision' && d.status === 'released').sort((a, b) => day(b.data.date).localeCompare(day(a.data.date))).slice(0, 4);
+const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
 ---
 <Site title="Overview" description={overview.description} current="overview">
-  <section class="wrap wrap--read hero">
-    <p class="text-eyebrow">v2 · in progress</p>
+  <section class="wrap front-hero">
+    <p class="text-eyebrow">Version {VERSION.replace(/-pre$/, '')}{VERSION.endsWith('-pre') && ' · preview'}</p>
     <h1>OpenMined Design System</h1>
-    <p class="text-lead">{overview.description}</p>
-    {overview.status !== 'released' && <p class="status">Status: <b>{overview.status}</b></p>}
-    <div class="card note-card"><p><b>This home page is a placeholder.</b> A proper front door, for people and for AI agents, comes once more of the system is decided. Start with the overview below, or a topic in the nav.</p></div>
+    <div class="text-lead measure" set:html={parts.intro} />
+    <div class="actions">
+      <a class="btn btn--solid" href="#making">Start making</a>
+      <a class="btn" href="/llms.txt">For AI tools</a>
+    </div>
   </section>
 
-  <section class="band">
+  <section class="band" id="making">
+    <div class="wrap">
+      <header class="sec"><h2>What are you making?</h2><p>{coverage.description}</p></header>
+      <div class="making">
+        {MEDIA.map((m) => (
+          <article class="card card--compact making__item">
+            <div class="making__head">
+              <h3 class="card__title">{m.name}</h3>
+              <span class:list={['status-chip', LEVEL[m.level][1] && `status-chip--${LEVEL[m.level][1]}`]}>{LEVEL[m.level][0]}</span>
+            </div>
+            <p>{m.line}</p>
+            <p class="text-small"><b>Start:</b> {m.start}</p>
+            {m.example && <a class="link-text" href={`/examples/${m.example}/`}><span class="link-text__label">Example: {example(m.example).title}</span><Fragment set:html={iconSvg('arrow-right', { size: 16 })} /></a>}
+          </article>
+        ))}
+      </div>
+      <div class="grid grid--2 making__lists">
+        <div>
+          <h3>Next <span class="text-small muted">(as of {day(coverage.data.updated)})</span></h3>
+          <ul>{(coverage.data.next as string[]).map((n) => <li>{n}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Not covered yet</h3>
+          <ul>{(coverage.data.not_covered as string[]).map((n) => <li>{n}</li>)}</ul>
+        </div>
+      </div>
+      <div class="guide-prose measure"><CoverageNotes /></div>
+    </div>
+  </section>
+
+  <section class="band" id="system">
+    <div class="wrap">
+      <header class="sec"><h2>The system at a glance</h2></header>
+      <div class="glance">
+        {PAGES.map(([href, title, spec, text]) => (
+          <a class="lcard glance__card" href={href}>
+            <span class={`glance__spec glance__spec--${spec}`} aria-hidden="true">
+              {spec === 'color' && ['red', 'amber', 'green', 'teal', 'blue', 'violet'].map((h) => <i style={`background:var(--${h}-key)`}></i>)}
+              {spec === 'surfaces' && ['sunken', 'base', 'raise-1', 'raise-2'].map((l) => <i style={`background:var(--surface-${l});box-shadow:var(--shadow-${l === 'base' ? 'raise-1' : l === 'sunken' ? 'sunken' : l})`}></i>)}
+              {spec === 'type' && <><b>Aa</b><small>Aa</small></>}
+              {spec === 'layout' && Array.from({ length: 12 }, () => <i></i>)}
+              {spec === 'interface' && <><span class="btn btn--solid">Join</span><span class="btn">Read</span></>}
+              {spec === 'icons' && ['lock', 'network', 'shield-check', 'light-bulb'].map((n) => <Fragment set:html={iconSvg(n, { size: 24 })} />)}
+              {spec === 'graphics' && <i></i>}
+              {spec === 'logos' && <><img class="only-light" src="/logos/OpenMined-Logo.svg" alt="" /><img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="" /></>}
+            </span>
+            <h3 class="lcard__title">{title}<Fragment set:html={ARR} /></h3>
+            <span class="lcard__text">{text}</span>
+          </a>
+        ))}
+        <a class="lcard glance__card" href="/examples/">
+          <span class="glance__spec glance__spec--examples" aria-hidden="true"><i></i><i></i><i></i></span>
+          <h3 class="lcard__title">Examples<Fragment set:html={ARR} /></h3>
+          <span class="lcard__text">Sections, pages and graphics built only from the served files, ready to copy.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="built">
     <div class="wrap wrap--read">
-      <div class="guide-prose" set:html={before} />
+      <header class="sec"><h2>How it's built</h2></header>
+      <div class="guide-prose" set:html={parts['how-its-built']} />
       <figure class="sysfig">
         <div class="sysfig__scroll"><InfoDiagram variant="v1" /></div>
         <figcaption>The central source on the left; everything that reads it on the right. The dashed box is generated, never edited by hand. Parts labeled <em>planned</em> or <em>possible</em> don't exist yet.</figcaption>
       </figure>
-      <div class="guide-prose" set:html={after} />
+      <h3>How to use it</h3>
+      <div class="guide-prose" set:html={parts['how-to-use-it']} />
     </div>
   </section>
 
+  <section class="band" id="feedback">
+    <div class="wrap">
+      <div class="grid grid--2">
+        <div>
+          <h2>Feedback</h2>
+          <div class="guide-prose" set:html={parts.feedback} />
+        </div>
+        <div>
+          <h2>What's new</h2>
+          <ul class="news">{LOG.map((l) => <li><span class="text-small muted">{l.date}</span><span>{clip(l.text)}</span></li>)}</ul>
+          <h3>Recent decisions</h3>
+          <ul class="news">{DECISIONS.map((d) => <li><span class="text-small muted">{day(d.data.date)}</span><a class="link-content" href={`/design/${d.path}`}>{d.title}</a></li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <section class="band" id="principles">
+    <div class="wrap">
+      <div class="grid grid--2">
+        <div><h2>Principles</h2><div class="guide-prose" set:html={parts.principles} /></div>
+        <div><h2>What stays human</h2><div class="guide-prose" set:html={parts['what-stays-human']} /></div>
+      </div>
+    </div>
+  </section>
 </Site>

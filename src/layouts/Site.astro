@@ -12,6 +12,7 @@ import '@tokens/v2/tokens.css';
 import '@components/index.css';
 import '../styles/site.css';
 import ThemeToggle from '../components/site/ThemeToggle.astro';
+import { VERSION } from '../lib/serve';
 import '../lib/release-gate';
 
 interface Props {
@@ -58,7 +59,7 @@ const PAGES = [
     <header class="bar">
       <div class="bar__inner">
         <a class="bar__title" href="/">OpenMined Design System</a>
-        <span class="bar__tag">v2 · in progress</span>
+        <span class="bar__tag">{VERSION.endsWith('-pre') ? 'v2 preview' : `v${VERSION}`}</span>
         <nav class="bar__nav" aria-label="Site">
           {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
         </nav>

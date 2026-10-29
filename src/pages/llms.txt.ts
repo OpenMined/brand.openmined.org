@@ -33,7 +33,7 @@ export const GET = () => {
     `- [Manifest](${HOST}/manifest.json): version, commit and every served file`,
   ];
   for (const [prefix, label] of KINDS) {
-    const docs = DOCS.filter(d => (prefix === 'overview' ? d.path === 'overview.md' : d.path.startsWith(prefix)) && d.status !== 'draft')
+    const docs = DOCS.filter(d => (prefix === 'overview' ? ['overview.md', 'coverage.md'].includes(d.path) : d.path.startsWith(prefix)) && d.status !== 'draft')
       .sort((a, b) => a.path.localeCompare(b.path));
     if (!docs.length) continue;
     out.push('', `## ${label}`, '', ...docs.map(line));

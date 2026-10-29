@@ -40,6 +40,15 @@ Change a value or a rule at its source and every page, project, and AI agent get
 - **Check where it runs.** Colors and stills work anywhere, documents and slides too; some motion needs a web page or a script (*Color moves*, "Where it runs"). Where a move can't run, use its still frame.
 - **Check the status.** Every token and every guidance file carries one. Everything on this site is `released`: use it. A `deprecated` item names its replacement; move off it. Work in progress is `draft` and never appears here.
 
+## Feedback
+
+Tell us when the system didn't cover something, looked wrong, or you had to work around it: what you were making, what you needed, and what you did instead. A screenshot helps most.
+
+- **With GitHub:** open an issue on the brand repository with the **Design system feedback** form. AI tools with the OpenMined plugin file it for you, after showing you the text.
+- **Without:** send it to the design lead.
+
+The design lead reviews feedback every week. A change to the system becomes a decision record and a line in the change log; what changed shows on this page.
+
 ## What stays human
 
 Some calls are made by people on purpose. In these areas AI can research, prepare options, and produce files, but a person makes the call.
