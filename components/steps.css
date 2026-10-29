@@ -18,7 +18,7 @@
    the figure (solid, the default), or outlined in the line style (outline),
    as the solid and secondary buttons pair. The connector is the line style
    from one number's center to the next, stopping at each badge's edge. Title
-   in the headline color at 600, body text below. 48px between steps. */
+   at the h5 size (Inter 400) in the headline color, body text below. 48px between steps. */
 .steps { display: flex; flex-direction: column; gap: var(--spacing-5xl); margin: 0; padding: 0; list-style: none; }
 .steps__item { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-lg); isolation: isolate; }
 .steps__num {
@@ -28,7 +28,7 @@
   font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-body); font-variant-numeric: tabular-nums;
 }
 .steps--outline .steps__num { background: var(--surface-base); color: var(--text-headline); box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); }
-.steps__title { margin: 0 0 var(--spacing-sm); font: var(--font-weight-semibold) var(--font-size-md)/var(--line-height-text) var(--font-body); color: var(--text-headline); }
+.steps__title { margin: 0 0 var(--spacing-lg); font: var(--font-weight-regular) clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max))/var(--line-height-h5) var(--font-body); color: var(--text-headline); }
 .steps__item p { margin: 0; max-width: var(--measure); }
 .steps--connector .steps__item:not(:last-child)::after {
   content: ''; position: absolute; z-index: -1; top: 14px; left: 20px;
