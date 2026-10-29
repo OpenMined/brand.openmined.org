@@ -2,8 +2,7 @@
 /**
  * BRAND SITE (v2) — Graphics. Rev 1, built from the color round's gradient
  * work and the diagram round. Words from design/ (tag `graphics`); values from
- * the v2 build. The diagram figure is the round's own, embedded with the
- * rounds' page-local names (ALIASES_CSS).
+ * the v2 build. The diagram is src/diagrams/Abc1.astro (also an example).
  */
 import Site from '../../layouts/Site.astro';
 import LinkCard from '../../components/site/LinkCard.astro';
@@ -11,8 +10,7 @@ import PageHero from '../../components/site/PageHero.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
-import FigA from '../rounds/diagrams/_a/Fig1.astro';
-import { ALIASES_CSS } from '../rounds/_working';
+import FigA from '../../diagrams/Abc1.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -43,7 +41,6 @@ const PARTNERS = Object.entries(BRANDS)
 const partnerRule = doc('guidelines/partner-marks-as-supplied');
 ---
 <Site title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette." current="graphics">
-  <Fragment set:html={`<style>${ALIASES_CSS}</style>`} />
   <PageHero eyebrow="Visual language" title="Graphics" description="The gradient, the hue keys graphics use, and diagrams, all drawn from the palette so a palette change reaches every graphic." status="released" nav={NAV} />
 
   <section class="band" id="gradient">

@@ -267,14 +267,6 @@ a:hover { text-decoration-color: currentColor; }
 /* Round figures embedded on a page (the diagram round's mechanics) */
 .dex { margin: 0; display: grid; gap: var(--spacing-md); }
 .dex__cap { font-size: var(--font-size-sm); color: var(--text-muted); max-width: var(--measure); }
-.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
-.fig text { font-family: var(--font-body); }
-.fig .mono { font-family: var(--font-mono); }
-.panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); }
-@media (max-width: 767px) { .panels { grid-template-columns: 1fr; } }
-.panel__head { margin: 0 0 var(--spacing-md); }
-.panel__eyebrow { display: block; font-family: var(--font-mono); font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
-.panel__title { display: block; font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--text-headline); margin-top: var(--spacing-3xs); }
 
 /* ── Interface specimens ─────────────────────────────────────────────
    Buttons, fields, controls, links, colored icons and hover cards are the v2
@@ -531,3 +523,12 @@ a:hover { text-decoration-color: currentColor; }
 
 /* Interface: the post card demo's cover, a stand-in for a cover image. */
 .lcard__cover--demo { background: linear-gradient(135deg, var(--violet-key), var(--blue-key) 55%, var(--teal-key)); }
+
+/* Examples page: each example live in a frame, scaled down, with its notes. */
+.examples { display: grid; gap: var(--spacing-4xl); }
+.example { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--spacing-2xl); align-items: start; }
+.example__frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+.example__frame iframe { position: absolute; top: 0; left: 0; width: 200%; height: 200%; border: 0; transform: scale(0.5); transform-origin: 0 0; pointer-events: none; }
+.example__text h3 { margin: 0 0 var(--spacing-sm); }
+.example__text p { margin: 0 0 var(--spacing-sm); max-width: var(--measure); }
+@media (max-width: 767px) { .example { grid-template-columns: 1fr; } }

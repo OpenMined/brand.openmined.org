@@ -2,6 +2,7 @@
  *  agents (src/lib/serve.ts). */
 import { DOCS } from '../lib/design';
 import { ICONS } from '../lib/icons';
+import { EXAMPLES } from '../lib/examples';
 import { HOST, SHA, VERSION, respond, walk } from '../lib/serve';
 
 export const GET = () => respond(JSON.stringify({
@@ -12,6 +13,7 @@ export const GET = () => respond(JSON.stringify({
   components: walk('components', f => /\.(css|js|md)$/.test(f)).map(f => `/components/${f}`),
   design: { index: '/design/index.json', files: DOCS.map(d => `/design/${d.path}`).sort() },
   icons: { index: '/icons/set/index.json', count: Object.keys(ICONS).length },
+  examples: EXAMPLES.map(e => ({ url: `/examples/${e.slug}/`, title: e.title, kind: e.kind, shows: e.shows.map(s => `/design/${s}.md`) })),
   embeds: walk('public/embeds', f => f.endsWith('.js')).map(f => `/embeds/${f}`),
   feedback: 'https://github.com/OpenMined/brand.openmined.org/issues/new?template=feedback.yml',
 }, null, 2), 'json');

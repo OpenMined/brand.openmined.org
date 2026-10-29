@@ -1,0 +1,48 @@
+---
+/**
+ * An example page (src/lib/examples.ts): a bare HTML document that loads only
+ * what the site serves, so the built file is what a person or an agent copies.
+ * No site chrome, no bundled CSS or JS: styles and scripts are inline or come
+ * from /omds.css and /omds.js. `init` is the module code run after importing
+ * from /omds.js (motion examples). `?theme=dark` or the system setting picks
+ * the mode.
+ */
+import { example } from '../lib/examples';
+import { HOST, STAMP } from '../lib/serve';
+interface Props { slug: string; init?: string; interaction?: 'minimal' }
+const { slug, init, interaction } = Astro.props;
+const e = example(slug);
+const head = `<!--
+  ${e.title} — an OpenMined Design System example (${STAMP}).
+  ${e.description}
+  Puts to work: ${e.shows.map(s => `${HOST}/design/${s}.md`).join(', ')}.
+  To use it elsewhere, point /omds.css and /omds.js at ${HOST}, or paste their contents
+  inline (a Claude artifact can't load them by URL). Images and icons come from ${HOST} too.
+-->`;
+---
+<!doctype html>
+<html lang="en" data-theme="light" data-interaction={interaction}>
+<head>
+<Fragment set:html={head} />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{e.title} · OpenMined Design System example</title>
+<meta name="description" content={e.description}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
+<link rel="stylesheet" href="/omds.css">
+<script is:inline>
+  (() => {
+    const q = new URLSearchParams(location.search).get('theme');
+    const sys = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', q === 'dark' || q === 'light' ? q : sys);
+  })();
+</script>
+<slot name="head" />
+</head>
+<body>
+<slot />
+{init && <script type="module" is:inline set:html={`import * as omds from '/omds.js';\n${init}`} />}
+</body>
+</html>

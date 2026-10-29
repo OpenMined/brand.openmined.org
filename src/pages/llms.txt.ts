@@ -1,6 +1,7 @@
 /** /llms.txt — the entry point for AI tools (llmstxt.org): what this is, where every
  *  file is, every guidance file by kind with its one-line description. */
 import { DOCS } from '../lib/design';
+import { EXAMPLES } from '../lib/examples';
 import { HOST, STAMP, respond } from '../lib/serve';
 
 const KINDS: [string, string][] = [
@@ -35,5 +36,7 @@ export const GET = () => {
     if (!docs.length) continue;
     out.push('', `## ${label}`, '', ...docs.map(line));
   }
+  out.push('', '## Examples', '', 'Self-contained pages built only from the served files. Open one and copy its source.', '',
+    ...EXAMPLES.map(e => `- [${e.title}](${HOST}/examples/${e.slug}/): ${e.description}`));
   return respond(out.join('\n') + '\n', 'txt');
 };

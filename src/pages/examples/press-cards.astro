@@ -1,0 +1,25 @@
+---
+/** Example: press cards (src/lib/examples.ts). From the home page review's press
+ *  room: logos supplied as images, on white plates. */
+import Example from '../../layouts/Example.astro';
+const PRESS = [['microsoft', 'Expanding our commitments to countering violent extremism online'], ['pytorch', 'OpenMined and PyTorch partner to launch fellowship funding for privacy-preserving ML'], ['royal-society', 'From privacy to partnership: the role of PETs in data governance'], ['nist', 'Winners announced in first phase of the US-UK PETs prize challenges'], ['reddit', 'Introducing a new subreddit for researchers'], ['ssir', 'Reimagining our high-tech world']];
+---
+<Example slug="press-cards" init={`omds.linkCards();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-section); }
+    .ex h2 { margin: 0 0 var(--spacing-3xl); }
+  </style>
+  <section class="ex">
+    <div class="container">
+      <h2>Press room</h2>
+      <div class="card-grid">
+        {PRESS.map(([org, title]) => (
+          <a class="lcard lcard--logo" data-section="always-light" href="#">
+            <span class="lcard__logo"><img src={`/logos/orgs/${org}/logo.svg`} alt="" /></span>
+            <span class="lcard__text">{title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Example>

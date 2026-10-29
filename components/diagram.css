@@ -1,0 +1,36 @@
+/* ════════════════════════════════════════════════════════════════════
+   DIAGRAM — v2 component (design/patterns/diagrams.md)
+   ════════════════════════════════════════════════════════════════════
+   The frame and shared mechanics every diagram uses: a figure on a raised
+   level, inline SVG that scales to its column, text in the brand fonts, side
+   by side panels with a small heading, and the connector line color. Each
+   figure adds its own classes on top (see the examples). Needs: the v2 tokens.
+   Script: line-flow.js (lineFlow) for the pulses along path[data-flow];
+   without it the diagram is its still frame.
+
+   Markup:
+     <figure class="fig">
+       <div class="panels">
+         <div>
+           <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
+           <svg viewBox="0 0 420 380" role="img" aria-label="…">…</svg>
+         </div>
+         <div>…</div>
+       </div>
+     </figure>
+
+   Lines between nodes take --diagram-connector (gray 400: no role fits
+   yet); colored lines take a hue's key, their pulse its highlight. */
+.fig {
+  --diagram-connector: var(--gray-400);
+  margin: 0; padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-xl);
+  border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); color: var(--text-body);
+}
+.fig svg { display: block; width: 100%; height: auto; overflow: visible; }
+.fig text { font-family: var(--font-body); }
+.fig .mono { font-family: var(--font-mono); }
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); }
+@media (max-width: 767px) { .panels { grid-template-columns: 1fr; } }
+.panel__head { margin: 0 0 var(--spacing-md); }
+.panel__eyebrow { display: block; font-family: var(--font-mono); font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.panel__title { display: block; margin-top: var(--spacing-3xs); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--text-headline); }

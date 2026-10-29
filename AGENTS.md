@@ -23,6 +23,7 @@ files are on the site, so you never need the repository.
 | Tokens only | `/tokens/omds.css`, `/tokens/omds.light.json`, `/tokens/omds.dark.json`, `/tokens/omds.colors.js` | CSS custom properties; resolved values per mode; colors for canvas and WebGL |
 | Token source | `/tokens/source/resolver.json` and the files it names | Design Tokens format 2025.10, for token tools |
 | Guidance | `/design/<path>.md`, listed in `/design/index.json` | Rules, components, patterns, decisions |
+| Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built only from these files: copy one and change the words |
 | Version | `/manifest.json` | Version, commit, every served file |
 
 Every served CSS and JS file starts with a comment naming the version and commit. Keep it when

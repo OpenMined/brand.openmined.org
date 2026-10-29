@@ -1,0 +1,35 @@
+---
+/**
+ * BRAND SITE (v2) — Examples: every example (src/lib/examples.ts), live, with what
+ * it puts to work. Each example is its own bare page under /examples/<slug>/.
+ */
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import { EXAMPLES } from '../../lib/examples';
+import { doc } from '../../lib/design';
+
+const KINDS: [string, string][] = [['section', 'Sections'], ['page', 'Pages'], ['graphic', 'Graphics']];
+const titleOf = (slug: string) => { try { return doc(slug).title; } catch { return slug; } };
+---
+<Site title="Examples" description="The system put together: sections, pages and graphics built only from the files this site serves, ready to copy." current="examples">
+  <PageHero eyebrow="Examples" title="Examples" description="The system put together: sections, pages and graphics built only from the files this site serves. Open one, view its source, and copy it." status="released" source="" nav={KINDS.map(([k, l]) => [k, l])} />
+  {KINDS.map(([kind, label]) => (
+    <section class="band" id={kind}>
+      <div class="wrap">
+        <header class="sec"><h2>{label}</h2></header>
+        <div class="examples">
+          {EXAMPLES.filter(e => e.kind === kind).map(e => (
+            <article class="example">
+              <div class="example__frame"><iframe src={`/examples/${e.slug}/`} title={e.title} loading="lazy" tabindex="-1"></iframe></div>
+              <div class="example__text">
+                <h3><a class="link-content" href={`/examples/${e.slug}/`}>{e.title}</a></h3>
+                <p>{e.description}</p>
+                <p class="text-small">Puts to work: {e.shows.map((s, i) => <>{i > 0 && ', '}<a class="link-content" href={`/design/${s}.md`}>{titleOf(s)}</a></>)}{e.motion ? '. Full interactive layer (/omds.js).' : '. Minimal interactive layer, no script for motion.'}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+</Site>

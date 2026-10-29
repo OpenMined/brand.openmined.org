@@ -44,7 +44,7 @@
 .prose > :first-child { margin-top: 0; }
 
 /* Lists: OpenMined's diamond marker on bulleted lists; numbers stay numbers. */
-:where(.prose) :where(ul, ol, figure, blockquote, pre, table) { margin: 0; }  /* resets weigh nothing, so the rhythm wins */
+:where(.prose) :where(p, h1, h2, h3, h4, h5, h6, ul, ol, figure, blockquote, pre, table, aside, hr) { margin: 0; }  /* resets weigh nothing, so the rhythm wins (paragraphs and headings too, 2026-10-30: their browser margins stacked on the rhythm outside the guide) */
 .prose ol { padding-left: var(--spacing-2xl); }
 .prose ul { list-style: none; padding-left: var(--spacing-sm); }
 .prose ul > li { position: relative; padding-left: 0.875em; }

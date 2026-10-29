@@ -34,6 +34,7 @@ const PAGES = [
   { key: 'icons', label: 'Icons', href: '/icons/' },
   { key: 'interface', label: 'Interface', href: '/interface/' },
   { key: 'typography', label: 'Typography', href: '/typography/' },
+  { key: 'examples', label: 'Examples', href: '/examples/' },
 ];
 /** Which header: the review rounds' on their pages (rounds and page reviews). */
 const path = Astro.url.pathname;
@@ -101,6 +102,7 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       import { tabs } from '@components/tabs.js';
       import { codeCopy } from '@components/code-copy.js';
       import { toc } from '@components/toc.js';
+      import { lineFlow } from '@components/line-flow.js';
       // The Color and interaction round's own buttons (.mbtn) draw their own layers.
       buttonHover('.btn:not(.mbtn)');
       hoverCards();
@@ -110,6 +112,7 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       tabs();
       codeCopy();
       toc();
+      lineFlow();
       // The round's own fields (.mo-fm) run their own light.
       fieldLights('.ctl:not(.mo-fm .ctl)');
       document.addEventListener('click', (e: MouseEvent) => {

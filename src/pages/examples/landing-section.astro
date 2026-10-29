@@ -1,0 +1,41 @@
+---
+/** Example: a landing section (src/lib/examples.ts). From the home page review's
+ *  federated-network section, refined to current rules. */
+import Example from '../../layouts/Example.astro';
+import HoverCard from '../../components/site/HoverCard.astro';
+---
+<Example slug="landing-section" init={`omds.buttonHover(); omds.hoverCards(); omds.cardFlows();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-section); }
+    .region { display: grid; gap: var(--spacing-4xl); padding: var(--spacing-4xl); border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); }
+    .region__intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); align-items: end; }
+    .region__intro h2 { margin: 0; }
+    .region__intro p { margin: 0; }
+    .region__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-xl); }
+    .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
+    @media (max-width: 991px) { .region__intro, .region__cards { grid-template-columns: 1fr; } .region { padding: var(--spacing-2xl); } }
+  </style>
+  <section class="ex">
+    <div class="container">
+      <div class="region">
+        <div class="region__intro">
+          <div>
+            <p class="text-eyebrow">Meet Syft</p>
+            <h2>The federated AI network</h2>
+          </div>
+          <p class="text-lead">The network coordinates secure, governed computation across sites, without moving data, so answers can come from data no one can collect in one place.</p>
+        </div>
+        <div class="region__cards">
+          <HoverCard href="#" icon="lock" hue="teal" title="Open, public infrastructure" text="No vendor lock-in: open protocols that keep the network decentralized." />
+          <HoverCard href="#" icon="flash" hue="blue" title="Flexible federated computation" text="From simple analytics to complex model inference, run where the data lives." />
+          <HoverCard href="#" icon="shield-check" hue="green" title="Full control over your data" text="Decide who can use your data, for what, and on which terms." />
+        </div>
+        <HoverCard href="#" icon="network" hue="violet" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that's climate, healthcare, finance or beyond." size="large" />
+        <div class="actions">
+          <a class="btn btn--solid" href="#">Join the network</a>
+          <a class="btn" href="#">Read the docs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Example>

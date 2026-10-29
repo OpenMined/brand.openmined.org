@@ -1,0 +1,48 @@
+---
+/** Example: product steps (src/lib/examples.ts). From the SyftHub page review's
+ *  "From your data to the network", refined to current rules. */
+import Example from '../../layouts/Example.astro';
+const LEFT = [['Add your data', 'Create a dataset from your documents, files or folders.'], ['Create an endpoint', 'Combine your dataset with an AI model and set access and pricing.'], ['Publish to SyftHub', 'Make your endpoint discoverable; choose visibility and adjust policies any time.']];
+const RIGHT = [['Select sources', 'Choose the endpoints to query: specific data owners, categories or criteria.'], ['Distribute the query', 'The query goes to every selected endpoint at once, each on its own infrastructure.'], ['Synthesize with citations', 'Answers come back as one response, each claim traced to its source.']];
+---
+<Example slug="product-steps" init={`omds.buttonHover();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-section); }
+    .ex__head { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); text-align: center; }
+    .ex__head h2 { margin: 0 0 var(--spacing-md); }
+    .ex__head p { margin: 0; }
+    .paths { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-5xl); }
+    .paths h3 { margin: 0 0 var(--spacing-3xl); }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-md); margin-top: var(--spacing-5xl); }
+    @media (max-width: 767px) { .paths { grid-template-columns: 1fr; } }
+  </style>
+  <section class="ex">
+    <div class="container">
+      <header class="ex__head">
+        <p class="text-eyebrow">How it works</p>
+        <h2>From your data to the network</h2>
+        <p class="text-lead">Two paths, one ecosystem: publish your knowledge, or query the collective.</p>
+      </header>
+      <div class="paths">
+        <div>
+          <p class="text-small">Syft Space</p>
+          <h3>Get queryable in three steps</h3>
+          <ol class="steps steps--connector">
+            {LEFT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}
+          </ol>
+        </div>
+        <div>
+          <p class="text-small">SyftHub</p>
+          <h3>Query the network</h3>
+          <ol class="steps steps--outline steps--connector">
+            {RIGHT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}
+          </ol>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn btn--solid" href="#">Deploy a Space</a>
+        <a class="btn" href="#">Explore SyftHub</a>
+      </div>
+    </div>
+  </section>
+</Example>

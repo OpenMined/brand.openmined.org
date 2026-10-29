@@ -1,0 +1,58 @@
+---
+/** Example: a long read (src/lib/examples.ts): the article zones, prose rhythm,
+ *  breakouts, pull quote, table, code and a table of contents. */
+import Example from '../../layouts/Example.astro';
+---
+<Example slug="long-read" init={`omds.linkCards(); omds.codeCopy(); omds.toc();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-section); }
+    .ex__hero { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); }
+    .ex__hero h1 { margin: var(--spacing-md) 0 var(--spacing-lg); }
+    .ex__hero p { margin: 0; }
+    .ex__meta { margin-top: var(--spacing-lg); }
+    .ex__toc { max-width: var(--measure); margin: 0 auto var(--spacing-4xl); }
+    .ex__img { display: block; width: 100%; aspect-ratio: 16 / 7; border-radius: var(--radius-md); background: var(--gradient-map); }
+    .ex__img--full { aspect-ratio: 16 / 5; }
+  </style>
+  <main class="ex">
+    <div class="container">
+      <header class="ex__hero">
+        <ul class="tags"><li><a class="tag" href="#">Research</a></li><li><a class="tag" href="#">Attribution</a></li></ul>
+        <h1>Attribution-based control, explained</h1>
+        <p class="text-lead">Why an AI's answer should carry the sources it rests on, and how a network can keep them.</p>
+        <p class="text-small ex__meta">Oct 12, 2026 · 8 min read</p>
+      </header>
+      <nav class="toc ex__toc" aria-label="On this page">
+        <p class="toc__title">On this page</p>
+        <ol class="toc__list">
+          <li><a class="toc__link" href="#problem">The problem</a></li>
+          <li><a class="toc__link" href="#how">How it works</a></li>
+          <li class="toc__sub"><a class="toc__link" href="#try">Try it</a></li>
+          <li><a class="toc__link" href="#next">What's next</a></li>
+        </ol>
+      </nav>
+    </div>
+    <article class="container prose-article prose content-links">
+      <h2 id="problem">The problem</h2>
+      <p>Today, data that trains a model loses its name on the way in. The model's answers carry <a href="#">no trace of where they came from</a>, so the people whose data made them can't see, steer or share in what it's used for.</p>
+      <p>That isn't a property of AI. It's a property of how the data was collected: copied into one place, then forgotten.</p>
+      <figure class="breakout"><span class="ex__img" role="img" aria-label="A stand-in for a wide figure"></span><figcaption>A wide figure: the breakout, wider than the text.</figcaption></figure>
+      <h2 id="how">How it works</h2>
+      <p>Instead of moving data to the model, the query moves to the data. Each source answers under its own rules, and the answer arrives with every source it used.</p>
+      <aside class="pullquote"><p>The query moves to the data, and the answer comes back with its sources.</p></aside>
+      <table>
+        <thead><tr><th>Approach</th><th>Data moves</th><th class="num">Sources kept</th></tr></thead>
+        <tbody><tr><td>Central training</td><td>Yes</td><td class="num">0</td></tr><tr><td>Federated query</td><td>No</td><td class="num">All</td></tr></tbody>
+      </table>
+      <h3 id="try">Try it</h3>
+      <p>Install Syft Space on the machine that holds the data, then point it at a folder:</p>
+      <pre class="code-block"><code>pip install syft-space
+syft-space init --data ./records</code></pre>
+      <p class="prose-divider" aria-hidden="true">⬩⬩⬩</p>
+      <h2 id="next">What's next</h2>
+      <p>The network grows one source at a time. Every new source is another answer someone can trust.</p>
+      <figure class="breakout--full"><span class="ex__img ex__img--full" role="img" aria-label="A stand-in for a full-width figure"></span><figcaption>A full breakout: out to the page width.</figcaption></figure>
+      <blockquote><p>Attribution is what lets data be shared without being given away.</p><cite>A research partner</cite></blockquote>
+    </article>
+  </main>
+</Example>

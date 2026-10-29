@@ -1,0 +1,55 @@
+---
+/** Example: a join form over the gradient map (src/lib/examples.ts). From the home
+ *  page review's call to action; the HubSpot form rebuilt in the field markup. */
+import Example from '../../layouts/Example.astro';
+import { listStops } from '../../lib/tokens';
+const MAP = listStops('map');
+---
+<Example slug="join-form" init={`omds.buttonHover(); omds.fieldLights();
+// The gradient map takes its colors from the tokens, and follows the color mode.
+const h = document.documentElement;
+const sync = () => {
+  const cs = getComputedStyle(h), read = (v) => cs.getPropertyValue('--' + v).trim();
+  document.querySelectorAll('[data-follow]').forEach((el) => {
+    el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
+    if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
+  });
+};
+sync();
+new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });`}>
+  <Fragment slot="head">
+    <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+    <style is:inline>
+      .cta { position: relative; isolation: isolate; overflow: hidden; padding-block: var(--spacing-section); }
+      .cta__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+      .cta__panel { max-width: 480px; margin: 0 auto; padding: var(--spacing-3xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-2); }
+      .cta__panel h2 { margin: 0 0 var(--spacing-sm); text-align: center; }
+      .cta__panel > p { margin: 0 0 var(--spacing-2xl); text-align: center; }
+      .cta__panel .btn { width: 100%; }
+      .cta__fine { margin: var(--spacing-md) 0 0; text-align: center; }
+    </style>
+  </Fragment>
+  <section class="cta">
+    <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={MAP} data-follow-haze="surface-base"></om-mesh>
+    <div class="container">
+      <div class="cta__panel">
+        <h2>Take control of your data's future</h2>
+        <p>Join the OpenMined community to stay informed, get involved, and shape how privacy and AI evolve together.</p>
+        <form class="fm" onsubmit="return false">
+          <div class="fm-grid">
+            <div class="fld"><label class="fld__label" for="first">First name<span class="fld__req">*</span></label><input class="ctl" id="first" autocomplete="given-name"></div>
+            <div class="fld"><label class="fld__label" for="last">Last name</label><input class="ctl" id="last" autocomplete="family-name"></div>
+            <div class="fld fld--full"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" autocomplete="email" placeholder="you@example.org"></div>
+            <div class="fld fld--full"><label class="fld__label" for="problem">What data access problem are you working on?</label><textarea class="ctl" id="problem" rows="3"></textarea></div>
+          </div>
+          <ul class="opts">
+            <li><label class="opt"><input class="opt__box" type="checkbox" checked><span>Get email updates</span></label></li>
+            <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get an invite to the OpenMined Slack community</span></label></li>
+          </ul>
+          <button class="btn btn--solid" type="submit">Join</button>
+        </form>
+        <p class="text-small cta__fine">We only write about OpenMined. Unsubscribe any time.</p>
+      </div>
+    </div>
+  </section>
+</Example>

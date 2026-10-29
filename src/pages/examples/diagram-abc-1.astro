@@ -1,0 +1,19 @@
+---
+/** Example: ABC figure 1 (src/lib/examples.ts), from src/diagrams/Abc1.astro. */
+import Example from '../../layouts/Example.astro';
+import Abc from '../../diagrams/Abc1.astro';
+---
+<Example slug="diagram-abc-1" init={`omds.lineFlow();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-5xl); }
+    .ex figcaption { margin-top: var(--spacing-md); }
+  </style>
+  <section class="ex">
+    <div class="container">
+      <figure style="margin: 0">
+        <Abc />
+        <figcaption class="text-small">Traditional AI vs ABC-enabled AI. Each source keeps its hue; the pulses run in each line's highlight. Under reduced motion, the still frame.</figcaption>
+      </figure>
+    </div>
+  </section>
+</Example>

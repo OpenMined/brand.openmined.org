@@ -1,0 +1,75 @@
+---
+/** Example: an internal dashboard in the minimal interactive layer
+ *  (src/lib/examples.ts): dense, static states, no motion. */
+import Example from '../../layouts/Example.astro';
+import { iconSvg } from '../../lib/icons';
+const ROWS = [
+  ['Website restyle', 'Web', 'success', 'On track', 'Oct 30', 82],
+  ['Heartbeat talk', 'Team', 'info', 'Drafting', 'Nov 10', 40],
+  ['Design system launch', 'Brand', 'warning', 'At risk', 'Nov 5', 65],
+  ['Docs migration', 'Product', 'danger', 'Blocked', 'Dec 1', 12],
+  ['Press kit', 'Comms', 'success', 'Done', 'Oct 20', 100],
+];
+const STATS = [['Projects', '14', 'Across five teams'], ['On track', '9', 'Two more than last week'], ['Need attention', '3', 'One blocked']];
+const icon = (n: string, s = 20) => iconSvg(n, { size: s });
+---
+<Example slug="dashboard" interaction="minimal" init={`omds.tabs(); omds.themeToggle();`}>
+  <style is:inline slot="head">
+    .app { min-height: 100vh; }
+    .app__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); padding: var(--spacing-md) var(--spacing-2xl); border-bottom: var(--stroke-sm) solid var(--line); }
+    .app__brand { display: flex; align-items: center; gap: var(--spacing-sm); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+    .app__brand img { height: 24px; }
+    .app__tools { display: flex; align-items: center; gap: var(--spacing-sm); }
+    .app__main { display: grid; gap: var(--spacing-2xl); max-width: var(--page-width); margin: 0 auto; padding: var(--spacing-3xl) var(--spacing-2xl); }
+    .app__main h1 { margin: 0; }
+    .stat { display: grid; gap: var(--spacing-2xs); }
+    .stat__n { font: var(--font-weight-regular) var(--font-size-h3-max)/1 var(--font-display); color: var(--text-headline); font-variant-numeric: tabular-nums; }
+    .stat__l { font-size: var(--font-size-sm); color: var(--text-muted); }
+    .bar { width: 96px; height: 6px; border-radius: var(--radius-full); background: var(--surface-sunken); overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: var(--text-headline); }
+    .row-end { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap; }
+  </style>
+  <div class="app">
+    <header class="app__bar">
+      <span class="app__brand"><img src="/logos/OpenMined-Icon.svg" alt="" />Project tracker</span>
+      <div class="app__tools">
+        <button class="btn btn--icon" aria-label="Search" set:html={icon('search')} />
+        <label class="text-small" for="mode">Dark mode</label>
+        <button id="mode" type="button" class="switch" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
+      </div>
+    </header>
+    <main class="app__main">
+      <div class="row-end">
+        <h1 class="h3">Q4 projects</h1>
+        <div class="app__tools"><button class="btn">Export</button><button class="btn btn--solid">New project</button></div>
+      </div>
+      <div class="card-grid">
+        {STATS.map(([l, n, s]) => <div class="card card--compact stat"><span class="stat__l">{l}</span><span class="stat__n">{n}</span><span class="text-small">{s}</span></div>)}
+      </div>
+      <div class="card">
+        <div class="tabs" data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Projects">
+            <button class="tabs__tab" role="tab" aria-selected="true">All</button>
+            <button class="tabs__tab" role="tab" aria-selected="false">Needs attention</button>
+          </div>
+          <div class="tabs__panel" role="tabpanel">
+            <div class="table-wrap"><table class="table table--rows table--compact">
+              <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
+              <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="bar" role="img" aria-label={`${pc}%`}><span style={`width:${pc}%`}></span></span></td></tr>)}</tbody>
+            </table></div>
+          </div>
+          <div class="tabs__panel" role="tabpanel">
+            <div class="table-wrap"><table class="table table--rows table--compact">
+              <thead><tr><th>Project</th><th>Status</th><th>Due</th></tr></thead>
+              <tbody>{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').map(([p, , s, l, d]) => <tr><td>{p}</td><td><span class={`status-chip status-chip--strong status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td></tr>)}</tbody>
+            </table></div>
+          </div>
+        </div>
+        <nav class="pagination" aria-label="Pages">
+          <ol class="pagination__pages"><li><a class="pagination__page" href="#" aria-current="page">1</a></li><li><a class="pagination__page" href="#">2</a></li><li><a class="pagination__page" href="#">3</a></li></ol>
+          <a class="pagination__step" href="#" rel="next">Next <Fragment set:html={icon('nav-arrow-right', 16)} /></a>
+        </nav>
+      </div>
+    </main>
+  </div>
+</Example>
