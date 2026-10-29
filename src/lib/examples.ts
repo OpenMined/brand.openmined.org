@@ -31,6 +31,12 @@ export const EXAMPLES: Example[] = [
   { slug: 'dashboard', kind: 'page', motion: false, title: 'Dashboard',
     description: 'An internal tool in the minimal interactive layer: summary cards, tabs, a table with status chips, tags and pagination, and a color mode switch.',
     shows: ['behaviors/interaction-states', 'components/table', 'components/tabs', 'components/status-chip', 'components/card'] },
+  { slug: 'home', kind: 'page', motion: true, title: 'Home page',
+    description: 'openmined.org\'s home page in v2: header, a hero with the colorflow, the federated-network section, partner marks, the press room, the join form over the gradient map, and the footer.',
+    shows: ['overview', 'components/hover-card', 'components/link-card', 'guidelines/partner-marks-follow-the-mode', 'behaviors/color-moves'] },
+  { slug: 'syfthub', kind: 'page', motion: true, title: 'Product page',
+    description: 'SyftHub\'s page in v2: a centered hero, quick-start hover cards, two products, the two paths as steps, applications as icon cards, developer link cards and a closing call to action.',
+    shows: ['components/steps', 'components/card', 'components/hover-card', 'components/button', 'guidelines/one-solid-button'] },
   { slug: 'diagram-abc-1', kind: 'graphic', motion: true, title: 'Diagram: traditional AI vs ABC',
     description: 'Attribution in color: sources keep their hue to the person asking, or drain to gray inside the model. Pulses run in each line\'s highlight.',
     shows: ['patterns/diagrams', 'foundations/highlight', 'behaviors/color-moves'] },
@@ -47,3 +53,16 @@ export const example = (slug: string) => {
   if (!e) throw new Error(`Example "${slug}" isn't in src/lib/examples.ts`);
   return e;
 };
+
+/** For pages with an <om-*> embed: each embed with data-follow takes its colors from
+ *  the tokens it names, and follows the color mode. */
+export const FOLLOW_JS = `const h = document.documentElement;
+const follow = () => {
+  const cs = getComputedStyle(h), read = (v) => cs.getPropertyValue('--' + v).trim();
+  document.querySelectorAll('[data-follow]').forEach((el) => {
+    el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
+    if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
+  });
+};
+follow();
+new MutationObserver(follow).observe(h, { attributes: true, attributeFilter: ['data-theme'] });`;

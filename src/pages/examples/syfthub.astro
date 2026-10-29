@@ -1,0 +1,95 @@
+---
+/** Example: SyftHub's page in v2 (src/lib/examples.ts). Rebuilt from the SyftHub
+ *  page review on the served files. Products aren't marked by a color: SyftHub's
+ *  button is the solid one, Syft Space's the outlined one, and their steps match. */
+import Example from '../../layouts/Example.astro';
+import HoverCard from '../../components/site/HoverCard.astro';
+import SiteHeader from '../../examples/SiteHeader.astro';
+import SiteFooter from '../../examples/SiteFooter.astro';
+import { iconSvg } from '../../lib/icons';
+const icon = (n: string) => iconSvg(n, { size: 32, cls: 'card__icon' });
+const APPS: [string, string, string][] = [['journal', 'Publishers and creators', 'Make your content queryable without giving it up.'], ['doc-magnifying-glass', 'Research synthesis', 'Query trusted sources and get answers with citations.'], ['database', 'Enterprise intelligence', 'Combine internal documentation and expert analysis.'], ['chat-bubble', 'Customer support', 'Answer from your docs, with each answer traced.'], ['dollar', 'Data monetization', 'Share insights from your data without exposing it.'], ['book-stack', 'Internal knowledge base', 'One searchable hub over everything your team knows.']];
+const LEFT = [['Add your data', 'Create a dataset from documents, files or folders.'], ['Create an endpoint', 'Combine the dataset with a model; set access and pricing.'], ['Publish to SyftHub', 'Make it discoverable and adjust policies any time.']];
+const RIGHT = [['Select sources', 'Choose endpoints: data owners, categories or criteria.'], ['Distribute the query', 'Each endpoint answers on its own infrastructure.'], ['Synthesize with citations', 'One response, each claim traced to its source.']];
+---
+<Example slug="syfthub" init={`omds.themeToggle(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards();`}>
+  <style is:inline slot="head">
+    .band { padding-block: var(--spacing-section); }
+    .center { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); text-align: center; }
+    .center h1, .center h2 { margin: var(--spacing-sm) 0 var(--spacing-lg); }
+    .center p { margin: 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
+    .center .actions { justify-content: center; margin-top: var(--spacing-2xl); }
+    .hero { padding-block: var(--spacing-section) var(--spacing-5xl); }
+    .products .card .actions { margin-top: auto; }
+    .products ul { margin: 0; padding-left: var(--spacing-xl); }
+    .paths { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-5xl); }
+    .paths h3 { margin: 0 0 var(--spacing-3xl); }
+    @media (max-width: 767px) { .paths { grid-template-columns: 1fr; } }
+  </style>
+  <SiteHeader current="SyftHub" />
+  <main>
+    <section class="hero">
+      <div class="container center">
+        <p class="text-eyebrow">Protocol for collective intelligence</p>
+        <h1>Make your knowledge queryable without giving it up</h1>
+        <p class="text-lead">SyftHub and Syft Space let you create AI-powered endpoints that others can query while your data stays under your control.</p>
+        <div class="actions"><a class="btn btn--solid" href="#">Open SyftHub</a><a class="btn" href="#">GitHub</a></div>
+      </div>
+      <div class="container card-grid">
+        <HoverCard href="#" icon="flash" hue="amber" title="Quickstart" text="Up and running in five minutes" />
+        <HoverCard href="#" icon="download" hue="teal" title="Installation" text="Desktop app or Docker" />
+        <HoverCard href="#" icon="view-structure-up" hue="blue" title="Core concepts" text="The building blocks" />
+      </div>
+    </section>
+
+    <section class="band products">
+      <div class="container">
+        <header class="center"><p class="text-eyebrow">The ecosystem</p><h2>Two products, one vision</h2><p>Together they create a network where knowledge flows without anyone giving up control.</p></header>
+        <div class="card-grid card-grid--2">
+          <div class="card"><p class="text-small">Syft Space</p><h3 class="card__title">Your personal AI-powered knowledge hub</h3><ul><li>Upload documents or connect vector databases</li><li>Connect a model of your choice</li><li>Set access policies and pricing</li></ul><div class="actions"><a class="btn" href="#">Deploy a Space</a></div></div>
+          <div class="card"><p class="text-small">SyftHub</p><h3 class="card__title">The directory for collective intelligence</h3><ul><li>Discover knowledge endpoints across the network</li><li>Query many sources with full attribution</li><li>Federated RAG and mixture of experts</li></ul><div class="actions"><a class="btn btn--solid" href="#">Explore SyftHub</a></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <header class="center"><p class="text-eyebrow">How it works</p><h2>From your data to the network</h2></header>
+        <div class="paths">
+          <div><p class="text-small">Syft Space</p><h3>Get queryable in three steps</h3>
+            <ol class="steps steps--outline steps--connector">{LEFT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}</ol></div>
+          <div><p class="text-small">SyftHub</p><h3>Query the network</h3>
+            <ol class="steps steps--connector">{RIGHT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}</ol></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <header class="center"><p class="text-eyebrow">Applications</p><h2>What can you build?</h2></header>
+        <div class="card-grid">{APPS.map(([n, t, b]) => <div class="card card--icon"><Fragment set:html={icon(n)} /><div><h3 class="card__title">{t}</h3><p>{b}</p></div></div>)}</div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <header class="center"><p class="text-eyebrow">Build with Syft</p><h2>Developer tools</h2></header>
+        <div class="card-grid">
+          <a class="lcard" href="#"><span class="lcard__title">Syft MCP <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">Connect AI models to Spaces with the Model Context Protocol.</span></a>
+          <a class="lcard" href="#"><span class="lcard__title">Python SDK <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">Build and manage Spaces in Python.</span></a>
+          <a class="lcard" href="#"><span class="lcard__title">TypeScript SDK <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">A full SDK for Node.js and the browser.</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container center">
+        <h2>Ready to make your knowledge queryable?</h2>
+        <p>Join the network of knowledge providers and seekers building the future of AI-powered information sharing.</p>
+        <div class="actions"><a class="btn btn--solid" href="#">Open SyftHub</a><a class="btn" href="#">Deploy a Space</a><a class="btn" href="#">Read the docs</a></div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Example>

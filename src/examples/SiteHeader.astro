@@ -1,0 +1,37 @@
+---
+/** Example partial: a site header (logo, nav as gray items, one solid button, color
+ *  mode switch). A pattern for the full-page examples, not a component: each site
+ *  owns its header. */
+import { iconSvg } from '../lib/icons';
+interface Props { current?: string }
+const { current } = Astro.props;
+const NAV = ['Home', 'Foundation', 'Research', 'Blog', 'Careers', 'SyftHub'];
+---
+<header class="sh">
+  <div class="container sh__in">
+    <a class="sh__logo" href="#"><img class="sh__mark sh__mark--light" src="/logos/OpenMined-Logo.svg" alt="OpenMined" /><img class="sh__mark sh__mark--dark" src="/logos/OpenMined-Logo-Dark.svg" alt="OpenMined" /></a>
+    <nav class="sh__nav" aria-label="Main">
+      {NAV.map(n => <a class="sh__link" href="#" aria-current={n === current ? 'page' : undefined}>{n}</a>)}
+    </nav>
+    <div class="sh__tools">
+      <button class="btn btn--icon" aria-label="Search" set:html={iconSvg('search', { size: 20 })} />
+      <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
+      <a class="btn btn--solid" href="#">Get involved</a>
+    </div>
+  </div>
+</header>
+<style is:inline>
+  .sh { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--surface-base); border-bottom: var(--stroke-sm) solid var(--line); }
+  .sh__in { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); min-height: 72px; }
+  .sh__mark { display: block; height: 28px; width: auto; }
+  .sh__mark--dark { display: none; }
+  [data-theme="dark"] .sh__mark--light { display: none; }
+  [data-theme="dark"] .sh__mark--dark { display: block; }
+  .sh__nav { display: flex; gap: var(--spacing-2xs); }
+  .sh__link { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--text-body); text-decoration: none; transition: background-color var(--transition-base), color var(--transition-base); }
+  @media (hover: hover) { .sh__link:hover { background: var(--surface-sunken); color: var(--text-headline); } }
+  .sh__link[aria-current="page"] { background: var(--surface-sunken); color: var(--text-headline); }
+  .sh__link:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+  .sh__tools { display: flex; align-items: center; gap: var(--spacing-sm); }
+  @media (max-width: 991px) { .sh__nav { display: none; } }
+</style>

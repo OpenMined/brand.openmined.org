@@ -3,20 +3,11 @@
  *  page review's call to action; the HubSpot form rebuilt in the field markup. */
 import Example from '../../layouts/Example.astro';
 import { listStops } from '../../lib/tokens';
+import { FOLLOW_JS } from '../../lib/examples';
 const MAP = listStops('map');
 ---
 <Example slug="join-form" init={`omds.buttonHover(); omds.fieldLights();
-// The gradient map takes its colors from the tokens, and follows the color mode.
-const h = document.documentElement;
-const sync = () => {
-  const cs = getComputedStyle(h), read = (v) => cs.getPropertyValue('--' + v).trim();
-  document.querySelectorAll('[data-follow]').forEach((el) => {
-    el.setAttribute('colors', el.dataset.follow.split(',').map(read).join(','));
-    if (el.dataset.followHaze) el.setAttribute('haze', read(el.dataset.followHaze));
-  });
-};
-sync();
-new MutationObserver(sync).observe(h, { attributes: true, attributeFilter: ['data-theme'] });`}>
+${FOLLOW_JS}`}>
   <Fragment slot="head">
     <script type="module" src="/embeds/om-mesh.js" is:inline></script>
     <style is:inline>

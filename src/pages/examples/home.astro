@@ -1,0 +1,107 @@
+---
+/** Example: openmined.org's home page in v2 (src/lib/examples.ts). Rebuilt from
+ *  the home page review on the served files: header, hero with the colorflow, the
+ *  federated-network section, partner marks, the press room, the join form, footer. */
+import { readFileSync } from 'node:fs';
+import Example from '../../layouts/Example.astro';
+import HoverCard from '../../components/site/HoverCard.astro';
+import SiteHeader from '../../examples/SiteHeader.astro';
+import SiteFooter from '../../examples/SiteFooter.astro';
+import { listStops } from '../../lib/tokens';
+import { FOLLOW_JS } from '../../lib/examples';
+const PARTNERS = ['microsoft', 'meta', 'reddit', 'pytorch', 'nist'];
+const mono = (o: string) => readFileSync(`public/logos/orgs/${o}/logo-mono.svg`, 'utf8');
+const PRESS = [['microsoft', 'Expanding our commitments to countering violent extremism online'], ['pytorch', 'OpenMined and PyTorch partner to launch fellowship funding'], ['royal-society', 'From privacy to partnership: the role of PETs in data governance'], ['nist', 'Winners announced in the US-UK PETs prize challenges']];
+---
+<Example slug="home" init={`omds.themeToggle(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
+  <Fragment slot="head">
+    <script type="module" src="/embeds/om-stream.js" is:inline></script>
+    <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+    <style is:inline>
+      .band { padding-block: var(--spacing-section); }
+      .hero { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-4xl); align-items: center; padding-block: var(--spacing-5xl); }
+      .hero h1 { margin: 0 0 var(--spacing-xl); }
+      .hero ul { margin: 0 0 var(--spacing-3xl); padding-left: var(--spacing-xl); }
+      .hero om-stream { display: block; width: 100%; }
+      .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
+      .statement { max-width: var(--measure); margin: 0 auto; text-align: center; }
+      .statement .actions { justify-content: center; margin-top: var(--spacing-2xl); }
+      .region { display: grid; gap: var(--spacing-4xl); padding: var(--spacing-4xl); border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); }
+      .region__intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); align-items: end; }
+      .region__intro h2, .region__intro p { margin: 0; }
+      .marks { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-3xl) var(--spacing-5xl); margin: 0; padding: 0; list-style: none; color: var(--text-muted); }
+      .marks svg { display: block; height: 28px; width: auto; }
+      .press h2, .partners h2 { margin: 0 0 var(--spacing-3xl); }
+      .partners h2 { text-align: center; }
+      .cta { position: relative; isolation: isolate; overflow: hidden; }
+      .cta__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+      .cta__panel { max-width: 480px; margin: 0 auto; padding: var(--spacing-3xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-2); }
+      .cta__panel h2 { margin: 0 0 var(--spacing-2xl); text-align: center; }
+      .cta__panel .btn { width: 100%; }
+      @media (max-width: 991px) { .hero, .region__intro { grid-template-columns: 1fr; } .region { padding: var(--spacing-2xl); } }
+    </style>
+  </Fragment>
+  <SiteHeader current="Home" />
+  <main>
+    <section class="container hero">
+      <div>
+        <h1>The missing layer for collective intelligence</h1>
+        <ul class="text-lead"><li>Unlock insights from data you can't access</li><li>Create value from data you can't share</li></ul>
+        <div class="actions"><a class="btn btn--solid" href="#">Get involved</a><a class="btn" href="#">About the Foundation</a></div>
+      </div>
+      <om-stream aspect-ratio="1.2" data-follow={listStops('flow')} aria-hidden="true"></om-stream>
+    </section>
+
+    <section class="band">
+      <div class="container statement">
+        <p class="text-lead">We're OpenMined, a non-profit community building technology that enables secure computation across siloed data, unlocking collective intelligence while preserving <a class="link-content" href="#">attribution-based control</a>.</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="region">
+        <div class="region__intro">
+          <div><p class="text-eyebrow">Meet Syft</p><h2>The federated AI network</h2></div>
+          <p class="text-lead">The network coordinates secure, governed computation across sites, without moving data.</p>
+        </div>
+        <div class="card-grid">
+          <HoverCard href="#" icon="lock" hue="teal" title="Open, public infrastructure" text="No vendor lock-in: open protocols keep the network decentralized." />
+          <HoverCard href="#" icon="flash" hue="blue" title="Flexible federated computation" text="From analytics to model inference, run where the data lives." />
+          <HoverCard href="#" icon="shield-check" hue="green" title="Full control over your data" text="Decide who can use your data, for what, and on which terms." />
+        </div>
+        <HoverCard href="#" icon="network" hue="violet" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain: climate, healthcare, finance or beyond." size="large" />
+      </div>
+    </section>
+
+    <section class="band partners">
+      <div class="container">
+        <h2 class="h4">Partnerships</h2>
+        <ul class="marks">{PARTNERS.map(o => <li set:html={mono(o)} />)}</ul>
+      </div>
+    </section>
+
+    <section class="band press">
+      <div class="container">
+        <h2>Press room</h2>
+        <div class="card-grid card-grid--4">
+          {PRESS.map(([org, title]) => <a class="lcard lcard--logo" data-section="always-light" href="#"><span class="lcard__logo"><img src={`/logos/orgs/${org}/logo.svg`} alt="" /></span><span class="lcard__text">{title}</span></a>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="band cta">
+      <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
+      <div class="container">
+        <div class="cta__panel">
+          <h2 class="h3">Take control of your data's future</h2>
+          <form class="fm" onsubmit="return false">
+            <div class="fld"><label class="fld__label" for="email">Email<span class="fld__req">*</span></label><input class="ctl" id="email" type="email" placeholder="you@example.org"></div>
+            <ul class="opts"><li><label class="opt"><input class="opt__box" type="checkbox" checked><span>Get email updates</span></label></li></ul>
+            <button class="btn btn--solid" type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</Example>
