@@ -1,0 +1,37 @@
+/* ════════════════════════════════════════════════════════════════════
+   PAGINATION — v2 component (design/components/pagination.md)
+   ════════════════════════════════════════════════════════════════════
+   Pages of a listing: previous, the page numbers, next. Needs: the v2 tokens.
+   No script.
+
+   Markup:
+     <nav class="pagination" aria-label="Pages">
+       <a class="pagination__step" href="?page=1" rel="prev"><svg aria-hidden="true">…nav-arrow-left…</svg> Previous</a>
+       <ol class="pagination__pages">
+         <li><a class="pagination__page" href="?page=1">1</a></li>
+         <li><a class="pagination__page" href="?page=2" aria-current="page">2</a></li>
+         <li><span class="pagination__gap">…</span></li>
+         <li><a class="pagination__page" href="?page=9">9</a></li>
+       </ol>
+       <a class="pagination__step" href="?page=3" rel="next">Next <svg aria-hidden="true">…nav-arrow-right…</svg></a>
+     </nav>
+
+   Page numbers are gray items: the sunken wash on hover, and the current page
+   keeps it, in the headline color. Previous and next are text buttons in the
+   headline color. A step with nowhere to go is left out, not disabled. */
+.pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--spacing-sm); font-size: var(--font-size-sm); }
+.pagination__pages { display: flex; gap: var(--spacing-2xs); margin: 0; padding: 0; list-style: none; }
+.pagination__page, .pagination__gap {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 var(--spacing-xs);
+  border-radius: var(--radius-md); font-variant-numeric: tabular-nums; color: var(--text-muted);
+}
+.pagination__page { text-decoration: none; transition: background-color var(--transition-base), color var(--transition-base); }
+@media (hover: hover) { .pagination__page:hover { background: var(--surface-sunken); color: var(--text-headline); } }
+.pagination__page[aria-current="page"] { background: var(--surface-sunken); color: var(--text-headline); font-weight: var(--font-weight-medium); }
+.pagination__step { display: inline-flex; align-items: center; gap: var(--spacing-2xs); min-height: 36px; padding: 0 var(--spacing-sm); color: var(--text-headline); text-decoration: none; font-weight: var(--font-weight-medium); }
+.pagination__step svg { width: 16px; height: 16px; transition: transform var(--transition-base); }
+@media (hover: hover) {
+  .pagination__step[rel="prev"]:hover svg { transform: translateX(-3px); }
+  .pagination__step[rel="next"]:hover svg { transform: translateX(3px); }
+}
+:is(.pagination__page, .pagination__step):focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }

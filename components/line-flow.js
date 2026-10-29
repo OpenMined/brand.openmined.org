@@ -1,5 +1,8 @@
 /**
- * Line flow: color in motion for diagram lines (behaviors/color-moves).
+ * LINE FLOW — color in motion for diagram lines (design/patterns/diagrams.md; behaviors/color-moves).
+ *
+ *   import { lineFlow } from './line-flow.js';
+ *   lineFlow();             // every svg with path[data-flow] on the page
  *
  * A soft pulse travels along every SVG path marked `data-flow`, in the path's
  * own direction. The pulse is the link-hover trick drawn on a line: a band 1px
@@ -47,14 +50,14 @@ const STEP = 0.75;
 /** Peak opacity of a highlight (its own data-flow-peak wins). */
 const TONE_PEAK = 0.8;
 
-const num = (el: Element, key: string, fallback: number) => {
+const num = (el, key, fallback) => {
   const v = el.closest(`[data-flow-${key}]`)?.getAttribute(`data-flow-${key}`);
   return v ? Number(v) : fallback;
 };
 
 /** Each nested dash's own opacity, outermost first, so the dashes stacked
  *  reach LEVELS × peak. */
-const alphasFor = (peak: number) => {
+const alphasFor = (peak) => {
   let below = 0;
   return LEVELS.map((share) => {
     const t = share * peak, a = 1 - (1 - t) / (1 - below);
@@ -65,13 +68,13 @@ const alphasFor = (peak: number) => {
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-export function lineFlow(root: ParentNode = document) {
-  root.querySelectorAll<SVGSVGElement>('svg').forEach((svg) => {
-    const paths = [...svg.querySelectorAll<SVGPathElement>('path[data-flow]')];
+export function lineFlow(root = document) {
+  root.querySelectorAll('svg').forEach((svg) => {
+    const paths = [...svg.querySelectorAll('path[data-flow]')];
     if ((!paths.length && !svg.hasAttribute('data-flow-pause')) || 'flowing' in svg.dataset) return;
     svg.dataset.flowing = '';
 
-    const slices: SVGPathElement[] = [];
+    const slices = [];
     const anims = paths.flatMap((p, i) => {
       const len = p.getTotalLength();
       const cs = getComputedStyle(p);
@@ -83,7 +86,7 @@ export function lineFlow(root: ParentNode = document) {
       const n = LEVELS.length;
       const lens = alphas.map((_, j) => W * (1 - STEP * j / n));
       const own = lens.map((d, j) => {
-        const s = p.cloneNode(false) as SVGPathElement;
+        const s = p.cloneNode(false);
         s.removeAttribute('data-flow'); s.removeAttribute('marker-end'); s.removeAttribute('marker-start');
         s.setAttribute('aria-hidden', 'true');
         s.style.opacity = String(alphas[j]);
@@ -97,7 +100,7 @@ export function lineFlow(root: ParentNode = document) {
       slices.push(...own);
       // A highlight pulse goes over every flowing line in its group, so no line
       // drawn later covers it; an own-color pulse sits on its line.
-      if (tone) [...p.parentNode!.querySelectorAll(':scope > path[data-flow]')].at(-1)!.after(...own);
+      if (tone) [...p.parentNode.querySelectorAll(':scope > path[data-flow]')].at(-1).after(...own);
       else p.after(...own);
       // The pulse's head runs from the path's start to past its end (travel),
       // then rests out of sight, hidden. Golden-ratio stagger: neighbors never
@@ -105,7 +108,7 @@ export function lineFlow(root: ParentNode = document) {
       const travel = (len + W) / speed, period = travel + rest, end = travel / period;
       const phase = ((i * 0.618) % 1) * period;
       return own.map((s, j) => {
-        const at = (head: number) => `${-(head - (W + lens[j]) / 2)}px`;
+        const at = (head) => `${-(head - (W + lens[j]) / 2)}px`;
         return s.animate([
           { offset: 0, strokeDashoffset: at(0), visibility: 'visible' },
           { offset: end, strokeDashoffset: at(len + W), visibility: 'visible' },

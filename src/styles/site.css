@@ -528,3 +528,6 @@ a:hover { text-decoration-color: currentColor; }
   a, .bar__back, .bar__arrow, .bar__link, .bar__group, .card--link .icon,
   :is(.decision, .build-ref, .type-long) > summary::after { transition: none; }
 }
+
+/* Interface: the post card demo's cover, a stand-in for a cover image. */
+.lcard__cover--demo { background: linear-gradient(135deg, var(--violet-key), var(--blue-key) 55%, var(--teal-key)); }

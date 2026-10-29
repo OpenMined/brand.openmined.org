@@ -1,0 +1,33 @@
+/* ════════════════════════════════════════════════════════════════════
+   TABLE OF CONTENTS — v2 component (design/components/toc.md)
+   ════════════════════════════════════════════════════════════════════
+   A long read's sections as links, beside or above the text. Needs: the v2
+   tokens. Script: toc.js (toc), which marks the section being read; without it
+   the links work and nothing is marked.
+
+   Markup:
+     <nav class="toc" aria-label="On this page">
+       <p class="toc__title">On this page</p>
+       <ol class="toc__list">
+         <li><a class="toc__link" href="#why">Why it matters</a></li>
+         <li class="toc__sub"><a class="toc__link" href="#how">How it works</a></li>
+       </ol>
+     </nav>
+     <nav class="toc toc--sticky">…</nav>               stays in view beside the text
+
+   Small text in the muted color; each link a gray item (the sunken wash on
+   hover); the current section in the headline color with a 1px line in the
+   line style on its left. h3s indent one step. */
+.toc { font-size: var(--font-size-sm); line-height: var(--line-height-text); }
+.toc--sticky { position: sticky; top: var(--spacing-3xl); max-height: calc(100vh - 2 * var(--spacing-3xl)); overflow-y: auto; }
+.toc__title { margin: 0 0 var(--spacing-sm); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.toc__list { display: grid; gap: var(--spacing-3xs); margin: 0; padding: 0; list-style: none; }
+.toc__link {
+  display: block; padding: var(--spacing-2xs) var(--spacing-sm); border-radius: var(--radius-sm);
+  color: var(--text-muted); text-decoration: none; box-shadow: inset var(--stroke-sm) 0 0 transparent;
+  transition: background-color var(--transition-base), color var(--transition-base), box-shadow var(--transition-base);
+}
+.toc__sub .toc__link { padding-left: var(--spacing-xl); }
+@media (hover: hover) { .toc__link:hover { background: var(--surface-sunken); color: var(--text-headline); } }
+.toc__link:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+.toc__link[aria-current="true"] { color: var(--text-headline); box-shadow: inset var(--stroke-sm) 0 0 var(--line-strong); }

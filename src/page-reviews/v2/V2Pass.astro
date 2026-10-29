@@ -11,7 +11,7 @@
  *    marked data-icon-hue="<hue>" with that hue; hover cards' icons color on the
  *    card's hover (the card's data-hover-hue, or the next of a set order).
  *    Form fields (the round's option C): the pointer light follows the pointer.
- *  - Card colorflow (src/scripts/gl/card-flow.ts): hover cards with a hue fade in
+ *  - Card colorflow (components/card-flow.js): hover cards with a hue fade in
  *    a small colorflow in their two-tone, in the structure picked in Options.
  */
 import { listStops, twoToneStops } from '../../lib/tokens';
@@ -41,8 +41,7 @@ const twoTone = Object.fromEntries(['red', 'amber', 'green', 'teal', 'blue', 'vi
 </script>
 <script>
   import { reviewButtons } from './button-options';
-  import { cardFlows } from '../../scripts/gl/card-flow';
-  import { HOVER_FLOWS } from '../../scripts/gl/units/hover-flow';
+  import { cardFlows, HOVER_FLOWS } from '../../../components/card-flow.js';
   // Only on v2 routes (the port's seams can render it elsewhere).
   if (document.documentElement.dataset.system === 'v2') {
     // HubSpot's submit is an <input>, which can't hold the hover layers: swap in a

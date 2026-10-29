@@ -1,0 +1,24 @@
+/* ════════════════════════════════════════════════════════════════════
+   TAG — v2 component (design/components/tag.md)
+   ════════════════════════════════════════════════════════════════════
+   A short neutral label: a category, a topic, a type. For a status (approved,
+   failed), use the status chip. Needs: the v2 tokens. No script.
+
+   Markup:
+     <span class="tag">Research</span>
+     <a class="tag" href="/blog/research/">Research</a>        a tag that links
+     <ul class="tags"><li><span class="tag">Privacy</span></li> …</ul>
+
+   A line, not a container: the small corner, 1px in the line style around
+   small text in the body color, over whatever surface it sits on. A tag that
+   links follows the content link: on hover the line takes the accent's green. */
+.tag {
+  display: inline-flex; align-items: center; min-height: 24px; padding: 0 var(--spacing-sm);
+  font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-body); color: var(--text-body); text-decoration: none;
+  border: var(--stroke-sm) solid var(--line); border-radius: var(--radius-sm); background: transparent;
+  transition: border-color var(--transition-base), color var(--transition-base);
+}
+a.tag { color: var(--text-headline); }
+@media (hover: hover) { a.tag:hover { border-color: var(--accent-key); } }
+a.tag:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--spacing-xs); margin: 0; padding: 0; list-style: none; }

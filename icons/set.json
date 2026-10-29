@@ -215,6 +215,16 @@
       "style": "line",
       "status": "proposed"
     },
+    "nav-arrow-left": {
+      "src": "iconoir",
+      "status": "proposed",
+      "note": "Pagination steps (2026-10-30)."
+    },
+    "nav-arrow-right": {
+      "src": "iconoir",
+      "status": "proposed",
+      "note": "Pagination steps (2026-10-30)."
+    },
     "network": {
       "src": "iconoir",
       "style": "line",

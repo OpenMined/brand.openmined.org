@@ -19,6 +19,8 @@ tokens: [--surface-raise-1, --surface-raise-2, --shadow-raise-1, --shadow-raise-
 
 **Layout.** Padding 24px (`--spacing-2xl`), `--radius-md`. The title is Inter 700 at body size, as the hover card's; the text small and muted. The title may be a heading where the page's outline needs one.
 
+**Logo and post cards.** Two variants from openmined.org. A *logo card* (`lcard--logo`) holds an organization's logo supplied as an image on a white plate in either mode (*Logo images sit on white*), with a caption under it; mark it `data-section="always-light"`. A *post card* (`lcard--post`) is a square with a cover image filling it, the date and category at the top and the title at the bottom over the image, in a fixed light or dark text color chosen for the cover (`data-text`). Both behave as link cards.
+
 *Open:* whether this stays its own component or becomes a hover card variant without color; a block title style shared with the hover card.
 
 **Code.** `components/link-card.css` and `link-card.js` (`linkCards()`: the tilt, from `tilt.js`). Plain CSS and ES modules, no build step: load the v2 tokens first, then only the files a page uses. The markup to match is at the top of the CSS file (`components/README.md`).

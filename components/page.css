@@ -1,0 +1,24 @@
+/* ════════════════════════════════════════════════════════════════════
+   PAGE — v2 component (design/foundations/surfaces.md, design/behaviors/color-modes.md)
+   ════════════════════════════════════════════════════════════════════
+   The page itself: box sizing, no default margin, the base level as the
+   page's ground, body text color. Load it first, after the tokens. Needs: the
+   v2 tokens. No script (the color mode switch is theme.js).
+
+   Markup:
+     <html lang="en" data-theme="light">          (or "dark"; theme.js sets it)
+       <body>…</body>
+     </html>
+     <section class="page-band" data-section="always-dark">…</section>
+                                     a band locked to a mode (always-light, invert),
+                                     on that mode's base level
+
+   Every level and text color follows data-theme on <html> and data-section on
+   any element; use the role tokens inside and they resolve for the context. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--surface-base); color: var(--text-body); }
+/* A band locked to a mode carries its own ground: give it the class page-band. */
+.page-band[data-section] { background: var(--surface-base); color: var(--text-body); }
+img, svg, video, canvas { max-width: 100%; }
+img, video { height: auto; }

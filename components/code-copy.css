@@ -1,0 +1,24 @@
+/* ════════════════════════════════════════════════════════════════════
+   CODE COPY — v2 component (design/components/code-block.md)
+   ════════════════════════════════════════════════════════════════════
+   A copy button on a code block. The block itself is type.css's pre (always
+   dark). Needs: the v2 tokens, type.css. Script: code-copy.js (codeCopy),
+   which adds the button; without it the block has none.
+
+   Markup:
+     <pre class="code-block"><code>npm run tokens</code></pre>
+
+   The button sits top right inside the block, an icon-only control in the
+   block's muted text; it takes the block's text color on hover and says
+   "Copied" for two seconds after a click. */
+.code-block { position: relative; }
+.code-block__copy {
+  position: absolute; top: var(--spacing-sm); right: var(--spacing-sm);
+  display: inline-flex; align-items: center; gap: var(--spacing-2xs); min-height: 28px; padding: 0 var(--spacing-sm);
+  border: 0; border-radius: var(--radius-sm); background: transparent; cursor: pointer;
+  font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-body); color: var(--gray-400);
+  transition: color var(--transition-base);
+}
+.code-block__copy svg { width: 16px; height: 16px; }
+@media (hover: hover) { .code-block__copy:hover { color: var(--gray-50); } }
+.code-block__copy:focus-visible { outline: var(--stroke-sm) solid var(--gray-400); outline-offset: 2px; color: var(--gray-50); }

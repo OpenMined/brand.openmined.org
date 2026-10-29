@@ -24,6 +24,15 @@ const linkCard = doc('components/link-card');
 const statusChip = doc('components/status-chip');
 const form = doc('components/form-field');
 const motion = doc('foundations/motion');
+const card = doc('components/card');
+const tag = doc('components/tag');
+const table = doc('components/table');
+const tabsDoc = doc('components/tabs');
+const accordion = doc('components/accordion');
+const steps = doc('components/steps');
+const codeBlock = doc('components/code-block');
+const tocDoc = doc('components/toc');
+const pagination = doc('components/pagination');
 // Each component's files and reference markup, read from components/.
 const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
@@ -33,11 +42,22 @@ const CODE = {
   statusChip: componentCode(['status-chip']),
   field: componentCode(['field'], ['field']),
   control: componentCode(['control']),
+  card: componentCode(['card']),
+  tag: componentCode(['tag']),
+  table: componentCode(['table']),
+  tabs: componentCode(['tabs'], ['tabs']),
+  accordion: componentCode(['accordion']),
+  steps: componentCode(['steps']),
+  codeBlock: componentCode(['code-copy'], ['code-copy']),
+  toc: componentCode(['toc'], ['toc']),
+  pagination: componentCode(['pagination']),
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
-const components = [button, link, linkCard, statusChip, form, motion];
+const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['cards', 'Cards'], ['data', 'Data'], ['content', 'Content'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['see', 'See it']];
+const components = [button, link, linkCard, statusChip, card, tag, table, tabsDoc, accordion, steps, codeBlock, tocDoc, pagination, form, motion];
+/** A small dataset for the table and tabs demos. */
+const ROWS = [['SyftHub', '11,118', 'success', 'Live'], ['Syft Space', '2,904', 'info', 'Beta'], ['Data network pilot', '412', 'warning', 'Pending review'], ['Legacy gateway', '0', 'danger', 'Retired']];
 /** Status chips: a label per status, as a list of things might carry them. */
 const CHIPS = [['success', 'Approved'], ['warning', 'Pending review'], ['danger', 'Failed'], ['info', 'New']];
 /** The form lab's text-type fields (surfaces round, pages/rounds/surfaces/index.astro). */
@@ -51,7 +71,7 @@ const TEXT_FIELDS = [
 ];
 ---
 <Site title="Interface" description="Buttons, links, hover cards and form controls, and their states, on the surface levels." current="interface">
-  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="working" nav={NAV}>
+  <PageHero eyebrow="Components" title="Interface" description="Buttons, links, hover cards and form controls, and their states. Controls are defined by how they behave. A boundary comes from a level and a shadow; an outline appears only as a line over the same surface, as on the secondary button." status="released" nav={NAV}>
     <!-- The interactive layer this page shows (design/behaviors/interaction-states.md): set before
          the components below render, remembered for this page only. -->
     <script is:inline>
@@ -65,7 +85,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="buttons">
     <div class="wrap">
-      <header class="sec"><h2>Buttons</h2><p>{button.description}</p>{button.status !== 'released' && <p class=\"status\">Status: <b>{button.status}</b></p>}</header>
+      <header class="sec"><h2>Buttons</h2><p>{button.description}</p>{button.status !== 'released' && <p class="status">Status: <b>{button.status}</b></p>}</header>
       <article class="card">
         <div class="actions">
           <button type="button" class="btn btn--solid">Submit</button>
@@ -87,7 +107,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="links">
     <div class="wrap">
-      <header class="sec"><h2>Links</h2><p>{link.description}</p>{link.status !== 'released' && <p class=\"status\">Status: <b>{link.status}</b></p>}</header>
+      <header class="sec"><h2>Links</h2><p>{link.description}</p>{link.status !== 'released' && <p class="status">Status: <b>{link.status}</b></p>}</header>
       <div class="grid grid--2">
         <article class="card link-demo">
           <h3>Content link</h3>
@@ -106,7 +126,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="hover-cards">
     <div class="wrap">
-      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class=\"status\">Status: <b>{hoverCard.status}</b></p>}</header>
+      <header class="sec"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class="status">Status: <b>{hoverCard.status}</b></p>}</header>
       <div class="hcards">
         <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
         <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />
@@ -123,7 +143,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="link-cards">
     <div class="wrap">
-      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p>{linkCard.status !== 'released' && <p class=\"status\">Status: <b>{linkCard.status}</b></p>}</header>
+      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p>{linkCard.status !== 'released' && <p class="status">Status: <b>{linkCard.status}</b></p>}</header>
       <div class="grid grid--3">
         <LinkCard href="#link-cards" title="Review rounds">Every round: when it opened, what it explored, and where its favorites live.</LinkCard>
         <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
@@ -135,7 +155,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="status-chips">
     <div class="wrap">
-      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p>{statusChip.status !== 'released' && <p class=\"status\">Status: <b>{statusChip.status}</b></p>}</header>
+      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p>{statusChip.status !== 'released' && <p class="status">Status: <b>{statusChip.status}</b></p>}</header>
       <article class="card">
         <div class="status-rows">
           <div class="status-row">
@@ -156,11 +176,110 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
+  <section class="band" id="cards">
+    <div class="wrap">
+      <header class="sec"><h2>{card.title}</h2><p>{card.description}</p></header>
+      <div class="card-grid">
+        <div class="card"><h3 class="card__title">Federated learning</h3><p>Train a model on data that never leaves its owner's server.</p></div>
+        <div class="card card--icon"><Icon name="lock" size={32} class="card__icon" /><div><h3 class="card__title">Private by design</h3><p>Only the answer leaves; the data stays where it lives.</p></div></div>
+        <div class="card card--icon card--stacked"><Icon name="network" size={32} class="card__icon" /><div><h3 class="card__title">One network</h3><p>Every node speaks the same protocol.</p></div></div>
+      </div>
+      <h3>{linkCard.title}: logo and post</h3>
+      <div class="card-grid">
+        <a class="lcard lcard--logo" data-section="always-light" href="#cards"><span class="lcard__logo"><img src="/logos/OpenMined-Logo.svg" alt="OpenMined" /></span><span class="lcard__text">A logo supplied as an image, on a white plate</span></a>
+        <a class="lcard lcard--post" href="#cards" data-text="light"><span class="lcard__cover lcard__cover--demo" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
+      </div>
+      <BuildRef code={CODE.card} tokens={card.tokens} label="Cards: code and tokens" />
+    </div>
+  </section>
+
+  <section class="band" id="data">
+    <div class="wrap">
+      <header class="sec"><h2>{table.title}, tabs and tags</h2><p>{table.description} {tabsDoc.description} {tag.description}</p></header>
+      <div class="tabs" data-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Projects">
+          <button class="tabs__tab" role="tab" aria-selected="true">All projects</button>
+          <button class="tabs__tab" role="tab" aria-selected="false">Live</button>
+          <button class="tabs__tab" role="tab" aria-selected="false">Tags</button>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <div class="table-wrap"><table class="table table--rows">
+            <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
+            <tbody>{ROWS.map(([n, q, s, l], i) => <tr aria-current={i === 0 ? 'true' : undefined}><td>{n}</td><td class="num">{q}</td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td></tr>)}</tbody>
+          </table></div>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <div class="table-wrap"><table class="table table--compact">
+            <thead><tr><th>Project</th><th class="num">Queries</th></tr></thead>
+            <tbody>{ROWS.filter(r => r[2] === 'success').map(([n, q]) => <tr><td>{n}</td><td class="num">{q}</td></tr>)}</tbody>
+          </table></div>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <ul class="tags"><li><span class="tag">Research</span></li><li><span class="tag">Privacy</span></li><li><a class="tag" href="#data">Federated learning</a></li><li><a class="tag" href="#data">Policy</a></li></ul>
+        </div>
+      </div>
+      <BuildRef code={CODE.table} tokens={table.tokens} label="Table: code and tokens" />
+      <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} label="Tabs: code and tokens" />
+      <BuildRef code={CODE.tag} tokens={tag.tokens} label="Tags: code and tokens" />
+    </div>
+  </section>
+
+  <section class="band" id="content">
+    <div class="wrap">
+      <header class="sec"><h2>{steps.title}, accordions and code</h2><p>{steps.description} {accordion.description}</p></header>
+      <div class="grid grid--2">
+        <ol class="steps steps--connector">
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h3 class="steps__title">Install Syft Space</h3><p>One command on the server that holds the data.</p></div></li>
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h3 class="steps__title">Connect your data</h3><p>Point it at a folder or a database.</p></div></li>
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h3 class="steps__title">Answer queries</h3><p>Approve each request, or set a policy.</p></div></li>
+        </ol>
+        <ol class="steps steps--outline steps--connector">
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h3 class="steps__title">Find a dataset</h3><p>Browse what the network holds.</p></div></li>
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h3 class="steps__title">Send a query</h3><p>Code runs where the data lives.</p></div></li>
+          <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h3 class="steps__title">Get the answer</h3><p>Only the result comes back.</p></div></li>
+        </ol>
+      </div>
+      <div class="accordions">
+        <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">Does my data leave my server?</span><Icon name="nav-arrow-down" size={20} class="accordion__icon" /></summary><div class="accordion__body"><p>No. A query runs where the data lives and only its answer comes back, after you approve it.</p></div></details>
+        <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">Who can send a query?</span><Icon name="nav-arrow-down" size={20} class="accordion__icon" /></summary><div class="accordion__body"><p>Anyone you allow, under the policy you set.</p></div></details>
+      </div>
+      <pre class="code-block"><code>npm install @openmined/syft-space
+syft-space init --data ./records</code></pre>
+      <div class="grid grid--2">
+        <nav class="toc" aria-label="On this page (example)">
+          <p class="toc__title">On this page</p>
+          <ol class="toc__list">
+            <li><a class="toc__link" href="#cards">Cards</a></li>
+            <li><a class="toc__link" href="#data">Data</a></li>
+            <li class="toc__sub"><a class="toc__link" href="#data">Tabs</a></li>
+            <li><a class="toc__link" href="#content">Content</a></li>
+          </ol>
+        </nav>
+        <nav class="pagination" aria-label="Pages (example)">
+          <a class="pagination__step" href="#content" rel="prev"><Icon name="nav-arrow-left" size={16} /> Previous</a>
+          <ol class="pagination__pages">
+            <li><a class="pagination__page" href="#content">1</a></li>
+            <li><a class="pagination__page" href="#content" aria-current="page">2</a></li>
+            <li><a class="pagination__page" href="#content">3</a></li>
+            <li><span class="pagination__gap">…</span></li>
+            <li><a class="pagination__page" href="#content">9</a></li>
+          </ol>
+          <a class="pagination__step" href="#content" rel="next">Next <Icon name="nav-arrow-right" size={16} /></a>
+        </nav>
+      </div>
+      <BuildRef code={CODE.steps} tokens={steps.tokens} label="Steps: code and tokens" />
+      <BuildRef code={CODE.accordion} tokens={accordion.tokens} label="Accordion: code and tokens" />
+      <BuildRef code={CODE.codeBlock} tokens={codeBlock.tokens} label="Code block: code and tokens" />
+      <BuildRef code={CODE.toc} tokens={tocDoc.tokens} label="Table of contents: code and tokens" />
+      <BuildRef code={CODE.pagination} tokens={pagination.tokens} label="Pagination: code and tokens" />
+    </div>
+  </section>
+
   <section class="band" id="forms">
     <div class="wrap">
       <div class="fm-split">
         <div class="fm-split__text">
-          <header class="sec"><h2>Forms</h2><p>{form.description}</p>{form.status !== 'released' && <p class=\"status\">Status: <b>{form.status}</b></p>}</header>
+          <header class="sec"><h2>Forms</h2><p>{form.description}</p>{form.status !== 'released' && <p class="status">Status: <b>{form.status}</b></p>}</header>
           <div class="guide-prose">
             <p>Every control a form renders, in generic markup. Kinds are named for how they behave:</p>
             <ul>
@@ -263,7 +382,7 @@ const TEXT_FIELDS = [
 
   <section class="band" id="motion">
     <div class="wrap">
-      <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p>{motion.status !== 'released' && <p class=\"status\">Status: <b>{motion.status}</b></p>}</header>
+      <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p>{motion.status !== 'released' && <p class="status">Status: <b>{motion.status}</b></p>}</header>
       <TokenTable names={motion.tokens} />
     </div>
   </section>

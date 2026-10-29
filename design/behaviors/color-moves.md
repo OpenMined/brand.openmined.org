@@ -24,8 +24,7 @@ tags: [color, graphics, interface]
 
 - **Anywhere** (documents, slides, PDF, images): the still look only. Colors, two-tone and highlight colors, a diagram's still frame.
 - **Any web page, CSS and SVG only** (HTML decks and Claude artifacts too): link hovers, the moving icon two-tone (its gradients are SVG markup).
-- **Web, with a script:** button hovers, the field and hover-card pointer lights, the card tilt (the modules in `components/`, each small and standalone), diagram line pulses (`src/scripts/line-flow.ts`), and the `<om-diamond>` and `<om-stream>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load the brand site's embeds; paste the script in or use the still frame.
-- **The brand site only:** hover card colorflows (the site's shared WebGL renderer).
+- **Web, with a script:** button hovers, the field and hover-card pointer lights, the card tilt, hover card colorflows, diagram line pulses (the modules in `components/`, each small and standalone, or all of them in `/omds.js`), and the `<om-diamond>`, `<om-stream>` and `<om-mesh>` embeds. A Claude artifact loads scripts only from a few public CDNs, so it can't load ours by URL; paste the script in, or use the still frame.
 
 Where a move can't run, use its still frame: the same colors, standing still, as under reduced motion. Never fake the motion with a different look. Interactive elements have their own plain layer for these places, built into every component: *Interaction states*.
 
@@ -37,7 +36,7 @@ Where a move can't run, use its still frame: the same colors, standing still, as
 - **Hover cards:** a colorflow in the card's two-tone rises in its lower third (*Hover cards*).
 - **Diagram lines:** each colored line's highlight travels along it, over the line at 0.8 at its center and fading in a bell to nothing at its ends; a line that drains to gray carries a highlight that turns gray with it. Rings brighten in their highlight, one after another (*Highlights*).
 
-Small animated graphics that come and go (hover flows) share one renderer per page (`src/scripts/gl/`); the large brand graphics stay standalone embeds.
+**One renderer per page.** Small animated graphics that come and go (the hover cards' colorflows) share one WebGL renderer per page (`components/flow.js`): one context and one animation loop, with a cheap 2D canvas for each card only while it's hovered. The alternative, each card drawing with its own WebGL context, is simpler to paste but breaks on a card grid: browsers cap the live contexts on a page (Chrome drops the oldest past about 16), and each costs memory and start-up time. The renderer is itself one standalone file, so a page with a single card loads the same thing. The full interactive layer (`/omds.js`) includes it; the minimal layer loads none of it. The large brand graphics (`<om-*>`) stay standalone embeds with a context each, which is fine at one or two per page.
 
 **Choosing where color goes** is a designer's call, made piece by piece: some icons stay mono and some take a colored, moving state.
 

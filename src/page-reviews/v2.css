@@ -11,5 +11,5 @@
 @import './v2/motion.css';
 @import '../../components/button-hover.css';
 @import './v2/button-options.css';
-@import '../styles/card-flow.css';
+@import '../../components/card-flow.css';
 @import './v2/link-hover.css';

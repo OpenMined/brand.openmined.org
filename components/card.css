@@ -1,0 +1,50 @@
+/* ════════════════════════════════════════════════════════════════════
+   CARD — v2 component (design/components/card.md)
+   ════════════════════════════════════════════════════════════════════
+   A panel on its own level: content grouped on a raised surface. Not a link
+   (a card that is a link: link-card.css or hover-card.css). Needs: the v2
+   tokens. No script.
+
+   Markup:
+     <div class="card">
+       <h3 class="card__title">Federated learning</h3>
+       <p>Train on data that stays where it lives.</p>
+     </div>
+     <div class="card card--raise-2">…</div>           one level higher: a card inside a panel
+     <div class="card card--compact">…</div>           tighter padding, for dense interfaces
+     <div class="card-grid">                            cards in even columns
+       <div class="card">…</div> <div class="card">…</div> <div class="card">…</div>
+     </div>
+     <div class="card-grid card-grid--2">…</div>       two columns (default three)
+
+   Raise-1 and its shadow, the large corner, 24px inside (16px compact). A
+   card's text keeps to the reading width. Never on the sunken level, never
+   with an outline (it has its level as its edge; Outlines are lines). */
+.card {
+  display: flex; flex-direction: column; gap: var(--spacing-lg); min-width: 0;
+  padding: var(--spacing-2xl); border-radius: var(--radius-lg);
+  background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); color: var(--text-body);
+}
+.card--raise-2 { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+.card--compact { padding: var(--spacing-lg); gap: var(--spacing-md); }
+.card > :where(p) { max-width: var(--measure); margin: 0; }
+.card__title { margin: 0; font: var(--font-weight-semibold) var(--font-size-md)/var(--line-height-text) var(--font-body); color: var(--text-headline); }
+
+.card-grid { display: grid; gap: var(--spacing-xl); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.card-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 991px) { .card-grid, .card-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .card-grid, .card-grid--2, .card-grid--4 { grid-template-columns: 1fr; } }
+
+/* ── With an icon (openmined.org's icon card) ──────────────────────────
+     <div class="card card--icon">
+       <svg class="card__icon" aria-hidden="true">…32px set icon…</svg>
+       <div><h3 class="card__title">Private by design</h3><p>…</p></div>
+     </div>
+   The icon (32px, the headline color, mono at rest) beside the text; add
+   card--stacked to put it above. */
+.card--icon { flex-direction: row; align-items: flex-start; gap: var(--spacing-2xl); }
+.card--icon.card--stacked { flex-direction: column; gap: var(--spacing-lg); }
+.card__icon { flex: none; width: 32px; height: 32px; color: var(--text-headline); }
+.card--icon > div { display: grid; gap: var(--spacing-md); min-width: 0; }
+.card--icon p { margin: 0; max-width: var(--measure); }

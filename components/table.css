@@ -1,0 +1,34 @@
+/* ════════════════════════════════════════════════════════════════════
+   TABLE — v2 component (design/components/table.md)
+   ════════════════════════════════════════════════════════════════════
+   Rows of data or a comparison. Needs: the v2 tokens and type.css (numbers
+   line up: .num). No script.
+
+   Markup:
+     <div class="table-wrap">                          scrolls sideways when narrow
+       <table class="table">
+         <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
+         <tbody>
+           <tr><td>SyftHub</td><td class="num">11,118</td><td><span class="status-chip status-chip--success">Live</span></td></tr>
+         </tbody>
+       </table>
+     </div>
+     <table class="table table--rows">…</table>        rows take the hover wash (a table you act on)
+     <table class="table table--compact">…</table>     tighter rows, for dashboards
+
+   Small text, rows divided by the lighter line, no fills and no outer box
+   (Outlines are lines; Dividers separate). Headers in the headline color at
+   600. A row you act on takes the sunken wash on hover, as any gray item does
+   (Interaction states); the current row keeps it (aria-current or .is-current). */
+.table-wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); color: var(--text-body); }
+.table :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-sm) var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); }
+.table th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.table :is(th, td).num { text-align: right; }
+.table thead th { vertical-align: bottom; }
+.table tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.table--compact :is(th, td) { padding: var(--spacing-xs) var(--spacing-sm); }
+.table--rows tbody tr { transition: background-color var(--transition-base); }
+@media (hover: hover) { .table--rows tbody tr:hover { background: var(--surface-sunken); } }
+.table--rows tbody tr:is([aria-current], .is-current) { background: var(--surface-sunken); }
+.table caption { caption-side: bottom; padding-top: var(--spacing-sm); text-align: left; font-size: var(--font-size-xs); color: var(--text-muted); }

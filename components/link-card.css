@@ -62,3 +62,37 @@
   .lcard:is(:hover, :focus-visible) { transform: none; }
   .lcard:is(:hover, :focus-visible) .lcard__arrow { transform: none; }
 }
+
+/* ── Variants (2026-10-30, from openmined.org's press room and blog) ──────
+   Logo card: a logo supplied as an image, on a white plate in either mode
+   (Logo images sit on white), with a caption under it. Put
+   data-section="always-light" on it so the caption's color resolves light.
+     <a class="lcard lcard--logo" data-section="always-light" href="…">
+       <span class="lcard__logo"><img src="…" alt="The Economist"></span>
+       <span class="lcard__text">Privacy-preserving AI, explained</span>
+     </a>
+   Post card: a cover image filling a square, the date and category at the
+   top and the title at the bottom, over the image. The text color is fixed,
+   not the mode's: data-text="light" for dark covers (the default), "dark" for
+   light ones.
+     <a class="lcard lcard--post" href="…" data-text="light">
+       <img class="lcard__cover" src="…" alt="">
+       <span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span>
+       <span class="lcard__title">Attribution-based control</span>
+     </a> */
+.lcard.lcard--logo { background: var(--white); justify-content: space-between; min-height: 240px; padding: var(--spacing-5xl) var(--spacing-2xl) var(--spacing-lg); }
+@media (hover: hover) { .lcard.lcard--logo:hover { background: var(--white); } }
+.lcard.lcard--logo:focus-visible { background: var(--white); }
+.lcard__logo { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; }
+.lcard__logo > :is(img, svg) { position: absolute; inset: 12% 5% 34%; width: 90%; height: 54%; object-fit: contain; }
+.lcard--logo .lcard__text { font-weight: var(--font-weight-medium); color: var(--text-body); }
+
+.lcard--post {
+  aspect-ratio: 1 / 1; overflow: hidden; align-content: space-between; padding: var(--spacing-lg) var(--spacing-2xl) var(--spacing-2xl);
+  background: var(--surface-raise-1); color: var(--gray-50);
+}
+.lcard--post[data-text="dark"] { color: var(--gray-900); }
+.lcard__cover { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; }
+.lcard--post > :not(.lcard__cover) { position: relative; z-index: 1; }
+.lcard__meta { font-size: var(--font-size-xs); }
+.lcard--post .lcard__title { color: inherit; font-weight: var(--font-weight-medium); }

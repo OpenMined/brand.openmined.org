@@ -61,13 +61,27 @@ motion itself.
 | Hover card | `hover-card.css` | `hover-card.js`, `hoverCards()` | `design/components/hover-card.md` |
 | Link card | `link-card.css` | `link-card.js`, `linkCards()` | `design/components/link-card.md` |
 | Status chip | `status-chip.css` | none | `design/components/status-chip.md` |
+| Page: box sizing, the page's ground, sections | `page.css` | `theme.js`, `themeInit()`, `themeToggle()` (color mode) | `design/behaviors/color-modes.md` |
+| Card, card with an icon, card grid | `card.css` | none | `design/components/card.md` |
+| Hover card colorflow | `card-flow.css` | `card-flow.js`, `cardFlows()` (draws with `flow.js`) | `design/components/hover-card.md` |
+| Tag | `tag.css` | none | `design/components/tag.md` |
+| Table | `table.css` | none | `design/components/table.md` |
+| Tabs | `tabs.css` | `tabs.js`, `tabs()` | `design/components/tabs.md` |
+| Accordion | `accordion.css` | none | `design/components/accordion.md` |
+| Steps | `steps.css` | none | `design/components/steps.md` |
+| Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |
+| Table of contents | `toc.css` | `toc.js`, `toc()` | `design/components/toc.md` |
+| Pagination | `pagination.css` | none | `design/components/pagination.md` |
+| Logo card, post card | `link-card.css` (`lcard--logo`, `lcard--post`) | `link-card.js` | `design/components/link-card.md` |
+| Diagram line pulses | none | `line-flow.js`, `lineFlow()` | `design/patterns/diagrams.md` |
 
 Shared by the scripts, imported by them: `pointer.js` (the light that follows the
-pointer), `tilt.js` (the card tilt) and `two-tone.js` (the moving gradients). `index.css` and `index.js`
+pointer), `tilt.js` (the card tilt), `two-tone.js` (the moving gradients) and `flow.js` (the
+one WebGL renderer per page that colorflows draw with). `index.css` and `index.js`
 gather everything.
 
-Not here yet: the hover card colorflow (the brand site's WebGL renderer,
-`src/scripts/gl/`); diagram line pulses (`src/scripts/line-flow.ts`).
+On the site, `/omds.css` is the tokens and every component CSS in one file, and `/omds.js`
+every script in one module, for pasting (a Claude artifact) or linking.
 
 `demo.html` shows every component with nothing but these files and the tokens:
 serve the repo root (`python3 -m http.server`) and open `/components/demo.html`.

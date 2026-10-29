@@ -14,7 +14,7 @@
  * Color moves as a cascade, not a flow: each ring's whole stroke brightens and
  * fades at once in its hue's highlight (a copy 1px wider on each side, over the ring), ring by ring from Individual
  * out to Philosophical; the loop (3.5s = four 0.5s steps + a 1.5s pulse) restarts as the last ring fades, with no gap. Reduced motion: still.
- * Paused offscreen (data-flow-pause, src/scripts/line-flow.ts).
+ * Paused offscreen (data-flow-pause, components/line-flow.js).
  */
 import { arc } from '../_geo';
 import { tone } from '../_tokens';
@@ -79,6 +79,6 @@ const R = LEVELS.map((_, i) => 62 + i * 46);
 </style>
 
 <script>
-  import { lineFlow } from '../../../../scripts/line-flow';
+  import { lineFlow } from '../../../../../components/line-flow.js';
   lineFlow();
 </script>

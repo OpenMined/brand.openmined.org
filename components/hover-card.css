@@ -5,7 +5,7 @@
    v2 tokens. Script: hover-card.js (hoverCards), for the tilt and the pointer
    light; it also puts the moving two-tone gradients on the page (two-tone.js).
    Without it, hover is the lift and the colored icon. The colorflow across the
-   lower third runs on the brand site only for now.
+   lower third: card-flow.css + card-flow.js (cardFlows).
 
    Markup (hue: red, amber, green, teal, blue or violet; the icon three times:
    glow, mono, colored):

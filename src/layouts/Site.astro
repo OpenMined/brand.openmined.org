@@ -13,7 +13,6 @@ import '@tokens/v2/tokens.css';
 // The v2 components first, then the site's own styles, which lay them out.
 import '@components/index.css';
 import '../styles/site.css';
-import '../styles/card-flow.css';
 import ThemeToggle from '../components/site/ThemeToggle.astro';
 import '../lib/release-gate';
 import { ROUNDS, REVIEW_PAGES, isCurrent } from '../lib/rounds';
@@ -98,14 +97,19 @@ const inRounds = path.startsWith('/rounds/') || path.startsWith('/page-reviews/'
       import { fieldLights } from '@components/field.js';
       import { hoverCards } from '@components/hover-card.js';
       import { linkCards } from '@components/link-card.js';
-      import { cardFlows } from '../scripts/gl/card-flow';
-      import { HOVER_FLOWS } from '../scripts/gl/units/hover-flow';
+      import { cardFlows } from '@components/card-flow.js';
+      import { tabs } from '@components/tabs.js';
+      import { codeCopy } from '@components/code-copy.js';
+      import { toc } from '@components/toc.js';
       // The Color and interaction round's own buttons (.mbtn) draw their own layers.
       buttonHover('.btn:not(.mbtn)');
       hoverCards();
       linkCards();
       // Hover cards' colorflow: each card names its unit (HoverCard's `flow`).
-      cardFlows(document.querySelectorAll<HTMLElement>('.hcard[data-flow]'), (card) => HOVER_FLOWS[card.dataset.flow ?? ''] ?? null);
+      cardFlows();
+      tabs();
+      codeCopy();
+      toc();
       // The round's own fields (.mo-fm) run their own light.
       fieldLights('.ctl:not(.mo-fm .ctl)');
       document.addEventListener('click', (e: MouseEvent) => {

@@ -12,8 +12,8 @@
 import { iconSvg } from '../../lib/icons';
 interface Props {
   href: string; icon: string; hue: string; title: string; text?: string;
-  /** The colorflow in the card's lower third on hover (src/scripts/gl/card-flow.ts):
-   *  a unit name from src/scripts/gl/units/hover-flow.ts, 'off' for none.
+  /** The colorflow in the card's lower third on hover (components/card-flow.js):
+   *  a unit name from its HOVER_FLOWS, 'off' for none.
    *  Default: the strong-wave ribbon (the working favorite). */
   flow?: string;
   /** 'large': full width, content centered at a measure (a card standing alone). */

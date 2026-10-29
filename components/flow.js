@@ -1,5 +1,5 @@
 /**
- * Shared WebGL renderer (behaviors/color-moves).
+ * FLOW — the shared WebGL renderer (design/behaviors/color-moves.md, "Where it runs").
  *
  * One WebGL context and one animation loop for the whole page, drawing any
  * number of short-lived placements: a hover card's colorflow, and later any
@@ -15,34 +15,37 @@
  * unit can be any structure. Standalone embeds (public/embeds/) stay their own
  * thing; a unit can be wrapped as one later.
  *
+ * Why one renderer: browsers cap the live WebGL contexts on a page (Chrome drops
+ * the oldest past about 16), and each costs memory and start-up time, so a card
+ * grid with a context per card breaks. One context serves any number of cards.
+ *
+ *   import { place, cssColors } from './flow.js';
+ *   const p = place(el, unit, cssColors(el, ['--green-key', …]));   p.remove() when done
+ *
  * Reduced motion: a placement draws one still frame. The loop runs only while
  * an animated placement exists; the browser pauses it in a hidden tab.
  */
-export type Unit = { id: string; stops: number; frag: string };
-export type Placement = { el: HTMLCanvasElement; remove(): void; recolor(colors: Float32Array): void; setSpeed(speed: number): void };
 
 const VS = 'attribute vec2 aPos; varying vec2 vUV; void main() { vUV = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }';
 const MAX_DPR = 2;
 
-type Prog = { prog: WebGLProgram; time: WebGLUniformLocation | null; res: WebGLUniformLocation | null; dpr: WebGLUniformLocation | null; seed: WebGLUniformLocation | null; colors: WebGLUniformLocation | null };
-type Live = { el: HTMLCanvasElement; ctx: CanvasRenderingContext2D; unit: Unit; colors: Float32Array; seed: number; speed: number; w: number; h: number; dpr: number; still: boolean; drawn: boolean; ro: ResizeObserver };
 
-let gl: WebGLRenderingContext | null = null;
-let glCanvas: HTMLCanvasElement | null = null;
+let gl = null;
+let glCanvas = null;
 let failed = false;
-const programs = new Map<string, Prog>();
-const live = new Set<Live>();
+const programs = new Map();
+const live = new Set();
 let raf = 0;
 const t0 = performance.now();
 
-function setup(g: WebGLRenderingContext) {
+function setup(g) {
   const buf = g.createBuffer();
   g.bindBuffer(g.ARRAY_BUFFER, buf);
   g.bufferData(g.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), g.STATIC_DRAW);
   g.clearColor(0, 0, 0, 0);
 }
 
-function context(): WebGLRenderingContext | null {
+function context() {
   if (gl || failed) return gl;
   glCanvas = document.createElement('canvas');
   gl = glCanvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
@@ -55,19 +58,19 @@ function context(): WebGLRenderingContext | null {
   return gl;
 }
 
-function compile(g: WebGLRenderingContext, type: number, src: string) {
-  const s = g.createShader(type)!;
+function compile(g, type, src) {
+  const s = g.createShader(type);
   g.shaderSource(s, src); g.compileShader(s);
   if (!g.getShaderParameter(s, g.COMPILE_STATUS)) { console.error('gl renderer:', g.getShaderInfoLog(s)); return null; }
   return s;
 }
 
-function program(g: WebGLRenderingContext, unit: Unit): Prog | null {
+function program(g, unit) {
   const have = programs.get(unit.id);
   if (have) return have;
   const vs = compile(g, g.VERTEX_SHADER, VS), fs = compile(g, g.FRAGMENT_SHADER, unit.frag);
   if (!vs || !fs) return null;
-  const prog = g.createProgram()!;
+  const prog = g.createProgram();
   g.attachShader(prog, vs); g.attachShader(prog, fs); g.linkProgram(prog);
   if (!g.getProgramParameter(prog, g.LINK_STATUS)) { console.error('gl renderer:', g.getProgramInfoLog(prog)); return null; }
   const p = { prog, time: g.getUniformLocation(prog, 'uTime'), res: g.getUniformLocation(prog, 'uRes'), dpr: g.getUniformLocation(prog, 'uDpr'), seed: g.getUniformLocation(prog, 'uSeed'), colors: g.getUniformLocation(prog, 'uColors') };
@@ -75,7 +78,7 @@ function program(g: WebGLRenderingContext, unit: Unit): Prog | null {
   return p;
 }
 
-function draw(p: Live, time: number) {
+function draw(p, time) {
   const g = context();
   if (!g || !glCanvas || !p.w || !p.h || g.isContextLost()) return;
   const pr = program(g, p.unit);
@@ -103,7 +106,7 @@ function draw(p: Live, time: number) {
   p.drawn = true;
 }
 
-function frame(now: number) {
+function frame(now) {
   raf = 0;
   const time = (now - t0) / 1000;
   let animated = false;
@@ -119,14 +122,14 @@ function kick() { if (!raf && live.size) raf = requestAnimationFrame(frame); }
 /** Put a unit into `target` as a canvas (class `className`). Colors: `unit.stops`
  *  sRGB triples, 0–1 (see cssColors). `speed` scales its time (2 = twice as fast).
  *  Remove it when it's done. */
-export function place(target: HTMLElement, unit: Unit, colors: Float32Array, className = '', speed = 1): Placement | null {
+export function place(target, unit, colors, className = '', speed = 1) {
   if (!context()) return null;
   const el = document.createElement('canvas');
   el.className = className;
   el.setAttribute('aria-hidden', 'true');
   target.append(el);
-  const p: Live = {
-    el, ctx: el.getContext('2d')!, unit, colors, seed: Math.random(), speed, w: 0, h: 0, dpr: 1,
+  const p = {
+    el, ctx: el.getContext('2d'), unit, colors, seed: Math.random(), speed, w: 0, h: 0, dpr: 1,
     still: matchMedia('(prefers-reduced-motion: reduce)').matches, drawn: false,
     ro: new ResizeObserver(() => {
       const dpr = p.dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
@@ -148,7 +151,7 @@ export function place(target: HTMLElement, unit: Unit, colors: Float32Array, cla
 
 /** Token colors as the stops a unit takes: each CSS custom property resolved on
  *  `el` (so the color mode and any data-section apply), as sRGB 0–1. */
-export function cssColors(el: HTMLElement, names: string[]): Float32Array {
+export function cssColors(el, names) {
   const probe = document.createElement('span');
   probe.style.display = 'none';
   el.append(probe);

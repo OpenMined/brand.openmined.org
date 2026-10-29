@@ -1,0 +1,42 @@
+/* ════════════════════════════════════════════════════════════════════
+   ACCORDION — v2 component (design/components/accordion.md)
+   ════════════════════════════════════════════════════════════════════
+   A question that opens to its answer; stack several for an FAQ. Built on
+   <details>, so it works without a script and the answer stays in the page.
+   Needs: the v2 tokens. No script.
+
+   Markup:
+     <div class="accordions">
+       <details class="accordion">
+         <summary class="accordion__summary">
+           <span class="accordion__title">Does my data leave my server?</span>
+           <svg class="accordion__icon" aria-hidden="true">…nav-arrow-down…</svg>
+         </summary>
+         <div class="accordion__body"><p>No. …</p></div>
+       </details>
+       …
+     </div>
+
+   Items divided by the lighter line, no box (Outlines are lines; Dividers
+   separate). The summary is a gray item: the sunken wash on hover; the title
+   in the headline color at 500; the icon (20px) turns half a turn when open.
+   Keyboard focus draws the focus line. */
+.accordions { display: grid; }
+.accordion { border-bottom: var(--stroke-sm) solid var(--line); }
+.accordions > .accordion:first-child { border-top: var(--stroke-sm) solid var(--line); }
+.accordion__summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-md); margin-inline: calc(-1 * var(--spacing-md));
+  border-radius: var(--radius-md); cursor: pointer; list-style: none;
+  transition: background-color var(--transition-base);
+}
+.accordion__summary::-webkit-details-marker { display: none; }
+@media (hover: hover) { .accordion__summary:hover { background: var(--surface-sunken); } }
+.accordion__summary:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+.accordion__title { font: var(--font-weight-medium) var(--font-size-md)/var(--line-height-text) var(--font-body); color: var(--text-headline); }
+.accordion__icon { flex: none; width: 20px; height: 20px; color: var(--text-headline); transition: transform var(--transition-base); }
+.accordion[open] .accordion__icon { transform: rotate(180deg); }
+.accordion__body { padding: 0 0 var(--spacing-xl); max-width: var(--measure); }
+.accordion__body > :first-child { margin-top: 0; }
+.accordion__body > :last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .accordion__icon { transition: none; } }

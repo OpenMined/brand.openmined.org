@@ -1,0 +1,34 @@
+/* ════════════════════════════════════════════════════════════════════
+   TABS — v2 component (design/components/tabs.md)
+   ════════════════════════════════════════════════════════════════════
+   A row of tabs over panels; one panel shows at a time. Needs: the v2 tokens.
+   Script: tabs.js (tabs), which hides the other panels and wires the keys;
+   without it every panel shows, one after another.
+
+   Markup:
+     <div class="tabs" data-tabs>
+       <div class="tabs__list" role="tablist" aria-label="How it works">
+         <button class="tabs__tab" role="tab" aria-selected="true">For researchers</button>
+         <button class="tabs__tab" role="tab" aria-selected="false">For data owners</button>
+       </div>
+       <div class="tabs__panel" role="tabpanel">…</div>
+       <div class="tabs__panel" role="tabpanel">…</div>
+     </div>
+
+   Tabs are gray items with no line or fill of their own, so they follow the
+   wash rule (Interaction states): the sunken wash on hover, and the selected
+   tab keeps it, in the headline color. Text in the muted color at rest, 500.
+   Keyboard focus draws the focus line. The row sits on the page or a panel,
+   never inside an outline of its own. */
+.tabs { display: grid; gap: var(--spacing-xl); }
+.tabs__list { display: flex; flex-wrap: wrap; gap: var(--spacing-2xs); }
+.tabs__tab {
+  min-height: 36px; padding: 0 var(--spacing-md); border: 0; border-radius: var(--radius-md); background: transparent;
+  font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-body); color: var(--text-muted); cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+@media (hover: hover) { .tabs__tab:hover { background: var(--surface-sunken); color: var(--text-headline); } }
+.tabs__tab[aria-selected="true"] { background: var(--surface-sunken); color: var(--text-headline); }
+.tabs__tab:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+.tabs__panel[hidden] { display: none; }
+.tabs__panel:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 4px; border-radius: var(--radius-sm); }

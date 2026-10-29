@@ -1,5 +1,6 @@
 /* v2 components, all of them. Each file stands alone; import only the ones a
    page uses. Load the v2 tokens first (src/tokens/v2/tokens.css). */
+@import './page.css';
 @import './layout.css';
 @import './type.css';
 @import './prose.css';
@@ -11,5 +12,15 @@
 @import './link-flow.css';
 @import './color-icon.css';
 @import './hover-card.css';
+@import './card-flow.css';
 @import './link-card.css';
 @import './status-chip.css';
+@import './card.css';
+@import './tag.css';
+@import './table.css';
+@import './tabs.css';
+@import './accordion.css';
+@import './steps.css';
+@import './code-copy.css';
+@import './toc.css';
+@import './pagination.css';
