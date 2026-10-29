@@ -1,0 +1,41 @@
+{
+  "generated": "2026-10-29",
+  "note": "Written by npm run census. Add consumers outside GitHub (Webflow, HubSpot, Docs templates) to manual[].",
+  "consumers": [
+    {
+      "repo": "OpenMined/screamingface-design",
+      "found": [
+        "brand-version.txt (v1) (\u2026/brand-version.txt)"
+      ],
+      "version": "v1"
+    },
+    {
+      "repo": "OpenMined/syft-space",
+      "found": [
+        "brand-version.txt (v1) (\u2026/brand-version.txt)"
+      ],
+      "version": "v1"
+    }
+  ],
+  "manual": [
+    {
+      "name": "openmined.org",
+      "repo": "OpenMined/openmined-org",
+      "kind": "vendored, ongoing",
+      "version": "v1 (its own brand layer; dropped its stamp at the brand split)",
+      "note": "Restyle to v2 after launch, whole site in one pass (2026-10-26)."
+    },
+    {
+      "name": "Google Docs templates",
+      "kind": "derived",
+      "version": "v1",
+      "note": "tools/google-docs/ writes named styles from v1 CSS."
+    },
+    {
+      "name": "OMDS skill (OpenMined/skills)",
+      "kind": "fetches at use time",
+      "version": "v1 paths",
+      "note": "Moves to v2 paths in the skill round."
+    }
+  ]
+}

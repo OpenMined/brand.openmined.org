@@ -1,0 +1,18 @@
+{
+  "$about": "Color pairs the guidance promises a contrast for, checked in both modes by tools/contrast/check.mjs (part of npm run tokens:check). Each rule: foregrounds × backgrounds, a minimum ratio, where the promise is written, and accepted exceptions that name their decision and the floor they may not fall below, so a retune that makes them worse still fails.",
+  "rules": [
+    { "name": "Text roles on every surface", "source": "design/foundations/color.md: every text role reaches 4.5:1 on all four surface levels in both modes",
+      "fg": ["text-headline", "text-body", "text-muted", "{hue}-fg", "{status}-fg"],
+      "bg": ["surface-sunken", "surface-base", "surface-raise-1", "surface-raise-2"], "min": 4.5 },
+    { "name": "The focus line on every surface", "source": "design/decisions/2026-10-27-controls-outline-and-focus-line.md: 3:1 on every surface",
+      "fg": ["line-focus"], "bg": ["surface-sunken", "surface-base", "surface-raise-1", "surface-raise-2"], "min": 3 },
+    { "name": "The emphasis fill's label", "source": "design/decisions/2026-10-28-accent-is-a-hue.md",
+      "fg": ["on-emphasis"], "bg": ["emphasis"], "min": 4.5 },
+    { "name": "White on every key", "source": "design/guidelines/color-fills-use-the-key.md",
+      "fg": ["on-key"], "bg": ["{hue}-key", "{status}-key"], "min": 4.5,
+      "accepted": { "decision": "design/decisions/2026-10-28-four-roles-one-label-on-key.md", "floor": 3.7,
+        "pairs": ["on-key/teal-key", "on-key/green-key", "on-key/amber-key", "on-key/success-key", "on-key/warning-key"] } }
+  ],
+  "hues": ["red", "amber", "green", "teal", "blue", "violet"],
+  "statuses": ["success", "warning", "danger", "info"]
+}

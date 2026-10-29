@@ -11,7 +11,10 @@
     "lint": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\"",
     "lint:fix": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" --fix",
     "tokens": "node tools/palette/generate.mjs && node tools/tokens/build.mjs",
-    "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check",
+    "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check && node tools/contrast/check.mjs",
+    "contrast": "node tools/contrast/check.mjs --report",
+    "impact": "node tools/impact/impact.mjs",
+    "census": "node tools/census/census.mjs",
     "icons:import": "node tools/icons/import.mjs"
   },
   "dependencies": {
