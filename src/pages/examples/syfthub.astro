@@ -1,95 +1,278 @@
 ---
-/** Example: SyftHub's page in v2 (src/lib/examples.ts). Rebuilt from the SyftHub
- *  page review on the served files. Products aren't marked by a color: SyftHub's
- *  button is the solid one, Syft Space's the outlined one, and their steps match. */
-import Example from '../../layouts/Example.astro';
+/** Example: SyftHub's page in v2, as reviewed (the SyftHub page review, tag
+ *  rounds-archive): the same sections, words and layout, built from the system's
+ *  components. Products aren't marked by a color: SyftHub's button and steps are the
+ *  solid ones, Syft Space's the outlined ones. The page shell (header, footer, widths,
+ *  content sections, join panel) is the example kit (src/examples/kit/); each
+ *  section's values come from the review's CSS. */
+import Website from '../../examples/kit/Website.astro';
+import Section from '../../examples/kit/Section.astro';
+import JoinPanel from '../../examples/kit/JoinPanel.astro';
 import HoverCard from '../../components/site/HoverCard.astro';
-import SiteHeader from '../../examples/kit/Header.astro';
-import SiteFooter from '../../examples/kit/Footer.astro';
 import { iconSvg } from '../../lib/icons';
-const icon = (n: string) => iconSvg(n, { size: 32, cls: 'card__icon' });
-const APPS: [string, string, string][] = [['journal', 'Publishers and creators', 'Make your content queryable without giving it up.'], ['doc-magnifying-glass', 'Research synthesis', 'Query trusted sources and get answers with citations.'], ['database', 'Enterprise intelligence', 'Combine internal documentation and expert analysis.'], ['chat-bubble', 'Customer support', 'Answer from your docs, with each answer traced.'], ['dollar', 'Data monetization', 'Share insights from your data without exposing it.'], ['book-stack', 'Internal knowledge base', 'One searchable hub over everything your team knows.']];
-const LEFT = [['Add your data', 'Create a dataset from documents, files or folders.'], ['Create an endpoint', 'Combine the dataset with a model; set access and pricing.'], ['Publish to SyftHub', 'Make it discoverable and adjust policies any time.']];
-const RIGHT = [['Select sources', 'Choose endpoints: data owners, categories or criteria.'], ['Distribute the query', 'Each endpoint answers on its own infrastructure.'], ['Synthesize with citations', 'One response, each claim traced to its source.']];
+import { FOLLOW_JS } from '../../lib/examples';
+
+const SPACE_FEATURES = ['Upload documents or connect vector databases', 'Connect OpenAI, Anthropic, Ollama, or any provider', 'Create queryable RAG endpoints', 'Set access policies and pricing'];
+const HUB_FEATURES = ['Discover knowledge endpoints across the network', 'Query multiple sources with full attribution', 'Federated RAG and Mixture of Experts', 'Transparent source selection'];
+const FLOW: [string, string][] = [['database', 'Your Data'], ['sparks', 'AI Model'], ['code', 'Endpoint'], ['settings', 'Your Rules'], ['globe', 'Controlled Sharing']];
+/** Between the nodes: + in the muted text color; → and = in green, the moving two-tone. */
+const OPS: [string, string | null][] = [['plus', null], ['arrow-right', 'green'], ['plus', null], ['equal', 'green']];
+const CORE: [string, string, string, string][] = [
+  ['database', 'green', 'Datasets', 'Upload documents or connect vector databases like Weaviate, Qdrant, or ChromaDB. Files are automatically indexed for AI search.'],
+  ['sparks', 'amber', 'Models', 'Connect OpenAI, Anthropic, Ollama, vLLM, or any OpenAI-compatible provider. Your choice, your keys.'],
+  ['code', 'red', 'Endpoints', 'Combine datasets and models into queryable RAG endpoints. Configure output as search results, AI summaries, or both.'],
+  ['settings', 'blue', 'Policies', 'Control access, set rate limits, and configure pricing. Your knowledge, your terms.'],
+];
+const SPACE_STEPS = [
+  ['Add Your Data', 'Create a dataset from your documents, files, or folders. Automatic processing and indexing begins immediately.'],
+  ['Create an Endpoint', 'Combine your dataset with an AI model. Configure access policies, pricing, and test with the built-in query interface.'],
+  ['Publish to SyftHub', 'Make your endpoint discoverable. Choose visibility, monitor usage, and adjust policies anytime.'],
+];
+const HUB_STEPS = [
+  ['Select Sources', 'Choose which endpoints to query—specific data owners, categories, or criteria. Selection is explicit and transparent.'],
+  ['Distribute Query', 'Query goes to all selected endpoints simultaneously. Each processes on its own infrastructure—data never leaves the owner.'],
+  ['Synthesize with Citations', 'Responses are combined into a coherent answer with inline citations linking each claim to its source.'],
+];
+const APPS: [string, string, string][] = [
+  ['journal', 'Publishers & Creators', 'Make your content AI-queryable for your audience. Let readers ask questions and get answers drawn directly from your work while maintaining attribution.'],
+  ['chat-bubble', 'Research Synthesis', 'Query multiple research institutions and academic databases to synthesize findings on specific topics with full citations.'],
+  ['light-bulb', 'Enterprise Intelligence', 'Combine insights from internal documentation, industry reports, and expert analysis for strategic decisions.'],
+  ['code', 'Customer Support', 'Build an AI assistant that knows your product documentation, answering customer questions accurately without human intervention.'],
+  ['dollar', 'Data Monetization', 'Share valuable insights from your data without exposing the underlying information. Charge for access on your terms.'],
+  ['view-structure-up', 'Internal Knowledge Base', "Turn your team's scattered documentation into a searchable knowledge hub that anyone on the team can query."],
+];
+const BENEFITS: [string, string, string][] = [
+  ['lock', 'Privacy-First', 'Your data never leaves your control. Queries are processed on your infrastructure, and only results are shared.'],
+  ['flash', 'Selective Sharing', 'Share insights, not raw data. Control exactly what information is accessible through your endpoints.'],
+  ['dollar', 'Monetization', 'Set your own pricing and access rules. Get paid when your knowledge is used.'],
+  ['globe', 'Decentralized Network', 'Part of a growing network while maintaining complete independence. No single point of control.'],
+];
+/* The set has no Python or Node marks yet (a known gap): code icons stand in. */
+const TOOLS: [string, string, string, string][] = [
+  ['network', 'Syft MCP', 'Model Context Protocol', 'Connect AI models to Spaces via the Model Context Protocol for seamless integration.'],
+  ['code-brackets-square', 'Python SDK', 'syft-sdk', 'Query and integrate Spaces in Python applications with full type support.'],
+  ['code', 'TypeScript SDK', '@syfthub/sdk', 'Full-featured SDK for Node.js and browser environments.'],
+];
+const ic = (n: string, size = 32) => iconSvg(n, { size });
+const colorIcon = (name: string, hue: string, size = 32) => {
+  const svg = iconSvg(name, { size });
+  return `<span class="color-icon" style="--ci-stroke:url(#tt-${hue}) var(--${hue}-key)"><span class="color-icon__glow" aria-hidden="true">${svg}</span>${svg}</span>`;
+};
+const op = (i: number) => { const [n, hue] = OPS[i]; return hue ? colorIcon(n, hue) : ic(n); };
 ---
-<Example slug="syfthub" init={`omds.themeToggle(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards();`}>
-  <style is:inline slot="head">
-    .band { padding-block: var(--spacing-section); }
-    .center { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); text-align: center; }
-    .center h1, .center h2 { margin: var(--spacing-sm) 0 var(--spacing-lg); }
-    .center p { margin: 0; }
-    .actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
-    .center .actions { justify-content: center; margin-top: var(--spacing-2xl); }
-    .hero { padding-block: var(--spacing-section) var(--spacing-5xl); }
-    .products .card .actions { margin-top: auto; }
-    .products ul { margin: 0; padding-left: var(--spacing-xl); }
-    .paths { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-5xl); }
-    .paths h3 { margin: 0 0 var(--spacing-3xl); }
-    @media (max-width: 767px) { .paths { grid-template-columns: 1fr; } }
-  </style>
-  <SiteHeader current="SyftHub" />
-  <main>
-    <section class="hero">
-      <div class="container center">
-        <p class="text-eyebrow">Protocol for collective intelligence</p>
-        <h1>Make your knowledge queryable without giving it up</h1>
-        <p class="text-lead">SyftHub and Syft Space let you create AI-powered endpoints that others can query while your data stays under your control.</p>
-        <div class="actions"><a class="btn btn--solid" href="#">Open SyftHub</a><a class="btn" href="#">GitHub</a></div>
-      </div>
-      <div class="container card-grid">
-        <HoverCard href="#" icon="flash" hue="amber" title="Quickstart" text="Up and running in five minutes" />
-        <HoverCard href="#" icon="download" hue="teal" title="Installation" text="Desktop app or Docker" />
-        <HoverCard href="#" icon="view-structure-up" hue="blue" title="Core concepts" text="The building blocks" />
-      </div>
-    </section>
+<Website slug="syfthub" current="Solutions" init={`omds.themeToggle(); omds.twoTone(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
+  <Fragment slot="head">
+    <script type="module" src="/embeds/om-mesh.js" is:inline></script>
+    <style is:inline>
+      .syh-eyebrow { margin: 0 0 var(--spacing-md); font-weight: var(--font-weight-medium); text-align: center; }
+      .syh-btn-icon { display: inline-flex; align-items: center; gap: var(--spacing-sm); }
+      /* Hero: centered at 10 columns, the subhead in the muted text color */
+      .hero { padding: var(--spacing-2xl) 0 var(--spacing-section); text-align: center; }
+      .hero__eyebrow { display: inline-flex; margin: 0 0 var(--spacing-2xl); }
+      .hero h1 { margin: 0 0 var(--spacing-sm); }
+      .hero__sub { max-width: 40em; margin: 0 auto var(--spacing-5xl); color: var(--text-muted); }
+      .hero__actions, .syh-cta__actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px var(--spacing-xl); }
+      /* Quick links: three hover cards */
+      .links { padding-bottom: var(--spacing-section); }
+      .links__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-xl); }
+      /* Two products: Syft Space outlined, SyftHub solid */
+      .products { padding-block: var(--spacing-section); }
+      .products h3 { margin: 0 0 var(--spacing-xl); text-align: center; }
+      .products__intro { max-width: 35em; margin: 0 auto var(--spacing-section); text-align: center; }
+      .products__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-xl); }
+      .products .card { padding: var(--spacing-4xl); border-radius: var(--radius-md); }
+      .products h4, .products h6, .products .card p { margin: 0; }
+      .products ul { display: flex; flex: 1; flex-direction: column; gap: var(--spacing-sm); margin: 0; padding-left: var(--spacing-xl); }
+      .products .btn { align-self: flex-start; }
+      /* How it works: five levels joined by set icons */
+      .flow { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-lg); }
+      .flow__node { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-md); min-width: 150px; padding: var(--spacing-3xl) var(--spacing-lg); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); color: var(--text-headline); text-align: center; }
+      .flow__node span { color: var(--text-body); }
+      .flow__op { display: inline-flex; color: var(--text-muted); }
+      /* Icon cards: stacked (icon over title) or in a row (icon beside) */
+      .icard { flex-direction: row; gap: var(--spacing-2xl); border-radius: var(--radius-md); }
+      .icard--stacked { flex-direction: column; gap: var(--spacing-lg); }
+      .icard > div { display: flex; flex-direction: column; gap: var(--spacing-md); }
+      .icard h5, .icard p { margin: 0; }
+      .icard > svg, .icard > .color-icon { flex: none; color: var(--text-body); }
+      .band { margin-block: 0; padding-block: var(--spacing-section); }
+      .card-grid--4 { gap: var(--spacing-xl); }
+      .tools code { padding: 0; background: none; font-size: 0.85em; color: var(--text-muted); }
+      /* Two paths, side by side */
+      .paths { padding-block: var(--spacing-section); }
+      .paths h3 { margin: 0 0 var(--spacing-xl); text-align: center; }
+      .paths__intro { max-width: var(--kit-col-8); margin: 0 auto var(--spacing-section); text-align: center; }
+      .paths__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-section); align-items: start; }
+      .paths__label { margin: 0 0 var(--spacing-sm); font-weight: var(--font-weight-medium); }
+      .paths h4 { margin: 0 0 var(--spacing-sm); }
+      .paths__sub { margin: 0 0 var(--spacing-3xl); color: var(--text-muted); }
+      .paths .steps__title { margin: 0 0 var(--spacing-lg); font: var(--font-weight-regular) clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max))/var(--line-height-h5) var(--font-body); }
+      .quote { display: flex; flex-direction: column; gap: var(--spacing-lg); margin-top: var(--spacing-3xl); padding: var(--spacing-3xl); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+      .quote p { margin: 0; font-style: italic; }
+      .quote footer { display: flex; flex-direction: column; gap: var(--spacing-xs); font-size: var(--font-size-sm); color: var(--text-muted); }
+      /* "What if…": a panel in the opposite mode */
+      .callout { padding-bottom: var(--spacing-section); }
+      .callout__panel { max-width: var(--kit-col-8); margin-inline: auto; padding: var(--spacing-4xl); border-radius: var(--radius-md); background: var(--surface-base); color: var(--text-body); }
+      .callout__panel h4 { margin: 0 0 var(--spacing-xl); }
+      .callout__panel p { margin: 0; }
+      /* Closing call to action: buttons */
+      .syh-cta { padding-block: var(--spacing-section); }
+      .syh-cta__in { max-width: var(--kit-col-6); margin-inline: auto; text-align: center; }
+      .syh-cta h4, .syh-cta p { margin: 0 0 var(--spacing-2xl); }
+      .kit-join .btn { width: 100%; }
+      .kit-join .fm { gap: var(--spacing-xl); }
+      @media (max-width: 991px) {
+        .hero h1 { margin-bottom: var(--spacing-2xl); }
+        .card-grid, .card-grid--2, .card-grid--4 { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 767px) {
+        .links__grid, .products__grid, .paths__grid { grid-template-columns: 1fr; }
+        .flow { flex-direction: column; }
+        .flow__node { width: 100%; max-width: 280px; }
+        .flow__op { transform: rotate(90deg); }
+      }
+    </style>
+  </Fragment>
 
-    <section class="band products">
-      <div class="container">
-        <header class="center"><p class="text-eyebrow">The ecosystem</p><h2>Two products, one vision</h2><p>Together they create a network where knowledge flows without anyone giving up control.</p></header>
-        <div class="card-grid card-grid--2">
-          <div class="card"><p class="text-small">Syft Space</p><h3 class="card__title">Your personal AI-powered knowledge hub</h3><ul><li>Upload documents or connect vector databases</li><li>Connect a model of your choice</li><li>Set access policies and pricing</li></ul><div class="actions"><a class="btn" href="#">Deploy a Space</a></div></div>
-          <div class="card"><p class="text-small">SyftHub</p><h3 class="card__title">The directory for collective intelligence</h3><ul><li>Discover knowledge endpoints across the network</li><li>Query many sources with full attribution</li><li>Federated RAG and mixture of experts</li></ul><div class="actions"><a class="btn btn--solid" href="#">Explore SyftHub</a></div></div>
+  <section class="hero">
+    <div class="container kit-col-10">
+      <p class="hero__eyebrow">Protocol for Collective Intelligence</p>
+      <h1>Make Your Knowledge Queryable Without Giving It Up</h1>
+      <h6 class="hero__sub">SyftHub &amp; Syft Space let you create AI-powered endpoints that others can query while your data stays under your control. Share insights, not raw data.</h6>
+      <div class="hero__actions">
+        <a class="btn btn--solid" href="#">Open SyftHub -&gt;</a>
+        <a class="btn syh-btn-icon" href="#"><Fragment set:html={ic('github', 18)} />Github</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="links">
+    <div class="container links__grid">
+      <HoverCard href="#" icon="flash" hue="green" title="Quickstart" text="Get up and running in 5 minutes" />
+      <HoverCard href="#" icon="download" hue="amber" title="Installation" text="Desktop app or Docker deployment" />
+      <HoverCard href="#" icon="view-structure-up" hue="red" title="Core Concepts" text="Learn the building blocks" />
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="container">
+      <p class="syh-eyebrow">The Ecosystem</p>
+      <h3>Two Products, One Vision</h3>
+      <p class="products__intro">Together, Syft Space and SyftHub create a decentralized network where knowledge flows without sacrificing control.</p>
+      <div class="products__grid">
+        <div class="card">
+          <h4>Syft Space</h4>
+          <h6>Your Personal AI-Powered Knowledge Hub</h6>
+          <p>A decentralized node operated by anyone with knowledge to share. You add your documents, connect an AI model, and create endpoints that others can query. You control who gets access, what they can ask, and whether they pay.</p>
+          <ul>{SPACE_FEATURES.map(f => <li>{f}</li>)}</ul>
+          <a class="btn" href="#">Deploy a Space -&gt;</a>
+        </div>
+        <div class="card">
+          <h4>SyftHub</h4>
+          <h6>The Directory for Collective Intelligence</h6>
+          <p>A registry that maps who has knowledge, what they're willing to share, and how to reach them. No middleman holding data—just the connective tissue that lets seekers find what they need and providers share on their terms.</p>
+          <ul>{HUB_FEATURES.map(f => <li>{f}</li>)}</ul>
+          <a class="btn btn--solid" href="#">Explore SyftHub -&gt;</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band">
-      <div class="container">
-        <header class="center"><p class="text-eyebrow">How it works</p><h2>From your data to the network</h2></header>
-        <div class="paths">
-          <div><p class="text-small">Syft Space</p><h3>Get queryable in three steps</h3>
-            <ol class="steps steps--outline steps--connector">{LEFT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}</ol></div>
-          <div><p class="text-small">SyftHub</p><h3>Query the network</h3>
-            <ol class="steps steps--connector">{RIGHT.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h4 class="steps__title">{t}</h4><p>{b}</p></div></li>)}</ol></div>
+  <Section eyebrow="The Flow" heading="How It Works" as="h3" width="col-10">
+    <div class="flow">
+      {FLOW.map(([n, label], i) => <>
+        <div class="flow__node"><Fragment set:html={ic(n, 40)} /><span>{label}</span></div>
+        {OPS.length > i && <span class="flow__op" aria-hidden="true" set:html={op(i)} />}
+      </>)}
+    </div>
+  </Section>
+
+  <Section heading="Core Components" as="h4" intro="Everything you need to build and share AI-powered knowledge endpoints." class="band">
+    <div class="card-grid card-grid--4">
+      {CORE.map(([n, hue, t, b]) => <div class="card icard icard--stacked"><Fragment set:html={colorIcon(n, hue)} /><div><h5>{t}</h5><p>{b}</p></div></div>)}
+    </div>
+  </Section>
+
+  <section class="paths">
+    <div class="container">
+      <p class="syh-eyebrow">How it Works</p>
+      <h3>From Your Data to the Network</h3>
+      <p class="paths__intro">Two paths, one ecosystem—publish your knowledge or query the collective</p>
+      <div class="paths__grid">
+        <div>
+          <p class="paths__label">Syft Space</p>
+          <h4>Get Queryable in 3 Steps</h4>
+          <p class="paths__sub">Publish your knowledge to the network</p>
+          <ol class="steps steps--connector steps--outline">{SPACE_STEPS.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h5 class="steps__title">{t}</h5><p>{b}</p></div></li>)}</ol>
+        </div>
+        <div>
+          <p class="paths__label">SyftHub</p>
+          <h4>Query the Network</h4>
+          <p class="paths__sub">Pull insights from multiple sources with full attribution</p>
+          <ol class="steps steps--connector">{HUB_STEPS.map(([t, b], i) => <li class="steps__item"><span class="steps__num" aria-hidden="true">{i + 1}</span><div><h5 class="steps__title">{t}</h5><p>{b}</p></div></li>)}</ol>
+          <div class="quote">
+            <p>"Climate change is accelerating faster than predicted<sup>1</sup> with ice sheet loss contributing 40% more to sea level rise.<sup>2</sup>"</p>
+            <footer><span><sup>1</sup> Nature Climate Change – Oxford</span><span><sup>2</sup> Journal of Glaciology – MIT</span></footer>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band">
-      <div class="container">
-        <header class="center"><p class="text-eyebrow">Applications</p><h2>What can you build?</h2></header>
-        <div class="card-grid">{APPS.map(([n, t, b]) => <div class="card card--icon"><Fragment set:html={icon(n)} /><div><h3 class="card__title">{t}</h3><p>{b}</p></div></div>)}</div>
-      </div>
-    </section>
+  <Section eyebrow="Applications" heading="What Can You Build?" as="h3" class="band">
+    <div class="card-grid">
+      {APPS.map(([n, t, b]) => <div class="card icard icard--stacked"><Fragment set:html={ic(n)} /><div><h5>{t}</h5><p>{b}</p></div></div>)}
+    </div>
+  </Section>
 
-    <section class="band">
-      <div class="container">
-        <header class="center"><p class="text-eyebrow">Build with Syft</p><h2>Developer tools</h2></header>
-        <div class="card-grid">
-          <a class="lcard" href="#"><span class="lcard__title">Syft MCP <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">Connect AI models to Spaces with the Model Context Protocol.</span></a>
-          <a class="lcard" href="#"><span class="lcard__title">Python SDK <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">Build and manage Spaces in Python.</span></a>
-          <a class="lcard" href="#"><span class="lcard__title">TypeScript SDK <span class="lcard__arrow" set:html={iconSvg('arrow-right', { size: 16 })} /></span><span class="lcard__text">A full SDK for Node.js and the browser.</span></a>
-        </div>
-      </div>
-    </section>
+  <Section eyebrow="Why SyftHub & Space" heading="Key Benefits" as="h3" width="col-10">
+    <div class="card-grid card-grid--2">
+      {BENEFITS.map(([n, t, b]) => <div class="card icard"><Fragment set:html={ic(n)} /><div><h5>{t}</h5><p>{b}</p></div></div>)}
+    </div>
+  </Section>
 
-    <section class="band">
-      <div class="container center">
-        <h2>Ready to make your knowledge queryable?</h2>
-        <p>Join the network of knowledge providers and seekers building the future of AI-powered information sharing.</p>
-        <div class="actions"><a class="btn btn--solid" href="#">Open SyftHub</a><a class="btn" href="#">Deploy a Space</a><a class="btn" href="#">Read the docs</a></div>
+  <Section eyebrow="Build With Syft" heading="Developer Tools" as="h3" class="band tools">
+    <div class="card-grid">
+      {TOOLS.map(([n, t, tag, b]) => <div class="card icard icard--stacked"><Fragment set:html={ic(n)} /><div><h5>{t}</h5><p><code>{tag}</code></p><p>{b}</p></div></div>)}
+    </div>
+  </Section>
+
+  <section class="callout">
+    <div class="container">
+      <div class="callout__panel" data-section="invert">
+        <h4>What if everyone's knowledge made everyone's AI smarter?</h4>
+        <p>A hospital's research improves a journalist's questions. A publisher's archive sharpens a scientist's model. The best AI would draw on all human knowledge—not just what's been scraped and frozen into weights, but living expertise that updates, corrects itself, and grows. That's only possible if contributing knowledge doesn't mean losing it.</p>
       </div>
-    </section>
-  </main>
-  <SiteFooter />
-</Example>
+    </div>
+  </section>
+
+  <section class="syh-cta">
+    <div class="container syh-cta__in">
+      <h4>Ready to Make Your Knowledge Queryable?</h4>
+      <p>Join the network of knowledge providers and seekers building the future of AI-powered information sharing.</p>
+      <div class="syh-cta__actions">
+        <a class="btn btn--solid" href="#">Open SyftHub -&gt;</a>
+        <a class="btn" href="#">Deploy a Space</a>
+        <a class="btn" href="#">Read the Docs</a>
+      </div>
+    </div>
+  </section>
+
+  <JoinPanel heading="Talk to Our Team" body="Find out more about OpenMined">
+    <form class="fm" onsubmit="return false">
+      <div class="fm-grid">
+        <div class="fld fld--full"><input class="ctl" aria-label="First name" placeholder="First name" autocomplete="given-name"></div>
+        <div class="fld fld--full"><input class="ctl" aria-label="Last name" placeholder="Last name" autocomplete="family-name"></div>
+        <div class="fld fld--full"><input class="ctl" type="email" aria-label="Email" placeholder="Email" autocomplete="email" required aria-required="true"></div>
+        <div class="fld fld--full"><textarea class="ctl" rows="3" aria-label="Provide a brief description of the problem you are trying to solve" placeholder="Provide a brief description of the problem you are trying to solve"></textarea></div>
+      </div>
+      <ul class="opts">
+        <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get an OpenMined Slack Community invite</span></label></li>
+      </ul>
+      <button class="btn btn--solid" type="submit">Request a Conversation</button>
+    </form>
+    <Fragment slot="fine">
+      <p>Subscribing confirms you agree with our <a href="#">privacy policy</a>.</p>
+    </Fragment>
+  </JoinPanel>
+</Website>

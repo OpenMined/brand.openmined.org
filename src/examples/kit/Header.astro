@@ -29,7 +29,7 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
   <button type="button" class="switch sh__mode" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
 </header>
 <style is:inline>
-  .sh { position: relative; padding-block: var(--spacing-4xl) var(--spacing-xl); }
+  .sh { position: relative; min-height: 128px; padding-block: var(--spacing-4xl); }  /* the site's header height: 128px, 88px on phones */
   .sh__in { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-xl); }
   .sh__mark { display: block; height: 48px; width: auto; }
   .sh__mark--dark { display: none; }
@@ -46,5 +46,5 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
   .sh__cta { min-height: 40px; padding-block: 0; }
   .sh__mode { position: absolute; top: var(--spacing-xs); right: var(--spacing-md); transform: scale(0.75); transform-origin: top right; }
   @media (max-width: 1199px) { .sh__social { display: none; } }
-  @media (max-width: 991px) { .sh__nav { display: none; } }
+  @media (max-width: 991px) { .sh { min-height: 88px; padding-block: var(--spacing-xl); } .sh__nav { display: none; } }
 </style>
