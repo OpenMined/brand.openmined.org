@@ -1,10 +1,10 @@
 ---
 /** Example: a landing section (src/lib/examples.ts). From the home page review's
  *  federated-network section, refined to current rules. */
-import Example from '../../layouts/Example.astro';
+import Website from '../../examples/kit/Website.astro';
 import HoverCard from '../../components/site/HoverCard.astro';
 ---
-<Example slug="landing-section" init={`omds.buttonHover(); omds.hoverCards(); omds.cardFlows();`}>
+<Website chrome={false} slug="landing-section" init={`omds.buttonHover(); omds.hoverCards(); omds.cardFlows();`}>
   <style is:inline slot="head">
     .ex { padding-block: var(--spacing-section); }
     .region { display: grid; gap: var(--spacing-4xl); padding: var(--spacing-4xl); border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); }
@@ -38,4 +38,4 @@ import HoverCard from '../../components/site/HoverCard.astro';
       </div>
     </div>
   </section>
-</Example>
+</Website>

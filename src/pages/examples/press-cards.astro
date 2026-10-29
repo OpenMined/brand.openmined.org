@@ -1,10 +1,10 @@
 ---
 /** Example: press cards (src/lib/examples.ts). From the home page review's press
  *  room: logos supplied as images, on white plates. */
-import Example from '../../layouts/Example.astro';
+import Website from '../../examples/kit/Website.astro';
 const PRESS = [['microsoft', 'Expanding our commitments to countering violent extremism online'], ['pytorch', 'OpenMined and PyTorch partner to launch fellowship funding for privacy-preserving ML'], ['royal-society', 'From privacy to partnership: the role of PETs in data governance'], ['nist', 'Winners announced in first phase of the US-UK PETs prize challenges'], ['reddit', 'Introducing a new subreddit for researchers'], ['ssir', 'Reimagining our high-tech world']];
 ---
-<Example slug="press-cards" init={`omds.linkCards();`}>
+<Website chrome={false} slug="press-cards" init={`omds.linkCards();`}>
   <style is:inline slot="head">
     .ex { padding-block: var(--spacing-section); }
     .ex h2 { margin: 0 0 var(--spacing-3xl); }
@@ -22,4 +22,4 @@ const PRESS = [['microsoft', 'Expanding our commitments to countering violent ex
       </div>
     </div>
   </section>
-</Example>
+</Website>

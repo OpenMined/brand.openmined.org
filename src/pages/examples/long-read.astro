@@ -1,9 +1,9 @@
 ---
 /** Example: a long read (src/lib/examples.ts): the article zones, prose rhythm,
  *  breakouts, pull quote, table, code and a table of contents. */
-import Example from '../../layouts/Example.astro';
+import Website from '../../examples/kit/Website.astro';
 ---
-<Example slug="long-read" init={`omds.linkCards(); omds.codeCopy(); omds.toc();`}>
+<Website chrome={false} slug="long-read" init={`omds.linkCards(); omds.codeCopy(); omds.toc();`}>
   <style is:inline slot="head">
     .ex { padding-block: var(--spacing-section); }
     .ex__hero { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); }
@@ -55,4 +55,4 @@ syft-space init --data ./records</code></pre>
       <blockquote><p>Attribution is what lets data be shared without being given away.</p><cite>A research partner</cite></blockquote>
     </article>
   </main>
-</Example>
+</Website>
