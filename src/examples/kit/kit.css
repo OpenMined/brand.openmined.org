@@ -1,0 +1,50 @@
+/* ════════════════════════════════════════════════════════════════════
+   EXAMPLE KIT — not part of the OpenMined Design System
+   ════════════════════════════════════════════════════════════════════
+   The page shell the website examples share, so they agree with each other:
+   openmined.org's widths, section rhythm, generic content section and join
+   panel as reviewed (page reviews, tag rounds-archive). It is illustration, not
+   rules: these choices haven't been made as system decisions, and the live site
+   is one iteration of a website. The system is /omds.css; where this differs
+   from the guidance, follow the guidance. Decision 2026-10-29, examples show
+   the rules. v2 tokens only; the site's own widths are named here. */
+
+:root {
+  /* The site's column widths on the 1300px page (12 columns, 20px gap). */
+  --kit-col-10: 1080px;
+  --kit-col-8: 860px;
+  --kit-col-6: 640px;
+  /* The space under the home hero, the site's largest section gap. */
+  --kit-spacing-max: 115px;
+}
+
+/* Display type never ends on one word; body copy avoids a lone last word. */
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+p, li, blockquote, figcaption, dd { text-wrap: pretty; }
+
+/* Narrower content, centered: 10, 8 or 6 of the 12 columns. */
+.kit-col-10 { max-width: var(--kit-col-10); margin-inline: auto; }
+.kit-col-8 { max-width: var(--kit-col-8); margin-inline: auto; }
+.kit-col-6 { max-width: var(--kit-col-6); margin-inline: auto; }
+
+/* ── Content section: a head (eyebrow, heading, intro) over a body ──── */
+.kit-section { margin-block: var(--spacing-section); }
+.kit-section__head { margin-bottom: var(--spacing-5xl); }
+.kit-section__head--tight { margin-bottom: var(--spacing-lg); }
+.kit-section__head--center { text-align: center; }
+.kit-section__head--center :is(.kit-section__intro, .kit-section__head-in) { margin-inline: auto; }
+.kit-section__eyebrow { display: inline-flex; align-items: center; gap: var(--spacing-sm); margin: 0 0 var(--spacing-md); color: var(--text-body); }
+.kit-section__heading { margin: 0 0 var(--spacing-lg); }
+.kit-section__intro { max-width: var(--kit-col-8); margin: 0; }
+@media (max-width: 767px) { .kit-section__intro { max-width: none; } }
+
+/* ── Join panel: a raised panel over the gradient map ─────────────────── */
+.kit-join { position: relative; isolation: isolate; display: flex; align-items: center; justify-content: center; min-height: 500px; padding-inline: var(--spacing-xl); }
+.kit-join > om-mesh { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+.kit-join__panel { display: flex; flex-direction: column; align-items: center; gap: var(--spacing-2xl); width: 100%; max-width: 510px; margin-block: var(--spacing-section); padding: var(--spacing-4xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); text-align: center; }
+.kit-join__icon { width: 50px; height: 50px; }
+.kit-join__panel h2 { margin: 0; font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max)); }
+.kit-join__panel p { margin: 0; }
+.kit-join__form { width: 100%; text-align: left; }
+.kit-join__fine { color: var(--text-muted); font-size: var(--font-size-sm); }
+.kit-join__fine p + p { margin-top: var(--spacing-md); }

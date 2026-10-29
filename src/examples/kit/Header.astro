@@ -1,9 +1,8 @@
 ---
-/** Example partial: openmined.org's header as reviewed (page review, rounds archive):
- *  logo, nav as gray items, search and social icon buttons, one solid button, and a
- *  small color mode switch. A pattern for the full-page examples, not a component:
- *  each site owns its header. */
-import { iconSvg } from '../lib/icons';
+/** Example kit (README.md): openmined.org's header as reviewed (page review, rounds
+ *  archive): logo, nav as gray items, search and social icon buttons, one solid button,
+ *  and a small color mode switch. Not system: each site owns its header. */
+import { iconSvg } from '../../lib/icons';
 interface Props { current?: string }
 const { current } = Astro.props;
 const NAV = ['Home', 'Foundation', 'Research', 'Blog', 'Careers'];

@@ -3,10 +3,11 @@
  *  rounds-archive): the same sections, words, marks and layout, built from the
  *  system's components and embeds. Org logos are the page's own (public/examples/home/).
  *  The hero's two outlined diamonds and labels are drawn here around <om-diamond>; the
- *  live site draws them in its own embed. */
-import Example from '../../layouts/Example.astro';
-import SiteHeader from '../../examples/SiteHeader.astro';
-import SiteFooter from '../../examples/SiteFooter.astro';
+ *  live site draws them in its own embed. The page shell (header, footer, widths, join
+ *  panel) is the example kit (src/examples/kit/); each section's values come from the
+ *  review's CSS. */
+import Website from '../../examples/kit/Website.astro';
+import JoinPanel from '../../examples/kit/JoinPanel.astro';
 import ORGS from '../../examples/data/organizations.json';
 import { readFileSync } from 'node:fs';
 import { iconSvg } from '../../lib/icons';
@@ -62,21 +63,22 @@ const colorIcon = (name: string, hue: string) => {
   return `<span class="color-icon" style="--ci-stroke:url(#tt-${hue}) var(--${hue}-key)"><span class="color-icon__glow" aria-hidden="true">${svg}</span>${svg}</span>`;
 };
 ---
-<Example slug="home" init={`omds.themeToggle(); omds.twoTone(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
+<Website slug="home" current="Home" init={`omds.themeToggle(); omds.twoTone(); omds.buttonHover(); omds.hoverCards(); omds.cardFlows(); omds.linkCards(); omds.fieldLights();\n${FOLLOW_JS}`}>
   <Fragment slot="head">
     <script type="module" src="/embeds/om-stream.js" is:inline></script>
     <script type="module" src="/embeds/om-diamond.js" is:inline></script>
     <script type="module" src="/embeds/om-mesh.js" is:inline></script>
     <style is:inline>
-      .inner { max-width: 1080px; margin-inline: auto; }
-      /* Hero */
-      .hero { position: relative; padding-block: var(--spacing-xl) calc(2 * var(--spacing-section) + var(--spacing-5xl)); }
-      .hero__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+      main { position: relative; isolation: isolate; }
+      /* Hero: text and the diamond side by side over the colorflow, which bleeds below */
+      .hero { position: relative; padding: var(--spacing-xl) 0 var(--kit-spacing-max); margin-bottom: var(--kit-spacing-max); }
+      .hero__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; margin-bottom: var(--spacing-lg); }
       .hero h1 { margin: 0 0 var(--spacing-3xl); font-size: clamp(var(--font-size-h1-min), 4.69vw, 2.75rem); }
       .hero__taglines { margin: 0 0 var(--spacing-4xl); }
-      .hero__taglines span { display: block; }
+      .hero__taglines span { display: block; text-wrap: balance; }
       .hero__help { display: flex; flex-wrap: wrap; gap: 0 var(--spacing-lg); }
       .hero__help .link-text { font-weight: var(--font-weight-semibold); }
+      /* The diamond at the review's proportions: its 760×620 stage, cropped */
       .hero__visual { position: relative; aspect-ratio: 1.237; }
       .hero__visual om-diamond { position: absolute; z-index: 1; left: 50%; top: 50%; width: 108.8%; transform: translate(-50%, -50%); pointer-events: none; }
       .hero__diamond { position: absolute; top: 50%; width: 44.7%; aspect-ratio: 1; border: var(--stroke-sm) solid var(--text-headline); transform: translate(-50%, -50%) rotate(45deg); }
@@ -85,104 +87,111 @@ const colorIcon = (name: string, hue: string) => {
       .hero__label { position: absolute; top: 50%; transform: translateY(-50%); font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-mono); color: var(--text-headline); z-index: 3; white-space: nowrap; }
       .hero__label--l { left: 5.9%; }
       .hero__label--r { right: 5.9%; }
-      .hero__bio { max-width: 735px; margin: var(--spacing-lg) auto 0; text-align: center; }
+      .hero__bio { max-width: 735px; margin: 0 auto; text-align: center; }
       .hero__bio p { margin: 0 0 var(--spacing-4xl); }
-      .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-xl); }
-      .hero__stream { position: absolute; left: 0; right: 0; bottom: -320px; z-index: -1; pointer-events: none; }
+      .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-sm) var(--spacing-xl); }
+      .hero__stream { position: absolute; left: 0; right: 0; bottom: calc(-100vw / 2 * 0.59); z-index: -1; pointer-events: none; }
       .hero__stream om-stream { display: block; width: 100%; }
-      main { position: relative; isolation: isolate; }
-      /* The federated network: an outlined region (Outlines are lines) */
-      .fed { border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-md); }
-      .fed__part { padding: var(--spacing-5xl) var(--spacing-3xl); }
-      .fed__part + .fed__part { border-top: var(--stroke-sm) solid var(--line-strong); }
-      .fed__intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-3xl); align-items: start; padding-block: var(--spacing-4xl); }
-      .fed__intro h2 { margin: var(--spacing-2xs) 0 0; }
-      .fed__intro p { margin: 0 0 var(--spacing-lg); }
-      .fed__label { margin: 0 0 var(--spacing-3xl); text-align: center; color: var(--text-body); }
-      .fed__subnets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-3xl); }
-      .fed__subnets h3, .fed__pillars h3 { margin: 0 0 var(--spacing-xl); font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); font-family: var(--font-display); }
-      .fed__subnets p, .fed__pillars p { margin: 0 0 var(--spacing-3xl); }
-      .fed__subnets .link-text { font-weight: var(--font-weight-regular); }
-      .fed__pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-2xl); margin-bottom: var(--spacing-3xl); }
-      .fed__pillars .color-icon { display: inline-block; margin-bottom: var(--spacing-lg); }
-      .fed__pillars .color-icon svg { width: 32px; height: 32px; }
-      .subnet-card .hcard__text { gap: var(--spacing-sm); }
-      .subnet-card .hcard__text strong.h4 { margin: 0 0 var(--spacing-xs); font-family: var(--font-display); font-weight: var(--font-weight-regular); }
-      /* Partnerships */
-      .band { padding-block: var(--spacing-5xl); }
-      .partners__label { margin: 0 0 var(--spacing-3xl); text-align: center; }
-      .partners ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-3xl) var(--spacing-4xl); margin: 0; padding: 0; list-style: none; color: var(--text-body); }
-      .partners li { display: flex; align-items: center; height: 48px; }
-      .partners li :is(svg, img) { height: 100%; max-width: 160px; width: auto; }
-      /* Press room */
-      .press h2 { margin: 0; padding-bottom: var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
-      .press .card-grid { margin-top: var(--spacing-3xl); }
-      .press .lcard__logo :is(svg, img) { position: absolute; inset: 12% 5% 34%; width: 90%; height: 54%; }
-      .press .lcard--logo { color: var(--gray-900); min-height: 320px; }
-      .explore { text-align: center; padding-bottom: var(--spacing-section); }
-      .explore h2 { margin: 0 0 var(--spacing-xl); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
-      /* Call to action over the gradient map */
-      .cta { position: relative; isolation: isolate; overflow: hidden; padding-block: var(--spacing-section); }
-      .cta__bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
-      .cta__panel { max-width: 510px; margin: 0 auto; padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-2xl); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-2); text-align: center; }
-      .cta__panel > img { width: 48px; height: 48px; }
-      .cta__panel h2 { margin: var(--spacing-lg) 0 var(--spacing-xl); font-size: clamp(var(--font-size-h3-min), 2.77vw, 2.25rem); }
-      .cta__panel > p { margin: 0 0 var(--spacing-2xl); }
-      .cta__panel .fm { text-align: left; gap: var(--spacing-xl); }
-      .cta__panel .btn { width: 100%; }
-      .cta__fine { margin: var(--spacing-lg) 0 0; }
-      .cta__fine p { margin: 0 0 var(--spacing-xs); }
+      /* The federated network: an outlined region on the 12-column grid (Outlines are lines) */
+      .fed { position: relative; z-index: 2; }
+      .fed__card { border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); overflow: hidden; }
+      .fed__row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-block: var(--spacing-5xl); }
+      .fed__row + .fed__row { border-top: var(--stroke-sm) solid var(--line-strong); }
+      .fed__inner { grid-column: 2 / 12; }
+      .fed__intro { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--spacing-3xl); align-items: start; }
+      .fed__intro > div:first-child p { margin: var(--spacing-3xl) 0 0; }
+      .fed__intro h2 { margin: 0; }
+      .fed__intro > div:last-child { margin-top: var(--spacing-3xl); }
+      .fed__intro > div:last-child p { margin: 0 0 var(--spacing-lg); }
+      .fed__intro > div:last-child p:last-child { margin-bottom: 0; }
+      .fed__label { margin: 0 0 var(--spacing-3xl); text-align: center; }
+      .fed__subnets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-3xl); align-items: start; }
+      .fed__subnet { display: flex; flex-direction: column; justify-content: space-between; gap: var(--spacing-2xl); min-height: 256px; }
+      .fed__subnet p { margin: 0; }
+      .fed__subnet .link-text { align-self: flex-start; font-weight: var(--font-weight-regular); }
+      .fed h3 { margin: 0 0 var(--spacing-lg); font-family: var(--font-body); font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); line-height: 1.4; }
+      .fed__pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-3xl); align-items: start; }
+      .fed__pillar { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+      .fed__pillar p { margin: 0; }
+      .fed__pillar .color-icon svg { width: 32px; height: 32px; }
+      .subnet-card { margin-top: calc(2 * var(--spacing-5xl)); }
+      .subnet-card .hcard__text strong.h4 { margin: 0; font-family: var(--font-display); font-weight: var(--font-weight-regular); }
+      /* Partnerships: the marks in one color, the text color */
+      .partners { margin-block: var(--spacing-section); }
+      .partners__label { margin: 0 0 var(--spacing-5xl); text-align: center; }
+      .partners ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--spacing-5xl); margin: 0; padding: 0; list-style: none; color: var(--text-body); }
+      .partners li { display: flex; align-items: center; }
+      .partners li :is(svg, img) { width: auto; max-width: 145px; height: auto; max-height: 48px; }
+      /* Press room: logo cards on white plates, then Keep exploring */
+      .press { margin-block: var(--spacing-section); }
+      .press__heading { margin: 0; padding-bottom: var(--spacing-sm); border-bottom: var(--stroke-sm) solid var(--line); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
+      .press__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: var(--spacing-xl); margin-top: var(--spacing-3xl); }
+      .press .lcard--logo { color: var(--gray-900); }
+      .press .lcard__text { font-size: var(--font-size-sm); }
+      .explore { display: flex; flex-direction: column; align-items: center; margin-top: var(--spacing-section); text-align: center; }
+      .explore h2 { margin: 0 0 var(--spacing-2xl); font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); }
+      .kit-join .btn { width: 100%; }
+      .kit-join .fm { gap: var(--spacing-xl); }
       @media (max-width: 991px) {
-        .hero__grid, .fed__intro { grid-template-columns: 1fr; }
-        .fed__subnets { grid-template-columns: 1fr 1fr; }
-        .fed__pillars { grid-template-columns: 1fr; }
+        .hero { padding-bottom: calc(100% / 2 * 0.273); margin-bottom: 0; }
+        .hero__grid, .fed__intro, .fed__subnets, .fed__pillars { grid-template-columns: 1fr; }
+        .hero__stream { bottom: calc(-100vw / 2 * 0.484); }
+        .fed__card { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--spacing-xs); }  /* keeps the 1-column inset on phones */
+        .fed__row { padding-block: var(--spacing-3xl); }
+        .fed__intro { gap: var(--spacing-2xl); }
+        .fed__intro > div:first-child p, .fed__intro > div:last-child { margin-top: 0; }
+        .fed__subnet { min-height: 0; }
+        .subnet-card { margin-top: calc(2 * var(--spacing-3xl)); }
+        .partners, .press { margin-block: var(--spacing-5xl); }
+        .partners ul { gap: var(--spacing-3xl); }
+        .partners li :is(svg, img) { max-width: 100px; max-height: 40px; }
       }
     </style>
   </Fragment>
-  <SiteHeader current="Home" />
-  <main>
-    <section class="hero">
-      <div class="container inner">
-        <div class="hero__grid">
-          <div>
-            <h1>The missing layer for collective intelligence</h1>
-            <p class="hero__taglines"><span>-&gt; Unlock insights from data you can't access.</span><span>-&gt; Create value from data you can't share.</span></p>
-            <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-text" href="#"><span class="link-text__label">{l}</span></a>)}</div>
-          </div>
-          <div class="hero__visual" aria-hidden="true">
-            <om-diamond></om-diamond>
-            <span class="hero__diamond hero__diamond--l"></span><span class="hero__diamond hero__diamond--r"></span>
-            <span class="hero__label hero__label--l">Non-Public Data</span><span class="hero__label hero__label--r">Attributable Insights</span>
-          </div>
+
+  <section class="hero">
+    <div class="container kit-col-10">
+      <div class="hero__grid">
+        <div>
+          <h1>The missing layer for collective intelligence</h1>
+          <p class="hero__taglines"><span>-&gt; Unlock insights from data you can't access.</span><span>-&gt; Create value from data you can't share.</span></p>
+          <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-text" href="#"><span class="link-text__label">{l}</span></a>)}</div>
         </div>
-        <div class="hero__bio content-links">
-          <p>We're OpenMined, a non-profit community building technology that enables secure computation across siloed data — unlocking collective intelligence while preserving <a href="#">attribution-based control</a>.</p>
-          <div class="hero__ctas"><a class="btn btn--solid" href="#">Donate</a><a class="btn" href="#">About the Foundation</a></div>
+        <div class="hero__visual" aria-hidden="true">
+          <om-diamond></om-diamond>
+          <span class="hero__diamond hero__diamond--l"></span><span class="hero__diamond hero__diamond--r"></span>
+          <span class="hero__label hero__label--l">Non-Public Data</span><span class="hero__label hero__label--r">Attributable Insights</span>
         </div>
       </div>
-      <div class="hero__stream" aria-hidden="true"><om-stream aspect-ratio="2.42" crop-top="0.28" crop-bottom="0.01" data-follow={listStops('flow')}></om-stream></div>
-    </section>
+      <div class="hero__bio content-links">
+        <p>We're OpenMined, a non-profit community building technology that enables secure computation across siloed data — unlocking collective intelligence while preserving <a href="#">attribution-based control</a>.</p>
+        <div class="hero__ctas"><a class="btn btn--solid" href="#">Donate</a><a class="btn" href="#">About the Foundation</a></div>
+      </div>
+    </div>
+    <div class="hero__stream" aria-hidden="true"><om-stream aspect-ratio="2" crop-top="0.28" crop-bottom="0.01" data-follow={listStops('flow')}></om-stream></div>
+  </section>
 
-    <section class="container">
-      <div class="fed">
-        <div class="fed__part">
-          <div class="inner fed__intro">
-            <div><p>Meet Syft:</p><h2>The Federated AI Network</h2></div>
+  <section class="fed">
+    <div class="container">
+      <div class="fed__card grid-12">
+        <div class="fed__row">
+          <div class="fed__inner fed__intro">
+            <div><p>Meet Syft:</p><h2>The Federated<br> AI Network</h2></div>
             <div><p>The network coordinates secure, governed computation across silos — without moving data — making it possible to study information that would otherwise remain private.</p><p>This is how collective intelligence becomes real: when people and communities across information silos connect — respecting their choices and values as they do so, for us to study at any scale, not just what a single group could achieve alone.</p></div>
           </div>
         </div>
-        <div class="fed__part">
-          <div class="inner">
+        <div class="fed__row">
+          <div class="fed__inner">
             <p class="fed__label">Supported Subnets</p>
             <div class="fed__subnets">
-              {SUBNETS.map(([t, b, l]) => <div><h3>{t}</h3><p>{b}</p><a class="link-text" href="#"><span class="link-text__label">{l}</span><Fragment set:html={arrow} /></a></div>)}
+              {SUBNETS.map(([t, b, l]) => <div class="fed__subnet"><div><h3>{t}</h3><p>{b}</p></div><a class="link-text" href="#"><span class="link-text__label">{l}</span><Fragment set:html={arrow} /></a></div>)}
             </div>
           </div>
         </div>
-        <div class="fed__part">
-          <div class="inner">
+        <div class="fed__row">
+          <div class="fed__inner">
             <div class="fed__pillars">
-              {PILLARS.map(([icon, hue, t, b]) => <div><Fragment set:html={colorIcon(icon, hue)} /><h3>{t}</h3><p>{b}</p></div>)}
+              {PILLARS.map(([icon, hue, t, b]) => <div class="fed__pillar"><Fragment set:html={colorIcon(icon, hue)} /><div><h3>{t}</h3><p>{b}</p></div></div>)}
             </div>
             <a class="hcard hcard--large subnet-card" href="#" data-hover-hue="green" data-flow="ribbon-wave" style="--ci-key:var(--green-key)">
               <span class="hcard__icon" style="--ci-stroke:url(#tt-green) var(--green-key)" aria-hidden="true"><span class="hcard__glow" set:html={net} /><Fragment set:html={net} /><span class="hcard__color" set:html={net} /></span>
@@ -193,61 +202,51 @@ const colorIcon = (name: string, hue: string) => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band partners">
-      <div class="container">
-        <p class="partners__label">Partnerships</p>
-        <ul>{PARTNERS.map(o => <li set:html={monoMark(o)} />)}</ul>
+  <section class="partners">
+    <div class="container">
+      <p class="partners__label">Partnerships</p>
+      <ul>{PARTNERS.map(o => <li set:html={monoMark(o)} />)}</ul>
+    </div>
+  </section>
+
+  <section class="press">
+    <div class="container">
+      <h2 class="press__heading">Press Room</h2>
+      <div class="press__grid">
+        {PRESS.map(([id, title]) => byId[id] && (
+          <a class="lcard lcard--logo" data-section="always-light" href="#">
+            <span class="lcard__logo" set:html={mark(byId[id])} />
+            <span class="lcard__text">{title}</span>
+          </a>
+        ))}
       </div>
-    </section>
-
-    <section class="band press">
-      <div class="container">
-        <h2>Press Room</h2>
-        <div class="card-grid card-grid--4">
-          {PRESS.map(([id, title]) => byId[id] && (
-            <a class="lcard lcard--logo" data-section="always-light" href="#">
-              <span class="lcard__logo" set:html={mark(byId[id])} />
-              <span class="lcard__text">{title}</span>
-            </a>
-          ))}
-        </div>
+      <div class="explore">
+        <h2>Keep Exploring</h2>
+        <a class="btn btn--solid" href="#">Read the latest updates</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band explore">
-      <h2>Keep Exploring</h2>
-      <a class="btn btn--solid" href="#">Read the latest updates</a>
-    </section>
-
-    <section class="cta">
-      <om-mesh class="cta__bg" aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
-      <div class="container">
-        <div class="cta__panel">
-          <img src="/logos/OpenMined-Icon.svg" alt="" />
-          <h2>Take Control of Your Data's Future</h2>
-          <p>Join the OpenMined community to stay informed, get involved, and shape how privacy and AI evolve together.</p>
-          <form class="fm" onsubmit="return false">
-            <div class="fm-grid">
-              <div class="fld"><input class="ctl" aria-label="First name" placeholder="First name" autocomplete="given-name"></div>
-              <div class="fld"><input class="ctl" aria-label="Last name" placeholder="Last name" autocomplete="family-name"></div>
-              <div class="fld fld--full"><input class="ctl" type="email" aria-label="Email" placeholder="Email" autocomplete="email" required aria-required="true"></div>
-              <div class="fld fld--full"><textarea class="ctl" rows="3" aria-label="What data access problem are you working on?" placeholder="What data access problem are you working on?"></textarea></div>
-            </div>
-            <ul class="opts">
-              <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get email updates</span></label></li>
-              <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get an OpenMined Slack Community invite</span></label></li>
-            </ul>
-            <button class="btn btn--solid" type="submit">Join</button>
-          </form>
-          <div class="cta__fine text-small content-links">
-            <p>Joining subscribes you to the <em>OpenMined Newsletter</em> and confirms you agree with our <a href="#">privacy policy</a>.</p>
-            <p><a href="#">Explore ways to get involved ↗</a></p>
-          </div>
-        </div>
+  <JoinPanel heading="Take Control of Your Data's Future" body="Join the OpenMined community to stay informed, get involved, and shape how privacy and AI evolve together.">
+    <form class="fm" onsubmit="return false">
+      <div class="fm-grid">
+        <div class="fld"><input class="ctl" aria-label="First name" placeholder="First name" autocomplete="given-name"></div>
+        <div class="fld"><input class="ctl" aria-label="Last name" placeholder="Last name" autocomplete="family-name"></div>
+        <div class="fld fld--full"><input class="ctl" type="email" aria-label="Email" placeholder="Email" autocomplete="email" required aria-required="true"></div>
+        <div class="fld fld--full"><textarea class="ctl" rows="3" aria-label="What data access problem are you working on?" placeholder="What data access problem are you working on?"></textarea></div>
       </div>
-    </section>
-  </main>
-  <SiteFooter />
-</Example>
+      <ul class="opts">
+        <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get email updates</span></label></li>
+        <li><label class="opt"><input class="opt__box" type="checkbox"><span>Get an OpenMined Slack Community invite</span></label></li>
+      </ul>
+      <button class="btn btn--solid" type="submit">Join</button>
+    </form>
+    <Fragment slot="fine">
+      <p>Joining subscribes you to the <em>OpenMined Newsletter</em> and confirms you agree with our <a href="#">privacy policy</a>.</p>
+      <p><a href="#">Explore ways to get involved ↗</a></p>
+    </Fragment>
+  </JoinPanel>
+</Website>

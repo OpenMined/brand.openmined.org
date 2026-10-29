@@ -80,12 +80,12 @@
        <span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span>
        <span class="lcard__title">Attribution-based control</span>
      </a> */
-.lcard.lcard--logo { background: var(--white); justify-content: space-between; min-height: 240px; padding: var(--spacing-5xl) var(--spacing-2xl) var(--spacing-lg); }
+.lcard.lcard--logo { grid-template: auto 1fr / minmax(0, 1fr); background: var(--white); min-height: 240px; padding: var(--spacing-5xl) var(--spacing-2xl) var(--spacing-lg); }
 @media (hover: hover) { .lcard.lcard--logo:hover { background: var(--white); } }
 .lcard.lcard--logo:focus-visible { background: var(--white); }
 .lcard__logo { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; }
 .lcard__logo > :is(img, svg) { position: absolute; inset: 12% 5% 34%; width: 90%; height: 54%; object-fit: contain; }
-.lcard--logo .lcard__text { font-weight: var(--font-weight-medium); color: var(--text-body); }
+.lcard--logo .lcard__text { align-self: end; font-weight: var(--font-weight-medium); color: var(--text-body); }  /* the logo takes the full width; the caption sits at the bottom */
 
 .lcard--post {
   aspect-ratio: 1 / 1; overflow: hidden; align-content: space-between; padding: var(--spacing-lg) var(--spacing-2xl) var(--spacing-2xl);

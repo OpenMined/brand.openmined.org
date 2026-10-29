@@ -1,0 +1,32 @@
+---
+/** Example kit (README.md): a content section as openmined.org has it (ContentSection
+ *  in the page review): an optional head (eyebrow, heading, intro) over the slotted
+ *  body, at the page width or 10, 8 or 6 columns. */
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  /** Heading level: h2 by default. */
+  as?: 'h2' | 'h3';
+  intro?: string;
+  align?: 'center' | 'left';
+  /** 'tight' when the head sits over running text, not cards or a grid. */
+  headGap?: 'default' | 'tight';
+  width?: 'full' | 'col-10' | 'col-8' | 'col-6';
+  class?: string;
+  id?: string;
+}
+const { eyebrow, heading, as: H = 'h2', intro, align = 'center', headGap = 'default', width = 'full', class: cls, id } = Astro.props;
+const hasHead = eyebrow || heading || intro;
+---
+<section class:list={['kit-section', cls]} id={id}>
+  <div class:list={['container', width !== 'full' && `kit-${width}`]}>
+    {hasHead && (
+      <div class:list={['kit-section__head', `kit-section__head--${align}`, headGap === 'tight' && 'kit-section__head--tight']}>
+        {eyebrow && <p class="kit-section__eyebrow">{eyebrow}</p>}
+        {heading && <H class="kit-section__heading">{heading}</H>}
+        {intro && <p class="kit-section__intro" set:html={intro} />}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>

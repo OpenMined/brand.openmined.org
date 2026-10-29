@@ -4,8 +4,8 @@
  *  button is the solid one, Syft Space's the outlined one, and their steps match. */
 import Example from '../../layouts/Example.astro';
 import HoverCard from '../../components/site/HoverCard.astro';
-import SiteHeader from '../../examples/SiteHeader.astro';
-import SiteFooter from '../../examples/SiteFooter.astro';
+import SiteHeader from '../../examples/kit/Header.astro';
+import SiteFooter from '../../examples/kit/Footer.astro';
 import { iconSvg } from '../../lib/icons';
 const icon = (n: string) => iconSvg(n, { size: 32, cls: 'card__icon' });
 const APPS: [string, string, string][] = [['journal', 'Publishers and creators', 'Make your content queryable without giving it up.'], ['doc-magnifying-glass', 'Research synthesis', 'Query trusted sources and get answers with citations.'], ['database', 'Enterprise intelligence', 'Combine internal documentation and expert analysis.'], ['chat-bubble', 'Customer support', 'Answer from your docs, with each answer traced.'], ['dollar', 'Data monetization', 'Share insights from your data without exposing it.'], ['book-stack', 'Internal knowledge base', 'One searchable hub over everything your team knows.']];

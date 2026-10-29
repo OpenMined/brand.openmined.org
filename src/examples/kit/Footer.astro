@@ -1,0 +1,52 @@
+---
+/** Example kit (README.md): openmined.org's footer as reviewed, locked dark in both
+ *  modes (data-section): follow us, three link columns, the mission call to action,
+ *  and the bottom bar. Not system: each site owns its footer. */
+import { iconSvg } from '../../lib/icons';
+const COLS: [string, string[]][] = [
+  ['Learn More', ['Foundation', 'Blog', 'Careers']],
+  ['Solutions', ['Syft Space | SyftHub', 'syft-flwr', 'SyftBox [Beta]', 'PySyft', 'Attribution-Based Control']],
+  ['Programs', ['Research', 'Research Fellowship', 'Research Grants', 'NAIRR Pilot Partnership', 'FL Project Co-Design']],
+];
+/* YouTube is on the live footer too; the set has no YouTube mark yet (a known gap). */
+const SOCIAL: [string, string][] = [['LinkedIn', 'linkedin'], ['X', 'x'], ['GitHub', 'github'], ['Bluesky', 'bluesky']];
+---
+<footer class="sf page-band" data-section="always-dark">
+  <div class="container">
+    <div class="sf__follow"><span>Follow us</span>{SOCIAL.map(([l, n]) => <a class="btn btn--icon" href="#" aria-label={l} set:html={iconSvg(n, { size: 20 })} />)}</div>
+    <div class="sf__in">
+      <div class="sf__nav">{COLS.map(([h, items]) => <div><p class="sf__h">{h}</p><ul>{items.map(i => <li><a class="link-text" href="#"><span class="link-text__label">{i}</span></a></li>)}</ul></div>)}</div>
+      <div class="sf__cta">
+        <p class="h3">Support the Mission</p>
+        <p>Our vision for the future is ambitious. Here is how you can help:</p>
+        <div class="sf__actions"><a class="btn btn--solid" href="#">Get Involved</a><a class="btn" href="#">Donate</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="sf__bar">
+    <img src="/logos/OpenMined-Icon.svg" alt="" width="32" height="32" />
+    <span><a class="link-text" href="#"><span class="link-text__label">Privacy Policy</span></a><span class="sf__sep" aria-hidden="true"></span>© 2026 OpenMined Foundation</span>
+  </div>
+</footer>
+<style is:inline>
+  .sf__follow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-xs); padding-block: var(--spacing-4xl) var(--spacing-2xl); border-bottom: var(--stroke-sm) solid var(--line); font-weight: var(--font-weight-medium); color: var(--text-headline); }
+  .sf__follow span { margin-right: var(--spacing-lg); }
+  .sf__in { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: var(--spacing-xl); padding-block: 75px 109px; }
+  .sf__nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-3xl); }
+  .sf__cta { max-width: 375px; }
+  .sf__h { margin: 0 0 var(--spacing-md); font-weight: var(--font-weight-medium); color: var(--text-headline); }
+  .sf ul { display: grid; gap: var(--spacing-sm); margin: 0; padding: 0; list-style: none; }
+  .sf .link-text { font-weight: var(--font-weight-regular); color: var(--text-body); }
+  .sf__cta p { margin: 0 0 51px; }
+  .sf__cta .h3 { margin: 0 0 var(--spacing-xl); color: var(--text-headline); }
+  .sf__actions { display: flex; flex-wrap: wrap; gap: var(--spacing-xl); }
+  .sf__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); padding: var(--spacing-lg) var(--spacing-md); border-top: var(--stroke-sm) solid var(--line); color: var(--text-body); }
+  .sf__bar > span { display: flex; align-items: center; gap: var(--spacing-2xl); }
+  .sf__sep { width: 2px; height: 14px; background: var(--line); }
+  @media (max-width: 991px) {
+    .sf__follow { padding-block: var(--spacing-2xl); }
+    .sf__in { grid-template-columns: 1fr; padding-block: var(--spacing-2xl); }
+    .sf__nav { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+    .sf__cta { max-width: none; }
+  }
+</style>

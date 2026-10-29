@@ -1,0 +1,19 @@
+---
+/** Example kit (README.md): the join panel as openmined.org has it (CtaSection in the
+ *  page review, with the v2 pass's gradient map behind): the icon, a heading, the text,
+ *  the form (default slot) and the fine print (slot "fine"), on a raised panel over
+ *  <om-mesh>. The page loads /embeds/om-mesh.js and FOLLOW_JS. */
+import { listStops } from '../../lib/tokens';
+interface Props { heading: string; body?: string }
+const { heading, body } = Astro.props;
+---
+<section class="kit-join">
+  <om-mesh aria-hidden="true" mode="clouds" speed="1" drift="0.15" flow="0.11" edge="0" size="0.8" cover="4" soft="0.65" billow="1" opacity="0.6" saturation="1.1" data-follow={listStops('map')} data-follow-haze="surface-base"></om-mesh>
+  <div class="kit-join__panel">
+    <img class="kit-join__icon" src="/logos/OpenMined-Icon.svg" alt="" width="50" height="50" />
+    <h2>{heading}</h2>
+    {body && <p>{body}</p>}
+    <div class="kit-join__form"><slot /></div>
+    {Astro.slots.has('fine') && <div class="kit-join__fine content-links"><slot name="fine" /></div>}
+  </div>
+</section>

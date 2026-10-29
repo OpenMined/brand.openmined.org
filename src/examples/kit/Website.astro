@@ -1,0 +1,20 @@
+---
+/** Example kit (README.md): a website example's page. The Example layout, the kit's
+ *  styles inline, and for a whole page the header and footer around <main>. A section
+ *  example passes chrome={false}: the kit's styles, no header or footer. */
+import Example from '../../layouts/Example.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import KIT from './kit.css?raw';
+interface Props { slug: string; init?: string; current?: string; chrome?: boolean }
+const { slug, init, current, chrome = true } = Astro.props;
+---
+<Example slug={slug} init={init}>
+  <Fragment slot="head">
+    <Fragment set:html={`<style>\n${KIT}</style>`} />
+    <slot name="head" />
+  </Fragment>
+  {chrome && <Header current={current} />}
+  <main><slot /></main>
+  {chrome && <Footer />}
+</Example>
