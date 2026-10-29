@@ -24,7 +24,8 @@ Nothing is typed into a page by hand. Route every change to its source:
 - **Examples** → `src/pages/examples/` on `src/layouts/Example.astro`, listed in
   `src/lib/examples.ts`: bare pages built from the served files (plus, for website pages, the example kit in
   `src/examples/`: not system), so the built HTML is what someone copies. Examples have no
-  status; each names the guidance it shows (`shows`). Decision 2026-10-29 *Examples show the rules*. Diagram sources live in `src/diagrams/`.
+  status; each names the guidance it shows (`shows`). After changing one, `npm run
+  examples:thumbs -- <slug>` (the Examples page shows stills, not live frames). Decision 2026-10-29 *Examples show the rules*. Diagram sources live in `src/diagrams/`.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
   `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only).
 - **Served files** (`/omds.css`, `/omds.js`, `/components/*`, `/tokens/omds.*`,

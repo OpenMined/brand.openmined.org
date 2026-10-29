@@ -6,11 +6,11 @@
  * outline keeps it.
  */
 import { iconSvg } from '../../lib/icons';
-interface Props { href: string; title: string }
-const { href, title } = Astro.props;
+interface Props { href: string; title: string; newTab?: boolean }
+const { href, title, newTab } = Astro.props;
 const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
 ---
-<a class="lcard" href={href}>
-  <h3 class="lcard__title">{title}<Fragment set:html={ARR} /></h3>
+<a class="lcard" href={href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
+  <h3 class="lcard__title">{title}{newTab && <span class="visually-hidden"> (opens in a new tab)</span>}<Fragment set:html={ARR} /></h3>
   <span class="lcard__text"><slot /></span>
 </a>

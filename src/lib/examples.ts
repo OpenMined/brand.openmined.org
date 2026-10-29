@@ -17,8 +17,8 @@ export type Example = { slug: string; title: string; description: string; kind: 
 
 export const EXAMPLES: Example[] = [
   { slug: 'landing-section', kind: 'section', motion: true, title: 'Landing section',
-    description: 'A section introducing a product area: heading and text, three hover cards, and a large hover card standing alone, inside an outlined region.',
-    shows: ['components/hover-card', 'guidelines/outlines-are-lines', 'decisions/2026-10-28-raised-levels-inside-an-outline', 'components/button'] },
+    description: 'openmined.org\'s federated network, as on the home page: an outlined region on the 12-column grid with the intro, four subnets, three pillars with color icons, and a large hover card.',
+    shows: ['guidelines/outlines-are-lines', 'components/hover-card', 'decisions/2026-10-28-raised-levels-inside-an-outline', 'behaviors/color-moves'] },
   { slug: 'product-steps', kind: 'section', motion: true, title: 'Product steps',
     description: 'Two processes side by side, one solid and one outlined, with the call to action pair under them.',
     shows: ['components/steps', 'components/button', 'guidelines/one-solid-button'] },

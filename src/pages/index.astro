@@ -78,7 +78,7 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
             </div>
             <p>{m.line}</p>
             <p class="text-small"><b>Start:</b> {m.start}</p>
-            {m.example && <a class="link-text" href={`/examples/${m.example}/`}><span class="link-text__label">Example: {example(m.example).title}</span><Fragment set:html={iconSvg('arrow-right', { size: 16 })} /></a>}
+            {m.example && <a class="link-text" href={`/examples/${m.example}/`} target="_blank" rel="noopener"><span class="link-text__label">Example: {example(m.example).title}</span><span class="visually-hidden"> (opens in a new tab)</span><Fragment set:html={iconSvg('arrow-right', { size: 16 })} /></a>}
           </article>
         ))}
       </div>

@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-10-29** — The **Landing section** example is the home page's federated network itself (one source shared with the Home example). The **Examples page shows stills** of each example in both modes instead of running every example live in a frame (`npm run examples:thumbs`; the build fails on a missing still). Links to an example open in a new tab, since examples have no site header.
 - **2026-10-29** — **No tracking, as openmined.org** (new decision): the display face and tabular numbers are set as drawn (`--tracking-display` and `--tracking-numbers` at 0, from −0.01em and −0.02em). New `--line-height-prose-h4` (1.3) for h4 in a long read, as the site, so every line height matches it too.
 - **2026-10-29** — **Display leading back to 1.2** (new decision): h1 to h4 at 1.2, as openmined.org, replacing the type round's tight ramp (1.05 to 1.2). Tracking unchanged.
 - **2026-10-29** — Home example: the hero diamond is the site's own embed again (in the example kit: the blob, both outlines and the labels as one element, colors from the tokens), so it sits at the live size; it was the system's `<om-diamond>` scaled up with outlines drawn around it. Examples show the favicon.

@@ -9,7 +9,7 @@ const list = Astro.props.slugs.map(example);
   <div class="wrap">
     <header class="sec"><h2>Examples</h2><p>Put together from the files this site serves: open one and copy it. <a class="link-content" href="/examples/">All examples</a>.</p></header>
     <div class="grid grid--3">
-      {list.map(e => <LinkCard href={`/examples/${e.slug}/`} title={e.title}>{e.description}</LinkCard>)}
+      {list.map(e => <LinkCard href={`/examples/${e.slug}/`} title={e.title} newTab>{e.description}</LinkCard>)}
     </div>
   </div>
 </section>

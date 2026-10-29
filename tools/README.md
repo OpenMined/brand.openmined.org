@@ -7,6 +7,7 @@
 | `contrast/` | `npm run contrast` (also in `tokens:check`) | Checks every color pair the guidance promises a ratio for (`pairs.json`), both modes |
 | `impact/` | `npm run impact -- <token> [--consumers]` | What a token change reaches: tokens through it, guidance, components, pages, contrast promises, consumers |
 | `census/` | `npm run census [-- --dry-run]` | Where the system is used: searches the OpenMined org for the stamp, `omds.json` and v1's `brand-version.txt`; writes `consumers.json` |
+| `examples/` | `npm run examples:thumbs [-- <slug> …]` | Stills of each example in both modes for the Examples page (headless Chrome against a running `npm run dev`; WebP via `cwebp`); the page fails the build when one is missing |
 | `icons/` | `npm run icons:import` | Imports our own icon drawings into the set's format |
 | `google-docs/` | see its README | Google Docs named styles (from v1's CSS for now) |
 

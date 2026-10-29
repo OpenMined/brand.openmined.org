@@ -15,7 +15,8 @@
     "contrast": "node tools/contrast/check.mjs --report",
     "impact": "node tools/impact/impact.mjs",
     "census": "node tools/census/census.mjs",
-    "icons:import": "node tools/icons/import.mjs"
+    "icons:import": "node tools/icons/import.mjs",
+    "examples:thumbs": "node tools/examples/thumbs.mjs"
   },
   "dependencies": {
     "astro": "^4.16.0",

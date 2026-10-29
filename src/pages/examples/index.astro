@@ -1,14 +1,21 @@
 ---
 /**
- * BRAND SITE (v2) — Examples: every example (src/lib/examples.ts), live, with what
- * it puts to work. Each example is its own bare page under /examples/<slug>/.
+ * BRAND SITE (v2) — Examples: every example (src/lib/examples.ts) as a still in each
+ * color mode (public/examples/thumbs/, npm run examples:thumbs), with what it puts to
+ * work. Each example is its own bare page under /examples/<slug>/, without this site's
+ * header, so it opens in a new tab.
  */
+import { existsSync } from 'node:fs';
 import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import { EXAMPLES } from '../../lib/examples';
 import { doc } from '../../lib/design';
 
 const KINDS: [string, string][] = [['section', 'Sections'], ['page', 'Pages'], ['graphic', 'Graphics']];
+const MODES = ['light', 'dark'] as const;
+const thumb = (slug: string, mode: string) => `/examples/thumbs/${slug}-${mode}.webp`;
+const missing = EXAMPLES.flatMap(e => MODES.map(m => thumb(e.slug, m)).filter(t => !existsSync(`public${t}`)));
+if (missing.length) throw new Error(`Examples without a thumbnail (run npm run examples:thumbs):\n  ${missing.join('\n  ')}`);
 const titleOf = (slug: string) => { try { return doc(slug).title; } catch { return slug; } };
 ---
 <Site title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves, ready to copy. Examples show the rules in use; they aren't rules." current="examples">
@@ -20,9 +27,11 @@ const titleOf = (slug: string) => { try { return doc(slug).title; } catch { retu
         <div class="examples">
           {EXAMPLES.filter(e => e.kind === kind).map(e => (
             <article class="example">
-              <div class="example__frame"><iframe src={`/examples/${e.slug}/`} title={e.title} loading="lazy" tabindex="-1"></iframe></div>
+              <a class="example__frame" href={`/examples/${e.slug}/`} target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+                {MODES.map(m => <img class={`only-${m}`} src={thumb(e.slug, m)} alt="" width="720" height="450" loading="lazy" decoding="async" />)}
+              </a>
               <div class="example__text">
-                <h3><a class="link-content" href={`/examples/${e.slug}/`}>{e.title}</a></h3>
+                <h3><a class="link-content" href={`/examples/${e.slug}/`} target="_blank" rel="noopener">{e.title}<span class="visually-hidden"> (opens in a new tab)</span></a></h3>
                 <p>{e.description}</p>
                 <p class="text-small">Puts to work: {e.shows.map((s, i) => <>{i > 0 && ', '}<a class="link-content" href={`/design/${s}.md`}>{titleOf(s)}</a></>)}{e.motion ? '. Full interactive layer (/omds.js).' : '. Minimal interactive layer, no script for motion.'}</p>
               </div>

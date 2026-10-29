@@ -1,0 +1,92 @@
+---
+/** Example section: openmined.org's federated network, as reviewed (the home page
+ *  review, rounds-archive): an outlined region on the 12-column grid with the intro, the
+ *  supported subnets, the three pillars with color icons, and the sub-network hover card.
+ *  Used by the Home page and the Landing section examples. Values from the review's CSS. */
+import { iconSvg } from '../../lib/icons';
+const SUBNETS = [
+  ['Publishers', 'Control your distribution in the AI era. Make your assets AI-ready and queryable with guaranteed attribution, fair compensation, and tracking reader engagement — all without losing custody.', 'Join the Beta'],
+  ['Genomics', "Run collaborative genomic research without ever centralizing raw data. BioVault is a free, open-source subnetwork where insights flow freely while sensitive files stay secure on participants' devices.", 'Join the Beta'],
+  ['Creators', "Turn everything you've created into a knowledge base your audience can explore. Know what they're curious about, engage them at scale, and unlock new revenue from content you already have.", 'Get early access'],
+  ['AI Auditors', 'Enable third-party AI audits without exposing proprietary models or user data. Cryptographic infrastructure ensures auditors get verified answers… not copies of model weights, training data, or user logs.', 'Learn More'],
+];
+const PILLARS = [
+  ['globe', 'teal', 'Open, Public Good Infrastructure', 'No vendor lock-in, no black boxes — just open protocols that ensure the network remains truly decentralized and free.'],
+  ['code-brackets-square', 'blue', 'Flexible Federated Computation', 'Run exactly the computation you need — from simple analytics to complex model inference — all executed securely where the data lives.'],
+  ['settings', 'amber', 'Full Control Over Your Data', 'Decide who can use your data, for what purpose, and the privacy, attribution, or pricing rules — and the network enforces them for you.'],
+];
+const arrow = iconSvg('arrow-right', { size: 16 });
+const net = iconSvg('network', { size: 32 });
+const colorIcon = (name: string, hue: string) => {
+  const svg = iconSvg(name, { size: 32 });
+  return `<span class="color-icon" style="--ci-stroke:url(#tt-${hue}) var(--${hue}-key)"><span class="color-icon__glow" aria-hidden="true">${svg}</span>${svg}</span>`;
+};
+---
+<style is:inline>
+  /* The federated network: an outlined region on the 12-column grid (Outlines are lines) */
+  .fed { position: relative; z-index: 2; }
+  .fed__card { border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); overflow: hidden; }
+  .fed__row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-block: var(--spacing-5xl); }
+  .fed__row + .fed__row { border-top: var(--stroke-sm) solid var(--line-strong); }
+  .fed__inner { grid-column: 2 / 12; }
+  .fed__intro { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--spacing-3xl); align-items: start; }
+  .fed__intro > div:first-child p { margin: var(--spacing-3xl) 0 0; }
+  .fed__intro h2 { margin: 0; }
+  .fed__intro > div:last-child { margin-top: var(--spacing-3xl); }
+  .fed__intro > div:last-child p { margin: 0 0 var(--spacing-lg); }
+  .fed__intro > div:last-child p:last-child { margin-bottom: 0; }
+  .fed__label { margin: 0 0 var(--spacing-3xl); text-align: center; }
+  .fed__subnets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-3xl); align-items: start; }
+  .fed__subnet { display: flex; flex-direction: column; justify-content: space-between; gap: var(--spacing-2xl); min-height: 256px; }
+  .fed__subnet p { margin: 0; }
+  .fed__subnet .link-text { align-self: flex-start; font-weight: var(--font-weight-regular); }
+  .fed h3 { margin: 0 0 var(--spacing-lg); font-family: var(--font-body); font-size: clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max)); line-height: 1.4; }
+  .fed__pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-3xl); align-items: start; }
+  .fed__pillar { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+  .fed__pillar p { margin: 0; }
+  .fed__pillar .color-icon svg { width: 32px; height: 32px; }
+  .subnet-card { margin-top: calc(2 * var(--spacing-5xl)); }
+  .subnet-card .hcard__text strong.h4 { margin: 0; font-family: var(--font-display); font-weight: var(--font-weight-regular); }
+  @media (max-width: 991px) {
+    .fed__intro, .fed__subnets, .fed__pillars { grid-template-columns: 1fr; }
+    .fed__card { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--spacing-xs); }  /* keeps the 1-column inset on phones */
+    .fed__row { padding-block: var(--spacing-3xl); }
+    .fed__intro { gap: var(--spacing-2xl); }
+    .fed__intro > div:first-child p, .fed__intro > div:last-child { margin-top: 0; }
+    .fed__subnet { min-height: 0; }
+    .subnet-card { margin-top: calc(2 * var(--spacing-3xl)); }
+  }
+</style>
+<section class="fed">
+<div class="container">
+  <div class="fed__card grid-12">
+    <div class="fed__row">
+      <div class="fed__inner fed__intro">
+        <div><p>Meet Syft:</p><h2>The Federated<br> AI Network</h2></div>
+        <div><p>The network coordinates secure, governed computation across silos — without moving data — making it possible to study information that would otherwise remain private.</p><p>This is how collective intelligence becomes real: when people and communities across information silos connect — respecting their choices and values as they do so, for us to study at any scale, not just what a single group could achieve alone.</p></div>
+      </div>
+    </div>
+    <div class="fed__row">
+      <div class="fed__inner">
+        <p class="fed__label">Supported Subnets</p>
+        <div class="fed__subnets">
+          {SUBNETS.map(([t, b, l]) => <div class="fed__subnet"><div><h3>{t}</h3><p>{b}</p></div><a class="link-text" href="#"><span class="link-text__label">{l}</span><Fragment set:html={arrow} /></a></div>)}
+        </div>
+      </div>
+    </div>
+    <div class="fed__row">
+      <div class="fed__inner">
+        <div class="fed__pillars">
+          {PILLARS.map(([icon, hue, t, b]) => <div class="fed__pillar"><Fragment set:html={colorIcon(icon, hue)} /><div><h3>{t}</h3><p>{b}</p></div></div>)}
+        </div>
+        <a class="hcard hcard--large subnet-card" href="#" data-hover-hue="green" data-flow="ribbon-wave" style="--ci-key:var(--green-key)">
+          <span class="hcard__icon" style="--ci-stroke:url(#tt-green) var(--green-key)" aria-hidden="true"><span class="hcard__glow" set:html={net} /><Fragment set:html={net} /><span class="hcard__color" set:html={net} /></span>
+          <span class="hcard__text"><strong class="h4">Start your own federated sub-network</strong><span>Launch a privacy-preserving network for your domain — whether that be in climate, healthcare, finance, or beyond.</span><span>The federated AI network provides open-source infrastructure for secure, governed collaboration, where data stays distributed, and insights are derived without compromising ownership or control.</span></span>
+          <span class="hcard__arrow" aria-hidden="true" set:html={iconSvg('arrow-right', { size: 24 })} />
+          <span class="hcard__light" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
