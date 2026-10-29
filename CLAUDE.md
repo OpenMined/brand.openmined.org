@@ -22,8 +22,9 @@ Nothing is typed into a page by hand. Route every change to its source:
   bare class names, the markup at the top of each CSS file. No framework, no loader.
   `components/README.md`. Decision 2026-10-27.
 - **Examples** → `src/pages/examples/` on `src/layouts/Example.astro`, listed in
-  `src/lib/examples.ts`: bare pages built only from the served files, so the built HTML is
-  what someone copies. Diagram sources live in `src/diagrams/`.
+  `src/lib/examples.ts`: bare pages built from the served files (plus, for website pages, the example kit in
+  `src/examples/`: not system), so the built HTML is what someone copies. Examples have no
+  status; each names the guidance it shows (`shows`). Decision 2026-10-29 *Examples show the rules*. Diagram sources live in `src/diagrams/`.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
   `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only).
 - **Served files** (`/omds.css`, `/omds.js`, `/components/*`, `/tokens/omds.*`,
@@ -38,9 +39,11 @@ and fails the build on a bad file.
 ## Statuses
 
 `draft` (in progress) → `released` → `deprecated` (names its replacement), on every token
-(`$extensions["org.openmined"].status`) and guidance file. **Everything on the public site is
-released.** `npm run build` fails if any token or file is `draft` (`src/lib/release-gate.ts`);
-`npm run dev` and `npm run build:review` show drafts. Decision 2026-10-29.
+(`$extensions["org.openmined"].status`) and guidance file. **Every rule, value and component on
+the public site is released**; examples have no status (they show the rules, they aren't rules).
+`npm run build` fails if any token or file is `draft`, or an example names a missing or draft
+guidance file (`src/lib/release-gate.ts`); `npm run dev` and `npm run build:review` show drafts.
+Decisions 2026-10-29 (three statuses; examples show the rules).
 
 ## Tokens
 

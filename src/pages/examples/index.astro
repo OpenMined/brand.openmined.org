@@ -11,8 +11,8 @@ import { doc } from '../../lib/design';
 const KINDS: [string, string][] = [['section', 'Sections'], ['page', 'Pages'], ['graphic', 'Graphics']];
 const titleOf = (slug: string) => { try { return doc(slug).title; } catch { return slug; } };
 ---
-<Site title="Examples" description="The system put together: sections, pages and graphics built only from the files this site serves, ready to copy." current="examples">
-  <PageHero eyebrow="Examples" title="Examples" description="The system put together: sections, pages and graphics built only from the files this site serves. Open one, view its source, and copy it." status="released" source="" nav={KINDS.map(([k, l]) => [k, l])} />
+<Site title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves, ready to copy. Examples show the rules in use; they aren't rules." current="examples">
+  <PageHero eyebrow="Examples" title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves. Open one, view its source, and copy it. Examples show the rules in use; they aren't rules themselves: each names the guidance it puts to work, and anything beyond that (page layout, the website examples' shared page shell) is illustration. Where an example and the guidance differ, the guidance wins." source="" nav={KINDS.map(([k, l]) => [k, l])} />
   {KINDS.map(([kind, label]) => (
     <section class="band" id={kind}>
       <div class="wrap">

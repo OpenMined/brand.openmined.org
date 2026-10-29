@@ -1,7 +1,10 @@
 /**
- * Examples (lab LAUNCH section 6): self-contained pages built only from what the
- * site serves (/omds.css, /omds.js, /icons, /logos, /embeds), so the built HTML
- * is exactly what a person or an agent copies. Each is a page in
+ * Examples (lab LAUNCH section 6): self-contained pages built from what the site
+ * serves (/omds.css, /omds.js, /icons, /logos, /embeds) and, for website pages,
+ * the example kit (src/examples/), so the built HTML is exactly what a person or
+ * an agent copies. Examples show the rules in use; they aren't rules and carry no
+ * status (decision 2026-10-29). `shows` must name released guidance files (the
+ * release gate checks). Each is a page in
  * src/pages/examples/ on the Example layout; this list is their index (the
  * Examples page, /examples/index.json, llms.txt). A starter set: more are added
  * as v2 is applied.

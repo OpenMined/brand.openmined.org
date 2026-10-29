@@ -27,7 +27,7 @@ files are on the site, so you never need the repository.
 | Brand graphics | `/embeds/om-diamond.js`, `om-stream.js`, `om-mesh.js`; one-file versions in `/embeds/single/` | Web components; use the one-file versions where you can't load a second file |
 | Icons | `/icons/set/<name>.svg`, listed in `/icons/set/index.json` | Inline the SVG; it takes the text color |
 | Logos | `/logos/`, rules on `/design/foundations/logo.md` | Use the files as they are |
-| Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built only from these files: copy one and change the words |
+| Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built from these files: copy one and change the words. Examples show the rules in use; they aren't rules (see below) |
 | Version | `/manifest.json` | Version, commit, every served file |
 
 Every served CSS and JS file starts with a comment naming the version and commit. Keep it when
@@ -49,7 +49,12 @@ you copy the file.
 - **The logo and partner marks** are used as supplied: never redrawn, recolored or generated.
 - **Fonts:** Rubik and Inter, from Google Fonts (the link is at the top of `/omds.css`'s type
   section and in `/components/README.md`).
-- **Status:** everything on the site is `released`. `deprecated` items name their replacement.
+- **Status:** every rule, value and component on the site is `released`. `deprecated` items name
+  their replacement.
+- **Examples show the rules; they aren't rules.** Copy them freely. Each names the guidance it
+  puts to work; anything beyond that (page layout, the shared page shell of the website examples)
+  is illustration. Where an example and the guidance differ, follow the guidance and report the
+  difference as feedback.
 
 ## Claude artifacts
 
