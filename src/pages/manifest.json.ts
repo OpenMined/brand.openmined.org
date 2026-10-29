@@ -9,11 +9,12 @@ export const GET = () => respond(JSON.stringify({
   name: 'OpenMined Design System', version: VERSION, commit: SHA, host: HOST,
   entry: { agents: '/AGENTS.md', llms: '/llms.txt' },
   bundles: { css: '/omds.css', js: '/omds.js' },
+  starters: { artifact: '/starter/artifact.html', artifactFull: '/starter/artifact-full.html' },
   tokens: { css: '/tokens/omds.css', light: '/tokens/omds.light.json', dark: '/tokens/omds.dark.json', colors: '/tokens/omds.colors.js', source: walk('tokens', f => f.endsWith('.json')).map(f => `/tokens/source/${f}`) },
   components: walk('components', f => /\.(css|js|md)$/.test(f)).map(f => `/components/${f}`),
   design: { index: '/design/index.json', files: DOCS.map(d => `/design/${d.path}`).sort() },
   icons: { index: '/icons/set/index.json', count: Object.keys(ICONS).length },
   examples: EXAMPLES.map(e => ({ url: `/examples/${e.slug}/`, title: e.title, kind: e.kind, shows: e.shows.map(s => `/design/${s}.md`) })),
-  embeds: [...walk('public/embeds', f => f.endsWith('.js')).map(f => `/embeds/${f}`), '/embeds/brand-colors.js'],
+  embeds: [...walk('public/embeds', f => f.endsWith('.js')).map(f => `/embeds/${f}`), '/embeds/brand-colors.js', ...walk('public/embeds', f => /^om-.*\.js$/.test(f)).map(f => `/embeds/single/${f}`)],
   feedback: 'https://github.com/OpenMined/brand.openmined.org/issues/new?template=feedback.yml',
 }, null, 2), 'json');

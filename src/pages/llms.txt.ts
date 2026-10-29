@@ -26,6 +26,8 @@ export const GET = () => {
     `- [Tokens](${HOST}/tokens/omds.css): CSS custom properties, light and dark; resolved values in [light](${HOST}/tokens/omds.light.json) and [dark](${HOST}/tokens/omds.dark.json)`,
     `- [Token source](${HOST}/tokens/source/resolver.json): Design Tokens format 2025.10, for token tools`,
     `- [Components](${HOST}/components/README.md): one CSS file per component, the markup at the top of each`,
+    `- [Claude artifact starter](${HOST}/starter/artifact.html): one self-contained file, everything inlined ([with motion](${HOST}/starter/artifact-full.html))`,
+    `- [Brand graphics](${HOST}/embeds/single/om-stream.js): the <om-*> web components as one file each (om-diamond.js, om-stream.js, om-mesh.js in /embeds/single/)`,
     `- [Icons](${HOST}/icons/set/index.json): the icon set, one SVG per name`,
     `- [Guidance index](${HOST}/design/index.json): every guidance file with its type, status, tags and tokens`,
     `- [Manifest](${HOST}/manifest.json): version, commit and every served file`,

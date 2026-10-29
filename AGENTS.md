@@ -18,11 +18,15 @@ files are on the site, so you never need the repository.
 | What | Where | Use |
 | --- | --- | --- |
 | Tokens + every component, one stylesheet | `/omds.css` | Link it, or paste it inline (Claude artifacts must inline) |
-| Every component script, one ES module | `/omds.js` | Only for the full interactive layer (motion); pages work without it |
+| Every component script, one ES module | `/omds.js` | The full interactive layer (motion), plus tabs, contents, copy buttons and the color mode switch; pages work without it |
 | One component | `/components/<name>.css`, `/components/<name>.js` | When a page needs only a few; the markup to match is at the top of each CSS file |
 | Tokens only | `/tokens/omds.css`, `/tokens/omds.light.json`, `/tokens/omds.dark.json`, `/tokens/omds.colors.js` | CSS custom properties; resolved values per mode; colors for canvas and WebGL |
 | Token source | `/tokens/source/resolver.json` and the files it names | Design Tokens format 2025.10, for token tools |
 | Guidance | `/design/<path>.md`, listed in `/design/index.json` | Rules, components, patterns, decisions |
+| A Claude artifact, ready to fill | `/starter/artifact.html` (minimal), `/starter/artifact-full.html` (with motion) | One file with everything inlined: copy it, keep the head, replace the body |
+| Brand graphics | `/embeds/om-diamond.js`, `om-stream.js`, `om-mesh.js`; one-file versions in `/embeds/single/` | Web components; use the one-file versions where you can't load a second file |
+| Icons | `/icons/set/<name>.svg`, listed in `/icons/set/index.json` | Inline the SVG; it takes the text color |
+| Logos | `/logos/`, rules on `/design/foundations/logo.md` | Use the files as they are |
 | Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built only from these files: copy one and change the words |
 | Version | `/manifest.json` | Version, commit, every served file |
 
@@ -50,8 +54,9 @@ you copy the file.
 ## Claude artifacts
 
 Artifacts load scripts only from a few public CDNs and styles only from Google Fonts, so a
-linked `/omds.css` fails silently. Paste the CSS (and, for motion, the JS) into the artifact.
-Fonts load from Google Fonts as usual.
+linked `/omds.css` fails silently. Start from `/starter/artifact.html` (or `-full` for motion):
+everything is already inlined. For a graphic, paste the one-file embed from `/embeds/single/`.
+Dashboards and tools stay in the minimal layer. Fonts load from Google Fonts as usual.
 
 ## Feedback
 

@@ -11,6 +11,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import PKG from '../../package.json';
+import LIGHT_TOKENS from '../tokens/v2/tokens.light.json';
 
 export const ROOT = process.cwd();
 export const HOST = 'https://design.openmined.org';
@@ -65,4 +66,65 @@ export async function omdsJs() {
   const { build } = await import('esbuild');
   const r = await build({ entryPoints: [join(ROOT, 'components/index.js')], bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'none' });
   return stamped(r.outputFiles[0].text, 'js');
+}
+
+/** /embeds/brand-colors.js: the embeds' colors, from the v2 token build (light mode). */
+const T = LIGHT_TOKENS as Record<string, { resolved: string }>;
+const v = (n: string) => { const e = T[`--${n}`]; if (!e) throw new Error(`brand-colors: no token --${n}`); return e.resolved; };
+const list = (n: string) => [...T[`--gradient-${n}`].resolved.matchAll(/#[0-9a-f]{6}/gi)].map(m => m[0]);
+
+/** v1's helper functions, appended unchanged (src/lib/embed-colors-helpers.js). */
+const FNS = readFileSync(join(ROOT, 'src/lib/embed-colors-helpers.js'), 'utf8');
+
+export function brandColorsJs() {
+  const P: Record<string, string> = {
+    gold: v('gradient-gold'), orange: v('gradient-orange'), red: v('gradient-red'), red600: v('gradient-red'),
+    violet: v('gradient-violet'), blue: v('gradient-blue'), teal: v('gradient-teal'), green: v('gradient-green'),
+    lime: v('gradient-lime'), yellow: v('gradient-yellow'),
+  };
+  const G: Record<string, string[]> = {
+    spectrum: list('spectrum'), stream: list('flow'), flow: list('flow'), map: list('map'), interactive: list('interactive'),
+    'gold-orange': [P.gold, P.orange], 'orange-red': [P.orange, P.red], 'red-violet': [P.red, P.violet], 'violet-blue': [P.violet, P.blue],
+    'teal-green': [P.teal, P.green], 'green-lime': [P.green, P.lime], 'lime-yellow': [P.lime, P.yellow],
+    warm: [P.gold, P.orange, P.red], cool: [P.blue, P.teal, P.green],
+  };
+  const body = `/* ${STAMP} */
+/**
+ * OpenMined Design System: brand colors for canvas and WebGL (the <om-*> embeds).
+ * Generated from the v2 tokens; never hand-type hex into a shader. Light-mode values:
+ * graphics use fixed steps. Pass a page's own colors through an embed's colors
+ * attribute to follow the color mode.
+ */
+export const PALETTE = ${JSON.stringify(P, null, 2)};
+
+export const GRADIENTS = ${JSON.stringify(G, null, 2)};
+
+${FNS}`;
+  return body;
+}
+
+/** An embed as one file with its colors inlined, for places that can't load a
+ *  second file (a Claude artifact, a CMS block). */
+export async function singleEmbed(name: string) {
+  const { build } = await import('esbuild');
+  const colors = brandColorsJs();
+  const r = await build({
+    entryPoints: [join(ROOT, 'public/embeds', name)], bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'inline',
+    plugins: [{ name: 'brand-colors', setup(b) {
+      b.onResolve({ filter: /brand-colors\.js$/ }, () => ({ path: 'brand-colors', namespace: 'omds' }));
+      b.onLoad({ filter: /.*/, namespace: 'omds' }, () => ({ contents: colors, loader: 'js' }));
+    } }],
+  });
+  return stamped(r.outputFiles[0].text, 'js');
+}
+
+/** Every component script with every component started, as one script with no imports:
+ *  for the full starter, pasted inline. */
+export async function omdsStartJs() {
+  const { build } = await import('esbuild');
+  const r = await build({
+    stdin: { contents: "import * as o from './components/index.js';\no.buttonHover(); o.hoverCards(); o.cardFlows(); o.linkCards(); o.fieldLights(); o.tabs(); o.codeCopy(); o.toc(); o.lineFlow(); o.themeToggle();", resolveDir: ROOT, loader: 'js' },
+    bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'none',
+  });
+  return r.outputFiles[0].text;
 }
