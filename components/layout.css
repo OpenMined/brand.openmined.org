@@ -1,8 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════
    LAYOUT — v2 component (design/foundations/spacing.md, "Layout")
    ════════════════════════════════════════════════════════════════════
-   The page container, the 12-column grid and the article grid with its
-   breakouts. Needs: the v2 tokens. No script.
+   The page container, the 12-column grid, the article grid with its
+   breakouts, and the stack. Needs: the v2 tokens. No script.
 
    Markup:
      <div class="container">…</div>                      content at the page width, gutters outside
@@ -15,6 +15,19 @@
        <figure class="breakout">…</figure>              wider than the text (860px)
        <figure class="breakout--full">…</figure>        out to the page width (1300px)
      </article>
+     <div class="stack">                                 children spaced md (16px) apart
+       <h2>Feedback</h2>
+       <p>Tell us when…</p>
+       <h3>Recent decisions</h3>                         more space above a heading (2xl, 32px)
+       <ul>…</ul>
+     </div>
+     <div class="stack stack--sm">…</div>               --xs, --sm, --lg, --xl, --2xl: another step
+
+   The stack spaces its children; they carry no margin of their own (outside
+   a long read, which has its own rhythm, .prose). Space goes between them only,
+   never before the first or after the last. A child keeps its own display, so
+   inline text belongs in a block (a <p>). Set --stack-space on one child to
+   change the space above that child alone.
 
    The container keeps --page-gutter between its content and the viewport edge.
    The grid collapses to one column below --breakpoint-lg (991px; media queries
@@ -63,3 +76,20 @@
   justify-self: center;
   margin-inline: 0;
 }
+
+/* ── Stack: the container spaces its children ─────────────────────────
+   Every Layout's Stack (decision: space belongs to the container). The reset
+   weighs nothing, so a component's own margins still apply; the space between
+   children weighs one class, so it beats a page's reset. */
+/* --stack-space, set on one child, changes the space above that child alone; it
+   doesn't inherit, so a stack inside a stack keeps its own steps. */
+@property --stack-space { syntax: '*'; inherits: false; }
+:where(.stack > *) { margin-block: 0; }
+.stack > * + * { margin-block-start: var(--stack-space, var(--spacing-md)); }
+.stack--xs > * + * { margin-block-start: var(--stack-space, var(--spacing-xs)); }
+.stack--sm > * + * { margin-block-start: var(--stack-space, var(--spacing-sm)); }
+.stack--lg > * + * { margin-block-start: var(--stack-space, var(--spacing-lg)); }
+.stack--xl > * + * { margin-block-start: var(--stack-space, var(--spacing-xl)); }
+.stack--2xl > * + * { margin-block-start: var(--stack-space, var(--spacing-2xl)); }
+/* More space above a heading, unless it follows another heading. */
+.stack > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-2xl)); }

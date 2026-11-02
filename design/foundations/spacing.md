@@ -1,7 +1,7 @@
 ---
 type: Spacing
 title: Layout
-description: Eleven spacing steps from 2 to 48px and a section step (88px), a 1300px page on twelve columns, an article's reading column with wide and full breakouts, three breakpoints, and a fixed stacking order.
+description: Eleven spacing steps from 2 to 48px and a section step (88px), space set by the container (a stack), a 1300px page on twelve columns, an article's reading column with wide and full breakouts, three breakpoints, and a fixed stacking order.
 status: released
 tags: [layout]
 tokens: [--spacing-section, --spacing-3xs, --spacing-2xs, --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl, --spacing-2xl, --spacing-3xl, --spacing-4xl, --spacing-5xl, --page-width, --page-width-wide, --page-gutter, --grid-columns, --grid-gap, --grid-column, --grid-span-4, --grid-span-5, --grid-span-6, --grid-span-8, --grid-span-10, --prose-content, --prose-wide, --prose-full, --breakpoint-lg, --breakpoint-md, --breakpoint-sm, --z-below, --z-card, --z-base, --z-sticky, --z-dropdown, --z-overlay]
@@ -10,6 +10,8 @@ tokens: [--spacing-section, --spacing-3xs, --spacing-2xs, --spacing-xs, --spacin
 **Spacing.** Eleven steps: 2, 4, 6, 8, 12, 16, 20, 24, 32, 40, and 48px (`--spacing-3xs` to `--spacing-5xl`). Use a step for every gap, padding, and margin, never a value between them. One more, `--spacing-section` (88px), is the space above and below each section of a page.
 
 How the components use the steps: a status chip is padded `2xs` and `sm`, a field's parts sit `xs` apart, options in a list `sm`, buttons in a row `md`, a hover card's icon and text `lg`, cards in a row `xl`, fields in a form `2xl`; a hover card is padded `4xl` top and bottom and `3xl` at the sides, `5xl` top and bottom when large.
+
+**Space belongs to the container** (decision *Space belongs to the container*). A heading, paragraph, or block never carries a margin of its own; whatever holds it sets the space. Three containers do: a **long read** (`.prose`) by its rhythm, a **component** inside itself, and everywhere else a **stack** (`.stack`), which puts `md` between its children and `2xl` above a heading (a heading straight after another takes the stack's own step). For another step, `.stack--xs`, `--sm`, `--lg`, `--xl` or `--2xl`; to change the space above one child alone, set `--stack-space` on it. Space goes only between children, never before the first or after the last, so a stack sits in its parent without extra air. Between sections, `--spacing-section`.
 
 **The page.** Content runs to `--page-width` (1300px) inside the page container (`.container`), which keeps `--page-gutter` (20px) between it and the viewport edge. Bands that run wider, such as a footer bar, take `--page-width-wide` (1400px).
 
@@ -23,6 +25,6 @@ The reading column and the wide zone are **set apart from the grid** (decision *
 
 **Stacking.** Six fixed layers, so nothing invents a z-index: `--z-below` (−1, behind its container), `--z-card` (5, a full-cover link over a card), `--z-base` (10, an element lifted over its neighbors), `--z-sticky` (100, the sticky header), `--z-dropdown` (1000, dropdowns and popovers), and `--z-overlay` (9999, modals).
 
-**Code.** `components/layout.css`: `.container` (`.container--wide`), `.grid-12`, `.prose-article` with `.breakout` and `.breakout--full`. No script.
+**Code.** `components/layout.css`: `.container` (`.container--wide`), `.grid-12`, `.prose-article` with `.breakout` and `.breakout--full`, `.stack` (`.stack--xs` to `.stack--2xl`). No script.
 
 *Open:* rules for choosing a spacing step (a rhythm per context, or a step per relationship); whether the 2px step stays.

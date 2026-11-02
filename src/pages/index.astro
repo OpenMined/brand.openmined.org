@@ -128,15 +128,17 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
   <section class="band" id="feedback">
     <div class="wrap">
       <div class="grid grid--2">
-        <div>
+        <div class="stack stack--xl">
           <h2>Feedback</h2>
           <div class="guide-prose" set:html={parts.feedback} />
         </div>
-        <div>
+        <div class="stack stack--xl">
           <h2>What's new</h2>
           <ul class="news">{LOG.map((l) => <li><span class="text-small muted">{l.date}</span><span>{clip(l.text)}</span></li>)}</ul>
-          <h3>Recent decisions</h3>
-          <ul class="news">{DECISIONS.map((d) => <li><span class="text-small muted">{day(d.data.date)}</span><a class="link-content" href={`/design/${d.path}`}>{d.title}</a></li>)}</ul>
+          <div class="stack stack--sm">
+            <h3>Recent decisions</h3>
+            <ul class="news">{DECISIONS.map((d) => <li><span class="text-small muted">{day(d.data.date)}</span><a class="link-content" href={`/design/${d.path}`}>{d.title}</a></li>)}</ul>
+          </div>
         </div>
       </div>
     </div>
@@ -145,8 +147,8 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
   <section class="band" id="principles">
     <div class="wrap">
       <div class="grid grid--2">
-        <div><h2>Principles</h2><div class="guide-prose" set:html={parts.principles} /></div>
-        <div><h2>What stays human</h2><div class="guide-prose" set:html={parts['what-stays-human']} /></div>
+        <div class="stack stack--xl"><h2>Principles</h2><div class="guide-prose" set:html={parts.principles} /></div>
+        <div class="stack stack--xl"><h2>What stays human</h2><div class="guide-prose" set:html={parts['what-stays-human']} /></div>
       </div>
     </div>
   </section>
