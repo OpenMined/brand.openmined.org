@@ -74,6 +74,7 @@ import { PAGES } from '../lib/pages';
       import { codeCopy } from '@components/code-copy.js';
       import { toc } from '@components/toc.js';
       import { lineFlow } from '@components/line-flow.js';
+      import { copyOnClick } from '../scripts/copy';
       buttonHover();
       hoverCards();
       linkCards();
@@ -84,6 +85,7 @@ import { PAGES } from '../lib/pages';
       toc();
       lineFlow();
       fieldLights();
+      copyOnClick();
       document.addEventListener('click', (e: MouseEvent) => {
         if ((e.target as HTMLElement).closest('.js-switch-theme')) {
           const html = document.documentElement;

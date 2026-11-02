@@ -82,7 +82,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
         <div class="grays__row">
           {GRAYS.map(g => (
             <div class="grays__cell" data-gray={g.startsWith('gray-') ? grayName(g) : undefined}>
-              <span class="sw" style={`background:var(--${g})`}>
+              <span class="sw" style={`background:var(--${g})`} data-copy-light={hex('light', g)} data-copy-dark={hex('dark', g)} aria-label={`Copy ${grayName(g)}'s hex value`}>
                 <code class="only-light js-ghex" style={`color:${readoutColor('light', readout('light', hex('light', g)))}`}>{hex('light', g)}</code>
                 <code class="only-dark js-ghex" style={`color:${readoutColor('dark', readout('dark', hex('dark', g)))}`}>{hex('dark', g)}</code>
               </span>
@@ -94,7 +94,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
         <p class="muted">The grays carry a slight midtone saturation boost, most in the middle steps (amount 0.008, center 54, width 15; built into the tokens).</p>
       </article>
       <article class="card spec-card" aria-label="Hues">
-        <h3>Hues</h3>
+        <h3>Hues <span class="spec-card__mode only-light">– light mode</span><span class="spec-card__mode only-dark">– dark mode</span></h3>
         <div class="ramps">
           <div class="ramps__head">
             <span></span>
@@ -109,7 +109,7 @@ const NAV: [string, string][] = [['palette', 'Palette'], ['role-examples', 'Role
             <div class="ramps__row">
               <span class="ramps__hue">{h}<small>{statusOf(h).join(' · ')}</small></span>
               {STEPS.map(s => (
-                <span class="sw" style={`background:var(--${h}-${s})`}>
+                <span class="sw" style={`background:var(--${h}-${s})`} data-copy-light={hex('light', `${h}-${s}`)} data-copy-dark={hex('dark', `${h}-${s}`)} aria-label={`Copy ${h} ${s}'s hex value`}>
                   {MODES.map(m => <code class={`only-${m}`} style={`color:${readoutColor(m, stepLabel(m, s))}`}>{hex(m, `${h}-${s}`)}</code>)}
                 </span>
               ))}

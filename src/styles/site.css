@@ -211,6 +211,7 @@ a:hover { text-decoration-color: currentColor; }
    its container: mute text only (review-phase rule). ───────────────── */
 .sw { height: 58px; border-radius: var(--radius-md); display: flex; align-items: flex-end; padding: var(--spacing-xs) var(--spacing-sm); min-width: 0; }
 .sw code { font-size: var(--font-size-xs); color: inherit; padding: 0; background: none; }
+.spec-card__mode { font-weight: var(--font-weight-regular); color: var(--text-muted); }
 .spec-card { display: grid; gap: var(--spacing-lg); }
 
 /* Gray: 11 steps plus white and black */
@@ -584,3 +585,20 @@ a:hover { text-decoration-color: currentColor; }
 .making-example__still { display: block; overflow: hidden; border-radius: var(--radius-sm); aspect-ratio: 16 / 10; }
 .making-example__still img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .making-gaps { padding-left: var(--spacing-xl); display: grid; gap: var(--spacing-2xs); }
+
+/* ── Click to copy (src/scripts/copy.ts) ─────────────────────────────
+   Any element with data-copy: the pointer cursor, the focus line, and one
+   shared tooltip, in the strong gray, above the element (below near the top of
+   the window): "Copy to clipboard", then "Copied". */
+:is([data-copy], [data-copy-light]) { cursor: pointer; }
+:is([data-copy], [data-copy-light]):focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+.copy-tip {
+  position: fixed; z-index: var(--z-overlay); pointer-events: none;
+  padding: var(--spacing-2xs) var(--spacing-sm); border-radius: var(--radius-sm);
+  background: var(--emphasis); color: var(--on-emphasis);
+  font: var(--font-weight-medium) var(--font-size-xs)/1.4 var(--font-body); white-space: nowrap;
+  transform: translate(-50%, calc(-100% - var(--spacing-xs))); opacity: 0; transition: opacity var(--transition-base);
+}
+.copy-tip.is-below { transform: translate(-50%, var(--spacing-xs)); }
+.copy-tip.is-on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .copy-tip { transition: none; } }
