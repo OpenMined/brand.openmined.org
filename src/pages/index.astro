@@ -108,20 +108,20 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
           <ul>{(coverage.data.not_covered as string[]).map((n) => <li>{n}</li>)}</ul>
         </div>
       </div>
-      <div class="guide-prose measure"><CoverageNotes /></div>
+      <div class="prose prose--downsize-2 guide-prose measure"><CoverageNotes /></div>
     </div>
   </section>
 
   <section class="band" id="built">
     <div class="wrap wrap--read">
       <header class="sec"><h2>How it's built</h2></header>
-      <div class="guide-prose" set:html={parts['how-its-built']} />
+      <div class="prose prose--downsize-2 guide-prose" set:html={parts['how-its-built']} />
       <figure class="sysfig">
         <div class="sysfig__scroll"><InfoDiagram variant="v1" /></div>
         <figcaption>The central source on the left; everything that reads it on the right. The dashed box is generated, never edited by hand. Parts labeled <em>planned</em> or <em>possible</em> don't exist yet.</figcaption>
       </figure>
       <h3>How to use it</h3>
-      <div class="guide-prose" set:html={parts['how-to-use-it']} />
+      <div class="prose prose--downsize-2 guide-prose" set:html={parts['how-to-use-it']} />
     </div>
   </section>
 
@@ -130,7 +130,7 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
       <div class="grid grid--2">
         <div class="stack stack--xl">
           <h2>Feedback</h2>
-          <div class="guide-prose" set:html={parts.feedback} />
+          <div class="prose prose--downsize-2 guide-prose" set:html={parts.feedback} />
         </div>
         <div class="stack stack--xl">
           <h2>What's new</h2>
@@ -147,8 +147,8 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
   <section class="band" id="principles">
     <div class="wrap">
       <div class="grid grid--2">
-        <div class="stack stack--xl"><h2>Principles</h2><div class="guide-prose" set:html={parts.principles} /></div>
-        <div class="stack stack--xl"><h2>What stays human</h2><div class="guide-prose" set:html={parts['what-stays-human']} /></div>
+        <div class="stack stack--xl"><h2>Principles</h2><div class="prose prose--downsize-2 guide-prose" set:html={parts.principles} /></div>
+        <div class="stack stack--xl"><h2>What stays human</h2><div class="prose prose--downsize-2 guide-prose" set:html={parts['what-stays-human']} /></div>
       </div>
     </div>
   </section>

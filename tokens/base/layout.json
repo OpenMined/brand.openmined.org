@@ -104,26 +104,31 @@
       "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose-divider (48px)" } }
     },
     "gap-h2": {
-      "$value": { "value": 88, "unit": "px" },
-      "$description": "Above an h2, whatever comes before it: the full section break.",
+      "$value": "{spacing.5xl}",
+      "$description": "Above an h2, whatever comes before it: a section break.",
       "$extensions": {
-        "org.openmined": { "status": "released", "was": "openmined.org .spacious-sections (88px, the live opt-in); the default since the type round (2026-10-28)" }
+        "org.openmined": { "status": "released", "was": "88px (openmined.org .spacious-sections) from the type round (2026-10-28) to 2026-11-02; openmined.org 32px" }
       }
     },
+    "gap-h2-spacious": {
+      "$value": "{spacing.section}",
+      "$description": "Above an h2 in a spacious long read (.prose--spacious), except right after the divider: the full section break.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "openmined.org .prose.spacious-sections (88px)" } }
+    },
     "gap-h3": {
-      "$value": "{spacing.5xl}",
+      "$value": "{spacing.4xl}",
       "$description": "Above an h3.",
-      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28), one step larger, to 2026-11-02; openmined.org 24px" } }
     },
     "gap-h4": {
-      "$value": "{spacing.4xl}",
+      "$value": "{spacing.3xl}",
       "$description": "Above an h4.",
-      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28), one step larger, to 2026-11-02; openmined.org 24px" } }
     },
     "gap-h5": {
-      "$value": "{spacing.3xl}",
+      "$value": "{spacing.2xl}",
       "$description": "Above an h5 or h6.",
-      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28); openmined.org 24px" } }
+      "$extensions": { "org.openmined": { "status": "released", "was": "type round, Spacious (2026-10-28), one step larger, to 2026-11-02; openmined.org 24px" } }
     }
   },
   "breakpoint": {

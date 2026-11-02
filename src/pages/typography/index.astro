@@ -205,8 +205,8 @@ request.approve()</code></pre>
   <section class="band" id="guidance">
     <div class="wrap">
       <header class="sec"><h2>Guidance</h2></header>
-      <div class="guide-prose"><foundation.Content /></div>
-      <div class="guide-prose"><h2>{prose.title}</h2><prose.Content /></div>
+      <div class="prose prose--downsize-2 guide-prose"><foundation.Content /></div>
+      <div class="prose prose--downsize-2 guide-prose"><h2>{prose.title}</h2><prose.Content /></div>
     </div>
   </section>
 
@@ -232,7 +232,7 @@ request.approve()</code></pre>
         <thead><tr><th>Style</th><th>Font</th><th class="num">Size</th><th class="num">Line</th><th>Color (v1)</th><th class="num">Space above / below</th></tr></thead>
         <tbody>{GSTYLES.map(st => <tr><td>{st.label}</td><td>{st.fontFamily} {st.fontWeight}</td><td class="num">{st.fontSizePt} pt</td><td class="num">{st.lineSpacingPercent}%</td><td><code>{st.color.token}</code> <span class="muted">{st.color.hex}</span></td><td class="num">{st.spaceAbovePt} / {st.spaceBelowPt} pt</td></tr>)}</tbody>
       </table></div>
-      <div class="guide-prose measure">
+      <div class="prose prose--downsize-2 guide-prose measure">
         <p>Page: US Letter, {GDOCS.page.marginPt / 72}″ margins. Footer: “{GDOCS.footer.text}” in Inter {GDOCS.footer.fontSizePt}pt. Title and Subtitle centered; body and headings left. Headings keep with next; all styles avoid widows and orphans. Lists: body leading inside an item, {GDOCS.lists.itemGapPt}pt between items, {GDOCS.lists.afterListPt}pt after the list (Docs has no list style, so <code>restyle.py</code> applies it per item).</p>
         <h3>Use it</h3>
         <ul>

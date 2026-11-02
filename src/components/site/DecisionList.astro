@@ -20,7 +20,7 @@ const replacement = (d: Doc) => (d.data.replacedBy ? doc(`decisions/${d.data.rep
         <span class="decision__title">{d.title}{d.status === 'deprecated' && <span class="decision__status"> · deprecated</span>}</span>
         <span class="decision__sum">{d.description}</span>
       </summary>
-      <div class="guide-prose decision__body">
+      <div class="prose prose--downsize-2 guide-prose decision__body">
         {d.status === 'deprecated' && <p class="decision__replaced">Deprecated{replacement(d) && <>: replaced by <a href={`#${anchor(replacement(d)!.slug)}`}>{replacement(d)!.title}</a></>}.</p>}
         <d.Content />
       </div>

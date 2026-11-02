@@ -17,16 +17,22 @@
        <p class="prose-divider" aria-hidden="true">⬩⬩⬩</p>
        <hr>
      </article>
+     <article class="prose prose--spacious">…</article>      the full break (88px) above each h2
+     <article class="prose prose--downsize-1">…</article>    headings drawn a level smaller (-2: two)
    Rhythm: one rule owns each gap (adjacent siblings), so it's the same in
    block flow, flex and the article grid, and it follows the tag, never the
    size a heading renders at. Space above a heading holds whatever comes before
    it, and steps down by level:
-   --prose-gap-h2 (88), -h3 (48), -h4 (40), -h5 (32, also h6). Between blocks
+   --prose-gap-h2 (48), -h3 (40), -h4 (32), -h5 (24, also h6). Between blocks
    --prose-gap (16), also after h3–h6 and before a list; --prose-gap-wide (24)
    after an h2, a list, a table or anything wider than the text (a figure, a
    breakout, the pull quote) and before anything wider, and
    between stacked headings; --prose-gap-section (32) around a rule;
-   --prose-gap-break (48) around the divider, an h2 after it included. */
+   --prose-gap-break (48) around the divider, an h2 after it included.
+   Modes on the same element: .prose--spacious puts the full break,
+   --prose-gap-h2-spacious (88), above every h2 but one right after the divider
+   (long posts with major sections); .prose--downsize-1 and -2 draw the
+   headings one or two levels smaller (type.css) and leave this rhythm alone. */
 .prose p, .prose li { line-height: var(--line-height-prose); }
 
 .prose > * + *,
@@ -41,6 +47,9 @@
 .prose :is(h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) { margin-top: var(--prose-gap-wide); }
 .prose * + hr, .prose :where(hr) + * { margin-top: var(--prose-gap-section); }
 .prose * + .prose-divider, .prose .prose-divider + * { margin-top: var(--prose-gap-break); }
+/* Spacious: weighs more than the stacked-heading rule, so an h2 straight after
+   another heading still opens the full break; the divider keeps its own. */
+.prose.prose--spacious :not(.prose-divider) + h2 { margin-top: var(--prose-gap-h2-spacious); }
 .prose > :first-child { margin-top: 0; }
 
 /* Lists: OpenMined's diamond marker on bulleted lists; numbers stay numbers. */

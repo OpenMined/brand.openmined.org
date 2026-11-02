@@ -115,20 +115,17 @@ a:hover { text-decoration-color: currentColor; }
 .card--link:hover .icon { transform: translateX(2px); transition-duration: 0.15s; }
 
 /* ── Prose (guidance files rendered from design/) ────────────────── */
-/* Rendered Markdown sits under a section's h2, so its headings step down: a
-   file's h1 at h3 size, its h2 at h4 size, its h3 as a block title. */
-.guide-prose { display: grid; gap: var(--spacing-md); max-width: var(--measure); }
-.guide-prose h1 { font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max)); line-height: var(--line-height-h3); }
-.guide-prose h2 { font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); line-height: var(--line-height-h4); margin-top: var(--spacing-lg); }
-.guide-prose h3 { margin-top: var(--spacing-sm); }
+/* Rendered Markdown sits under a section's own heading: the system's prose,
+   its headings two levels smaller (prose prose--downsize-2 guide-prose).
+   What stays the site's own: the reading width and unbroken inline code. */
+.guide-prose { max-width: var(--measure); }
 .guide-prose code { white-space: nowrap; }
-.guide-prose ul, .guide-prose ol { padding-left: var(--spacing-xl); display: grid; gap: var(--spacing-xs); }
 /* Tables, here and in .tbl: the long read's table (prose.md, Tables): small
    text, rows on dividers, headers in semibold headline color, no boxes. */
-:is(.guide-prose, .tbl-wrap) table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); }
-:is(.guide-prose, .tbl-wrap) :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-sm) var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); }
-:is(.guide-prose, .tbl-wrap) th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
-:is(.guide-prose, .tbl-wrap) tr:last-child td { border-bottom: 0; }
+.tbl-wrap table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); }
+.tbl-wrap :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-sm) var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); }
+.tbl-wrap th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.tbl-wrap tr:last-child td { border-bottom: 0; }
 
 /* ── Status (draft / deprecated; released isn't shown) — plain text ── */
 .status { font-size: var(--font-size-xs); color: var(--text-muted); }
@@ -163,7 +160,6 @@ a:hover { text-decoration-color: currentColor; }
 @media (max-width: 767px) { .docs { grid-template-columns: minmax(0, 1fr); } }
 .doc { display: grid; gap: var(--spacing-sm); align-content: start; scroll-margin-top: var(--spacing-section); }
 .doc__meta { font-size: var(--font-size-xs); color: var(--text-muted); }
-.doc .guide-prose { gap: var(--spacing-sm); }
 
 /* The four levels together — ported from the working page's .levels.
    The one outline on purpose: a base panel on a base page has no other

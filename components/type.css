@@ -57,6 +57,20 @@ h6, .h6 { font-size: clamp(var(--font-size-h6-min), 1.54vw, var(--font-size-h6-m
    apart from each other and from body text. */
 .prose h5 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h5-min), 1.54vw, var(--font-size-prose-h5-max)); line-height: var(--line-height-text); }
 .prose h6 { font-weight: var(--font-weight-semibold); font-size: clamp(var(--font-size-h6-min), 1.38vw, var(--font-size-prose-h6-max)); line-height: var(--line-height-text); }
+/* Downsize: a long read whose headings draw one or two levels smaller
+   (.prose--downsize-1, -2), as openmined.org's posts can. The tags stay, so the
+   outline, contents and spacing still follow them; only the size moves, to the
+   next level's clamp and treatment, floored at h6. */
+.prose.prose--downsize-1 h2 { font-size: clamp(var(--font-size-h3-min), 2.77vw, var(--font-size-h3-max)); line-height: var(--line-height-h3); }
+.prose.prose--downsize-1 h3, .prose.prose--downsize-2 h2 { font-size: clamp(var(--font-size-h4-min), 2.08vw, var(--font-size-h4-max)); line-height: var(--line-height-prose-h4); }
+.prose.prose--downsize-1 h4, .prose.prose--downsize-2 h3 {
+  font-family: var(--font-body); font-weight: var(--font-weight-semibold); letter-spacing: 0;
+  font-size: clamp(var(--font-size-h5-min), 1.54vw, var(--font-size-prose-h5-max)); line-height: var(--line-height-text);
+}
+.prose.prose--downsize-1 :is(h5, h6), .prose.prose--downsize-2 :is(h4, h5, h6) {
+  font-family: var(--font-body); font-weight: var(--font-weight-semibold); letter-spacing: 0;
+  font-size: clamp(var(--font-size-h6-min), 1.38vw, var(--font-size-prose-h6-max)); line-height: var(--line-height-text);
+}
 
 p, li, blockquote, figcaption, dd { text-wrap: pretty; }
 strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline); }

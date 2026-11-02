@@ -1147,26 +1147,32 @@
     "status": "released"
   },
   "--prose-gap-h2": {
-    "value": "88px",
-    "resolved": "88px",
-    "type": "dimension",
-    "status": "released"
-  },
-  "--prose-gap-h3": {
     "value": "var(--spacing-5xl)",
     "resolved": "48px",
     "type": "dimension",
     "status": "released"
   },
-  "--prose-gap-h4": {
+  "--prose-gap-h2-spacious": {
+    "value": "var(--spacing-section)",
+    "resolved": "88px",
+    "type": "dimension",
+    "status": "released"
+  },
+  "--prose-gap-h3": {
     "value": "var(--spacing-4xl)",
     "resolved": "40px",
     "type": "dimension",
     "status": "released"
   },
-  "--prose-gap-h5": {
+  "--prose-gap-h4": {
     "value": "var(--spacing-3xl)",
     "resolved": "32px",
+    "type": "dimension",
+    "status": "released"
+  },
+  "--prose-gap-h5": {
+    "value": "var(--spacing-2xl)",
+    "resolved": "24px",
     "type": "dimension",
     "status": "released"
   },

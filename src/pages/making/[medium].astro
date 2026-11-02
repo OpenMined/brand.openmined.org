@@ -41,7 +41,7 @@ const [levelText, levelTone] = LEVEL_LABEL[m.level];
           ? <a class="lcard" href={s.href}><h3 class="lcard__title">{s.label}<Fragment set:html={ARR} /></h3>{s.note && <span class="lcard__text">{s.note}</span>}</a>
           : <div class="card card--compact"><h3 class="card__title">{s.label}</h3>{s.note && <p>{s.note}</p>}</div>)}
       </div>
-      {hasBody && <div class="guide-prose measure making-body"><Body /></div>}
+      {hasBody && <div class="prose prose--downsize-2 guide-prose measure making-body"><Body /></div>}
     </div>
   </section>
 
