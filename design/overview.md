@@ -47,7 +47,7 @@ Tell us when the system didn't cover something, looked wrong, or you had to work
 - **With GitHub:** open an issue on the brand repository with the **Design system feedback** form. AI tools with the OpenMined plugin file it for you, after showing you the text.
 - **Without:** send it to the design lead.
 
-The design lead reviews feedback every week. A change to the system becomes a decision record and a line in the change log; what changed shows on this page.
+The design lead reviews feedback regularly. A change to the system becomes a decision record and a line in the change log; what changed shows on this page.
 
 ## What stays human
 

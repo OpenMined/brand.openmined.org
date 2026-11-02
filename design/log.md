@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-02** — Overview, Feedback: the design lead reviews feedback regularly (was every week).
 - **2026-11-02** — Copy: the guide pages' main text states each rule without citing its decision (the page's Decisions section carries the why; rules may still close with theirs), and copy no longer names other companies' design systems as precedent.
 - **2026-11-02** — **Stacks are even** (new decision, after researching how organizations use stacks): the same space between every child, and a heading kept with its text by nesting a tight stack inside a looser one, as established design systems do; the extra space above a heading is gone. Layout's Stacks section explains why the container sets the space and shows the same content flat and nested. Fixed where an element carried its own margin: the example kit's section heads (same look), the accordion's answer (now spaced like a stack), the medium pages, the Prose modes on Typography and the section headers.
 - **2026-11-02** — **Layout** shows **Stacks**: the rule, three live stacks with their gaps drawn, and a table of every step (read from the stack's CSS). **Typography**'s Prose shows the **spacious** and **downsize** modes beside the default, the same text in each.
