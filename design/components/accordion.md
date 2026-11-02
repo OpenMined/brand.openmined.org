@@ -7,7 +7,7 @@ tags: [interface]
 tokens: [--line, --stroke-sm, --surface-sunken, --text-headline, --font-size-md, --line-focus]
 ---
 
-**Anatomy.** A summary line (the question, Inter 500 at body size in the headline color, and a 20px down arrow) over its answer. Items are divided by the lighter line (`--line`), with a line above the first. No card or box around each item (*Outlines are lines*).
+**Anatomy.** A summary line (the question, Inter 500 at body size in the headline color, and a 20px down arrow) over its answer. Items are divided by the lighter line (`--line`), with a line above the first. No card or box around each item (*Outlines are lines*). The answer takes any content, spaced 16px apart like a stack.
 
 **Behavior.** The summary is a gray item: the sunken wash on hover; keyboard focus draws the focus line. The arrow turns half a turn when open. Built on `<details>`, so it works without a script and the answer stays in the page for search and assistive tech.
 

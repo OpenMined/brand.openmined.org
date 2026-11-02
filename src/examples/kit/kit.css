@@ -29,13 +29,18 @@ p, li, blockquote, figcaption, dd { text-wrap: pretty; }
 
 /* ── Content section: a head (eyebrow, heading, intro) over a body ──── */
 .kit-section { margin-block: var(--spacing-section); }
-.kit-section__head { margin-bottom: var(--spacing-5xl); }
-.kit-section__head--tight { margin-bottom: var(--spacing-lg); }
+/* The head spaces its own parts and the section spaces head from body
+   (Space belongs to the container): the eyebrow, heading and intro carry no
+   margin, so a head without an intro or eyebrow keeps the same gaps. */
+.kit-section__head > * { margin: 0; }
+.kit-section__eyebrow + .kit-section__heading { margin-top: var(--spacing-md); }
+.kit-section__head > * + .kit-section__intro { margin-top: var(--spacing-lg); }
+.kit-section__head + * { margin-top: var(--spacing-5xl); }
+.kit-section__head--tight + * { margin-top: var(--spacing-lg); }
 .kit-section__head--center { text-align: center; }
 .kit-section__head--center :is(.kit-section__intro, .kit-section__head-in) { margin-inline: auto; }
-.kit-section__eyebrow { display: inline-flex; align-items: center; gap: var(--spacing-sm); margin: 0 0 var(--spacing-md); color: var(--text-body); }
-.kit-section__heading { margin: 0 0 var(--spacing-lg); }
-.kit-section__intro { max-width: var(--kit-col-8); margin: 0; }
+.kit-section__eyebrow { display: inline-flex; align-items: center; gap: var(--spacing-sm); color: var(--text-body); }
+.kit-section__intro { max-width: var(--kit-col-8); }
 @media (max-width: 767px) { .kit-section__intro { max-width: none; } }
 
 /* ── Join panel: a raised panel over the gradient map ─────────────────── */

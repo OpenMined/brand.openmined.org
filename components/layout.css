@@ -15,17 +15,18 @@
        <figure class="breakout">…</figure>              wider than the text (860px)
        <figure class="breakout--full">…</figure>        out to the page width (1300px)
      </article>
-     <div class="stack">                                 children spaced lg (16px) apart
-       <h2>Feedback</h2>
-       <p>Tell us when…</p>
-       <h3>Recent decisions</h3>                         two steps more above a heading (2xl, 24px)
-       <ul>…</ul>
+     <div class="stack stack--2xl">                     groups 24px apart
+       <div class="stack stack--sm">                    a heading kept with its text
+         <h2>Feedback</h2>
+         <p>Tell us when…</p>
+       </div>
+       <div class="stack stack--sm">…</div>
      </div>
-     <div class="stack stack--2xl">…</div>              any step, --2xs to --5xl
+     <div class="stack">…</div>                           lg (16px) between children; any step, --2xs to --5xl
 
-   The stack spaces its children; they carry no margin of their own (outside
-   a long read, which has its own rhythm, .prose). Space goes between them only,
-   never before the first or after the last. A child keeps its own display, so
+   The stack spaces its children evenly; they carry no margin of their own
+   (outside a long read, which has its own rhythm, .prose). Space goes between
+   them only, never before the first or after the last. A child keeps its own display, so
    inline text belongs in a block (a <p>). Set --stack-space on one child to
    change the space above that child alone.
 
@@ -78,35 +79,25 @@
 }
 
 /* ── Stack: the container spaces its children ─────────────────────────
-   Every Layout's Stack (decisions: space belongs to the container; stack
-   steps). The reset weighs nothing, so a component's own margins still apply;
-   the space between children weighs one class, so it beats a page's reset.
-   Default lg (16px, prose's gap between blocks); .stack--{step} takes any step
-   from 2xs to 5xl. A heading after anything but another heading gets two steps
-   more (lg: 24, xl: 32 … 3xl and 4xl: 48, 5xl: the section step). */
+   Every Layout's Stack (decisions: space belongs to the container; stacks are
+   even). The same space between every pair of children, lg (16px, prose's gap
+   between blocks) by default, .stack--{step} for any step from 2xs to 5xl. To
+   keep a heading with its content, nest: a tight stack holds the heading and
+   its text, a looser one spaces the groups. The reset weighs nothing, so a
+   component's own margins still apply; the space between children weighs one
+   class, so it beats a page's reset. */
 /* --stack-space, set on one child, changes the space above that child alone; it
-   doesn't inherit, so a stack inside a stack keeps its own steps. */
+   doesn't inherit, so a stack inside a stack keeps its own step. */
 @property --stack-space { syntax: '*'; inherits: false; }
 :where(.stack > *) { margin-block: 0; }
 .stack > * + * { margin-block-start: var(--stack-space, var(--spacing-lg)); }
-.stack > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-2xl)); }
 .stack--2xs > * + * { margin-block-start: var(--stack-space, var(--spacing-2xs)); }
-.stack--2xs > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-sm)); }
 .stack--xs > * + * { margin-block-start: var(--stack-space, var(--spacing-xs)); }
-.stack--xs > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-md)); }
 .stack--sm > * + * { margin-block-start: var(--stack-space, var(--spacing-sm)); }
-.stack--sm > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-lg)); }
 .stack--md > * + * { margin-block-start: var(--stack-space, var(--spacing-md)); }
-.stack--md > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-xl)); }
 .stack--lg > * + * { margin-block-start: var(--stack-space, var(--spacing-lg)); }
-.stack--lg > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-2xl)); }
 .stack--xl > * + * { margin-block-start: var(--stack-space, var(--spacing-xl)); }
-.stack--xl > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-3xl)); }
 .stack--2xl > * + * { margin-block-start: var(--stack-space, var(--spacing-2xl)); }
-.stack--2xl > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-4xl)); }
 .stack--3xl > * + * { margin-block-start: var(--stack-space, var(--spacing-3xl)); }
-.stack--3xl > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-5xl)); }
 .stack--4xl > * + * { margin-block-start: var(--stack-space, var(--spacing-4xl)); }
-.stack--4xl > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-5xl)); }
 .stack--5xl > * + * { margin-block-start: var(--stack-space, var(--spacing-5xl)); }
-.stack--5xl > :not(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) { margin-block-start: var(--stack-space, var(--spacing-section)); }

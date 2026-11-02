@@ -37,6 +37,8 @@
 .accordion__icon { flex: none; width: 20px; height: 20px; color: var(--text-headline); transition: transform var(--transition-base); }
 .accordion[open] .accordion__icon { transform: rotate(180deg); }
 .accordion__body { padding: 0 0 var(--spacing-xl); max-width: var(--measure); }
-.accordion__body > :first-child { margin-top: 0; }
-.accordion__body > :last-child { margin-bottom: 0; }
+/* The body takes any content and spaces it like a stack: lg between blocks,
+   nothing before the first or after the last (Space belongs to the container). */
+:where(.accordion__body > *) { margin-block: 0; }
+.accordion__body > * + * { margin-top: var(--spacing-lg); }
 @media (prefers-reduced-motion: reduce) { .accordion__icon { transition: none; } }

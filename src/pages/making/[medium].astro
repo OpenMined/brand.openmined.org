@@ -36,12 +36,14 @@ const [levelText, levelTone] = LEVEL_LABEL[m.level];
   <section class="band" id="start">
     <div class="wrap">
       <header class="sec"><h2>Start</h2></header>
+      <div class="stack stack--5xl">
       <div class="grid grid--3">
         {m.start.map(s => s.href
           ? <a class="lcard" href={s.href}><h3 class="lcard__title">{s.label}<Fragment set:html={ARR} /></h3>{s.note && <span class="lcard__text">{s.note}</span>}</a>
           : <div class="card card--compact"><h3 class="card__title">{s.label}</h3>{s.note && <p>{s.note}</p>}</div>)}
       </div>
-      {hasBody && <div class="prose prose--downsize-2 guide-prose measure making-body"><Body /></div>}
+      {hasBody && <div class="prose prose--downsize-2 guide-prose measure"><Body /></div>}
+      </div>
     </div>
   </section>
 
@@ -62,7 +64,7 @@ const [levelText, levelTone] = LEVEL_LABEL[m.level];
         <header class="sec"><h2>Components</h2><p>Each is in <a class="link-content" href="/omds.css">/omds.css</a>, or take its files one by one. The markup is from the top of each CSS file.</p></header>
         <div class="making-components">
           {m.components.map(c => (
-            <article class="making-component">
+            <article class="making-component stack stack--sm">
               <h3>{c.guide ? <a class="link-content" href={docHref(c.guide)}>{c.guide.title}</a> : c.files[0].name}</h3>
               {c.guide && <p>{c.guide.description}</p>}
               <p class="text-small">{c.files.flatMap(f => [f.css, f.js].filter(Boolean)).map((u, i) => <>{i > 0 && ' · '}<a class="link-content" href={u}>{u}</a></>)}</p>

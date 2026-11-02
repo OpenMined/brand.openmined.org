@@ -91,7 +91,9 @@ a:hover { text-decoration-color: currentColor; }
 /* Grid items default to min-width: auto and grow to fit wide content (a swatch row);
    let them shrink so the content scrolls inside its card instead of the page. */
 .band > .wrap > * { min-width: 0; }
-.sec { display: grid; gap: var(--spacing-xs); margin-bottom: var(--spacing-sm); }
+.sec { display: grid; gap: var(--spacing-xs); }
+/* A section's header sits sm further from what follows than the section's other gaps. */
+.sec + * { margin-top: var(--spacing-sm); }
 /* A section intro keeps to the reading width (typography.md, Measure). */
 .sec p { max-width: var(--measure); }
 
@@ -118,12 +120,13 @@ a:hover { text-decoration-color: currentColor; }
    blocks over a sunken well so the gaps between them show. */
 .stack-demo { display: grid; gap: var(--spacing-md); align-content: start; }
 .stack-demo__stack { padding: var(--spacing-lg); border-radius: var(--radius-md); background: var(--surface-sunken); }
-.stack-demo__stack > * { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); font-size: var(--font-size-sm); }
-.stack-demo__stack > h5 { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.stack-demo__stack :is(h5, p) { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); font-size: var(--font-size-sm); }
+.stack-demo__stack h5 { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.stack-demo__group { padding: var(--spacing-sm); border: var(--stroke-sm) dashed var(--line-strong); border-radius: var(--radius-md); }
 .stack-demo figcaption { display: grid; gap: var(--spacing-3xs); font-size: var(--font-size-sm); }
 
 /* Prose modes (Typography): each mode beside the default, the same text in both. */
-.prose-modes { display: grid; gap: var(--spacing-5xl); margin-top: var(--spacing-3xl); }
+.prose-modes { display: grid; gap: var(--spacing-5xl); }
 .prose-mode { display: grid; gap: var(--spacing-lg); align-content: start; margin: 0; }
 .prose-mode figcaption { font-size: var(--font-size-sm); }
 
@@ -569,13 +572,13 @@ a:hover { text-decoration-color: currentColor; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* A medium's page (src/pages/making/) */
-.making-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-md); margin: 0 0 var(--spacing-xl); }
-.making-body { margin-top: var(--spacing-3xl); }
+.making-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-md); }
 .making-components { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--spacing-3xl) var(--spacing-2xl); }
-.making-component h3 { margin: 0 0 var(--spacing-xs); font-size: var(--font-size-lg); }
-.making-component p { margin: 0 0 var(--spacing-sm); }
+.making-component h3 { font-size: var(--font-size-lg); }
 .making-component summary { cursor: pointer; }
-.making-component pre { margin: var(--spacing-sm) 0 0; overflow-x: auto; font-size: var(--font-size-xs); }
-.making-example__still { display: block; overflow: hidden; margin-bottom: var(--spacing-sm); border-radius: var(--radius-sm); aspect-ratio: 16 / 10; }
+.making-component summary + pre { margin-top: var(--spacing-sm); }
+.making-component pre { overflow-x: auto; font-size: var(--font-size-xs); }
+.making-example__still + * { margin-top: var(--spacing-sm); }
+.making-example__still { display: block; overflow: hidden; border-radius: var(--radius-sm); aspect-ratio: 16 / 10; }
 .making-example__still img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.making-gaps { margin: 0 0 var(--spacing-xl); padding-left: var(--spacing-xl); display: grid; gap: var(--spacing-2xs); }
+.making-gaps { padding-left: var(--spacing-xl); display: grid; gap: var(--spacing-2xs); }

@@ -46,7 +46,8 @@ you copy the file.
   tools) stay minimal: put `data-interaction="minimal"` on the region, or don't load the script.
 - **Space belongs to the container.** Never put a margin on a heading or a block. Inside a long
   read use `.prose`; anywhere else put headings and blocks in a `.stack` (`.stack--sm` … for
-  another step). Components space their own insides.
+  another step), and nest a tight stack to keep a heading with its text. Components space their
+  own insides.
 - **Icons:** the set in `/design/foundations/iconography.md` (Iconoir regular plus our own).
   Never invent an icon; never use another icon library.
 - **The logo and partner marks** are used as supplied: never redrawn, recolored or generated.

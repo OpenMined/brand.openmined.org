@@ -135,8 +135,10 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
         <div class="stack stack--2xl">
           <h2>What's new</h2>
           <ul class="news">{LOG.map((l) => <li><span class="text-small muted">{l.date}</span><span>{clip(l.text)}</span></li>)}</ul>
-          <h3>Recent decisions</h3>
-          <ul class="news">{DECISIONS.map((d) => <li><span class="text-small muted">{day(d.data.date)}</span><a class="link-content" href={`/design/${d.path}`}>{d.title}</a></li>)}</ul>
+          <div class="stack stack--sm">
+            <h3>Recent decisions</h3>
+            <ul class="news">{DECISIONS.map((d) => <li><span class="text-small muted">{day(d.data.date)}</span><a class="link-content" href={`/design/${d.path}`}>{d.title}</a></li>)}</ul>
+          </div>
         </div>
       </div>
     </div>

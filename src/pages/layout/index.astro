@@ -39,14 +39,11 @@ const ZONES = [
 const CODE = componentCode(['layout']);
 /** The stack's steps, read from its rules in components/layout.css, so the table can't drift. */
 const STACK_CSS = readFileSync('components/layout.css', 'utf8');
-const stackRule = (heading: boolean) => new RegExp(String.raw`\.stack(?:--([a-z0-9]+))? > ${heading ? String.raw`:not\([^)]*\) \+ :is\([^)]*\)` : String.raw`\* \+ \*`} \{ margin-block-start: var\(--stack-space, var\(--spacing-([a-z0-9]+)\)\); \}`, 'g');
-const headingStep = Object.fromEntries([...STACK_CSS.matchAll(stackRule(true))].map(m => [m[1] ?? '', m[2]]));
-const STACKS = [...STACK_CSS.matchAll(stackRule(false))].map(m => ({ cls: m[1] ? `.stack--${m[1]}` : '.stack', step: m[2], heading: headingStep[m[1] ?? ''] }))
-  .filter(r => r.cls !== '.stack--lg')
-  .map(r => ({ ...r, px: tok('light', `--spacing-${r.step}`).resolved, hpx: tok('light', `--spacing-${r.heading}`).resolved }));
-if (STACKS.length < 2 || STACKS.some(r => !r.heading)) throw new Error('Layout page: the stack rules in components/layout.css no longer parse');
-const stackOf = (cls: string) => STACKS.find(r => r.cls === cls)!;
-const STACK_DEMOS = ['.stack', '.stack--sm', '.stack--2xl'].map(stackOf);
+const STACKS = [...STACK_CSS.matchAll(/\.stack(?:--([a-z0-9]+))? > \* \+ \* \{ margin-block-start: var\(--stack-space, var\(--spacing-([a-z0-9]+)\)\); \}/g)]
+  .map(m => ({ cls: m[1] ? `.stack--${m[1]}` : '.stack', step: m[2], px: tok('light', `--spacing-${m[2]}`).resolved }))
+  .filter(r => r.cls !== '.stack--lg');
+if (STACKS.length < 2) throw new Error('Layout page: the stack rules in components/layout.css no longer parse');
+const px = (step: string) => tok('light', `--spacing-${step}`).resolved;
 const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], ['grid', 'Page and grid'], ['articles', 'Articles'], ['breakpoints', 'Breakpoints'], ['stacking', 'Stacking'], ['guidance', 'Guidance'], ...(decisions.length ? [['decisions', 'Decisions'] as [string, string]] : [])];
 ---
 <Site title={foundation.title} description={foundation.description} current="layout">
@@ -73,26 +70,39 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], [
 
   <section class="band" id="stacks">
     <div class="wrap">
-      <header class="sec"><h2>Stacks</h2><p class="measure">Below, three stacks with their children drawn as blocks, so the space between them shows; the table lists every step.</p></header>
-      <div class="guide-prose prose" set:html={paragraph(foundation, 'Space belongs to the container')} />
-      <div class="grid grid--3">
-        {STACK_DEMOS.map(d => (
-          <figure class="stack-demo">
-            <div class={`stack ${d.cls === '.stack' ? '' : d.cls.slice(1)} stack-demo__stack`}>
-              <h5>A heading</h5>
-              <p>A paragraph</p>
-              <p>Another paragraph</p>
-              <h5>The next heading</h5>
-              <p>A paragraph</p>
+      <header class="sec"><h2>Stacks</h2><p class="measure">Why the container, not the element, sets the space, and how a stack does it.</p></header>
+      <div class="guide-prose prose">
+        <Fragment set:html={paragraph(foundation, 'Space belongs to the container')} />
+        <Fragment set:html={paragraph(foundation, 'Stacks')} />
+      </div>
+      <div class="grid grid--2">
+        <figure class="stack-demo">
+          <div class="stack stack-demo__stack">
+            <h5>Feedback</h5>
+            <p>Tell us what didn't fit.</p>
+            <h5>What's new</h5>
+            <p>The latest changes.</p>
+          </div>
+          <figcaption><code>class="stack"</code><span class="muted">Flat: every gap is {px('lg')}, so the second heading sits as far from its own text as from the text above it.</span></figcaption>
+        </figure>
+        <figure class="stack-demo">
+          <div class="stack stack--2xl stack-demo__stack">
+            <div class="stack stack--sm stack-demo__group">
+              <h5>Feedback</h5>
+              <p>Tell us what didn't fit.</p>
             </div>
-            <figcaption><code>{d.cls === '.stack' ? 'class="stack"' : `class="stack ${d.cls.slice(1)}"`}</code><span class="muted">{d.px} between, {d.hpx} above a heading</span></figcaption>
-          </figure>
-        ))}
+            <div class="stack stack--sm stack-demo__group">
+              <h5>What's new</h5>
+              <p>The latest changes.</p>
+            </div>
+          </div>
+          <figcaption><span><code>class="stack stack--2xl"</code> around <code>class="stack stack--sm"</code></span><span class="muted">Nested: each heading {px('sm')} from its text, the groups {px('2xl')} apart.</span></figcaption>
+        </figure>
       </div>
       <div class="tbl-wrap">
         <table>
-          <thead><tr><th>Class</th><th>Between children</th><th>Above a heading</th></tr></thead>
-          <tbody>{STACKS.map(r => <tr><td><code>{r.cls}</code>{r.cls === '.stack' && <span class="muted"> (lg, the default)</span>}</td><td><code>--spacing-{r.step}</code> · {r.px}</td><td><code>--spacing-{r.heading}</code> · {r.hpx}</td></tr>)}</tbody>
+          <thead><tr><th>Class</th><th>Between children</th></tr></thead>
+          <tbody>{STACKS.map(r => <tr><td><code>{r.cls}</code>{r.cls === '.stack' && <span class="muted"> (lg, the default)</span>}</td><td><code>--spacing-{r.step}</code> · {r.px}</td></tr>)}</tbody>
         </table>
       </div>
     </div>
