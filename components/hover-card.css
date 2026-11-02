@@ -74,15 +74,17 @@
   background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), var(--white), transparent); }
 /* Minimal (inside data-interaction="minimal"): one level up and the icon in its
    hue's key, standing still (--ci-key, set on the card); no lift, tilt, light,
-   glow or colorflow. In the colorflow's place, the lower third, a still fade of
-   the hue's key, from the bottom edge to transparent, comes in with the hover.
+   glow or colorflow. In the colorflow's place, a still fade of the hue's key to
+   transparent comes in with the hover: 23% of the card tall, sitting 4% below
+   the bottom edge as the flow does, so the card clips its strongest color and
+   shows the rest, 19% up.
    Pressed still settles the shadow (design/behaviors/interaction-states.md). */
 [data-interaction="minimal"] .hcard:is(:hover, :focus-visible, :active) { transform: none; }
 [data-interaction="minimal"] .hcard:is(:hover, :focus-visible) .hcard__arrow { transform: none; }
 [data-interaction="minimal"] :is(.hcard__light, .hcard__icon > .hcard__glow) { display: none; }
 [data-interaction="minimal"] .hcard__icon .hcard__color :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--ci-key, currentColor); }
 [data-interaction="minimal"] .hcard::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: -1; pointer-events: none;
+  content: ''; position: absolute; left: 0; right: 0; bottom: -4%; height: 23%; z-index: -1; pointer-events: none;
   background: linear-gradient(to top, var(--ci-key, transparent), transparent);
   opacity: 0; transition: opacity var(--transition-base);
 }

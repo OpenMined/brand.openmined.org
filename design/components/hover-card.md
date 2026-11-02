@@ -24,7 +24,7 @@ tokens: [--surface-raise-1, --surface-base, --shadow-raise-1, --shadow-raise-2, 
 
 **Large.** For a card standing alone, such as a call to action under a row of content: it runs the full width of its container, and its icon and text sit centered in it at a 640px measure, so the lines stay short; the arrow stays at the right edge. Padding one step up, 48px top and bottom (`--spacing-5xl`), 32px at the sides. Everything else is the same as a hover card.
 
-**Minimal** (inside `data-interaction="minimal"`): one level up, the icon in its hue's key, and in the colorflow's place a still fade of the hue's key from the bottom edge to transparent across the lower third (0.3 light, 0.35 dark), fading in with the hover; no lift, tilt, light, glow or colorflow. See *Interaction states*; the code is the spec.
+**Minimal** (inside `data-interaction="minimal"`): one level up, the icon in its hue's key, and in the colorflow's place a still fade of the hue's key to transparent, set partly below the bottom edge as the colorflow is: the card shows it 19% of the way up and clips the strongest color, 4% below the edge (0.3 light, 0.35 dark), fading in with the hover; no lift, tilt, light, glow or colorflow. See *Interaction states*; the code is the spec.
 
 **On the page only.** Like a link card, a hover card sits on the page, never inside a raised panel, so its hover always has a level to rise to.
 

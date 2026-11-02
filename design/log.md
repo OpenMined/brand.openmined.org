@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-02** — *Hover card*, minimal layer: the still fade of the hue's key on hover sits partly below the card's bottom edge, as the colorflow does: the card shows it 19% up (was the whole fade, 34% up) and clips the strongest color, 4% below the edge.
 - **2026-11-02** — **Color lines start from the same place** (new decision): the content link's and the text button's flowing hover line starts from green on every hover instead of resuming where the last hover stopped.
 - **2026-11-02** — **Link color follows the setting** (new decision): the **text button** gets the accent line on hover like a content link (still green in the minimal layer, the flowing gradient in the full one). Rows of many links take the new **nav link** (`.link-nav`): the gray line on hover, kept under the current page. The example footer, the Home example's "How we help" row and this site's on-page nav use it; the Interface page shows all three link kinds.
 - **2026-11-02** — **Usage is traced from the files** (new decision): nothing is added to a project to track it. The census reads the stamp at the top of every served CSS and JS file, code that loads files from design.openmined.org, and the system's own names, and finds a project's local changes by comparing its stamped copy with what was served at that commit; `omds.json` is dropped from the plan. The feedback form asks for the version from the file's top comment.
