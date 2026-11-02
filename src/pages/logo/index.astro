@@ -55,7 +55,7 @@ const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['par
             {g.logos.map(([file, label, dark]) => (
               <figure class="logo-tile page-band" data-section={dark ? 'always-dark' : 'always-light'}>
                 <img src={`/logos/${file}`} alt={`OpenMined, ${label.toLowerCase()}`} />
-                <figcaption class="text-small"><span>{label}</span> <a class="link-content" href={`/logos/${file}`} download={file}>{file}</a></figcaption>
+                <figcaption class="text-small"><span>{label}</span> <span><a class="link-content" href={`/logos/${file}`} download={file}>{file}</a></span></figcaption>
               </figure>
             ))}
           </div>
