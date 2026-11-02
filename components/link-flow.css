@@ -1,10 +1,13 @@
 /* ════════════════════════════════════════════════════════════════════
-   LINK FLOW — the content link's full state, an add-on to link.css
+   LINK FLOW — the full state of the content link and the text button, an
+   add-on to link.css
    (design/components/link.md)
    ════════════════════════════════════════════════════════════════════
    Needs: the v2 tokens and link.css. No script. Load it after link.css. Without
    it, or inside [data-interaction="minimal"], the content link keeps link.css's
-   minimal state: an underline that turns the accent's green on hover. See
+   minimal state: an underline that turns the accent's green on hover (the text
+   button: a green line under its label). Nav links carry no color and aren't
+   touched. See
    decisions/2026-10-12-if-color-then-motion.
 
 The underline draws in from the left on load. On hover or keyboard focus a
@@ -25,9 +28,11 @@ The underline draws in from the left on load. On hover or keyboard focus a
 @keyframes om-line-in { from { --om-line: 0%; } to { --om-line: 100%; } }
 @keyframes link-flow { from { --link-shift: 0%; } to { --link-shift: 900%; } }
 
-:is(.link-content, .content-links a:not([class])):not([data-interaction="minimal"] *) {
+:is(.link-content, .content-links a:not([class]), .link-text__label):not([data-interaction="minimal"] *) {
   --link-line: repeating-linear-gradient(90deg, var(--gradient-green) calc(var(--link-shift) + 0%), var(--gradient-lime) calc(var(--link-shift) + 100%), var(--gradient-yellow) calc(var(--link-shift) + 200%), var(--gradient-gold) calc(var(--link-shift) + 300%), var(--gradient-orange) calc(var(--link-shift) + 400%), var(--gradient-red) calc(var(--link-shift) + 500%), var(--gradient-violet) calc(var(--link-shift) + 600%), var(--gradient-blue) calc(var(--link-shift) + 700%), var(--gradient-teal) calc(var(--link-shift) + 800%), var(--gradient-green) calc(var(--link-shift) + 900%));
   --link-glow: repeating-linear-gradient(90deg, color-mix(in oklch, var(--gradient-green) 35%, transparent) calc(var(--link-shift) + 0%), color-mix(in oklch, var(--gradient-lime) 35%, transparent) calc(var(--link-shift) + 100%), color-mix(in oklch, var(--gradient-yellow) 35%, transparent) calc(var(--link-shift) + 200%), color-mix(in oklch, var(--gradient-gold) 35%, transparent) calc(var(--link-shift) + 300%), color-mix(in oklch, var(--gradient-orange) 35%, transparent) calc(var(--link-shift) + 400%), color-mix(in oklch, var(--gradient-red) 35%, transparent) calc(var(--link-shift) + 500%), color-mix(in oklch, var(--gradient-violet) 35%, transparent) calc(var(--link-shift) + 600%), color-mix(in oklch, var(--gradient-blue) 35%, transparent) calc(var(--link-shift) + 700%), color-mix(in oklch, var(--gradient-teal) 35%, transparent) calc(var(--link-shift) + 800%), color-mix(in oklch, var(--gradient-green) 35%, transparent) calc(var(--link-shift) + 900%));
+}
+:is(.link-content, .content-links a:not([class])):not([data-interaction="minimal"] *) {
   background-image: var(--link-line), var(--link-glow), linear-gradient(var(--line-strong), var(--line-strong));
   background-repeat: no-repeat;
   background-size: max(0px, calc(var(--om-accent) - 2px)) var(--stroke-sm), var(--om-accent) 3px, max(0px, calc(var(--om-line) - 2px)) var(--stroke-sm);
@@ -45,7 +50,23 @@ The underline draws in from the left on load. On hover or keyboard focus a
   background-position: left 1px bottom 1px, left 0 bottom 0, left 1px bottom 1px;
   animation-play-state: running, running;
 }
+/* Text button: the same line and glow under its label, with no resting
+   underline beneath them; it grows on hover or keyboard focus and flows while
+   it's there. */
+.link-text:not([data-interaction="minimal"] *) .link-text__label {
+  background-image: var(--link-line), var(--link-glow);
+  background-size: max(0px, calc(var(--om-accent) - 2px)) var(--stroke-sm), var(--om-accent) 3px;
+  background-position: right 1px bottom 1px, right 0 bottom 0;
+  padding: 0 1px 2px; margin-inline: -1px;
+  animation: link-flow 15s linear infinite paused;
+  transition: --om-accent 0.4s ease;
+}
+@media (hover: hover) {
+  .link-text:not([data-interaction="minimal"] *):hover .link-text__label { --om-accent: 100%; background-position: left 1px bottom 1px, left 0 bottom 0; animation-play-state: running; }
+}
+.link-text:not([data-interaction="minimal"] *):focus-visible .link-text__label { --om-accent: 100%; background-position: left 1px bottom 1px, left 0 bottom 0; animation-play-state: running; }
 @media (prefers-reduced-motion: reduce) {
   :is(.link-content, .content-links a:not([class])):not([data-interaction="minimal"] *) { animation: none; --om-line: 100%; transition: none; }
+  .link-text:not([data-interaction="minimal"] *) .link-text__label { animation: none; transition: none; }
 }
 

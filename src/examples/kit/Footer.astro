@@ -15,7 +15,7 @@ const SOCIAL: [string, string][] = [['LinkedIn', 'linkedin'], ['X', 'x'], ['GitH
   <div class="container">
     <div class="sf__follow"><span>Follow us</span>{SOCIAL.map(([l, n]) => <a class="btn btn--icon" href="#" aria-label={l} set:html={iconSvg(n, { size: 20 })} />)}</div>
     <div class="sf__in">
-      <div class="sf__nav">{COLS.map(([h, items]) => <div><p class="sf__h">{h}</p><ul>{items.map(i => <li><a class="link-text" href="#"><span class="link-text__label">{i}</span></a></li>)}</ul></div>)}</div>
+      <div class="sf__nav">{COLS.map(([h, items]) => <div><p class="sf__h">{h}</p><ul>{items.map(i => <li><a class="link-nav" href="#">{i}</a></li>)}</ul></div>)}</div>
       <div class="sf__cta">
         <p class="h3">Support the Mission</p>
         <p>Our vision for the future is ambitious. Here is how you can help:</p>
@@ -25,7 +25,7 @@ const SOCIAL: [string, string][] = [['LinkedIn', 'linkedin'], ['X', 'x'], ['GitH
   </div>
   <div class="sf__bar">
     <img src="/logos/OpenMined-Icon.svg" alt="" width="32" height="32" />
-    <span><a class="link-text" href="#"><span class="link-text__label">Privacy Policy</span></a><span class="sf__sep" aria-hidden="true"></span>© 2026 OpenMined Foundation</span>
+    <span><a class="link-nav" href="#">Privacy Policy</a><span class="sf__sep" aria-hidden="true"></span>© 2026 OpenMined Foundation</span>
   </div>
 </footer>
 <style is:inline>
@@ -36,7 +36,7 @@ const SOCIAL: [string, string][] = [['LinkedIn', 'linkedin'], ['X', 'x'], ['GitH
   .sf__cta { max-width: 375px; }
   .sf__h { margin: 0 0 var(--spacing-md); font-weight: var(--font-weight-medium); color: var(--text-headline); }
   .sf ul { display: grid; gap: var(--spacing-sm); margin: 0; padding: 0; list-style: none; }
-  .sf .link-text { font-weight: var(--font-weight-regular); color: var(--text-body); }
+  .sf .link-nav { color: var(--text-body); }
   .sf__cta p { margin: 0 0 51px; }
   .sf__cta .h3 { margin: 0 0 var(--spacing-xl); color: var(--text-headline); }
   .sf__actions { display: flex; flex-wrap: wrap; gap: var(--spacing-xl); }

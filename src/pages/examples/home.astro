@@ -59,7 +59,7 @@ const PRESS: [string, string][] = [
       .hero__taglines { margin: 0 0 var(--spacing-4xl); }
       .hero__taglines span { display: block; text-wrap: balance; }
       .hero__help { display: flex; flex-wrap: wrap; gap: 0 var(--spacing-lg); }
-      .hero__help .link-text { font-weight: var(--font-weight-semibold); }
+      .hero__help .link-nav { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
       .hero__bio { max-width: 735px; margin: 0 auto; text-align: center; }
       .hero__bio p { margin: 0 0 var(--spacing-4xl); }
       .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-sm) var(--spacing-xl); }
@@ -98,7 +98,7 @@ const PRESS: [string, string][] = [
         <div>
           <h1>The missing layer for collective intelligence</h1>
           <p class="hero__taglines"><span>-&gt; Unlock insights from data you can't access.</span><span>-&gt; Create value from data you can't share.</span></p>
-          <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-text" href="#"><span class="link-text__label">{l}</span></a>)}</div>
+          <div class="hero__help"><span>How We Help:</span>{['Publishers', 'Creators', 'Genomics', 'AI Auditors'].map(l => <a class="link-nav" href="#">{l}</a>)}</div>
         </div>
         <div aria-hidden="true"><DiamondHero /></div>
       </div>

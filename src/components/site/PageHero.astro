@@ -9,5 +9,5 @@ const { eyebrow, title, description, status, nav, source = 'values from the v2 t
   <p class="text-lead">{description}</p>
   <p class="status">{status && status !== 'released' && <>Status: <b>{status}</b> · </>}{source}</p>
   <slot />
-  <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a class="link-text" href={`#${id}`}><span class="link-text__label">{t}</span></a>)}</nav>
+  <nav class="page-nav" aria-label="On this page">{nav.map(([id, t]) => <a class="link-nav" href={`#${id}`}>{t}</a>)}</nav>
 </section>

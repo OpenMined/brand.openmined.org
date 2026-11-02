@@ -110,7 +110,7 @@ const TEXT_FIELDS = [
   <section class="band" id="links">
     <div class="wrap">
       <header class="sec"><h2>Links</h2><p>{link.description}</p>{link.status !== 'released' && <p class="status">Status: <b>{link.status}</b></p>}</header>
-      <div class="grid grid--2">
+      <div class="grid grid--3">
         <article class="card link-demo">
           <h3>Content link</h3>
           <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a line in the full OM gradient grows over it from the left, its colors flowing, with a soft glow, and leaves to the right. The text never changes color.</p>
@@ -119,7 +119,12 @@ const TEXT_FIELDS = [
         <article class="card link-demo">
           <h3>Text button</h3>
           <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
-          <p class="muted">An action that reads as text: no underline at rest; on hover the line slides in from the left and leaves to the right: the same line as the content link's underline and the secondary button's outline. Nav and footer links work the same way. The icon follows the label and isn’t underlined.</p>
+          <p class="muted">An action that reads as text, standing on its own: no line at rest; on hover the accent's line draws in under the label from the left and leaves to the right, flowing in the full layer, as on a content link. The icon follows the label and isn't underlined.</p>
+        </article>
+        <article class="card link-demo">
+          <h3>Nav link</h3>
+          <nav class="link-demo__nav" aria-label="Nav links (example)"><a class="link-nav" href="#links" aria-current="page">Research</a><a class="link-nav" href="#links">Blog</a><a class="link-nav" href="#links">Events</a><a class="link-nav" href="#links">Donate</a></nav>
+          <p class="muted">For a row of many links, a nav or a footer, where color on every hover would crowd the row: the gray line draws in on hover and stays under the current page.</p>
         </article>
       </div>
       <BuildRef code={CODE.link} tokens={link.tokens} />

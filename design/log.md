@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-02** — **Link color follows the setting** (new decision): the **text button** gets the accent line on hover like a content link (still green in the minimal layer, the flowing gradient in the full one). Rows of many links take the new **nav link** (`.link-nav`): the gray line on hover, kept under the current page. The example footer, the Home example's "How we help" row and this site's on-page nav use it; the Interface page shows all three link kinds.
 - **2026-11-02** — **Usage is traced from the files** (new decision): nothing is added to a project to track it. The census reads the stamp at the top of every served CSS and JS file, code that loads files from design.openmined.org, and the system's own names, and finds a project's local changes by comparing its stamped copy with what was served at that commit; `omds.json` is dropped from the plan. The feedback form asks for the version from the file's top comment.
 - **2026-11-02** — Overview, Feedback: the design lead reviews feedback regularly (was every week).
 - **2026-11-02** — Copy: the guide pages' main text states each rule without citing its decision (the page's Decisions section carries the why; rules may still close with theirs), and copy no longer names other companies' design systems as precedent.

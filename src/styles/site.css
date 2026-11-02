@@ -159,8 +159,10 @@ a:hover { text-decoration-color: currentColor; }
 .foot { padding: 0 0 var(--spacing-5xl); font-size: var(--font-size-xs); color: var(--text-muted); }
 
 /* ── Page sections (the template every topic page uses) ──────────── */
-/* On-page nav: text buttons (components/link.css .link-text), the line on hover. */
+/* On-page nav: nav links (components/link.css .link-nav), the gray line on hover. */
 .page-nav { display: flex; flex-wrap: wrap; gap: var(--spacing-2xs) var(--spacing-lg); font-size: var(--font-size-sm); }
+.link-demo__nav { display: flex; flex-wrap: wrap; align-items: center; align-self: start; gap: var(--spacing-xs) var(--spacing-lg); }
+.page-nav .link-nav { font-weight: var(--font-weight-medium); color: var(--text-headline); }
 
 /* Tokens table — ported from the color round's .tbl */
 .tbl-wrap { overflow-x: auto; }
