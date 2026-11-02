@@ -49,6 +49,9 @@ export const EXAMPLES: Example[] = [
   { slug: 'diagram-abc-3', kind: 'graphic', motion: true, title: 'Diagram: where attribution is lost',
     description: 'Colored sources merge into one dulled zone; what comes out carries no trace of them.',
     shows: ['patterns/diagrams', 'foundations/highlight'] },
+  { slug: 'system-diagram', kind: 'graphic', motion: false, title: 'System diagram',
+    description: 'An infographic in HTML on the system itself: outlined outer sections, parts on the surface levels with their shadows, three type sizes and two line widths, as on the overview.',
+    shows: ['patterns/diagrams', 'foundations/surfaces', 'guidelines/outlines-are-lines', 'decisions/2026-10-28-raised-levels-inside-an-outline'] },
 ];
 
 export const example = (slug: string) => {

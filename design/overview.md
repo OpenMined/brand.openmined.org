@@ -17,7 +17,7 @@ Every page on this site is a view of source files in the brand repository: each 
 | What you see on a page | Where it comes from | Who reads it |
 | --- | --- | --- |
 | Every color, shadow, swatch, and token table | `tokens/`<br>Values in the open Design Tokens format, built into `src/tokens/v2/` as CSS, JavaScript, and JSON | Code, design tools, AI |
-| Rules, decisions, open questions, and these words | `design/`<br>One short Markdown file per idea, grouped by kind (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`, `decisions/`) | People, on these pages; AI, directly |
+| Rules, decisions, open questions, and these words | `design/`<br>One short Markdown file per idea, grouped by kind (`foundations/`, `components/`, `patterns/`, `behaviors/`, `guidelines/`, `media/`, `decisions/`) | People, on these pages; AI, directly |
 | Buttons, fields, links, cards: the components and their code | `components/`<br>One CSS file per component and a small script for each one that moves, plain files any site can load; the markup to match is at the top of each | Code, AI |
 | Layout and live demos | The site's page templates | People |
 

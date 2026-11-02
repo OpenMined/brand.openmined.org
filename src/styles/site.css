@@ -290,7 +290,7 @@ a:hover { text-decoration-color: currentColor; }
 
 /* The system diagram (reused from the infrastructure report) */
 /* Wider than the reading column it sits in, centered on it (as in the report). */
-.sysfig { display: grid; gap: var(--spacing-sm); margin-block: var(--spacing-lg); margin-inline: min(0px, calc((100% - min(1040px, 100vw - 48px)) / 2)); }
+.sysfig { display: grid; gap: var(--spacing-sm); margin-block: var(--spacing-lg); margin-inline: min(0px, calc((100% - min(var(--page-width), 100vw - 2 * var(--page-gutter))) / 2)); }
 /* The diagram sits on the page itself (its outer sections carry their own
    outlines); it keeps its 960px minimum and scrolls on narrow screens. */
 .sysfig__scroll { overflow-x: auto; }

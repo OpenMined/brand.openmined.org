@@ -7,7 +7,7 @@
  */
 import { readFileSync } from 'node:fs';
 import Site from '../layouts/Site.astro';
-import InfoDiagram from '../components/site/InfoDiagram.astro';
+import SystemDiagram from '../diagrams/System.astro';
 import { doc, DOCS } from '../lib/design';
 import { MEDIA, LEVEL_LABEL } from '../lib/media';
 import { PAGES } from '../lib/pages';
@@ -117,7 +117,7 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
       <header class="sec"><h2>How it's built</h2></header>
       <div class="prose prose--downsize-2 guide-prose" set:html={parts['how-its-built']} />
       <figure class="sysfig">
-        <div class="sysfig__scroll"><InfoDiagram variant="v1" /></div>
+        <div class="sysfig__scroll"><SystemDiagram /></div>
         <figcaption>The central source on the left; everything that reads it on the right. The dashed box is generated, never edited by hand. Parts labeled <em>planned</em> or <em>possible</em> don't exist yet.</figcaption>
       </figure>
       <h3>How to use it</h3>

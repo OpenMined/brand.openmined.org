@@ -1,0 +1,20 @@
+---
+/** Example: the system diagram (src/lib/examples.ts), from src/diagrams/System.astro, as on the overview. */
+import Example from '../../layouts/Example.astro';
+import System from '../../diagrams/System.astro';
+---
+<Example slug="system-diagram">
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-5xl); }
+    .ex__scroll { overflow-x: auto; }
+    .ex figcaption { margin-top: var(--spacing-md); max-width: var(--measure); }
+  </style>
+  <section class="ex">
+    <div class="container">
+      <figure style="margin: 0">
+        <div class="ex__scroll"><System /></div>
+        <figcaption class="text-small">The central source on the left; everything that reads it on the right. Outlines mark the outermost sections; inside, parts sit on the surface levels with their shadows. The dashed box is built from the source, never edited by hand; parts labeled planned or possible don't exist yet.</figcaption>
+      </figure>
+    </div>
+  </section>
+</Example>

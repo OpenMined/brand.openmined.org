@@ -23,7 +23,7 @@ guidance:
   - guidelines/graphics-use-brand-fonts
   - guidelines/violet-and-blue-never-pair
 components: [diagram, color-icon]
-examples: [diagram-abc-1, diagram-abc-2, diagram-abc-3]
+examples: [diagram-abc-1, diagram-abc-2, diagram-abc-3, system-diagram]
 gaps:
   - "No chart rules yet (series colors, axes, labels)."
   - "No illustration, imagery or social graphics."

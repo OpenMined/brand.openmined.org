@@ -1,0 +1,192 @@
+---
+/**
+ * The system diagram (the overview's "How it's built"; the System diagram
+ * example): one central source that this site, AI agents, projects and design
+ * tools read, the outputs built from it, and the statuses that keep it clean.
+ * HTML on the system itself: the outermost sections outlined, everything inside
+ * on the surface levels with their shadows, radius tokens, roles. Type in three
+ * sizes (15 titles, 13 body, 11.5 labels), lines in two widths (--stroke-md
+ * outlines, --stroke-sm inner lines and arrows); dashed means built from the
+ * source. Earlier treatments: tag rounds-archive.
+ */
+type Kind = 'specs' | 'judgment' | 'reasoning';
+const KEY: Record<Kind, string> = { specs: 'teal', judgment: 'violet', reasoning: 'amber' };
+/** Guidance files in order of kind, keyed below: specs say what things are, judgment how to choose, reasoning why. */
+const GROUPS: [Kind, string[]][] = [['specs', ['Foundations', 'Components', 'Patterns']], ['judgment', ['Overview', 'Guidelines', 'Behaviors', 'Media']], ['reasoning', ['Decisions']]];
+/** Foundation first: each layer below uses the one above it. */
+const LAYERS = [
+  { t: 'Primitives', s: 'blue-500, type sizes, durations' },
+  { t: 'Roles', s: 'surface-raise-1, text-muted, success' },
+  { t: 'Component tokens', s: 'planned: connector, gridline' },
+];
+/** Assets, served as they are. */
+const ASSETS: [string, string][] = [['/icons/set/', 'icons'], ['/logos/', 'logos and partner marks'], ['/embeds/', 'the brand graphics']];
+/** What the build makes, and from which source. */
+const BUILT: [string, string][] = [
+  ['/tokens/omds.css · .json · omds.colors.js', 'from the token files'],
+  ['/omds.css · /omds.js', 'tokens and every component'],
+  ['/design/*.md · llms.txt · manifest.json', 'from the guidance files'],
+  ['Starters · examples', 'all three'],
+];
+const READERS = [
+  { t: 'AI agents', tag: '', items: ['Find files through llms.txt', "Start from the page for what they're making", 'Fetch .md and token files', 'Copy a starter or an example', "Follow the skill's workflow", 'Send feedback'] },
+  { t: 'Each project', tag: '', s: 'website · apps · slides · new builds', items: ['Links or copies the served files', "Keeps each file's stamp (version, commit)", 'The census finds what it uses and changes'] },
+  { t: 'Design tools', tag: 'possible', items: ['Load the token files (open format)', 'Import the basic types'] },
+];
+const PARTS = ['A CSS file each', 'A script for what moves', 'Markup at the top'];
+const STEPS = ['Draft', 'Released', 'Deprecated'];
+const ARROW_R = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M0 5H22" /><path d="M17 1L22 5L17 9" /></svg>';
+const ARROW_D = '<svg viewBox="0 0 10 20" aria-hidden="true"><path d="M5 0V18" /><path d="M1 13L5 18L9 13" /></svg>';
+const ARROW_L = '<svg viewBox="0 0 24 10" aria-hidden="true"><path d="M24 5H2" /><path d="M7 1L2 5L7 9" /></svg>';
+---
+<div class="ig" role="img" aria-label="The OpenMined design system: one central source (token files, guidance files, components and assets) that this site, AI agents, projects and design tools all read; outputs are built from it; statuses keep it clean over time">
+  <div class="ig__top">
+    <section class="ig__outer ig__source">
+      <header class="ig__head"><span class="ig__label ig__caps">Central source</span><b class="ig__title">The brand repository</b><span class="ig__label">This site’s pages are built from it</span></header>
+      <div class="ig__trio">
+        <section class="ig__part ig__part--values">
+          <header class="ig__phead"><b class="ig__title">Values</b><span class="ig__label"><code>tokens/</code> · token files in the open format</span></header>
+          <ol class="ig__layers">
+            {LAYERS.map((l, i) => (
+              <>
+                {i > 0 && <li class="ig__link" aria-hidden="true"><Fragment set:html={ARROW_D} /><span class="ig__label">used by</span></li>}
+                <li class="ig__item"><b>{l.t}</b><span class="ig__label">{l.s}</span></li>
+              </>
+            ))}
+          </ol>
+          <div class="ig__aside"><b>Modes swap values</b><span class="ig__label">light · dark · section contexts</span></div>
+        </section>
+        <span class="ig__ref" aria-hidden="true"><Fragment set:html={ARROW_L} /></span>
+        <section class="ig__part ig__part--guide">
+          <header class="ig__phead"><b class="ig__title">Guidance files</b><span class="ig__label"><code>design/</code> · one typed Markdown file per idea</span></header>
+          <ul class="ig__files">
+            {GROUPS.flatMap(([k, files]) => files.map(t => <li class="ig__file" style={`--k:var(--${KEY[k]}-key)`}><i></i>{t}</li>))}
+          </ul>
+          <ul class="ig__legend">
+            {GROUPS.map(([k]) => <li style={`--k:var(--${KEY[k]}-key)`}><i></i><span class="ig__label">{k}</span></li>)}
+          </ul>
+          <div class="ig__aside"><b>Examples</b><span class="ig__label">sections · pages · graphics; each names the files it puts to work</span></div>
+        </section>
+        <span></span>
+        <section class="ig__part ig__part--components">
+          <header class="ig__phead"><b class="ig__title">Components</b><span class="ig__label"><code>components/</code> · plain files any site can load</span></header>
+          <ul class="ig__layers ig__layers--list">{PARTS.map(t => <li class="ig__item"><b>{t}</b></li>)}</ul>
+          <div class="ig__aside"><b>Minimal and full</b><span class="ig__label">every state in plain CSS; motion is an add-on</span></div>
+        </section>
+      </div>
+      <div class="ig__noterow">
+        <p class="ig__note ig__label">Guidance and components name the tokens; the token files hold the values</p>
+        <span class="ig__into" aria-hidden="true"><Fragment set:html={ARROW_D} /><span class="ig__label">built into</span></span>
+      </div>
+      <div class="ig__pair ig__pair--low">
+        <section class="ig__part ig__part--assets"><b class="ig__title">Assets</b><ul class="ig__builtlist">{ASSETS.map(([f, what]) => <li><span>{f}</span><span class="ig__label">{what}</span></li>)}</ul><span class="ig__label ig__assetsnote">Served as they are</span></section>
+        <span></span>
+        <section class="ig__part ig__part--built"><b class="ig__title">Built from the source</b><ul class="ig__builtlist">{BUILT.map(([f, from]) => <li><span>{f}</span><span class="ig__label">{from}</span></li>)}</ul></section>
+      </div>
+    </section>
+
+    <div class="ig__flow" aria-hidden="true">{READERS.map(() => <Fragment set:html={ARROW_R} />)}</div>
+
+    <section class="ig__outer ig__readers">
+      <header class="ig__head"><span class="ig__label ig__caps">Read by</span></header>
+      {READERS.map(r => (
+        <section class:list={['ig__reader', r.tag && 'is-planned']}>
+          <header class="ig__rhead"><b class="ig__title">{r.t}</b><span class="ig__label ig__caps">{r.tag}</span></header>
+          {r.s && <span class="ig__label">{r.s}</span>}
+          <ul>{r.items.map(it => <li>{it}</li>)}</ul>
+        </section>
+      ))}
+    </section>
+  </div>
+
+  <section class="ig__outer ig__status">
+    <div class="ig__statusmain">
+      <b class="ig__title">Status: every token and guidance file carries one</b>
+      <ol class="ig__steps">
+        {STEPS.map((s, i) => (
+          <>
+            {i > 0 && <li class="ig__steparrow" aria-hidden="true"><Fragment set:html={ARROW_R} /></li>}
+            <li class={`ig__step${s === 'Released' ? ' is-on' : ''}`}>{s}</li>
+          </>
+        ))}
+        <li class="ig__steparrow" aria-hidden="true"><Fragment set:html={ARROW_R} /></li>
+        <li class="ig__stepend ig__label">then removed</li>
+      </ol>
+    </div>
+    <div class="ig__statusnotes">
+      <span>The build keeps drafts off the public site</span>
+      <span class="ig__label">A deprecated item names its replacement</span>
+    </div>
+  </section>
+</div>
+
+<style is:inline>
+  /* ── Shared skeleton: the original's layout, three type sizes ───────── */
+  .ig { --ig-out: var(--stroke-md); --ig-in: var(--stroke-sm); width: 100%; min-width: 1040px; display: grid; gap: 28px; font-family: var(--font-body); font-size: 13px; line-height: 1.4; color: var(--text-body); }
+  .ig b { font-weight: 600; color: var(--text-headline); }
+  .ig ul, .ig ol { list-style: none; margin: 0; padding: 0; }
+  .ig__title { font-size: 15px; font-weight: 600; color: var(--text-headline); line-height: 1.3; }
+  .ig__label { font-size: 11.5px; color: var(--text-muted); }
+  .ig__caps { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .ig svg { display: block; fill: none; stroke: var(--text-muted); stroke-width: var(--ig-in); vector-effect: non-scaling-stroke; }
+
+  .ig__top { display: grid; grid-template-columns: minmax(0, 1fr) 40px minmax(272px, 0.42fr); align-items: stretch; }
+  .ig__outer { border-radius: var(--radius-lg); }
+  .ig__source { display: grid; gap: 16px; padding: 20px; }
+  .ig__head { display: grid; gap: 2px; }
+  .ig__pair { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.15fr); align-items: stretch; }
+  .ig__pair--low { align-items: stretch; }
+  .ig__trio { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.15fr) 12px minmax(0, 0.85fr); align-items: stretch; }
+  .ig code { padding: 0; background: none; font-family: var(--font-mono); font-size: 11px; color: var(--text-body); }
+  .ig__ref { display: grid; place-items: center; }
+  .ig__ref svg { width: 16px; }
+  .ig__part { display: grid; gap: 12px; align-content: start; padding: 16px; border-radius: var(--radius-md); }
+  .ig__pair--low .ig__part { gap: 2px; padding: 12px 16px; }
+  .ig__phead { display: grid; gap: 2px; }
+  .ig__layers { display: grid; gap: 0; }
+  .ig__layers.ig__layers--list { gap: 6px; }
+  .ig__item { display: grid; gap: 1px; padding: 8px 12px; border-radius: var(--radius-md); }
+  .ig__link { display: flex; align-items: center; gap: 8px; padding: 2px 16px; }
+  .ig__link svg { width: 8px; height: 16px; }
+  .ig__aside { display: grid; gap: 1px; padding: 8px 12px; border-radius: var(--radius-md); }
+  .ig__files { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .ig__file { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: var(--radius-sm); color: var(--text-headline); font-weight: 500; }
+  .ig__file i { width: 3px; height: 13px; background: var(--k); flex: none; }
+  .ig__legend { display: flex; gap: 16px; }
+  .ig__legend li { display: flex; align-items: center; gap: 6px; }
+  .ig__legend i { width: 8px; height: 8px; background: var(--k); flex: none; }
+  .ig__noterow { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.15fr); align-items: center; }
+  .ig__note { text-align: left; }
+  .ig__into { grid-column: 3; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .ig__into svg { width: 8px; height: 16px; }
+  .ig__builtlist { display: grid; gap: 4px; margin-top: 6px; }
+  .ig__builtlist li { display: flex; justify-content: space-between; gap: 12px; }
+  .ig__assetsnote { margin-top: 6px; }
+
+  .ig__flow { display: grid; grid-template-rows: 1.3fr 1.6fr 0.8fr; align-items: center; justify-items: center; padding: 40px 0 0; }
+  .ig__flow svg { width: 24px; }
+  .ig__readers { display: grid; gap: 12px; align-content: start; padding: 20px; }
+  .ig__reader { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--radius-md); }
+  .ig__reader ul { display: grid; gap: 3px; }
+  .ig__rhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+
+  .ig__status { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; align-items: center; padding: 20px; }
+  .ig__statusmain { display: grid; gap: 12px; }
+  .ig__steps { display: flex; align-items: center; gap: 6px; }
+  .ig__steparrow svg { width: 18px; }
+  .ig__stepend { color: var(--text-muted); }
+  .ig__step { padding: 5px 14px; border-radius: var(--radius-full); color: var(--text-headline); font-weight: 500; }
+  .ig__step.is-on { background: var(--emphasis); color: var(--on-emphasis); }
+  .ig__statusnotes { display: grid; gap: 2px; }
+
+  /* ── Outlines outside, surface levels inside ───────────────────────────
+     The outermost sections are outlined; everything inside is the surface
+     system: parts are raised cards, items one level higher, asides recessed. */
+  .ig .ig__outer { box-shadow: inset 0 0 0 var(--ig-out) var(--line); }
+  .ig .ig__part { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .ig .ig__part--built { background: transparent; box-shadow: none; outline: var(--ig-in) dashed var(--line); outline-offset: -1px; }
+  .ig .ig__item, .ig .ig__file { background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); }
+  .ig .ig__aside { background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
+  .ig .ig__reader { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+  .ig .ig__step:not(.is-on) { background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); }
+</style>
