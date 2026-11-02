@@ -79,8 +79,9 @@ const TEXT_FIELDS = [
       try { if (localStorage.getItem('interface-layer') === 'minimal') document.documentElement.setAttribute('data-interaction', 'minimal'); } catch {}
     </script>
     <div class="layer-toggle">
-      <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label"><span class="switch__knob"></span></button>
-      <label id="layer-label" for="layer-switch"><b class="js-layer-name">Full interactive layer</b> <span class="muted">· switch on for the minimal interactive layer (<a href="#behaviors-interaction-states">Interaction states</a>)</span></label>
+      <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label" aria-describedby="layer-info"><span class="switch__knob"></span></button>
+      <label id="layer-label" for="layer-switch"><b>Show minimal interactive layer</b></label>
+      <p id="layer-info" class="muted">Off, the components below show the full interactive layer: color in motion, from the add-on files. On, they show the minimal interactive layer: plain CSS with no motion, built into every component. <a href="#behaviors-interaction-states">Interaction states</a></p>
     </div>
   </PageHero>
 
@@ -412,13 +413,12 @@ syft-space init --data ./records</code></pre>
   <ExampleLinks slugs={["dashboard", "join-form", "product-steps"]} />
 
 <script>
-  // The layer switch: minimal sets data-interaction="minimal" on the page; the label names the layer shown.
+  // The layer switch: on sets data-interaction="minimal" on the page; the label stays the same.
   const html = document.documentElement;
   const sw = document.getElementById('layer-switch');
   const sync = () => {
     const minimal = html.getAttribute('data-interaction') === 'minimal';
     sw?.setAttribute('aria-checked', String(minimal));
-    document.querySelectorAll('.js-layer-name').forEach((el) => { el.textContent = minimal ? 'Minimal interactive layer' : 'Full interactive layer'; });
   };
   sw?.addEventListener('click', () => {
     const minimal = html.getAttribute('data-interaction') !== 'minimal';
