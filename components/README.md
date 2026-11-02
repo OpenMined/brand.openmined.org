@@ -57,7 +57,7 @@ motion itself.
 | Field, form layout, errors | `field.css` | `field.js`, `fieldLights()` (pointer light) | `design/components/form-field.md` |
 | Checkbox, radio, toggle | `control.css` | none | `design/components/form-field.md` |
 | Content link, text button | `link.css` | none | `design/components/link.md` |
-| Content link, full state (the flowing line) | `link-flow.css` | none | `design/components/link.md` |
+| Content link and text button, full state (the flowing line) | `link-flow.css` | none | `design/components/link.md` |
 | Colored icon (two-tone) | `color-icon.css` | `two-tone.js`, `twoTone()` | `design/foundations/two-tone.md` |
 | Hover card | `hover-card.css` | `hover-card.js`, `hoverCards()` | `design/components/hover-card.md` |
 | Link card | `link-card.css` | `link-card.js`, `linkCards()` | `design/components/link-card.md` |
