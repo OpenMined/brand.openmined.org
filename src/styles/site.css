@@ -543,8 +543,8 @@ a:hover { text-decoration-color: currentColor; }
 .glance__spec--color i { width: 28px; height: 56px; border-radius: var(--radius-sm); }
 .glance__spec--surfaces { gap: var(--spacing-md); }
 .glance__spec--surfaces i { width: 36px; height: 48px; border-radius: var(--radius-sm); }
-.glance__spec--type b { font: var(--font-weight-regular) 56px/1 var(--font-display); }
-.glance__spec--type small { font: var(--font-weight-regular) 28px/1 var(--font-body); color: var(--text-muted); }
+.glance__spec--typography b { font: var(--font-weight-regular) 56px/1 var(--font-display); }
+.glance__spec--typography small { font: var(--font-weight-regular) 28px/1 var(--font-body); color: var(--text-muted); }
 .glance__spec--layout { gap: var(--spacing-2xs); padding-inline: var(--spacing-lg); }
 .glance__spec--layout i { flex: 1; height: 64px; background: var(--surface-raise-2); border-radius: var(--radius-sm); }
 .glance__spec--interface .btn { min-height: 36px; padding: 0 var(--spacing-md); font-size: var(--font-size-sm); pointer-events: none; }

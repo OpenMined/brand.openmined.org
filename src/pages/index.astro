@@ -10,6 +10,7 @@ import Site from '../layouts/Site.astro';
 import InfoDiagram from '../components/site/InfoDiagram.astro';
 import { doc, DOCS } from '../lib/design';
 import { MEDIA, LEVEL_LABEL } from '../lib/media';
+import { PAGES } from '../lib/pages';
 import { iconSvg } from '../lib/icons';
 import { VERSION } from '../lib/serve';
 
@@ -28,17 +29,9 @@ for (const k of ['intro', 'how-its-built', 'principles', 'how-to-use-it', 'feedb
 const plural = (n: number, one: string) => `${n} ${one}${n === 1 ? '' : 's'}`;
 const day = (d: unknown) => (d instanceof Date ? d.toISOString() : String(d ?? '')).slice(0, 10);
 
-/** The system at a glance: one card per guide page, each with a small live specimen. */
-const PAGES: [string, string, string, string][] = [
-  ['/color/', 'Color', 'color', 'One gray and six hues, eleven steps each, with roles for what each color does.'],
-  ['/surfaces/', 'Surfaces', 'surfaces', 'Four levels, their shadows, and lines instead of boxes.'],
-  ['/typography/', 'Typography', 'type', 'Rubik and Inter on a fluid scale, and the long-read rhythm.'],
-  ['/layout/', 'Layout', 'layout', 'The page, a 12-column grid, breakpoints and the article zones.'],
-  ['/interface/', 'Interface', 'interface', 'Buttons, links, fields, cards, tables, tabs and their states.'],
-  ['/icons/', 'Icons', 'icons', 'One outlined set, mono by default, in color with motion.'],
-  ['/graphics/', 'Graphics', 'graphics', 'The gradient, hue keys, diagrams and the animated brand graphics.'],
-  ['/logo/', 'Logos', 'logos', 'The logo files, partner marks and the organizations we work with.'],
-];
+/** The system at a glance: one card per page after the overview, in nav order (src/lib/pages.ts),
+ *  each with a small live specimen. */
+const GLANCE = PAGES.filter((p) => p.key !== 'overview');
 
 /** What's new: the latest change-log lines and decisions. */
 const LOG = readFileSync('design/log.md', 'utf8').split('\n').filter((l) => l.startsWith('- **')).slice(0, 4)
@@ -69,27 +62,23 @@ const ARR = iconSvg('arrow-right', { size: 16, cls: 'lcard__arrow' });
     <div class="wrap">
       <header class="sec"><h2>The system at a glance</h2></header>
       <div class="glance">
-        {PAGES.map(([href, title, spec, text]) => (
+        {GLANCE.map(({ key: spec, href, label, summary }) => (
           <a class="lcard glance__card" href={href}>
             <span class={`glance__spec glance__spec--${spec}`} aria-hidden="true">
               {spec === 'color' && ['red', 'amber', 'green', 'teal', 'blue', 'violet'].map((h) => <i style={`background:var(--${h}-key)`}></i>)}
               {spec === 'surfaces' && ['sunken', 'base', 'raise-1', 'raise-2'].map((l) => <i style={`background:var(--surface-${l});box-shadow:var(--shadow-${l === 'base' ? 'raise-1' : l === 'sunken' ? 'sunken' : l})`}></i>)}
-              {spec === 'type' && <><b>Aa</b><small>Aa</small></>}
+              {spec === 'typography' && <><b>Aa</b><small>Aa</small></>}
               {spec === 'layout' && Array.from({ length: 12 }, () => <i></i>)}
               {spec === 'interface' && <><span class="btn btn--solid">Join</span><span class="btn">Read</span></>}
               {spec === 'icons' && ['lock', 'network', 'shield-check', 'light-bulb'].map((n) => <Fragment set:html={iconSvg(n, { size: 24 })} />)}
               {spec === 'graphics' && <i></i>}
+              {spec === 'examples' && <><i></i><i></i><i></i></>}
               {spec === 'logos' && <><img class="only-light" src="/logos/OpenMined-Logo.svg" alt="" /><img class="only-dark" src="/logos/OpenMined-Logo-Dark.svg" alt="" /></>}
             </span>
-            <h3 class="lcard__title">{title}<Fragment set:html={ARR} /></h3>
-            <span class="lcard__text">{text}</span>
+            <h3 class="lcard__title">{label}<Fragment set:html={ARR} /></h3>
+            <span class="lcard__text">{summary}</span>
           </a>
         ))}
-        <a class="lcard glance__card" href="/examples/">
-          <span class="glance__spec glance__spec--examples" aria-hidden="true"><i></i><i></i><i></i></span>
-          <h3 class="lcard__title">Examples<Fragment set:html={ARR} /></h3>
-          <span class="lcard__text">Sections, pages and graphics built from the served files: the rules in use, ready to copy.</span>
-        </a>
       </div>
     </div>
   </section>
