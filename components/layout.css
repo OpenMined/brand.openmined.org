@@ -15,10 +15,10 @@
        <figure class="breakout">…</figure>              wider than the text (860px)
        <figure class="breakout--full">…</figure>        out to the page width (1300px)
      </article>
-     <div class="stack">                                 children spaced md (16px) apart
+     <div class="stack">                                 children spaced md (12px) apart
        <h2>Feedback</h2>
        <p>Tell us when…</p>
-       <h3>Recent decisions</h3>                         more space above a heading (2xl, 32px)
+       <h3>Recent decisions</h3>                         more space above a heading (2xl, 24px)
        <ul>…</ul>
      </div>
      <div class="stack stack--sm">…</div>               --xs, --sm, --lg, --xl, --2xl: another step
