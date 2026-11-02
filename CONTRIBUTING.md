@@ -38,7 +38,7 @@ Once a week the design lead goes through what's new (an AI session can do the so
 - Every decided change gets a **decision record** (`design/decisions/YYYY-MM-DD-slug.md`, never
   edited later: a changed decision gets a new record) and a **line in `design/log.md`**.
 - `npm run tokens:check` (schemas, generated files, contrast promises) and `npm run lint` (no raw
-  colors) must pass; CI runs both.
+  colors; every component class in use is defined, `tools/classes/`) must pass; CI runs both.
 - Copy uses roles, not names (the design lead, the brand owner); names appear only in
   `design/log.md`.
 - **Main copy states the rule; it doesn't cite decisions.** Foundations, patterns, components and

@@ -19,7 +19,9 @@ Nothing is typed into a page by hand. Route every change to its source:
   history (add a line for every change). `index.md` is reserved for a generated listing.
 - **Components** → `components/` at the repo root: one CSS file per component, a small ES
   module per moving part (each exports one function taking a selector; safe to call again),
-  bare class names, the markup at the top of each CSS file. No framework, no loader.
+  bare class names, the markup at the top of each CSS file ("Markup:", or "Markup (a note):").
+  `npm run lint` also checks every component class used on the site, in the examples and in
+  those Markup blocks is defined (`tools/classes/check.mjs`): rename a class and its copies fail. No framework, no loader.
   `components/README.md`. Decision 2026-10-27.
 - **Media** (what you're making) → `design/media/`, one file per medium naming its start, guidance,
   component files and examples; `/making/<medium>/` pulls the rest from their sources

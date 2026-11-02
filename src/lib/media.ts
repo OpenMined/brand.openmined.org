@@ -38,13 +38,19 @@ const componentFile = (name: string): ComponentFile | null => {
   const head = text.slice(0, text.indexOf('*/'));
   const guide = bySlug.get(head.match(/design\/([a-z0-9/-]+)\.md/)?.[1] ?? '');
   const block = head.split('\n');
-  const at = block.findIndex(l => /^\s*Markup:\s*$/.test(l));
+  // "Markup:" alone, or "Markup (a note, which may wrap):"; the note leads the markup as a comment.
+  const at = block.findIndex(l => /^\s*Markup\b/.test(l));
   let markup: string | undefined;
   if (at >= 0) {
+    let end = at;
+    const open = (i: number) => { const t = block.slice(at, i + 1).join(' '); return (t.match(/\(/g) ?? []).length > (t.match(/\)/g) ?? []).length; };
+    while (end < block.length - 1 && (open(end) || !/:\s*$/.test(block[end]))) end++;
+    const label = block.slice(at, end + 1).map(l => l.trim()).join(' ');
+    const note = label.match(/^Markup\s*\((.*)\):$/)?.[1];
     const lines: string[] = [];
-    for (const l of block.slice(at + 1)) { if (!l.trim()) break; lines.push(l); }
+    for (const l of block.slice(end + 1)) { if (!l.trim()) break; lines.push(l); }
     const indent = Math.min(...lines.map(l => l.match(/^\s*/)![0].length));
-    markup = lines.map(l => l.slice(indent)).join('\n');
+    markup = [...(note ? [`<!-- ${note} -->`] : []), ...lines.map(l => l.slice(indent))].join('\n');
   }
   const js = existsSync(`components/${name}.js`) ? `/components/${name}.js` : undefined;
   return { name, css: `/${css}`, js, guide, markup };
