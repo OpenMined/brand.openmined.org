@@ -66,6 +66,14 @@ export const doc = (slug: string): Doc => {
   return d;
 };
 
+/** One paragraph of a file, found by its bold lead ("**Spacious.** …"), as HTML, so a page
+ *  can place it next to a demo without copying it. Fails the build when the lead is gone. */
+export const paragraph = (d: Doc, lead: string): string => {
+  const at = d.html.indexOf(`<p><strong>${lead}</strong>`);
+  if (at < 0) throw new Error(`design/${d.path}: no paragraph starting "**${lead}**"`);
+  return d.html.slice(at, d.html.indexOf('</p>', at) + 4);
+};
+
 /** Every file carrying a tag, of the given types, in path order. */
 export const byTag = (tag: string, ...types: Doc['type'][]): Doc[] =>
   DOCS.filter(d => d.tags.includes(tag) && (!types.length || types.includes(d.type))).sort((a, b) => a.path.localeCompare(b.path));

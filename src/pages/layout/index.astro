@@ -12,7 +12,8 @@ import TokenTable from '../../components/site/TokenTable.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import { componentCode } from '../../lib/components';
 import DecisionList from '../../components/site/DecisionList.astro';
-import { doc, decisionsFor } from '../../lib/design';
+import { doc, decisionsFor, paragraph } from '../../lib/design';
+import { readFileSync } from 'node:fs';
 import { tok } from '../../lib/tokens';
 import SPACE from '../../../tokens/base/space.json';
 import LAYER from '../../../tokens/base/layer.json';
@@ -36,7 +37,17 @@ const ZONES = [
   { name: '--prose-content', cls: 'content', label: 'content · every block' },
 ].map(z => ({ ...z, px: tok('light', z.name).resolved, w: pct(z.name) }));
 const CODE = componentCode(['layout']);
-const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid'], ['articles', 'Articles'], ['breakpoints', 'Breakpoints'], ['stacking', 'Stacking'], ['guidance', 'Guidance'], ...(decisions.length ? [['decisions', 'Decisions'] as [string, string]] : [])];
+/** The stack's steps, read from its rules in components/layout.css, so the table can't drift. */
+const STACK_CSS = readFileSync('components/layout.css', 'utf8');
+const stackRule = (heading: boolean) => new RegExp(String.raw`\.stack(?:--([a-z0-9]+))? > ${heading ? String.raw`:not\([^)]*\) \+ :is\([^)]*\)` : String.raw`\* \+ \*`} \{ margin-block-start: var\(--stack-space, var\(--spacing-([a-z0-9]+)\)\); \}`, 'g');
+const headingStep = Object.fromEntries([...STACK_CSS.matchAll(stackRule(true))].map(m => [m[1] ?? '', m[2]]));
+const STACKS = [...STACK_CSS.matchAll(stackRule(false))].map(m => ({ cls: m[1] ? `.stack--${m[1]}` : '.stack', step: m[2], heading: headingStep[m[1] ?? ''] }))
+  .filter(r => r.cls !== '.stack--lg')
+  .map(r => ({ ...r, px: tok('light', `--spacing-${r.step}`).resolved, hpx: tok('light', `--spacing-${r.heading}`).resolved }));
+if (STACKS.length < 2 || STACKS.some(r => !r.heading)) throw new Error('Layout page: the stack rules in components/layout.css no longer parse');
+const stackOf = (cls: string) => STACKS.find(r => r.cls === cls)!;
+const STACK_DEMOS = ['.stack', '.stack--sm', '.stack--2xl'].map(stackOf);
+const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], ['grid', 'Page and grid'], ['articles', 'Articles'], ['breakpoints', 'Breakpoints'], ['stacking', 'Stacking'], ['guidance', 'Guidance'], ...(decisions.length ? [['decisions', 'Decisions'] as [string, string]] : [])];
 ---
 <Site title={foundation.title} description={foundation.description} current="layout">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} />
@@ -57,6 +68,33 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['grid', 'Page and grid
         </ol>
       </article>
       <BuildRef tokens={steps.map(s => s.name)} />
+    </div>
+  </section>
+
+  <section class="band" id="stacks">
+    <div class="wrap">
+      <header class="sec"><h2>Stacks</h2><p class="measure">Below, three stacks with their children drawn as blocks, so the space between them shows; the table lists every step.</p></header>
+      <div class="guide-prose prose" set:html={paragraph(foundation, 'Space belongs to the container')} />
+      <div class="grid grid--3">
+        {STACK_DEMOS.map(d => (
+          <figure class="stack-demo">
+            <div class={`stack ${d.cls === '.stack' ? '' : d.cls.slice(1)} stack-demo__stack`}>
+              <h5>A heading</h5>
+              <p>A paragraph</p>
+              <p>Another paragraph</p>
+              <h5>The next heading</h5>
+              <p>A paragraph</p>
+            </div>
+            <figcaption><code>{d.cls === '.stack' ? 'class="stack"' : `class="stack ${d.cls.slice(1)}"`}</code><span class="muted">{d.px} between, {d.hpx} above a heading</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Class</th><th>Between children</th><th>Above a heading</th></tr></thead>
+          <tbody>{STACKS.map(r => <tr><td><code>{r.cls}</code>{r.cls === '.stack' && <span class="muted"> (lg, the default)</span>}</td><td><code>--spacing-{r.step}</code> · {r.px}</td><td><code>--spacing-{r.heading}</code> · {r.hpx}</td></tr>)}</tbody>
+        </table>
+      </div>
     </div>
   </section>
 

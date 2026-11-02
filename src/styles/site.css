@@ -114,6 +114,19 @@ a:hover { text-decoration-color: currentColor; }
 .card--link .icon { width: 15px; height: 15px; transition: transform var(--transition-base); }
 .card--link:hover .icon { transform: translateX(2px); transition-duration: 0.15s; }
 
+/* Stack demos (Layout): the stack's own spacing, its children drawn as raised
+   blocks over a sunken well so the gaps between them show. */
+.stack-demo { display: grid; gap: var(--spacing-md); align-content: start; }
+.stack-demo__stack { padding: var(--spacing-lg); border-radius: var(--radius-md); background: var(--surface-sunken); }
+.stack-demo__stack > * { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); font-size: var(--font-size-sm); }
+.stack-demo__stack > h5 { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.stack-demo figcaption { display: grid; gap: var(--spacing-3xs); font-size: var(--font-size-sm); }
+
+/* Prose modes (Typography): each mode beside the default, the same text in both. */
+.prose-modes { display: grid; gap: var(--spacing-5xl); margin-top: var(--spacing-3xl); }
+.prose-mode { display: grid; gap: var(--spacing-lg); align-content: start; margin: 0; }
+.prose-mode figcaption { font-size: var(--font-size-sm); }
+
 /* ── Prose (guidance files rendered from design/) ────────────────── */
 /* Rendered Markdown sits under a section's own heading: the system's prose,
    its headings two levels smaller (prose prose--downsize-2 guide-prose).

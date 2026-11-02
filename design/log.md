@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-02** — **Layout** shows **Stacks**: the rule, three live stacks with their gaps drawn, and a table of every step (read from the stack's CSS). **Typography**'s Prose shows the **spacious** and **downsize** modes beside the default, the same text in each.
 - **2026-11-02** — **Stack steps** (new decision): a stack puts 16px (`lg`, as prose's gap between blocks) between its children by default and takes any step from `.stack--2xs` to `.stack--5xl`; a heading gets two steps more than the stack's own (24px in a default stack, 40 in `2xl`). The overview's columns are `2xl` stacks.
 - **2026-11-02** — **Prose: a moderate default, and modes** (new decision): 48px above an h2 in a long read, then 40, 32 and 24 above h3, h4 and h5 (was 88, 48, 40, 32). `.prose--spacious` gives a long post the full 88px break above each h2. `.prose--downsize-1` and `-2` draw a post's headings one or two levels smaller, as openmined.org's posts can, with the spacing still following the tags. The guidance text on this site is the system's prose (headings two levels down) instead of its own spacing.
 - **2026-11-02** — **Space belongs to the container** (new decision): headings and blocks carry no margin of their own; a long read, a component or the new **stack** (`.stack` in `components/layout.css`, after Every Layout) sets the space. A stack puts 12px between its children and 24px above a heading, with `.stack--xs` to `--2xl` for other steps. The overview's Feedback and What's new columns are stacks.
