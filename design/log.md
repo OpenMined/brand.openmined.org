@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-02** — **Usage is traced from the files** (new decision): nothing is added to a project to track it. The census reads the stamp at the top of every served CSS and JS file, code that loads files from design.openmined.org, and the system's own names, and finds a project's local changes by comparing its stamped copy with what was served at that commit; `omds.json` is dropped from the plan. The feedback form asks for the version from the file's top comment.
 - **2026-11-02** — Overview, Feedback: the design lead reviews feedback regularly (was every week).
 - **2026-11-02** — Copy: the guide pages' main text states each rule without citing its decision (the page's Decisions section carries the why; rules may still close with theirs), and copy no longer names other companies' design systems as precedent.
 - **2026-11-02** — **Stacks are even** (new decision, after researching how organizations use stacks): the same space between every child, and a heading kept with its text by nesting a tight stack inside a looser one, as established design systems do; the extra space above a heading is gone. Layout's Stacks section explains why the container sets the space and shows the same content flat and nested. Fixed where an element carried its own margin: the example kit's section heads (same look), the accordion's answer (now spaced like a stack), the medium pages, the Prose modes on Typography and the section headers.

@@ -8,16 +8,18 @@ review; anyone can file feedback.
 - **Issues** with the *Design system feedback* form (`.github/ISSUE_TEMPLATE/feedback.yml`),
   filed by people or by AI tools (the OMDS skill files them with `gh` after showing the person).
 - **Sent to the design lead** by people without GitHub; the design lead files them.
-- **Local changes** recorded by projects in their `omds.json` (`overrides`, each with a reason),
-  found by the census.
+- **Local changes** found by the census (`npm run census`): a project's stamped copy of a file
+  compared with what the system served at that commit. Nothing is added to a project to track it;
+  the census reads the stamp the served files already carry. The reason for a change comes
+  through feedback.
 
 ## The weekly review
 
 Once a week the design lead goes through what's new (an AI session can do the sorting):
 
 1. **Sort** each item to the layer it touches: a value, a role, a rule, a component, an example,
-   or the skill's instructions. Merge duplicates. Note who else hit it (`npm run census`, the
-   `omds.json` overrides).
+   or the skill's instructions. Merge duplicates. Note who else hit it (`npm run census`: the
+   projects using it, and the local changes in their copies).
 2. **Decide** for each: change the system, keep it local to the project, or not now.
 3. **For a change to a value or role,** run `npm run impact -- <token>` first and look at what it
    lists (pages and examples, both modes) before and after. The call is made with that in front

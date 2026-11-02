@@ -72,4 +72,4 @@ body:
     id: version
     attributes:
       label: Design system version
-      description: From the project's omds.json or the comment at the top of the CSS, if you know it.
+      description: From the comment at the top of the CSS or JS file you took, if you know it.
