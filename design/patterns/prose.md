@@ -9,7 +9,7 @@ tokens: [--prose-gap, --prose-gap-wide, --prose-gap-section, --prose-gap-break, 
 
 **Scope.** `.prose` on the element that holds a long read (a blog post, a whitepaper, a letter) styles its bare elements and the rhythm between them. Anything with a class keeps its own styling. Add `.content-links` for the content link and `.prose-article` for the reading column and breakouts (*Layout*).
 
-**Rhythm.** One rule owns each gap between neighbors, so nothing depends on margins collapsing and the rhythm is the same in block, flex and grid layouts. The rhythm follows the tag, never the size a heading renders at. Space above a heading holds whatever comes before it and steps down by level (decision *Prose: a moderate default, and modes*).
+**Rhythm.** One rule owns each gap between neighbors, so nothing depends on margins collapsing and the rhythm is the same in block, flex and grid layouts. The rhythm follows the tag, never the size a heading renders at. Space above a heading holds whatever comes before it and steps down by level.
 
 | Step | Gap | Where |
 | --- | --- | --- |

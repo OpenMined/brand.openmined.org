@@ -15,7 +15,7 @@ The palette has one gray and six hues (violet, blue, teal, green, amber, red), a
 - **Hues** shift slightly per mode. Light mode raises saturation ×1.10, so a color that holds up on dark doesn't go dull on white; dark mode takes the palette as it is. Lightness and hue stay the same.
 - **One lightness ladder.** Every hue step except 400 and the key sits at the same lightness in every hue, so a role gives the same contrast whatever the color.
 - **The key is 500.** It keeps each hue's own character, and it's the color graphics and chart marks use.
-- **Red leans toward rose**, so it reads as OpenMined's red rather than a generic one (decision *Red moves toward rose*).
+- **Red leans toward rose**, so it reads as OpenMined's red rather than a generic one.
 - **Steps without a job yet** (hue 50, 900, and 950) are provisional: each is tuned when something first uses it.
 
 ## Roles
@@ -33,7 +33,7 @@ One label serves every key: **`--on-key`**, white in both modes, for text or an 
 
 **Status** colors are their own roles, each pointing at a hue: `success` → green, `warning` → amber, `danger` → red, `info` → blue. `--danger-fg` is `--red-fg`, so a status can move to another hue without touching a component.
 
-**Accent** is the interactive color, and it's a hue: green, with green's roles (`--accent-subtle`, `--accent-soft`, `--accent-fg`, `--accent-key`), as `--success-*` points at green. Elements are gray at rest; the accent arrives with interaction, as the still green of the minimal layer (`--accent-key`). Where the accent moves it becomes a gradient: the brand gradient on link hover, the hue keys on button hover, a hue's two-tone on icons in color (decisions *Green is the accent's color*, *Green at rest, gradients in motion*). Pick accent roles by intent, not by look ([Use accent by intent](#guidelines-accent-by-intent)).
+**Accent** is the interactive color, and it's a hue: green, with green's roles (`--accent-subtle`, `--accent-soft`, `--accent-fg`, `--accent-key`), as `--success-*` points at green. Elements are gray at rest; the accent arrives with interaction, as the still green of the minimal layer (`--accent-key`). Where the accent moves it becomes a gradient: the brand gradient on link hover, the hue keys on button hover, a hue's two-tone on icons in color. Pick accent roles by intent, not by look ([Use accent by intent](#guidelines-accent-by-intent)).
 
 **Emphasis** is the strong gray fill, the primary button: `--emphasis` (the headline gray as a fill) with `--on-emphasis` as its label.
 

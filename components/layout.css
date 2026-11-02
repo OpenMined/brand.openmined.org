@@ -79,8 +79,7 @@
 }
 
 /* ── Stack: the container spaces its children ─────────────────────────
-   Every Layout's Stack (decisions: space belongs to the container; stacks are
-   even). The same space between every pair of children, lg (16px, prose's gap
+   Decisions: space belongs to the container; stacks are even. The same space between every pair of children, lg (16px, prose's gap
    between blocks) by default, .stack--{step} for any step from 2xs to 5xl. To
    keep a heading with its content, nest: a tight stack holds the heading and
    its text, a looser one spaces the groups. The reset weighs nothing, so a

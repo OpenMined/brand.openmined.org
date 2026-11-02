@@ -24,7 +24,7 @@ Every icon v2 uses has an entry in `icons/set.json`, by name (served as `/icons/
 
 Two exceptions to mono. **Status icons** take their status's `fg` role, the role for colored text and icons, so they pass contrast on every surface. Check is success, X is danger, a triangle is warning, a circled *i* is info. See [Icons are mono unless they're status or in color](#guidelines-icons-one-color).
 
-**In color**, where the design calls for it: the icon takes a hue's two-tone gradient (`--gradient-two-tone-<hue>`), moving inside the stroke, with a soft glow behind (decision *Icons have a color mode*; *Two-tone gradients*). In a hover card, the icon is mono at rest and takes its color on hover.
+**In color**, where the design calls for it: the icon takes a hue's two-tone gradient (`--gradient-two-tone-<hue>`), moving inside the stroke, with a soft glow behind. In a hover card, the icon is mono at rest and takes its color on hover.
 
 ## Size
 

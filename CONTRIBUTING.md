@@ -39,3 +39,9 @@ Once a week the design lead goes through what's new (an AI session can do the so
   colors) must pass; CI runs both.
 - Copy uses roles, not names (the design lead, the brand owner); names appear only in
   `design/log.md`.
+- **Main copy states the rule; it doesn't cite decisions.** Foundations, patterns, components and
+  medium files say what is true now; the page's Decisions section carries the why. Rules
+  (`guidelines/`, `behaviors/`) may close with their decision.
+- **No other brands in copy.** Don't name other companies' design systems or sites as
+  precedent ("as X does"); say what we do. Tools and sources we actually use (Google Fonts,
+  Iconoir, Claude) and partner and organization marks are named as they are.

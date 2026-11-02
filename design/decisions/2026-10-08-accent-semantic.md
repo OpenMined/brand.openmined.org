@@ -8,7 +8,7 @@ tags: [color, interface]
 tokens: [--accent-solid]
 ---
 
-**Context.** Accent came from the color round, as every reviewed system has one (Primer `accent`, Atlassian `brand`, Material `primary`). The round's accent setting was never decided: "none" (grayscale) was the review's default.
+**Context.** Accent came from the color round, as every reviewed system has one (named accent, brand or primary). The round's accent setting was never decided: "none" (grayscale) was the review's default.
 
 **Decision.** Keep `accent` as a semantic role. If it stays grayscale, that's fine; if it gets a color, nothing has to be untangled from the roles it currently matches.
 
