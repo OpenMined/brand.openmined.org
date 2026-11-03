@@ -33,7 +33,16 @@ italic. Paste into `<head>`:
 </script>
 ```
 
-The markup each component expects is at the top of its CSS file. Where you can't
+The markup each component expects is at the top of its CSS file, after "Markup:" (or
+"Markup (a note):", the note naming the choices, such as the hues). One example per line or
+block, with a short note to its right where it needs one. An icon is written
+`<svg aria-hidden="true">…name…</svg>` with its name in the icon set, or `…icon…` where any
+icon fits; a size goes in the note. `npm run lint` checks that every component class in these
+blocks and on the site exists, defined in the component's own file. Keep
+your own classes out of a component's names (`.signup-form`, not `.fm--signup`): a page's
+own rule under a component's name would hide that class being renamed or removed.
+
+Where you can't
 edit the markup (a vendor's form), point the script at the vendor's selector
 (`buttonHover('.hs-button')`) and map the vendor's classes onto the component's
 rules in your own CSS. Some components need structure a vendor may not give: the
@@ -84,6 +93,5 @@ gather everything.
 On the site, `/omds.css` is the tokens and every component CSS in one file, and `/omds.js`
 every script in one module, for pasting (a Claude artifact) or linking.
 
-Examples of every component put together are at `/examples/` on the site. In the repository,
-`demo.html` shows the components with nothing but these files and the tokens (serve the repo
-root with `python3 -m http.server` and open `/components/demo.html`).
+Examples of every component put together are at `/examples/` on the site: bare pages built
+from nothing but these files and the tokens.

@@ -10,8 +10,8 @@
    Markup:
      <button class="btn btn--solid">Join</button>       primary, one per group
      <a class="btn" href="…">Read the docs</a>          secondary
-     <a class="btn" href="…">Read more <svg aria-hidden="true">…20px icon…</svg></a>     with an icon, either side
-     <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…</svg></button>   icon only
+     <a class="btn" href="…">Read more <svg aria-hidden="true">…icon…</svg></a>     with a 20px icon, either side
+     <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…icon…</svg></button>   icon only
 
    One solid per group; the rest are secondary, an outline in the line style
    (--stroke-sm, --line-strong = the body text color) over the surface they

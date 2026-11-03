@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-03** — `components/demo.html` retired: a standalone page of every component, in the repository only and linked from nowhere, that had fallen behind (its hover card had no colorflow). The site's pages and the examples, built from the same files, show every component.
+- **2026-11-03** — Components' Markup blocks write icons one way (`…name…` from the icon set, or `…icon…` where any icon fits), as `components/README.md` now says; the check for component classes in use counts a component's classes as defined only by its own file (a page's own rule for `.lcard__text` had hidden a rename). A project's own classes stay out of a component's names (`.demo-form`, not `.fm--one`).
 - **2026-11-02** — The hover card's, status chip's and color icon's markup now shows on the medium pages (their "Markup (…)" label wasn't read; its note now leads the markup). A new check in `npm run lint` fails when a page, an example or a component's Markup block uses a component class that no longer exists.
 - **2026-11-02** — Logos page: about twice the space around each logo and each organization's mark; a file link's underline follows its text when the name wraps, instead of running the width of the tile.
 - **2026-11-02** — **Click to copy** on this site: palette swatches (the hex for the mode you're in) and the token names and values in every token table. One tooltip for all of them: "Copy to clipboard" on hover or keyboard focus, "Copied" for a moment after a click. The palette's Hues heading says which mode it's showing.

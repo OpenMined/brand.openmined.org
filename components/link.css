@@ -10,7 +10,7 @@
    Markup:
      <p>Read about <a class="link-content" href="…">attribution-based control</a>.</p>
      <div class="content-links"><p>Every plain <a href="…">link</a> in here is a content link.</p></div>
-     <a class="link-text" href="…"><span class="link-text__label">See all posts</span> <svg>…arrow…</svg></a>
+     <a class="link-text" href="…"><span class="link-text__label">See all posts</span> <svg aria-hidden="true">…icon…</svg></a>
      <nav><a class="link-nav" href="…" aria-current="page">Research</a> <a class="link-nav" href="…">Blog</a></nav>
 
    Link text never changes color. Lines are --stroke-sm. Where a link stands on

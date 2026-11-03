@@ -194,7 +194,7 @@ const TEXT_FIELDS = [
       <h3>{linkCard.title}: logo and post</h3>
       <div class="card-grid">
         <a class="lcard lcard--logo" data-section="always-light" href="#cards"><span class="lcard__logo"><img src="/logos/OpenMined-Logo.svg" alt="OpenMined" /></span><span class="lcard__text">A logo supplied as an image, on a white plate</span></a>
-        <a class="lcard lcard--post" href="#cards" data-text="light"><span class="lcard__cover lcard__cover--demo" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
+        <a class="lcard lcard--post" href="#cards" data-text="light"><span class="lcard__cover demo-cover" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
       </div>
       <BuildRef code={CODE.card} tokens={card.tokens} label="Cards: code and tokens" />
     </div>
@@ -300,7 +300,7 @@ syft-space init --data ./records</code></pre>
           <BuildRef code={CODE.control} label="Controls: code" />
         </div>
         <article class="card fm-split__form">
-          <form class="fm fm--one" onsubmit="return false">
+          <form class="fm demo-form" onsubmit="return false">
             {TEXT_FIELDS.map(f => (
               <div class="fld">
                 {!f.bare && <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>}

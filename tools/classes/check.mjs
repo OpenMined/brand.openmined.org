@@ -9,8 +9,9 @@
  *   npm run lint          (runs this after stylelint)
  *   node tools/classes/check.mjs
  *
- * Defined: every class in a selector in components/*.css, src/styles/site.css, the
- * example kit's CSS and any <style> in an .astro file. Used: static class names in
+ * Defined: every class in a selector in components/*.css. Only these count for a
+ * component's classes: a page's own rule for .lcard__text would otherwise hide that
+ * class being renamed in link-card.css. Keep page classes out of a component's names. Used: static class names in
  * class="…", class:list={[…]} and class={`…`} (parts built from ${…} are skipped),
  * and the class attributes in each Markup block. A class whose block no component
  * defines (the site's own, a page's own) isn't checked.
@@ -39,15 +40,12 @@ const COMPONENT_FILES = readdirSync('components').filter((f) => f.endsWith('.css
 const ASTRO = walk('src', '.astro');
 const componentClasses = new Set(COMPONENT_FILES.flatMap((f) => [...selectorClasses(readFileSync(f, 'utf8'))]));
 const blocks = new Set([...componentClasses].map(block));
-const defined = new Set(componentClasses);
-for (const f of ['src/styles/site.css', ...walk('src/examples', '.css')]) for (const c of selectorClasses(readFileSync(f, 'utf8'))) defined.add(c);
-for (const f of ASTRO) for (const s of readFileSync(f, 'utf8').matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) for (const c of selectorClasses(s[1])) defined.add(c);
 
 /** Static class names in one class attribute's value. */
 const names = (value) => value.replace(/[\w-]*\$\{[^}]*\}[\w-]*/g, ' ').split(/[\s'",[\]{}`]+/).filter((t) => /^[_a-zA-Z][\w-]*$/.test(t));
 const problems = [];
 const check = (file, line, cls, where) => {
-  if (blocks.has(block(cls)) && !defined.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its component`);
+  if (blocks.has(block(cls)) && !componentClasses.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its component`);
 };
 const lineAt = (text, i) => text.slice(0, i).split('\n').length;
 
