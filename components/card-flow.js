@@ -3,16 +3,19 @@
  * card fades in a small colorflow across its lower third, in its hue's two-tone
  * stops (--gradient-two-tone-<hue>-base / -darker / -companion / -lighter, read
  * on the card, so the color mode and data-section apply). The hue is the card's
- * data-hover-hue, the one its icon takes. No markup ahead of time: the flow's
+ * data-hover-hue, the one its icon takes, or the accent's green without one. No markup ahead of time: the flow's
  * canvas is made on enter (flow.js, one WebGL context for the page) and removed
  * once it has faded out, so at most two exist at once, one
  * fading in and one out. Pointer devices only; reduced motion shows a still
  * frame. Look: card-flow.css. Safe to call again.
  *
  *   import { cardFlows } from './card-flow.js';
- *   cardFlows();            // every .hcard with a data-hover-hue
+ *   cardFlows();            // every .hcard
  */
 import { place, cssColors } from './flow.js';
+
+/** A card without data-hover-hue takes the accent's hue (design/foundations/color.md). */
+const ACCENT_HUE = 'green';
 
 /**
  * Units for the card flow: small colorflows for interactive states (a hover card's
@@ -119,7 +122,7 @@ const REMOVE_MS = 600;
 /** `cards`: a selector or a list of elements. `unitOf` picks the flow for a card when it's
  *  entered (null: none); by default the card's data-flow names one of HOVER_FLOWS
  *  (ribbon-wave when unset; "off" for none). `speedOf`: its speed (1 = the unit's own pace). */
-export function cardFlows(cards = '.hcard[data-hover-hue]', unitOf = (card) => (card.dataset.flow === 'off' ? null : HOVER_FLOWS[card.dataset.flow || 'ribbon-wave'] ?? null), speedOf = () => 1) {
+export function cardFlows(cards = '.hcard', unitOf = (card) => (card.dataset.flow === 'off' ? null : HOVER_FLOWS[card.dataset.flow || 'ribbon-wave'] ?? null), speedOf = () => 1) {
   if (typeof cards === 'string') cards = document.querySelectorAll(cards);
   if (!matchMedia('(hover: hover)').matches) return;
   for (const card of cards) {
@@ -127,7 +130,7 @@ export function cardFlows(cards = '.hcard[data-hover-hue]', unitOf = (card) => (
     card.dataset.cardFlowReady = '1';
     let p = null, unit = null, timer = 0;
     const show = () => {
-      const u = unitOf(card), hue = card.dataset.hoverHue;
+      const u = unitOf(card), hue = card.dataset.hoverHue || ACCENT_HUE;
       if (!u || !hue) return;
       clearTimeout(timer);
       const colors = cssColors(card, ROLES.map((r) => `--gradient-two-tone-${hue}-${r}`));

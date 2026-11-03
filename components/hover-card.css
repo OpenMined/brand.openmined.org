@@ -5,11 +5,12 @@
    v2 tokens. Script: hover-card.js (hoverCards), for the tilt and the pointer
    light; it also puts the moving two-tone gradients on the page (two-tone.js).
    Without it, hover is the lift and the colored icon. The colorflow across the
-   lower third: card-flow.css + card-flow.js (cardFlows).
+   lower third: card-flow.css + card-flow.js (cardFlows), on cards with
+   data-hover-hue (data-flow picks the flow, "off" for none).
 
-   Markup (hue: red, amber, green, teal, blue or violet; the icon three times:
-   glow, mono, colored):
-     <a class="hcard" href="…" style="--ci-key:var(--amber-key)">     (.hcard--large: standing alone)
+   Markup (hue: red, amber, green, teal, blue or violet, or left out for the
+   accent's green; the icon three times: glow, mono, colored):
+     <a class="hcard" href="…" data-hover-hue="amber" style="--ci-key:var(--amber-key)">     (.hcard--large: standing alone)
        <span class="hcard__icon" style="--ci-stroke:url(#tt-amber) var(--amber-key)" aria-hidden="true">
          <span class="hcard__glow"><svg>…icon…</svg></span><svg>…icon…</svg><span class="hcard__color"><svg>…icon…</svg></span>
        </span>
@@ -29,6 +30,8 @@
 .hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-lg);
   padding: var(--spacing-4xl) var(--spacing-3xl); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-body); text-decoration: none;
+  /* Without a hue, the accent's: green (design/foundations/color.md). */
+  --ci-key: var(--accent-key); --ci-stroke: url(#tt-green) var(--accent-key);
   --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
   transition: box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base)); }
 /* Hover (pointer devices only, so a tap never leaves it on) and keyboard focus:

@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-03** — *Hover card*: a card without a hue takes the accent's green (icon, colorflow and the minimal layer's fade), so a hover card always takes a color.
+- **2026-11-03** — *Hover card*: its markup now carries `data-hover-hue`, which the colorflow needs (without it, a card copied from the markup got no colorflow).
 - **2026-11-03** — `components/demo.html` retired: a standalone page of every component, in the repository only and linked from nowhere, that had fallen behind (its hover card had no colorflow). The site's pages and the examples, built from the same files, show every component.
 - **2026-11-03** — Components' Markup blocks write icons one way (`…name…` from the icon set, or `…icon…` where any icon fits), as `components/README.md` now says; the check for component classes in use counts a component's classes as defined only by its own file (a page's own rule for `.lcard__text` had hidden a rename). A project's own classes stay out of a component's names (`.demo-form`, not `.fm--one`).
 - **2026-11-02** — The hover card's, status chip's and color icon's markup now shows on the medium pages (their "Markup (…)" label wasn't read; its note now leads the markup). A new check in `npm run lint` fails when a page, an example or a component's Markup block uses a component class that no longer exists.
