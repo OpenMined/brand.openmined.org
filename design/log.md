@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — Working on the system: `CONTRIBUTING.md` says who writes a decision record (a contributor drafts it as proposed; the design lead decides and releases it), and `components/README.md` lists what adding a component touches, in order.
 - **2026-11-04** — Overview: a shorter introduction, saying what the system holds and what it's for (was also how version 2 came about and how statuses work).
 - **2026-11-04** — **Max widths** as classes: `.max-span-4`, `-5`, `-6`, `-8` and `-10` center a block at that many columns' width (`--grid-span-N`) without the grid, as v1's `--col-N` max-width helpers did. The Layout page shows them as max widths, with their own paragraph in the spacing guidance.
 - **2026-11-04** — **The accordion and the code block follow openmined.org** (new decision): each accordion item is a raised card with a round control that fills with the strong gray when open, as the PySyft FAQ's; the code block's copy button is icon only on a faint wash, with a green check after copying.

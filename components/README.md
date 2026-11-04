@@ -100,6 +100,30 @@ button hover needs an element that can hold children (`<button>` or `<a>`, not
 Class names are bare (`.btn`, `.ctl`, `.hcard`). Every script follows reduced
 motion itself.
 
+## Adding a component
+
+What a new component touches, in order. Start from a similar component's files.
+
+1. **`components/<name>.css`**: the header (name, its guidance file, what it needs, its
+   script if any), then "Markup:" with the markup to match, then the rules. Bare class
+   names, tokens only, and no class names a page already uses (`npm run lint` says).
+2. **If it moves, `components/<name>.js`**: one exported function that takes a selector and
+   is safe to call again; export it from `index.js`, add its call to `omdsStartJs()` in
+   `src/lib/serve.ts` (the full starter) and to the site's start-up in `src/layouts/Site.astro`.
+3. **`components/index.css`**: `@import` it, in the order the file lists.
+4. **`design/components/<name>.md`**: the guidance, `status: draft`, with its `tokens`; leave
+   anything unsettled as *Open:*.
+5. **`design/media/*.md`**: add it to the `components` list of each medium that uses it.
+6. **A demo**: a section in the Interface page's Components section (`SECTIONS` in
+   `src/pages/interface/index.astro`, with its `componentCode`), or on the page whose subject
+   it is.
+7. **This README's Files table**: a row.
+8. **`design/log.md`**: a line; and if it sets a rule, a draft decision record
+   (`CONTRIBUTING.md`, "A contributor proposes").
+9. **Check**: `npm run lint` and `npm run build:review` (shows drafts). `npm run build` refuses
+   the draft until the design lead releases it. If an example uses it, retake that example's
+   still (`npm run examples:thumbs -- <slug>`).
+
 ## Files
 
 | Component | CSS | Script | Guidance |

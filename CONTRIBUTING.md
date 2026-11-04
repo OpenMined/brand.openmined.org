@@ -37,6 +37,11 @@ Once a week the design lead goes through what's new (an AI session can do the so
   them; `npm run build` refuses them) and become `released` when decided.
 - Every decided change gets a **decision record** (`design/decisions/YYYY-MM-DD-slug.md`, never
   edited later: a changed decision gets a new record) and a **line in `design/log.md`**.
+- **A contributor proposes; the design lead decides.** Where a change sets or changes a rule,
+  draft its record (`status: draft`, the **Decision** line reading "Proposed; awaiting the
+  design lead.") and leave anything unsettled as *Open:* in the guidance. The design lead
+  decides, writes their role and the date on the **Decision** line, and releases the record
+  with the change. A change that sets no rule needs only its log line.
 - `npm run tokens:check` (schemas, generated files, contrast promises) and `npm run lint` (no raw
   colors; every component class in use is defined, `tools/classes/`) must pass; CI runs both.
 - Copy uses roles, not names (the design lead, the brand owner); names appear only in

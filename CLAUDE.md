@@ -15,7 +15,8 @@ Nothing is typed into a page by hand. Route every change to its source:
 - **Knowledge** (rules, decisions, open questions, the words on a page) → `design/`: one typed
   Markdown file per idea, in `foundations/`, `components/`, `patterns/`, `behaviors/`,
   `guidelines/`, plus `decisions/` (dated `YYYY-MM-DD-slug.md`, never edited to say something
-  new: a changed decision gets a new record). `overview.md` is the entry; `log.md` the change
+  new: a changed decision gets a new record; a contributor drafts one as
+  "Proposed", the design lead decides and releases it, `CONTRIBUTING.md`). `overview.md` is the entry; `log.md` the change
   history (add a line for every change). `index.md` is reserved for a generated listing.
 - **Components** → `components/` at the repo root: one CSS file per component, a small ES
   module per moving part (each exports one function taking a selector; safe to call again),
