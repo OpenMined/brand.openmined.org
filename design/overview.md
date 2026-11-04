@@ -6,9 +6,7 @@ status: released
 tags: [overview]
 ---
 
-The OpenMined Design System is the shared source for how OpenMined looks: its colors, surfaces, type, components, and graphics, with the reasons behind them. Websites, apps, documents, and graphics all draw from it, and AI tools read it the same way people do.
-
-This is version 2. It evolves the existing brand rather than replacing it. Each value and rule carries its own status, so you can tell what's settled from what's still moving.
+The colors, type, layout, components, logos, icons, and graphics that make OpenMined look like OpenMined, with the rules for using them. Use it for websites, apps, documents, and slides; AI tools read the same files you do.
 
 ## How it's built
 
