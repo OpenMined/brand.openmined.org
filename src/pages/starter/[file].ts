@@ -24,7 +24,7 @@ export const GET = async ({ params }: { params: { file: string } }) => {
   Feedback: if the system didn't cover something you needed, say what, and what you did instead,
   so it can be passed to the design lead (${HOST}/AGENTS.md, "Feedback").
 -->
-<html lang="en" data-theme="light"${full ? '' : ' data-interaction="minimal"'}>
+<html lang="en"${full ? '' : ' data-interaction="minimal"'}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,7 +33,8 @@ export const GET = async ({ params }: { params: { file: string } }) => {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
-<script>(() => { let s = null; try { s = localStorage.getItem('omds-theme'); } catch {} document.documentElement.setAttribute('data-theme', s === 'dark' || s === 'light' ? s : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); })();</script>
+<script>/* Color mode: the saved choice, else the host's (claude.ai sets data-theme when the viewer picks one), else the system's. */
+(() => { const r = document.documentElement; let s = null; try { s = localStorage.getItem('omds-theme'); } catch {} const h = r.getAttribute('data-theme'); r.setAttribute('data-theme', s === 'dark' || s === 'light' ? s : h === 'dark' || h === 'light' ? h : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); })();</script>
 <style>
 ${omdsCss()}
 /* ── this page ── */

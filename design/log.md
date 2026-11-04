@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — The Claude artifact starters follow the host's color mode: with no saved choice, they take the light or dark mode claude.ai sets on the page before falling back to the system's (they had always used the system's, overriding a viewer's choice). The starters' `<html>` no longer sets `data-theme="light"` itself. From feedback #42.
 - **2026-11-04** — **Recessed controls prefer a raised surface** (new decision; the guideline was *Recessed controls sit on a raised surface*): a raised surface is the default, not an absolute; a control may sit on the page where an exception is named, and the color-mode switch in a page's header is the first. A high-contrast toggle for the page is open. From feedback issue #41.
 - **2026-11-04** — The site has a Not found page: a missing page or file now answers with a 404 (it had answered with the home page and a 200, so an agent asking for a wrong file got HTML instead of an error).
 - **2026-11-04** — **The skill records the version in the project** (new decision, replacing the 2026-11-02 one on this point): the OpenMined skill keeps writing `brand-version.txt`, as in v1, now one line with the stamp's words and where the files came from (the site, a clone or GitHub). The census reads the line for the version; a file without it is v1's.
