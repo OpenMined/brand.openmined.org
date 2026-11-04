@@ -17,7 +17,9 @@ How the components use the steps: a status chip is padded `2xs` and `sm`, a fiel
 
 **The page.** Content runs to `--page-width` (1300px) inside the page container (`.container`), which keeps `--page-gutter` (20px) between it and the viewport edge. Bands that run wider, such as a footer bar, take `--page-width-wide` (1400px).
 
-**The grid.** Twelve columns (`--grid-columns`) of 90px (`--grid-column`) with 20px gaps (`--grid-gap`), across the 1300px page: `.grid-12`, children placed with `grid-column` (`2 / 12` for ten columns with one of air each side). Below `--breakpoint-lg` it is one column. For a centered block without the grid, cap its width at a span: `--grid-span-4` (420px), `-5` (530, the form card), `-6` (640), `-8` (860), or `-10` (1080).
+**The grid.** Twelve columns (`--grid-columns`) of 90px (`--grid-column`) with 20px gaps (`--grid-gap`), across the 1300px page: `.grid-12`, children placed with `grid-column` (`2 / 12` for ten columns with one of air each side). Below `--breakpoint-lg` it is one column.
+
+**Max widths.** To center a block at a column width without the grid, give it `.max-span-4`, `-5`, `-6`, `-8` or `-10`: its `max-width` is that many columns and their gaps (`--grid-span-4`, 420px; `-5`, 530px, the form card; `-6`, 640px; `-8`, 860px; `-10`, 1080px) and `margin-inline: auto` centers it. On a narrower screen it fills its container. The grid places blocks side by side; a max width only narrows one.
 
 **Articles.** A blog post or long read sits on three zones (`.prose-article`). Blocks are placed by zone name, never by column: every block takes the reading column, `--prose-content` (640px). A figure, table, or embed wider than the text breaks out to the wide zone with `.breakout`, `--prose-wide` (860px). A full breakout, `.breakout--full`, leaves the article for the page width, `--prose-full` (1300px), centered and kept inside the gutters on narrow screens. The article owns no horizontal padding: the gutter belongs to the container around it.
 
@@ -27,6 +29,6 @@ The reading column and the wide zone are **set apart from the grid**: they start
 
 **Stacking.** Six fixed layers, so nothing invents a z-index: `--z-below` (−1, behind its container), `--z-card` (5, a full-cover link over a card), `--z-base` (10, an element lifted over its neighbors), `--z-sticky` (100, the sticky header), `--z-dropdown` (1000, dropdowns and popovers), and `--z-overlay` (9999, modals).
 
-**Code.** `components/layout.css`: `.container` (`.container--wide`), `.grid-12`, `.prose-article` with `.breakout` and `.breakout--full`, `.stack` (`.stack--2xs` to `.stack--5xl`). No script.
+**Code.** `components/layout.css`: `.container` (`.container--wide`), `.grid-12`, `.max-span-4` to `.max-span-10`, `.prose-article` with `.breakout` and `.breakout--full`, `.stack` (`.stack--2xs` to `.stack--5xl`). No script.
 
 *Open:* rules for choosing a spacing step (a rhythm per context, or a step per relationship); whether the 2px step stays.

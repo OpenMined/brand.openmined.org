@@ -1,8 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════
    LAYOUT — v2 component (design/foundations/spacing.md, "Layout")
    ════════════════════════════════════════════════════════════════════
-   The page container, the 12-column grid, the article grid with its
-   breakouts, and the stack. Needs: the v2 tokens. No script.
+   The page container, the 12-column grid and the max widths, the article
+   grid with its breakouts, and the stack. Needs: the v2 tokens. No script.
 
    Markup:
      <div class="container">…</div>                      content at the page width, gutters outside
@@ -10,6 +10,7 @@
      <div class="container grid-12">
        <div style="grid-column: 2 / 12">…</div>          10 of 12 columns
      </div>
+     <div class="max-span-8">…</div>                     centered, at most 8 columns wide (860px), no grid; -4, -5, -6, -10
      <article class="container prose-article">
        <p>Every block sits in the reading column.</p>
        <figure class="breakout">…</figure>              wider than the text (860px)
@@ -49,6 +50,13 @@
 @media (max-width: 991px) {
   .grid-12 { grid-template-columns: minmax(0, 1fr); }
 }
+/* Max widths: a block centered at a column width, without the grid; narrower
+   screens let it fill its container. */
+.max-span-4 { max-width: var(--grid-span-4); margin-inline: auto; }
+.max-span-5 { max-width: var(--grid-span-5); margin-inline: auto; }
+.max-span-6 { max-width: var(--grid-span-6); margin-inline: auto; }
+.max-span-8 { max-width: var(--grid-span-8); margin-inline: auto; }
+.max-span-10 { max-width: var(--grid-span-10); margin-inline: auto; }
 
 /* ── Article grid: three zones ────────────────────────────────────────
       |<--------------------- full ---------------------->|  (--prose-full, 1300px)

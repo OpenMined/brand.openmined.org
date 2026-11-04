@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — **Max widths** as classes: `.max-span-4`, `-5`, `-6`, `-8` and `-10` center a block at that many columns' width (`--grid-span-N`) without the grid, as v1's `--col-N` max-width helpers did. The Layout page shows them as max widths, with their own paragraph in the spacing guidance.
 - **2026-11-04** — **The accordion and the code block follow openmined.org** (new decision): each accordion item is a raised card with a round control that fills with the strong gray when open, as the PySyft FAQ's; the code block's copy button is icon only on a faint wash, with a green check after copying.
 - **2026-11-04** — The table of contents and pagination are removed until they've had a design review: their files, guidance and uses (the long-read example's contents list, the dashboard example's pagination).
 - **2026-11-04** — Interface page: the components sit together in one Components section at the end of the page (the page's menu lists only Motion, Rules, Decisions, Components and Examples), each a smaller section with its own title and description from its guidance (tables, tabs, tags, steps, accordions and code blocks were grouped), with the interactive layer switch at the top and every component's guidance below them; the link card's logo and post forms moved to Link cards; the form controls' hand-typed summary, which had gone stale, gave way to the guidance.
