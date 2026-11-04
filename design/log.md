@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — **Tabs are a segmented control** (new decision): as on openmined.org's card form, the tabs and their panel are one raised card, the tabs a segmented control recessed into it, the selected one filled with the strong gray; the others take a faded fill of it on hover (they were gray items with the wash, like this site's header links). The dashboard example drops its own card around them.
 - **2026-11-04** — Interface page: what you see first, what you read after. Motion's timing, then the components, then the long text: every component's guidance, the rules and the decisions, then the examples (as the other pages run).
 - **2026-11-04** — Working on the system: `CONTRIBUTING.md` says who writes a decision record (a contributor drafts it as proposed; the design lead decides and releases it), and `components/README.md` lists what adding a component touches, in order.
 - **2026-11-04** — Overview: a shorter introduction, saying what the system holds and what it's for (was also how version 2 came about and how statuses work).

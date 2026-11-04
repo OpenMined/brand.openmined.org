@@ -20,4 +20,4 @@ tokens: [--accent-key, --line-focus, --surface-sunken, --state-pressed-wash, --s
 
 **The spec is the code.** Each component's states are written in its files, in both layers: `button.css` with the add-on `button-hover.css` and `.js`; `link.css` with `link-flow.css`; `link-card.css`; `hover-card.css`; `field.css`; `control.css`.
 
-*Open:* menus, tabs, table rows and segmented toggles take the wash rule when they're built.
+*Open:* menus and table rows take the wash rule when they're built. Tabs are a segmented control: the selected tab fills with `--emphasis`, the others a faded fill of it on hover (*Tabs*).

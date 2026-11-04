@@ -15,20 +15,33 @@
        <div class="tabs__panel" role="tabpanel">…</div>
      </div>
 
-   Tabs are gray items with no line or fill of their own, so they follow the
-   wash rule (Interaction states): the sunken wash on hover, and the selected
-   tab keeps it, in the headline color. Text in the muted color at rest, 500.
-   Keyboard focus draws the focus line. The row sits on the page or a panel,
-   never inside an outline of its own. */
-.tabs { display: grid; gap: var(--spacing-xl); }
-.tabs__list { display: flex; flex-wrap: wrap; gap: var(--spacing-2xs); }
+   As openmined.org's tabs (the PySyft page's "How it works"), in the card form:
+   the whole group is a card on the first raised level (its shadow, the large
+   corner, 24px inside), so a set of tabs and its panel read as one thing. The
+   row of tabs is a segmented control recessed into the card (the sunken
+   surface and its inset shadow, the medium corner), as a field or a toggle
+   is, and sized like one: a field's height, each tab 3px inside it (the
+   recessed-control inset), its padding a field's less that inset. The selected tab fills with the strong gray (--emphasis, its
+   label in --on-emphasis), as a checked control does; the others are text in
+   the headline color and take a faded fill of the strong gray on hover
+   (10%). Labels at
+   body size, 500. Keyboard focus draws the focus line. 24px between the row
+   and the panel. A card itself, it sits on the page, not inside another card. */
+.tabs {
+  display: grid; gap: var(--spacing-2xl); padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+}
+.tabs__list {
+  display: inline-flex; flex-wrap: wrap; justify-self: start; max-width: 100%; gap: 3px; padding: 3px;
+  border-radius: var(--radius-md); background: var(--surface-sunken); box-shadow: var(--shadow-sunken);
+}
 .tabs__tab {
-  min-height: 36px; padding: 0 var(--spacing-md); border: 0; border-radius: var(--radius-md); background: transparent;
-  font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-body); color: var(--text-muted); cursor: pointer;
+  padding: calc(0.7em - 3px) var(--spacing-2xl); border: 0; border-radius: var(--radius-sm); background: transparent;
+  font: var(--font-weight-medium) var(--font-size-md) var(--font-body); line-height: inherit; color: var(--text-headline); cursor: pointer;
   transition: background-color var(--transition-base), color var(--transition-base);
 }
-@media (hover: hover) { .tabs__tab:hover { background: var(--surface-sunken); color: var(--text-headline); } }
-.tabs__tab[aria-selected="true"] { background: var(--surface-sunken); color: var(--text-headline); }
+@media (hover: hover) { .tabs__tab:not([aria-selected="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: 0.15s; } }
+.tabs__tab[aria-selected="true"] { background: var(--emphasis); color: var(--on-emphasis); }
 .tabs__tab:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
 .tabs__panel[hidden] { display: none; }
 .tabs__panel:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 4px; border-radius: var(--radius-sm); }

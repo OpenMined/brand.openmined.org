@@ -46,24 +46,22 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
       <div class="card-grid">
         {STATS.map(([l, n, s]) => <div class="card card--compact stat"><span class="stat__l">{l}</span><span class="stat__n">{n}</span><span class="text-small">{s}</span></div>)}
       </div>
-      <div class="card">
-        <div class="tabs" data-tabs>
-          <div class="tabs__list" role="tablist" aria-label="Projects">
-            <button class="tabs__tab" role="tab" aria-selected="true">All</button>
-            <button class="tabs__tab" role="tab" aria-selected="false">Needs attention</button>
-          </div>
-          <div class="tabs__panel" role="tabpanel">
-            <div class="table-wrap"><table class="table table--rows table--compact">
-              <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
-              <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="bar" role="img" aria-label={`${pc}%`}><span style={`width:${pc}%`}></span></span></td></tr>)}</tbody>
-            </table></div>
-          </div>
-          <div class="tabs__panel" role="tabpanel">
-            <div class="table-wrap"><table class="table table--rows table--compact">
-              <thead><tr><th>Project</th><th>Status</th><th>Due</th></tr></thead>
-              <tbody>{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').map(([p, , s, l, d]) => <tr><td>{p}</td><td><span class={`status-chip status-chip--strong status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td></tr>)}</tbody>
-            </table></div>
-          </div>
+      <div class="tabs" data-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Projects">
+          <button class="tabs__tab" role="tab" aria-selected="true">All</button>
+          <button class="tabs__tab" role="tab" aria-selected="false">Needs attention</button>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <div class="table-wrap"><table class="table table--rows table--compact">
+            <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
+            <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="bar" role="img" aria-label={`${pc}%`}><span style={`width:${pc}%`}></span></span></td></tr>)}</tbody>
+          </table></div>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <div class="table-wrap"><table class="table table--rows table--compact">
+            <thead><tr><th>Project</th><th>Status</th><th>Due</th></tr></thead>
+            <tbody>{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').map(([p, , s, l, d]) => <tr><td>{p}</td><td><span class={`status-chip status-chip--strong status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td></tr>)}</tbody>
+          </table></div>
         </div>
       </div>
     </main>
