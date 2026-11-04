@@ -2,7 +2,7 @@
 # 2026-10-28, feedback and deployment audit). People file it here; agents file it
 # with `gh issue create` (the OMDS skill does this after showing the person the
 # text). The design lead reviews new feedback weekly and routes each item to its
-# layer. Labels: `feedback` plus one `layer:` label, set at review.
+# layer (the issue's "Which part" answer; no layer labels while one person reviews).
 name: Design system feedback
 description: Something missing, wrong or unclear in the design system, found while making something with it.
 title: "[Feedback] "

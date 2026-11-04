@@ -35,6 +35,17 @@ files are on the site, so you never need the repository.
 Every served CSS and JS file starts with a comment naming the version and commit. Keep it when
 you copy the file.
 
+**When the site can't be reached**, a clone of the repository (on an up-to-date `main`) or
+GitHub (for people with access) holds the sources the site builds these files from:
+`/omds.css` is `src/tokens/v2/tokens.css` followed by the `components/*.css` files in the order
+`components/index.css` imports them; `/omds.js` is `components/index.js` bundled;
+`/components/*` is `components/`; `/tokens/omds.css`, `omds.light.json`, `omds.dark.json` and
+`omds.colors.js` are `src/tokens/v2/tokens.css`, `tokens.light.json`, `tokens.dark.json` and
+`brand-colors.js`; `/tokens/source/` is `tokens/`; `/design/` is `design/`; `/embeds/*.js` and
+`/logos/` are in `public/`. The starters, the one-file embeds, the icon set and the examples
+exist only on the site. Copies from the sources carry no stamp: note the commit you took them
+from.
+
 ## Rules that matter most
 
 - **Tokens by name, never by value.** `var(--surface-raise-1)`, not its hex. Never type a raw

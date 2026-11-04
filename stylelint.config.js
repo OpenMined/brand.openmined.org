@@ -52,7 +52,7 @@ export default {
   rules: {
     'color-no-hex': [true, {
       message:
-        'OMDS: no raw hex. Use a token — e.g. var(--color-teal-600), var(--surface-background-default), var(--text-body). Literal palette values live only in src/tokens/tokens.css.',
+        'OMDS: no raw hex. Use a token — e.g. var(--surface-base), var(--text-body), var(--green-500). Literal palette values live only in the generated src/tokens/v2/tokens.css (and v1\'s src/tokens/tokens.css).',
     }],
 
     'color-named': ['never', {
@@ -66,7 +66,7 @@ export default {
         ignoreFunctions: false, // disallow rgb()/hsl()/etc. literals — only var() passes
         disableFix: true,
         message:
-          'OMDS: color properties must reference a design token — use var(--…) from tokens.css, not a literal value.',
+          'OMDS: color properties must reference a design token — use var(--…) from the tokens, not a literal value.',
       },
     ],
   },

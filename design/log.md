@@ -2,6 +2,10 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — The site has a Not found page: a missing page or file now answers with a 404 (it had answered with the home page and a 200, so an agent asking for a wrong file got HTML instead of an error).
+- **2026-11-04** — **The skill records the version in the project** (new decision, replacing the 2026-11-02 one on this point): the OpenMined skill keeps writing `brand-version.txt`, as in v1, now one line with the stamp's words and where the files came from (the site, a clone or GitHub). The census reads the line for the version; a file without it is v1's.
+- **2026-11-04** — `AGENTS.md` says where each served file comes from in the repository, for when the site can't be reached (copies from there carry no stamp); `components/README.md` notes that the OpenMined skill depends on the components' format; the lint messages name v2 tokens.
+
 - **2026-11-04** — The build fails on a component's Markup block that doesn't read: one that comes out empty, or stops before its blank line (a line indented too little partway through). Either had left the Interface page's code panel empty or cut short without an error. Every block now ends with a blank line before its notes (the field, link card and prose files had run straight into them).
 - **2026-11-04** — Layout page: the max-width bars are drawn with their own classes, so each holds its width until the window is narrower, then fills it, as a `.max-span-N` block does (they had shrunk with the window, in proportion).
 - **2026-11-04** — **Tabs are a segmented control** (new decision): as on openmined.org's card form, the tabs and their panel are one raised card, the tabs a segmented control recessed into it, the selected one filled with the strong gray; the others take a faded fill of it on hover (they were gray items with the wash, like this site's header links). The dashboard example drops its own card around them.

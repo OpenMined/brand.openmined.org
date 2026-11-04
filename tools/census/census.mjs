@@ -8,7 +8,8 @@
  *   - link: code that loads files from design.openmined.org instead of copying them
  *   - names: the system's own token, embed and class names, for parts taken by hand or a
  *     copy whose stamp was dropped
- *   - v1: brand-version.txt, v1's record (a project still on v1)
+ *   - brand-version.txt: the skill's record of the version in the project (decision
+ *     2026-11-04); a file without the stamp's line is v1's (a project still on v1)
  * For each stamped CSS or JS copy it fetches the file and compares it with what the system
  * served at the commit in its stamp: lines the project added or changed are its local
  * changes. A copy that leaves parts out isn't a change; the reasons come through feedback.
@@ -45,11 +46,12 @@ const MARKS = [
   { kind: 'stamp', results: search('"OpenMined Design System"') },
   { kind: 'link', results: search('"design.openmined.org"') },
   ...NAMES.map(n => ({ kind: `name ${n.replace(/"/g, '')}`, results: search(n) })),
-  { kind: 'brand-version.txt (v1)', results: search('', ['--filename', 'brand-version.txt']) },
+  { kind: 'brand-version.txt', results: search('', ['--filename', 'brand-version.txt']) },
 ];
 
 const repos = new Map();
 const stamped = [];
+const records = [];
 for (const { kind, results } of MARKS) for (const r of results) {
   const repo = r.repository.nameWithOwner ?? r.repository.fullName ?? `${ORG}/${r.repository.name}`;
   if (repo === SELF) continue;
@@ -58,6 +60,7 @@ for (const { kind, results } of MARKS) for (const r of results) {
   const where = `${kind} (${r.path.split('/').length > 1 ? '…/' : ''}${r.path.split('/').pop()})`;
   if (!repos.get(repo).found.includes(where)) repos.get(repo).found.push(where);
   if (kind === 'stamp' && /\.(css|js|mjs)$/.test(r.path)) stamped.push({ repo, path: r.path });
+  if (kind === 'brand-version.txt') records.push({ repo, path: r.path });
 }
 
 /** The lines the system served at a commit, from the files the served CSS and JS are made of
@@ -81,10 +84,20 @@ function servedLines(sha, name) {
 const norm = (l) => l.trim();
 const STAMP = /OpenMined Design System (\S+) · ([0-9a-f]{7,40})/;
 
+const fetchText = (repo, path) => Buffer.from(JSON.parse(gh(['api', `repos/${repo}/contents/${path}`])).content, 'base64').toString('utf8');
+
+// brand-version.txt: the stamp's line names the version; without it the file is v1's.
+for (const { repo, path } of records) {
+  let text = '';
+  try { text = fetchText(repo, path); } catch { /* unreadable: counted as found, version unknown */ continue; }
+  const m = text.match(STAMP);
+  repos.get(repo).versions.add(m ? m[1] : 'v1');
+}
+
 for (const { repo, path } of stamped) {
   const c = repos.get(repo);
   let text;
-  try { text = Buffer.from(JSON.parse(gh(['api', `repos/${repo}/contents/${path}`])).content, 'base64').toString('utf8'); }
+  try { text = fetchText(repo, path); }
   catch { c.changes.push({ file: path.split('/').pop(), note: 'could not read the file' }); continue; }
   const m = text.match(STAMP);
   if (!m) continue;
@@ -99,7 +112,7 @@ for (const { repo, path } of stamped) {
 
 const consumers = [...repos.values()].map(({ versions, changes, ...c }) => ({
   ...c,
-  version: versions.size ? [...versions].join(', ') : c.found.every(f => f.startsWith('brand-version')) ? 'v1' : undefined,
+  version: versions.size ? [...versions].join(', ') : undefined,
   ...(changes.length ? { changes } : {}),
 })).sort((a, b) => a.repo.localeCompare(b.repo));
 

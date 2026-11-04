@@ -1,0 +1,12 @@
+---
+/**
+ * BRAND SITE (v2) — Not found. Without this page Cloudflare Pages answers a missing
+ * path with the home page and a 200, so an agent asking for a wrong file gets HTML
+ * instead of an error. With it, a miss is a 404.
+ */
+import Site from '../layouts/Site.astro';
+import PageHero from '../components/site/PageHero.astro';
+---
+<Site title="Not found" description="There's no page or file at this address.">
+  <PageHero eyebrow="404" title="Not found" description="There's no page or file at this address. Every file the site serves is listed in /AGENTS.md and /manifest.json." source="" nav={[]} />
+</Site>

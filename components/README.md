@@ -164,3 +164,8 @@ every script in one module, for pasting (a Claude artifact) or linking.
 
 Examples of every component put together are at `/examples/` on the site: bare pages built
 from nothing but these files and the tokens.
+
+**The OpenMined skill depends on this format.** Its project-type table and its components
+step (`openmined-design-system/SKILL.md` in `OpenMined/skills`) tell agents to copy these files
+as they are, in any stack. A change of format (Astro components as the canonical reference,
+say) changes those two places too.
