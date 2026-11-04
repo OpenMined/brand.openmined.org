@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — Interface page: what you see first, what you read after. Motion's timing, then the components, then the long text: every component's guidance, the rules and the decisions, then the examples (as the other pages run).
 - **2026-11-04** — Working on the system: `CONTRIBUTING.md` says who writes a decision record (a contributor drafts it as proposed; the design lead decides and releases it), and `components/README.md` lists what adding a component touches, in order.
 - **2026-11-04** — Overview: a shorter introduction, saying what the system holds and what it's for (was also how version 2 came about and how statuses work).
 - **2026-11-04** — **Max widths** as classes: `.max-span-4`, `-5`, `-6`, `-8` and `-10` center a block at that many columns' width (`--grid-span-N`) without the grid, as v1's `--col-N` max-width helpers did. The Layout page shows them as max widths, with their own paragraph in the spacing guidance.

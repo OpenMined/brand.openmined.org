@@ -53,7 +53,7 @@ const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
 const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['tabs', tabsDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
-const NAV: [string, string][] = [['motion', 'Motion'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['components', 'Components'], ['examples', 'Examples']];
+const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
 const ROWS = [['SyftHub', '11,118', 'success', 'Live'], ['Syft Space', '2,904', 'info', 'Beta'], ['Data network pilot', '412', 'warning', 'Pending review'], ['Legacy gateway', '0', 'danger', 'Retired']];
@@ -85,23 +85,9 @@ const TEXT_FIELDS = [
     </div>
   </section>
 
-  <section class="band" id="rules">
-    <div class="wrap">
-      <header class="sec"><h2>Rules</h2></header>
-      <DocGrid docs={rules} />
-    </div>
-  </section>
-
-  <section class="band" id="decisions">
-    <div class="wrap">
-      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
-      <DecisionList docs={decisions} />
-    </div>
-  </section>
-
   <section class="band" id="components">
     <div class="wrap">
-      <header class="sec"><h2>Components</h2><p>Each component as it renders, its code and its tokens; the guidance for each follows.</p></header>
+      <header class="sec"><h2>Components</h2><p>Each component as it renders, with its code and tokens; the guidance for each is under Guidance below.</p></header>
       <div class="layer-toggle">
         <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label" aria-describedby="layer-info"><span class="switch__knob"></span></button>
         <label id="layer-label" for="layer-switch"><b>Show minimal interactive layer</b></label>
@@ -359,11 +345,28 @@ const TEXT_FIELDS = [
             </article>
           </div>
         </section>
-        <section class="stack stack--xl" id="guidance">
-          <h3 class="h3">Guidance</h3>
-          <DocGrid docs={components} />
-        </section>
       </div>
+    </div>
+  </section>
+
+  <section class="band" id="guidance">
+    <div class="wrap">
+      <header class="sec"><h2>Guidance</h2><p>Each component's guidance in full.</p></header>
+      <DocGrid docs={components} />
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2></header>
+      <DocGrid docs={rules} />
+    </div>
+  </section>
+
+  <section class="band" id="decisions">
+    <div class="wrap">
+      <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
+      <DecisionList docs={decisions} />
     </div>
   </section>
 
