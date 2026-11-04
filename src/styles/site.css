@@ -64,7 +64,7 @@ a:hover { text-decoration-color: currentColor; }
 .bar__link[aria-current='page'] { background: var(--surface-sunken); }
 
 /* The Interface page's interactive-layer switch, under its intro. */
-/* A recessed control sits on a raised surface (Recessed controls sit on a raised surface): raise-1, holding the toggle (lg outside a rounded control). */
+/* A recessed control goes on a raised surface (Recessed controls prefer a raised surface): raise-1, holding the toggle (lg outside a rounded control). */
 .layer-toggle { display: inline-grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--spacing-xs) var(--spacing-md); max-width: var(--measure); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); font-size: var(--font-size-sm); }
 .layer-toggle label { cursor: pointer; }
 .layer-toggle b { color: var(--text-headline); }

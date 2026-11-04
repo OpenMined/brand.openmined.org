@@ -11,6 +11,6 @@ tokens: [--surface-sunken]
 
 **Why.** A recess needs a surface around it. Used as a large background, sunken breaks the elevation model and darkens the page.
 
-**Do.** Put a sunken track inside a card: a recess sits on a raised surface, never the page ([Recessed controls sit on a raised surface](#guidelines-controls-on-a-raised-surface)).
+**Do.** Put a sunken track inside a card: a recess goes on a raised surface ([Recessed controls prefer a raised surface](#guidelines-controls-on-a-raised-surface)).
 
 **Don't.** Make a whole section, sidebar, or content panel sunken.
