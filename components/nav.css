@@ -1,0 +1,65 @@
+/* ════════════════════════════════════════════════════════════════════
+   NAV — v2 component (design/components/nav.md)
+   ════════════════════════════════════════════════════════════════════
+   A row of places or views, one of them current, at three levels: quiet
+   (the default, a line under the current item), wash (the current item
+   darkens the surface under it) and strong (the current item fills with the
+   strong gray). Needs: the v2 tokens. No script: what a view shows is the
+   page's own logic.
+
+   Markup:
+     <nav class="nav" aria-label="Site">
+       <a class="nav__item" href="/" aria-current="page">Overview</a>
+       <a class="nav__item" href="/research/">Research</a>
+     </nav>
+     <nav class="nav nav--wash" aria-label="Settings">…</nav>      the middle level
+     <nav class="nav nav--strong" aria-label="App">…</nav>         the strongest
+     <div class="nav nav--strong" role="group" aria-label="View">  views of one page: buttons
+       <button type="button" class="nav__item" aria-pressed="true">All<span class="nav__count">12</span></button>
+       <button type="button" class="nav__item" aria-pressed="false">Needs attention<span class="nav__count">4</span></button>
+     </div>
+
+   Items are labels in the headline color, small text at 500. Quiet draws the
+   line the nav link draws (.link-nav): in from the left on hover and keyboard
+   focus, out to the right, and kept under the current item. Wash mixes black
+   over the surface (--state-current-wash, --state-hover-wash: more in dark
+   mode, so it shows); strong fills the current item with --emphasis, its label
+   in --on-emphasis, and hover is a faded fill of it, as on a tab. One current
+   item per nav. No divider line directly under a nav. */
+.nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-2xs); }
+.nav__item {
+  display: inline-flex; align-items: baseline; gap: var(--spacing-3xs);
+  padding: var(--spacing-2xs) var(--spacing-sm); border: 0; border-radius: var(--radius-md);
+  font: var(--font-weight-medium) var(--font-size-sm)/1.4 var(--font-body); color: var(--text-headline);
+  text-decoration: none; background-color: transparent; cursor: pointer;
+  transition: background-color var(--transition-base), background-size var(--transition-base), color var(--transition-base);
+}
+.nav__count { font-weight: var(--font-weight-regular); color: var(--text-muted); }
+.nav__item:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+
+/* Quiet (the default): the nav link's line. */
+.nav:not(.nav--wash, .nav--strong) { gap: var(--spacing-lg); }
+.nav:not(.nav--wash, .nav--strong) .nav__item {
+  padding: 0 0 2px; border-radius: 0;
+  background-image: linear-gradient(var(--line-strong), var(--line-strong)); background-repeat: no-repeat;
+  background-size: 0% var(--stroke-sm); background-position: right bottom;
+}
+@media (hover: hover) {
+  .nav:not(.nav--wash, .nav--strong) .nav__item:hover { background-size: 100% var(--stroke-sm); background-position: left bottom; }
+}
+.nav:not(.nav--wash, .nav--strong) .nav__item:is(:focus-visible, [aria-current]:not([aria-current="false"]), [aria-pressed="true"]) { background-size: 100% var(--stroke-sm); background-position: left bottom; }
+
+/* Wash: the current item darkens the surface under it; hover, about half as much. */
+@media (hover: hover) {
+  .nav--wash .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--black) calc(var(--state-hover-wash) * 1%), transparent); transition-duration: 0.15s; }
+}
+.nav--wash .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) { background: color-mix(in oklch, var(--black) calc(var(--state-current-wash) * 1%), transparent); }
+
+/* Strong: the current item fills with the strong gray; hover is a faded fill of it. */
+@media (hover: hover) {
+  .nav--strong .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: 0.15s; }
+}
+.nav--strong .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) { background-color: var(--emphasis); color: var(--on-emphasis); }
+.nav--strong .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) .nav__count { color: inherit; opacity: 0.7; }
+
+@media (prefers-reduced-motion: reduce) { .nav__item { transition: none; } }

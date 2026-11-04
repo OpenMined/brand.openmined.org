@@ -18,9 +18,9 @@ guidance:
   - foundations/surfaces
   - guidelines/controls-on-a-raised-surface
   - guidelines/sunken-is-never-a-ground
-components: [card, table, tabs, status-chip, tag, button, field, control]
+components: [card, table, nav, tabs, status-chip, tag, button, field, control]
 examples: [dashboard]
 gaps:
-  - "No app shell, navigation, menus or dialogs yet."
+  - "No app shell, dropdown menus or dialogs yet; the nav is a row only (no sidebar)."
   - "No chart rules yet (series colors, axes, labels)."
 ---

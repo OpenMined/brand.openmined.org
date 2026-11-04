@@ -503,5 +503,26 @@
         }
       }
     }
+  },
+  "state": {
+    "$type": "number",
+    "current-wash": {
+      "$value": 10,
+      "$description": "The current item in a nav at the wash level: this percentage of black mixed over the surface under it. color-mix(in oklch, var(--black) calc(var(--state-current-wash) * 1%), transparent). Darkens in both modes; dark mode needs more to show.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "released"
+        }
+      }
+    },
+    "hover-wash": {
+      "$value": 5,
+      "$description": "Hover on an item in a nav at the wash level: about half the current wash, so hover and current differ.",
+      "$extensions": {
+        "org.openmined": {
+          "status": "released"
+        }
+      }
+    }
   }
 }

@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — The dashboard example's progress bars show again: each was an inline element with no size, so the Progress column had been empty. Their track stays as it was until the meter is defined (feedback #44).
+- **2026-11-04** — **Nav** (new component, new decision *The nav has three levels*): quiet (`.nav`, the default: a line under the current item), wash (`.nav--wash`: the current item darkens the surface; new tokens `--state-current-wash`, `--state-hover-wash`) and strong (`.nav--strong`: the current item fills with the strong gray). Tabs narrow to panels of different content; filters and menus are a nav. The dashboard example's All / Needs attention moves from tabs to the strong nav, over one table. From feedback #43.
 - **2026-11-04** — The Claude artifact starters follow the host's color mode: with no saved choice, they take the light or dark mode claude.ai sets on the page before falling back to the system's (they had always used the system's, overriding a viewer's choice). The starters' `<html>` no longer sets `data-theme="light"` itself. From feedback #42.
 - **2026-11-04** — **Recessed controls prefer a raised surface** (new decision; the guideline was *Recessed controls sit on a raised surface*): a raised surface is the default, not an absolute; a control may sit on the page where an exception is named, and the color-mode switch in a page's header is the first. A high-contrast toggle for the page is open. From feedback issue #41.
 - **2026-11-04** — The site has a Not found page: a missing page or file now answers with a 404 (it had answered with the home page and a 200, so an agent asking for a wrong file got HTML instead of an error).

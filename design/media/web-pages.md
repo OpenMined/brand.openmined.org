@@ -28,10 +28,10 @@ guidance:
   - guidelines/sections-arent-tinted
   - guidelines/controls-on-a-raised-surface
   - guidelines/avoid-ai-design-trends
-components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, tabs, accordion, table, tag, prose]
+components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, nav, tabs, accordion, table, tag, prose]
 examples: [home, syfthub, landing-section, product-steps, press-cards, join-form, long-read]
 gaps:
-  - "No header, navigation or footer components: each site owns its own. The website examples share an example kit with openmined.org's, which is illustration, not system."
+  - "No header or footer components: each site owns its own (the nav covers the row of links inside one). The website examples share an example kit with openmined.org's, which is illustration, not system."
   - "No imagery or photography guidance."
 ---
 

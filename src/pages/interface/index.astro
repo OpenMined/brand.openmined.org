@@ -29,6 +29,7 @@ const card = doc('components/card');
 const tag = doc('components/tag');
 const table = doc('components/table');
 const tabsDoc = doc('components/tabs');
+const navDoc = doc('components/nav');
 const accordion = doc('components/accordion');
 const steps = doc('components/steps');
 const codeBlock = doc('components/code-block');
@@ -45,6 +46,7 @@ const CODE = {
   tag: componentCode(['tag']),
   table: componentCode(['table']),
   tabs: componentCode(['tabs'], ['tabs']),
+  nav: componentCode(['nav']),
   accordion: componentCode(['accordion']),
   steps: componentCode(['steps']),
   codeBlock: componentCode(['code-copy'], ['code-copy']),
@@ -52,7 +54,7 @@ const CODE = {
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
-const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['tabs', tabsDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['tabs', tabsDoc], ['navs', navDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
 const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
@@ -215,6 +217,30 @@ const TEXT_FIELDS = [
             <div class="tabs__panel" role="tabpanel"><p>Keep your data where it is, and approve each query or set a policy.</p></div>
           </div>
           <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="navs">
+          <header class="sec"><h3 class="h3">{navDoc.title}</h3><p>{navDoc.description}</p>{navDoc.status !== 'released' && <p class="status">Status: <b>{navDoc.status}</b></p>}</header>
+          {[['', 'Quiet (default)'], ['nav--wash', 'Wash'], ['nav--strong', 'Strong']].map(([mod, label]) => (
+            <div class="stack stack--sm">
+              <h4>{label}</h4>
+              <nav class={`nav ${mod}`.trim()} aria-label={`${label} example`}>
+                <a class="nav__item" href="#navs" aria-current="page">Overview</a><a class="nav__item" href="#navs">Datasites</a><a class="nav__item" href="#navs">Requests</a><a class="nav__item" href="#navs">Settings</a>
+              </nav>
+            </div>
+          ))}
+          <h4>A view filter, on a card</h4>
+          <div class="card stack stack--md">
+            <div class="nav nav--strong" role="group" aria-label="View" data-nav-demo>
+              <button type="button" class="nav__item" aria-pressed="true">All<span class="nav__count">4</span></button><button type="button" class="nav__item" aria-pressed="false">Needs attention<span class="nav__count">2</span></button>
+            </div>
+          </div>
+          <script is:inline>
+            document.querySelectorAll('[data-nav-demo]').forEach(g => g.addEventListener('click', e => {
+              const b = e.target.closest('.nav__item'); if (!b) return;
+              g.querySelectorAll('.nav__item').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+            }));
+          </script>
+          <BuildRef code={CODE.nav} tokens={navDoc.tokens} />
         </section>
         <section class="component stack stack--xl" id="tags">
           <header class="sec"><h3 class="h3">{tag.title}</h3><p>{tag.description}</p>{tag.status !== 'released' && <p class="status">Status: <b>{tag.status}</b></p>}</header>

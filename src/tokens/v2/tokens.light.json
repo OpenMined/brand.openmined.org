@@ -1212,6 +1212,18 @@
     "type": "number",
     "status": "released"
   },
+  "--state-current-wash": {
+    "value": "10",
+    "resolved": "10",
+    "type": "number",
+    "status": "released"
+  },
+  "--state-hover-wash": {
+    "value": "5",
+    "resolved": "5",
+    "type": "number",
+    "status": "released"
+  },
   "--gradient-gold": {
     "value": "#f6c97b",
     "resolved": "#f6c97b",

@@ -148,6 +148,7 @@ What a new component touches, in order. Start from a similar component's files.
 | Tag | `tag.css` | none | `design/components/tag.md` |
 | Table | `table.css` | none | `design/components/table.md` |
 | Tabs | `tabs.css` | `tabs.js`, `tabs()` | `design/components/tabs.md` |
+| Nav: quiet, wash, strong | `nav.css` | none | `design/components/nav.md` |
 | Accordion | `accordion.css` | none | `design/components/accordion.md` |
 | Steps | `steps.css` | none | `design/components/steps.md` |
 | Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |
