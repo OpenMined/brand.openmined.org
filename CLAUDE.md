@@ -21,7 +21,8 @@ Nothing is typed into a page by hand. Route every change to its source:
   module per moving part (each exports one function taking a selector; safe to call again),
   bare class names, the markup at the top of each CSS file ("Markup:", or "Markup (a note):").
   `npm run lint` also checks every component class used on the site, in the examples and in
-  those Markup blocks is defined (`tools/classes/check.mjs`): rename a class and its copies fail. No framework, no loader.
+  those Markup blocks is defined (`tools/classes/check.mjs`): rename a class and its copies fail. A renamed or removed class gets a
+  `design/log.md` line naming old → new, for projects that copied the markup. No framework, no loader.
   `components/README.md`. Decision 2026-10-27.
 - **Media** (what you're making) → `design/media/`, one file per medium naming its start, guidance,
   component files and examples; `/making/<medium>/` pulls the rest from their sources
@@ -29,7 +30,7 @@ Nothing is typed into a page by hand. Route every change to its source:
 - **Examples** → `src/pages/examples/` on `src/layouts/Example.astro`, listed in
   `src/lib/examples.ts`: bare pages built from the served files (plus, for website pages, the example kit in
   `src/examples/`: not system), so the built HTML is what someone copies. Examples have no
-  status; each names the guidance it shows (`shows`). After changing one, `npm run
+  status; each names the guidance it shows (`shows`). After changing one, or a token, component or rule it shows at rest, `npm run
   examples:thumbs -- <slug>` (the Examples page shows stills, not live frames). Decision 2026-10-29 *Examples show the rules*. Diagram sources live in `src/diagrams/`.
 - **Presentation** (layout, live demos) → `src/pages/*`, shared parts in
   `src/components/site/`, styles in `src/styles/site.css` (v2 tokens only).
@@ -49,6 +50,8 @@ and fails the build on a bad file.
 the public site is released**; examples have no status (they show the rules, they aren't rules).
 `npm run build` fails if any token or file is `draft`, or an example names a missing or draft
 guidance file (`src/lib/release-gate.ts`); `npm run dev` and `npm run build:review` show drafts.
+A new or changed token or guidance file starts as `draft`; the design lead releases it
+(`CONTRIBUTING.md`).
 Decisions 2026-10-29 (three statuses; examples show the rules).
 
 ## Tokens

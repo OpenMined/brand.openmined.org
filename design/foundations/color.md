@@ -35,7 +35,7 @@ One label serves every key: **`--on-key`**, white in both modes, for text or an 
 
 **Accent** is the interactive color, and it's a hue: green, with green's roles (`--accent-subtle`, `--accent-soft`, `--accent-fg`, `--accent-key`), as `--success-*` points at green. Elements are gray at rest; the accent arrives with interaction, as the still green of the minimal layer (`--accent-key`). Where the accent moves it becomes a gradient: the brand gradient on link hover, the hue keys on button hover, a hue's two-tone on icons in color. Pick accent roles by intent, not by look ([Use accent by intent](#guidelines-accent-by-intent)).
 
-**Emphasis** is the strong gray fill, the primary button: `--emphasis` (the headline gray as a fill) with `--on-emphasis` as its label.
+**Emphasis** is the strong gray fill, wherever one is used (the primary button, a strong chip with no status, a step's number, a checked control): `--emphasis` (the headline gray as a fill) with `--on-emphasis` as its label.
 
 ## Text and lines
 

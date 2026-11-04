@@ -33,6 +33,50 @@ italic. Paste into `<head>`:
 </script>
 ```
 
+**A whole page, from nothing.** The served files, linked: the color mode set before the page
+draws, the fonts, `/omds.css`, a component's markup, then `/omds.js` to start what moves. Icons
+are pasted from `/icons/set/<name>.svg`. Claude artifacts can't link files: start from
+`/starter/artifact.html` instead.
+
+```html
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research</title>
+<script>
+  /* The color mode before the page draws: the saved choice, else the system's. */
+  var t; try { t = localStorage.getItem('omds-theme'); } catch (e) {}
+  document.documentElement.dataset.theme = t === 'dark' || t === 'light' ? t
+    : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Rubik:wght@400&display=swap">
+<link rel="stylesheet" href="https://design.openmined.org/omds.css">
+</head>
+<body>
+<main class="container stack stack--2xl">
+  <h1>Research</h1>
+  <a class="hcard" href="/research">
+    <span class="hcard__icon" aria-hidden="true">
+      <span class="hcard__glow"><svg>…journal…</svg></span><svg>…journal…</svg><span class="hcard__color"><svg>…journal…</svg></span>
+    </span>
+    <span class="hcard__text"><strong>Research</strong><span>Papers and results</span></span>
+    <span class="hcard__arrow" aria-hidden="true"><svg>…arrow-right…</svg></span>
+    <span class="hcard__light" aria-hidden="true"></span>
+  </a>
+  <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
+</main>
+<script type="module">
+  import { hoverCards, cardFlows, themeToggle } from 'https://design.openmined.org/omds.js';
+  hoverCards(); cardFlows(); themeToggle();
+</script>
+</body>
+</html>
+```
+
 The markup each component expects is at the top of its CSS file, after "Markup:" (or
 "Markup (a note):", the note naming the choices, such as the hues). One example per line or
 block, with a short note to its right where it needs one. An icon is written
@@ -40,7 +84,9 @@ block, with a short note to its right where it needs one. An icon is written
 icon fits; a size goes in the note. `npm run lint` checks that every component class in these
 blocks and on the site exists, defined in the component's own file. Keep
 your own classes out of a component's names (`.signup-form`, not `.fm--signup`): a page's
-own rule under a component's name would hide that class being renamed or removed.
+own rule under a component's name would hide that class being renamed or removed. Renaming
+or removing a class: change every copy (`npm run lint` lists them) and add a line to
+`design/log.md` naming old → new, so projects that copied the markup can follow.
 
 Where you can't
 edit the markup (a vendor's form), point the script at the vendor's selector

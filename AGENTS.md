@@ -12,6 +12,8 @@ files are on the site, so you never need the repository.
    short Markdown files with frontmatter: `status`, the `tokens` they govern, `tags`.
 3. Take the code; don't rewrite it. Values were tuned by eye, and a component rebuilt from a
    description drifts.
+4. Building a page from nothing: `/components/README.md`, "A whole page, from nothing", is a
+   complete one to start from.
 
 ## The files
 

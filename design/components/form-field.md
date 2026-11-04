@@ -4,13 +4,13 @@ title: Form controls
 description: Fields are flat at rest, light up under the pointer on hover, and take a gray line with the inset on focus. Checkboxes, radios, and toggles are small recesses that cast at rest and take the fields' outline and line. Errors are colored text, not a box.
 status: released
 tags: [interface]
-tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, --danger-fg, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
+tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, --danger-fg, --emphasis, --text-headline, --text-body, --radius-sm, --radius-md, --font-size-md, --font-size-sm]
 ---
 
 **Kinds, by behavior.** A control's kind names how it behaves, not which level it sits at:
 
 - **Field** (text, email, select, textarea, file): `--surface-sunken`, **flat at rest**. In the minimal layer, hover draws a faint 1px outline, the controls' hover line. In the full layer (`field.js`) a soft white light inside the field follows the pointer: in light mode with a gray 300 outline that turns white near the pointer, in dark mode a gray 500 edge near the pointer. On focus a solid 1px line in `--line-focus` (gray 500 in light mode, gray 400 in dark), with the inset `--shadow-sunken`. All grayscale.
-- **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--text-headline`. On hover the fields' outline, 1px inside the edge (gray 300 in light mode, gray 500 at 0.5 in dark), with no pointer light: the control is too small for one. On keyboard focus the fields' gray line, 1px, drawn 2px outside the control.
+- **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--emphasis`, the strong gray fill; the check, dot or knob stays a raised surface. On hover the fields' outline, 1px inside the edge (gray 300 in light mode, gray 500 at 0.5 in dark), with no pointer light: the control is too small for one. On keyboard focus the fields' gray line, 1px, drawn 2px outside the control.
 - **Recess** (a progress track, a well inside a card): a recess you don't touch. It never casts.
 
 **Anatomy of a field.** Label, an optional description (`--text-body`), the control. A required mark sits after the label.

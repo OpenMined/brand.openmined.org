@@ -2,6 +2,8 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-04** — **Every strong gray fill is emphasis** (new decision): the strong status chip with no status, the steps' number badge and checked checkboxes, radios and toggles fill with `--emphasis`, text on it in `--on-emphasis`, as the primary button does. Fills look the same; the chip's and badge's labels move one gray step, matching the button's.
+- **2026-11-04** — `components/README.md` has a whole page to start from (the served files linked, the color mode set before the page draws, one hover card), and `AGENTS.md` points to it. Working on the system: a new or changed token or guidance file starts as draft; a renamed or removed component class gets a log line naming old → new; an example's still is retaken when something it shows at rest changes.
 - **2026-11-03** — *Hover card*: a card without a hue takes the accent's green (icon, colorflow and the minimal layer's fade), so a hover card always takes a color.
 - **2026-11-03** — *Hover card*: its markup now carries `data-hover-hue`, which the colorflow needs (without it, a card copied from the markup got no colorflow).
 - **2026-11-03** — `components/demo.html` retired: a standalone page of every component, in the repository only and linked from nowhere, that had fallen behind (its hover card had no colorflow). The site's pages and the examples, built from the same files, show every component.

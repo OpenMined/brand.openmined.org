@@ -15,7 +15,7 @@
    (--radius-full), caption-size text at 500 (decisions/2026-10-28-status-chips). Without a
    status, the quiet chip draws in the body text color. */
 .status-chip {
-  --chip-fg: var(--text-body); --chip-key: var(--text-headline); --chip-on: var(--surface-base);
+  --chip-fg: var(--text-body); --chip-key: var(--emphasis); --chip-on: var(--on-emphasis);
   display: inline-flex; align-items: center; gap: var(--spacing-xs);
   padding: var(--spacing-2xs) var(--spacing-sm); border-radius: var(--radius-full);
   font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text);
