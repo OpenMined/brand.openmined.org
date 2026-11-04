@@ -81,7 +81,8 @@ The markup each component expects is at the top of its CSS file, after "Markup:"
 "Markup (a note):", the note naming the choices, such as the hues). One example per line or
 block, with a short note to its right where it needs one. An icon is written
 `<svg aria-hidden="true">…name…</svg>` with its name in the icon set, or `…icon…` where any
-icon fits; a size goes in the note. `npm run lint` checks that every component class in these
+icon fits; a size goes in the note. Indent the markup 5 spaces and leave a blank line after it,
+before any notes; the build fails on a block that reads as empty or stops anywhere else. `npm run lint` checks that every component class in these
 blocks and on the site exists, defined in the component's own file. Keep
 your own classes out of a component's names (`.signup-form`, not `.fm--signup`): a page's
 own rule under a component's name would hide that class being renamed or removed. Renaming

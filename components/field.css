@@ -19,6 +19,7 @@
          <div class="fld__ctl--select"><select class="ctl" id="role">…</select></div>
        </div>
      </form>
+
    Two columns: .fm-grid around the fields; .fld--full spans both. */
 .fm { display: grid; gap: var(--spacing-2xl); }
 .fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2xl); align-items: start; }

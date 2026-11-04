@@ -19,6 +19,7 @@
      </article>
      <article class="prose prose--spacious">…</article>      the full break (88px) above each h2
      <article class="prose prose--downsize-1">…</article>    headings drawn a level smaller (-2: two)
+
    Rhythm: one rule owns each gap (adjacent siblings), so it's the same in
    block flow, flex and the article grid, and it follows the tag, never the
    size a heading renders at. Space above a heading holds whatever comes before
