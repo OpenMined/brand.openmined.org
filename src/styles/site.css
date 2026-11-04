@@ -462,7 +462,7 @@ a:hover { text-decoration-color: currentColor; }
 .span-draw li { display: grid; grid-template-columns: 9.5em 4em minmax(0, 1fr); gap: var(--spacing-xs) var(--spacing-lg); align-items: baseline; }
 .span-draw__px { font: var(--font-size-sm) var(--font-mono); color: var(--text-muted); }
 .span-draw__track { display: block; grid-column: 1 / -1; grid-row: 2; }
-.span-draw__bar { display: block; height: 12px; margin-inline: auto; background: var(--text-headline); }
+.span-draw__bar { display: block; height: 12px; margin-inline: auto; background: var(--text-headline); }  /* its width: the real .max-span-N */
 .span-draw__use { grid-column: 3; grid-row: 1; font-size: var(--font-size-sm); color: var(--text-muted); }
 .zones { display: grid; gap: var(--spacing-xs); margin-bottom: var(--spacing-2xl); }
 .zones__row { margin-inline: auto; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-sm); background: var(--surface-sunken); font-size: var(--font-size-sm); }

@@ -30,7 +30,7 @@ const PAGE = parseFloat(tok('light', '--page-width').resolved);
 const pct = (name: string) => `${(parseFloat(tok('light', name).resolved) / PAGE * 100).toFixed(2)}%`;
 const GAP = pct('--grid-gap');
 const spans = Object.entries((LAYOUT.grid.span as Record<string, any>)).filter(([k]) => !k.startsWith('$'))
-  .map(([k, t]) => ({ name: `--grid-span-${k}`, cls: `.max-span-${k}`, px: tok('light', `--grid-span-${k}`).resolved, use: t.$description as string, w: pct(`--grid-span-${k}`) })).reverse();
+  .map(([k, t]) => ({ name: `--grid-span-${k}`, cls: `.max-span-${k}`, px: tok('light', `--grid-span-${k}`).resolved, use: t.$description as string })).reverse();
 const ZONES = [
   { name: '--prose-full', cls: 'full', label: 'full · .breakout--full' },
   { name: '--prose-wide', cls: 'wide', label: 'wide · .breakout' },
@@ -110,7 +110,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], [
 
   <section class="band" id="grid">
     <div class="wrap">
-      <header class="sec"><h2>Page and grid</h2><p>Content runs to the page width with a gutter outside it, on twelve columns, and a block can be narrowed to a column width without the grid. Drawn to scale against the 1300px page; below 991px the grid is one column.</p></header>
+      <header class="sec"><h2>Page and grid</h2><p>Content runs to the page width with a gutter outside it, on twelve columns, and a block can be narrowed to a column width without the grid. The columns are drawn to scale against the 1300px page (below 991px the grid is one column); the max widths are drawn with their own classes, so each keeps its width until the window is narrower, then fills it.</p></header>
       <article class="card">
         <div class="grid-draw" style={`--gd-gap:${GAP}`} aria-label="Twelve columns across the page width">
           {Array.from({ length: 12 }, (_, i) => <span>{i + 1}</span>)}
@@ -121,7 +121,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], [
             <li>
               <code>{s.cls}</code>
               <span class="span-draw__px">{s.px}</span>
-              <span class="span-draw__track"><span class="span-draw__bar" style={`width:${s.w}`}></span></span>
+              <span class="span-draw__track"><span class:list={['span-draw__bar', s.cls.slice(1)]}></span></span>
               <span class="span-draw__use">{s.use}</span>
             </li>
           ))}
