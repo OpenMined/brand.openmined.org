@@ -1,15 +1,15 @@
 ---
 type: Component
 title: Accordions
-description: "A question that opens to its answer; stack several for an FAQ. Built on the browser's own disclosure, divided by lines, no boxes."
+description: "A question that opens to its answer; stack several for an FAQ. Each item a card on the first raised level, with a round control that fills when open, as on openmined.org."
 status: released
 tags: [interface]
-tokens: [--line, --stroke-sm, --surface-sunken, --text-headline, --font-size-md, --line-focus]
+tokens: [--surface-raise-1, --shadow-raise-1, --radius-lg, --surface-sunken, --shadow-sunken, --emphasis, --on-emphasis, --text-body, --text-headline, --line, --line-focus, --font-size-md]
 ---
 
-**Anatomy.** A summary line (the question, Inter 500 at body size in the headline color, and a 20px down arrow) over its answer. Items are divided by the lighter line (`--line`), with a line above the first. No card or box around each item (*Outlines are lines*). The answer takes any content, spaced 16px apart like a stack.
+**Anatomy.** Each item is a card on the first raised level (`--surface-raise-1`, its shadow, the large corner), 20px from the next, with 32px of padding and 40px on the left. The summary holds the question, in body text, and a 32px round control with a 16px down arrow. The answer starts 8px below the question and takes any content, spaced 16px apart like a stack.
 
-**Behavior.** The summary is a gray item: the sunken wash on hover; keyboard focus draws the focus line. The arrow turns half a turn when open. Built on `<details>`, so it works without a script and the answer stays in the page for search and assistive tech.
+**Behavior.** The round control works like the other controls: closed, it is a recess (the sunken surface and its inset shadow, the arrow in the headline color); open, it fills with the strong gray (`--emphasis`, the arrow in `--on-emphasis`) and turns half a turn. On hover the recess takes the controls' 1px outline; keyboard focus draws the focus line around the question. Built on `<details>`, so it works without a script and the answer stays in the page for search and assistive tech.
 
 **When.** FAQs, optional detail, long lists where most readers need one item. Not for content everyone needs: show it.
 

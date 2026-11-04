@@ -25,8 +25,9 @@ a:hover { text-decoration-color: currentColor; }
 
 /* The guide's block titles (a card, a rule, a component): Inter at body size,
    bold like the hover card's title (typography.md, weights: 700 for card
-   titles). Not a v2 text style yet; the page's h1 and h2 are v2's. */
-.guide h3:not(.prose *, .type-specimen *, .h3) {
+   titles). Not a v2 text style yet; the page's h1 and h2 are v2's. Inside a
+   component's section on Interface (its title an h3), the block titles are h4. */
+.guide h3:not(.prose *, .type-specimen *, .h3), .component h4:not(.prose *) {
   font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-bold);
   line-height: var(--line-height-text); letter-spacing: 0;
 }

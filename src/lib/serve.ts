@@ -123,7 +123,7 @@ export async function singleEmbed(name: string) {
 export async function omdsStartJs() {
   const { build } = await import('esbuild');
   const r = await build({
-    stdin: { contents: "import * as o from './components/index.js';\no.buttonHover(); o.hoverCards(); o.cardFlows(); o.linkCards(); o.fieldLights(); o.tabs(); o.codeCopy(); o.toc(); o.lineFlow(); o.themeToggle();", resolveDir: ROOT, loader: 'js' },
+    stdin: { contents: "import * as o from './components/index.js';\no.buttonHover(); o.hoverCards(); o.cardFlows(); o.linkCards(); o.fieldLights(); o.tabs(); o.codeCopy(); o.lineFlow(); o.themeToggle();", resolveDir: ROOT, loader: 'js' },
     bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'none',
   });
   return r.outputFiles[0].text;

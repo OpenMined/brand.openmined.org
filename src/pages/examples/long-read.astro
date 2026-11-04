@@ -1,16 +1,15 @@
 ---
 /** Example: a long read (src/lib/examples.ts): the article zones, prose rhythm,
- *  breakouts, pull quote, table, code and a table of contents. */
+ *  breakouts, pull quote, table and code. */
 import Website from '../../examples/kit/Website.astro';
 ---
-<Website chrome={false} slug="long-read" init={`omds.linkCards(); omds.codeCopy(); omds.toc();`}>
+<Website chrome={false} slug="long-read" init={`omds.linkCards(); omds.codeCopy();`}>
   <style is:inline slot="head">
     .ex { padding-block: var(--spacing-section); }
     .ex__hero { max-width: var(--measure); margin: 0 auto var(--spacing-5xl); }
     .ex__hero h1 { margin: var(--spacing-md) 0 var(--spacing-lg); }
     .ex__hero p { margin: 0; }
     .ex__meta { margin-top: var(--spacing-lg); }
-    .ex__toc { max-width: var(--measure); margin: 0 auto var(--spacing-4xl); }
     .ex__img { display: block; width: 100%; aspect-ratio: 16 / 7; border-radius: var(--radius-md); background: var(--gradient-map); }
     .ex__img--full { aspect-ratio: 16 / 5; }
   </style>
@@ -22,15 +21,6 @@ import Website from '../../examples/kit/Website.astro';
         <p class="text-lead">Why an AI's answer should carry the sources it rests on, and how a network can keep them.</p>
         <p class="text-small ex__meta">Oct 12, 2026 · 8 min read</p>
       </header>
-      <nav class="toc ex__toc" aria-label="On this page">
-        <p class="toc__title">On this page</p>
-        <ol class="toc__list">
-          <li><a class="toc__link" href="#problem">The problem</a></li>
-          <li><a class="toc__link" href="#how">How it works</a></li>
-          <li class="toc__sub"><a class="toc__link" href="#try">Try it</a></li>
-          <li><a class="toc__link" href="#next">What's next</a></li>
-        </ol>
-      </nav>
     </div>
     <article class="container prose-article prose content-links">
       <h2 id="problem">The problem</h2>

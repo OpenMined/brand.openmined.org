@@ -32,8 +32,6 @@ const tabsDoc = doc('components/tabs');
 const accordion = doc('components/accordion');
 const steps = doc('components/steps');
 const codeBlock = doc('components/code-block');
-const tocDoc = doc('components/toc');
-const pagination = doc('components/pagination');
 // Each component's files and reference markup, read from components/.
 const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
@@ -50,13 +48,13 @@ const CODE = {
   accordion: componentCode(['accordion']),
   steps: componentCode(['steps']),
   codeBlock: componentCode(['code-copy'], ['code-copy']),
-  toc: componentCode(['toc'], ['toc']),
-  pagination: componentCode(['pagination']),
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
-const NAV: [string, string][] = [['buttons', 'Buttons'], ['links', 'Links'], ['hover-cards', 'Hover cards'], ['link-cards', 'Link cards'], ['status-chips', 'Status chips'], ['cards', 'Cards'], ['data', 'Data'], ['content', 'Content'], ['forms', 'Forms'], ['motion', 'Motion'], ['components', 'Components'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
-const components = [button, link, linkCard, statusChip, card, tag, table, tabsDoc, accordion, steps, codeBlock, tocDoc, pagination, form, motion];
+/** One section per component inside Components, in page order: its anchor and its guidance file. */
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['tabs', tabsDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
+const NAV: [string, string][] = [['motion', 'Motion'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['components', 'Components'], ['examples', 'Examples']];
+const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
 const ROWS = [['SyftHub', '11,118', 'success', 'Live'], ['Syft Space', '2,904', 'info', 'Beta'], ['Data network pilot', '412', 'warning', 'Pending review'], ['Legacy gateway', '0', 'danger', 'Retired']];
 /** Status chips: a label per status, as a list of things might carry them. */
@@ -78,326 +76,12 @@ const TEXT_FIELDS = [
     <script is:inline>
       try { if (localStorage.getItem('interface-layer') === 'minimal') document.documentElement.setAttribute('data-interaction', 'minimal'); } catch {}
     </script>
-    <div class="layer-toggle">
-      <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label" aria-describedby="layer-info"><span class="switch__knob"></span></button>
-      <label id="layer-label" for="layer-switch"><b>Show minimal interactive layer</b></label>
-      <p id="layer-info" class="muted">Off, the components below show the full interactive layer: color in motion, from the add-on files. On, they show the minimal interactive layer: plain CSS with no motion, built into every component. <a href="#behaviors-interaction-states">Interaction states</a></p>
-    </div>
   </PageHero>
-
-  <section class="band" id="buttons">
-    <div class="wrap">
-      <header class="sec"><h2>Buttons</h2><p>{button.description}</p>{button.status !== 'released' && <p class="status">Status: <b>{button.status}</b></p>}</header>
-      <article class="card">
-        <div class="actions">
-          <button type="button" class="btn btn--solid">Submit</button>
-          <button type="button" class="btn">Cancel</button>
-          <button type="button" class="btn">Save draft</button>
-        </div>
-        <div class="actions">
-          <button type="button" class="btn btn--solid"><Icon name="download" size={20} />Download</button>
-          <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
-          <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
-          <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
-          <button type="button" class="btn" disabled>Disabled</button>
-        </div>
-        <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the hue keys flowing under a faint shimmer, with a glow, starting where the clock puts them, the secondary opposite the primary.</p>
-      </article>
-      <BuildRef code={CODE.button} tokens={['--emphasis', '--on-emphasis', '--accent-key', '--on-key']} />
-    </div>
-  </section>
-
-  <section class="band" id="links">
-    <div class="wrap">
-      <header class="sec"><h2>Links</h2><p>{link.description}</p>{link.status !== 'released' && <p class="status">Status: <b>{link.status}</b></p>}</header>
-      <div class="grid grid--3">
-        <article class="card link-demo">
-          <h3>Content link</h3>
-          <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a line in the full OM gradient grows over it from the left, its colors flowing, with a soft glow, and leaves to the right. The text never changes color.</p>
-          <p class="muted">Any plain link in a paragraph or a prose region gets it.</p>
-        </article>
-        <article class="card link-demo">
-          <h3>Text button</h3>
-          <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
-          <p class="muted">An action that reads as text, standing on its own: no line at rest; on hover the accent's line draws in under the label from the left and leaves to the right, flowing in the full layer, as on a content link. The icon follows the label and isn't underlined.</p>
-        </article>
-        <article class="card link-demo">
-          <h3>Nav link</h3>
-          <nav class="link-demo__nav" aria-label="Nav links (example)"><a class="link-nav" href="#links" aria-current="page">Research</a><a class="link-nav" href="#links">Blog</a><a class="link-nav" href="#links">Events</a><a class="link-nav" href="#links">Donate</a></nav>
-          <p class="muted">For a row of many links, a nav or a footer, where color on every hover would crowd the row: the gray line draws in on hover and stays under the current page.</p>
-        </article>
-      </div>
-      <BuildRef code={CODE.link} tokens={link.tokens} />
-    </div>
-  </section>
-
-  <section class="band" id="hover-cards">
-    <div class="wrap">
-      <header class="sec" id="components-hover-card"><h2>{hoverCard.title}</h2><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class="status">Status: <b>{hoverCard.status}</b></p>}</header>
-      <div class="hcards">
-        <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
-        <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />
-        <HoverCard href="#hover-cards" icon="view-structure-up" hue="green" title="Core concepts" text="Learn the building blocks" />
-      </div>
-      <div class="hcards-large">
-        <HoverCard href="#hover-cards" icon="network" hue="green" size="large" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that be in climate, healthcare, finance, or beyond." />
-      </div>
-      <p class="muted">Hover a card: it lifts and tilts away from the pointer, the light follows the pointer (in light mode the card shades except around it), the icon takes its hue's moving two-tone and a colorflow in the same two-tone rises in the lower third. The arrow stays mono.</p>
-      <BuildRef code={CODE.hoverCard} tokens={hoverCard.tokens} />
-      <TwoToneDefs />
-    </div>
-  </section>
-
-  <section class="band" id="link-cards">
-    <div class="wrap">
-      <header class="sec"><h2>{linkCard.title}</h2><p>{linkCard.description}</p>{linkCard.status !== 'released' && <p class="status">Status: <b>{linkCard.status}</b></p>}</header>
-      <div class="grid grid--3">
-        <LinkCard href="#link-cards" title="Review rounds">Every round: when it opened, what it explored, and where its favorites live.</LinkCard>
-        <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
-        <LinkCard href="#link-cards" title="Typography">Rubik for display, Inter for text, on a fluid scale.</LinkCard>
-      </div>
-      <BuildRef code={CODE.linkCard} tokens={linkCard.tokens} />
-    </div>
-  </section>
-
-  <section class="band" id="status-chips">
-    <div class="wrap">
-      <header class="sec"><h2>{statusChip.title}</h2><p>{statusChip.description}</p>{statusChip.status !== 'released' && <p class="status">Status: <b>{statusChip.status}</b></p>}</header>
-      <article class="card">
-        <div class="status-rows">
-          <div class="status-row">
-            <span class="status-row__lab"><b>Quiet</b> · ring and text in <code>fg</code></span>
-            <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--${s}`}>{t}</span>)}</div>
-          </div>
-          <div class="status-row">
-            <span class="status-row__lab"><b>Strong</b> · <code>key</code> fill, white text</span>
-            <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--strong status-chip--${s}`}>{t}</span>)}</div>
-          </div>
-          <div class="status-row">
-            <span class="status-row__lab"><b>No status</b> · body text</span>
-            <div class="actions"><span class="status-chip">Draft</span></div>
-          </div>
-        </div>
-      </article>
-      <BuildRef code={CODE.statusChip} tokens={statusChip.tokens} />
-    </div>
-  </section>
-
-  <section class="band" id="cards">
-    <div class="wrap">
-      <header class="sec"><h2>{card.title}</h2><p>{card.description}</p></header>
-      <div class="card-grid">
-        <div class="card"><h3 class="card__title">Federated learning</h3><p>Train a model on data that never leaves its owner's server.</p></div>
-        <div class="card card--icon"><Icon name="lock" size={32} class="card__icon" /><div><h3 class="card__title">Private by design</h3><p>Only the answer leaves; the data stays where it lives.</p></div></div>
-        <div class="card card--icon card--stacked"><Icon name="network" size={32} class="card__icon" /><div><h3 class="card__title">One network</h3><p>Every node speaks the same protocol.</p></div></div>
-      </div>
-      <h3>{linkCard.title}: logo and post</h3>
-      <div class="card-grid">
-        <a class="lcard lcard--logo" data-section="always-light" href="#cards"><span class="lcard__logo"><img src="/logos/OpenMined-Logo.svg" alt="OpenMined" /></span><span class="lcard__text">A logo supplied as an image, on a white plate</span></a>
-        <a class="lcard lcard--post" href="#cards" data-text="light"><span class="lcard__cover demo-cover" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
-      </div>
-      <BuildRef code={CODE.card} tokens={card.tokens} label="Cards: code and tokens" />
-    </div>
-  </section>
-
-  <section class="band" id="data">
-    <div class="wrap">
-      <header class="sec"><h2>{table.title}, tabs and tags</h2><p>{table.description} {tabsDoc.description} {tag.description}</p></header>
-      <div class="tabs" data-tabs>
-        <div class="tabs__list" role="tablist" aria-label="Projects">
-          <button class="tabs__tab" role="tab" aria-selected="true">All projects</button>
-          <button class="tabs__tab" role="tab" aria-selected="false">Live</button>
-          <button class="tabs__tab" role="tab" aria-selected="false">Tags</button>
-        </div>
-        <div class="tabs__panel" role="tabpanel">
-          <div class="table-wrap"><table class="table table--rows">
-            <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
-            <tbody>{ROWS.map(([n, q, s, l], i) => <tr aria-current={i === 0 ? 'true' : undefined}><td>{n}</td><td class="num">{q}</td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td></tr>)}</tbody>
-          </table></div>
-        </div>
-        <div class="tabs__panel" role="tabpanel">
-          <div class="table-wrap"><table class="table table--compact">
-            <thead><tr><th>Project</th><th class="num">Queries</th></tr></thead>
-            <tbody>{ROWS.filter(r => r[2] === 'success').map(([n, q]) => <tr><td>{n}</td><td class="num">{q}</td></tr>)}</tbody>
-          </table></div>
-        </div>
-        <div class="tabs__panel" role="tabpanel">
-          <ul class="tags"><li><span class="tag">Research</span></li><li><span class="tag">Privacy</span></li><li><a class="tag" href="#data">Federated learning</a></li><li><a class="tag" href="#data">Policy</a></li></ul>
-        </div>
-      </div>
-      <BuildRef code={CODE.table} tokens={table.tokens} label="Table: code and tokens" />
-      <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} label="Tabs: code and tokens" />
-      <BuildRef code={CODE.tag} tokens={tag.tokens} label="Tags: code and tokens" />
-    </div>
-  </section>
-
-  <section class="band" id="content">
-    <div class="wrap">
-      <header class="sec"><h2>{steps.title}, accordions and code</h2><p>{steps.description} {accordion.description}</p></header>
-      <div class="grid grid--2">
-        <ol class="steps steps--connector">
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h3 class="steps__title">Install Syft Space</h3><p>One command on the server that holds the data.</p></div></li>
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h3 class="steps__title">Connect your data</h3><p>Point it at a folder or a database.</p></div></li>
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h3 class="steps__title">Answer queries</h3><p>Approve each request, or set a policy.</p></div></li>
-        </ol>
-        <ol class="steps steps--outline steps--connector">
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h3 class="steps__title">Find a dataset</h3><p>Browse what the network holds.</p></div></li>
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h3 class="steps__title">Send a query</h3><p>Code runs where the data lives.</p></div></li>
-          <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h3 class="steps__title">Get the answer</h3><p>Only the result comes back.</p></div></li>
-        </ol>
-      </div>
-      <div class="accordions">
-        <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">Does my data leave my server?</span><Icon name="nav-arrow-down" size={20} class="accordion__icon" /></summary><div class="accordion__body"><p>No. A query runs where the data lives and only its answer comes back, after you approve it.</p></div></details>
-        <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">Who can send a query?</span><Icon name="nav-arrow-down" size={20} class="accordion__icon" /></summary><div class="accordion__body"><p>Anyone you allow, under the policy you set.</p></div></details>
-      </div>
-      <pre class="code-block"><code>npm install @openmined/syft-space
-syft-space init --data ./records</code></pre>
-      <div class="grid grid--2">
-        <nav class="toc" aria-label="On this page (example)">
-          <p class="toc__title">On this page</p>
-          <ol class="toc__list">
-            <li><a class="toc__link" href="#cards">Cards</a></li>
-            <li><a class="toc__link" href="#data">Data</a></li>
-            <li class="toc__sub"><a class="toc__link" href="#data">Tabs</a></li>
-            <li><a class="toc__link" href="#content">Content</a></li>
-          </ol>
-        </nav>
-        <nav class="pagination" aria-label="Pages (example)">
-          <a class="pagination__step" href="#content" rel="prev"><Icon name="nav-arrow-left" size={16} /> Previous</a>
-          <ol class="pagination__pages">
-            <li><a class="pagination__page" href="#content">1</a></li>
-            <li><a class="pagination__page" href="#content" aria-current="page">2</a></li>
-            <li><a class="pagination__page" href="#content">3</a></li>
-            <li><span class="pagination__gap">…</span></li>
-            <li><a class="pagination__page" href="#content">9</a></li>
-          </ol>
-          <a class="pagination__step" href="#content" rel="next">Next <Icon name="nav-arrow-right" size={16} /></a>
-        </nav>
-      </div>
-      <BuildRef code={CODE.steps} tokens={steps.tokens} label="Steps: code and tokens" />
-      <BuildRef code={CODE.accordion} tokens={accordion.tokens} label="Accordion: code and tokens" />
-      <BuildRef code={CODE.codeBlock} tokens={codeBlock.tokens} label="Code block: code and tokens" />
-      <BuildRef code={CODE.toc} tokens={tocDoc.tokens} label="Table of contents: code and tokens" />
-      <BuildRef code={CODE.pagination} tokens={pagination.tokens} label="Pagination: code and tokens" />
-    </div>
-  </section>
-
-  <section class="band" id="forms">
-    <div class="wrap">
-      <div class="fm-split">
-        <div class="fm-split__text">
-          <header class="sec"><h2>Forms</h2><p>{form.description}</p>{form.status !== 'released' && <p class="status">Status: <b>{form.status}</b></p>}</header>
-          <div class="prose prose--downsize-2 guide-prose">
-            <p>Every control a form renders, in generic markup. Kinds are named for how they behave:</p>
-            <ul>
-              <li><b>Field</b> (text, email, select, date, textarea, file): flat on the sunken level at rest. On hover a soft light follows the pointer, with a gray outline in light mode; on focus a solid gray line with the inset.</li>
-              <li><b>Control</b> (checkbox, radio, toggle): a recess you operate, casting its inset at rest. Checked fills with <code>--text-headline</code>. On hover the fields' gray outline; on keyboard focus their gray line, just outside the control.</li>
-              <li><b>Error</b>: danger-colored text under the field, on whatever the form sits on. No box and no outline.</li>
-            </ul>
-            <p>The gray focus line reaches 3:1 on every surface: gray-500 in light mode, gray-400 in dark. Vendor forms map onto this markup with an adapter in the project that uses them.</p>
-          </div>
-          <BuildRef code={CODE.field} tokens={['--line-focus']} label="Field: code and tokens" />
-          <BuildRef code={CODE.control} label="Controls: code" />
-        </div>
-        <article class="card fm-split__form">
-          <form class="fm demo-form" onsubmit="return false">
-            {TEXT_FIELDS.map(f => (
-              <div class="fld">
-                {!f.bare && <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>}
-                {f.desc && <p class="fld__desc">{f.desc}</p>}
-                <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph} aria-label={f.bare ? f.ph : undefined} />
-              </div>
-            ))}
-            <div class="fld">
-              <label class="fld__label" for="f-role">Role</label>
-              <p class="fld__desc">Select: native control, our surface.</p>
-              <div class="fld__ctl--select">
-                <select class="ctl" id="f-role"><option>Choose an option</option><option>Researcher</option><option>Engineer</option></select>
-              </div>
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-date">Start date</label>
-              <p class="fld__desc">Date input, with the browser's picker intact.</p>
-              <input class="ctl" id="f-date" type="date" />
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-msg">Message</label>
-              <p class="fld__desc">Textarea: resizes vertically only.</p>
-              <textarea class="ctl" id="f-msg" rows="3" placeholder="Placeholder copy"></textarea>
-            </div>
-            <div class="fld">
-              <span class="fld__label">Interests</span>
-              <p class="fld__desc">Checkbox list. Boxes are a recess and cast at rest.</p>
-              <ul class="opts">
-                {['Federated learning', 'Secure enclaves', 'Differential privacy'].map((o, i) => (
-                  <li><label class="opt"><input class="opt__box" type="checkbox" checked={i === 0} /><span>{o}</span></label></li>
-                ))}
-              </ul>
-            </div>
-            <div class="fld">
-              <span class="fld__label">Contact preference</span>
-              <p class="fld__desc">Radio list: the same recess, round.</p>
-              <ul class="opts">
-                {['Email', 'No contact'].map((o, i) => (
-                  <li><label class="opt"><input class="opt__box" type="radio" name="pref" checked={i === 0} /><span>{o}</span></label></li>
-                ))}
-              </ul>
-            </div>
-            <div class="fld">
-              <span class="fld__label">Notifications</span>
-              <p class="fld__desc">A toggle: a recess you operate, inset 3px.</p>
-              <div class="actions">
-                <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Notifications on"><span class="switch__knob"></span></button>
-                <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Digest off"><span class="switch__knob"></span></button>
-              </div>
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-file">Attachment</label>
-              <p class="fld__desc">File input: the button is the only part that can be styled.</p>
-              <input class="ctl ctl--file" id="f-file" type="file" />
-            </div>
-
-            <h3 class="fm-sub">States</h3>
-            <div class="fld">
-              <label class="fld__label" for="f-focus">Focused</label>
-              <p class="fld__desc">A solid gray line with the inset.</p>
-              <input class="ctl is-focus" id="f-focus" type="text" value="Typing a value" />
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-filled">Filled</label>
-              <input class="ctl" id="f-filled" type="text" value="A completed value" />
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-dis">Disabled</label>
-              <input class="ctl" id="f-dis" type="text" value="Not editable" disabled />
-            </div>
-            <div class="fld">
-              <label class="fld__label" for="f-err">Error<span class="fld__req">*</span></label>
-              <input class="ctl" id="f-err" type="email" value="not-an-email" />
-              <ul class="fld__errs"><li>Please enter a valid email address.</li></ul>
-            </div>
-
-            <div class="actions">
-              <button type="submit" class="btn btn--solid">Submit</button>
-              <button type="button" class="btn">Cancel</button>
-            </div>
-          </form>
-        </article>
-      </div>
-    </div>
-  </section>
 
   <section class="band" id="motion">
     <div class="wrap">
       <header class="sec"><h2>{motion.title}</h2><p>{motion.description}</p>{motion.status !== 'released' && <p class="status">Status: <b>{motion.status}</b></p>}</header>
       <TokenTable names={motion.tokens} />
-    </div>
-  </section>
-
-  <section class="band" id="components">
-    <div class="wrap">
-      <header class="sec"><h2>Components</h2></header>
-      <DocGrid docs={components} />
     </div>
   </section>
 
@@ -412,6 +96,274 @@ syft-space init --data ./records</code></pre>
     <div class="wrap">
       <header class="sec"><h2>Decisions</h2><p>Why things are the way they are, oldest first. Open a row for the full record.</p></header>
       <DecisionList docs={decisions} />
+    </div>
+  </section>
+
+  <section class="band" id="components">
+    <div class="wrap">
+      <header class="sec"><h2>Components</h2><p>Each component as it renders, its code and its tokens; the guidance for each follows.</p></header>
+      <div class="layer-toggle">
+        <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label" aria-describedby="layer-info"><span class="switch__knob"></span></button>
+        <label id="layer-label" for="layer-switch"><b>Show minimal interactive layer</b></label>
+        <p id="layer-info" class="muted">Off, the components below show the full interactive layer: color in motion, from the add-on files. On, they show the minimal interactive layer: plain CSS with no motion, built into every component. <a href="#behaviors-interaction-states">Interaction states</a></p>
+      </div>
+      <div class="stack stack--5xl">
+        <section class="component stack stack--xl" id="buttons">
+          <header class="sec"><h3 class="h3">{button.title}</h3><p>{button.description}</p>{button.status !== 'released' && <p class="status">Status: <b>{button.status}</b></p>}</header>
+          <article class="card">
+            <div class="actions">
+              <button type="button" class="btn btn--solid">Submit</button>
+              <button type="button" class="btn">Cancel</button>
+              <button type="button" class="btn">Save draft</button>
+            </div>
+            <div class="actions">
+              <button type="button" class="btn btn--solid"><Icon name="download" size={20} />Download</button>
+              <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
+              <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
+              <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
+              <button type="button" class="btn" disabled>Disabled</button>
+            </div>
+            <p class="muted">One solid button per group; the others are secondary, an outline in the body text color with no fill. Both are grayscale at rest. On hover or keyboard focus they fill with the accent in motion: the hue keys flowing under a faint shimmer, with a glow, starting where the clock puts them, the secondary opposite the primary.</p>
+          </article>
+          <BuildRef code={CODE.button} tokens={['--emphasis', '--on-emphasis', '--accent-key', '--on-key']} />
+        </section>
+        <section class="component stack stack--xl" id="links">
+          <header class="sec"><h3 class="h3">{link.title}</h3><p>{link.description}</p>{link.status !== 'released' && <p class="status">Status: <b>{link.status}</b></p>}</header>
+          <div class="grid grid--3">
+            <article class="card link-demo">
+              <h4>Content link</h4>
+              <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a line in the full OM gradient grows over it from the left, its colors flowing, with a soft glow, and leaves to the right. The text never changes color.</p>
+              <p class="muted">Any plain link in a paragraph or a prose region gets it.</p>
+            </article>
+            <article class="card link-demo">
+              <h4>Text button</h4>
+              <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
+              <p class="muted">An action that reads as text, standing on its own: no line at rest; on hover the accent's line draws in under the label from the left and leaves to the right, flowing in the full layer, as on a content link. The icon follows the label and isn't underlined.</p>
+            </article>
+            <article class="card link-demo">
+              <h4>Nav link</h4>
+              <nav class="link-demo__nav" aria-label="Nav links (example)"><a class="link-nav" href="#links" aria-current="page">Research</a><a class="link-nav" href="#links">Blog</a><a class="link-nav" href="#links">Events</a><a class="link-nav" href="#links">Donate</a></nav>
+              <p class="muted">For a row of many links, a nav or a footer, where color on every hover would crowd the row: the gray line draws in on hover and stays under the current page.</p>
+            </article>
+          </div>
+          <BuildRef code={CODE.link} tokens={link.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="hover-cards">
+          <header class="sec"><h3 class="h3">{hoverCard.title}</h3><p>{hoverCard.description}</p>{hoverCard.status !== 'released' && <p class="status">Status: <b>{hoverCard.status}</b></p>}</header>
+          <div class="hcards">
+            <HoverCard href="#hover-cards" icon="flash" hue="amber" title="Quickstart" text="Get up and running in 5 minutes" />
+            <HoverCard href="#hover-cards" icon="download" hue="blue" title="Installation" text="Desktop app or Docker deployment" />
+            <HoverCard href="#hover-cards" icon="view-structure-up" hue="green" title="Core concepts" text="Learn the building blocks" />
+          </div>
+          <div class="hcards-large">
+            <HoverCard href="#hover-cards" icon="network" hue="green" size="large" title="Start your own federated sub-network" text="Launch a privacy-preserving network for your domain, whether that be in climate, healthcare, finance, or beyond." />
+          </div>
+          <p class="muted">Hover a card: it lifts and tilts away from the pointer, the light follows the pointer (in light mode the card shades except around it), the icon takes its hue's moving two-tone and a colorflow in the same two-tone rises in the lower third. The arrow stays mono.</p>
+          <BuildRef code={CODE.hoverCard} tokens={hoverCard.tokens} />
+          <TwoToneDefs />
+        </section>
+        <section class="component stack stack--xl" id="link-cards">
+          <header class="sec"><h3 class="h3">{linkCard.title}</h3><p>{linkCard.description}</p>{linkCard.status !== 'released' && <p class="status">Status: <b>{linkCard.status}</b></p>}</header>
+          <div class="grid grid--3">
+            <LinkCard href="#link-cards" title="Review rounds">Every round: when it opened, what it explored, and where its favorites live.</LinkCard>
+            <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
+            <LinkCard href="#link-cards" title="Typography">Rubik for display, Inter for text, on a fluid scale.</LinkCard>
+          </div>
+          <h4>Logo and post</h4>
+          <div class="card-grid">
+            <a class="lcard lcard--logo" data-section="always-light" href="#link-cards"><span class="lcard__logo"><img src="/logos/OpenMined-Logo.svg" alt="OpenMined" /></span><span class="lcard__text">A logo supplied as an image, on a white plate</span></a>
+            <a class="lcard lcard--post" href="#link-cards" data-text="light"><span class="lcard__cover demo-cover" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
+          </div>
+          <BuildRef code={CODE.linkCard} tokens={linkCard.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="status-chips">
+          <header class="sec"><h3 class="h3">{statusChip.title}</h3><p>{statusChip.description}</p>{statusChip.status !== 'released' && <p class="status">Status: <b>{statusChip.status}</b></p>}</header>
+          <article class="card">
+            <div class="status-rows">
+              <div class="status-row">
+                <span class="status-row__lab"><b>Quiet</b> · ring and text in <code>fg</code></span>
+                <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--${s}`}>{t}</span>)}</div>
+              </div>
+              <div class="status-row">
+                <span class="status-row__lab"><b>Strong</b> · <code>key</code> fill, white text</span>
+                <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--strong status-chip--${s}`}>{t}</span>)}</div>
+              </div>
+              <div class="status-row">
+                <span class="status-row__lab"><b>No status</b> · body text</span>
+                <div class="actions"><span class="status-chip">Draft</span></div>
+              </div>
+            </div>
+          </article>
+          <BuildRef code={CODE.statusChip} tokens={statusChip.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="cards">
+          <header class="sec"><h3 class="h3">{card.title}</h3><p>{card.description}</p>{card.status !== 'released' && <p class="status">Status: <b>{card.status}</b></p>}</header>
+          <div class="card-grid">
+            <div class="card"><h4 class="card__title">Federated learning</h4><p>Train a model on data that never leaves its owner's server.</p></div>
+            <div class="card card--icon"><Icon name="lock" size={32} class="card__icon" /><div><h4 class="card__title">Private by design</h4><p>Only the answer leaves; the data stays where it lives.</p></div></div>
+            <div class="card card--icon card--stacked"><Icon name="network" size={32} class="card__icon" /><div><h4 class="card__title">One network</h4><p>Every node speaks the same protocol.</p></div></div>
+          </div>
+          <BuildRef code={CODE.card} tokens={card.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="tables">
+          <header class="sec"><h3 class="h3">{table.title}</h3><p>{table.description}</p>{table.status !== 'released' && <p class="status">Status: <b>{table.status}</b></p>}</header>
+          <div class="table-wrap"><table class="table table--rows">
+            <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
+            <tbody>{ROWS.map(([n, q, s, l], i) => <tr aria-current={i === 0 ? 'true' : undefined}><td>{n}</td><td class="num">{q}</td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td></tr>)}</tbody>
+          </table></div>
+          <h4>Compact</h4>
+          <div class="table-wrap"><table class="table table--compact">
+            <thead><tr><th>Project</th><th class="num">Queries</th></tr></thead>
+            <tbody>{ROWS.map(([n, q]) => <tr><td>{n}</td><td class="num">{q}</td></tr>)}</tbody>
+          </table></div>
+          <BuildRef code={CODE.table} tokens={table.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="tabs">
+          <header class="sec"><h3 class="h3">{tabsDoc.title}</h3><p>{tabsDoc.description}</p>{tabsDoc.status !== 'released' && <p class="status">Status: <b>{tabsDoc.status}</b></p>}</header>
+          <div class="tabs" data-tabs>
+            <div class="tabs__list" role="tablist" aria-label="How it works">
+              <button class="tabs__tab" role="tab" aria-selected="true">For researchers</button>
+              <button class="tabs__tab" role="tab" aria-selected="false">For data owners</button>
+            </div>
+            <div class="tabs__panel" role="tabpanel"><p>Find a dataset, send a query, and get back only the answer.</p></div>
+            <div class="tabs__panel" role="tabpanel"><p>Keep your data where it is, and approve each query or set a policy.</p></div>
+          </div>
+          <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="tags">
+          <header class="sec"><h3 class="h3">{tag.title}</h3><p>{tag.description}</p>{tag.status !== 'released' && <p class="status">Status: <b>{tag.status}</b></p>}</header>
+          <ul class="tags"><li><span class="tag">Research</span></li><li><span class="tag">Privacy</span></li><li><a class="tag" href="#tags">Federated learning</a></li><li><a class="tag" href="#tags">Policy</a></li></ul>
+          <BuildRef code={CODE.tag} tokens={tag.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="steps">
+          <header class="sec"><h3 class="h3">{steps.title}</h3><p>{steps.description}</p>{steps.status !== 'released' && <p class="status">Status: <b>{steps.status}</b></p>}</header>
+          <div class="grid grid--2">
+            <ol class="steps steps--connector">
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h4 class="steps__title">Install Syft Space</h4><p>One command on the server that holds the data.</p></div></li>
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h4 class="steps__title">Connect your data</h4><p>Point it at a folder or a database.</p></div></li>
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h4 class="steps__title">Answer queries</h4><p>Approve each request, or set a policy.</p></div></li>
+            </ol>
+            <ol class="steps steps--outline steps--connector">
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">1</span><div><h4 class="steps__title">Find a dataset</h4><p>Browse what the network holds.</p></div></li>
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">2</span><div><h4 class="steps__title">Send a query</h4><p>Code runs where the data lives.</p></div></li>
+              <li class="steps__item"><span class="steps__num" aria-hidden="true">3</span><div><h4 class="steps__title">Get the answer</h4><p>Only the result comes back.</p></div></li>
+            </ol>
+          </div>
+          <BuildRef code={CODE.steps} tokens={steps.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="accordions">
+          <header class="sec"><h3 class="h3">{accordion.title}</h3><p>{accordion.description}</p>{accordion.status !== 'released' && <p class="status">Status: <b>{accordion.status}</b></p>}</header>
+          <div class="accordions">
+            <details class="accordion" open><summary class="accordion__summary"><span class="accordion__title">Does my data leave my server?</span><span class="accordion__icon" aria-hidden="true"><Icon name="nav-arrow-down" size={16} /></span></summary><div class="accordion__body"><p>No. A query runs where the data lives and only its answer comes back, after you approve it.</p></div></details>
+            <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">Who can send a query?</span><span class="accordion__icon" aria-hidden="true"><Icon name="nav-arrow-down" size={16} /></span></summary><div class="accordion__body"><p>Anyone you allow, under the policy you set.</p></div></details>
+            <details class="accordion"><summary class="accordion__summary"><span class="accordion__title">What does it cost?</span><span class="accordion__icon" aria-hidden="true"><Icon name="nav-arrow-down" size={16} /></span></summary><div class="accordion__body"><p>Syft Space is free and open source.</p></div></details>
+          </div>
+          <BuildRef code={CODE.accordion} tokens={accordion.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="code-blocks">
+          <header class="sec"><h3 class="h3">{codeBlock.title}</h3><p>{codeBlock.description}</p>{codeBlock.status !== 'released' && <p class="status">Status: <b>{codeBlock.status}</b></p>}</header>
+          <pre class="code-block"><code>npm install @openmined/syft-space
+    syft-space init --data ./records</code></pre>
+          <BuildRef code={CODE.codeBlock} tokens={codeBlock.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="forms">
+          <div class="fm-split">
+            <div class="fm-split__text">
+              <header class="sec"><h3 class="h3">{form.title}</h3><p>{form.description}</p>{form.status !== 'released' && <p class="status">Status: <b>{form.status}</b></p>}</header>
+              <BuildRef code={CODE.field} tokens={['--line-focus']} label="Field: code and tokens" />
+              <BuildRef code={CODE.control} label="Controls: code" />
+            </div>
+            <article class="card fm-split__form">
+              <form class="fm demo-form" onsubmit="return false">
+                {TEXT_FIELDS.map(f => (
+                  <div class="fld">
+                    {!f.bare && <label class="fld__label" for={`f-${f.id}`}>{f.label}{f.req && <span class="fld__req">*</span>}</label>}
+                    {f.desc && <p class="fld__desc">{f.desc}</p>}
+                    <input class="ctl" id={`f-${f.id}`} type={f.type} placeholder={f.ph} aria-label={f.bare ? f.ph : undefined} />
+                  </div>
+                ))}
+                <div class="fld">
+                  <label class="fld__label" for="f-role">Role</label>
+                  <p class="fld__desc">Select: native control, our surface.</p>
+                  <div class="fld__ctl--select">
+                    <select class="ctl" id="f-role"><option>Choose an option</option><option>Researcher</option><option>Engineer</option></select>
+                  </div>
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-date">Start date</label>
+                  <p class="fld__desc">Date input, with the browser's picker intact.</p>
+                  <input class="ctl" id="f-date" type="date" />
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-msg">Message</label>
+                  <p class="fld__desc">Textarea: resizes vertically only.</p>
+                  <textarea class="ctl" id="f-msg" rows="3" placeholder="Placeholder copy"></textarea>
+                </div>
+                <div class="fld">
+                  <span class="fld__label">Interests</span>
+                  <p class="fld__desc">Checkbox list. Boxes are a recess and cast at rest.</p>
+                  <ul class="opts">
+                    {['Federated learning', 'Secure enclaves', 'Differential privacy'].map((o, i) => (
+                      <li><label class="opt"><input class="opt__box" type="checkbox" checked={i === 0} /><span>{o}</span></label></li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="fld">
+                  <span class="fld__label">Contact preference</span>
+                  <p class="fld__desc">Radio list: the same recess, round.</p>
+                  <ul class="opts">
+                    {['Email', 'No contact'].map((o, i) => (
+                      <li><label class="opt"><input class="opt__box" type="radio" name="pref" checked={i === 0} /><span>{o}</span></label></li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="fld">
+                  <span class="fld__label">Notifications</span>
+                  <p class="fld__desc">A toggle: a recess you operate, inset 3px.</p>
+                  <div class="actions">
+                    <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Notifications on"><span class="switch__knob"></span></button>
+                    <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Digest off"><span class="switch__knob"></span></button>
+                  </div>
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-file">Attachment</label>
+                  <p class="fld__desc">File input: the button is the only part that can be styled.</p>
+                  <input class="ctl ctl--file" id="f-file" type="file" />
+                </div>
+
+                <h4 class="fm-sub">States</h4>
+                <div class="fld">
+                  <label class="fld__label" for="f-focus">Focused</label>
+                  <p class="fld__desc">A solid gray line with the inset.</p>
+                  <input class="ctl is-focus" id="f-focus" type="text" value="Typing a value" />
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-filled">Filled</label>
+                  <input class="ctl" id="f-filled" type="text" value="A completed value" />
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-dis">Disabled</label>
+                  <input class="ctl" id="f-dis" type="text" value="Not editable" disabled />
+                </div>
+                <div class="fld">
+                  <label class="fld__label" for="f-err">Error<span class="fld__req">*</span></label>
+                  <input class="ctl" id="f-err" type="email" value="not-an-email" />
+                  <ul class="fld__errs"><li>Please enter a valid email address.</li></ul>
+                </div>
+
+                <div class="actions">
+                  <button type="submit" class="btn btn--solid">Submit</button>
+                  <button type="button" class="btn">Cancel</button>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+        <section class="stack stack--xl" id="guidance">
+          <h3 class="h3">Guidance</h3>
+          <DocGrid docs={components} />
+        </section>
+      </div>
     </div>
   </section>
 

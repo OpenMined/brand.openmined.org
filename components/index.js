@@ -15,5 +15,4 @@ export { place, cssColors } from './flow.js';
 export { lineFlow } from './line-flow.js';
 export { tabs } from './tabs.js';
 export { codeCopy } from './code-copy.js';
-export { toc } from './toc.js';
 export { themeInit, themeToggle } from './theme.js';

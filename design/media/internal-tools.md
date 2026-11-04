@@ -1,7 +1,7 @@
 ---
 type: Medium
 title: Internal tools and dashboards
-description: "Dense interfaces for the team: the minimal interactive layer with cards, tables, tabs, status chips, tags and pagination."
+description: "Dense interfaces for the team: the minimal interactive layer with cards, tables, tabs, status chips and tags."
 status: released
 level: partly
 order: 3
@@ -18,7 +18,7 @@ guidance:
   - foundations/surfaces
   - guidelines/controls-on-a-raised-surface
   - guidelines/sunken-is-never-a-ground
-components: [card, table, tabs, status-chip, tag, pagination, button, field, control]
+components: [card, table, tabs, status-chip, tag, button, field, control]
 examples: [dashboard]
 gaps:
   - "No app shell, navigation, menus or dialogs yet."

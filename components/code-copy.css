@@ -8,17 +8,20 @@
    Markup:
      <pre class="code-block"><code>npm run tokens</code></pre>
 
-   The button sits top right inside the block, an icon-only control in the
-   block's muted text; it takes the block's text color on hover and says
-   "Copied" for two seconds after a click. */
+   As openmined.org's code blocks: the button sits top right inside the block,
+   icon only (16px), on a faint wash of the block's text color with a fainter
+   edge (8% and 12%), the icon in gray 300; on hover the wash doubles and the
+   icon turns gray 50. After a click the icon is a check in green 300 for two
+   seconds. Its name, "Copy code", is for screen readers; they hear "Copied". */
 .code-block { position: relative; }
 .code-block__copy {
-  position: absolute; top: var(--spacing-sm); right: var(--spacing-sm);
-  display: inline-flex; align-items: center; gap: var(--spacing-2xs); min-height: 28px; padding: 0 var(--spacing-sm);
-  border: 0; border-radius: var(--radius-sm); background: transparent; cursor: pointer;
-  font: var(--font-weight-medium) var(--font-size-xs)/1 var(--font-body); color: var(--gray-400);
-  transition: color var(--transition-base);
+  position: absolute; top: var(--spacing-2xs); right: var(--spacing-sm);
+  display: inline-flex; align-items: center; justify-content: center; padding: var(--spacing-2xs) var(--spacing-xs);
+  border: var(--stroke-sm) solid color-mix(in oklch, var(--gray-50) 12%, transparent); border-radius: var(--radius-sm);
+  background: color-mix(in oklch, var(--gray-50) 8%, transparent); color: var(--gray-300); cursor: pointer; line-height: 1;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 .code-block__copy svg { width: 16px; height: 16px; }
-@media (hover: hover) { .code-block__copy:hover { color: var(--gray-50); } }
-.code-block__copy:focus-visible { outline: var(--stroke-sm) solid var(--gray-400); outline-offset: 2px; color: var(--gray-50); }
+@media (hover: hover) { .code-block__copy:hover { background: color-mix(in oklch, var(--gray-50) 16%, transparent); color: var(--gray-50); } }
+.code-block__copy:focus-visible { outline: var(--stroke-sm) solid var(--gray-300); outline-offset: 2px; color: var(--gray-50); }
+.code-block__copy.is-copied { color: var(--green-300); }
