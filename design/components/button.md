@@ -20,7 +20,7 @@ tokens: [--emphasis, --on-emphasis, --accent-key, --on-key, --text-headline, --l
 
 **With an icon.** An icon beside the label, on either side: 20px, in the label's color, 8px (`--spacing-sm`) from it. Put the icon after the label for "go" (an arrow), before it for an action with a known glyph (download).
 
-**Icon only** (`.btn--icon`). A button that is just an icon (menu, search, close) stays bare: no outline, as in an interface's chrome, square at the button's 48px height, with an accessible name (`aria-label`). It never fills: on hover and keyboard focus the icon takes the color, the accent's green standing still (minimal) or green's two-tone moving in its stroke (full); pressed darkens it with the pressed wash.
+**Icon only** (`.btn--icon`). A button that is just an icon (menu, search, close) stays bare: no outline, as in an interface's chrome, square at the button's 48px height, with an accessible name (`aria-label`). It never fills: on hover and keyboard focus the icon takes its hue, standing still (minimal) or as the hue's two-tone moving in its stroke with a soft glow behind (full), as a hover card's icon does; pressed darkens it with the pressed wash. The hue is chosen per icon (`--ci-key`, and `--ci-stroke` for the full layer): close red, search blue, say. Without a choice, the accent's green. There's no rule yet for which hue goes with which icon.
 
 **Size.** 48px tall, with `--radius-md` corners. Every button carries the same 1px border (the solid's in its own fill), so solid and secondary are one size.
 

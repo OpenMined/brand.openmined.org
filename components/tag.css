@@ -21,4 +21,5 @@
 a.tag { color: var(--text-headline); }
 @media (hover: hover) { a.tag:hover { border-color: var(--accent-key); } }
 a.tag:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
-.tags { display: flex; flex-wrap: wrap; gap: var(--spacing-xs); margin: 0; padding: 0; list-style: none; }
+:where(.tags) { margin: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--spacing-xs); padding: 0; list-style: none; }

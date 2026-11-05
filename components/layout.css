@@ -27,9 +27,9 @@
 
    The stack spaces its children evenly; they carry no margin of their own
    (outside a long read, which has its own rhythm, .prose). Space goes between
-   them only, never before the first or after the last. A child keeps its own display, so
-   inline text belongs in a block (a <p>). Set --stack-space on one child to
-   change the space above that child alone.
+   them only, never before the first or after the last. Text belongs in a block
+   (a <p>): each child is a grid item. A stack goes on an element of its own,
+   never on a card, a row or a tab panel; put it inside them.
 
    The container keeps --page-gutter between its content and the viewport edge.
    The grid collapses to one column below --breakpoint-lg (991px; media queries
@@ -87,24 +87,24 @@
 }
 
 /* ── Stack: the container spaces its children ─────────────────────────
-   Decisions: space belongs to the container; stacks are even. The same space between every pair of children, lg (16px, prose's gap
-   between blocks) by default, .stack--{step} for any step from 2xs to 5xl. To
-   keep a heading with its content, nest: a tight stack holds the heading and
-   its text, a looser one spaces the groups. The reset weighs nothing, so a
-   component's own margins still apply; the space between children weighs one
-   class, so it beats a page's reset. */
-/* --stack-space, set on one child, changes the space above that child alone; it
-   doesn't inherit, so a stack inside a stack keeps its own step. */
-@property --stack-space { syntax: '*'; inherits: false; }
+   Decisions: space belongs to the container; stacks are even; a stack is a
+   one-column grid with a gap (2026-11-05). The same space between every pair of
+   children, lg (16px, prose's gap between blocks) by default, .stack--{step} for
+   any step from 2xs to 5xl. The gap is the container's, so nothing a child does
+   (its own margin reset, the order the files load) can cancel it; a hidden child
+   takes no space. To vary the space, nest: a tight stack holds the heading and its
+   text, a looser one spaces the groups. A stack sets its own display: put it on an
+   element of its own, never on one that has a layout (a card, a row) or that
+   toggles hidden (a tab panel); put the stack inside. */
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--spacing-lg); }
 :where(.stack > *) { margin-block: 0; }
-.stack > * + * { margin-block-start: var(--stack-space, var(--spacing-lg)); }
-.stack--2xs > * + * { margin-block-start: var(--stack-space, var(--spacing-2xs)); }
-.stack--xs > * + * { margin-block-start: var(--stack-space, var(--spacing-xs)); }
-.stack--sm > * + * { margin-block-start: var(--stack-space, var(--spacing-sm)); }
-.stack--md > * + * { margin-block-start: var(--stack-space, var(--spacing-md)); }
-.stack--lg > * + * { margin-block-start: var(--stack-space, var(--spacing-lg)); }
-.stack--xl > * + * { margin-block-start: var(--stack-space, var(--spacing-xl)); }
-.stack--2xl > * + * { margin-block-start: var(--stack-space, var(--spacing-2xl)); }
-.stack--3xl > * + * { margin-block-start: var(--stack-space, var(--spacing-3xl)); }
-.stack--4xl > * + * { margin-block-start: var(--stack-space, var(--spacing-4xl)); }
-.stack--5xl > * + * { margin-block-start: var(--stack-space, var(--spacing-5xl)); }
+.stack--2xs { gap: var(--spacing-2xs); }
+.stack--xs { gap: var(--spacing-xs); }
+.stack--sm { gap: var(--spacing-sm); }
+.stack--md { gap: var(--spacing-md); }
+.stack--lg { gap: var(--spacing-lg); }
+.stack--xl { gap: var(--spacing-xl); }
+.stack--2xl { gap: var(--spacing-2xl); }
+.stack--3xl { gap: var(--spacing-3xl); }
+.stack--4xl { gap: var(--spacing-4xl); }
+.stack--5xl { gap: var(--spacing-5xl); }

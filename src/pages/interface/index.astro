@@ -112,7 +112,7 @@ const TEXT_FIELDS = [
             <div class="actions">
               <button type="button" class="btn btn--solid"><Icon name="download" size={20} />Download</button>
               <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
-              <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
+              <button type="button" class="btn btn--icon" aria-label="Search" style="--ci-key:var(--blue-key);--ci-stroke:url(#tt-blue) var(--blue-key)"><Icon name="search" size={20} /></button>
               <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
               <button type="button" class="btn" disabled>Disabled</button>
             </div>
@@ -228,8 +228,8 @@ const TEXT_FIELDS = [
               <button class="tabs__tab" role="tab" aria-selected="true">For researchers</button>
               <button class="tabs__tab" role="tab" aria-selected="false">For data owners</button>
             </div>
-            <div class="tabs__panel stack stack--sm" role="tabpanel"><h4>Ask questions of data you can't see</h4><p>Find a dataset, send a query, and get back only the answer. The data stays with its owner, and you never handle a copy.</p></div>
-            <div class="tabs__panel stack stack--sm" role="tabpanel"><h4>Share answers, not your data</h4><p>Keep your data where it is, and approve each query or set a policy. Only the answers you allow ever leave your server.</p></div>
+            <div class="tabs__panel" role="tabpanel"><div class="stack stack--sm"><h4>Ask questions of data you can't see</h4><p>Find a dataset, send a query, and get back only the answer. The data stays with its owner, and you never handle a copy.</p></div></div>
+            <div class="tabs__panel" role="tabpanel"><div class="stack stack--sm"><h4>Share answers, not your data</h4><p>Keep your data where it is, and approve each query or set a policy. Only the answers you allow ever leave your server.</p></div></div>
           </div>
           <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} />
         </section>
@@ -244,7 +244,7 @@ const TEXT_FIELDS = [
             </div>
           ))}
           <h4 class="block-title">A view filter, on a card</h4>
-          <div class="card stack stack--md">
+          <div class="card">
             <div class="nav nav--strong" role="group" aria-label="View" data-nav-demo>
               <button type="button" class="nav__item" aria-pressed="true">All<span class="nav__count">4</span></button><button type="button" class="nav__item" aria-pressed="false">Needs attention<span class="nav__count">2</span></button>
             </div>

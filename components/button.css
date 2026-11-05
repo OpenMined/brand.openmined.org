@@ -11,7 +11,8 @@
      <button class="btn btn--solid">Join</button>       primary, one per group
      <a class="btn" href="…">Read the docs</a>          secondary
      <a class="btn" href="…">Read more <svg aria-hidden="true">…icon…</svg></a>     with a 20px icon, either side
-     <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…icon…</svg></button>   icon only
+     <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…icon…</svg></button>   icon only, green on hover
+     <button class="btn btn--icon" aria-label="Close" style="--ci-key:var(--red-key);--ci-stroke:url(#tt-red) var(--red-key)"><svg aria-hidden="true">…icon…</svg></button>   in a hue chosen for it
 
    One solid per group; the rest are secondary, an outline in the line style
    (--stroke-sm, --line-strong = the body text color) over the surface they
@@ -21,8 +22,10 @@
    Icon-only buttons (.btn--icon) stay bare: no outline, as in an interface's
    chrome (menu, search, close), square at the button's height; they need an
    accessible name (aria-label). They never fill: on hover and focus the icon
-   takes the accent's green (minimal), or green's two-tone moving in its stroke
-   (full, button-hover.js); pressed darkens it with the pressed wash.
+   takes its hue, the accent's green unless one is chosen for it (--ci-key, and
+   --ci-stroke for the full layer, as on a hover card's icon): the key standing
+   still (minimal), or the hue's two-tone moving in its stroke with a soft glow
+   behind (full, button-hover.js); pressed darkens it with the pressed wash.
 
    Minimal states. Hover (pointer devices only) and keyboard focus: the
    accent's color, --accent-key (green), fills the button, white label.
@@ -38,21 +41,21 @@
   transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
 }
 .btn > svg { flex: none; width: 20px; height: 20px; }
-.btn--icon { min-width: 48px; padding: 0; border: 0; }
+.btn--icon { --ci-key: var(--accent-key); min-width: 48px; padding: 0; border: 0; }
 .btn--solid { background: var(--emphasis); border-color: var(--emphasis); color: var(--on-emphasis); }
 /* Gray buttons fill with the accent's green on hover and focus, and take the
    pressed wash over it while pressed. Hover only where there is a pointer to hover
    with, so a tap never leaves it on; keyboard focus shows the same fill everywhere. */
 @media (hover: hover) {
   .btn:not(.btn--icon):hover:not(:disabled, [aria-disabled="true"]) { background: var(--accent-key); border-color: var(--accent-key); color: var(--on-key); }
-  .btn--icon:hover:not(:disabled, [aria-disabled="true"]) { color: var(--accent-key); }
+  .btn--icon:hover:not(:disabled, [aria-disabled="true"]) { color: var(--ci-key); }
 }
 .btn:not(.btn--icon):focus-visible { background: var(--accent-key); border-color: var(--accent-key); color: var(--on-key); }
-.btn--icon:focus-visible { color: var(--accent-key); }
+.btn--icon:focus-visible { color: var(--ci-key); }
 .btn:not(.btn--icon):active:not(:disabled, [aria-disabled="true"]) {
   background: color-mix(in oklch, var(--accent-key), var(--black) calc(var(--state-pressed-wash) * 1%));
   border-color: transparent; color: var(--on-key);
 }
-.btn--icon:active:not(:disabled, [aria-disabled="true"]) { --btn-icon-pressed: color-mix(in oklch, var(--accent-key), var(--black) calc(var(--state-pressed-wash) * 1%)); color: var(--btn-icon-pressed); }
+.btn--icon:active:not(:disabled, [aria-disabled="true"]) { --btn-icon-pressed: color-mix(in oklch, var(--ci-key), var(--black) calc(var(--state-pressed-wash) * 1%)); color: var(--btn-icon-pressed); }
 .btn:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
 .btn:is(:disabled, [aria-disabled="true"]) { opacity: var(--state-disabled-opacity); cursor: not-allowed; }

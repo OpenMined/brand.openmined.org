@@ -64,9 +64,11 @@
    yet); colored lines take a hue's key, their pulse its highlight. */
 .fig {
   --diagram-connector: var(--gray-400);
-  margin: 0; padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-xl);
+  padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-xl);
   border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1); color: var(--text-body);
 }
+/* The figure's own margin reset carries no weight, so a stack around it still spaces it. */
+:where(.fig) { margin: 0; }
 .fig svg { display: block; width: 100%; height: auto; overflow: visible; }
 .fig text { font-family: var(--font-body); }
 .fig .mono { font-family: var(--font-mono); }

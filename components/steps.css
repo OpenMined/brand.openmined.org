@@ -19,7 +19,8 @@
    as the solid and secondary buttons pair. The connector is the line style
    from one number's center to the next, stopping at each badge's edge. Title
    at the h5 size (Inter 400) in the headline color, body text below. 48px between steps. */
-.steps { display: flex; flex-direction: column; gap: var(--spacing-5xl); margin: 0; padding: 0; list-style: none; }
+:where(.steps) { margin: 0; }
+.steps { display: flex; flex-direction: column; gap: var(--spacing-5xl); padding: 0; list-style: none; }
 .steps__item { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-lg); isolation: isolate; }
 .steps__num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;

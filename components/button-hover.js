@@ -4,8 +4,8 @@
  * layers to each button and sets where the color loop starts. Skips disabled
  * buttons, pressed toggles (aria-pressed) and buttons already set up (inside
  * [data-interaction="minimal"] its layers stay hidden, by CSS, so the region can
- * switch either way at any time); an icon-only button gets green's two-tone in its icon
- * instead of the fill (.has-tone), and does nothing on devices without hover, where the
+ * switch either way at any time); an icon-only button gets its hue's two-tone in its icon
+ * (--ci-stroke, green's without one) and a glow behind it instead of the fill (.has-tone), and does nothing on devices without hover, where the
  * minimal states in button.css apply. Safe to call again after content is added.
  *
  *   import { buttonHover } from './button-hover.js';
@@ -36,8 +36,14 @@ export function buttonHover(selector = '.btn', { start = clockStart } = {}) {
   if (!matchMedia('(hover: hover)').matches) return;
   document.querySelectorAll(selector).forEach((btn) => {
     if (btn.classList.contains('has-flow') || btn.matches('[disabled], [aria-disabled="true"], [aria-pressed]')) return;
-    // Icon-only buttons don't fill: their icon takes green's two-tone, moving (button-hover.css).
-    if (btn.matches('.btn--icon')) { twoTone(); btn.classList.add('has-tone'); return; }
+    // Icon-only buttons don't fill: their icon takes its hue's two-tone, moving, with a
+    // blurred copy behind as its glow (button-hover.css). The hue is --ci-stroke; green without one.
+    if (btn.matches('.btn--icon')) {
+      twoTone(); btn.classList.add('has-tone');
+      const icon = btn.querySelector(':scope > svg');
+      if (icon && !btn.querySelector(':scope > .btn-icon-glow')) btn.insertAdjacentHTML('afterbegin', `<span class="btn-icon-glow" aria-hidden="true">${icon.outerHTML}</span>`);
+      return;
+    }
     btn.classList.add('has-flow');
     btn.style.setProperty('--flow-inset', `-${getComputedStyle(btn).borderTopWidth}`);
     btn.insertAdjacentHTML('afterbegin', LAYER('glow') + LAYER('fill'));

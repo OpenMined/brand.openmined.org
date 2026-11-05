@@ -77,10 +77,17 @@
   .btn-flow i { animation: none !important; }
 }
 
-/* Icon-only buttons never fill: the icon takes the accent's two-tone, green's,
-   moving in its stroke (two-tone.js puts the gradients on the page), falling back
-   to the green key. */
-.btn--icon.has-tone { --btn-tone: url(#tt-green) var(--accent-key); }
+/* Icon-only buttons never fill: the icon takes its hue's two-tone, moving in its
+   stroke (two-tone.js puts the gradients on the page), with a blurred copy behind
+   as its glow, as a hover card's icon does. The hue is --ci-stroke, chosen per
+   icon; without one, green's. The glow: 6px, 0.25 in light, 0.4 in dark. */
+.btn--icon.has-tone { --btn-tone: var(--ci-stroke, url(#tt-green) var(--accent-key)); position: relative; isolation: isolate; }
+.btn-icon-glow { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity var(--transition-base); }
+.btn-icon-glow > svg { width: 20px; height: 20px; }
+.btn-icon-glow :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--btn-tone); }
+.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-glow { opacity: 0.25; transition-duration: 0.15s; }
+[data-theme="dark"] .btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-glow { opacity: 0.4; }
+[data-interaction="minimal"] .btn-icon-glow { display: none; }
 .btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) svg :is(path, circle, rect, line, polyline, polygon, ellipse) {
   stroke: var(--btn-tone);
 }

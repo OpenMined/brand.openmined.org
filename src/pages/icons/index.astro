@@ -50,7 +50,7 @@ const CARDS = [
   <section class="band" id="in-use">
     <div class="wrap">
       <header class="sec"><h2>In use</h2><p>Outlined and mono by default, in the color of the text around them.</p></header>
-      <div class="grid grid--3">
+      <div class="grid grid--2">
         <article class="card">
           <h3>Next to a word</h3>
           <div class="actions">
@@ -66,12 +66,21 @@ const CARDS = [
         </article>
         <article class="card">
           <h3>On their own</h3>
-          <div class="actions">
-            <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
-            <button type="button" class="btn btn--icon" aria-label="Search"><Icon name="search" size={20} /></button>
-            <button type="button" class="btn btn--icon" aria-label="Close"><Icon name="xmark" size={20} /></button>
+          <div class="icon-alone">
+            <span role="img" aria-label="Menu"><Icon name="menu" size={20} /></span>
+            <span role="img" aria-label="Search"><Icon name="search" size={20} /></span>
+            <span role="img" aria-label="Close"><Icon name="xmark" size={20} /></span>
           </div>
           <p class="muted">Universal icons only, each with an accessible name.</p>
+        </article>
+        <article class="card">
+          <h3>As a button, on hover</h3>
+          <div class="actions">
+            <button type="button" class="btn btn--icon" aria-label="Menu"><Icon name="menu" size={20} /></button>
+            <button type="button" class="btn btn--icon" aria-label="Search" style="--ci-key:var(--blue-key);--ci-stroke:url(#tt-blue) var(--blue-key)"><Icon name="search" size={20} /></button>
+            <button type="button" class="btn btn--icon" aria-label="Close" style="--ci-key:var(--red-key);--ci-stroke:url(#tt-red) var(--red-key)"><Icon name="xmark" size={20} /></button>
+          </div>
+          <p class="muted">An icon button takes a hue chosen for it on hover, moving with a glow behind, as a hover card’s icon does: search blue, close red; without a choice, green (menu).</p>
         </article>
       </div>
       <div class="icon-cards">
@@ -181,6 +190,8 @@ const CARDS = [
 </Site>
 
 <style>
+  .icon-alone { display: flex; gap: var(--spacing-xs); }
+  .icon-alone > span { display: inline-grid; place-items: center; width: 48px; height: 48px; }
   .icon-cards { display: grid; gap: var(--spacing-lg); margin-top: var(--spacing-4xl); }
   .icon-cards > h3 { margin: 0; }
   .icon-cards > p { max-width: var(--measure); margin: 0; }

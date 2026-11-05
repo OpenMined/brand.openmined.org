@@ -39,7 +39,7 @@ const ZONES = [
 const CODE = componentCode(['layout']);
 /** The stack's steps, read from its rules in components/layout.css, so the table can't drift. */
 const STACK_CSS = readFileSync('components/layout.css', 'utf8');
-const STACKS = [...STACK_CSS.matchAll(/\.stack(?:--([a-z0-9]+))? > \* \+ \* \{ margin-block-start: var\(--stack-space, var\(--spacing-([a-z0-9]+)\)\); \}/g)]
+const STACKS = [...STACK_CSS.matchAll(/^\.stack(?:--([a-z0-9]+))? \{[^}]*?\bgap: var\(--spacing-([a-z0-9]+)\);[^}]*\}/gm)]
   .map(m => ({ cls: m[1] ? `.stack--${m[1]}` : '.stack', step: m[2], px: tok('light', `--spacing-${m[2]}`).resolved }))
   .filter(r => r.cls !== '.stack--lg');
 if (STACKS.length < 2) throw new Error('Layout page: the stack rules in components/layout.css no longer parse');
