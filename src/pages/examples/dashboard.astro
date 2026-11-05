@@ -53,6 +53,11 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
           <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
           <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="meter" role="progressbar" aria-label="Progress" aria-valuenow={pc} aria-valuemin="0" aria-valuemax="100" aria-valuetext={`${pc}%`}><span class="meter__track"><span class="meter__fill" style={`width: ${pc}%`}></span></span><span class="meter__label">{pc}%</span></span></td></tr>)}</tbody>
         </table></div>
+        <nav class="nav nav--wash pager" aria-label="Project pages">
+          <span class="nav__item pager__step" aria-disabled="true"><Fragment set:html={icon('nav-arrow-left', 16)} />Previous</span>
+          <span class="pager__pages"><a class="nav__item" href="#" aria-current="page">1</a><a class="nav__item" href="#">2</a><a class="nav__item" href="#">3</a></span>
+          <a class="nav__item pager__step" href="#" rel="next">Next<Fragment set:html={icon('nav-arrow-right', 16)} /></a>
+        </nav>
       </div>
       <script is:inline>
         /* The view filter: the nav shows which view is current; the page hides the rows it leaves out. */

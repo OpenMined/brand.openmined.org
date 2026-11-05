@@ -150,6 +150,7 @@ What a new component touches, in order. Start from a similar component's files.
 | Tabs | `tabs.css` | `tabs.js`, `tabs()` | `design/components/tabs.md` |
 | Nav: quiet, wash, strong | `nav.css` | none | `design/components/nav.md` |
 | Meter (x of y) | `meter.css` | none | `design/components/meter.md` |
+| Pager (Previous, page numbers, Next; with the nav) | `pager.css` | none | `design/components/pager.md` |
 | Accordion | `accordion.css` | none | `design/components/accordion.md` |
 | Steps | `steps.css` | none | `design/components/steps.md` |
 | Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |

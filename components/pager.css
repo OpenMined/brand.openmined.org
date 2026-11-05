@@ -1,0 +1,38 @@
+/* ════════════════════════════════════════════════════════════════════
+   PAGER — v2 component (design/components/pager.md)
+   ════════════════════════════════════════════════════════════════════
+   Moves between the pages of a long list or table: Previous, the page
+   numbers, Next, side by side in one row. A nav at the wash level:
+   the current page takes the wash, hover about half. Needs: the v2 tokens
+   and nav.css. No script: links go to their pages; a page that pages in place
+   uses buttons and sets aria-current itself.
+
+   Markup:
+     <nav class="nav nav--wash pager" aria-label="Pages">
+       <a class="nav__item pager__step" href="?page=4" rel="prev"><svg aria-hidden="true">…nav-arrow-left…</svg>Previous</a>
+       <span class="pager__pages">
+         <a class="nav__item" href="?page=1">1</a>
+         <span class="pager__gap" aria-hidden="true">…</span>
+         <a class="nav__item" href="?page=4">4</a>
+         <a class="nav__item" href="?page=5" aria-current="page">5</a>
+         <a class="nav__item" href="?page=6">6</a>
+         <span class="pager__gap" aria-hidden="true">…</span>
+         <a class="nav__item" href="?page=12">12</a>
+       </span>
+       <a class="nav__item pager__step" href="?page=6" rel="next">Next<svg aria-hidden="true">…nav-arrow-right…</svg></a>
+     </nav>
+     <span class="nav__item pager__step" aria-disabled="true">…Previous</span>    on the first page (Next on the last)
+
+   Icons 16px. Numbers in tabular figures, each at least as wide as it is tall.
+   Show the first page, the last, and the current one with its neighbors; a gap
+   (…) stands for the pages between. A step that can't go anywhere stays in
+   place, muted, so the numbers don't shift. Centered by default; set
+   justify-content on the .pager to align it where a layout needs. */
+.pager { justify-content: center; }
+.pager__pages { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-2xs); }
+.pager__pages .nav__item { justify-content: center; min-inline-size: 2.25em; font-variant-numeric: tabular-nums; }
+.pager__step { align-items: center; }
+.pager__step > svg { flex: none; inline-size: 16px; block-size: 16px; }
+.pager__gap { min-inline-size: 1.5em; text-align: center; font-size: var(--font-size-sm); color: var(--text-muted); }
+.pager.nav--wash .pager__step[aria-disabled="true"],
+.pager.nav--wash .pager__step[aria-disabled="true"]:hover { color: var(--text-muted); background: none; cursor: default; }

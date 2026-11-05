@@ -31,6 +31,7 @@ const table = doc('components/table');
 const tabsDoc = doc('components/tabs');
 const navDoc = doc('components/nav');
 const meterDoc = doc('components/meter');
+const pagerDoc = doc('components/pager');
 const accordion = doc('components/accordion');
 const steps = doc('components/steps');
 const codeBlock = doc('components/code-block');
@@ -49,6 +50,7 @@ const CODE = {
   tabs: componentCode(['tabs'], ['tabs']),
   nav: componentCode(['nav']),
   meter: componentCode(['meter']),
+  pager: componentCode(['nav', 'pager']),
   accordion: componentCode(['accordion']),
   steps: componentCode(['steps']),
   codeBlock: componentCode(['code-copy'], ['code-copy']),
@@ -56,7 +58,7 @@ const CODE = {
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
-const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['meters', meterDoc], ['tabs', tabsDoc], ['navs', navDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['meters', meterDoc], ['tabs', tabsDoc], ['navs', navDoc], ['pagers', pagerDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
 const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
@@ -254,6 +256,28 @@ const TEXT_FIELDS = [
             }));
           </script>
           <BuildRef code={CODE.nav} tokens={navDoc.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="pagers">
+          <header class="sec"><h3 class="h3">{pagerDoc.title}</h3><p>{pagerDoc.description}</p>{pagerDoc.status !== 'released' && <p class="status">Status: <b>{pagerDoc.status}</b></p>}</header>
+          <h4 class="block-title">Page 5 of 12</h4>
+          <nav class="nav nav--wash pager" aria-label="Pages (example)">
+            <a class="nav__item pager__step" href="#pagers" rel="prev"><Icon name="nav-arrow-left" size={16} />Previous</a>
+            <span class="pager__pages">
+              <a class="nav__item" href="#pagers">1</a><span class="pager__gap" aria-hidden="true">…</span><a class="nav__item" href="#pagers">4</a><a class="nav__item" href="#pagers" aria-current="page">5</a><a class="nav__item" href="#pagers">6</a><span class="pager__gap" aria-hidden="true">…</span><a class="nav__item" href="#pagers">12</a>
+            </span>
+            <a class="nav__item pager__step" href="#pagers" rel="next">Next<Icon name="nav-arrow-right" size={16} /></a>
+          </nav>
+          <h4 class="block-title">The first page, on a card</h4>
+          <div class="card">
+            <nav class="nav nav--wash pager" aria-label="Pages, on a card (example)">
+              <span class="nav__item pager__step" aria-disabled="true"><Icon name="nav-arrow-left" size={16} />Previous</span>
+              <span class="pager__pages">
+                <a class="nav__item" href="#pagers" aria-current="page">1</a><a class="nav__item" href="#pagers">2</a><a class="nav__item" href="#pagers">3</a>
+              </span>
+              <a class="nav__item pager__step" href="#pagers" rel="next">Next<Icon name="nav-arrow-right" size={16} /></a>
+            </nav>
+          </div>
+          <BuildRef code={CODE.pager} tokens={pagerDoc.tokens} />
         </section>
         <section class="component stack stack--xl" id="tags">
           <header class="sec"><h3 class="h3">{tag.title}</h3><p>{tag.description}</p>{tag.status !== 'released' && <p class="status">Status: <b>{tag.status}</b></p>}</header>
