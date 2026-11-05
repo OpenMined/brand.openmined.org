@@ -25,6 +25,12 @@ guidance:
   - guidelines/avoid-ai-design-trends
   - guidelines/eyebrows-take-the-eyebrow-style
   - patterns/diagrams
+  - foundations/iconography
+  - foundations/shape
+  - behaviors/shadows-at-rest
+  - guidelines/accent-by-intent
+  - guidelines/color-fills-use-the-key
+  - guidelines/icons-one-color
 components: [type, card, table, meter, pager, nav, tabs, status-chip, tag, button, field, diagram]
 examples: [dashboard, diagram-route]
 gaps:

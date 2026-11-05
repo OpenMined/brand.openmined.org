@@ -7,13 +7,20 @@ files are on the site, so you never need the repository.
 
 ## Start here
 
-1. Read `https://design.openmined.org/llms.txt`: every guidance file, by kind, with one line each.
-2. Read the guidance for what you're making (`/design/<path>.md`). Rules and decisions are
-   short Markdown files with frontmatter: `status`, the `tokens` they govern, `tags`.
+1. Read the page for what you're making: `/design/media/<medium>.md`, one of `web-pages`,
+   `claude-artifacts`, `internal-tools`, `graphics`, `slides`, `google-docs`, `product-apps`.
+   It names where to start, the guidance, the component files and the examples that medium
+   needs, and what isn't covered yet. Load those, not everything.
+2. Read the guidance it names (`/design/<path>.md`): short Markdown files with frontmatter
+   (`status`, the `tokens` they govern, `tags`). Then the components it names (the markup to
+   match is at the top of each CSS file) and one example, the closest to what you're making:
+   copy it and change the words.
 3. Take the code; don't rewrite it. Values were tuned by eye, and a component rebuilt from a
    description drifts.
-4. Building a page from nothing: `/components/README.md`, "A whole page, from nothing", is a
-   complete one to start from.
+4. When the medium's page doesn't cover what you need, go wider:
+   `https://design.openmined.org/llms.txt` lists every guidance file, by kind, with one line
+   each. Building a page from nothing: `/components/README.md`, "A whole page, from nothing",
+   is a complete one to start from.
 
 ## The files
 

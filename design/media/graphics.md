@@ -25,6 +25,9 @@ guidance:
   - guidelines/graphics-use-fixed-steps
   - guidelines/graphics-use-brand-fonts
   - guidelines/violet-and-blue-never-pair
+  - foundations/lines
+  - guidelines/color-fills-use-the-key
+  - guidelines/one-label-per-step
 components: [diagram, color-icon]
 examples: [diagram-route, diagram-abc-1, diagram-abc-2, diagram-abc-3, system-diagram]
 gaps:

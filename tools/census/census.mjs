@@ -8,8 +8,9 @@
  *   - link: code that loads files from design.openmined.org instead of copying them
  *   - names: the system's own token, embed and class names, for parts taken by hand or a
  *     copy whose stamp was dropped
- *   - brand-version.txt: the skill's record of the version in the project (decision
- *     2026-11-04); a file without the stamp's line is v1's (a project still on v1)
+ *   - omds-version.txt (brand-version.txt before 2026-11-05): the skill's record of the
+ *     version in the project (decisions 2026-11-04, 2026-11-05). The line is read, not the
+ *     name: a file with the stamp's words is v2 whichever name it has; one without is v1's
  * For each stamped CSS or JS copy it fetches the file and compares it with what the system
  * served at the commit in its stamp: lines the project added or changed are its local
  * changes. A copy that leaves parts out isn't a change; the reasons come through feedback.
@@ -46,6 +47,7 @@ const MARKS = [
   { kind: 'stamp', results: search('"OpenMined Design System"') },
   { kind: 'link', results: search('"design.openmined.org"') },
   ...NAMES.map(n => ({ kind: `name ${n.replace(/"/g, '')}`, results: search(n) })),
+  { kind: 'omds-version.txt', results: search('', ['--filename', 'omds-version.txt']) },
   { kind: 'brand-version.txt', results: search('', ['--filename', 'brand-version.txt']) },
 ];
 
@@ -60,7 +62,7 @@ for (const { kind, results } of MARKS) for (const r of results) {
   const where = `${kind} (${r.path.split('/').length > 1 ? '…/' : ''}${r.path.split('/').pop()})`;
   if (!repos.get(repo).found.includes(where)) repos.get(repo).found.push(where);
   if (kind === 'stamp' && /\.(css|js|mjs)$/.test(r.path)) stamped.push({ repo, path: r.path });
-  if (kind === 'brand-version.txt') records.push({ repo, path: r.path });
+  if (kind === 'omds-version.txt' || kind === 'brand-version.txt') records.push({ repo, path: r.path });
 }
 
 /** The lines the system served at a commit, from the files the served CSS and JS are made of

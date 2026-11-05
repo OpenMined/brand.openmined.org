@@ -78,6 +78,12 @@ export const MEDIA: Medium[] = DOCS.filter(d => d.type === 'Medium').map(d => {
 
 const shown = new Set(MEDIA.flatMap(m => m.examples.map(e => e.slug)));
 for (const e of EXAMPLES) if (!shown.has(e.slug)) problems.push(`example "${e.slug}" is on no medium's page (design/media/)`);
+/** Every released guidance file is named by at least one medium, directly or through a
+ *  component's guide: agents reach a rule through the page for what they're making, so a
+ *  file on no medium's page is one they never see. Decisions, media and the overview aren't
+ *  guidance. */
+const named = new Set(MEDIA.flatMap(m => [...m.guidance.map(d => d.slug), ...m.components.flatMap(c => (c.guide ? [c.guide.slug] : []))]));
+for (const d of DOCS) if (!['Decision', 'Medium', 'Design System'].includes(d.type) && d.status !== 'draft' && !named.has(d.slug)) problems.push(`design/${d.path} is on no medium's page (design/media/): add it to the media it applies to`);
 if (problems.length) throw new Error(`Media:\n  ${problems.join('\n  ')}`);
 
 /** Where a guidance file reads best on this site: the guide page its tags put it on

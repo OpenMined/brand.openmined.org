@@ -9,9 +9,9 @@ review; anyone can file feedback.
   filed by people or by AI tools (the OMDS skill files them with `gh` after showing the person).
 - **Sent to the design lead** by people without GitHub; the design lead files them.
 - **Local changes** found by the census (`npm run census`): a project's stamped copy of a file
-  compared with what the system served at that commit. Nothing is added to a project to track it;
-  the census reads the stamp the served files already carry. The reason for a change comes
-  through feedback.
+  compared with what the system served at that commit. The census reads the stamp the served
+  files already carry and the skill's one-line record, `omds-version.txt`. The reason for a
+  change comes through feedback.
 
 ## The weekly review
 
@@ -28,6 +28,21 @@ Once a week the design lead goes through what's new (an AI session can do the so
 5. Update `design/coverage.md` when something moves from *not yet* to *next*, or ships, and the
    medium's file in `design/media/` (its level, what it pulls in, its gaps and `updated` date)
    when a change reaches it (`npm run impact` lists them).
+
+## Releases and versions
+
+The version is the package version (`package.json`): every served file carries it in its stamp
+and `/manifest.json` reports it. It changes on every release to `main` (every production
+deploy), by semantic versioning:
+
+- **patch**: a retuned value, reworded guidance, a fix that changes no name;
+- **minor**: a new token, component, rule, example or medium; a deprecation;
+- **major**: a token or class renamed or removed (the log line names old → new).
+
+`design/log.md` is the release notes. Each release is tagged `v<version>`. The OMDS skill
+compares a project's recorded version (`omds-version.txt`) with the manifest's and says when
+a newer release exists; it never judges by commit, which changes with every deploy. v2
+launches as `2.0.0`.
 
 ## Making a change
 

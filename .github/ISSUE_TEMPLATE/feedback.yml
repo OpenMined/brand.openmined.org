@@ -4,7 +4,7 @@
 # text). The design lead reviews new feedback weekly and routes each item to its
 # layer (the issue's "Which part" answer; no layer labels while one person reviews).
 # The skill copies these headings and the dropdowns' options (openmined-design-system/
-# SKILL.md in OpenMined/skills, "Filing brand intent"): change them there too.
+# references/feedback.md in OpenMined/skills): change them there too.
 name: Design system feedback
 description: Something missing, wrong or unclear in the design system, found while making something with it.
 title: "[Feedback] "

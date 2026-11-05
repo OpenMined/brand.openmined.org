@@ -19,6 +19,12 @@ guidance:
   - guidelines/controls-on-a-raised-surface
   - guidelines/sunken-is-never-a-ground
   - guidelines/eyebrows-take-the-eyebrow-style
+  - foundations/iconography
+  - foundations/shape
+  - foundations/motion
+  - guidelines/accent-by-intent
+  - guidelines/color-fills-use-the-key
+  - guidelines/icons-one-color
 components: [card, table, meter, pager, nav, tabs, status-chip, tag, button, field, control]
 examples: [dashboard]
 gaps:

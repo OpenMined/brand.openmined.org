@@ -18,6 +18,9 @@ guidance:
   - foundations/logo
   - patterns/diagrams
   - guidelines/logo-keeps-its-colors
+  - guidelines/logo-images-on-white
+  - guidelines/partner-marks-as-supplied
+  - guidelines/one-label-per-step
 components: [diagram]
 examples: [diagram-route]
 gaps:

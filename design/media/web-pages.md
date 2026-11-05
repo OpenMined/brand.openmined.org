@@ -30,6 +30,19 @@ guidance:
   - guidelines/avoid-ai-design-trends
   - guidelines/eyebrows-take-the-eyebrow-style
   - patterns/diagrams
+  - foundations/iconography
+  - foundations/lines
+  - foundations/motion
+  - foundations/shape
+  - behaviors/shadows-at-rest
+  - guidelines/accent-by-intent
+  - guidelines/blur-limit
+  - guidelines/color-fills-use-the-key
+  - guidelines/icons-one-color
+  - guidelines/logo-images-on-white
+  - guidelines/one-label-per-step
+  - guidelines/partner-marks-as-supplied
+  - guidelines/partner-marks-follow-the-mode
 components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, nav, tabs, accordion, table, tag, pager, code-copy, prose, diagram]
 examples: [home, syfthub, landing-section, product-steps, press-cards, join-form, long-read]
 gaps:
