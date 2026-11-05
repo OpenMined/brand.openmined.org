@@ -25,8 +25,6 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
     .stat { display: grid; gap: var(--spacing-2xs); }
     .stat__n { font: var(--font-weight-regular) var(--font-size-h3-max)/1 var(--font-display); color: var(--text-headline); font-variant-numeric: tabular-nums; }
     .stat__l { font-size: var(--font-size-sm); color: var(--text-muted); }
-    .bar { display: block; width: 96px; height: 6px; border-radius: var(--radius-full); background: var(--surface-sunken); overflow: hidden; }
-    .bar > span { display: block; height: 100%; background: var(--text-headline); }
     .row-end { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap; }
   </style>
   <div class="app">
@@ -53,7 +51,7 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
         </div>
         <div class="table-wrap"><table class="table table--rows table--compact">
           <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
-          <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="bar" role="img" aria-label={`${pc}%`}><span style={`width:${pc}%`}></span></span></td></tr>)}</tbody>
+          <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="meter" role="progressbar" aria-label="Progress" aria-valuenow={pc} aria-valuemin="0" aria-valuemax="100" aria-valuetext={`${pc}%`}><span class="meter__track"><span class="meter__fill" style={`width: ${pc}%`}></span></span><span class="meter__label">{pc}%</span></span></td></tr>)}</tbody>
         </table></div>
       </div>
       <script is:inline>

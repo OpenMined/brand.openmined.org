@@ -30,6 +30,7 @@ const tag = doc('components/tag');
 const table = doc('components/table');
 const tabsDoc = doc('components/tabs');
 const navDoc = doc('components/nav');
+const meterDoc = doc('components/meter');
 const accordion = doc('components/accordion');
 const steps = doc('components/steps');
 const codeBlock = doc('components/code-block');
@@ -47,6 +48,7 @@ const CODE = {
   table: componentCode(['table']),
   tabs: componentCode(['tabs'], ['tabs']),
   nav: componentCode(['nav']),
+  meter: componentCode(['meter']),
   accordion: componentCode(['accordion']),
   steps: componentCode(['steps']),
   codeBlock: componentCode(['code-copy'], ['code-copy']),
@@ -54,7 +56,7 @@ const CODE = {
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
-const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['tabs', tabsDoc], ['navs', navDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['meters', meterDoc], ['tabs', tabsDoc], ['navs', navDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
 const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
@@ -90,6 +92,7 @@ const TEXT_FIELDS = [
   <section class="band" id="components">
     <div class="wrap">
       <header class="sec"><h2>Components</h2><p>Each component as it renders, with its code and tokens; the guidance for each is under Guidance below.</p></header>
+      <nav class="nav" aria-label="Components">{SECTIONS.map(([id, d]) => <a class="nav__item" href={`#${id}`}>{d.title}</a>)}</nav>
       <div class="layer-toggle">
         <button type="button" id="layer-switch" class="switch" role="switch" aria-checked="false" aria-labelledby="layer-label" aria-describedby="layer-info"><span class="switch__knob"></span></button>
         <label id="layer-label" for="layer-switch"><b>Show minimal interactive layer</b></label>
@@ -119,17 +122,17 @@ const TEXT_FIELDS = [
           <header class="sec"><h3 class="h3">{link.title}</h3><p>{link.description}</p>{link.status !== 'released' && <p class="status">Status: <b>{link.status}</b></p>}</header>
           <div class="grid grid--3">
             <article class="card link-demo">
-              <h4>Content link</h4>
+              <h4 class="block-title">Content link</h4>
               <p>A link inside running text, like <a class="link-content" href="#links">attribution-based control</a>, takes the color of the text around it. Its underline draws in when the page loads; on hover a line in the full OM gradient grows over it from the left, its colors flowing, with a soft glow, and leaves to the right. The text never changes color.</p>
               <p class="muted">Any plain link in a paragraph or a prose region gets it.</p>
             </article>
             <article class="card link-demo">
-              <h4>Text button</h4>
+              <h4 class="block-title">Text button</h4>
               <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
               <p class="muted">An action that reads as text, standing on its own: no line at rest; on hover the accent's line draws in under the label from the left and leaves to the right, flowing in the full layer, as on a content link. The icon follows the label and isn't underlined.</p>
             </article>
             <article class="card link-demo">
-              <h4>Nav link</h4>
+              <h4 class="block-title">Nav link</h4>
               <nav class="link-demo__nav" aria-label="Nav links (example)"><a class="link-nav" href="#links" aria-current="page">Research</a><a class="link-nav" href="#links">Blog</a><a class="link-nav" href="#links">Events</a><a class="link-nav" href="#links">Donate</a></nav>
               <p class="muted">For a row of many links, a nav or a footer, where color on every hover would crowd the row: the gray line draws in on hover and stays under the current page.</p>
             </article>
@@ -157,7 +160,7 @@ const TEXT_FIELDS = [
             <LinkCard href="#link-cards" title="v1 reference">The released brand: tokens, components, logos and embeds.</LinkCard>
             <LinkCard href="#link-cards" title="Typography">Rubik for display, Inter for text, on a fluid scale.</LinkCard>
           </div>
-          <h4>Logo and post</h4>
+          <h4 class="block-title">Logo and post</h4>
           <div class="card-grid">
             <a class="lcard lcard--logo" data-section="always-light" href="#link-cards"><span class="lcard__logo"><img src="/logos/OpenMined-Logo.svg" alt="OpenMined" /></span><span class="lcard__text">A logo supplied as an image, on a white plate</span></a>
             <a class="lcard lcard--post" href="#link-cards" data-text="light"><span class="lcard__cover demo-cover" aria-hidden="true"></span><span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span><span class="lcard__title">Attribution-based control, explained</span></a>
@@ -199,12 +202,22 @@ const TEXT_FIELDS = [
             <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
             <tbody>{ROWS.map(([n, q, s, l], i) => <tr aria-current={i === 0 ? 'true' : undefined}><td>{n}</td><td class="num">{q}</td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td></tr>)}</tbody>
           </table></div>
-          <h4>Compact</h4>
+          <h4 class="block-title">Compact</h4>
           <div class="table-wrap"><table class="table table--compact">
             <thead><tr><th>Project</th><th class="num">Queries</th></tr></thead>
             <tbody>{ROWS.map(([n, q]) => <tr><td>{n}</td><td class="num">{q}</td></tr>)}</tbody>
           </table></div>
           <BuildRef code={CODE.table} tokens={table.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="meters">
+          <header class="sec"><h3 class="h3">{meterDoc.title}</h3><p>{meterDoc.description}</p>{meterDoc.status !== 'released' && <p class="status">Status: <b>{meterDoc.status}</b></p>}</header>
+          <div class="table-wrap"><table class="table table--rows table--compact">
+            <thead><tr><th>Datasite</th><th>Storage used</th></tr></thead>
+            <tbody>{[['Clinical notes', 12, 40], ['Census microdata', 37, 40], ['Survey panel', 0, 40], ['Hospital admissions', 1, 40]].map(([n, x, y], i) => (
+              <tr aria-current={i === 2 ? 'true' : undefined}><td>{n}</td><td><span class="meter" role="meter" aria-label="Storage used" aria-valuenow={x} aria-valuemin="0" aria-valuemax={y} aria-valuetext={`${x} of ${y} GB`}><span class="meter__track">{x as number > 0 && <span class="meter__fill" style={`width: ${Math.round((x as number) / (y as number) * 100)}%`}></span>}</span><span class="meter__label">{x} of {y} GB</span></span></td></tr>
+            ))}</tbody>
+          </table></div>
+          <BuildRef code={CODE.meter} tokens={meterDoc.tokens} />
         </section>
         <section class="component stack stack--xl" id="tabs">
           <header class="sec"><h3 class="h3">{tabsDoc.title}</h3><p>{tabsDoc.description}</p>{tabsDoc.status !== 'released' && <p class="status">Status: <b>{tabsDoc.status}</b></p>}</header>
@@ -213,8 +226,8 @@ const TEXT_FIELDS = [
               <button class="tabs__tab" role="tab" aria-selected="true">For researchers</button>
               <button class="tabs__tab" role="tab" aria-selected="false">For data owners</button>
             </div>
-            <div class="tabs__panel" role="tabpanel"><p>Find a dataset, send a query, and get back only the answer.</p></div>
-            <div class="tabs__panel" role="tabpanel"><p>Keep your data where it is, and approve each query or set a policy.</p></div>
+            <div class="tabs__panel stack stack--sm" role="tabpanel"><h4>Ask questions of data you can't see</h4><p>Find a dataset, send a query, and get back only the answer. The data stays with its owner, and you never handle a copy.</p></div>
+            <div class="tabs__panel stack stack--sm" role="tabpanel"><h4>Share answers, not your data</h4><p>Keep your data where it is, and approve each query or set a policy. Only the answers you allow ever leave your server.</p></div>
           </div>
           <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} />
         </section>
@@ -222,13 +235,13 @@ const TEXT_FIELDS = [
           <header class="sec"><h3 class="h3">{navDoc.title}</h3><p>{navDoc.description}</p>{navDoc.status !== 'released' && <p class="status">Status: <b>{navDoc.status}</b></p>}</header>
           {[['', 'Quiet (default)'], ['nav--wash', 'Wash'], ['nav--strong', 'Strong']].map(([mod, label]) => (
             <div class="stack stack--sm">
-              <h4>{label}</h4>
+              <h4 class="block-title">{label}</h4>
               <nav class={`nav ${mod}`.trim()} aria-label={`${label} example`}>
                 <a class="nav__item" href="#navs" aria-current="page">Overview</a><a class="nav__item" href="#navs">Datasites</a><a class="nav__item" href="#navs">Requests</a><a class="nav__item" href="#navs">Settings</a>
               </nav>
             </div>
           ))}
-          <h4>A view filter, on a card</h4>
+          <h4 class="block-title">A view filter, on a card</h4>
           <div class="card stack stack--md">
             <div class="nav nav--strong" role="group" aria-label="View" data-nav-demo>
               <button type="button" class="nav__item" aria-pressed="true">All<span class="nav__count">4</span></button><button type="button" class="nav__item" aria-pressed="false">Needs attention<span class="nav__count">2</span></button>

@@ -26,8 +26,9 @@ a:hover { text-decoration-color: currentColor; }
 /* The guide's block titles (a card, a rule, a component): Inter at body size,
    bold like the hover card's title (typography.md, weights: 700 for card
    titles). Not a v2 text style yet; the page's h1 and h2 are v2's. Inside a
-   component's section on Interface (its title an h3), the block titles are h4. */
-.guide h3:not(.prose *, .type-specimen *, .h3), .component h4:not(.prose *) {
+   component's section on Interface (its title an h3), the block titles are
+   h4.block-title, so a demo's own headings keep the components' styles. */
+.guide h3:not(.prose *, .type-specimen *, .h3), .component h4.block-title {
   font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-bold);
   line-height: var(--line-height-text); letter-spacing: 0;
 }
@@ -349,7 +350,8 @@ a:hover { text-decoration-color: currentColor; }
 .fm-split__text { display: grid; gap: var(--spacing-lg); position: sticky; top: var(--spacing-section); }
 @media (max-width: 991px) { .fm-split__text { position: static; } }
 .demo-form { gap: var(--spacing-xl); }
-.fm-sub { font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; font-weight: var(--font-weight-medium); color: var(--text-body); padding-top: var(--spacing-md); border-top: var(--stroke-sm) solid var(--line); }
+/* The brand's small text (type.css .text-small), as a subheading. */
+.fm-sub { font: var(--font-weight-regular) var(--font-size-sm)/var(--line-height-text) var(--font-body); letter-spacing: 0; color: var(--text-body); padding-top: var(--spacing-md); border-top: var(--stroke-sm) solid var(--line); }
 
 /* Corners (Surfaces page): a panel holding every corner size, and the outer
    corner compared at candidate values. The inner tiles stay at md. */

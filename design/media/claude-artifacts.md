@@ -23,7 +23,7 @@ guidance:
   - foundations/typography
   - guidelines/one-solid-button
   - guidelines/avoid-ai-design-trends
-components: [card, table, nav, tabs, status-chip, tag, button, field]
+components: [card, table, meter, nav, tabs, status-chip, tag, button, field]
 examples: [dashboard]
 gaps:
   - "No artifact-specific patterns yet beyond the starter: tell us what you build."
