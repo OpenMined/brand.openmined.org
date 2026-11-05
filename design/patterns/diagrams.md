@@ -12,7 +12,7 @@ tags: [graphics]
 
 **Motion.** Color moves along the lines (*Color moves*): each colored line carries its hue's highlight (*Highlights*), travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. Rings brighten in their highlight, from the innermost out, one after another. Gray lines pulse faintly in their own gray. Under reduced motion, the diagram is still.
 
-**Labels.** In the brand fonts (*Graphics use the brand fonts*).
+**Labels.** In the brand fonts (*Graphics use the brand fonts*). Inside a figure, a label that names a panel, a stage, a zone or a group takes the diagram label (`.fig__label`): mono, caps, letter-spaced, muted; in SVG at the figure's own size. It stays in figures: an eyebrow over a page's or a section's heading is the type's eyebrow.
 
 **Not in use: the technical plate.** An alternative kept for reference: a few colors with one job each (teal for people with data, violet for people seeking insight, gray for the model, red for the problem), with numbered markers and a key in place of floating callouts.
 

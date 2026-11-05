@@ -36,7 +36,7 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Weights.** `--font-weight-regular` (400), `-medium` (500: labels, captions, buttons), `-semibold` (600: strong text, h5–h6, table headers), and `-bold` (700: card titles).
 
-**Text styles.** Lead (`.text-lead`: lg, muted), small (`.text-small`), caption (`.text-caption`: xs, 500) and eyebrow (`.text-eyebrow`, body text, a hook only). Headings balance their lines; paragraphs, list items, quotes, and captions avoid a lone last word.
+**Text styles.** Lead (`.text-lead`: lg, muted), small (`.text-small`), caption (`.text-caption`: xs, 500) and eyebrow (`.text-eyebrow`, body text, a hook only): every eyebrow over a page's or a section's heading takes it, in sentence case, never caps or mono. Labels inside a diagram have their own style (*Explanatory diagrams*). Headings balance their lines; paragraphs, list items, quotes, and captions avoid a lone last word.
 
 **Inline elements.** Code in the mono family at 0.875em on a tint of the code block's own ground, gray 950, so it's always darker than the surface (6% in light mode, 35% in dark mode); a code block is always dark (gray 950 with gray 50 text) in both modes. Keyboard keys (`kbd`) take a line-style outline. A blockquote is set off by the line style on its left, its source in small muted text. Long reads add figures, captions, tables, breaks, and the pull quote (*Prose*).
 

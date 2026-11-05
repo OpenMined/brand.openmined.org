@@ -8,7 +8,7 @@ order: 3
 updated: 2026-10-29
 start:
   - label: Artifact starter, minimal layer
-    href: /starter/artifact.html
+    href: /starter/artifact
     note: "For a tool made as a Claude artifact."
   - label: The whole system, one stylesheet
     href: /omds.css

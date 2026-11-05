@@ -36,7 +36,7 @@ italic. Paste into `<head>`:
 **A whole page, from nothing.** The served files, linked: the color mode set before the page
 draws, the fonts, `/omds.css`, a component's markup, then `/omds.js` to start what moves. Icons
 are pasted from `/icons/set/<name>.svg`. Claude artifacts can't link files: start from
-`/starter/artifact.html` instead.
+`/starter/artifact` instead.
 
 ```html
 <!doctype html>

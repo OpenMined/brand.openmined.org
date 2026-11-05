@@ -1,5 +1,6 @@
 /**
- * /starter/artifact.html and /starter/artifact-full.html — one self-contained HTML
+ * /starter/artifact and /starter/artifact-full (artifact.html, artifact-full.html, which the host
+ * redirects to the addresses without .html) — one self-contained HTML
  * file to start a Claude artifact (or any page that can't load other files): the
  * tokens and every component inlined, fonts from Google Fonts (which artifacts
  * allow), the color mode following the system. -full also inlines every script
@@ -18,7 +19,7 @@ export const GET = async ({ params }: { params: { file: string } }) => {
 <!--
   OpenMined Design System starter for Claude artifacts (${STAMP}).
   Everything is inlined: Claude artifacts can't load our files by URL, only Google Fonts.
-  ${full ? 'Full interactive layer: every component script is inlined at the end of <body>.' : 'Minimal interactive layer: no script for motion. For the full layer use ' + HOST + '/starter/artifact-full.html.'}
+  ${full ? 'Full interactive layer: every component script is inlined at the end of <body>.' : 'Minimal interactive layer: no script for motion. For the full layer use ' + HOST + '/starter/artifact-full.'}
   Use the components' markup (${HOST}/components/README.md, examples at ${HOST}/examples/).
   Every color is a token: var(--surface-raise-1), var(--text-body); never type a hex.
   Feedback: if the system didn't cover something you needed, say what, and what you did instead,

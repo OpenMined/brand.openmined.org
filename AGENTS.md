@@ -25,7 +25,7 @@ files are on the site, so you never need the repository.
 | Tokens only | `/tokens/omds.css`, `/tokens/omds.light.json`, `/tokens/omds.dark.json`, `/tokens/omds.colors.js` | CSS custom properties; resolved values per mode; colors for canvas and WebGL |
 | Token source | `/tokens/source/resolver.json` and the files it names | Design Tokens format 2025.10, for token tools |
 | Guidance | `/design/<path>.md`, listed in `/design/index.json` | Rules, components, patterns, decisions |
-| A Claude artifact, ready to fill | `/starter/artifact.html` (minimal), `/starter/artifact-full.html` (with motion) | One file with everything inlined: copy it, keep the head, replace the body |
+| A Claude artifact, ready to fill | `/starter/artifact` (minimal), `/starter/artifact-full` (with motion) | One file with everything inlined: copy it, keep the head, replace the body |
 | Brand graphics | `/embeds/om-diamond.js`, `om-stream.js`, `om-mesh.js`; one-file versions in `/embeds/single/` | Web components; use the one-file versions where you can't load a second file |
 | Icons | `/icons/set/<name>.svg`, listed in `/icons/set/index.json` | Inline the SVG; it takes the text color |
 | Logos | `/logos/`, rules on `/design/foundations/logo.md` | Use the files as they are |

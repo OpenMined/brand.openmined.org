@@ -8,10 +8,10 @@ order: 2
 updated: 2026-10-29
 start:
   - label: Artifact starter, minimal layer
-    href: /starter/artifact.html
+    href: /starter/artifact
     note: "Everything inlined. Copy it, keep the head, replace the body."
   - label: Artifact starter with motion
-    href: /starter/artifact-full.html
+    href: /starter/artifact-full
     note: "The same with every component script inlined and started."
   - label: Brand graphics as one file each
     href: /embeds/single/om-stream.js

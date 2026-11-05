@@ -12,7 +12,7 @@
      <figure class="fig">
        <div class="panels">
          <div>
-           <p class="panel__head"><span class="panel__eyebrow">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
+           <p class="panel__head"><span class="fig__label">Today</span><span class="panel__title">Open- and closed-source AI</span></p>
            <svg viewBox="0 0 420 380" role="img" aria-label="…">…</svg>
          </div>
          <div>…</div>
@@ -32,5 +32,9 @@
 .panels { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); }
 @media (max-width: 767px) { .panels { grid-template-columns: 1fr; } }
 .panel__head { margin: 0 0 var(--spacing-md); }
-.panel__eyebrow { display: block; font-family: var(--font-mono); font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+/* The diagram label: mono, caps, letter-spaced, muted. Only inside a figure (a
+   panel's label, a stage, a zone, a group); an eyebrow over a page's or a
+   section's heading is the type's .text-eyebrow. In SVG it takes the figure's
+   own size. */
+.fig .fig__label { display: block; font-family: var(--font-mono); font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); fill: var(--text-muted); }
 .panel__title { display: block; margin-top: var(--spacing-3xs); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
