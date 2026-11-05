@@ -12,29 +12,32 @@ import ExampleLinks from '../../components/site/ExampleLinks.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import TokenTable from '../../components/site/TokenTable.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
+import DocGrid from '../../components/site/DocGrid.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import LongRead from '../../components/site/LongRead.astro';
-import { doc, decisionsFor, paragraph } from '../../lib/design';
+import { doc, byTag, decisionsFor, paragraph } from '../../lib/design';
 import { tok, hex, contrast, target, MODES } from '../../lib/tokens';
 import { componentCode } from '../../lib/components';
 
 const foundation = doc('foundations/typography');
 const prose = doc('patterns/prose');
 const decisions = decisionsFor('typography');
+const rules = byTag('typography', 'Guideline', 'Behavior');
 const px = (name: string) => `${Math.round(parseFloat(tok('light', name).resolved) * 16)}px`;
 const LEVELS = [1, 2, 3, 4, 5, 6].map(n => ({
   n, face: n <= 4 ? 'Rubik 400' : 'Inter 400 · 600 in a long read', lh: n <= 5 ? `--line-height-h${n}` : '--line-height-text',
   min: px(`--font-size-h${n}-min`), max: px(`--font-size-h${n}-max`),
 }));
 const STYLES = [
-  { name: 'Lead', cls: 'text-lead', spec: 'lg · 18 → 21px · 1.4 · muted', sample: 'An introduction that sits under a page title.' },
-  { name: 'Body', cls: '', spec: 'md (16px) · 1.5', sample: 'Researchers can answer questions about data they never see.' },
-  { name: 'Small', cls: 'text-small', spec: 'sm (14px) · 1.5', sample: 'Supporting text: a note, a source, a form description.' },
-  { name: 'Caption', cls: 'text-caption', spec: 'xs (12px) · 500', sample: 'Figure 1 · data stays with its owner' },
-  { name: 'Eyebrow', cls: 'text-eyebrow', spec: 'body text, a hook', sample: 'Federated learning' },
-  { name: 'Strong, emphasis', cls: '', spec: 'semibold 600 · italic', sample: '<strong>Strong</strong> and <em>emphasis</em> inside body text.' },
-  { name: 'Inline code', cls: '', spec: 'mono · 0.875em · gray 950 at 6% · 35% dark', sample: 'Install with <code>pip install syft</code>.' },
-  { name: 'Keyboard', cls: '', spec: 'mono · line-style outline', sample: 'Press <kbd>Esc</kbd> to close.' },
+  { name: 'Lead', cls: 'text-lead', face: 'Inter 400', spec: 'lg · 18 → 21px · 1.4 · muted', sample: 'An introduction that sits under a page title.' },
+  { name: 'Body', cls: '', face: 'Inter 400', spec: 'md (16px) · 1.5', sample: 'Researchers can answer questions about data they never see.' },
+  { name: 'Small', cls: 'text-small', face: 'Inter 400', spec: 'sm (14px) · 1.5', sample: 'Supporting text: a note, a source, a form description.' },
+  { name: 'Caption', cls: 'text-caption', face: 'Inter 500', spec: 'xs (12px) · 1.5', sample: 'Figure 1 · data stays with its owner' },
+  { name: 'Eyebrow', cls: 'text-eyebrow', face: 'Inter 400', spec: 'md (16px) · 1.5 · sentence case, never caps', sample: 'Federated learning' },
+  { name: 'Eyebrow, small', cls: 'text-eyebrow text-eyebrow--sm', face: 'Inter 400', spec: 'sm (14px) · 1.5 · where the design needs it', sample: 'Federated learning' },
+  { name: 'Strong, emphasis', cls: '', face: 'Inter 600 · Inter 400 italic', spec: 'inside body text · 1.5', sample: '<strong>Strong</strong> and <em>emphasis</em> inside body text.' },
+  { name: 'Inline code', cls: '', face: 'System mono 400', spec: '0.875em · 1.5 · gray 950 at 6% · 35% dark', sample: 'Install with <code>pip install syft</code>.' },
+  { name: 'Keyboard', cls: '', face: 'System mono 400', spec: '0.875em · 1.5 · line-style outline', sample: 'Press <kbd>Esc</kbd> to close.' },
 ];
 /* Text colors: each role's step and value per mode, and its contrast on each surface. */
 const SURFACES = ['sunken', 'base', 'raise-1', 'raise-2'];
@@ -45,7 +48,7 @@ const TEXT = [
 ].map(r => ({ ...r, modes: MODES.map(m => ({ m, step: (target(m, r.t) ?? '').replace('-', ' '), hex: hex(m, r.t), min: Math.min(...SURFACES.map(s => contrast(hex(m, r.t), hex(m, `surface-${s}`)))) })) }));
 const RHYTHM = ['--prose-gap', '--prose-gap-wide', '--prose-gap-section', '--prose-gap-break', '--prose-gap-h2', '--prose-gap-h2-spacious', '--prose-gap-h3', '--prose-gap-h4', '--prose-gap-h5'];
 const CODE = { type: componentCode(['type']), prose: componentCode(['prose']) };
-const NAV: [string, string][] = [['scale', 'Heading scale'], ['styles', 'Text styles'], ['color', 'Text color'], ['prose', 'Prose'], ['families', 'Families'], ['leading', 'Leading and weights'], ['google-docs', 'Google Docs'], ['guidance', 'Guidance'], ['decisions', 'Decisions'], ['examples', 'Examples']];
+const NAV: [string, string][] = [['scale', 'Heading scale'], ['styles', 'Text styles'], ['color', 'Text color'], ['prose', 'Prose'], ['families', 'Families'], ['leading', 'Leading and weights'], ['google-docs', 'Google Docs'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 /* Google Docs named styles, copied as-is from v1 (2026-10-29): generated by
    tools/google-docs/omds_docs.py from v1's CSS (src/tokens/), served at /tokens/google-docs.json. */
 const GDOCS = JSON.parse(readFileSync('src/tokens/google-docs.json', 'utf-8'));
@@ -66,7 +69,7 @@ const GSAMPLE: Record<string, string> = {
         <div class="type-scale type-specimen">
           {LEVELS.map(l => (
             <div class="type-scale__row">
-              <span class="type-scale__meta"><b>h{l.n}</b><span>{l.face}</span><span>{l.min} → {l.max}{l.n >= 5 ? ` (${l.n === 5 ? '20' : '18'}px in a long read)` : ''}</span><code>--font-size-h{l.n}-min/max</code></span>
+              <span class="type-scale__meta"><b>h{l.n}</b><span>{l.face}</span><span>{l.min} → {l.max}{l.n >= 5 ? ` (${l.n === 5 ? '20' : '18'}px in a long read)` : ''} · {tok('light', l.lh).resolved}</span><code>--font-size-h{l.n}-min/max</code></span>
               <p class={`h${l.n}`}>Data stays where it lives</p>
             </div>
           ))}
@@ -83,16 +86,16 @@ const GSAMPLE: Record<string, string> = {
         <div class="type-styles type-specimen">
           {STYLES.map(s => (
             <div class="type-styles__row">
-              <span class="type-scale__meta"><b>{s.name}</b><span>{s.spec}</span>{s.cls && <code>.{s.cls}</code>}</span>
+              <span class="type-scale__meta"><b>{s.name}</b><span>{s.face}</span><span>{s.spec}</span>{s.cls && <code>.{s.cls.replace(' ', '.')}</code>}</span>
               <p class={s.cls || undefined} set:html={s.sample} />
             </div>
           ))}
           <div class="type-styles__row">
-            <span class="type-scale__meta"><b>Measure</b><span>640px reading width, outside an article</span><code>.measure</code></span>
+            <span class="type-scale__meta"><b>Measure</b><span>Inter 400</span><span>md (16px) · 1.5 · 640px reading width, outside an article</span><code>.measure</code></span>
             <p class="measure">A section intro or a hero's lead keeps to a reading width, so its lines stay comfortable to read however wide the page runs. Without a measure, a paragraph on a wide screen stretches across the whole layout and the eye loses its place at the start of each line.</p>
           </div>
           <div class="type-styles__row">
-            <span class="type-scale__meta"><b>Blockquote</b><span>line style on the left</span></span>
+            <span class="type-scale__meta"><b>Blockquote</b><span>Inter 400</span><span>md (16px) · 1.5 · line style on the left</span></span>
             <blockquote><p>We could finally study the whole population, not the slice we were allowed to copy.</p><cite>A researcher, 2026</cite></blockquote>
           </div>
         </div>
@@ -227,7 +230,7 @@ request.approve()</code></pre>
       <header class="sec"><h2>Families</h2><p class="measure">Rubik and Inter are Google Fonts, so they also work in Google Docs without add-ons. Code takes the system's monospace.</p></header>
       <div class="families">
         <article class="card"><span class="muted">Display · headings h1–h4 · 400</span><p class="family__sample" style="font-family: var(--font-display)">Rubik</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
-        <article class="card"><span class="muted">Text · body, interface, h5–h6</span><p class="family__sample" style="font-family: var(--font-body)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
+        <article class="card"><span class="muted">Text · body, interface, h5–h6 · 400 · 500 · 600</span><p class="family__sample" style="font-family: var(--font-body)">Inter</p><p class="muted">The quick brown fox jumps over the lazy dog</p></article>
         <article class="card"><span class="muted">Code · the system's monospace</span><p class="family__sample" style="font-family: var(--font-mono)">Mono</p><p class="muted" style="font-family: var(--font-mono)">syft.approve(request)</p></article>
       </div>
       <BuildRef tokens={['--font-display', '--font-body', '--font-mono']} />
@@ -246,6 +249,13 @@ request.approve()</code></pre>
       <header class="sec"><h2>Guidance</h2></header>
       <div class="prose prose--downsize-2 guide-prose"><foundation.Content /></div>
       <div class="prose prose--downsize-2 guide-prose"><h2>{prose.title}</h2><prose.Content /></div>
+    </div>
+  </section>
+
+  <section class="band" id="rules">
+    <div class="wrap">
+      <header class="sec"><h2>Rules</h2></header>
+      <DocGrid docs={rules} />
     </div>
   </section>
 

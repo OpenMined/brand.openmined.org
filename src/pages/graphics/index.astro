@@ -11,7 +11,9 @@ import BuildRef from '../../components/site/BuildRef.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import DecisionList from '../../components/site/DecisionList.astro';
 import FigA from '../../diagrams/Abc1.astro';
+import Route from '../../diagrams/Route.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
+import { componentCode } from '../../lib/components';
 import { MODES, HUES, hex, listStops } from '../../lib/tokens';
 
 /** How to load each embed, shown with it. */
@@ -85,11 +87,25 @@ const NAV: [string, string][] = [['gradient', 'Gradient'], ['keys', 'Hue keys'],
   <section class="band" id="diagrams">
     <div class="wrap">
       <header class="sec"><h2>Diagrams</h2><p>{diagrams.description}{diagrams.status !== 'released' && <> Status: <b>{diagrams.status}</b>.</>}</p></header>
-      <figure class="dex">
+      <div class="stack stack--2xl">
+        <div class="stack stack--sm">
+          <h3>Box-and-arrow, full</h3>
+          <p class="muted measure">The default: HTML cards one level up over an SVG layer of groups, lines and labels. Squares mark only the kinds the figure is about; the phone is out of scope; the database sits in a zone its data doesn’t cross.</p>
+        </div>
+        <Route build="full" />
+        <div class="stack stack--sm">
+          <h3>Box-and-arrow, flat</h3>
+          <p class="muted measure">The same layout as one SVG, for a file: outlined nodes, every line of text measured to fit. <code>diagramSvg()</code> saves it as a standalone file.</p>
+        </div>
+        <Route build="flat" />
+        <h3>Attribution in color</h3>
+        <figure class="dex">
         <FigA />
         <figcaption class="dex__cap">Direction A, attribution in color: each source keeps its hue; where attribution is lost the colors drain to gray, and where it's kept they reach the person asking.</figcaption>
       </figure>
+      </div>
       <div class="prose prose--downsize-2 guide-prose"><DiagramsContent /></div>
+      <BuildRef code={componentCode(['diagram'], ['diagram', 'line-flow'])} tokens={diagrams.tokens} />
     </div>
   </section>
 

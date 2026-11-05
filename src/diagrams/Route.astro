@@ -1,0 +1,113 @@
+---
+/**
+ * Box-and-arrow diagram (design/patterns/diagrams.md; components/diagram.css): a web
+ * request's route, its name lookup, the data center that answers it, and a researcher
+ * who asks the data a question and gets only the answer back. One layout, two builds:
+ *   full: HTML cards one level up over an SVG layer of lines (the default)
+ *   flat: one SVG, outlined nodes (for a file, a slide, a document)
+ * Lines are written at build with diagramPath() (components/diagram.js), so the
+ * figure needs no script; diagrams() on the page checks the text fits.
+ *
+ * Balance: three columns 40px apart: your home (0–390), the middle (430–590), the
+ * data center (630–1050). Groups inset their nodes 20px; nodes in a row share a top;
+ * the nameservers sit over the load balancer; the phone, the researcher and the
+ * database share a second row. Marks only on the kinds the figure is about.
+ */
+import { diagramPath } from '@components/diagram.js';
+interface Props { build?: 'full' | 'flat' }
+const { build = 'full' } = Astro.props;
+const flat = build === 'flat';
+
+const W = 1050, H = 600, NW = 160;
+type Node = { x: number; y: number; h: number; t: string; s: string[]; mark?: string; em?: boolean; faded?: boolean };
+/** s: the body, one string per line. The flat build sets these lines as written
+ *  (measured to fit); the full build joins them and lets the card wrap. */
+const NODES: Node[] = [
+  { x: 20, y: 296, h: 60, t: 'Laptop', s: ['the browser'] },
+  { x: 210, y: 296, h: 60, t: 'Home router', s: ['Wi-Fi · NAT'] },
+  { x: 20, y: 420, h: 56, t: 'Phone', s: ['not in this request'], faded: true },
+  { x: 430, y: 296, h: 60, t: 'ISP', s: ['access network'] },
+  { x: 430, y: 56, h: 56, t: 'DNS resolver', s: ['at the ISP'] },
+  { x: 650, y: 56, h: 56, t: 'Nameservers', s: ['asked in turn'] },
+  { x: 650, y: 296, h: 60, t: 'Load balancer', s: ['picks a server'], mark: 'green' },
+  { x: 850, y: 296, h: 60, t: 'Web app', s: ['builds the page'], mark: 'green', em: true },
+  { x: 850, y: 420, h: 134, t: 'Database', s: ['Accounts and', 'orders, copied to a', 'second zone and', 'backed up every', 'night.'], mark: 'green' },
+  { x: 430, y: 420, h: 56, t: 'Researcher', s: ['asks a question'], mark: 'amber' },
+];
+const KEY: [string, string][] = [['green', 'example.com'], ['amber', 'outside researchers']];
+const GROUPS = [
+  { x: 0, y: 240, w: 390, h: 260, label: 'Local network', title: 'Your home' },
+  { x: 410, y: 0, w: 420, h: 136, label: 'DNS', title: 'Name lookup' },
+  { x: 630, y: 200, w: 420, h: 392, label: 'Data center', title: 'example.com' },
+  { x: 830, y: 240, w: 200, h: 340, label: 'Application', title: 'Subsystem', sub: true },
+];
+const ZONE = { x: 840, y: 384, w: 180, h: 186, label: 'Data stays here' };
+type Pt = [number, number];
+const LINES: { p: Pt[]; both?: boolean; muted?: boolean }[] = [
+  { p: [[180, 326], [206, 326]] },
+  { p: [[370, 326], [426, 326]] },
+  { p: [[590, 326], [646, 326]] },
+  { p: [[810, 326], [846, 326]] },
+  { p: [[510, 296], [510, 116]] },
+  { p: [[594, 84], [646, 84]], both: true },
+  { p: [[980, 360], [980, 416]], both: true },
+  { p: [[180, 448], [290, 448], [290, 360]], muted: true },
+  { p: [[590, 436], [846, 436]] },
+  { p: [[850, 460], [594, 460]] },
+];
+/** over: crosses another element (the data center's outline), so it gets a backing. */
+const LABELS: { x: number; y: number; t: string; w?: number }[] = [
+  { x: 520, y: 176, t: '1 · look up the address' },
+  { x: 430, y: 382, t: '2 · the request, the page back' },
+  { x: 604, y: 426, t: 'a question', w: 62 },
+  { x: 604, y: 478, t: 'only the answer', w: 88 },
+];
+/** Flat text: 14px in, or after a mark 10px in, 8 wide, 8 before the text; the
+ *  block centered in the node (title 15/1.3, then 13px lines 17 apart). */
+const tx = (n: Node) => n.mark && !n.faded ? 26 : 14;
+const top = (n: Node) => n.y + (n.h - (19.5 + 2 + n.s.length * 17)) / 2;
+const ARIA = "A web request's route: the laptop asks the DNS resolver at the ISP, which asks the nameservers; the request goes from the laptop through the home router and the ISP to example.com's data center, where a load balancer passes it to the web app, which reads and writes the database. The database sits inside a boundary its data doesn't cross: a researcher sends a question in and gets only the answer back. A phone on the home network is not part of this request.";
+---
+<figure class="fig">
+  {!flat ? (
+    <div class="dia" style={`width:${W}px;height:${H}px`}>
+      <svg class="dia__lines" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ARIA}>
+        {GROUPS.map(g => <>
+          <rect class:list={['dia-group', g.sub && 'dia-group--sub']} x={g.x + 0.75} y={g.y + 0.75} width={g.w - 1.5} height={g.h - 1.5} />
+          <text class="fig__label" x={g.x + 16} y={g.y + 24}>{g.label}</text>
+          <text class="dia-group__title" x={g.x + 16} y={g.y + 43}>{g.title}</text>
+        </>)}
+        <rect class="dia-zone" x={ZONE.x} y={ZONE.y} width={ZONE.w} height={ZONE.h} />
+        <text class="fig__label" x={ZONE.x + 10} y={ZONE.y + 22}>{ZONE.label}</text>
+        {LINES.map(l => <path class:list={['dia-line', l.muted && 'dia-line--muted']} d={diagramPath(l.p, { both: l.both })} />)}
+        {LABELS.map(l => <>{l.w && <rect class="dia-label-bg" x={l.x - 4} y={l.y - 12} width={l.w + 8} height={17} />}<text class="dia-label" x={l.x} y={l.y}>{l.t}</text></>)}
+      </svg>
+      {NODES.map(n => (
+        <div class:list={['dia-node', n.em && 'dia-node--em', n.faded && 'dia-node--faded']} style={`left:${n.x}px;top:${n.y}px;width:${NW}px;height:${n.h}px`}>
+          <b class="dia-node__title">{n.mark && !n.faded && <i class={`dia-mark dia-mark--${n.mark}`}></i>}{n.t}</b><span class="dia-node__text">{n.s.join(' ')}</span>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <svg class="dia-flat" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ARIA} style={`--dia-min-width:820px;--dia-max-width:${W}px`}>
+      {GROUPS.map(g => <>
+        <rect class:list={['dia-group', g.sub && 'dia-group--sub']} x={g.x + 0.75} y={g.y + 0.75} width={g.w - 1.5} height={g.h - 1.5} />
+        <text class="fig__label" x={g.x + 16} y={g.y + 24}>{g.label}</text>
+        <text class="dia-group__title" x={g.x + 16} y={g.y + 43}>{g.title}</text>
+      </>)}
+      <rect class="dia-zone" x={ZONE.x} y={ZONE.y} width={ZONE.w} height={ZONE.h} />
+      <text class="fig__label" x={ZONE.x + 10} y={ZONE.y + 22}>{ZONE.label}</text>
+      {LINES.map(l => <path class:list={['dia-line', l.muted && 'dia-line--muted']} d={diagramPath(l.p, { both: l.both })} />)}
+      {LABELS.map(l => <>{l.w && <rect class="dia-label-bg" x={l.x - 4} y={l.y - 12} width={l.w + 8} height={17} />}<text class="dia-label" x={l.x} y={l.y}>{l.t}</text></>)}
+      {NODES.map(n => (
+        <g class:list={['dia-box', n.em && 'dia-box--em', n.faded && 'dia-box--faded']}>
+          <rect class="dia-box__frame" x={n.x + 0.5} y={n.y + 0.5} width={NW - 1} height={n.h - 1} />
+          {n.mark && !n.faded && <rect class={`dia-mark dia-mark--${n.mark}`} x={n.x + 10} y={top(n) + 6} width="8" height="8" />}
+          <text class="dia-box__title" x={n.x + tx(n)} y={top(n) + 15}>{n.t}</text>
+          {n.s.map((line, i) => <text class="dia-box__text" x={n.x + tx(n)} y={top(n) + 34 + i * 17}>{line}</text>)}
+        </g>
+      ))}
+    </svg>
+  )}
+  <ul class="dia-key">{KEY.map(([h, l]) => <li><i class={`dia-mark dia-mark--${h}`}></i>{l}</li>)}</ul>
+</figure>

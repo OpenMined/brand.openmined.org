@@ -1,0 +1,22 @@
+---
+/** Example: box-and-arrow diagram, full and flat (src/lib/examples.ts), from src/diagrams/Route.astro. */
+import Example from '../../layouts/Example.astro';
+import Route from '../../diagrams/Route.astro';
+---
+<Example slug="diagram-route" init={`omds.diagrams();`}>
+  <style is:inline slot="head">
+    .ex { padding-block: var(--spacing-5xl); }
+  </style>
+  <section class="ex">
+    <div class="container stack stack--3xl">
+      <div class="stack stack--lg">
+        <p class="text-small muted">Full: HTML cards over SVG lines.</p>
+        <Route build="full" />
+      </div>
+      <div class="stack stack--lg">
+        <p class="text-small muted">Flat: one SVG, for a file.</p>
+        <Route build="flat" />
+      </div>
+    </div>
+  </section>
+</Example>

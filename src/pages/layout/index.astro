@@ -169,6 +169,7 @@ const NAV: [string, string][] = [['spacing', 'Spacing'], ['stacks', 'Stacks'], [
           {layers.map(l => <li><code>{l.name}</code><span class="z-layers__val">{l.value}</span><span>{l.use}</span></li>)}
         </ol>
       </article>
+      <BuildRef tokens={layers.map(l => l.name)} />
     </div>
   </section>
 

@@ -5,7 +5,7 @@ description: "Dense interfaces for the team: the minimal interactive layer with 
 status: released
 level: partly
 order: 3
-updated: 2026-10-29
+updated: 2026-11-05
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -18,6 +18,7 @@ guidance:
   - foundations/surfaces
   - guidelines/controls-on-a-raised-surface
   - guidelines/sunken-is-never-a-ground
+  - guidelines/eyebrows-take-the-eyebrow-style
 components: [card, table, meter, pager, nav, tabs, status-chip, tag, button, field, control]
 examples: [dashboard]
 gaps:

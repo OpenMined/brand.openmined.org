@@ -1,7 +1,8 @@
 ---
 type: Pattern
 title: Explanatory diagrams
-description: Diagrams carry attribution in color. Each data source keeps a hue; where attribution is lost the colors drain to gray, and where it's kept they reach the answer.
+description: "Diagrams that explain: box-and-arrow figures in two builds, full (HTML cards over SVG lines) and flat (one SVG, for a file), and figures that carry attribution in color."
+tokens: [--line, --line-strong, --stroke-sm, --stroke-md, --radius-sm, --radius-md, --radius-lg, --surface-raise-1, --surface-raise-2, --shadow-raise-2, --emphasis, --on-emphasis, --state-current-wash]
 status: released
 tags: [graphics]
 ---
@@ -10,12 +11,34 @@ tags: [graphics]
 
 **Colors.** Hue keys and fixed steps, the same in both modes ([Graphics use fixed steps, never roles](#guidelines-graphics-use-fixed-steps)). Connector lines between nodes are `--diagram-connector` (gray 400 in both modes, set in `components/diagram.css` until a role fits); bases and dividers inside a figure are `--line`; the outer outline `--stroke-md` (*Lines*). The figure frame, nodes and labels take the surface and text roles, so a figure sits right on either mode.
 
+**Box-and-arrow diagrams: two builds.** A figure of things and the lines between them (a system, a route, a flow) is built one of two ways, from one layout:
+- **Full, the default.** The nodes are HTML cards over an SVG layer that carries the groups, lines and labels (`.dia`). The cards wrap their own text, take the type roles and sit one level up with their shadow. Use it wherever the figure lives on a page.
+- **Flat, for a file.** The whole figure is one SVG (`.dia-flat`), nodes drawn as outlines, every line of text set by hand. Use it where the figure has to travel as a single file (a slide, a document, a design tool, an export) or anywhere a shadow can't go. `diagramSvg()` saves it as a standalone file in the current mode's colors.
+
+Prefer the full build; reach for the flat one when the file is the point. Groups, lines, labels, marks and layout are the same in both.
+
+**Nodes.** On the figure frame (`.fig`, raise-1). Full: a card one level up, `--surface-raise-2` with `--shadow-raise-2`, no outline, corners `--radius-md` (`.dia-node`). Flat: no fill, a `--stroke-sm` outline in `--line`, corners `--radius-md` (`.dia-box`). Either way a title (15px, 600, headline) over body text (13px, muted), 14px in from the edge; a node can hold a short paragraph, its card tall enough for it. The node that matters most may fill with `--emphasis`, its text `--on-emphasis`: one per figure at most. A node out of scope here (there, but not part of this story) steps back: an outline in `--line`, its title regular and muted, no mark, and its lines in `--line`.
+
+**Marks.** A node may carry a mark naming its kind: an 8px square, corners 1.5px, in the hue key of that kind (`.dia-mark--green`), before the title, 10px from the node's edge and 8px from its text, with a key under the figure (`.dia-key`) naming each hue it uses. A square, not a dot, so it doesn't read as a status. Marks are used as needed: on every node, on none, or only on the kinds the figure is about, with the rest left plain and the key naming only the marked kinds. A node out of scope has none. On the emphasis node the mark keeps its hue.
+
+**Groups, subsystems and zones.** A group is a `--stroke-md` outline in `--line`, corners `--radius-lg`, the frame's own surface inside, with a diagram label and a title (15px, 600). A subsystem, a group inside a group, is drawn in round dots: `--stroke-md` in `--line-strong` (dots in `--line` are too faint). A zone marks a boundary data doesn't cross: a wash of black at `--state-current-wash`, no outline, corners `--radius-md`, a diagram label inside it.
+
+**Lines.** Connectors are `--diagram-connector` at `--stroke-sm`. Every bend is rounded at `--radius-lg` (10px), and a branch leaves its line on the same curve; no sharp corners. A line starts on the box it leaves; its tip stops 4px short of the box it reaches. The arrowhead is two legs at 45° to the line, reaching 6px back and 6px to each side, the line's own width, round caps and joins (two sides of a square, turned 45°, as on openmined.org): never a filled triangle. A two-way line has a head at each end and stops 4px short of both boxes. Something sent and something returned are two lines side by side, each with its own label. Where a line crosses another line or a group's outline, it crosses at 90°. A line drawn dashed has no fixed meaning; a figure that dashes one says why in its key or caption. A label on a line sits beside it, not over it, 11.5px, muted; steps in a sequence are numbered in the label (`1 · look up the address`). Where a label has to cross another element (a line, an outline), it gets a backing in the figure's own surface, corners `--radius-sm`, about 4px either side of the text, so the element stops short of it and the label stays legible.
+
+**Text stays inside its node.** At least the node's padding inside its edge, always. A full node wraps its own text; size the card to hold it. SVG text never wraps and doesn't know its box, so in the flat build each line is broken by hand and measured in the browser once the fonts have loaded, never judged by eye or by counting characters. `diagrams()` checks both builds on the page and marks anything over in the danger color, with its name in the console.
+
+**Balance.** A figure is laid out on a few columns and rows, with even space between its big parts: the same gap between one group and the next, and between a group and a column of nodes beside it. Nodes in a row share a top, nodes in a column share a left edge, and a group insets its nodes by the same amount on every side. Align a node with one in another group where the line between them means something (the server over the one that answers for it). Break alignment only on purpose, to set a thing apart, never by accident.
+
+**Building one.** `components/diagram.css` and `components/diagram.js`; the markup is at the top of the CSS file. Lay the figure out in px. Give each line its points, start to tip, and either call `diagrams()` to draw them (`data-points`, `data-both` for two-way) or write the path data from `diagramPath()` at build, so the figure needs no script. A figure wider than its column scrolls sideways inside its frame; the flat build is drawn at most at its own width (`--dia-max-width`) and first scales down to the `--dia-min-width` it sets.
+
 **Motion.** Color moves along the lines (*Color moves*): each colored line carries its hue's highlight (*Highlights*), travelling in the line's direction, over the line at 0.8 at its peak. Where a line drains to gray, its highlight turns gray with it. Rings brighten in their highlight, from the innermost out, one after another. Gray lines pulse faintly in their own gray. Under reduced motion, the diagram is still.
 
-**Labels.** In the brand fonts (*Graphics use the brand fonts*). Inside a figure, a label that names a panel, a stage, a zone or a group takes the diagram label (`.fig__label`): mono, caps, letter-spaced, muted; in SVG at the figure's own size. It stays in figures: an eyebrow over a page's or a section's heading is the type's eyebrow.
+**Labels.** In the brand fonts (*Graphics use the brand fonts*). Inside a figure, a label that names a panel, a stage, a zone or a group takes the diagram label (`.fig__label`): mono, caps, letter-spaced, muted; in SVG at the figure's own size. It may sit over the group's or the panel's title, as an eyebrow sits over a heading: inside a figure that's the diagram's own style, and *Eyebrows take the eyebrow style* doesn't apply. It stays in figures: an eyebrow over a page's, a section's or a card's heading, outside a figure, is the type's eyebrow.
+
+**Phones.** Where a figure will be read on a phone (a website, a product page, a post), its phone layout is part of designing it, not a scaled copy of the wide one. A box-and-arrow figure drawn at 1050px and shrunk to a 375px screen sets its 11.5px labels at about 4px. Decide the narrow arrangement with the wide one: nodes stacked to read top to bottom, fewer to a row, groups one under another, a long chain split in two. Two fallbacks, for a figure that can't be redrawn: scale it down until its labels reach about 9px, then let it scroll sideways inside its frame; and let a tap open it full screen, where it can turn to landscape and zoom. A figure made for a fixed size (a slide, a printed page, a document) is drawn at that size and needs none of this.
 
 **Not in use: the technical plate.** An alternative kept for reference: a few colors with one job each (teal for people with data, violet for people seeking insight, gray for the model, red for the problem), with numbered markers and a key in place of floating callouts.
 
 *Open:*
 - Rings can read as containment, and one ring is a different kind of level from the others.
-- At phone width, labels shrink to about 8–9px.
+- The attribution figures (ABC) at phone width: their labels shrink to about 8–9px (*Phones*).

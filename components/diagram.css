@@ -3,10 +3,14 @@
    ════════════════════════════════════════════════════════════════════
    The frame and shared mechanics every diagram uses: a figure on a raised
    level, inline SVG that scales to its column, text in the brand fonts, side
-   by side panels with a small heading, and the connector line color. Each
-   figure adds its own classes on top (see the examples). Needs: the v2 tokens.
-   Script: line-flow.js (lineFlow) for the pulses along path[data-flow];
-   without it the diagram is its still frame.
+   by side panels with a small heading, and the connector line color; and the
+   box-and-arrow diagram, in two builds: full (HTML cards over an SVG layer of
+   lines, the default) and flat (one SVG, for a file, a slide or a document).
+   Needs: the v2 tokens. Scripts: line-flow.js (lineFlow) for the pulses along
+   path[data-flow]; diagram.js (diagrams) draws lines from data-points and
+   checks that text stays inside its node, diagramPath() gives a line's path
+   data (to write it yourself, or at build), diagramSvg() saves a flat diagram
+   as a standalone SVG file.
 
    Markup:
      <figure class="fig">
@@ -17,6 +21,43 @@
          </div>
          <div>…</div>
        </div>
+     </figure>
+
+     <figure class="fig">                       full: HTML cards over SVG lines, sized in px
+       <div class="dia" style="width:1050px;height:600px">
+         <svg class="dia__lines" viewBox="0 0 1050 600" aria-hidden="true">
+           <rect class="dia-group" x="0.75" y="240.75" width="388.5" height="258.5" />
+           <text class="fig__label" x="16" y="264">Local network</text>
+           <text class="dia-group__title" x="16" y="283">Your home</text>
+           <rect class="dia-group dia-group--sub" …/>        a subsystem, inside a group
+           <rect class="dia-zone" …/>                        a boundary data doesn't cross
+           <path class="dia-line" data-points="180,326 206,326" />
+           <path class="dia-line" data-points="980,360 980,416" data-both />      two-way
+           <path class="dia-line dia-line--muted" data-points="…" />              out of scope
+           <text class="dia-label" x="520" y="176">1 · look up the address</text>
+           <rect class="dia-label-bg" …/><text class="dia-label" …>a question</text>  crosses an outline
+         </svg>
+         <div class="dia-node" style="left:20px;top:296px;width:160px;height:60px">
+           <b class="dia-node__title">Laptop</b><span class="dia-node__text">the browser</span>
+         </div>
+         <div class="dia-node" style="…"><b class="dia-node__title"><i class="dia-mark dia-mark--green"></i>Web app</b><span class="dia-node__text">…</span></div>
+         <div class="dia-node dia-node--em" style="…">…</div>         the node that matters
+         <div class="dia-node dia-node--faded" style="…">…</div>      out of scope
+       </div>
+       <ul class="dia-key"><li><i class="dia-mark dia-mark--green"></i>example.com</li></ul>
+     </figure>
+
+     <figure class="fig">                       flat: one SVG
+       <svg class="dia-flat" viewBox="0 0 1050 600" role="img" aria-label="…">
+         …groups, zones, lines and labels as above…
+         <g class="dia-box">
+           <rect class="dia-box__frame" x="20" y="296" width="160" height="60" />
+           <rect class="dia-mark dia-mark--green" x="30" y="309" width="8" height="8" />
+           <text class="dia-box__title" x="46" y="321">Web app</text>
+           <text class="dia-box__text" x="46" y="339">builds the page</text>
+         </g>
+         <g class="dia-box dia-box--em">…</g>  ·  <g class="dia-box dia-box--faded">…</g>
+       </svg>
      </figure>
 
    Lines between nodes take --diagram-connector (gray 400: no role fits
@@ -38,3 +79,71 @@
    own size. */
 .fig .fig__label { display: block; font-family: var(--font-mono); font-size: var(--font-size-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); fill: var(--text-muted); }
 .panel__title { display: block; margin-top: var(--spacing-3xs); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+
+/* ── Box-and-arrow diagrams (design/patterns/diagrams.md) ──────────────
+   Laid out in px on a grid you choose; the figure scrolls sideways inside its
+   frame where the column is narrower. Type in three sizes: 15 titles, 13 body,
+   11.5 labels. Lines: draw them with diagrams() from data-points, or write the
+   path data from diagramPath() (diagram.js). */
+.fig { --dia-title: 15px; --dia-text: 13px; --dia-label: 11.5px; }
+.fig:has(> .dia, > .dia-flat) { overflow-x: auto; }
+.dia { position: relative; }
+.fig .dia__lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fig .dia-flat { min-width: var(--dia-min-width, 0); max-width: var(--dia-max-width, 100%); }
+:is(.dia, .dia-flat) .fig__label { font-size: var(--dia-label); }
+
+/* Groups: an outline; a subsystem inside a group in round dots; a zone (a
+   boundary data doesn't cross) a wash with no outline. */
+.dia-group { fill: none; stroke: var(--line); stroke-width: var(--stroke-md); rx: var(--radius-lg); }
+.dia-group--sub { stroke: var(--line-strong); stroke-dasharray: 0 5; stroke-linecap: round; }
+.dia-group__title { font-size: var(--dia-title); font-weight: var(--font-weight-semibold); fill: var(--text-headline); }
+.dia-zone { --dia-wash: color-mix(in oklch, var(--black) calc(var(--state-current-wash) * 1%), transparent); fill: var(--dia-wash); rx: var(--radius-md); }
+
+/* Lines: the connector at the small stroke, round caps and joins; a line out of
+   scope in --line. A label beside its line; one that crosses another element
+   gets a backing in the figure's surface. */
+.dia-line { fill: none; stroke: var(--diagram-connector); stroke-width: var(--stroke-sm); stroke-linecap: round; stroke-linejoin: round; }
+.dia-line--muted { stroke: var(--line); }
+.dia-label { font-size: var(--dia-label); fill: var(--text-muted); }
+.dia-label-bg { fill: var(--surface-raise-1); rx: var(--radius-sm); }
+
+/* Full: a node is an HTML card one level up from the frame, its text wrapping
+   inside it. A mark before the title sits 10px from the edge, 8px from the text. */
+.dia-node {
+  position: absolute; box-sizing: border-box; display: grid; align-content: center; gap: var(--spacing-3xs);
+  padding: 0 14px; border-radius: var(--radius-md); background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
+  line-height: 1.3; overflow: hidden;
+}
+.dia-node:has(.dia-mark) { padding-inline: 10px; }
+.dia-node__title { display: flex; align-items: center; gap: 8px; font-size: var(--dia-title); font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.dia-node__text { font-size: var(--dia-text); color: var(--text-muted); }
+.dia-node:has(.dia-mark) .dia-node__text { padding-left: 16px; }
+.dia-node--em { background: var(--emphasis); }
+.dia-node--em :is(.dia-node__title, .dia-node__text) { color: var(--on-emphasis); }
+.dia-node--faded { background: none; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
+.dia-node--faded .dia-node__title { font-weight: var(--font-weight-regular); color: var(--text-muted); }
+
+/* Flat: a node is an outline in SVG; its lines of text are broken by hand and
+   measured (diagrams() flags any that run into the padding). */
+.dia-box__frame { fill: none; stroke: var(--line); stroke-width: var(--stroke-sm); rx: var(--radius-md); }
+.dia-box__title { font-size: var(--dia-title); font-weight: var(--font-weight-semibold); fill: var(--text-headline); }
+.dia-box__text { font-size: var(--dia-text); fill: var(--text-muted); }
+.dia-box--em .dia-box__frame { fill: var(--emphasis); stroke: none; }
+.dia-box--em text { fill: var(--on-emphasis); }
+.dia-box--faded text { fill: var(--text-muted); }
+.dia-box--faded .dia-box__title { font-weight: var(--font-weight-regular); }
+
+/* Marks: an 8px square in a hue's key, naming a node's kind; the key under the figure. */
+.dia-mark { --dia-mark: var(--diagram-connector); width: 8px; height: 8px; flex: none; border-radius: 1.5px; rx: 1.5px; background: var(--dia-mark); fill: var(--dia-mark); }
+.dia-mark--violet { --dia-mark: var(--violet-key); }
+.dia-mark--blue { --dia-mark: var(--blue-key); }
+.dia-mark--teal { --dia-mark: var(--teal-key); }
+.dia-mark--green { --dia-mark: var(--green-key); }
+.dia-mark--amber { --dia-mark: var(--amber-key); }
+.dia-mark--red { --dia-mark: var(--red-key); }
+.dia-key { display: flex; flex-wrap: wrap; gap: var(--spacing-xs) var(--spacing-lg); margin: var(--spacing-lg) 0 0; padding: 0; list-style: none; font-size: var(--dia-label); color: var(--text-muted); }
+.dia-key li { display: flex; align-items: center; gap: var(--spacing-xs); }
+
+/* Text that runs out of its node (flagged by diagrams()): fix the layout. */
+.dia-node[data-overflow] { outline: var(--stroke-md) solid var(--danger-fg); }
+.dia-box text[data-overflow] { fill: var(--danger-fg); }

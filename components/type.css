@@ -15,6 +15,8 @@
      <p>Body text, with <strong>strong</strong>, <em>emphasis</em> and <code>code</code>.</p>
      <p class="text-small">Supporting text: a note, a source.</p>
      <p class="text-caption">A label on a graphic</p>
+     <p class="text-eyebrow">Federated learning</p>   (over a heading: never caps or mono)
+     <p class="text-eyebrow text-eyebrow--sm">Federated learning</p>   (the small eyebrow)
      <blockquote><p>A quotation, set off by a line.</p></blockquote>
      <p class="measure">Text kept to a reading width, outside an article.</p>
      <td class="num">11,118</td>  ·  <span class="tabular">62,025</span>     (numbers that line up)
@@ -78,11 +80,14 @@ strong, b { font-weight: var(--font-weight-semibold); color: var(--text-headline
 /* ── Text styles ──────────────────────────────────────────────────────
    Lead: the introduction under a page title. Small: supporting text. Caption:
    the smallest text, labels on graphics. Eyebrow: a short label over a
-   heading, in body text (a hook; it adds nothing of its own). */
+   heading, in body text, sentence case (a hook; it adds nothing of its own):
+   never caps, letter-spacing or mono. Only its size may step down, where the
+   design needs it: the small eyebrow, .text-eyebrow--sm. */
 .text-lead { font-size: clamp(var(--font-size-lg-min), 1.62vw, var(--font-size-lg)); line-height: var(--line-height-lead); color: var(--text-muted); }
 .text-small { font-size: var(--font-size-sm); line-height: var(--line-height-text); }
 .text-caption { font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text); }
 .text-eyebrow { font-size: var(--font-size-md); }
+.text-eyebrow--sm { font-size: var(--font-size-sm); }
 
 /* Numbers: tabular figures (every digit the same width) wherever numbers line up
    in columns, with --tracking-numbers (0, as drawn). Tables set tabular figures

@@ -5,7 +5,7 @@ description: "Pages and sections on the web. Everything the system has applies: 
 status: released
 level: covered
 order: 1
-updated: 2026-10-29
+updated: 2026-11-05
 start:
   - label: The whole system, one stylesheet
     href: /omds.css
@@ -28,7 +28,9 @@ guidance:
   - guidelines/sections-arent-tinted
   - guidelines/controls-on-a-raised-surface
   - guidelines/avoid-ai-design-trends
-components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, nav, tabs, accordion, table, tag, prose]
+  - guidelines/eyebrows-take-the-eyebrow-style
+  - patterns/diagrams
+components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, nav, tabs, accordion, table, tag, pager, code-copy, prose, diagram]
 examples: [home, syfthub, landing-section, product-steps, press-cards, join-form, long-read]
 gaps:
   - "No header or footer components: each site owns its own (the nav covers the row of links inside one). The website examples share an example kit with openmined.org's, which is illustration, not system."
@@ -36,3 +38,5 @@ gaps:
 ---
 
 **Building a page.** Start from the example closest to what you're making and change the words. The website examples share the example kit (page shell, header, footer), which shows openmined.org as it is today, not a rule.
+
+**Diagrams on a page.** Use the full build. A page is read on phones, so design the figure's narrow layout with the wide one (*Explanatory diagrams*, Phones).

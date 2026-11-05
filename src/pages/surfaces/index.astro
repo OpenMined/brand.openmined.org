@@ -55,12 +55,12 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
         </div>
         <div class="levels__row">
           {[
-            { t: 'sunken', name: 'A recess inside a surface · −1' },
-            { t: 'raise-1', name: 'A card on the page · +1' },
-            { t: 'raise-2', name: 'One level higher · +2' },
+            { t: 'sunken', name: 'A recess inside a surface · −1', shadow: '--shadow-sunken' },
+            { t: 'raise-1', name: 'A card on the page · +1', shadow: '--shadow-raise-1' },
+            { t: 'raise-2', name: 'One level higher · +2', shadow: '--shadow-raise-2' },
           ].map(l => (
             <div class={`levels__tile levels__tile--${l.t}`}>
-              <code>--surface-{l.t}</code><span>{l.name}</span>
+              <code>--surface-{l.t}</code><span>{l.name}</span><span class="levels__hex">{l.shadow}</span>
               <span class="levels__hex"><span class="only-light">{level('light', `--surface-${l.t}`)}</span><span class="only-dark">{level('dark', `--surface-${l.t}`)}</span></span>
             </div>
           ))}
@@ -128,23 +128,23 @@ const NAV = [['in-use', 'In use'], ['modes', 'Modes and sections'], ['corners', 
       <div class="lines">
         <figure class="lines__opt">
           <div class="lines__stage"><span class="lines__outline">An outline over the page</span></div>
-          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>Outline: the same surface inside and out</em></figcaption>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code> · 1px</b><em>Outline: the same surface inside and out</em></figcaption>
         </figure>
         <figure class="lines__opt">
           <div class="lines__stage"><button type="button" class="btn">Secondary</button></div>
-          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>The secondary button's outline</em></figcaption>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code> · 1px</b><em>The secondary button's outline</em></figcaption>
         </figure>
         <figure class="lines__opt">
           <div class="lines__stage lines__stage--links"><p>A <a class="link-content" href="#lines">content link</a></p><a class="link-nav" href="#lines">Nav link</a></div>
-          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code></b><em>Link underlines; hover the nav link to draw its line</em></figcaption>
+          <figcaption><b><code>--line-strong</code> · <code>--stroke-sm</code> · 1px</b><em>Link underlines; hover the nav link to draw its line</em></figcaption>
         </figure>
         <figure class="lines__opt">
           <div class="lines__stage lines__stage--rows"><span>First item</span><span>Second item</span></div>
-          <figcaption><b><code>--line</code> · <code>--stroke-sm</code></b><em>Divider: a single edge between two things</em></figcaption>
+          <figcaption><b><code>--line</code> · <code>--stroke-sm</code> · 1px</b><em>Divider: a single edge between two things</em></figcaption>
         </figure>
         <figure class="lines__opt">
           <div class="lines__stage"><span class="lines__outline lines__outline--md lines__outline--quiet">A diagram's outer outline</span></div>
-          <figcaption><b><code>--line</code> · <code>--stroke-md</code></b><em>Diagrams: quieter lines, the outer one 1.5px</em></figcaption>
+          <figcaption><b><code>--line</code> · <code>--stroke-md</code> · 1.5px</b><em>Diagrams: quieter lines, the outer one at md</em></figcaption>
         </figure>
       </div>
       <div class="prose prose--downsize-2 guide-prose"><lines.Content /></div>

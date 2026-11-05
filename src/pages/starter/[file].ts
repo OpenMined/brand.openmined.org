@@ -22,6 +22,7 @@ export const GET = async ({ params }: { params: { file: string } }) => {
   ${full ? 'Full interactive layer: every component script is inlined at the end of <body>.' : 'Minimal interactive layer: no script for motion. For the full layer use ' + HOST + '/starter/artifact-full.'}
   Use the components' markup (${HOST}/components/README.md, examples at ${HOST}/examples/).
   Every color is a token: var(--surface-raise-1), var(--text-body); never type a hex.
+  An eyebrow over a heading is <p class="text-eyebrow">: body text, sentence case, never caps or mono.
   Feedback: if the system didn't cover something you needed, say what, and what you did instead,
   so it can be passed to the design lead (${HOST}/AGENTS.md, "Feedback").
 -->
@@ -46,7 +47,10 @@ ${omdsCss()}
 </head>
 <body>
 <main class="container page">
-  <h1>Title</h1>
+  <div class="stack stack--sm">
+    <p class="text-eyebrow">An eyebrow</p>
+    <h1>Title</h1>
+  </div>
   <p class="text-lead measure">One sentence about what this is.</p>
   <div class="card-grid">
     <div class="card"><h2 class="card__title">A card</h2><p>Content grouped on a raised level.</p></div>

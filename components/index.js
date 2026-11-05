@@ -13,6 +13,7 @@ export { followPointer } from './pointer.js';
 export { cardFlows, HOVER_FLOWS } from './card-flow.js';
 export { place, cssColors } from './flow.js';
 export { lineFlow } from './line-flow.js';
+export { diagrams, diagramPath, diagramSvg } from './diagram.js';
 export { tabs } from './tabs.js';
 export { codeCopy } from './code-copy.js';
 export { themeInit, themeToggle } from './theme.js';

@@ -64,6 +64,10 @@ from.
 - **Icons:** the set in `/design/foundations/iconography.md` (Iconoir regular plus our own).
   Never invent an icon; never use another icon library.
 - **The logo and partner marks** are used as supplied: never redrawn, recolored or generated.
+- **Eyebrows** (a short phrase over a heading) are always `.text-eyebrow`: body text, sentence
+  case, never all caps, letter-spaced or mono. Only the size may step down, with
+  `.text-eyebrow--sm`. Caps in mono belongs only inside a diagram: the diagram label (`.fig__label`),
+  which may sit over a group's or a panel's title within the figure.
 - **Fonts:** Rubik and Inter, from Google Fonts (the link is at the top of `/omds.css`'s type
   section and in `/components/README.md`).
 - **Status:** every rule, value and component on the site is `released`. `deprecated` items name

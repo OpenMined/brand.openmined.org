@@ -156,6 +156,7 @@ What a new component touches, in order. Start from a similar component's files.
 | Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |
 | Logo card, post card | `link-card.css` (`lcard--logo`, `lcard--post`) | `link-card.js` | `design/components/link-card.md` |
 | Diagram line pulses | none | `line-flow.js`, `lineFlow()` | `design/patterns/diagrams.md` |
+| Box-and-arrow diagram: full (HTML cards over SVG lines) and flat (one SVG) | `diagram.css` | `diagram.js`, `diagrams()` (draws lines, checks text fits), `diagramPath()`, `diagramSvg()` (save as a file) | `design/patterns/diagrams.md` |
 
 Shared by the scripts, imported by them: `pointer.js` (the light that follows the
 pointer), `tilt.js` (the card tilt), `two-tone.js` (the moving gradients) and `flow.js` (the
