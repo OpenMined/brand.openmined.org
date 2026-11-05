@@ -37,6 +37,12 @@ const STATUS = [
 /** Colorways: each hue's two-tone gradient (--gradient-two-tone-<hue>) on a few set icons. */
 const COLORWAYS = HUES.map(h => ({ hue: h, companion: TWO_TONE_COMPANION[h] }));
 const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
+/** Inert cards with an icon, as in a card grid (components/card.css, card--icon). */
+const CARDS = [
+  { icon: 'lock', t: 'Private by design', p: 'Data stays where it lives; only answers leave.' },
+  { icon: 'network', t: 'Federated', p: 'Many owners, one network, no central copy.' },
+  { icon: 'code', t: 'Open source', p: 'Every part is public, so anyone can check it.' },
+];
 ---
 <Site title={foundation.title} description={foundation.description} current="icons">
   <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="Iconoir regular, inlined at build" />
@@ -67,6 +73,18 @@ const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
           </div>
           <p class="muted">Universal icons only, each with an accessible name.</p>
         </article>
+      </div>
+      <div class="icon-cards">
+        <h3>In a card grid</h3>
+        <div class="card-grid">
+          {CARDS.map(c => (
+            <div class="card card--icon card--stacked">
+              <Icon name={c.icon} size={32} class="card__icon" />
+              <div><h4 class="card__title">{c.t}</h4><p>{c.p}</p></div>
+            </div>
+          ))}
+        </div>
+        <p class="muted">Cards with an icon (<code>card--icon</code>, here <code>card--stacked</code>, above the text): the 32px set icon in the headline color, mono and still. A card isn’t a link, so nothing moves on hover; a card that’s a link is a hover card, where the icon takes its color on hover.</p>
       </div>
     </div>
   </section>
@@ -161,3 +179,9 @@ const COLOR_ICONS = ['database', 'sparks', 'code', 'settings'];
 
   <ExampleLinks slugs={["landing-section", "syfthub", "dashboard"]} />
 </Site>
+
+<style>
+  .icon-cards { display: grid; gap: var(--spacing-lg); margin-top: var(--spacing-4xl); }
+  .icon-cards > h3 { margin: 0; }
+  .icon-cards > p { max-width: var(--measure); margin: 0; }
+</style>

@@ -2,6 +2,7 @@
 
 Newest first. What changed in the brand system and when.
 
+- **2026-11-05** — Icons: *In use* adds **In a card grid**, three cards with an icon above the text (`card--icon card--stacked`), still: the 32px set icon in the headline color, nothing on hover. No component or rule changed.
 - **2026-11-04** — The Claude artifact starters are linked at `/starter/artifact` and `/starter/artifact-full`, the addresses that answer directly: the host redirects the `.html` addresses there, and a download that doesn't follow redirects got an empty file. The `.html` addresses still work.
 - **2026-11-04** — **Eyebrows and diagram labels** (new decision): every eyebrow over a page's or a section's heading is `.text-eyebrow` (body text, sentence case); caps in mono stays only inside figures, as the diagram label. Renamed in `components/diagram.css`: `.panel__eyebrow` → `.fig__label` (projects that copied the diagram markup: rename it). The ABC figures' stage and zone labels use it. From the skill's test round.
 - **2026-11-04** — **Pager** (new component, new decision *The pager is a nav at the wash level*): Previous, the page numbers and Next as quiet items of a wash-level nav, the current page taking the wash; the first, last and current pages with its neighbors, a gap for the rest; a step that can't go anywhere stays in place, muted. The dashboard example pages its table again. From feedback #45.
