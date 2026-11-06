@@ -16,7 +16,7 @@ import Icon from '../../components/site/Icon.astro';
 import ColorIcon from '../../components/site/ColorIcon.astro';
 import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { doc, byTag, decisionsFor } from '../../lib/design';
-import { ICONS, LIVE, iconSvg } from '../../lib/icons';
+import { ICONS, iconSvg } from '../../lib/icons';
 import { HUES, TWO_TONE_COMPANION } from '../../lib/tokens';
 
 const foundation = doc('foundations/iconography');
@@ -26,9 +26,11 @@ const decisions = decisionsFor('icons');
 const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 
 const SRC: Record<string, string> = { tabler: 'Tabler', lucide: 'Lucide', own: 'Our own', tool: 'Tool mark' };
-/** The v2 set, with the live icons each one replaces. */
-const SET = Object.entries(ICONS).map(([name, e]) => ({ name, ...e, replaces: Object.entries(LIVE).filter(([, l]) => l.use === name).map(([n]) => n) }));
+/** The v2 set. */
+const SET = Object.entries(ICONS).map(([name, e]) => ({ name, ...e }));
 const APPROVED = SET.filter(i => i.status === 'approved').length;
+/** The status column shows only while an icon is still under review, as the token tables do. */
+const ANY_PROPOSED = APPROVED < SET.length;
 const STATUS = [
   { s: 'success', icon: 'check-circle', label: 'Check' },
   { s: 'danger', icon: 'xmark-circle', label: 'X' },
@@ -142,20 +144,18 @@ const CARDS = [
 
   <section class="band" id="set">
     <div class="wrap">
-      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons, {APPROVED} approved, {SET.length - APPROVED} proposed. Components ask for an icon by its name here; the entry decides the drawing (Tabler, Lucide, our own in <code>public/icons/</code>, or a tool mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
+      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons{APPROVED < SET.length && <>, {SET.length - APPROVED} still proposed</>}. Components ask for an icon by its name here; the entry decides the drawing (Tabler, Lucide, our own in <code>public/icons/</code>, or a tool mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
       <article class="card">
         <div class="tbl-wrap">
           <table class="tbl icon-cmp">
-            <thead><tr><th>Icon</th><th>Name</th><th>Source</th><th>Style</th><th>Status</th><th>Replaces (live)</th><th>Note</th></tr></thead>
+            <thead><tr><th>Icon</th><th>Name</th><th>Source</th>{ANY_PROPOSED && <th>Status</th>}<th>Use</th></tr></thead>
             <tbody>
               {SET.map(i => (
                 <tr>
                   <td class="icon-cmp__glyph"><Icon name={i.name} size={24} /></td>
                   <td><code>{i.name}</code></td>
                   <td>{SRC[i.src]}{i.file && <> · <code>{i.file}</code></>}</td>
-                  <td>{i.style ?? 'line'}</td>
-                  <td>{i.status === 'approved' ? <b>approved</b> : <span class="muted">proposed</span>}</td>
-                  <td>{i.replaces.length ? i.replaces.map((r, k) => <>{k > 0 && ', '}<code>{r}</code></>) : <span class="muted">—</span>}</td>
+                  {ANY_PROPOSED && <td>{i.status === 'approved' ? 'approved' : <span class="muted">proposed</span>}</td>}
                   <td class="muted">{i.note}</td>
                 </tr>
               ))}

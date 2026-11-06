@@ -5,7 +5,7 @@
       "src": "tabler",
       "style": "line",
       "status": "approved",
-      "note": "Text buttons and link cards (replaced Ionicons arrow-forward-outline on the brand site, 2026-10-12)"
+      "note": "Text buttons and link cards"
     },
     "bluesky": {
       "src": "tool",
@@ -39,7 +39,7 @@
       "file": "circle-check",
       "style": "line",
       "status": "approved",
-      "note": "Status: success. Drawn outlined in --success-fg; the live check-solid was filled (open: whether status icons stay filled)."
+      "note": "Status: success, in --success-fg"
     },
     "clipboard-check": {
       "src": "tabler",
@@ -62,7 +62,7 @@
       "file": "code-circle",
       "style": "line",
       "status": "approved",
-      "note": "Home pillar \"Flexible Federated Computation\" (live: an inline code-in-a-box drawing)"
+      "note": "Home pillar: flexible federated computation"
     },
     "community": {
       "src": "tabler",
@@ -122,7 +122,7 @@
       "src": "tabler",
       "style": "line",
       "status": "approved",
-      "note": "Flow operator (SyftHub How It Works), next to plus and arrow-right"
+      "note": "Flow operator, with plus and arrow-right"
     },
     "eye": {
       "src": "tabler",
@@ -195,7 +195,8 @@
       "src": "lucide",
       "file": "info",
       "style": "line",
-      "status": "approved"
+      "status": "approved",
+      "note": "Status: info, in --info-fg"
     },
     "journal": {
       "src": "lucide",
@@ -251,14 +252,14 @@
       "file": "chevron-left",
       "style": "line",
       "status": "approved",
-      "note": "Pagination steps (2026-10-29)."
+      "note": "Pagination"
     },
     "nav-arrow-right": {
       "src": "tabler",
       "file": "chevron-right",
       "style": "line",
       "status": "approved",
-      "note": "Pagination steps (2026-10-29)."
+      "note": "Pagination"
     },
     "network": {
       "src": "tabler",
@@ -282,7 +283,7 @@
       "src": "tabler",
       "style": "line",
       "status": "approved",
-      "note": "Flow operator (SyftHub How It Works), next to equal and arrow-right"
+      "note": "Flow operator, with equal and arrow-right"
     },
     "profile-circle": {
       "src": "lucide",
@@ -366,7 +367,8 @@
       "src": "tabler",
       "file": "alert-triangle",
       "style": "line",
-      "status": "approved"
+      "status": "approved",
+      "note": "Status: warning, in --warning-fg"
     },
     "x": {
       "src": "tool",
@@ -384,7 +386,7 @@
       "file": "circle-x",
       "style": "line",
       "status": "approved",
-      "note": "Status: danger. Drawn outlined in --danger-fg; the live x-solid was filled."
+      "note": "Status: danger, in --danger-fg"
     }
   },
   "live": {
