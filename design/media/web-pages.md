@@ -5,7 +5,7 @@ description: "Pages and sections on the web. Everything the system has applies: 
 status: released
 level: covered
 order: 1
-updated: 2026-11-05
+updated: 2026-11-06
 start:
   - label: The whole system, one stylesheet
     href: /omds.css
@@ -43,6 +43,10 @@ guidance:
   - guidelines/one-label-per-step
   - guidelines/partner-marks-as-supplied
   - guidelines/partner-marks-follow-the-mode
+  - guidelines/center-by-eye
+  - guidelines/color-tells-a-story
+  - guidelines/text-stays-inside
+  - guidelines/grays-are-set
 components: [page, type, layout, button, link, card, hover-card, link-card, field, control, steps, nav, tabs, accordion, table, tag, pager, code-copy, prose, diagram]
 examples: [home, syfthub, landing-section, product-steps, press-cards, join-form, long-read]
 gaps:

@@ -18,8 +18,11 @@
 
    Small text, rows divided by the lighter line, no fills and no outer box
    (Outlines are lines; Dividers separate). Headers in the headline color at
-   600. A row you act on takes the sunken wash on hover, as any gray item does
-   (Interaction states); the current row keeps it (aria-current or .is-current). */
+   600. A row you act on takes a faint wash of gray 950 (--state-hover-wash) on
+   hover, and keeps it when current (aria-current or .is-current); faint
+   enough that a meter's sunken track still reads on it.
+   The first and last cells keep 20px (compact: 16px) to the row's edge, so a
+   highlighted row has room on both sides of its text. */
 .table-wrap { overflow-x: auto; }
 .table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); color: var(--text-body); }
 .table :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-sm) var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); }
@@ -27,10 +30,14 @@
 .table :is(th, td).num { text-align: right; }
 .table thead th { vertical-align: bottom; }
 .table tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.table :is(th, td):first-child { padding-inline-start: var(--spacing-xl); }
+.table :is(th, td):last-child { padding-inline-end: var(--spacing-xl); }
 .table--compact :is(th, td) { padding: var(--spacing-xs) var(--spacing-sm); }
+.table--compact :is(th, td):first-child { padding-inline-start: var(--spacing-lg); }
+.table--compact :is(th, td):last-child { padding-inline-end: var(--spacing-lg); }
 /* Dense rows hold chips, tags and bars: center them on the row. */
 .table--compact tbody :is(th, td) { vertical-align: middle; }
 .table--rows tbody tr { transition: background-color var(--transition-base); }
-@media (hover: hover) { .table--rows tbody tr:hover { background: var(--surface-sunken); } }
-.table--rows tbody tr:is([aria-current], .is-current) { background: var(--surface-sunken); }
+@media (hover: hover) { .table--rows tbody tr:hover { background: color-mix(in oklch, var(--gray-950) calc(var(--state-hover-wash) * 1%), transparent); } }
+.table--rows tbody tr:is([aria-current], .is-current) { background: color-mix(in oklch, var(--gray-950) calc(var(--state-hover-wash) * 1%), transparent); }
 .table caption { caption-side: bottom; padding-top: var(--spacing-sm); text-align: left; font-size: var(--font-size-xs); color: var(--text-muted); }

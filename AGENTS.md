@@ -75,6 +75,12 @@ from.
   case, never all caps, letter-spaced or mono. Only the size may step down, with
   `.text-eyebrow--sm`. Caps in mono belongs only inside a diagram: the diagram label (`.fig__label`),
   which may sit over a group's or a panel's title within the figure.
+- **Color on many items is held back.** Gray at rest; a hue only where it says something (a
+  status dot) or on hover. No color per team, type or person; when color is used, it's the key,
+  not a dark wash. Grays are tokens, never a color at an opacity.
+- **Before handing a layout over,** check that text stays inside every box at the narrowest
+  width with the longest real string, and that anything meant to be centered looks centered
+  (letters in a circle, a figure in a badge), not only measures centered.
 - **Fonts:** Rubik and Inter, from Google Fonts (the link is at the top of `/omds.css`'s type
   section and in `/components/README.md`).
 - **Status:** every rule, value and component on the site is `released`. `deprecated` items name

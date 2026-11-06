@@ -11,6 +11,8 @@ tokens: [--surface-sunken, --surface-base, --surface-raise-1, --surface-raise-2]
 
 **Why.** A recess reads by its difference from the surface around it. Sunken against the page is 1.22:1 in light mode and 1.05:1 in dark; against raise-1 it's 1.30:1 and 1.13:1, against raise-2 1.35:1 and 1.24:1. On the page in dark mode, an unchecked box, an empty radio and a switch that's off all but disappear; checked and on states read anywhere. Raised surfaces also give the recess's inset shadow something to fall from.
 
+**Never on the page.** A thin track (a meter, a progress bar) has no exception: it all but disappears on the page in either mode.
+
 **Exceptions.**
 - **The color-mode switch in a page's header** may sit on the page. It is off in light mode and on in dark mode, the two states that read on the page.
 

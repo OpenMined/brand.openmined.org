@@ -49,10 +49,10 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
           <button type="button" class="nav__item" aria-pressed="true" data-show="all">All<span class="nav__count">{ROWS.length}</span></button>
           <button type="button" class="nav__item" aria-pressed="false" data-show="attention">Needs attention<span class="nav__count">{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').length}</span></button>
         </div>
-        <div class="table-wrap"><table class="table table--rows table--compact">
+        <div class="card card--compact"><div class="table-wrap"><table class="table table--rows table--compact">
           <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
           <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="meter" role="progressbar" aria-label="Progress" aria-valuenow={pc} aria-valuemin="0" aria-valuemax="100" aria-valuetext={`${pc}%`}><span class="meter__track"><span class="meter__fill" style={`width: ${pc}%`}></span></span><span class="meter__label">{pc}%</span></span></td></tr>)}</tbody>
-        </table></div>
+        </table></div></div>
         <nav class="nav nav--wash pager" aria-label="Project pages">
           <span class="nav__item pager__step" aria-disabled="true"><Fragment set:html={icon('nav-arrow-left', 16)} />Previous</span>
           <span class="pager__pages"><a class="nav__item" href="#" aria-current="page">1</a><a class="nav__item" href="#">2</a><a class="nav__item" href="#">3</a></span>

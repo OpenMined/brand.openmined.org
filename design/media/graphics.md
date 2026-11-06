@@ -5,7 +5,7 @@ description: "Diagrams, animated brand graphics and the gradient: every color fr
 status: released
 level: partly
 order: 4
-updated: 2026-11-05
+updated: 2026-11-06
 start:
   - label: Brand graphics
     href: /embeds/om-stream.js
@@ -28,6 +28,9 @@ guidance:
   - foundations/lines
   - guidelines/color-fills-use-the-key
   - guidelines/one-label-per-step
+  - guidelines/center-by-eye
+  - guidelines/text-stays-inside
+  - guidelines/grays-are-set
 components: [diagram, color-icon]
 examples: [diagram-route, diagram-abc-1, diagram-abc-2, diagram-abc-3, system-diagram]
 gaps:

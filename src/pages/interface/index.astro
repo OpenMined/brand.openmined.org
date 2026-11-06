@@ -213,12 +213,12 @@ const TEXT_FIELDS = [
         </section>
         <section class="component stack stack--xl" id="meters">
           <header class="sec"><h3 class="h3">{meterDoc.title}</h3><p>{meterDoc.description}</p>{meterDoc.status !== 'released' && <p class="status">Status: <b>{meterDoc.status}</b></p>}</header>
-          <div class="table-wrap"><table class="table table--rows table--compact">
+          <div class="card card--compact"><div class="table-wrap"><table class="table table--rows table--compact">
             <thead><tr><th>Datasite</th><th>Storage used</th></tr></thead>
             <tbody>{[['Clinical notes', 12, 40], ['Census microdata', 37, 40], ['Survey panel', 0, 40], ['Hospital admissions', 1, 40]].map(([n, x, y], i) => (
               <tr aria-current={i === 2 ? 'true' : undefined}><td>{n}</td><td><span class="meter" role="meter" aria-label="Storage used" aria-valuenow={x} aria-valuemin="0" aria-valuemax={y} aria-valuetext={`${x} of ${y} GB`}><span class="meter__track">{x as number > 0 && <span class="meter__fill" style={`width: ${Math.round((x as number) / (y as number) * 100)}%`}></span>}</span><span class="meter__label">{x} of {y} GB</span></span></td></tr>
             ))}</tbody>
-          </table></div>
+          </table></div></div>
           <BuildRef code={CODE.meter} tokens={meterDoc.tokens} />
         </section>
         <section class="component stack stack--xl" id="tabs">

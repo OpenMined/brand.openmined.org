@@ -5,7 +5,7 @@ description: "Decks: the colors, type, logos and graphics apply. No slide layout
 status: released
 level: partly
 order: 5
-updated: 2026-11-05
+updated: 2026-11-06
 start:
   - label: Logo files
     href: /logo/
@@ -21,6 +21,8 @@ guidance:
   - guidelines/logo-images-on-white
   - guidelines/partner-marks-as-supplied
   - guidelines/one-label-per-step
+  - guidelines/center-by-eye
+  - guidelines/text-stays-inside
 components: [diagram]
 examples: [diagram-route]
 gaps:

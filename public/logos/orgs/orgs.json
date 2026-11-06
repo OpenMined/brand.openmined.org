@@ -66,7 +66,7 @@
       "owner": "The Royal Society",
       "category": "institution",
       "color": "royal-society/logo.svg",
-      "mono": "royal-society/logo-mono.svg"
+      "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "ssir": {
       "name": "Stanford Social Innovation Review",
@@ -80,23 +80,23 @@
       "owner": "Technologists for the Public Good",
       "category": "org",
       "color": "tpg/logo.svg",
-      "mono": "tpg/logo-mono.svg"
+      "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "uk-dsit": {
       "name": "UK DSIT",
       "owner": "UK Dept. for Science, Innovation & Technology",
       "category": "government",
       "color": "uk-dsit/logo.svg",
-      "mono": "uk-dsit/logo-mono.svg",
-      "usageRestricted": true
+      "usageRestricted": true,
+      "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "ntia": {
       "name": "NTIA",
       "owner": "U.S. NTIA (Dept. of Commerce)",
       "category": "government",
       "color": "ntia/logo.svg",
-      "mono": "ntia/logo-mono.svg",
-      "usageRestricted": true
+      "usageRestricted": true,
+      "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "white-house": {
       "name": "The White House",

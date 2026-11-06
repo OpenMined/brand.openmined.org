@@ -95,13 +95,13 @@ const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['par
 
   <section class="band" id="orgs">
     <div class="wrap">
-      <header class="sec"><h2>Organizations</h2><p>Organizations OpenMined has worked with, as shown on openmined.org. Not OpenMined assets, and not governed by the system's tokens: used to name them, never recolored. Color marks keep their owner's colors; detailed seals come in color only. Government marks marked <em>restricted</em> carry their own usage rules (see <code>orgs.json</code>) and need checking before any use beyond naming the organization.</p></header>
+      <header class="sec"><h2>Organizations</h2><p>Organizations OpenMined has worked with, as shown on openmined.org. Not OpenMined assets, and not governed by the system's tokens: used to name them, never recolored. Color marks keep their owner's colors; detailed seals, and marks traced from an image, come in color only, on white. Government marks marked <em>restricted</em> carry their own usage rules (see <code>orgs.json</code>) and need checking before any use beyond naming the organization.</p></header>
       <div class="logo-grid logo-grid--orgs">
         {ORGS.map(o => (
           <figure class="org-tile">
             <div class="org-tile__row">
               <span class="org-tile__plate page-band" data-section="always-light"><img src={`/logos/orgs/${o.color}`} alt={o.name} /></span>
-              {o.mono ? <span class="org-tile__plate org-tile__plate--mono page-band" data-section="always-dark" set:html={mono(o.slug, o.mono.split('/').pop())} /> : <span class="org-tile__plate org-tile__plate--none text-small">color only</span>}
+              {o.mono ? <span class="org-tile__plate org-tile__plate--mono page-band" data-section="always-dark" set:html={mono(o.slug, o.mono.split('/').pop())} /> : <span class="org-tile__plate org-tile__plate--none text-small">on white only</span>}
             </div>
             <figcaption class="text-small">{o.name}{o.usageRestricted ? ' · restricted' : ''}</figcaption>
           </figure>

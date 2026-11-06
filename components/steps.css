@@ -14,8 +14,9 @@
      </ol>
      <ol class="steps steps--outline steps--connector">…</ol>   outlined numbers joined by a line
 
-   The number: a small badge in the headline color with the page's color for
-   the figure (solid, the default), or outlined in the line style (outline),
+   The number: a small square badge with rounded corners (32px, --radius-md),
+   in the headline color with the page's color for the figure (solid, the
+   default), or outlined in the line style (outline),
    as the solid and secondary buttons pair. The connector is the line style
    from one number's center to the next, stopping at each badge's edge. Title
    at the h5 size (Inter 400) in the headline color, body text below. 48px between steps. */
@@ -24,7 +25,7 @@
 .steps__item { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-lg); isolation: isolate; }
 .steps__num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
-  min-width: 40px; height: 28px; padding: 0 var(--spacing-md); border-radius: var(--radius-sm);
+  inline-size: 32px; block-size: 32px; border-radius: var(--radius-md);
   background: var(--emphasis); color: var(--on-emphasis);
   font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-body); font-variant-numeric: tabular-nums;
 }
@@ -32,6 +33,6 @@
 .steps__title { margin: 0 0 var(--spacing-lg); font: var(--font-weight-regular) clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max))/var(--line-height-h5) var(--font-body); color: var(--text-headline); }
 .steps__item p { margin: 0; max-width: var(--measure); }
 .steps--connector .steps__item:not(:last-child)::after {
-  content: ''; position: absolute; z-index: -1; top: 14px; left: 20px;
+  content: ''; position: absolute; z-index: -1; top: 16px; left: 16px;
   width: var(--stroke-sm); height: calc(100% + var(--spacing-5xl)); background: var(--line-strong);
 }

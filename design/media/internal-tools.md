@@ -5,7 +5,7 @@ description: "Dense interfaces for the team: the minimal interactive layer with 
 status: released
 level: partly
 order: 3
-updated: 2026-11-05
+updated: 2026-11-06
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -25,6 +25,10 @@ guidance:
   - guidelines/accent-by-intent
   - guidelines/color-fills-use-the-key
   - guidelines/icons-one-color
+  - guidelines/center-by-eye
+  - guidelines/color-tells-a-story
+  - guidelines/text-stays-inside
+  - guidelines/grays-are-set
 components: [card, table, meter, pager, nav, tabs, status-chip, tag, button, field, control]
 examples: [dashboard]
 gaps:

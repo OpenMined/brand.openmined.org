@@ -12,15 +12,15 @@
      <span class="meter" role="progressbar" …>…</span>      a task underway
      <span class="meter__track"></span>                     at 0, leave the fill out
 
-   The track is the headline color at 20% over whatever is under it, so it
-   reads on any surface, a highlighted table row included; the fill is the
-   strong gray (--emphasis). A fill is never narrower than the bar is tall, so a small value shows.
+   The track is the sunken level, a recess, so the meter sits on a raised
+   surface (a card or panel), never on the page. It doesn't change on a
+   highlighted table row. The fill is the strong gray (--emphasis). A fill is never narrower than the bar is tall, so a small value shows.
    The label is small, muted, with tabular figures. */
 .meter { display: inline-flex; align-items: center; gap: var(--spacing-sm); }
 .meter__track {
   position: relative; display: block; flex: none;
   inline-size: var(--meter-width, 96px); block-size: 6px; border-radius: var(--radius-full);
-  background: color-mix(in oklch, var(--text-headline) 20%, transparent); overflow: hidden;
+  background: var(--surface-sunken); overflow: hidden;
 }
 .meter__fill { display: block; block-size: 100%; min-inline-size: 6px; max-inline-size: 100%; border-radius: inherit; background-color: var(--emphasis); }
 .meter__label { font-size: var(--font-size-xs); color: var(--text-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
