@@ -34,7 +34,7 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Text color.** `--text-headline` for headings and strong text, `--text-body` for body, `--text-muted` for secondary text (the lead, captions, notes, placeholders). Muted reaches 4.5:1 on every surface in both modes.
 
-**Weights.** `--font-weight-regular` (400), `-medium` (500: labels, captions, buttons), `-semibold` (600: strong text, h5–h6, table headers), and `-bold` (700: card titles).
+**Weights.** `--font-weight-regular` (400), `-medium` (500: labels, captions, buttons), `-semibold` (600: strong text, h5–h6, table headers, card titles, link and hover cards included), and `-bold` (700: no component uses it).
 
 **Text styles.** Lead (`.text-lead`: lg, muted), small (`.text-small`), caption (`.text-caption`: xs, 500) and eyebrow (`.text-eyebrow`, body text, a hook only): every eyebrow over a page's or a section's heading takes it, in sentence case, never caps or mono. Labels inside a diagram have their own style (*Explanatory diagrams*). Headings balance their lines; paragraphs, list items, quotes, and captions avoid a lone last word.
 
@@ -59,5 +59,5 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 **Graphics.** Text in graphics uses these families too (*Graphics use the brand fonts*); the one exception is the Sometype Mono labels on openmined.org's home-page diamond.
 
 *Open:*
-- A text style for block titles (a card's, a rule's). The guide and the cards set them in Inter 700 at body size.
+- A text style for block titles (a card's, a rule's). Cards (link and hover cards included) set them in Inter 600 at body size, strong text's weight; the guide's own block titles in Inter 700.
 - Muted text sits close to body text in light mode (1.55:1 between them), so that it reaches AA on the sunken level where forms put it. If the two read too alike, a separate role for sunken surfaces (`--text-muted-sunken`) would let muted lighten everywhere else.

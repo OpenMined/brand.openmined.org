@@ -29,7 +29,7 @@
 /* Form text: labels and placeholders at body size
    (--font-size-md) and weight 500; values, options and errors at body size,
    regular; descriptions at small size (--font-size-sm), regular. */
-.fld__label { font-size: var(--font-size-md); font-weight: 500; color: var(--text-headline); }
+.fld__label { font-size: var(--font-size-md); font-weight: var(--font-weight-medium); color: var(--text-headline); }
 .fld__req { color: var(--text-body); margin-left: 0.25em; }
 .fld__desc { margin: 0; font-size: var(--font-size-sm); line-height: 1.45; color: var(--text-body); }
 
@@ -72,7 +72,7 @@
 .ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
 /* .is-focus: shows the focus state without focus (specimens). */
 .ctl.is-focus { box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }
-.ctl::placeholder { color: var(--text-muted); font-weight: 500; }
+.ctl::placeholder { color: var(--text-muted); font-weight: var(--font-weight-medium); }
 .ctl:disabled { color: var(--text-body); cursor: not-allowed; opacity: 0.55; }
 /* Select: appearance none, so its own wrapper draws the arrow (portable: the control's own box) */
 select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }

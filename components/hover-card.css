@@ -63,7 +63,7 @@
 }
 @media (prefers-reduced-motion: reduce) { .hcard:is(:hover, :focus-visible, :active) { transform: none; } }
 .hcard__text { flex: 1; display: grid; gap: 2px; font-size: var(--font-size-md); line-height: 1.5; }
-.hcard__text strong { color: var(--text-headline); font-weight: 700; }
+.hcard__text strong { color: var(--text-headline); font-weight: var(--font-weight-semibold); }
 .hcard__arrow { display: flex; align-self: center; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }
 .hcard__icon { position: relative; isolation: isolate; display: flex; flex: none; margin-top: var(--spacing-sm); color: var(--text-headline); }
 .hcard__icon > svg { transition: opacity var(--transition-base); }

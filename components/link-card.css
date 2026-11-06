@@ -44,7 +44,7 @@
 .lcard:focus-visible .lcard__arrow { opacity: 1; transform: translateX(4px); }
 .lcard__title {
   display: flex; align-items: center; gap: var(--spacing-xs);
-  font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-bold);
+  font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-text); letter-spacing: 0; color: var(--text-headline);
 }
 .lcard__arrow { flex: none; width: 16px; height: 16px; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }

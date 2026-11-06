@@ -47,7 +47,7 @@
    leaves to the right: the content link's hover, without the resting underline.
    Full state: link-flow.css. With an icon after the label; the line runs under
    the label only. */
-.link-text { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; color: var(--text-headline); text-decoration: none; }
+.link-text { display: inline-flex; align-items: center; gap: 6px; font-weight: var(--font-weight-medium); color: var(--text-headline); text-decoration: none; }
 .link-text__label {
   background-image: linear-gradient(var(--accent-key), var(--accent-key)); background-repeat: no-repeat;
   background-size: 0% var(--stroke-sm); background-position: right bottom; padding-bottom: 2px;

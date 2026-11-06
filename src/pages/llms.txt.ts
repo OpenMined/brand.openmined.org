@@ -38,7 +38,7 @@ export const GET = () => {
     if (!docs.length) continue;
     out.push('', `## ${label}`, '', ...docs.map(line));
   }
-  out.push('', '## Examples', '', 'Self-contained pages built from the served files. Open one and copy its source. Examples show the rules in use; they aren\'t rules: each names the guidance it puts to work, and where one differs from the guidance, the guidance wins.', '',
+  out.push('', '## Examples', '', 'Self-contained pages built from the served files, as visual reference: start from one, checking what you take against the guidance it names. Examples come from work in progress and may lag the guidance; the guidance is the ruleset, and where one differs, the guidance wins.', '',
     ...EXAMPLES.map(e => `- [${e.title}](${HOST}/examples/${e.slug}/): ${e.description}`));
   return respond(out.join('\n') + '\n', 'txt');
 };

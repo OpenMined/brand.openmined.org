@@ -18,8 +18,8 @@ const missing = EXAMPLES.flatMap(e => MODES.map(m => thumb(e.slug, m)).filter(t 
 if (missing.length) throw new Error(`Examples without a thumbnail (run npm run examples:thumbs):\n  ${missing.join('\n  ')}`);
 const titleOf = (slug: string) => { try { return doc(slug).title; } catch { return slug; } };
 ---
-<Site title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves, ready to copy. Examples show the rules in use; they aren't rules." current="examples">
-  <PageHero eyebrow="Examples" title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves. Open one, view its source, and copy it. Examples show the rules in use; they aren't rules themselves: each names the guidance it puts to work, and anything beyond that (page layout, the website examples' shared page shell) is illustration. Where an example and the guidance differ, the guidance wins." source="" nav={KINDS.map(([k, l]) => [k, l])} />
+<Site title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves, as visual reference. Examples may lag the guidance; the guidance is the ruleset." current="examples">
+  <PageHero eyebrow="Examples" title="Examples" description="The system put together: sections, pages and graphics built from the files this site serves. Open one and view its source as visual reference. Examples come from work in progress and may lag the guidance; the guidance is the ruleset. Each names the guidance it puts to work; check what you take against it. Anything beyond that (page layout, the website examples' shared page shell) is illustration. Where an example and the guidance differ, the guidance wins." source="" nav={KINDS.map(([k, l]) => [k, l])} />
   {KINDS.map(([kind, label]) => (
     <section class="band" id={kind}>
       <div class="wrap">

@@ -14,7 +14,7 @@ files are on the site, so you never need the repository.
 2. Read the guidance it names (`/design/<path>.md`): short Markdown files with frontmatter
    (`status`, the `tokens` they govern, `tags`). Then the components it names (the markup to
    match is at the top of each CSS file) and one example, the closest to what you're making:
-   copy it and change the words.
+   start from it and change the words, checking what you take against the guidance it names.
 3. Take the code; don't rewrite it. Values were tuned by eye, and a component rebuilt from a
    description drifts.
 4. When the medium's page doesn't cover what you need, go wider:
@@ -36,7 +36,7 @@ files are on the site, so you never need the repository.
 | Brand graphics | `/embeds/om-diamond.js`, `om-stream.js`, `om-mesh.js`; one-file versions in `/embeds/single/` | Web components; use the one-file versions where you can't load a second file |
 | Icons | `/icons/set/<name>.svg`, listed in `/icons/set/index.json` | Inline the SVG; it takes the text color |
 | Logos | `/logos/`, rules on `/design/foundations/logo.md` | Use the files as they are |
-| Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built from these files: copy one and change the words. Examples show the rules in use; they aren't rules (see below) |
+| Examples | `/examples/<name>/`, listed in `/llms.txt` and `/manifest.json` | Whole sections, pages and graphics built from these files, as visual reference: start from one and change the words. They may lag the guidance; the guidance is the ruleset (see below) |
 | Version | `/manifest.json` | Version, commit, every served file |
 
 Every served CSS and JS file starts with a comment naming the version and commit. Keep it when
@@ -79,10 +79,11 @@ from.
   section and in `/components/README.md`).
 - **Status:** every rule, value and component on the site is `released`. `deprecated` items name
   their replacement.
-- **Examples show the rules; they aren't rules.** Copy them freely. Each names the guidance it
-  puts to work; anything beyond that (page layout, the shared page shell of the website examples)
-  is illustration. Where an example and the guidance differ, follow the guidance and report the
-  difference as feedback.
+- **Examples are visual reference; the guidance is the ruleset.** Examples come from work in
+  progress and may lag the guidance. Start from one, checking what you take against the guidance
+  it names; anything beyond that (page layout, the shared page shell of the website examples) is
+  illustration. Where an example and the guidance differ, follow the guidance and say so in one
+  line; file feedback only when the guidance has no rule to follow.
 
 ## By what you're making
 

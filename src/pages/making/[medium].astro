@@ -79,7 +79,7 @@ const [levelText, levelTone] = LEVEL_LABEL[m.level];
   {m.examples.length > 0 && (
     <section class="band" id="examples">
       <div class="wrap">
-        <header class="sec"><h2>Examples</h2><p>Built from the served files: open one and copy it. Examples show the rules in use; they aren't rules.</p></header>
+        <header class="sec"><h2>Examples</h2><p>Built from the served files, as visual reference: start from one, checking it against the guidance it names. Examples may lag the guidance; the guidance is the ruleset.</p></header>
         <div class="grid grid--3">
           {m.examples.map(e => (
             <a class="lcard making-example" href={`/examples/${e.slug}/`} target="_blank" rel="noopener">
