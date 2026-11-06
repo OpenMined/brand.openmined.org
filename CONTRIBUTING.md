@@ -39,6 +39,13 @@ deploy), by semantic versioning:
 - **minor**: a new token, component, rule, example or medium; a deprecation;
 - **major**: a token or class renamed or removed (the log line names old → new).
 
+**No version for the site's own pages.** A deploy that changes only how the site presents
+things (its pages' layout, tables, wording on a page) and no file a project uses (tokens,
+`omds.css`, `omds.js`, components, icons, logos, embeds, guidance in `/design/`, starters)
+goes out without a new version: its log line sits under the current version, and the
+stamp's commit says what's live. A version tells projects and the skill that something
+they use changed; a page-only change has nothing to tell them.
+
 `design/log.md` is the release notes. Each release is tagged `v<version>`. The OMDS skill
 compares a project's recorded version (`omds-version.txt`) with the manifest's and says when
 a newer release exists; it never judges by commit, which changes with every deploy. v2

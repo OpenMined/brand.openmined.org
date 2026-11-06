@@ -144,17 +144,17 @@ const CARDS = [
 
   <section class="band" id="set">
     <div class="wrap">
-      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons{APPROVED < SET.length && <>, {SET.length - APPROVED} still proposed</>}. Components ask for an icon by its name here; the entry decides the drawing (Tabler, Lucide, our own in <code>public/icons/</code>, or a tool mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
+      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons{APPROVED < SET.length && <>, {SET.length - APPROVED} still proposed</>}. Components ask for an icon by its name here; the entry decides the drawing (Tabler, Lucide, our own in <code>public/icons/</code>, or a tool mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p><p><strong>Name</strong> is what you use: <code>&lt;Icon name="…"&gt;</code>, or <code>/icons/set/&lt;name&gt;.svg</code>. <strong>Drawing</strong> is the library icon it points to today; the drawing can change without the name changing.</p></header>
       <article class="card">
         <div class="tbl-wrap">
           <table class="tbl icon-cmp">
-            <thead><tr><th>Icon</th><th>Name</th><th>Source</th>{ANY_PROPOSED && <th>Status</th>}<th>Use</th></tr></thead>
+            <thead><tr><th>Icon</th><th>Name</th><th>Drawing</th>{ANY_PROPOSED && <th>Status</th>}<th>Use</th></tr></thead>
             <tbody>
               {SET.map(i => (
                 <tr>
                   <td class="icon-cmp__glyph"><Icon name={i.name} size={24} /></td>
                   <td><code>{i.name}</code></td>
-                  <td>{SRC[i.src]}{i.file && <> · <code>{i.file}</code></>}</td>
+                  <td>{SRC[i.src]}{(i.src === 'tabler' || i.src === 'lucide' || i.src === 'tool') && <> · <code>{i.file ?? i.name}</code></>}</td>
                   {ANY_PROPOSED && <td>{i.status === 'approved' ? 'approved' : <span class="muted">proposed</span>}</td>}
                   <td class="muted">{i.note}</td>
                 </tr>
