@@ -87,10 +87,11 @@ token first.
 
 ## Icons
 
-Every icon is a name in `icons/set.json` (Iconoir regular, our own in `public/icons/`, or a
-partner mark), resolved by `src/lib/icons.ts` for the site and served at `/icons/set/`. Stroke
+Every icon is a name in `icons/set.json` (Tabler outline by default, Lucide where chosen,
+our own in `public/icons/`, or a tool mark; libraries pinned to exact versions; Tabler scaled
+to Lucide's size), resolved by `src/lib/icons.ts` for the site and served at `/icons/set/`. Stroke
 by size (2 up to 24px). Own drawings carry no stroke width or colors (`npm run icons:import`);
-partner marks stay fills. A name missing from the set fails the build. `icons/README.md`.
+tool marks stay fills. A name missing from the set fails the build. `icons/README.md`.
 
 ## Brand graphics (`<om-diamond>`, `<om-stream>`, `<om-mesh>`)
 
@@ -100,13 +101,18 @@ is independent and self-cleans. Colors come from `brand-colors.js`; an element w
 colorflow and diagram pulses are components (`components/card-flow.js` on the shared renderer
 `flow.js`; `line-flow.js`).
 
-## Partner and organization marks
+## Tool and organization marks
 
-`public/logos/partners/` (tools we integrate with) and `public/logos/orgs/` (organizations we
+`public/logos/tools/` (tools we integrate with) and `public/logos/orgs/` (organizations we
 work with) are **trademarks of their owners**, used nominatively, **not** governed by the
 system's tokens. Never recolor or redraw; source from the owner's brand resources.
-`partners.json` and `orgs.json` are the sources of truth; `src/lib/partners.ts` fails the
-build on a color file that doesn't read in one mode. `PartnerLogo.astro` renders them.
+`tools.json` and `orgs.json` are the sources of truth; `src/lib/tools.ts` fails the
+build on a color file that doesn't read in one mode. `ToolLogo.astro` renders them.
+Logos in one group all follow the color mode or all sit on white plates. Tool marks always
+can follow the mode; an organization can only with a checked one-color file in `orgs.json`. A
+group that follows the mode takes each through `orgMono()` (`src/lib/orgs.ts`), which fails the
+build on one without and says how to bring it in: `npm run logos:import`, which checks the
+one-color file (`tools/logos/mono.mjs`). Old `/logos/partners/` paths redirect (`public/_redirects`).
 
 ## Google Docs
 

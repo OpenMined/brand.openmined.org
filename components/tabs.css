@@ -14,6 +14,7 @@
        <div class="tabs__panel" role="tabpanel">…</div>
        <div class="tabs__panel" role="tabpanel">…</div>
      </div>
+     <div class="tabs tabs--sm" data-tabs>…</div>              small: a 36px row
 
    As openmined.org's tabs (the PySyft page's "How it works"), in the card form:
    the whole group is a card on the first raised level (its shadow, the large
@@ -42,6 +43,10 @@
 }
 @media (hover: hover) { .tabs__tab:not([aria-selected="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: 0.15s; } }
 .tabs__tab[aria-selected="true"] { background: var(--emphasis); color: var(--on-emphasis); }
+/* Small: a 36px row for switching a view (one color / official color), three
+   quarters of the field-height row. Labels stay 1rem; 3px inside, as every
+   recessed control; 16px each side of a label. */
+.tabs--sm .tabs__tab { padding: 3px var(--spacing-lg); line-height: 1.5; }
 .tabs__tab:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
 .tabs__panel[hidden] { display: none; }
 .tabs__panel:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 4px; border-radius: var(--radius-sm); }

@@ -18,8 +18,8 @@ guidance:
   - foundations/logo
   - patterns/diagrams
   - guidelines/logo-keeps-its-colors
-  - guidelines/logo-images-on-white
-  - guidelines/partner-marks-as-supplied
+  - guidelines/logo-groups-one-treatment
+  - guidelines/tool-marks-as-supplied
   - guidelines/one-label-per-step
   - guidelines/center-by-eye
   - guidelines/text-stays-inside

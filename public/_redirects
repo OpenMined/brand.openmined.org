@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects. Moved served files keep their old addresses working.
+# 2026-11-06: partner marks are tool marks; logo images on white became organization logos on white.
+/logos/partners/partners.json /logos/tools/tools.json 301
+/logos/partners/* /logos/tools/:splat 301
+/design/guidelines/partner-marks-follow-the-mode.md /design/guidelines/tool-marks-follow-the-mode.md 301
+/design/guidelines/partner-marks-as-supplied.md /design/guidelines/tool-marks-as-supplied.md 301
+/design/guidelines/logo-images-on-white.md /design/guidelines/logo-groups-one-treatment.md 301

@@ -390,7 +390,7 @@ a:hover { text-decoration-color: currentColor; }
 .lines__outline--quiet { border-color: var(--line); }
 .lines__stage--links { align-content: center; gap: var(--spacing-md); }
 
-/* ── Icons (Iconoir regular, inlined; currentColor) ──────────────── */
+/* ── Icons (Tabler and Lucide outline, inlined; currentColor) ─────── */
 /* The stroke is set per icon by src/lib/icons.ts (2 up to 24px, then a 2px line). */
 .icon { display: inline-block; vertical-align: -0.125em; flex: none; }
 .icon-status { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-lg); }
@@ -399,17 +399,13 @@ a:hover { text-decoration-color: currentColor; }
 .icon-sizes { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-3xl); color: var(--text-headline); }
 .icon-sizes li { display: flex; align-items: center; gap: var(--spacing-sm); font-size: var(--font-size-sm); }
 
-/* Partner marks (Graphics page): official files, never recolored. The one-color
+/* Tool marks (Logos page, in tabs): official files, never recolored. The one-color
    glyphs are inlined so currentColor follows the mode. */
-.partners { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: var(--spacing-lg); }
-.partners li { display: grid; justify-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-sm); }
-.partner__mark { display: grid; place-items: center; width: 32px; height: 32px; color: var(--text-headline); }
-.partner__mark img, .partner__glyph { width: 32px; height: 32px; }
-.partner__name { font-size: var(--font-size-xs); color: var(--text-body); text-align: center; }
-.partner__mark--color, .partners.is-color .partner__mark--mono { display: none; }
-.partners.is-color .partner__mark--color { display: grid; }
-.partners-view .btn { min-height: 36px; padding: var(--spacing-xs) var(--spacing-md); font-size: var(--font-size-sm); }
-.partners-view .btn[aria-pressed="true"] { background: var(--surface-sunken); }
+.toolmarks { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: var(--spacing-lg); }
+.toolmarks li { display: grid; justify-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-sm); }
+.toolmark__mark { display: grid; place-items: center; width: 32px; height: 32px; color: var(--text-headline); }
+.toolmark__mark img, .toolmark__glyph { width: 32px; height: 32px; }
+.toolmark__name { font-size: var(--font-size-xs); color: var(--text-body); text-align: center; }
 .logo-spec { height: 40px; width: auto; align-self: flex-start; }
 .icon-cmp td { vertical-align: middle; }
 /* .tbl .icon-cmp__glyph: beats `.tbl td`'s body color, so both columns draw in the headline color. */
@@ -534,6 +530,11 @@ a:hover { text-decoration-color: currentColor; }
 .logo-tile { display: grid; gap: var(--spacing-md); align-content: space-between; min-height: 260px; margin: 0; padding: var(--spacing-xl); border-radius: var(--radius-md); }
 /* About twice the logo's old air: 32px above and below it, 20px more at the sides. */
 .logo-tile img { max-width: calc(100% - 2 * var(--spacing-xl)); max-height: 72px; margin: var(--spacing-3xl) auto; }
+/* A tile on the page's own surface (light tile on a light page, dark on dark) has no edge:
+   a hairline, as *Outlines are lines* allows for a base specimen on a base page. */
+:root:not([data-theme="dark"]) .logo-tile[data-section="always-light"],
+[data-theme="dark"] .logo-tile[data-section="always-dark"],
+[data-theme="dark"] .org-tile__plate[data-section="always-dark"] { box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
 .logo-tile figcaption { display: flex; justify-content: space-between; gap: var(--spacing-sm); flex-wrap: wrap; color: var(--text-muted); }
 .logo-grid--orgs { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 .org-tile { display: grid; gap: var(--spacing-xs); margin: 0; }

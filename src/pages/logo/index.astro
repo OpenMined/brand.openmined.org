@@ -1,8 +1,8 @@
 ---
 /**
- * BRAND SITE (v2) — Logos: OpenMined's logo files, the partner marks (tools we
+ * BRAND SITE (v2) — Logos: OpenMined's logo files, the tool marks (tools we
  * integrate with) and organizations (who we work with). Words from design/ (tag
- * `logos`); marks from public/logos/ (partners.json, orgs.json are the sources).
+ * `logos`); marks from public/logos/ (tools.json, orgs.json are the sources).
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -10,9 +10,10 @@ import Site from '../../layouts/Site.astro';
 import PageHero from '../../components/site/PageHero.astro';
 import DocGrid from '../../components/site/DocGrid.astro';
 import ExampleLinks from '../../components/site/ExampleLinks.astro';
-import PartnerLogo from '../../components/PartnerLogo.astro';
+import ToolLogo from '../../components/ToolLogo.astro';
 import { doc, byTag } from '../../lib/design';
-import { BRANDS, PARTNERS_DIR } from '../../lib/partners';
+import { BRANDS, TOOLS_DIR } from '../../lib/tools';
+import { ORGS as ORG_REGISTRY } from '../../lib/orgs';
 
 const logo = doc('foundations/logo');
 const LogoContent = logo.Content;
@@ -24,23 +25,22 @@ const GROUPS = [
 ] as { group: string; logos: [string, string, boolean][] }[];
 const RASTER = ['OpenMined-Logo-Dark.png', 'OpenMined-Logo-Mono-Black.png', 'OpenMined-Icon.png'];
 
-/* Partner marks (moved from Graphics): one color by default, the official color one switch away. */
-const PARTNERS = Object.entries(BRANDS)
+/* Tool marks (moved from Graphics): one color by default, the official color one switch away. */
+const TOOLS = Object.entries(BRANDS)
   .map(([key, b]) => ({
     key, name: b.name, owner: b.trademark,
-    color: Boolean(b.iconColor && existsSync(join(PARTNERS_DIR, b.iconColor))), dark: Boolean(b.dark?.iconColor), derived: Boolean(b.dark?.derived),
-    mono: readFileSync(join(PARTNERS_DIR, b.icon), 'utf8').replace(/<svg/, '<svg class="partner__glyph" aria-hidden="true" focusable="false"'),
+    color: Boolean(b.iconColor && existsSync(join(TOOLS_DIR, b.iconColor))), dark: Boolean(b.dark?.iconColor), derived: Boolean(b.dark?.derived),
+    mono: readFileSync(join(TOOLS_DIR, b.icon), 'utf8').replace(/<svg/, '<svg class="toolmark__glyph" aria-hidden="true" focusable="false"'),
   }))
   .sort((a, b) => a.name.localeCompare(b.name));
-const partnerRule = doc('guidelines/partner-marks-as-supplied');
+const toolRule = doc('guidelines/tool-marks-as-supplied');
 
 /* Organizations (public/logos/orgs/orgs.json): marks of organizations OpenMined has
    worked with, as shown on openmined.org. Not OpenMined assets; used nominatively. */
-const ORGS_JSON = JSON.parse(readFileSync('public/logos/orgs/orgs.json', 'utf8'));
-const ORGS = Object.entries(ORGS_JSON.brands as Record<string, any>).map(([slug, o]) => ({ slug, ...o }));
+const ORGS = Object.entries(ORG_REGISTRY).map(([slug, o]) => ({ slug, ...o }));
 const mono = (slug: string, file?: string) => file ? readFileSync(`public/logos/orgs/${slug}/${file}`, 'utf8') : '';
 
-const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['partners', 'Partner marks'], ['orgs', 'Organizations'], ['rules', 'Rules'], ['examples', 'Examples']];
+const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['tools', 'Tool marks'], ['orgs', 'Organizations'], ['rules', 'Rules'], ['examples', 'Examples']];
 ---
 <Site title="Logos" description={logo.description} current="logos">
   <PageHero eyebrow="Foundations" title="Logos" description={logo.description} status={logo.status} source="files in public/logos/" nav={NAV} />
@@ -71,39 +71,50 @@ const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['par
     </div>
   </section>
 
-  <section class="band" id="partners">
+  <section class="band" id="tools">
     <div class="wrap">
-      <header class="sec"><h2>Partner marks</h2><p>{partnerRule.description} {PARTNERS.length} tools and partners, from <code>public/logos/partners/</code> (<code>partners.json</code> records each mark's owner, official source, variants and gaps). One color by default, in the color of the text around them; {PARTNERS.filter(p => p.color).length} also have an official color file, shown in the page's mode. {PARTNERS.filter(p => p.dark).length} need a dark-mode file to read on dark ({PARTNERS.filter(p => p.dark).map(p => p.name).join(' and ')}). The build fails on any color file that would vanish in one mode.</p></header>
-      <article class="card">
-        <div class="actions partners-view" role="group" aria-label="Show partner marks in">
-          <button type="button" class="btn js-pview" aria-pressed="true" data-view="mono">One color</button>
-          <button type="button" class="btn js-pview" aria-pressed="false" data-view="color">Official color</button>
+      <header class="sec"><h2>Tool marks</h2><p>{toolRule.description} {TOOLS.length} tools and services, from <code>public/logos/tools/</code> (<code>tools.json</code> records each mark's owner, official source, variants and gaps). One color by default, in the color of the text around them; {TOOLS.filter(p => p.color).length} also have an official color file, shown in the page's mode. {TOOLS.filter(p => p.dark).length} need a dark-mode file to read on dark ({TOOLS.filter(p => p.dark).map(p => p.name).join(' and ')}). The build fails on any color file that would vanish in one mode.</p></header>
+      <div class="tabs tabs--sm" data-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Show tool marks in">
+          <button type="button" class="tabs__tab" role="tab" aria-selected="true">One color</button>
+          <button type="button" class="tabs__tab" role="tab" aria-selected="false">Official color</button>
         </div>
-        <ul class="partners">
-          {PARTNERS.map(p => (
-            <li title={`${p.name}, a trademark of ${p.owner}`}>
-              <span class="partner__mark partner__mark--mono"><Fragment set:html={p.mono} /></span>
-              <span class="partner__mark partner__mark--color">{p.color ? <PartnerLogo brand={p.key} variant="icon-color" size={32} alt="" /> : <Fragment set:html={p.mono} />}</span>
-              <span class="partner__name">{p.name}</span>
-            </li>
-          ))}
-        </ul>
-        <p class="muted">Each mark is the trademark of its owner, served at <code>/logos/partners/&lt;name&gt;/</code>. Used inline next to text, they follow the <a href="/icons/#sizes">icon sizes</a>.</p>
-      </article>
+        <div class="tabs__panel" role="tabpanel">
+          <ul class="toolmarks">
+            {TOOLS.map(p => (
+              <li title={`${p.name}, a trademark of ${p.owner}`}>
+                <span class="toolmark__mark"><Fragment set:html={p.mono} /></span>
+                <span class="toolmark__name">{p.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="tabs__panel" role="tabpanel">
+          <ul class="toolmarks">
+            {TOOLS.map(p => (
+              <li title={`${p.name}, a trademark of ${p.owner}`}>
+                <span class="toolmark__mark">{p.color ? <ToolLogo brand={p.key} variant="icon-color" size={32} alt="" /> : <Fragment set:html={p.mono} />}</span>
+                <span class="toolmark__name">{p.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <p class="muted">Each mark is the trademark of its owner, served at <code>/logos/tools/&lt;name&gt;/</code>. Used inline next to text, they follow the <a href="/icons/#sizes">icon sizes</a>.</p>
     </div>
   </section>
 
   <section class="band" id="orgs">
     <div class="wrap">
-      <header class="sec"><h2>Organizations</h2><p>Organizations OpenMined has worked with, as shown on openmined.org. Not OpenMined assets, and not governed by the system's tokens: used to name them, never recolored. Color marks keep their owner's colors; detailed seals, and marks traced from an image, come in color only, on white. Government marks marked <em>restricted</em> carry their own usage rules (see <code>orgs.json</code>) and need checking before any use beyond naming the organization.</p></header>
+      <header class="sec"><h2>Organizations</h2><p>Organizations OpenMined has worked with, as shown on openmined.org. Not OpenMined assets, and not governed by the system's tokens: used to name them, never recolored. Logos shown together take one treatment: all follow the color mode, or all sit on white plates as supplied (<a class="link-content" href="#guidelines-logo-groups-one-treatment">Logos in a group all follow the mode, or all sit on white</a>). An organization can follow the mode only with a checked one-color file; one without, such as a detailed seal or a mark traced from an image, sits on white, and so does its group.</p></header>
       <div class="logo-grid logo-grid--orgs">
         {ORGS.map(o => (
           <figure class="org-tile">
             <div class="org-tile__row">
-              <span class="org-tile__plate page-band" data-section="always-light"><img src={`/logos/orgs/${o.color}`} alt={o.name} /></span>
-              {o.mono ? <span class="org-tile__plate org-tile__plate--mono page-band" data-section="always-dark" set:html={mono(o.slug, o.mono.split('/').pop())} /> : <span class="org-tile__plate org-tile__plate--none text-small">on white only</span>}
+              {o.color ? <span class="org-tile__plate page-band" data-section="always-light"><img src={`/logos/orgs/${o.color}`} alt={o.name} /></span> : <span class="org-tile__plate org-tile__plate--mono page-band" data-section="always-light" set:html={mono(o.slug, o.mono.split('/').pop())} />}
+              {o.mono ? <span class="org-tile__plate org-tile__plate--mono page-band" data-section="always-dark" set:html={mono(o.slug, o.mono.split('/').pop())} /> : <span class="org-tile__plate org-tile__plate--none text-small">White plate only</span>}
             </div>
-            <figcaption class="text-small">{o.name}{o.usageRestricted ? ' · restricted' : ''}</figcaption>
+            <figcaption class="text-small">{o.name}{o.mono ? ' · can follow the mode' : ''}</figcaption>
           </figure>
         ))}
       </div>
@@ -119,10 +130,4 @@ const NAV: [string, string][] = [['logo', 'The logo'], ['files', 'Files'], ['par
 
   <ExampleLinks slugs={["press-cards", "home", "dashboard"]} />
 
-  <script is:inline>
-    document.querySelectorAll('.js-pview').forEach(b => b.addEventListener('click', () => {
-      document.querySelector('.partners')?.classList.toggle('is-color', b.dataset.view === 'color');
-      document.querySelectorAll('.js-pview').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-    }));
-  </script>
 </Site>

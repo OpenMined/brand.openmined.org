@@ -1,10 +1,13 @@
 {
-  "_comment": "Affiliations / partners / press logos used on openmined.org — third-party marks, NOT OpenMined assets and NOT governed by OMDS tokens. Used nominatively (organizations OM has engaged with). `color`=the mark in brand color (use as-is via <img>, never recolor); `mono`=1-color currentColor knockout where one is meaningful (omitted for detailed multi-color seals). `usageRestricted`=government seals/marks with their own legal usage rules — confirm before reuse beyond nominative reference. Google & Anthropic also appear on the site but live in logos/partners/ (tool set). Gap: Christchurch Call has no public vector (JPG only) — request from the Christchurch Call Foundation.",
+  "_comment": "Organizations OpenMined works with (affiliations, partners, press): third-party marks, NOT OpenMined assets and NOT governed by OMDS tokens, used nominatively. The registry: `color` = the logo in its owner's colors, as supplied (never recolored; shown on a white plate); `mono` = a checked one-color file in currentColor, for a section that follows the color mode (src/lib/orgs.ts checks it every build; omitted for detailed seals and multi-color marks); `roles` = what the organization is to OpenMined (partner, press); `source` = where the files came from; Add or update with `npm run logos:import`. Tools and services we use are a separate set (logos/tools/). Gap: Christchurch Call has no public vector (JPG only); request it from the Christchurch Call Foundation.",
   "brands": {
     "microsoft": {
       "name": "Microsoft",
       "owner": "Microsoft Corporation",
       "category": "tech",
+      "roles": [
+        "partner"
+      ],
       "color": "microsoft/logo.svg",
       "mono": "microsoft/logo-mono.svg"
     },
@@ -12,6 +15,9 @@
       "name": "Meta",
       "owner": "Meta Platforms, Inc.",
       "category": "tech",
+      "roles": [
+        "partner"
+      ],
       "color": "meta/logo.svg",
       "mono": "meta/logo-mono.svg"
     },
@@ -19,6 +25,9 @@
       "name": "Reddit",
       "owner": "Reddit, Inc.",
       "category": "tech",
+      "roles": [
+        "partner"
+      ],
       "color": "reddit/logo.svg",
       "mono": "reddit/logo-mono.svg"
     },
@@ -26,6 +35,9 @@
       "name": "X (Twitter)",
       "owner": "X Corp.",
       "category": "tech",
+      "roles": [
+        "partner"
+      ],
       "color": "x-twitter/logo.svg",
       "mono": "x-twitter/logo-mono.svg"
     },
@@ -42,24 +54,24 @@
       "owner": "U.S. NIST (Dept. of Commerce)",
       "category": "government",
       "color": "nist/logo.svg",
-      "mono": "nist/logo-mono.svg",
-      "usageRestricted": true
+      "mono": "nist/logo-mono.svg"
     },
     "aisi": {
       "name": "AI Security Institute",
       "owner": "UK AI Security Institute",
       "category": "government",
+      "roles": [
+        "partner"
+      ],
       "color": "aisi/logo.svg",
-      "mono": "aisi/logo-mono.svg",
-      "usageRestricted": true
+      "mono": "aisi/logo-mono.svg"
     },
     "census-bureau": {
       "name": "U.S. Census Bureau",
       "owner": "U.S. Census Bureau",
       "category": "government",
       "color": "census-bureau/logo.svg",
-      "mono": "census-bureau/logo-mono.svg",
-      "usageRestricted": true
+      "mono": "census-bureau/logo-mono.svg"
     },
     "royal-society": {
       "name": "The Royal Society",
@@ -87,7 +99,6 @@
       "owner": "UK Dept. for Science, Innovation & Technology",
       "category": "government",
       "color": "uk-dsit/logo.svg",
-      "usageRestricted": true,
       "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "ntia": {
@@ -95,7 +106,6 @@
       "owner": "U.S. NTIA (Dept. of Commerce)",
       "category": "government",
       "color": "ntia/logo.svg",
-      "usageRestricted": true,
       "notes": "Traced from a raster; the one-color version broke on dark and is removed: on white only."
     },
     "white-house": {
@@ -103,7 +113,6 @@
       "owner": "Executive Office of the President",
       "category": "government",
       "color": "white-house/logo.svg",
-      "usageRestricted": true,
       "notes": "Detailed seal — color only (no clean 1-color)."
     },
     "un-big-data": {
@@ -118,7 +127,6 @@
       "owner": "United States Senate",
       "category": "government",
       "color": "us-senate/logo.svg",
-      "usageRestricted": true,
       "notes": "Detailed seal — color only (no clean 1-color)."
     },
     "nsf": {
@@ -126,7 +134,6 @@
       "owner": "U.S. NSF",
       "category": "government",
       "color": "nsf/logo.svg",
-      "usageRestricted": true,
       "notes": "Official Wikimedia vector; detailed seal — color only."
     },
     "executive-office": {
@@ -134,8 +141,84 @@
       "owner": "Executive Office of the President",
       "category": "government",
       "color": "executive-office/logo.svg",
-      "usageRestricted": true,
       "notes": "Official Wikimedia 2014 seal; detailed — color only."
+    },
+    "anthropic": {
+      "name": "Anthropic",
+      "owner": "Anthropic PBC",
+      "category": "tech",
+      "roles": [
+        "partner"
+      ],
+      "mono": "anthropic/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted"
+    },
+    "dailymotion": {
+      "name": "Dailymotion",
+      "owner": "Dailymotion SA",
+      "category": "tech",
+      "roles": [
+        "partner"
+      ],
+      "mono": "dailymotion/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted"
+    },
+    "google-deepmind": {
+      "name": "Google DeepMind",
+      "owner": "Google LLC",
+      "category": "tech",
+      "roles": [
+        "partner"
+      ],
+      "mono": "google-deepmind/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted"
+    },
+    "google": {
+      "name": "Google",
+      "owner": "Google LLC",
+      "category": "tech",
+      "roles": [
+        "partner"
+      ],
+      "color": "google/logo.svg",
+      "mono": "google/logo-mono.svg",
+      "source": "The Google wordmark from the tool set (Wikimedia, PD-textlogo). The one-color file is a knockout of it: Google prefers its colors, so use the color file on a white plate where you can."
+    },
+    "oxford": {
+      "name": "University of Oxford",
+      "owner": "University of Oxford",
+      "category": "academic",
+      "roles": [
+        "partner"
+      ],
+      "mono": "oxford/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted"
+    },
+    "gov-uk": {
+      "name": "GOV.UK",
+      "owner": "UK Government (GDS)",
+      "category": "government",
+      "mono": "gov-uk/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted",
+      "notes": "Carries a protected mark (the Crown): not shown in examples until OpenMined's permission is confirmed."
+    },
+    "un-pet-lab": {
+      "name": "UN PET Lab",
+      "owner": "United Nations",
+      "category": "government",
+      "mono": "un-pet-lab/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted",
+      "notes": "Carries a protected mark (UN emblem / Crown): not shown in examples until OpenMined's permission is confirmed."
+    },
+    "common-crawl": {
+      "name": "Common Crawl",
+      "owner": "Common Crawl Foundation",
+      "category": "nonprofit",
+      "roles": [
+        "partner"
+      ],
+      "mono": "common-crawl/logo-mono.svg",
+      "source": "openmined.org's home page (Partnerships), drawn in one color there; the owner's color file is still wanted (its two near-identical navies taken as one color)"
     }
   },
   "gaps": {

@@ -66,4 +66,4 @@ launches as `2.0.0`.
   (`guidelines/`, `behaviors/`) may close with their decision.
 - **No other brands in copy.** Don't name other companies' design systems or sites as
   precedent ("as X does"); say what we do. Tools and sources we actually use (Google Fonts,
-  Iconoir, Claude) and partner and organization marks are named as they are.
+  Tabler, Lucide, Claude) and tool and organization marks are named as they are.

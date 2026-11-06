@@ -1,7 +1,8 @@
 ---
 /**
- * BRAND SITE (v2) — Icons. Words from design/ (tag `icons`); icons are Iconoir's
- * regular set, inlined at build time by components/site/Icon.astro (no CDN).
+ * BRAND SITE (v2) — Icons. Words from design/ (tag `icons`); icons are Tabler's
+ * outline set with chosen Lucide icons, inlined at build time by
+ * components/site/Icon.astro (no CDN).
  * "The set" is a view of icons/set.json: every v2 icon (source, style, review
  * status). The live site's icons mapped to the set are on the icons round
  * (the icons round, tag rounds-archive). All drawings come through src/lib/icons.ts.
@@ -24,7 +25,7 @@ const rules = byTag('icons', 'Guideline', 'Behavior');
 const decisions = decisionsFor('icons');
 const NAV: [string, string][] = [['in-use', 'In use'], ['status', 'Status icons'], ['color', 'In color'], ['sizes', 'Sizes'], ['set', 'The set'], ['how', 'How it works'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 
-const SRC: Record<string, string> = { iconoir: 'Iconoir', own: 'Our own', partner: 'Partner mark' };
+const SRC: Record<string, string> = { tabler: 'Tabler', lucide: 'Lucide', own: 'Our own', tool: 'Tool mark' };
 /** The v2 set, with the live icons each one replaces. */
 const SET = Object.entries(ICONS).map(([name, e]) => ({ name, ...e, replaces: Object.entries(LIVE).filter(([, l]) => l.use === name).map(([n]) => n) }));
 const APPROVED = SET.filter(i => i.status === 'approved').length;
@@ -45,7 +46,7 @@ const CARDS = [
 ];
 ---
 <Site title={foundation.title} description={foundation.description} current="icons">
-  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="Iconoir regular, inlined at build" />
+  <PageHero eyebrow="Foundations" title={foundation.title} description={foundation.description} status={foundation.status} nav={NAV} source="Tabler and Lucide outline, inlined at build" />
 
   <section class="band" id="in-use">
     <div class="wrap">
@@ -141,7 +142,7 @@ const CARDS = [
 
   <section class="band" id="set">
     <div class="wrap">
-      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons, {APPROVED} approved, {SET.length - APPROVED} proposed. Components ask for an icon by its name here; the entry decides the drawing (Iconoir, our own in <code>public/icons/</code>, or a partner mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
+      <header class="sec"><h2>The set</h2><p>Every icon v2 uses, from <code>icons/set.json</code>: {SET.length} icons, {APPROVED} approved, {SET.length - APPROVED} proposed. Components ask for an icon by its name here; the entry decides the drawing (Tabler, Lucide, our own in <code>public/icons/</code>, or a tool mark), so an icon changes everywhere by editing one line. A name that isn't in the set fails the build.</p></header>
       <article class="card">
         <div class="tbl-wrap">
           <table class="tbl icon-cmp">

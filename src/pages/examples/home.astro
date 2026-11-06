@@ -1,7 +1,8 @@
 ---
 /** Example: openmined.org's home page in v2, as reviewed (the home page review, tag
  *  rounds-archive): the same sections, words, marks and layout, built from the
- *  system's components and embeds. Org logos are the page's own (public/examples/home/).
+ *  system's components and embeds. Partnerships come from the organization registry
+ *  (public/logos/orgs/); the press room's logos are the page's own (public/examples/home/).
  *  The hero diamond is the site's own embed (the kit's DiamondHero). The page shell
  *  (header, footer, widths, join panel) is the example kit (src/examples/kit/); each
  *  section's values come from the review's CSS. */
@@ -13,6 +14,7 @@ import ORGS from '../../examples/data/organizations.json';
 import { readFileSync } from 'node:fs';
 import { listStops } from '../../lib/tokens';
 import { FOLLOW_JS } from '../../lib/examples';
+import { orgsWithRole, orgMono } from '../../lib/orgs';
 
 type Org = { id: string; name: string; logo: string; monochrome?: boolean; roles: string[] };
 const orgs = ORGS as Org[];
@@ -21,16 +23,11 @@ const byId = Object.fromEntries(orgs.map(o => [o.id, o]));
 const mark = (o: Org) => o.monochrome && o.logo.endsWith('.svg')
   ? readFileSync(`public${o.logo}`, 'utf8').replace(/<\?xml[^>]*>/, '').replace(/<svg/, `<svg role="img" aria-label="${o.name}"`)
   : `<img src="${o.logo}" alt="${o.name}">`;
-const PARTNERS = orgs.filter(o => o.roles.includes('partner'));
-/** The partnership strip shows every mark in one color, the text color (as the live site
- *  and the review do): an SVG's own fills and strokes become currentColor. Image-only marks
- *  stay as supplied. */
-const monoMark = (o: Org) => o.logo.endsWith('.svg')
-  ? readFileSync(`public${o.logo}`, 'utf8').replace(/<\?xml[^>]*>/, '')
-      .replace(/(fill|stroke)="(?!none|url)[^"]*"/g, '$1="currentColor"')
-      .replace(/(fill|stroke):\s*(?!none|url)[^;"]+/g, '$1:currentColor')
-      .replace(/<svg/, `<svg role="img" aria-label="${o.name}"`)
-  : `<img src="${o.logo}" alt="${o.name}">`;
+/** Partnerships is a group that follows the color mode, so every logo comes from the
+ *  organization registry's checked one-color files (orgMono stops the build, with the
+ *  fix, if one has none): never recolored here. In the live site's order. */
+const ORDER = ['anthropic', 'aisi', 'reddit', 'microsoft', 'dailymotion', 'google-deepmind', 'x-twitter', 'meta', 'google', 'oxford', 'common-crawl'];
+const PARTNERS = orgsWithRole('partner').sort((a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug));
 
 const PRESS: [string, string][] = [
   ['deepmind', 'Piloting the world’s first double-blind AI evaluations'], ['anthropic', 'Secure Enclaves for AI Evaluation'],
@@ -115,7 +112,7 @@ const PRESS: [string, string][] = [
   <section class="partners">
     <div class="container">
       <p class="partners__label">Partnerships</p>
-      <ul>{PARTNERS.map(o => <li set:html={monoMark(o)} />)}</ul>
+      <ul>{PARTNERS.map(o => <li set:html={orgMono(o.slug, { group: 'Partnerships' })} />)}</ul>
     </div>
   </section>
 

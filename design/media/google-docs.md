@@ -12,7 +12,7 @@ start:
     href: /logo/
 guidance:
   - foundations/logo
-  - guidelines/logo-images-on-white
+  - guidelines/logo-groups-one-treatment
 gaps:
   - "The named styles still read v1's type; moving them to v2 is planned."
   - "No way yet to place a diagram in a doc: Docs doesn't take SVG, and diagrams have no PNG export."

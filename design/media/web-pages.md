@@ -39,10 +39,10 @@ guidance:
   - guidelines/blur-limit
   - guidelines/color-fills-use-the-key
   - guidelines/icons-one-color
-  - guidelines/logo-images-on-white
+  - guidelines/logo-groups-one-treatment
   - guidelines/one-label-per-step
-  - guidelines/partner-marks-as-supplied
-  - guidelines/partner-marks-follow-the-mode
+  - guidelines/tool-marks-as-supplied
+  - guidelines/tool-marks-follow-the-mode
   - guidelines/center-by-eye
   - guidelines/color-tells-a-story
   - guidelines/text-stays-inside

@@ -68,9 +68,13 @@ from.
   read use `.prose`; anywhere else put headings and blocks in a `.stack` (`.stack--sm` … for
   another step), and nest a tight stack to keep a heading with its text. Components space their
   own insides.
-- **Icons:** the set in `/design/foundations/iconography.md` (Iconoir regular plus our own).
-  Never invent an icon; never use another icon library.
-- **The logo and partner marks** are used as supplied: never redrawn, recolored or generated.
+- **Icons:** the set in `/design/foundations/iconography.md` (Tabler outline, with chosen
+  Lucide icons), served at `/icons/set/`. Use the set's icons; never invent one or take one
+  from another library.
+- **The logo and tool marks** are used as supplied: never redrawn, recolored or generated.
+- **Logos in a group** all follow the color mode or all sit on white plates, never a mix. Tool
+  marks can always follow the mode; an organization (`/logos/orgs/`) only with its one-color
+  file in `orgs.json`. A logo without one sits on white, and so does its group.
 - **Eyebrows** (a short phrase over a heading) are always `.text-eyebrow`: body text, sentence
   case, never all caps, letter-spaced or mono. Only the size may step down, with
   `.text-eyebrow--sm`. Caps in mono belongs only inside a diagram: the diagram label (`.fig__label`),

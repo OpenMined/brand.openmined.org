@@ -1,330 +1,389 @@
 {
-  "$about": "The v2 icon set (Icons page, design/foundations/iconography.md). icons: every icon v2 uses, by name; components ask for these names, never for a file. src = iconoir (node_modules/iconoir, regular; 'file' when the Iconoir name differs), own (public/icons/<name>.svg, our drawing or a kept live one), partner (public/logos/partners/<name>/icon.svg). style = line (default) or solid. status = proposed -> approved, as each is reviewed. live: every icon on openmined.org's style guide (src/pages/icons/_live-icons.json) and the set icon that replaces it (null = none yet; the live drawing stays). match: exact, close, none, status, partner, gap. To change an icon: edit its entry here, or add a drawing with npm run icons:import. Read by src/lib/icons.ts; a name missing here fails the build.",
+  "$about": "The v2 icon set (Icons page, design/foundations/iconography.md). icons: every icon v2 uses, by name; components ask for these names, never for a file. src = tabler (node_modules/@tabler/icons, outline; the default, scaled to Lucide's size by src/lib/icons.ts) or lucide (node_modules/lucide-static), with 'file' when the library's name differs from ours, own (public/icons/<name>.svg, our drawing or a kept live one), tool (public/logos/tools/<name>/icon.svg). style = line (default) or solid. status = proposed -> approved, as each is reviewed. live: every icon on openmined.org's style guide (src/pages/icons/_live-icons.json) and the set icon that replaces it (null = none yet; the live drawing stays). match: exact, close, none, status, tool, gap. To change an icon: edit its entry here, or add a drawing with npm run icons:import. Read by src/lib/icons.ts; a name missing here fails the build.",
   "icons": {
     "arrow-right": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Text buttons and link cards (replaced Ionicons arrow-forward-outline on the brand site, 2026-10-12)"
     },
     "bluesky": {
-      "src": "partner",
-      "style": "line",
-      "status": "proposed"
+      "src": "tool",
+      "style": "solid",
+      "status": "approved"
     },
     "book-stack": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "library-big",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "calendar": {
-      "src": "iconoir",
+      "src": "lucide",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "chat-bubble": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "message-circle",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "check": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "check-circle": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "circle-check",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Status: success. Drawn outlined in --success-fg; the live check-solid was filled (open: whether status icons stay filled)."
     },
     "clipboard-check": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "clock-rotate-right": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "history",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "code": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "code-brackets-square": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "code-circle",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Home pillar \"Flexible Federated Computation\" (live: an inline code-in-a-box drawing)"
     },
     "community": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "users-group",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "copy": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "copyright": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "cpu": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "database": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "dna": {
-      "src": "iconoir",
+      "src": "lucide",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "doc-magnifying-glass": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "file-search",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "dollar": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "currency-dollar",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "donate": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "hand-heart",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "download": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "equal": {
-      "src": "own",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Flow operator (SyftHub How It Works), next to plus and arrow-right"
     },
     "eye": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "eye-closed": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "eye-off",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "filter": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "flash": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "bolt",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
+    },
+    "gavel": {
+      "src": "lucide",
+      "style": "line",
+      "status": "approved"
     },
     "github": {
-      "src": "partner",
-      "style": "line",
-      "status": "proposed"
+      "src": "tool",
+      "style": "solid",
+      "status": "approved"
     },
     "globe": {
-      "src": "iconoir",
+      "src": "lucide",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "graph-up": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "trending-up",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "group": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "users",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "half-moon": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "moon",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "hand-cash": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "cash-banknote",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
+    },
+    "handshake": {
+      "src": "tabler",
+      "file": "heart-handshake",
+      "style": "line",
+      "status": "approved"
     },
     "info-circle": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "info",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "journal": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "book-open",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "light-bulb": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "lightbulb",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "link": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "linkedin": {
-      "src": "partner",
-      "style": "line",
-      "status": "proposed"
+      "src": "tool",
+      "style": "solid",
+      "status": "approved"
     },
     "lock": {
-      "src": "iconoir",
+      "src": "lucide",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "map-pin": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "menu": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "menu-2",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "microphone": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "nav-arrow-down": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "chevron-down",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "nav-arrow-left": {
-      "src": "iconoir",
-      "status": "proposed",
+      "src": "tabler",
+      "file": "chevron-left",
+      "style": "line",
+      "status": "approved",
       "note": "Pagination steps (2026-10-29)."
     },
     "nav-arrow-right": {
-      "src": "iconoir",
-      "status": "proposed",
+      "src": "tabler",
+      "file": "chevron-right",
+      "style": "line",
+      "status": "approved",
       "note": "Pagination steps (2026-10-29)."
     },
     "network": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "affiliate",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "open-new-window": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "external-link",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "page-search": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "file-search",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "plus": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Flow operator (SyftHub How It Works), next to equal and arrow-right"
     },
     "profile-circle": {
-      "src": "iconoir",
+      "src": "lucide",
+      "file": "circle-user-round",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "prohibition": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "ban",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
+    },
+    "radar": {
+      "src": "tabler",
+      "style": "line",
+      "status": "approved"
+    },
+    "scale": {
+      "src": "tabler",
+      "style": "line",
+      "status": "approved"
     },
     "search": {
-      "src": "iconoir",
+      "src": "lucide",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "server": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "settings": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "shield-alert": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "shield-exclamation",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "shield-check": {
-      "src": "iconoir",
+      "src": "tabler",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "sort": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "arrows-sort",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "sparks": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "sparkles",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "sun-light": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "sun",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "view-structure-up": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "hierarchy",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "warning-circle": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "alert-circle",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "warning-triangle": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "alert-triangle",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "x": {
-      "src": "partner",
-      "style": "line",
-      "status": "proposed"
+      "src": "tool",
+      "style": "solid",
+      "status": "approved"
     },
     "xmark": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "x",
       "style": "line",
-      "status": "proposed"
+      "status": "approved"
     },
     "xmark-circle": {
-      "src": "iconoir",
+      "src": "tabler",
+      "file": "circle-x",
       "style": "line",
-      "status": "proposed",
+      "status": "approved",
       "note": "Status: danger. Drawn outlined in --danger-fg; the live x-solid was filled."
     }
   },
@@ -402,8 +461,8 @@
       "match": "exact"
     },
     "enforcement": {
-      "use": null,
-      "match": "none"
+      "use": "gavel",
+      "match": "close"
     },
     "eye": {
       "use": "eye",
@@ -430,8 +489,8 @@
       "match": "close"
     },
     "handshake": {
-      "use": null,
-      "match": "none"
+      "use": "handshake",
+      "match": "close"
     },
     "history": {
       "use": "clock-rotate-right",
@@ -490,16 +549,16 @@
       "match": "exact"
     },
     "network-discovery": {
-      "use": null,
-      "match": "none"
+      "use": "radar",
+      "match": "close"
     },
     "newspaper": {
       "use": "journal",
       "match": "close"
     },
     "scale": {
-      "use": null,
-      "match": "none"
+      "use": "scale",
+      "match": "close"
     },
     "search-check": {
       "use": "page-search",
@@ -543,15 +602,15 @@
     },
     "logo-github": {
       "use": "github",
-      "match": "partner"
+      "match": "tool"
     },
     "logo-x": {
       "use": "x",
-      "match": "partner"
+      "match": "tool"
     },
     "logo-linkedin": {
       "use": "linkedin",
-      "match": "partner"
+      "match": "tool"
     },
     "logo-youtube": {
       "use": null,
@@ -559,7 +618,7 @@
     },
     "logo-bluesky": {
       "use": "bluesky",
-      "match": "partner"
+      "match": "tool"
     },
     "logo-python": {
       "use": null,

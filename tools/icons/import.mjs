@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * ICON IMPORT — turns an SVG into one of our own v2 icons (public/icons/<name>.svg)
- * and adds it to icons/set.json, so it behaves like an Iconoir icon: a 24 grid,
+ * and adds it to icons/set.json, so it behaves like a library icon: a 24 grid,
  * currentColor, and the stroke left to the set (src/lib/icons.ts sets it by size).
  *
  *   npm run icons:import -- <source> <name> [--solid] [--note "why"] [--dry-run]
@@ -21,9 +21,9 @@
  * It stops, with the reason, on what it can't decide for you: white or second-color
  * parts (a knockout needs drawing as a mask or a cut-out path), <style> blocks, and
  * filled shapes in a line icon (pass --solid if the icon is meant to be filled).
- * Brand logos don't come in this way: they're partner marks, as supplied, as fills.
+ * Brand logos don't come in this way: they're tool marks, as supplied, as fills.
  */
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const args = process.argv.slice(2);
@@ -92,6 +92,7 @@ set.icons = Object.fromEntries(Object.keys(set.icons).sort().map((n) => [n, set.
 if (liveName && set.live[liveName]) set.live[liveName].use = name;
 
 if (dry) { console.log(out); console.log(JSON.stringify({ [name]: set.icons[name] }, null, 2)); process.exit(0); }
+mkdirSync(join(ROOT, 'public/icons'), { recursive: true });
 writeFileSync(join(ROOT, 'public/icons', `${name}.svg`), out);
 writeFileSync(setPath, JSON.stringify(set, null, 2) + '\n');
 console.log(`public/icons/${name}.svg written${k !== 1 ? ` (scaled from a ${w}×${h} grid)` : ''}; icons/set.json: ${name} → own, ${solid ? 'solid' : 'line'}, proposed${was ? ` (was ${was.src})` : ''}${liveName ? `; live ${liveName} → ${name}` : ''}.`);

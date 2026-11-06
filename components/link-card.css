@@ -66,7 +66,7 @@
 
 /* ── Variants (2026-10-29, from openmined.org's press room and blog) ──────
    Logo card: a logo supplied as an image, on a white plate in either mode
-   (Logo images sit on white), with a caption under it. Put
+   (Logos in a group all follow the mode, or all sit on white), with a caption under it. Put
    data-section="always-light" on it so the caption's color resolves light.
      <a class="lcard lcard--logo" data-section="always-light" href="…">
        <span class="lcard__logo"><img src="…" alt="The Economist"></span>

@@ -9,7 +9,7 @@ export const PAGES = [
   { key: 'typography', label: 'Typography', href: '/typography/', summary: 'Rubik and Inter on a fluid scale, and the long-read rhythm.' },
   { key: 'layout', label: 'Layout', href: '/layout/', summary: 'The page, a 12-column grid, breakpoints and the article zones.' },
   { key: 'surfaces', label: 'Surfaces', href: '/surfaces/', summary: 'Four levels, their shadows, and lines instead of boxes.' },
-  { key: 'logos', label: 'Logos', href: '/logo/', summary: 'The logo files, partner marks and the organizations we work with.' },
+  { key: 'logos', label: 'Logos', href: '/logo/', summary: 'The logo files, tool marks and the organizations we work with.' },
   { key: 'icons', label: 'Icons', href: '/icons/', summary: 'One outlined set, mono by default, in color with motion.' },
   { key: 'interface', label: 'Interface', href: '/interface/', summary: 'Buttons, links, fields, cards, tables, tabs and their states.' },
   { key: 'graphics', label: 'Graphics', href: '/graphics/', summary: 'The gradient, hue keys, diagrams and the animated brand graphics.' },

@@ -2,7 +2,8 @@
 type: Decision
 title: Iconoir for v2 icons
 description: v2 takes its icons from Iconoir's outlined set instead of Ionicons. Icons are outlined and one color.
-status: released
+status: deprecated
+replacedBy: 2026-11-06-tabler-with-lucide-for-v2
 date: 2026-10-09
 tags: [icons]
 ---

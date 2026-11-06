@@ -1,7 +1,7 @@
 {
   "name": "openmined-brand-reference",
   "type": "module",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "dev": "astro dev",
     "prebuild": "mkdir -p public/tokens && cp src/tokens/*.css src/tokens/*.json public/tokens/",
@@ -16,11 +16,13 @@
     "impact": "node tools/impact/impact.mjs",
     "census": "node tools/census/census.mjs",
     "icons:import": "node tools/icons/import.mjs",
-    "examples:thumbs": "node tools/examples/thumbs.mjs"
+    "examples:thumbs": "node tools/examples/thumbs.mjs",
+    "logos:import": "node tools/logos/import-org.mjs"
   },
   "dependencies": {
+    "@tabler/icons": "3.50.0",
     "astro": "^4.16.0",
-    "iconoir": "^7.12.1"
+    "lucide-static": "1.65.0"
   },
   "devDependencies": {
     "ajv": "^8.20.0",

@@ -1,7 +1,7 @@
 ---
 type: Iconography
 title: Icons
-description: Outlined icons from Iconoir, mono by default in the color of the text around them. Status icons take their status color; an icon in color takes its hue's two-tone, moving.
+description: Outlined icons from Tabler, with chosen Lucide icons, mono by default in the color of the text around them. Status icons take their status color; an icon in color takes its hue's two-tone, moving.
 status: released
 tags: [icons]
 tokens: [--success-fg, --danger-fg, --warning-fg, --info-fg]
@@ -11,14 +11,18 @@ Icons are **outlined** and **mono** by default. They take the color of the text 
 
 ## Library
 
-**Iconoir** ([iconoir.com](https://iconoir.com), MIT license) is the v2 library: 1,383 outlined icons on a 24px grid. Use its **regular** (outlined) set, **drawn at a 2 stroke** rather than Iconoir's 1.5: a 1.5 line straddles pixels and never reaches its full color, so icons read grayer, most on dark. Iconoir's 288 filled icons aren't used, so every icon reads as one family.
+**Tabler** ([tabler.io/icons](https://tabler.io/icons), MIT license) is the v2 library: its **outline** set, 5,217 icons on a 24px grid, drawn at a 2 stroke. **Lucide** ([lucide.dev](https://lucide.dev), ISC license) supplies an icon where one is chosen over Tabler's; the set records each choice. Both are drawn for a 2 line with round ends and joins, so the line never has to be thickened, and a 2 line lands on whole pixels at full color. Tabler's filled icons aren't used, so every icon reads as one family.
+
+- **One size across both.** Tabler leaves 2px inside the box and Lucide 1px, so Tabler draws about 7% smaller. The set scales every Tabler drawing to Lucide's size and keeps the line's weight (`TABLER_SCALE` in `src/lib/icons.ts`).
+- **Choosing an icon.** Start from Tabler. Take Lucide's when it reads better, and keep a family together where its icons share parts (shields and locks, status marks, arrows): check a mixed family side by side.
+- **Pinned versions.** Both libraries are pinned to an exact version, so a redrawn icon only arrives with a deliberate upgrade, checked on the *Set* table.
 
 - **Our own icons** go in `public/icons/`, on the same 24px grid, in `currentColor`, with no stroke width of their own: the set gives every icon its stroke, by size. `npm run icons:import` turns any SVG into one (another grid is scaled to 24 with the line kept at v2's weight; colors become `currentColor`), and stops with the reason on what needs a designer: white knockouts, a second color.
-- **Brand logos never come from Iconoir, and are always fills.** Iconoir redraws some brands (GitHub, LinkedIn, X); partner logos come only from the official files in `public/logos/partners/`, shown on the [Graphics](/graphics/#logo) page. A brand drawn in outline has its own line weight, so its mark is flattened to a fill before it comes in; the build stops on a stroked partner mark.
+- **Brand logos never come from an icon library, and are always fills.** Tabler draws many brands (`brand-*`), and they're never used; tool logos come only from the official files in `public/logos/tools/`, shown on the [Graphics](/graphics/#logo) page. A brand drawn in outline has its own line weight, so its mark is flattened to a fill before it comes in; the build stops on a stroked tool mark.
 
 ## The set
 
-Every icon v2 uses has an entry in `icons/set.json`, by name (served as `/icons/set/index.json`, each drawing at `/icons/set/<name>.svg`): where its drawing comes from (Iconoir, our own, or a partner mark), its style (`line`, or `solid` where chosen), its review status (`proposed`, then `approved`), and a note. Components ask for the name, never a file, so changing an entry changes that icon everywhere, and a name that isn't in the set stops the build: the set is always the full list of icons in use. The same file maps each icon v1 and openmined.org use to the set icon that replaces it. The *Set* table on this page is a view of it; `icons/README.md` has the steps for reviewing and changing icons.
+Every icon v2 uses has an entry in `icons/set.json`, by name (served as `/icons/set/index.json`, each drawing at `/icons/set/<name>.svg`): where its drawing comes from (Tabler, Lucide, our own, or a tool mark), its style (`line`, or `solid` where chosen), its review status (`proposed`, then `approved`), and a note. Components ask for the name, never a file, so changing an entry changes that icon everywhere, and a name that isn't in the set stops the build: the set is always the full list of icons in use. The same file maps each icon v1 and openmined.org use to the set icon that replaces it. The *Set* table on this page is a view of it; `icons/README.md` has the steps for reviewing and changing icons.
 
 ## Color
 
@@ -36,12 +40,10 @@ Two exceptions to mono. **Status icons** take their status's `fg` role, the role
 
 - Put an icon next to a word, not instead of one, unless the icon is universal (close, menu, search) and has an accessible name.
 - A decorative icon is hidden from screen readers; an icon that is the only content of a button carries its label.
-- **Partner marks used inline** (an integrations list, a "Sign in with" button) follow these sizes and alignment, but not the style or color rules: they're used as supplied.
+- **Tool marks used inline** (an integrations list, a "Sign in with" button) follow these sizes and alignment, but not the style or color rules: they're used as supplied.
 
 *Open:*
-- An audit of the Iconoir icons in the set: some carry hard-set strokes (map pin, network, microphone), and the DNA icon reads heavy.
 - Whether "icons are lines, except where chosen" is the rule; the set carries a `solid` style for the exceptions.
 - Size tokens (`--icon-sm`, `-md`, `-lg`).
-- Four icons with no Iconoir match (enforcement, handshake, network discovery, scale): draw our own or not.
 - Whether status icons are filled or outlined.
-- Official files for the brands with no partner mark yet.
+- Official files for the brands with no tool mark yet.

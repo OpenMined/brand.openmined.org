@@ -1,27 +1,28 @@
 /**
- * PARTNERS — the one lookup for partner and integration marks, and the color-mode
- * check. Reads public/logos/partners/partners.json (the source of truth; see its
+ * TOOLS — the one lookup for tool marks (the tools and services we use or integrate
+ * with), and the color-mode
+ * check. Reads public/logos/tools/tools.json (the source of truth; see its
  * README for the trademark rules).
  *
  * Every official-color file must read on both modes' surfaces. A visible color
  * under MIN_CONTRAST against base, raise-1 or raise-2 in a mode fails the build,
  * unless the brand has a file for that mode (`dark`) or a stated reason the mark
- * reads anyway (`modeCheck`). So a new partner can't arrive unreadable in one mode.
+ * reads anyway (`modeCheck`). So a new tool mark can't arrive unreadable in one mode.
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { MODES, hex, contrast, type Mode } from './tokens';
 
-export const PARTNERS_DIR = join(process.cwd(), 'public', 'logos', 'partners');
-const DATA = JSON.parse(readFileSync(join(PARTNERS_DIR, 'partners.json'), 'utf8'));
+export const TOOLS_DIR = join(process.cwd(), 'public', 'logos', 'tools');
+const DATA = JSON.parse(readFileSync(join(TOOLS_DIR, 'tools.json'), 'utf8'));
 
-export type Partner = {
+export type Tool = {
   name: string; trademark: string; source: string; icon: string; iconColor?: string;
   lockup?: Record<string, string> | null; gaps?: string[]; notes?: string;
   dark?: { iconColor?: string; lockup?: Record<string, string>; derived?: string };
   modeCheck?: string;
 };
-export const BRANDS = DATA.brands as Record<string, Partner>;
+export const BRANDS = DATA.brands as Record<string, Tool>;
 
 /** Near-invisible, not a text standard: brand colors are marks, and at 3:1 most
  *  multi-color marks would fail on one surface while still reading as the logo. */
@@ -41,7 +42,7 @@ export function visibleColors(svg: string): string[] {
 }
 
 /** The color file shown in a mode: the brand's dark file in dark mode, if it has one. */
-export function colorFile(brand: Partner, mode: Mode): string | undefined {
+export function colorFile(brand: Tool, mode: Mode): string | undefined {
   return mode === 'dark' ? brand.dark?.iconColor ?? brand.iconColor : brand.iconColor;
 }
 
@@ -53,8 +54,8 @@ export function modeIssues(): ModeIssue[] {
     if (b.modeCheck) continue;
     for (const mode of MODES) {
       const file = colorFile(b, mode);
-      if (!file || !existsSync(join(PARTNERS_DIR, file))) continue;
-      for (const color of visibleColors(readFileSync(join(PARTNERS_DIR, file), 'utf8'))) {
+      if (!file || !existsSync(join(TOOLS_DIR, file))) continue;
+      for (const color of visibleColors(readFileSync(join(TOOLS_DIR, file), 'utf8'))) {
         for (const surface of SURFACES) {
           const ratio = contrast(color, hex(mode, surface));
           if (ratio < MIN_CONTRAST) out.push({ key, mode, file, color, ratio, surface });
@@ -69,8 +70,8 @@ const issues = modeIssues();
 if (issues.length) {
   const lines = issues.map(i => `  ${i.key} (${i.mode}): ${i.file} draws ${i.color}, ${i.ratio.toFixed(2)}:1 on ${i.surface}`);
   throw new Error(
-    `Partner marks that don't read in one color mode (under ${MIN_CONTRAST}:1):\n${[...new Set(lines)].join('\n')}\n` +
-      'Add the owner\'s file for that mode under `dark` in partners.json (or derive one and say so in `derived`), ' +
+    `Tool marks that don't read in one color mode (under ${MIN_CONTRAST}:1):\n${[...new Set(lines)].join('\n')}\n` +
+      'Add the owner\'s file for that mode under `dark` in tools.json (or derive one and say so in `derived`), ' +
       'or record why the mark reads anyway in `modeCheck`.',
   );
 }

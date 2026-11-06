@@ -25,8 +25,8 @@ npm run build:review   # the same, with drafts shown
 | Values | `tokens/` (Design Tokens 2025.10), built into `src/tokens/v2/` | `/tokens/omds.*`, `/omds.css` |
 | Rules, decisions, words on the pages | `design/` | `/design/*.md` |
 | Components | `components/` | `/components/*`, `/omds.css`, `/omds.js` |
-| Icons | `icons/set.json` (+ `public/icons/`, Iconoir) | `/icons/set/*` |
-| Logos, partner and org marks | `public/logos/` | `/logos/*` |
+| Icons | `icons/set.json` (+ Tabler, Lucide, `public/icons/`) | `/icons/set/*` |
+| Logos, tool and organization marks | `public/logos/` | `/logos/*` |
 | Brand graphics (`<om-*>`) | `public/embeds/` | `/embeds/*` |
 | Examples | `src/pages/examples/` | `/examples/*` |
 
