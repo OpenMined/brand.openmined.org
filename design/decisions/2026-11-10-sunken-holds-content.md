@@ -2,7 +2,7 @@
 type: Decision
 title: "Sunken is a well: it may hold content, never be a ground"
 description: "The sunken level is no longer limited to a control's size: a well set into a surface may hold content (a demo, a figure, an excerpt), on the page or on a raised surface. It is still never a page, section or band. Code blocks stay always dark."
-status: draft
+status: released
 date: 2026-11-10
 tags: [surfaces]
 tokens: [--surface-sunken]
@@ -10,7 +10,7 @@ tokens: [--surface-sunken]
 
 **Context.** *Sunken is never a ground* and *Surfaces* limited the sunken level to a recess sized to a control, and ruled out a panel holding content. The work already does otherwise: the site's demos set content into sunken wells directly on the page (the spacing stack, the type article's media, the grid drawing, the article zones), and a well reads as set into the page, not as a new ground. The token's own description already says "a well set into a surface; never a page or section ground."
 
-**Decision.** Proposed; awaiting the design lead.
+**Decision.** Design lead, 2026-11-10.
 - **Sunken is a well.** Use `--surface-sunken` for a recess set into a surface: a control's field or track, a hover wash, or a well holding content (a demo, a figure, an excerpt).
 - **A well may sit on the page or on a raised surface.** Controls still prefer a raised surface, and thin tracks never sit on the page (*Recessed controls prefer a raised surface*, unchanged).
 - **Never a ground.** Not a page, a full-width section, a band or a sidebar (*Sections aren't tinted*, unchanged).
