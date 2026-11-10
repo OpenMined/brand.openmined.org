@@ -2,7 +2,7 @@
 type: Elevation
 title: Surfaces
 description: Four surface levels, each with its own shadow. One below the page, the page, and two above.
-status: released
+status: draft
 tags: [surfaces]
 tokens: [--surface-sunken, --surface-base, --surface-raise-1, --surface-raise-2, --shadow-sunken, --shadow-raise-1, --shadow-raise-2]
 ---
@@ -11,7 +11,7 @@ Every element sits on one of four levels. Each level is a gray step and a shadow
 
 | Level | Token | What it's for |
 | --- | --- | --- |
-| −1 | `--surface-sunken` | A recess inside a surface, sized to a control: fields, toggle and progress tracks, and hover washes. |
+| −1 | `--surface-sunken` | A well set into a surface: fields, toggle and progress tracks, hover washes, and wells holding content. Never a page or section. |
 | 0 | `--surface-base` | The page. Every section sits on it. |
 | +1 | `--surface-raise-1` | A card or panel on the page. |
 | +2 | `--surface-raise-2` | One level higher: a card inside a panel, menus, popovers. |
