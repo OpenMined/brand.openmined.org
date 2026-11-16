@@ -14,7 +14,10 @@
  */
 const ALL = import.meta.glob('/design/**/*.md', { eager: true }) as Record<string, any>;
 const RESERVED = /(^|\/)(index|log)\.md$/;
-const FILES = Object.fromEntries(Object.entries(ALL).filter(([p]) => !RESERVED.test(p)));
+/** design/wip/: notes on work in progress, kept out of DOCS so nothing that lists, serves or
+ *  gates guidance sees them (decision 2026-11-13, work in progress). Read with WIP below. */
+const IS_WIP = /^\/design\/wip\//;
+const FILES = Object.fromEntries(Object.entries(ALL).filter(([p]) => !RESERVED.test(p) && !IS_WIP.test(p)));
 /** The change history, design/log.md, rendered as-is. */
 export const LOG = ALL['/design/log.md']?.Content;
 
@@ -59,6 +62,28 @@ export const DOCS: Doc[] = Object.entries(FILES).map(([abs, mod]) => {
   };
 });
 if (problems.length) throw new Error(`Invalid guidance files:\n  ${problems.join('\n  ')}`);
+
+/** A piece in progress (design/wip/<name>.md): its component files are components/wip/<name>.*.
+ *  Frontmatter: type Component, title, description, status draft, `from` (where the need came
+ *  from), `waiting` (what it's waiting on, a list), optional `tokens`. */
+export type WipDoc = Doc & { name: string; from: string; waiting: string[] };
+const wipProblems: string[] = [];
+export const WIP: WipDoc[] = Object.entries(ALL).filter(([p]) => IS_WIP.test(p)).map(([abs, mod]) => {
+  const path = abs.replace(/^\/design\//, '');
+  const fm = mod.frontmatter ?? {};
+  wipProblems.push(...check(path, fm));
+  if (fm.type !== 'Component') wipProblems.push(`design/${path}: type must be "Component"`);
+  if (fm.status !== 'draft') wipProblems.push(`design/${path}: work in progress is "draft" until it leaves wip/`);
+  if (!Array.isArray(fm.waiting) || !fm.waiting.length) wipProblems.push(`design/${path}: "waiting" must list what it's waiting on`);
+  return {
+    path, slug: path.replace(/\.md$/, ''), name: path.replace(/^wip\//, '').replace(/\.md$/, ''),
+    type: fm.type, title: fm.title, description: fm.description, status: fm.status,
+    tags: fm.tags ?? [], tokens: fm.tokens ?? [], data: fm, Content: mod.Content,
+    html: typeof mod.compiledContent === 'function' ? mod.compiledContent() : '',
+    from: fm.from ?? '', waiting: fm.waiting ?? [],
+  };
+}).sort((a, b) => a.name.localeCompare(b.name));
+if (wipProblems.length) throw new Error(`Invalid work-in-progress files:\n  ${wipProblems.join('\n  ')}`);
 
 export const doc = (slug: string): Doc => {
   const d = DOCS.find(x => x.slug === slug);

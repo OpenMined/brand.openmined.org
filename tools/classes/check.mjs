@@ -16,7 +16,7 @@
  * and the class attributes in each Markup block. A class whose block no component
  * defines (the site's own, a page's own) isn't checked.
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const walk = (dir, ext) => readdirSync(dir).flatMap((f) => {
@@ -37,15 +37,30 @@ const selectorClasses = (css) => {
 const block = (c) => c.split(/__|--/)[0];
 
 const COMPONENT_FILES = readdirSync('components').filter((f) => f.endsWith('.css')).map((f) => join('components', f));
+const WIP_FILES = existsSync('components/wip') ? readdirSync('components/wip').filter((f) => f.endsWith('.css')).map((f) => join('components/wip', f)) : [];
 const ASTRO = walk('src', '.astro');
-const componentClasses = new Set(COMPONENT_FILES.flatMap((f) => [...selectorClasses(readFileSync(f, 'utf8'))]));
-const blocks = new Set([...componentClasses].map(block));
+const isWipPart = (f) => /^src\/(pages\/wip|components\/site\/wip)\//.test(f);
+const releasedClasses = new Set(COMPONENT_FILES.flatMap((f) => [...selectorClasses(readFileSync(f, 'utf8'))]));
+const wipClasses = new Set(WIP_FILES.flatMap((f) => [...selectorClasses(readFileSync(f, 'utf8'))].map((c) => [f, c])).filter(([, c]) => !releasedClasses.has(c)).map(([, c]) => c));
+const releasedBlocks = new Set([...releasedClasses].map(block));
+const wipBlocks = new Set([...wipClasses].map(block));
 
 /** Static class names in one class attribute's value. */
 const names = (value) => value.replace(/[\w-]*\$\{[^}]*\}[\w-]*/g, ' ').split(/[\s'",[\]{}`]+/).filter((t) => /^[_a-zA-Z][\w-]*$/.test(t));
 const problems = [];
-const check = (file, line, cls, where) => {
-  if (blocks.has(block(cls)) && !componentClasses.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its component`);
+for (const f of WIP_FILES) {
+  // A WIP file may style a released class it builds on (a .btn inside a dialog's head), but its
+  // own block can't share a released component's name.
+  for (const c of selectorClasses(readFileSync(f, 'utf8'))) {
+    if (!releasedClasses.has(c) && releasedBlocks.has(block(c))) problems.push(`${f}  .${c}: work in progress can't add to a released component's block (.${block(c)}); give it its own name`);
+  }
+}
+const check = (file, line, cls, where, wipOk) => {
+  const b = block(cls);
+  if (releasedBlocks.has(b)) { if (!releasedClasses.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its component`); return; }
+  if (!wipBlocks.has(b)) return;
+  if (!wipOk) problems.push(`${file}:${line}  .${cls} (${where}) is work in progress (components/wip/); released work can't use it`);
+  else if (!wipClasses.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its work-in-progress component`);
 };
 const lineAt = (text, i) => text.slice(0, i).split('\n').length;
 
@@ -56,13 +71,20 @@ for (const f of ASTRO) {
     ...text.matchAll(/\bclass=\{`([^`]*)`\}/g),
     ...text.matchAll(/\bclass:list=\{\[([^\]]*)\]\}/g),
   ];
-  for (const m of attrs) for (const c of names(m[1].replace(/&&[^,\]]*?(?=['"`])/g, ' '))) check(f, lineAt(text, m.index), c, 'class attribute');
+  for (const m of attrs) for (const c of names(m[1].replace(/&&[^,\]]*?(?=['"`])/g, ' '))) check(f, lineAt(text, m.index), c, 'class attribute', isWipPart(f));
 }
-for (const f of COMPONENT_FILES) {
+for (const f of [...COMPONENT_FILES, ...WIP_FILES]) {
   const text = readFileSync(f, 'utf8');
   const head = text.slice(0, text.indexOf('*/'));
-  for (const m of head.matchAll(/\bclass="([^"]*)"/g)) for (const c of names(m[1])) {
-    if (!componentClasses.has(c) && blocks.has(block(c))) problems.push(`${f}:${lineAt(text, m.index)}  .${c} (Markup block) isn't defined by any component`);
+  for (const m of head.matchAll(/\bclass="([^"]*)"/g)) for (const c of names(m[1])) check(f, lineAt(text, m.index), c, 'Markup block', WIP_FILES.includes(f));
+}
+
+// A released component's script or stylesheet list may not pull in work in progress: esbuild would
+// bundle it into /omds.js, and the served copy would import a file that isn't served.
+for (const f of readdirSync('components').filter((f) => /\.(js|css)$/.test(f)).map((f) => join('components', f))) {
+  const text = readFileSync(f, 'utf8');
+  for (const m of text.matchAll(/(?:\bimport\b[^'"]*|@import\s+(?:url\()?)['"](\.\/wip\/[^'"]+)['"]/g)) {
+    problems.push(`${f}:${lineAt(text, m.index)}  imports ${m[1]}, work in progress (release it first, or keep this in wip/)`);
   }
 }
 
@@ -70,4 +92,4 @@ if (problems.length) {
   console.error(`Class contract: ${problems.length} problem${problems.length === 1 ? '' : 's'}\n  ${problems.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ class contract: every component class in use is defined (${ASTRO.length} pages and parts, ${COMPONENT_FILES.length} component files)`);
+console.log(`✓ class contract: every component class in use is defined (${ASTRO.length} pages and parts, ${COMPONENT_FILES.length} component files, ${WIP_FILES.length} in progress)`);

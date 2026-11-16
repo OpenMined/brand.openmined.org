@@ -4,7 +4,7 @@
  * layers to each button and sets where the color loop starts. Skips disabled
  * buttons, pressed toggles (aria-pressed) and buttons already set up (inside
  * [data-interaction="minimal"] its layers stay hidden, by CSS, so the region can
- * switch either way at any time); an icon-only button gets its hue's two-tone in its icon
+ * switch either way at any time); an icon-only button gets a copy of its icon in its hue's two-tone that fades in over it
  * (--ci-stroke, green's without one) and a glow behind it instead of the fill (.has-tone), and does nothing on devices without hover, where the
  * minimal states in button.css apply. Safe to call again after content is added.
  *
@@ -42,6 +42,7 @@ export function buttonHover(selector = '.btn', { start = clockStart } = {}) {
       twoTone(); btn.classList.add('has-tone');
       const icon = btn.querySelector(':scope > svg');
       if (icon && !btn.querySelector(':scope > .btn-icon-glow')) btn.insertAdjacentHTML('afterbegin', `<span class="btn-icon-glow" aria-hidden="true">${icon.outerHTML}</span>`);
+      if (icon && !btn.querySelector(':scope > .btn-icon-tone')) icon.insertAdjacentHTML('afterend', `<span class="btn-icon-tone" aria-hidden="true">${icon.outerHTML}</span>`);
       return;
     }
     btn.classList.add('has-flow');

@@ -125,6 +125,19 @@ What a new component touches, in order. Start from a similar component's files.
    the draft until the design lead releases it. If an example uses it, retake that example's
    still (`npm run examples:thumbs -- <slug>`).
 
+## Work in progress
+
+A component we know we need but can't release yet lives in `components/wip/` (this format: a CSS
+file with its Markup block, a module if it moves) with its notes in `design/wip/<name>.md` (type
+Component, status draft, `from`, `waiting`, and where it stands on each layer). `npm run dev` and
+review previews show every piece on `/wip/` (its demo in `src/components/site/wip/`, listed in
+`src/pages/wip/[...slug].astro`). A shared script with no look of its own (`anchor.js`) can be a piece too.
+Nothing in `wip/` is served or built into production, it uses only released tokens (a value it
+needs is a `--wip-…` property built from them, or a token released first), and no released page,
+example or component may use its classes or import its scripts (`npm run lint`). Once the design
+lead approves a piece on `/wip/`, move its files out and follow *Adding a component*; it comes out
+released. Decision 2026-11-13.
+
 ## Files
 
 | Component | CSS | Script | Guidance |
@@ -142,6 +155,7 @@ What a new component touches, in order. Start from a similar component's files.
 | Hover card | `hover-card.css` | `hover-card.js`, `hoverCards()` | `design/components/hover-card.md` |
 | Link card | `link-card.css` | `link-card.js`, `linkCards()` | `design/components/link-card.md` |
 | Status chip | `status-chip.css` | none | `design/components/status-chip.md` |
+| Avatar, person (avatar and name), status dot | `avatar.css` | none | `design/components/avatar.md` |
 | Page: box sizing, the page's ground, sections | `page.css` | `theme.js`, `themeInit()`, `themeToggle()` (color mode) | `design/behaviors/color-modes.md` |
 | Card, card with an icon, card grid | `card.css` | none | `design/components/card.md` |
 | Hover card colorflow | `card-flow.css` | `card-flow.js`, `cardFlows()` (draws with `flow.js`) | `design/components/hover-card.md` |
@@ -150,16 +164,19 @@ What a new component touches, in order. Start from a similar component's files.
 | Tabs | `tabs.css` | `tabs.js`, `tabs()` | `design/components/tabs.md` |
 | Nav: quiet, wash, strong | `nav.css` | none | `design/components/nav.md` |
 | Meter (x of y) | `meter.css` | none | `design/components/meter.md` |
+| Progress ring | `progress-ring.css` | none | `design/components/progress-ring.md` |
 | Pager (Previous, page numbers, Next; with the nav) | `pager.css` | none | `design/components/pager.md` |
 | Accordion | `accordion.css` | none | `design/components/accordion.md` |
 | Steps | `steps.css` | none | `design/components/steps.md` |
 | Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |
+| Tooltip | `tooltip.css` | `tooltip.js`, `tooltips()` (places with `anchor.js`) | `design/components/tooltip.md` |
+| Dialog | `dialog.css` | `dialog.js`, `dialogs()` | `design/components/dialog.md` |
 | Logo card, post card | `link-card.css` (`lcard--logo`, `lcard--post`) | `link-card.js` | `design/components/link-card.md` |
 | Diagram line pulses | none | `line-flow.js`, `lineFlow()` | `design/patterns/diagrams.md` |
 | Box-and-arrow diagram: full (HTML cards over SVG lines) and flat (one SVG) | `diagram.css` | `diagram.js`, `diagrams()` (draws lines, checks text fits), `diagramPath()`, `diagramSvg()` (save as a file) | `design/patterns/diagrams.md` |
 
 Shared by the scripts, imported by them: `pointer.js` (the light that follows the
-pointer), `tilt.js` (the card tilt), `two-tone.js` (the moving gradients) and `flow.js` (the
+pointer), `tilt.js` (the card tilt), `two-tone.js` (the moving gradients), `anchor.js` (places what opens beside a control, over everything, to fit the window) and `flow.js` (the
 one WebGL renderer per page that colorflows draw with). `index.css` and `index.js`
 gather everything.
 

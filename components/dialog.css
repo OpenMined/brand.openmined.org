@@ -1,0 +1,56 @@
+/* ════════════════════════════════════════════════════════════════════
+   DIALOG — v2 component (design/components/dialog.md)
+   ════════════════════════════════════════════════════════════════════
+   A modal on the native <dialog>: a head (an optional eyebrow, the title, a
+   close icon button), then whatever it holds, then an optional foot of
+   actions. Needs: the v2 tokens, button.css for the close and the actions.
+   The script (dialog.js, dialogs()) opens it from any button that names it,
+   puts focus on the dialog itself and closes it on a click on the scrim.
+   Without the script, call showModal() yourself.
+
+   Markup:
+     <button type="button" class="btn" data-dialog-open="about-visitors">How this is counted</button>
+     <dialog class="dialog" id="about-visitors" aria-labelledby="about-visitors-title">
+       <form method="dialog" class="dialog__body">
+         <div class="dialog__head">
+           <div class="stack stack--2xs"><p class="text-eyebrow">How this number is counted</p><h2 class="h4" id="about-visitors-title">Visitors</h2></div>
+           <button class="btn btn--icon dialog__close" value="close" aria-label="Close"><svg aria-hidden="true">…x…</svg></button>
+         </div>
+         <p class="dialog__lead">People who opened at least one page, counted once.</p>
+         …
+         <div class="dialog__foot"><a class="btn btn--solid" href="…">Open in Plausible</a></div>
+       </form>
+     </dialog>
+
+   Always centered in the window, both ways, and never closer than 16px
+   (--spacing-lg) to its edges: past that it scrolls inside. Raise-1 with the
+   raise-2 shadow, 38rem at most; generous padding that tightens on a phone.
+   The close is a quiet gray icon button that turns red on hover and focus
+   (--ci-key and --ci-stroke red's), fading as every icon button does. Focus goes to the
+   dialog, not its first button, so nothing opens wearing a focus ring;
+   closing returns focus to the button that opened it (the browser does).
+   Escape closes it.
+
+   The scrim: black at 35% with a 10px blur (the dashboard's). It's a wash,
+   so what shows through is a gray off the set steps (Grays are set): accepted
+   for now, as the scrim reads over anything. Under reduced transparency the
+   blur goes and the scrim thickens. No motion: it appears. */
+.dialog {
+  --dialog-gap: var(--spacing-lg);
+  position: fixed; inset: 0; margin: auto; border: 0; border-radius: var(--radius-lg); padding: 0;
+  inline-size: 100%; block-size: fit-content; max-inline-size: min(38rem, calc(100vw - 2 * var(--dialog-gap))); max-block-size: calc(100dvh - 2 * var(--dialog-gap));
+  overflow: auto; overscroll-behavior: contain;
+  background: var(--surface-raise-1); color: var(--text-body); box-shadow: var(--shadow-raise-2);
+}
+.dialog:focus { outline: none; }
+.dialog::backdrop { background: color-mix(in oklch, var(--black) 35%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+@media (prefers-reduced-transparency: reduce) {
+  .dialog::backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; background: color-mix(in oklch, var(--black) 60%, transparent); }
+}
+.dialog__body { display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-5xl); }
+@media (max-width: 640px) { .dialog__body { gap: var(--spacing-xl); padding: var(--spacing-xl); } }
+.dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-md); }
+.dialog__head :is(h2, h3) { margin: 0; }
+.dialog__close { --ci-key: var(--red-key); --ci-stroke: url(#tt-red) var(--red-key); flex: none; inline-size: 32px; block-size: 32px; min-inline-size: 0; min-block-size: 0; padding: 0; border-radius: var(--radius-full); color: var(--text-muted); }
+.dialog__lead { margin: 0; max-inline-size: var(--measure); font-size: var(--font-size-md); line-height: var(--line-height-text); color: var(--text-headline); }
+.dialog__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-sm); }

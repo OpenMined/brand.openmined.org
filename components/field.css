@@ -66,7 +66,7 @@
   transition: box-shadow var(--transition-base), --ctl-fl var(--transition-base), --ctl-fe var(--transition-base), --ctl-fh var(--transition-base), --ctl-fo var(--transition-base);
 }
 @media (hover: hover) {
-  .ctl:not(:disabled):hover { --ctl-fh: 100%; transition-duration: 0.15s; }
+  .ctl:not(:disabled):hover { --ctl-fh: 100%; transition-duration: var(--duration-fast); }
   .ctl.has-light:not(:disabled):not([data-interaction="minimal"] *):hover { --ctl-fl: var(--ctl-hl); --ctl-fe: var(--ctl-edge); --ctl-fh: var(--ctl-outline); }
 }
 .ctl:focus, .ctl:focus-visible { outline: none; box-shadow: var(--shadow-sunken); --ctl-fo: 100%; }

@@ -51,13 +51,13 @@
 
 /* Wash: the current item darkens the surface under it; hover, about half as much. */
 @media (hover: hover) {
-  .nav--wash .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--black) calc(var(--state-hover-wash) * 1%), transparent); transition-duration: 0.15s; }
+  .nav--wash .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--black) calc(var(--state-hover-wash) * 1%), transparent); transition-duration: var(--duration-fast); }
 }
 .nav--wash .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) { background: color-mix(in oklch, var(--black) calc(var(--state-current-wash) * 1%), transparent); }
 
 /* Strong: the current item fills with the strong gray; hover is a faded fill of it. */
 @media (hover: hover) {
-  .nav--strong .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: 0.15s; }
+  .nav--strong .nav__item:not([aria-current]:not([aria-current="false"]), [aria-pressed="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: var(--duration-fast); }
 }
 .nav--strong .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) { background-color: var(--emphasis); color: var(--on-emphasis); }
 .nav--strong .nav__item:is([aria-current]:not([aria-current="false"]), [aria-pressed="true"]) .nav__count { color: inherit; opacity: 0.7; }

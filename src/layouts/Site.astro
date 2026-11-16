@@ -13,7 +13,7 @@ import '@components/index.css';
 import '../styles/site.css';
 import ThemeToggle from '../components/site/ThemeToggle.astro';
 import { VERSION } from '../lib/serve';
-import '../lib/release-gate';
+import { DRAFTS_ALLOWED } from '../lib/release-gate';
 
 interface Props {
   title: string;
@@ -50,6 +50,7 @@ import { PAGES } from '../lib/pages';
         <span class="bar__tag">{VERSION.endsWith('-pre') ? 'v2 preview' : `v${VERSION}`}</span>
         <nav class="bar__nav" aria-label="Site">
           {PAGES.map(p => <a class="bar__link" href={p.href} aria-current={p.key === current ? 'page' : undefined}>{p.label}</a>)}
+          {DRAFTS_ALLOWED && <a class="bar__link" href="/wip/" aria-current={current === 'wip' ? 'page' : undefined}>In progress</a>}
         </nav>
         <ThemeToggle />
       </div>
@@ -72,6 +73,8 @@ import { PAGES } from '../lib/pages';
       import { cardFlows } from '@components/card-flow.js';
       import { tabs } from '@components/tabs.js';
       import { codeCopy } from '@components/code-copy.js';
+      import { tooltips } from '@components/tooltip.js';
+      import { dialogs } from '@components/dialog.js';
       import { lineFlow } from '@components/line-flow.js';
       import { diagrams } from '@components/diagram.js';
       import { copyOnClick } from '../scripts/copy';
@@ -82,6 +85,8 @@ import { PAGES } from '../lib/pages';
       cardFlows();
       tabs();
       codeCopy();
+      tooltips();
+      dialogs();
       lineFlow();
       diagrams();
       fieldLights();

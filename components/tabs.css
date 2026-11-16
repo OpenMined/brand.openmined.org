@@ -41,7 +41,7 @@
   font: var(--font-weight-medium) var(--font-size-md) var(--font-body); line-height: inherit; color: var(--text-headline); cursor: pointer;
   transition: background-color var(--transition-base), color var(--transition-base);
 }
-@media (hover: hover) { .tabs__tab:not([aria-selected="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: 0.15s; } }
+@media (hover: hover) { .tabs__tab:not([aria-selected="true"]):hover { background: color-mix(in oklch, var(--emphasis) 10%, transparent); transition-duration: var(--duration-fast); } }
 .tabs__tab[aria-selected="true"] { background: var(--emphasis); color: var(--on-emphasis); }
 /* Small: a 36px row for switching a view (one color / official color), three
    quarters of the field-height row. Labels stay 1rem; 3px inside, as every

@@ -61,7 +61,7 @@ a:hover { text-decoration-color: currentColor; }
    Text color holds. */
 .bar__link { border-radius: var(--radius-md); text-decoration: none; transition: background-color var(--transition-base); }
 .bar__link { padding: var(--spacing-2xs) var(--spacing-sm); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--text-headline); }
-.bar__link:hover { background: var(--surface-sunken); transition-duration: 0.15s; }
+.bar__link:hover { background: var(--surface-sunken); transition-duration: var(--duration-fast); }
 .bar__link[aria-current='page'] { background: var(--surface-sunken); }
 
 /* The Interface page's interactive-layer switch, under its intro. */
@@ -116,7 +116,7 @@ a:hover { text-decoration-color: currentColor; }
 .card--link .card__h { display: flex; align-items: center; gap: var(--spacing-xs); }
 .card--link p { color: var(--text-muted); font-size: var(--font-size-sm); }
 .card--link .icon { width: 15px; height: 15px; transition: transform var(--transition-base); }
-.card--link:hover .icon { transform: translateX(2px); transition-duration: 0.15s; }
+.card--link:hover .icon { transform: translateX(2px); transition-duration: var(--duration-fast); }
 
 /* Stack demos (Layout): the stack's own spacing, its children drawn as raised
    blocks over a sunken well so the gaps between them show. */
@@ -321,7 +321,7 @@ a:hover { text-decoration-color: currentColor; }
 :is(.decision, .build-ref, .type-long) > summary::-webkit-details-marker { display: none; }
 :is(.decision, .build-ref, .type-long) > summary::after { content: '+'; color: var(--text-muted); font-size: var(--font-size-lg); line-height: 1; transition: color var(--transition-base); }
 :is(.decision, .build-ref, .type-long)[open] > summary::after { content: '−'; }
-:is(.decision, .build-ref, .type-long) > summary:hover::after { color: var(--text-headline); transition-duration: 0.15s; }
+:is(.decision, .build-ref, .type-long) > summary:hover::after { color: var(--text-headline); transition-duration: var(--duration-fast); }
 
 /* Decisions, minimized: a row per record, opening to the full text. Rows are
    separated by dividers (a list, not enclosed boxes). */
@@ -607,3 +607,14 @@ a:hover { text-decoration-color: currentColor; }
 .copy-tip.is-below { transform: translate(-50%, var(--spacing-xs)); }
 .copy-tip.is-on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .copy-tip { transition: none; } }
+
+/* ---- In progress (/wip/, dev and previews only; decision 2026-11-13) ---- */
+.wip-waiting { max-width: var(--measure); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-md); box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); font-size: var(--font-size-sm); }
+.wip-waiting p { margin: 0; color: var(--text-headline); }
+.wip-waiting ul { margin: var(--spacing-2xs) 0 0; padding-inline-start: var(--spacing-lg); }
+.wip-note { max-width: var(--measure); }
+.wip-note table { font-size: var(--font-size-sm); }
+/* Interface demos for the avatar, progress ring and tooltip. */
+.demo-row { display: flex; align-items: center; gap: var(--spacing-md); flex-wrap: wrap; }
+.demo-stat .demo-row { justify-content: space-between; }
+.demo-stat .h3 { margin: 0; font-variant-numeric: tabular-nums; }

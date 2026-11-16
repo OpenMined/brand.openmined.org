@@ -40,12 +40,12 @@
 @media (hover: hover) {
   .hcard:hover { box-shadow: var(--shadow-raise-2);
     transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg)); }
-  .hcard:hover .hcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: 0.15s; }
-  .hcard:hover .hcard__icon > svg { opacity: 0; transition-duration: 0.15s; }
-  .hcard:hover .hcard__icon > .hcard__color { opacity: 1; transition-duration: 0.15s; }
-  .hcard:hover .hcard__icon > .hcard__glow { opacity: 0.25; transition-duration: 0.15s; }
+  .hcard:hover .hcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: var(--duration-fast); }
+  .hcard:hover .hcard__icon > svg { opacity: 0; transition-duration: var(--duration-fast); }
+  .hcard:hover .hcard__icon > .hcard__color { opacity: 1; transition-duration: var(--duration-fast); }
+  .hcard:hover .hcard__icon > .hcard__glow { opacity: 0.25; transition-duration: var(--duration-fast); }
   [data-theme="dark"] .hcard:hover .hcard__icon > .hcard__glow { opacity: 0.4; }
-  .hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: 0.15s; }
+  .hcard:hover .hcard__light { opacity: var(--hl-o); transition-duration: var(--duration-fast); }
 }
 .hcard:focus-visible { box-shadow: var(--shadow-raise-2);
   transform: perspective(var(--card-tilt-perspective)) translateY(-2px); }
@@ -58,7 +58,7 @@
 /* Pressed: the card settles back onto the page, its shadow back to raise-1 and
    the lift gone, keeping the tilt. */
 .hcard:active {
-  box-shadow: var(--shadow-raise-1); transition-duration: 0.15s;
+  box-shadow: var(--shadow-raise-1); transition-duration: var(--duration-fast);
   transform: perspective(var(--card-tilt-perspective)) translateY(0) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
 }
 @media (prefers-reduced-motion: reduce) { .hcard:is(:hover, :focus-visible, :active) { transform: none; } }
@@ -91,7 +91,7 @@
   background: linear-gradient(to top, var(--ci-key, transparent), transparent);
   opacity: 0; transition: opacity var(--transition-base);
 }
-@media (hover: hover) { [data-interaction="minimal"] .hcard:hover::after { opacity: 0.3; transition-duration: 0.15s; } }
+@media (hover: hover) { [data-interaction="minimal"] .hcard:hover::after { opacity: 0.3; transition-duration: var(--duration-fast); } }
 [data-interaction="minimal"] .hcard:focus-visible::after { opacity: 0.3; }
 [data-theme="dark"] [data-interaction="minimal"] .hcard:is(:hover, :focus-visible)::after, [data-theme="dark"][data-interaction="minimal"] .hcard:is(:hover, :focus-visible)::after { opacity: 0.35; }
 /* Large: full width of its container, icon and text centered at a 640px measure, the

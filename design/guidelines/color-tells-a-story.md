@@ -13,6 +13,6 @@ tokens: [--emphasis, --success-key, --accent-key]
 
 **Why.** A rainbow of categories makes every item shout and none mean anything, and the reader has to learn a key before they can read the view. A muted tint on a dark ground looks like a mistake rather than a choice.
 
-**Example.** A team page: each person's initials sit in a gray circle (the strong gray, or an outline), with their status as a small dot in the status's key; the person's card takes its color on hover, as a hover card does. Progress bars on the cards are meters, gray. A status chip in a list is the quiet chip, the dot its only color.
+**Example.** A team page: each person's initials sit in a gray circle (the sunken well, or the strong gray: *Avatars*), with their status as a small dot in the status's key; the person's card takes its color on hover, as a hover card does. Progress bars on the cards are meters, gray. A status chip in a list is the quiet chip, the dot its only color.
 
 **Don't.** Color-code teams, task types or people; tint initials circles with a dark wash of a hue; turn bars amber and red as they fill.

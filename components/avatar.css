@@ -1,0 +1,55 @@
+/* ════════════════════════════════════════════════════════════════════
+   AVATAR — v2 component (design/components/avatar.md)
+   ════════════════════════════════════════════════════════════════════
+   A person as a small circle: their photo, or their initials. Needs: the v2
+   tokens. No script, not interactive (the name beside it, or the thing
+   holding it, is what you act on).
+
+   Markup:
+     <span class="avatar" aria-hidden="true">AT</span>                                        initials
+     <span class="avatar" aria-hidden="true"><img src="…" alt="" width="32" height="32"></span>   a photo
+     <span class="avatar avatar--strong" aria-hidden="true">AT</span>                         the strong gray, where it must stand out
+     <span class="person"><span class="avatar avatar--sm" aria-hidden="true">AT</span><span class="person__name">Ada Turing</span></span>
+     <span class="person">
+       <span class="avatar" aria-hidden="true">AT<span class="avatar__status avatar__status--success"></span></span>
+       <span class="person__name">Ada Turing</span>
+     </span>                                                                                  with a status dot
+
+   Four sizes: 20 (sm), 24 (md), 32 (the default) and 40 (lg). Initials are
+   the first and last, at 0.42 of the size, line height 1 and centered by eye.
+   Never colored per person (Color tells a story). The fill is the sunken well
+   with muted initials; --strong (--emphasis, --on-emphasis) is the option for
+   where an avatar must stand out. A status may sit on it as a dot in the
+   status's key (Color tells a story), at the bottom end, ringed in the ground
+   it sits on (--avatar-ground, the page by default; set it on a card); the dot
+   is decoration, so the status is also said in words where someone reads it
+   (the row's status chip, the tooltip, the name's label). */
+.avatar {
+  --avatar-size: 32px; --avatar-ground: var(--surface-base);
+  position: relative; display: inline-grid; place-items: center; flex: none;
+  inline-size: var(--avatar-size); block-size: var(--avatar-size); border-radius: var(--radius-full);
+  background: var(--surface-sunken); color: var(--text-muted);
+  font: var(--font-weight-medium) calc(var(--avatar-size) * 0.42)/1 var(--font-body); letter-spacing: 0.02em; text-transform: uppercase;
+  user-select: none;
+}
+.avatar--sm { --avatar-size: 20px; }
+.avatar--md { --avatar-size: 24px; }
+.avatar--lg { --avatar-size: 40px; }
+.avatar--strong { background: var(--emphasis); color: var(--on-emphasis); }
+.avatar img { display: block; inline-size: 100%; block-size: 100%; border-radius: inherit; object-fit: cover; }
+/* The status dot: a quarter of the size (6px at least), over the bottom end. */
+.avatar__status {
+  --avatar-status: var(--emphasis);
+  position: absolute; inset-block-end: 0; inset-inline-end: 0;
+  inline-size: max(6px, calc(var(--avatar-size) * 0.25)); block-size: max(6px, calc(var(--avatar-size) * 0.25));
+  border-radius: var(--radius-full); background: var(--avatar-status);
+  box-shadow: 0 0 0 calc(var(--stroke-sm) * 2) var(--avatar-ground);
+}
+.avatar__status--success { --avatar-status: var(--success-key); }
+.avatar__status--warning { --avatar-status: var(--warning-key); }
+.avatar__status--danger { --avatar-status: var(--danger-key); }
+.avatar__status--info { --avatar-status: var(--info-key); }
+.card .avatar { --avatar-ground: var(--surface-raise-1); }
+/* A person: the avatar and the name beside it. */
+.person { display: inline-flex; align-items: center; gap: var(--spacing-xs); min-inline-size: 0; }
+.person__name { min-inline-size: 0; overflow-wrap: anywhere; }

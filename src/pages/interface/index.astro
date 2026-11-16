@@ -17,6 +17,10 @@ import { doc, byTag, decisionsFor } from '../../lib/design';
 import Icon from '../../components/site/Icon.astro';
 import BuildRef from '../../components/site/BuildRef.astro';
 import { componentCode } from '../../lib/components';
+import AvatarDemo from '../../components/site/AvatarDemo.astro';
+import ProgressRingDemo from '../../components/site/ProgressRingDemo.astro';
+import TooltipDemo from '../../components/site/TooltipDemo.astro';
+import DialogDemo from '../../components/site/DialogDemo.astro';
 
 const button = doc('components/button');
 const link = doc('components/link');
@@ -35,6 +39,10 @@ const pagerDoc = doc('components/pager');
 const accordion = doc('components/accordion');
 const steps = doc('components/steps');
 const codeBlock = doc('components/code-block');
+const avatar = doc('components/avatar');
+const progressRing = doc('components/progress-ring');
+const tooltip = doc('components/tooltip');
+const dialog = doc('components/dialog');
 // Each component's files and reference markup, read from components/.
 const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
@@ -54,11 +62,15 @@ const CODE = {
   accordion: componentCode(['accordion']),
   steps: componentCode(['steps']),
   codeBlock: componentCode(['code-copy'], ['code-copy']),
+  avatar: componentCode(['avatar']),
+  progressRing: componentCode(['progress-ring']),
+  tooltip: componentCode(['tooltip'], ['tooltip', 'anchor']),
+  dialog: componentCode(['dialog'], ['dialog']),
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
-const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['cards', card], ['tables', table], ['meters', meterDoc], ['tabs', tabsDoc], ['navs', navDoc], ['pagers', pagerDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['forms', form]];
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['avatars', avatar], ['cards', card], ['tables', table], ['meters', meterDoc], ['progress-rings', progressRing], ['tabs', tabsDoc], ['navs', navDoc], ['pagers', pagerDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['tooltips', tooltip], ['dialogs', dialog], ['forms', form]];
 const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
@@ -189,6 +201,11 @@ const TEXT_FIELDS = [
           </article>
           <BuildRef code={CODE.statusChip} tokens={statusChip.tokens} />
         </section>
+        <section class="component stack stack--xl" id="avatars">
+          <header class="sec"><h3 class="h3">{avatar.title}</h3><p>{avatar.description}</p>{avatar.status !== 'released' && <p class="status">Status: <b>{avatar.status}</b></p>}</header>
+          <AvatarDemo />
+          <BuildRef code={CODE.avatar} tokens={avatar.tokens} />
+        </section>
         <section class="component stack stack--xl" id="cards">
           <header class="sec"><h3 class="h3">{card.title}</h3><p>{card.description}</p>{card.status !== 'released' && <p class="status">Status: <b>{card.status}</b></p>}</header>
           <div class="card-grid">
@@ -221,6 +238,11 @@ const TEXT_FIELDS = [
           </table></div></div>
           <BuildRef code={CODE.meter} tokens={meterDoc.tokens} />
         </section>
+        <section class="component stack stack--xl" id="progress-rings">
+          <header class="sec"><h3 class="h3">{progressRing.title}</h3><p>{progressRing.description}</p>{progressRing.status !== 'released' && <p class="status">Status: <b>{progressRing.status}</b></p>}</header>
+          <ProgressRingDemo />
+          <BuildRef code={CODE.progressRing} tokens={progressRing.tokens} />
+        </section>
         <section class="component stack stack--xl" id="tabs">
           <header class="sec"><h3 class="h3">{tabsDoc.title}</h3><p>{tabsDoc.description}</p>{tabsDoc.status !== 'released' && <p class="status">Status: <b>{tabsDoc.status}</b></p>}</header>
           <div class="tabs" data-tabs>
@@ -230,6 +252,22 @@ const TEXT_FIELDS = [
             </div>
             <div class="tabs__panel" role="tabpanel"><div class="stack stack--sm"><h4>Ask questions of data you can't see</h4><p>Find a dataset, send a query, and get back only the answer. The data stays with its owner, and you never handle a copy.</p></div></div>
             <div class="tabs__panel" role="tabpanel"><div class="stack stack--sm"><h4>Share answers, not your data</h4><p>Keep your data where it is, and approve each query or set a policy. Only the answers you allow ever leave your server.</p></div></div>
+          </div>
+          <h4 class="block-title">Small: the same items, shown another way</h4>
+          <div class="tabs tabs--sm" data-tabs>
+            <div class="tabs__list" role="tablist" aria-label="Show projects as">
+              <button type="button" class="tabs__tab" role="tab" aria-selected="true">List</button>
+              <button type="button" class="tabs__tab" role="tab" aria-selected="false">Grid</button>
+            </div>
+            <div class="tabs__panel" role="tabpanel">
+              <div class="table-wrap"><table class="table table--compact">
+                <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
+                <tbody>{ROWS.map(([n, q, s, l]) => <tr><td>{n}</td><td class="num">{q}</td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td></tr>)}</tbody>
+              </table></div>
+            </div>
+            <div class="tabs__panel" role="tabpanel">
+              <div class="card-grid card-grid--4">{ROWS.map(([n, q, s, l]) => <div class="stack stack--xs"><b>{n}</b><span class="muted">{q} queries</span><span><span class={`status-chip status-chip--${s}`}>{l}</span></span></div>)}</div>
+            </div>
           </div>
           <BuildRef code={CODE.tabs} tokens={tabsDoc.tokens} />
         </section>
@@ -314,6 +352,16 @@ const TEXT_FIELDS = [
           <pre class="code-block"><code>npm install @openmined/syft-space
     syft-space init --data ./records</code></pre>
           <BuildRef code={CODE.codeBlock} tokens={codeBlock.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="tooltips">
+          <header class="sec"><h3 class="h3">{tooltip.title}</h3><p>{tooltip.description}</p>{tooltip.status !== 'released' && <p class="status">Status: <b>{tooltip.status}</b></p>}</header>
+          <TooltipDemo />
+          <BuildRef code={CODE.tooltip} tokens={tooltip.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="dialogs">
+          <header class="sec"><h3 class="h3">{dialog.title}</h3><p>{dialog.description}</p>{dialog.status !== 'released' && <p class="status">Status: <b>{dialog.status}</b></p>}</header>
+          <DialogDemo />
+          <BuildRef code={CODE.dialog} tokens={dialog.tokens} />
         </section>
         <section class="component stack stack--xl" id="forms">
           <div class="fm-split">

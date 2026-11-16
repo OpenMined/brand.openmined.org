@@ -1,0 +1,18 @@
+---
+/** Interface demo: the dialog, to try in both modes. */
+import Icon from './Icon.astro';
+---
+<div class="actions">
+  <button type="button" class="btn" data-dialog-open="demo-dialog">How this is counted</button>
+</div>
+<dialog class="dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+  <form method="dialog" class="dialog__body">
+    <div class="dialog__head">
+      <div class="stack stack--2xs"><p class="text-eyebrow">How this number is counted</p><h2 class="h4" id="demo-dialog-title">Visitors</h2></div>
+      <button class="btn btn--icon dialog__close" value="close" aria-label="Close"><Icon name="xmark" size={20} /></button>
+    </div>
+    <p class="dialog__lead">People who opened at least one page in the period, each counted once, however many pages they read.</p>
+    <div class="dialog__foot"><a class="btn btn--solid" href="#dialog">Open in Plausible<Icon name="open-new-window" size={20} /></a></div>
+  </form>
+</dialog>
+<p class="muted">Focus lands on the dialog, not the close. Escape, the close, or a click on the scrim closes it, and focus goes back to the button.</p>

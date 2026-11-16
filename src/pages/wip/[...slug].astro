@@ -1,0 +1,60 @@
+---
+/**
+ * BRAND SITE (v2) — In progress (/wip/). Components we know we need but haven't released:
+ * code in components/wip/, notes in design/wip/ (decision 2026-11-13, work in progress).
+ * Built only where drafts are allowed (npm run dev, npm run build:review for previews); a
+ * production build lists no page here, so it never reaches design.openmined.org. The WIP CSS and
+ * scripts are inlined, not imported: an imported file would be bundled into _astro/ even when no
+ * page is built, and so deployed.
+ */
+import type { GetStaticPaths } from 'astro';
+import Site from '../../layouts/Site.astro';
+import PageHero from '../../components/site/PageHero.astro';
+import BuildRef from '../../components/site/BuildRef.astro';
+import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
+import { WIP } from '../../lib/design';
+import { DRAFTS_ALLOWED } from '../../lib/release-gate';
+import { componentCode } from '../../lib/components';
+
+export const getStaticPaths = (() => (DRAFTS_ALLOWED ? [{ params: { slug: undefined } }] : [])) satisfies GetStaticPaths;
+
+/** Each piece's demo (in src/components/site/wip/), its files in components/wip/ (CSS, then
+ *  scripts) and the functions that start it. A note in design/wip/ without a demo here fails the
+ *  build, so nothing in progress goes unseen. Empty when nothing is in progress. */
+const PIECES: Record<string, { demo: any; css: string[]; js?: string[]; start?: string[] }> = {};
+const missing = WIP.filter((w) => !PIECES[w.name]).map((w) => `design/${w.path}`);
+if (missing.length) throw new Error(`Work in progress with no demo on /wip/ (src/pages/wip/[...slug].astro):\n  ${missing.join('\n  ')}`);
+/** The WIP files as text, inlined below (see the note at the top). */
+const RAW_CSS = import.meta.glob('/components/wip/*.css', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const RAW_JS = import.meta.glob('/components/wip/*.js', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const css = Object.entries(RAW_CSS).map(([, t]) => t).join('\n');
+// The modules inlined as one script: their imports of each other dropped (every function is
+// declared in the same script, so each finds the others), exports made plain functions, then called.
+const js = Object.values(RAW_JS).map((t) => t.replace(/^import .* from '\.\/[\w-]+\.js';$/gm, '').replace(/^export function/gm, 'function')).join('\n') + '\n' + Object.values(PIECES).flatMap((p) => p.start ?? []).map((f) => `${f}();`).join('\n');
+const items = WIP.map((w) => ({ w, ...PIECES[w.name], code: componentCode(PIECES[w.name].css, PIECES[w.name].js) }));
+---
+<Site title="In progress" description="Components we know we need, not released yet." current="wip">
+  <PageHero eyebrow="Work in progress" title="In progress" description="Components we know we need but haven't released. Each shows where it stands and what it's waiting on. None of this is part of the system yet: it isn't served and never reaches design.openmined.org." nav={items.map(({ w }) => [w.name, w.title])} source="shown by npm run dev and review previews only" />
+  <TwoToneDefs />
+  {items.length === 0 && <section class="band"><div class="wrap"><p class="muted">Nothing is in progress.</p></div></section>}
+  {items.map(({ w, demo: Demo, code }) => (
+    <section class="band component" id={w.name}>
+      <div class="wrap">
+        <header class="sec">
+          <h2>{w.title}</h2>
+          <p>{w.description}</p>
+          <p class="status">From {w.from}</p>
+        </header>
+        <div class="wip-waiting">
+          <p><b>Waiting on</b></p>
+          <ul>{w.waiting.map((x) => <li>{x}</li>)}</ul>
+        </div>
+        <Demo />
+        <div class="prose wip-note"><w.Content /></div>
+        <BuildRef code={code} tokens={w.tokens} />
+      </div>
+    </section>
+  ))}
+  <style is:inline set:html={css}></style>
+  <script is:inline type="module" set:html={js}></script>
+</Site>

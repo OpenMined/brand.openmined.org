@@ -30,13 +30,14 @@ export const stamped = (text: string, kind: 'css' | 'js' | 'md' | 'html') => {
 
 export const read = (rel: string) => readFileSync(join(ROOT, rel), 'utf8');
 
-/** Every file under a folder, as paths relative to it. */
+/** Every file under a folder, as paths relative to it. A `wip/` folder is never walked: work
+ *  in progress is never served (decision 2026-11-13, work in progress). */
 export function walk(dir: string, keep: (rel: string) => boolean = () => true): string[] {
   const base = join(ROOT, dir), out: string[] = [];
   (function go(d: string) {
     for (const f of readdirSync(d)) {
       const p = join(d, f);
-      if (statSync(p).isDirectory()) go(p);
+      if (statSync(p).isDirectory()) { if (f !== 'wip') go(p); }
       else if (keep(relative(base, p))) out.push(relative(base, p));
     }
   })(base);
@@ -123,7 +124,7 @@ export async function singleEmbed(name: string) {
 export async function omdsStartJs() {
   const { build } = await import('esbuild');
   const r = await build({
-    stdin: { contents: "import * as o from './components/index.js';\no.buttonHover(); o.hoverCards(); o.cardFlows(); o.linkCards(); o.fieldLights(); o.tabs(); o.codeCopy(); o.lineFlow(); o.diagrams(); o.themeToggle();", resolveDir: ROOT, loader: 'js' },
+    stdin: { contents: "import * as o from './components/index.js';\no.buttonHover(); o.hoverCards(); o.cardFlows(); o.linkCards(); o.fieldLights(); o.tabs(); o.codeCopy(); o.tooltips(); o.dialogs(); o.lineFlow(); o.diagrams(); o.themeToggle();", resolveDir: ROOT, loader: 'js' },
     bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'none',
   });
   return r.outputFiles[0].text;

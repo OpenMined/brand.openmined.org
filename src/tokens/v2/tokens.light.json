@@ -990,6 +990,12 @@
     "type": "duration",
     "status": "released"
   },
+  "--duration-fast": {
+    "value": "0.15s",
+    "resolved": "0.15s",
+    "type": "duration",
+    "status": "released"
+  },
   "--ease-base": {
     "value": "cubic-bezier(0.25, 0.1, 0.25, 1)",
     "resolved": "cubic-bezier(0.25, 0.1, 0.25, 1)",

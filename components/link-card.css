@@ -17,7 +17,7 @@
    At rest a card on the page (raise-1 and its shadow). On hover or keyboard
    focus it moves one level up, surface and shadow (raise-2), lifts 2px and
    tilts away from the pointer (tilt.js, the hover card's knobs); the arrow,
-   faint at rest, comes to full strength and nudges right, in at 0.15s and out
+   faint at rest, comes to full strength and nudges right, in at the fast duration and out
    at the base duration; the lift takes the base duration both ways, as the
    hover card's does. It sits on the page, never inside a raised panel, so it
    always has a level to rise to. */
@@ -35,7 +35,7 @@
     background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
     transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
   }
-  .lcard:hover .lcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: 0.15s; }
+  .lcard:hover .lcard__arrow { opacity: 1; transform: translateX(4px); transition-duration: var(--duration-fast); }
 }
 .lcard:focus-visible {
   background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); transform: perspective(var(--card-tilt-perspective)) translateY(-2px);
@@ -52,7 +52,7 @@
 /* Pressed: the card settles back onto the page, its shadow back to raise-1 and
    the lift gone, keeping raise-2's surface and the tilt. */
 .lcard:active {
-  box-shadow: var(--shadow-raise-1); transition-duration: 0.15s;
+  box-shadow: var(--shadow-raise-1); transition-duration: var(--duration-fast);
   transform: perspective(var(--card-tilt-perspective)) translateY(0) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
 }
 /* Minimal: the level change only, no lift or tilt (design/behaviors/interaction-states.md). */

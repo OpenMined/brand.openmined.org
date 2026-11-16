@@ -1,11 +1,16 @@
 {
-  "$description": "Hand-written. Motion timing, the same in every mode: one duration and one easing for state changes, and --transition-base, both together. The color moves' own timings (button hover, line pulses, icons) live with their components.",
+  "$description": "Hand-written. Motion timing, the same in every mode: a duration for state changes and a fast one for a state coming in, one easing, and --transition-base, the base duration and easing together. The color moves' own timings (button hover, line pulses, icons) live with their components.",
   "duration": {
     "$type": "duration",
     "base": {
       "$value": { "value": 0.4, "unit": "s" },
       "$description": "State changes: hover, focus, a theme switch, a surface moving.",
       "$extensions": { "org.openmined": { "status": "released", "was": "v1 --transition-base (0.4s)" } }
+    },
+    "fast": {
+      "$value": { "value": 0.15, "unit": "s" },
+      "$description": "A state coming in: a hover or focus state arriving, a tooltip opening. It leaves at the base duration.",
+      "$extensions": { "org.openmined": { "status": "released", "was": "the 0.15s typed into the components' hover-ins" } }
     }
   },
   "ease": {

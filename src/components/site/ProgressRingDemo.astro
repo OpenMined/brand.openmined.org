@@ -1,0 +1,16 @@
+---
+/** Interface demo: rings on cards; the on-schedule one turns green on its card's hover. */
+const RINGS: [number, string, string][] = [[62, 'progress-ring--success', 'On schedule: green while you are on the card'], [35, '', 'No status: gray'], [100, 'progress-ring--success progress-ring--sm', 'Small, 48px']];
+---
+<div class="grid grid--3">
+  {RINGS.map(([v, mod, label]) => (
+    <article class="card card--compact demo-row">
+      <svg class:list={['progress-ring', ...mod.split(' ').filter(Boolean)]} viewBox="0 0 64 64" role="img" aria-label={`${v}% progress`} style={`--progress-ring-value: ${v}`}>
+        <circle class="progress-ring__track" cx="32" cy="32" r="29" pathLength="100" />
+        <circle class="progress-ring__fill" cx="32" cy="32" r="29" pathLength="100" />
+        <text class="progress-ring__text" x="50%" y="50%">{v}%</text>
+      </svg>
+      <span class="muted">{label}</span>
+    </article>
+  ))}
+</div>

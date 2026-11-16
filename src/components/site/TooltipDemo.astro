@@ -1,0 +1,34 @@
+---
+/** Interface demo: tooltips on stat-like cards, at the card's end and start, so both alignments show. */
+import Icon from './Icon.astro';
+---
+<div class="grid grid--2">
+  <article class="card card--compact demo-stat">
+    <div class="demo-row">
+      <span class="muted">Visitors</span>
+      <span class="tooltip-host">
+        <button type="button" class="btn btn--icon" aria-label="About visitors"><Icon name="info-circle" size={20} /></button>
+        <span class="tooltip" role="tooltip">
+          <span class="tooltip__title">Visitors</span>
+          <span class="tooltip__body">People who opened at least one page in the period, each counted once.</span>
+          <span class="tooltip__foot">Plausible · 5 min ago</span>
+        </span>
+      </span>
+    </div>
+    <p class="h3">14,032</p>
+  </article>
+  <article class="card card--compact demo-stat">
+    <div class="demo-row">
+      <span class="tooltip-host">
+        <button type="button" class="btn btn--icon" aria-label="About bounce rate"><Icon name="info-circle" size={20} /></button>
+        <span class="tooltip" role="tooltip">
+          <span class="tooltip__title">Bounce rate</span>
+          <span class="tooltip__body">Visits that left after one page. Lower is better.</span>
+        </span>
+      </span>
+      <span class="muted">Bounce rate</span>
+    </div>
+    <p class="h3">41%</p>
+  </article>
+</div>
+<p class="muted">Hover or tab to the info buttons. Escape closes a tooltip; the pointer can move onto it. Near the window's edges it flips.</p>

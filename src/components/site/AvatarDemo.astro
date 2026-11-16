@@ -1,0 +1,22 @@
+---
+/** Interface demo: the default (sunken) and the strong option at every size, beside a name, and with status dots. */
+const FILLS = [['', 'Sunken (the default)'], ['avatar--strong', 'Strong gray (the option)']];
+const SIZES = ['avatar--sm', 'avatar--md', '', 'avatar--lg'];
+const STATUSES = [['success', 'On schedule'], ['warning', 'At risk'], ['danger', 'Blocked'], ['info', 'In review']];
+---
+<div class="grid grid--3">
+  {FILLS.map(([fill, label]) => (
+    <article class="card card--compact stack stack--md">
+      <h4 class="block-title">{label}</h4>
+      <div class="demo-row">{SIZES.map((size) => <span class:list={['avatar', size, fill]} aria-hidden="true">AT</span>)}</div>
+      <span class="person"><span class:list={['avatar', 'avatar--md', fill]} aria-hidden="true">MK</span><span class="person__name">Maya Kowalski</span></span>
+    </article>
+  ))}
+  <article class="card card--compact stack stack--md">
+    <h4 class="block-title">With a status dot</h4>
+    <div class="demo-row">{SIZES.map((size, i) => <span class:list={['avatar', size]} aria-hidden="true">AT<span class={`avatar__status avatar__status--${STATUSES[i][0]}`}></span></span>)}</div>
+    {STATUSES.slice(0, 2).map(([s, words]) => (
+      <span class="person"><span class="avatar avatar--md" aria-hidden="true">MK<span class={`avatar__status avatar__status--${s}`}></span></span><span class="person__name">Maya Kowalski · <span class="muted">{words}</span></span></span>
+    ))}
+  </article>
+</div>

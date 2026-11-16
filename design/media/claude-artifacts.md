@@ -5,7 +5,7 @@ description: "Pages, dashboards and tools made as Claude artifacts: one self-con
 status: released
 level: covered
 order: 2
-updated: 2026-11-06
+updated: 2026-11-16
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -35,7 +35,7 @@ guidance:
   - guidelines/color-tells-a-story
   - guidelines/text-stays-inside
   - guidelines/grays-are-set
-components: [type, card, table, meter, pager, nav, tabs, status-chip, tag, button, field, diagram]
+components: [type, card, table, meter, progress-ring, pager, nav, tabs, status-chip, avatar, tag, button, field, tooltip, dialog, diagram]
 examples: [dashboard, diagram-route]
 gaps:
   - "No artifact-specific patterns yet beyond the starter: tell us what you build."

@@ -1,0 +1,85 @@
+/* ════════════════════════════════════════════════════════════════════
+   TOOLTIP — v2 component (design/components/tooltip.md)
+   ════════════════════════════════════════════════════════════════════
+   A short explanation that opens beside a control on hover or keyboard focus:
+   a title, a line or two, and an optional foot. Needs: the v2 tokens. Works
+   with CSS alone (opens below, aligned to the control's end, inside the
+   page, so a container that clips can cut it off). The script (tooltip.js,
+   tooltips(), with anchor.js beside it) makes it a popover: it opens over
+   everything, placed to fit the window and following its control as the page
+   scrolls, with the caret on the control's middle; it also closes it on
+   Escape and wires aria-describedby. The markup is the same either way.
+
+   Markup (a note: the tooltip is a sibling of its control, inside the host):
+     <span class="tooltip-host">
+       <button type="button" class="btn btn--icon" aria-label="About visitors"><svg aria-hidden="true">…info-circle…</svg></button>
+       <span class="tooltip" role="tooltip">
+         <span class="tooltip__title">Visitors</span>
+         <span class="tooltip__body">People who opened at least one page, counted once.</span>
+         <span class="tooltip__foot">Plausible · 5 min ago</span>
+       </span>
+     </span>
+
+   On raise-2 with its shadow, 17rem wide (never wider than the window less
+   32px), small text. A caret points at the control. The pointer can move
+   from the control onto the tooltip without it closing (a bridge fills the
+   gap), so its text can be selected. Hover only applies where a pointer can
+   hover; on touch, what a tooltip says must also be one tap away (the
+   control's own action).
+
+   Motion (full layer): it fades in rising 8px (half of 1rem) into place, and
+   fades out sinking 8px, in the fast duration (--duration-fast, 0.15s). Minimal layer
+   and reduced motion: the fade only, nothing moves. */
+.tooltip-host { position: relative; display: inline-flex; vertical-align: middle; }
+.tooltip-host:is(:hover, :focus-within) { z-index: var(--z-dropdown); }
+.tooltip {
+  --tooltip-gap: var(--spacing-sm);
+  --tooltip-move: 8px; /* half of 1rem; the component's own, not a token */
+  --tooltip-duration: var(--duration-fast);
+  position: absolute; inset-block-start: calc(100% + var(--tooltip-gap)); inset-inline-end: calc(-1 * var(--spacing-xs));
+  z-index: var(--z-dropdown);
+  display: flex; flex-direction: column; gap: var(--spacing-xs);
+  visibility: hidden; opacity: 0; translate: 0 var(--tooltip-move);
+  transition: opacity var(--tooltip-duration) var(--ease-base), translate var(--tooltip-duration) var(--ease-base), visibility var(--tooltip-duration);
+  inline-size: min(17rem, calc(100vw - 32px)); padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md); background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2);
+  font: var(--font-weight-regular) var(--font-size-sm)/1.45 var(--font-body); color: var(--text-body);
+  text-align: start; white-space: normal;
+}
+/* The bridge: an invisible strip over the gap, so moving onto the tooltip keeps it open. */
+.tooltip::after { content: ''; position: absolute; inset-inline: 0; inset-block-end: 100%; block-size: var(--tooltip-gap); }
+/* The caret, 10px, near the end it's aligned to. */
+.tooltip::before {
+  content: ''; position: absolute; inset-block-start: -5px; inset-inline-end: calc(var(--spacing-xs) + 9px);
+  inline-size: 10px; block-size: 10px; background: var(--surface-raise-2); transform: rotate(45deg); border-radius: 2px;
+}
+[data-interaction="minimal"] .tooltip { --tooltip-move: 0px; }
+@media (prefers-reduced-motion: reduce) { .tooltip { --tooltip-move: 0px; } }
+
+/* Without the script: CSS opens it, inside the page. */
+@media (hover: hover) { .tooltip-host:hover > .tooltip:not([popover]) { visibility: visible; opacity: 1; translate: 0 0; } }
+.tooltip-host:has(> :focus-visible) > .tooltip:not([popover]) { visibility: visible; opacity: 1; translate: 0 0; }
+.tooltip-host[data-dismissed] > .tooltip:not([popover]) { visibility: hidden; opacity: 0; translate: 0 var(--tooltip-move); }
+
+/* With the script: a popover, over everything, where anchor.js puts it. Fading out
+   needs display and the top layer to wait for the fade (allow-discrete); a browser
+   without that closes it at once. */
+.tooltip[popover] {
+  position: fixed; inset: auto; top: var(--anchor-top, 0); left: var(--anchor-left, 0); /* anchor.js measures from the window's top left */
+  margin: 0; border: 0; overflow: visible;
+  transition: opacity var(--tooltip-duration) var(--ease-base), translate var(--tooltip-duration) var(--ease-base),
+    visibility var(--tooltip-duration), display var(--tooltip-duration) allow-discrete, overlay var(--tooltip-duration) allow-discrete;
+}
+.tooltip[popover]:popover-open { visibility: visible; opacity: 1; translate: 0 0; }
+@starting-style { .tooltip[popover]:popover-open { visibility: hidden; opacity: 0; translate: 0 var(--tooltip-move); } }
+.tooltip[popover]::before { inset-inline: auto; left: calc(var(--anchor-caret, 50%) - 5px); }
+/* Above its control (anchor.js): the caret and the bridge move to the bottom edge. */
+.tooltip[data-side="top"]::before { inset-block-start: auto; inset-block-end: -5px; }
+.tooltip[data-side="top"]::after { inset-block-end: auto; inset-block-start: 100%; }
+.tooltip__body { display: block; }
+.tooltip__title { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
+.tooltip__foot {
+  display: flex; align-items: center; gap: var(--spacing-xs); flex-wrap: wrap;
+  margin-block-start: var(--spacing-2xs); padding-block-start: var(--spacing-sm); border-block-start: var(--stroke-sm) solid var(--line);
+  font-size: var(--font-size-xs); color: var(--text-muted);
+}

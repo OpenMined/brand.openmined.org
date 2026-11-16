@@ -68,10 +68,10 @@
 
 /* Pressed: the moving fill darkens by the pressed wash, a black layer at
    --state-pressed-wash percent over the flow and shimmer, and the glow dims to
-   half. In at 0.15s, out at the base duration, like the lights. */
+   half. In at the fast duration, out at the base duration, like the lights. */
 .btn-flow--fill::after { content: ''; position: absolute; inset: 0; background: var(--black); opacity: 0; transition: opacity var(--transition-base); }
-.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--fill::after { opacity: calc(var(--state-pressed-wash) / 100); transition-duration: 0.15s; }
-.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--glow { opacity: 0.15; transition-duration: 0.15s; }
+.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--fill::after { opacity: calc(var(--state-pressed-wash) / 100); transition-duration: var(--duration-fast); }
+.btn.has-flow:active:not([data-interaction="minimal"] *) .btn-flow--glow { opacity: 0.15; transition-duration: var(--duration-fast); }
 
 @media (prefers-reduced-motion: reduce) {
   .btn-flow i { animation: none !important; }
@@ -80,16 +80,22 @@
 /* Icon-only buttons never fill: the icon takes its hue's two-tone, moving in its
    stroke (two-tone.js puts the gradients on the page), with a blurred copy behind
    as its glow, as a hover card's icon does. The hue is --ci-stroke, chosen per
-   icon; without one, green's. The glow: 6px, 0.25 in light, 0.4 in dark. */
+   icon; without one, green's. The glow: 6px, 0.25 in light, 0.4 in dark.
+   The color comes in as a hover card's icon does: the gray icon fades out as a
+   copy in the two-tone fades in (a gradient stroke can't transition itself). */
 .btn--icon.has-tone { --btn-tone: var(--ci-stroke, url(#tt-green) var(--accent-key)); position: relative; isolation: isolate; }
-.btn-icon-glow { position: absolute; inset: 0; z-index: -1; display: grid; place-items: center; filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity var(--transition-base); }
-.btn-icon-glow > svg { width: 20px; height: 20px; }
-.btn-icon-glow :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--btn-tone); }
-.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-glow { opacity: 0.25; transition-duration: 0.15s; }
+.btn--icon.has-tone > svg { transition: opacity var(--transition-base); }
+.btn-icon-glow, .btn-icon-tone { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; pointer-events: none; transition: opacity var(--transition-base); }
+.btn-icon-glow { z-index: -1; filter: blur(6px); }
+:is(.btn-icon-glow, .btn-icon-tone) > svg { width: 20px; height: 20px; }
+:is(.btn-icon-glow, .btn-icon-tone) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--btn-tone); }
+.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) > svg { opacity: 0; transition-duration: var(--duration-fast); }
+.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-tone { opacity: 1; transition-duration: var(--duration-fast); }
+.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-glow { opacity: 0.25; transition-duration: var(--duration-fast); }
 [data-theme="dark"] .btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-glow { opacity: 0.4; }
-[data-interaction="minimal"] .btn-icon-glow { display: none; }
-.btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) svg :is(path, circle, rect, line, polyline, polygon, ellipse) {
-  stroke: var(--btn-tone);
-}
+[data-interaction="minimal"] :is(.btn-icon-glow, .btn-icon-tone) { display: none; }
+/* The glow makes the button its own layer (isolation); while it's in use it sits over the
+   content after it, so anything it opens (a tooltip) isn't covered by later text. */
+.btn--icon.has-tone:is(:hover, :focus-visible, :focus-within) { z-index: 1; }
 /* Pressed: the icon's two-tone darkens by the pressed wash. */
-.btn--icon.has-tone:active:not([data-interaction="minimal"] *) svg { filter: brightness(calc(1 - var(--state-pressed-wash) / 100)); }
+.btn--icon.has-tone:active:not([data-interaction="minimal"] *) > :is(svg, .btn-icon-tone) { filter: brightness(calc(1 - var(--state-pressed-wash) / 100)); }

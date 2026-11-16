@@ -3,8 +3,9 @@
  * Interface page shows each one's files and reference markup straight from the
  * code. The markup is the "Markup:" block at the top of each CSS file.
  */
-const CSS = import.meta.glob('/components/*.css', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
-const JS = import.meta.glob('/components/*.js', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+// components/wip/ too, so work in progress shows its code on /wip/ and its Markup block is checked.
+const CSS = import.meta.glob(['/components/*.css', '/components/wip/*.css'], { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const JS = import.meta.glob(['/components/*.js', '/components/wip/*.js'], { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
 export type ComponentCode = { css: string[]; js: { file: string; fns: string[] }[]; markup: string };
 
@@ -52,6 +53,6 @@ export function componentCode(css: string[], js: string[] = []): ComponentCode {
   return {
     css: css.map((c) => `components/${c}.css`),
     js: js.map((j) => ({ file: `components/${j}.js`, fns: [...JS[`/components/${j}.js`].matchAll(/^export function (\w+)/gm)].map((m) => `${m[1]}()`) })),
-    markup: markupOf(CSS[`/components/${css[0]}.css`]),
+    markup: css.length ? markupOf(CSS[`/components/${css[0]}.css`]) : '', // a script with no look of its own (anchor.js) has none
   };
 }
