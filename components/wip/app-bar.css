@@ -1,0 +1,37 @@
+/* ════════════════════════════════════════════════════════════════════
+   APP BAR — work in progress (design/wip/app-bar.md); not released, never served
+   ════════════════════════════════════════════════════════════════════
+   The bar across the top of an internal tool: the brand and the quiet nav at
+   its start, set on one baseline, and what applies to the whole tool at its
+   end (a status, the color-mode switch). Needs: the v2 tokens, nav.css. No
+   script.
+
+   Markup:
+     <header class="app-bar">
+       <div class="app-bar__start">
+         <a class="app-bar__brand" href="/"><img src="/logos/OpenMined-Icon.svg" alt="" width="24" height="24">Reporting</a>
+         <nav class="nav" aria-label="Sections"><a class="nav__item" href="…" aria-current="page">Web</a>…</nav>
+       </div>
+       <div class="app-bar__end">…a status chip, a quiet switch…</div>
+     </header>
+
+   On the page's ground with a line under it, 56px tall at least, 24px from
+   the window's sides (16px on a phone). The brand's name and the nav's items
+   share a baseline, so the nav's smaller text sits on the brand's line, not
+   centered by its box (Center by eye): nobody nudges it by hand. The brand
+   is semibold in the headline color, its mark 24px. On a phone the nav wraps
+   under the brand. */
+.app-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap;
+  min-block-size: 56px; padding: var(--spacing-xs) var(--spacing-2xl);
+  border-block-end: var(--stroke-sm) solid var(--line); background: var(--surface-base);
+}
+@media (max-width: 640px) { .app-bar { padding-inline: var(--spacing-lg); } }
+.app-bar__start { display: flex; align-items: baseline; gap: var(--spacing-xs) var(--spacing-2xl); flex-wrap: wrap; min-inline-size: 0; }
+.app-bar__brand {
+  display: inline-flex; align-items: baseline; gap: var(--spacing-sm);
+  font-weight: var(--font-weight-semibold); color: var(--text-headline); text-decoration: none;
+}
+.app-bar__brand > :is(img, svg) { align-self: center; flex: none; inline-size: 24px; block-size: 24px; }
+.app-bar__brand:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+.app-bar__end { display: flex; align-items: center; gap: var(--spacing-md); margin-inline-start: auto; }

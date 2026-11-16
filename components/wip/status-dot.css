@@ -1,0 +1,27 @@
+/* ════════════════════════════════════════════════════════════════════
+   STATUS DOT — work in progress (design/wip/status-dot.md); not released, never served
+   ════════════════════════════════════════════════════════════════════
+   The status chip's dot on its own, for where a chip is too much: beside a
+   name in a menu, a row, a legend. Needs: the v2 tokens. No script.
+
+   Markup:
+     <span class="status-dot status-dot--success" aria-hidden="true"></span> On schedule
+     <span class="status-dot status-dot--warning" aria-hidden="true"></span>
+     <span class="status-dot status-dot--danger" aria-hidden="true"></span>
+     <span class="status-dot status-dot--info" aria-hidden="true"></span>
+     <span class="status-dot status-dot--none" aria-hidden="true"></span>      no status: a ring
+
+   8px, fully round, in the status's key (Color tells a story: the dot is the
+   only color). No status is a ring in --line-strong, not a gray fill, so
+   "none" never reads as a muted status. Decoration: the status is always said
+   in words beside it. */
+.status-dot {
+  --status-dot: var(--emphasis);
+  display: inline-block; flex: none; vertical-align: middle;
+  inline-size: 8px; block-size: 8px; border-radius: var(--radius-full); background: var(--status-dot);
+}
+.status-dot--success { --status-dot: var(--success-key); }
+.status-dot--warning { --status-dot: var(--warning-key); }
+.status-dot--danger { --status-dot: var(--danger-key); }
+.status-dot--info { --status-dot: var(--info-key); }
+.status-dot--none { background: transparent; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); }

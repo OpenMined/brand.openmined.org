@@ -49,14 +49,18 @@ const wipBlocks = new Set([...wipClasses].map(block));
 const names = (value) => value.replace(/[\w-]*\$\{[^}]*\}[\w-]*/g, ' ').split(/[\s'",[\]{}`]+/).filter((t) => /^[_a-zA-Z][\w-]*$/.test(t));
 const problems = [];
 for (const f of WIP_FILES) {
-  // A WIP file may style a released class it builds on (a .btn inside a dialog's head), but its
-  // own block can't share a released component's name.
+  // A WIP file may style a released class it builds on (a .btn inside a dialog's head) and may
+  // add a modifier to a released block (.switch--quiet, a variant in progress), but not an element
+  // or the block itself: a new part gets its own name.
   for (const c of selectorClasses(readFileSync(f, 'utf8'))) {
-    if (!releasedClasses.has(c) && releasedBlocks.has(block(c))) problems.push(`${f}  .${c}: work in progress can't add to a released component's block (.${block(c)}); give it its own name`);
+    const variant = !c.includes('__') && c.includes('--');
+    if (!releasedClasses.has(c) && releasedBlocks.has(block(c)) && !variant) problems.push(`${f}  .${c}: work in progress can't add an element to a released component's block (.${block(c)}); a variant is .${block(c)}--name, a new part gets its own name`);
   }
 }
 const check = (file, line, cls, where, wipOk) => {
   const b = block(cls);
+  // A WIP variant of a released block (.switch--quiet) is work in progress wherever it's used.
+  if (wipClasses.has(cls) && releasedBlocks.has(b)) { if (!wipOk) problems.push(`${file}:${line}  .${cls} (${where}) is work in progress (components/wip/); released work can't use it`); return; }
   if (releasedBlocks.has(b)) { if (!releasedClasses.has(cls)) problems.push(`${file}:${line}  .${cls} (${where}) isn't defined by its component`); return; }
   if (!wipBlocks.has(b)) return;
   if (!wipOk) problems.push(`${file}:${line}  .${cls} (${where}) is work in progress (components/wip/); released work can't use it`);

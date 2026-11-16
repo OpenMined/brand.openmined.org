@@ -1,0 +1,25 @@
+/* ════════════════════════════════════════════════════════════════════
+   QUIET SWITCH — work in progress (design/wip/switch-quiet.md); not released, never served
+   ════════════════════════════════════════════════════════════════════
+   A variant of the switch (control.css) for a bar's color-mode switch: drawn
+   like the quiet status chip beside it, the same 26px height, no fill, a
+   hairline ring. Needs: control.css. No script of its own (theme.js's
+   themeToggle() flips aria-checked on [data-theme-toggle]).
+
+   Markup:
+     <button type="button" class="switch switch--quiet" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle>
+       <span class="switch__knob"></span>
+     </button>
+
+   44 by 26. Off (light): a 16px disc in the muted text color. On (dark): the
+   disc clears and an inset shadow in the headline color leaves a crescent on
+   its right (☽). Hover darkens the ring to --line-strong. The exception to
+   Recessed controls prefer a raised surface: it sits on the page's bar, with
+   a line, not a recess. */
+.switch--quiet, .switch--quiet[aria-checked="true"] { width: 44px; height: 26px; background: transparent; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
+.switch--quiet .switch__knob {
+  top: 5px; left: 5px; width: 16px; height: 16px; background: var(--text-muted);
+  transition: transform var(--transition-base), background-color var(--transition-base), box-shadow var(--transition-base);
+}
+.switch--quiet[aria-checked="true"] .switch__knob { transform: translateX(18px); background: transparent; box-shadow: inset -4px -2px 0 0 var(--text-headline); }
+@media (hover: hover) { .switch--quiet:hover:not(:disabled) { box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); } }

@@ -1,0 +1,90 @@
+/* ════════════════════════════════════════════════════════════════════
+   MENU — work in progress (design/wip/menu.md); not released, never served
+   ════════════════════════════════════════════════════════════════════
+   A list that opens from a button, in two kinds: navigate (links to places,
+   the current one marked) and pick one (buttons that set a value, the chosen
+   one checked). Needs: the v2 tokens; menu.js (menus(), with anchor.js
+   beside it) places it, moves focus with the arrow keys and checks a pick.
+   The button opens it with popovertarget, so the browser opens and closes it
+   (Escape, a click outside) with or without the script.
+
+   Markup (a note: navigate, opened from a nav item):
+     <nav class="nav" aria-label="Sections">
+       <button type="button" class="nav__item" popovertarget="sites">openmined.org <svg class="menu__chevron" aria-hidden="true">…nav-arrow-down…</svg></button>
+       <a class="nav__item" href="…">Social</a>
+     </nav>
+     <div class="menu" id="sites" popover aria-label="Sites">
+       <p class="menu__head">Sites</p>
+       <p class="menu__group">Products</p>
+       <a class="menu__item" href="…" aria-current="page">
+         <span class="menu__text"><span class="menu__name">openmined.org</span><span class="menu__detail">12,400 visitors</span></span>
+         <svg class="menu__check" aria-hidden="true">…check…</svg>
+       </a>
+       <p class="menu__foot">…</p>
+     </div>
+
+   Pick one: role="menu" on the menu; each item a <button class="menu__item"
+   role="menuitemradio" aria-checked="true|false" value="…">, a status dot
+   before its name where it sets a status. The button that opens it shows the
+   current value in a .menu__current: menus() fills it from the checked item
+   (its dot and name), and on a pick checks the item, updates the button,
+   closes the menu and sends a "menupick" event with its value. It's as wide
+   as the longest option, so a pick never moves what's around it:
+     <button type="button" class="nav__item" popovertarget="status"><span class="menu__current"></span><svg class="menu__chevron" aria-hidden="true">…</svg></button>
+
+   On raise-2 with its shadow, the large corner, 8px inside; 16rem to 22rem
+   wide, never wider than the window less 32px; 70% of the window tall at most,
+   then it scrolls. Items take the wash nav's states, in gray 950 (as a table's
+   rows): a faint wash on hover, a stronger one on the current item, with a
+   check. Opens over everything, below its button and aligned to its start,
+   flipping to fit (anchor.js). Fades in rising 8px, like the tooltip; minimal
+   layer and reduced motion: the fade only. */
+.menu {
+  --menu-move: 8px;
+  display: flex; flex-direction: column; gap: var(--spacing-3xs);
+  min-inline-size: min(16rem, calc(100vw - 32px)); max-inline-size: min(22rem, calc(100vw - 32px)); max-block-size: min(70vh, 32rem);
+  overflow-y: auto; padding: var(--spacing-sm); border: 0; border-radius: var(--radius-lg);
+  background: var(--surface-raise-2); box-shadow: var(--shadow-raise-2); color: var(--text-body);
+}
+.menu[popover] {
+  position: fixed; inset: auto; top: var(--anchor-top, 0); left: var(--anchor-left, 0); margin: 0;
+  opacity: 0; translate: 0 var(--menu-move);
+  transition: opacity var(--duration-fast) var(--ease-base), translate var(--duration-fast) var(--ease-base),
+    display var(--duration-fast) allow-discrete, overlay var(--duration-fast) allow-discrete;
+}
+.menu[popover]:not(:popover-open) { display: none; }
+.menu[popover]:popover-open { opacity: 1; translate: 0 0; }
+@starting-style { .menu[popover]:popover-open { opacity: 0; translate: 0 var(--menu-move); } }
+[data-interaction="minimal"] .menu { --menu-move: 0px; }
+@media (prefers-reduced-motion: reduce) { .menu { --menu-move: 0px; } }
+.menu__head { margin: 0; padding: var(--spacing-2xs) var(--spacing-md) var(--spacing-xs); font-size: var(--font-size-xs); color: var(--text-muted); }
+.menu__group { margin: 0; padding: var(--spacing-sm) var(--spacing-md) var(--spacing-3xs); font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); color: var(--text-muted); }
+.menu__item {
+  display: flex; align-items: center; gap: var(--spacing-sm); inline-size: 100%;
+  padding: var(--spacing-sm) var(--spacing-md); border: 0; border-radius: var(--radius-md);
+  background: transparent; color: var(--text-headline); text-align: start; text-decoration: none; cursor: pointer;
+  font: var(--font-weight-medium) var(--font-size-sm)/1.4 var(--font-body);
+  transition: background-color var(--transition-base);
+}
+@media (hover: hover) {
+  .menu__item:hover { background: color-mix(in oklch, var(--gray-950) calc(var(--state-hover-wash) * 1%), transparent); transition-duration: var(--duration-fast); }
+}
+.menu__item:is([aria-current]:not([aria-current="false"]), [aria-checked="true"]) { background: color-mix(in oklch, var(--gray-950) calc(var(--state-current-wash) * 1%), transparent); }
+.menu__item:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: -2px; }
+.menu__text { display: flex; flex: 1; flex-direction: column; min-inline-size: 0; }
+.menu__name { overflow-wrap: anywhere; }
+.menu__detail { font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.menu__check { flex: none; inline-size: 16px; block-size: 16px; margin-inline-start: auto; color: var(--text-headline); visibility: hidden; }
+.menu__item:is([aria-current]:not([aria-current="false"]), [aria-checked="true"]) .menu__check { visibility: visible; }
+/* In the button that opens it: the chevron turns while it's open; the current value. */
+.menu__chevron { flex: none; align-self: center; inline-size: 16px; block-size: 16px; color: var(--text-muted); transition: rotate var(--transition-base); }
+[aria-expanded="true"] > .menu__chevron { rotate: 180deg; }
+/* The current value holds every option, stacked, with only the current one shown: it's as wide
+   as the longest, so a pick never changes the width of the item, its nav or its table column. */
+.menu__current { display: inline-grid; justify-items: start; }
+.menu__current > * { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: var(--spacing-xs); visibility: hidden; }
+.menu__current > [data-current] { visibility: visible; }
+.menu__foot {
+  margin: var(--spacing-xs) 0 0; padding: var(--spacing-sm) var(--spacing-md) var(--spacing-2xs); border-block-start: var(--stroke-sm) solid var(--line);
+  font-size: var(--font-size-xs); line-height: 1.5; color: var(--text-muted);
+}
