@@ -31,10 +31,13 @@
    closing returns focus to the button that opened it (the browser does).
    Escape closes it.
 
-   The scrim: black at 35% with a 10px blur (the dashboard's). It's a wash,
-   so what shows through is a gray off the set steps (Grays are set): accepted
-   for now, as the scrim reads over anything. Under reduced transparency the
-   blur goes and the scrim thickens. No motion: it appears. */
+   The scrim: the sunken level at 70% with a 10px blur, so the page frosts
+   over in its own mode's gray (light in light, dark in dark; data-section
+   too). Mixed in sRGB: in oklch, a gray mixed with transparent drifts in hue.
+   Still a wash, so what shows through sits between the set steps (Grays are
+   set): accepted for the scrim, which has to read over anything. Under
+   reduced transparency the blur goes and the scrim is almost solid. No
+   motion: it appears. */
 .dialog {
   --dialog-gap: var(--spacing-lg);
   position: fixed; inset: 0; margin: auto; border: 0; border-radius: var(--radius-lg); padding: 0;
@@ -43,9 +46,9 @@
   background: var(--surface-raise-1); color: var(--text-body); box-shadow: var(--shadow-raise-2);
 }
 .dialog:focus { outline: none; }
-.dialog::backdrop { background: color-mix(in oklch, var(--black) 35%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.dialog::backdrop { background: color-mix(in srgb, var(--surface-sunken) 70%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 @media (prefers-reduced-transparency: reduce) {
-  .dialog::backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; background: color-mix(in oklch, var(--black) 60%, transparent); }
+  .dialog::backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; background: color-mix(in srgb, var(--surface-sunken) 95%, transparent); }
 }
 .dialog__body { display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-5xl); }
 @media (max-width: 640px) { .dialog__body { gap: var(--spacing-xl); padding: var(--spacing-xl); } }
