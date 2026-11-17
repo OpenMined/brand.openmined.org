@@ -1,31 +1,34 @@
 ---
 type: Component
 title: Hint
-description: "A line of plain text under a word or a chip, after a short pause on hover or at once on keyboard focus. CSS only: smaller than a tooltip."
+description: "A few words about a word or a chip, on hover or keyboard focus. One attribute: with the tooltip's script it becomes a text-only tooltip; with CSS alone, a line drawn below it."
 status: draft
 from: "Issue #54 (the reporting dashboard's data-tip), 2026-11-06"
 waiting:
-  - "A choice between the options below: a CSS-only hint, a text-only tooltip, or a hint the tooltip's script upgrades"
-  - "A screen-reader check with VoiceOver, for whichever is chosen"
-tokens: [--surface-raise-2, --shadow-raise-2, --font-size-xs, --duration-fast, --line-strong]
+  - "A screen-reader check with VoiceOver, with the script and with CSS alone"
+  - "The design lead's approval on /wip/"
+tokens: [--surface-raise-2, --shadow-raise-2, --font-size-sm, --duration-fast, --line-strong]
 ---
 
-**For.** A few words about a label or a chip where a tooltip's title and foot would be too much: what "Bounce rate" means, why a chip says "At risk". The text is in `data-hint`; no script.
+**For.** A few words about a label or a chip where a tooltip's title and foot would be too much: what "Bounce rate" means, why a chip says "At risk". The text is in `data-hint`.
+
+**How it works.** One way to write it; the script decides how much it can do. Where `hints()` runs (`hint.js`, with `anchor.js` beside it), it reads `data-hint` and builds a text-only tooltip (`.tooltip--hint`): a popover over everything, placed to fit the window, closed on Escape, described to screen readers with `aria-describedby`. Where only the CSS loads, the same attribute draws the text below the hint, inside the page. On release, the upgrade moves into `tooltip.js`, so `tooltips()` starts hints too.
 
 **Where it stands.**
 
 | | |
 | --- | --- |
-| Tokens | Tokens only. The pause is twice `--duration-fast` (0.3s, the dashboard's), not a new token. |
+| Tokens | Tokens only; the tooltip's look, as wide as its words (17rem at most). |
 | Color modes | Role tokens. |
-| Minimal / full layer | The same in both: a fade, no movement. |
-| Keyboard | `tabindex="0"`; focus shows it at once, with the focus line. |
-| Placement | Below, aligned to its start; `data-align="end"` near the right edge. CSS can't flip it or keep it inside a box that clips: that's what a tooltip is for. |
+| Timing and motion | The tooltip's: opens at once, rises 8px in `--duration-fast`. Minimal layer and reduced motion: the fade only. With CSS alone too. |
+| Keyboard | `tabindex="0"` where it isn't focusable already; focus opens it, with the focus line; Escape closes it (with the script). |
+| Placement | With the script: below, aligned to its start, flipping to fit the window; `data-align="end"` prefers its end. With CSS alone: below only, and a box that clips cuts it off. |
+| Screen readers | With the script: read as the hint's description. With CSS alone: not read. |
 | Touch | Can't open. A hint is never the only place something is said. |
 | Marked | A dotted underline in `--line-strong`, so a hinted word reads as one (not on a chip). |
 | Name | `.hint` (the dashboard's `.tip` is too general to own). |
 
-**Hint or tooltip: the options.** The system already has a released tooltip: a popover with a title, a body and an optional foot, placed by `anchor.js`. The hint does part of the same job in a different way. Before releasing it, the choice is whether short explanations get their own CSS-only element, or share the tooltip's code.
+**Hint or tooltip: the options weighed.** The system already has a released tooltip: a popover with a title, a body and an optional foot, placed by `anchor.js`. The hint does part of the same job in a different way. Before releasing it, the choice is whether short explanations get their own CSS-only element, or share the tooltip's code.
 
 **A. A CSS-only hint (as shown above).** One attribute on any element: `data-hint="…"`, plus `tabindex="0"` where it isn't focusable already. The text is drawn by CSS (`::after`), with no script.
 
@@ -51,9 +54,4 @@ tokens: [--surface-raise-2, --shadow-raise-2, --font-size-xs, --duration-fast, -
 
 **Accessibility, in short.** A's text is invisible to assistive technology: a screen-reader user on a hinted word hears the word and nothing more. That's acceptable only where the hint adds nothing they need, which is hard to promise for a definition ("Bounce rate") or a reason ("At risk"). B and C (with the script) are described the way the released tooltip is.
 
-**Proposed: C.** It keeps the one-attribute markup that made the dashboard's hint easy to use, while the same words get the tooltip's placement, clipping and screen-reader behavior wherever the script runs, which is everywhere the system's scripts load. Pages that load only the CSS still get a working hint. The cost is the upgrade code in `tooltip.js` and one less-capable fallback.
-
-*Open:*
-- The choice: A, B or C.
-- With C, whether the CSS-only fallback keeps the 0.3s pause, or matches the tooltip's timing.
-- The dotted underline under a hinted word: keep, or only the help cursor. (A tooltip's control is a button with an icon and needs neither.)
+**Chosen: C** (the design lead, 2026-11-17). It keeps the one-attribute markup that made the dashboard's hint easy to use, while the same words get the tooltip's placement, clipping and screen-reader behavior wherever the script runs, which is everywhere the system's scripts load. Pages that load only the CSS still get a working hint. Without the script it matches the tooltip's timing (at once, not after a pause), and a hinted word keeps its dotted underline.

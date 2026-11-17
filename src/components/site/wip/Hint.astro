@@ -1,9 +1,16 @@
 ---
-/** /wip/ demo: a hinted word and a hinted chip. */
+/** /wip/ demo: hints with the script (upgraded to a text-only tooltip) and with CSS alone. */
 ---
+<p class="muted">With the script: a text-only tooltip, placed to fit the window, read by screen readers.</p>
 <div class="card card--compact"><div class="demo-row">
+  <span class="hint" tabindex="0" data-hint="Visits that left after one page, as a share of all visits. Lower is better.">Bounce rate</span>
+  <span class="status-chip status-chip--warning hint" tabindex="0" data-hint="Two of nine goals are behind schedule.">At risk</span>
+  <span class="hint" tabindex="0" data-hint="Prefers aligning to its end; flips if that would leave the window." data-align="end">End-aligned</span>
+</div></div>
+<p class="muted">With CSS alone (a page on omds.css only): drawn below, inside the page, not read by screen readers.</p>
+<div class="card card--compact wip-hint-css"><div class="demo-row">
   <span class="hint" tabindex="0" data-hint="Visits that left after one page, as a share of all visits. Lower is better.">Bounce rate</span>
   <span class="status-chip status-chip--warning hint" tabindex="0" data-hint="Two of nine goals are behind schedule.">At risk</span>
   <span class="hint" tabindex="0" data-hint="Aligned to its end, for a hint near the window's right edge." data-align="end">End-aligned</span>
 </div></div>
-<p class="muted">Rest the pointer on one (it waits 0.3s) or tab to it (at once).</p>
+<p class="muted">Rest the pointer on one or tab to it: both open at once.</p>
