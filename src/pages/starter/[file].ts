@@ -8,13 +8,14 @@
  * motion. Replace the body; keep the head.
  */
 import type { GetStaticPaths } from 'astro';
-import { HOST, STAMP, omdsCss, omdsStartJs, respond } from '../../lib/serve';
+import { HOST, STAMP, omdsCss, omdsStartJs, omdsThemeJs, respond } from '../../lib/serve';
 
 export const getStaticPaths = (() => [{ params: { file: 'artifact.html' } }, { params: { file: 'artifact-full.html' } }]) satisfies GetStaticPaths;
 
 export const GET = async ({ params }: { params: { file: string } }) => {
   const full = params.file === 'artifact-full.html';
-  const js = full ? await omdsStartJs() : '';
+  // The minimal layer has no script for motion, but its color-mode switch still works.
+  const js = full ? await omdsStartJs() : await omdsThemeJs();
   const html = `<!doctype html>
 <!--
   OpenMined Design System starter for Claude artifacts (${STAMP}).
@@ -22,6 +23,9 @@ export const GET = async ({ params }: { params: { file: string } }) => {
   ${full ? 'Full interactive layer: every component script is inlined at the end of <body>.' : 'Minimal interactive layer: no script for motion. For the full layer use ' + HOST + '/starter/artifact-full.'}
   Use the components' markup (${HOST}/components/README.md, examples at ${HOST}/examples/).
   Every color is a token: var(--surface-raise-1), var(--text-body); never type a hex.
+  Color-mode switch: any button with data-theme-toggle works (the script at the end of <body>). On a bar,
+  the quiet switch: <button type="button" class="switch switch--quiet" role="switch" aria-checked="false"
+  aria-label="Dark mode" data-theme-toggle><span class="switch__knob"></span></button>
   An eyebrow over a heading is <p class="text-eyebrow">: body text, sentence case, never caps or mono.
   Feedback: if the system didn't cover something you needed, say what, and what you did instead,
   so it can be passed to the design lead (${HOST}/AGENTS.md, "Feedback").
@@ -59,7 +63,7 @@ ${omdsCss()}
   </div>
   <div class="actions"><button class="btn btn--solid">Primary action</button><button class="btn">Secondary</button></div>
 </main>
-${full ? `<script type="module">\n${js}</script>` : ''}
+<script type="module">\n${js}</script>
 </body>
 </html>
 `;

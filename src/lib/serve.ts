@@ -119,6 +119,17 @@ export async function singleEmbed(name: string) {
   return stamped(r.outputFiles[0].text, 'js');
 }
 
+/** The color-mode switch alone (theme.js, themeToggle()), as one script with no imports: for
+ *  the minimal starter, which has no script for motion but still needs a working mode switch. */
+export async function omdsThemeJs() {
+  const { build } = await import('esbuild');
+  const r = await build({
+    stdin: { contents: "import { themeToggle } from './components/theme.js';\nthemeToggle();", resolveDir: ROOT, loader: 'js' },
+    bundle: true, format: 'esm', write: false, target: 'es2020', legalComments: 'none',
+  });
+  return r.outputFiles[0].text;
+}
+
 /** Every component script with every component started, as one script with no imports:
  *  for the full starter, pasted inline. */
 export async function omdsStartJs() {
