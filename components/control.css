@@ -11,6 +11,9 @@
      <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Notifications">
        <span class="switch__knob"></span>
      </button>
+     <button type="button" class="switch switch--quiet" role="switch" aria-checked="false" aria-label="Dark mode" data-theme-toggle>
+       <span class="switch__knob"></span>
+     </button>                                                        the color-mode switch on a bar
 
    Casts its inset at rest; checked fills with the headline color. The mark sits
    3px inside the box on every side, the recessed-control inset, the same as the toggle's knob; a radio's dot takes twice that. */
@@ -51,3 +54,20 @@
 :is(.opt__box, .switch) { transition: box-shadow var(--transition-base), background-color var(--transition-base); }
 :is(.opt:hover .opt__box, .opt__box:hover, .switch:hover):not(:disabled) { box-shadow: var(--shadow-sunken), inset 0 0 0 1px var(--ctl-ring-c); transition-duration: var(--duration-fast); }
 :is(.opt__box, .switch):focus-visible { outline: 1px solid var(--line-focus); outline-offset: 2px; }
+
+/* The quiet switch: the color-mode switch on a bar (an app bar, a page's
+   header), drawn like the quiet status chip beside it, the same 26px height,
+   no fill, a hairline ring; for color mode only (its picture is light and
+   dark). 44 by 26. Off (light): a 16px disc in the muted text color. On
+   (dark): the disc clears and an inset shadow in the headline color leaves a
+   crescent on its right. Hover darkens the ring to --line-strong. Not a
+   recess, so it may sit on the page (Recessed controls prefer a raised
+   surface names it). theme.js's themeToggle() flips aria-checked on
+   [data-theme-toggle]. */
+.switch--quiet, .switch--quiet[aria-checked="true"] { width: 44px; height: 26px; background: transparent; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
+.switch--quiet .switch__knob {
+  top: 5px; left: 5px; width: 16px; height: 16px; background: var(--text-muted);
+  transition: transform var(--transition-base), background-color var(--transition-base), box-shadow var(--transition-base);
+}
+.switch--quiet[aria-checked="true"] .switch__knob { transform: translateX(18px); background: transparent; box-shadow: inset -4px -2px 0 0 var(--text-headline); }
+@media (hover: hover) { .switch--quiet:hover:not(:disabled) { box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); } }

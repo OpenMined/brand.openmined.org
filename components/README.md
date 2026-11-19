@@ -148,21 +148,25 @@ released. Decision 2026-11-13.
 | Button | `button.css` | none | `design/components/button.md` |
 | Button hover (color in motion) | `button-hover.css` | `button-hover.js`, `buttonHover()` | `design/components/button.md` |
 | Field, form layout, errors | `field.css` | `field.js`, `fieldLights()` (pointer light) | `design/components/form-field.md` |
-| Checkbox, radio, toggle | `control.css` | none | `design/components/form-field.md` |
+| Checkbox, radio, toggle, quiet switch (`switch--quiet`) | `control.css` | none | `design/components/form-field.md` |
 | Content link, text button | `link.css` | none | `design/components/link.md` |
 | Content link and text button, full state (the flowing line) | `link-flow.css` | none | `design/components/link.md` |
 | Colored icon (two-tone) | `color-icon.css` | `two-tone.js`, `twoTone()` | `design/foundations/two-tone.md` |
 | Hover card | `hover-card.css` | `hover-card.js`, `hoverCards()` | `design/components/hover-card.md` |
 | Link card | `link-card.css` | `link-card.js`, `linkCards()` | `design/components/link-card.md` |
 | Status chip | `status-chip.css` | none | `design/components/status-chip.md` |
-| Avatar, person (avatar and name), status dot | `avatar.css` | none | `design/components/avatar.md` |
+| Status dot | `status-dot.css` | none | `design/components/status-dot.md` |
+| Avatar, person (avatar and name), the avatar's status dot | `avatar.css` | none | `design/components/avatar.md` |
 | Page: box sizing, the page's ground, sections | `page.css` | `theme.js`, `themeInit()`, `themeToggle()` (color mode) | `design/behaviors/color-modes.md` |
 | Card, card with an icon, card grid | `card.css` | none | `design/components/card.md` |
+| Stat card | `stat-card.css` | `stat-card.js`, `statCards()` (with `card-flow.js`, `tilt.js`) | `design/components/stat-card.md` |
 | Hover card colorflow | `card-flow.css` | `card-flow.js`, `cardFlows()` (draws with `flow.js`) | `design/components/hover-card.md` |
 | Tag | `tag.css` | none | `design/components/tag.md` |
 | Table | `table.css` | none | `design/components/table.md` |
 | Tabs | `tabs.css` | `tabs.js`, `tabs()` | `design/components/tabs.md` |
 | Nav: quiet, wash, strong | `nav.css` | none | `design/components/nav.md` |
+| App bar | `app-bar.css` | none | `design/components/app-bar.md` |
+| Menu: navigate, pick one | `menu.css` | `menu.js`, `menus()` (places with `anchor.js`) | `design/components/menu.md` |
 | Meter (x of y) | `meter.css` | none | `design/components/meter.md` |
 | Progress ring | `progress-ring.css` | none | `design/components/progress-ring.md` |
 | Pager (Previous, page numbers, Next; with the nav) | `pager.css` | none | `design/components/pager.md` |
@@ -170,6 +174,7 @@ released. Decision 2026-11-13.
 | Steps | `steps.css` | none | `design/components/steps.md` |
 | Code block copy button | `code-copy.css` | `code-copy.js`, `codeCopy()` | `design/components/code-block.md` |
 | Tooltip | `tooltip.css` | `tooltip.js`, `tooltips()` (places with `anchor.js`) | `design/components/tooltip.md` |
+| Hint | `hint.css` | `tooltip.js`, `tooltips()` (upgrades it to a text-only tooltip) | `design/components/hint.md` |
 | Dialog | `dialog.css` | `dialog.js`, `dialogs()` | `design/components/dialog.md` |
 | Logo card, post card | `link-card.css` (`lcard--logo`, `lcard--post`) | `link-card.js` | `design/components/link-card.md` |
 | Diagram line pulses | none | `line-flow.js`, `lineFlow()` | `design/patterns/diagrams.md` |

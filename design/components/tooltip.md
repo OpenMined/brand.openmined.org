@@ -19,6 +19,8 @@ tokens: [--surface-raise-2, --shadow-raise-2, --line, --text-headline, --text-bo
 
 **Markup.** The tooltip is the control's sibling inside a `.tooltip-host`, with `role="tooltip"`; the script gives the control `aria-describedby`. An icon-only control still needs its own `aria-label`: the tooltip describes it, it doesn't name it.
 
+**Hints.** For a few words with no title or foot, a hint (`data-hint`, *Hints*): `tooltips()` starts hints too, turning each into a text-only tooltip.
+
 **Code.** `components/tooltip.css`, and `tooltip.js` (`tooltips()`) with `anchor.js` beside it.
 
 *Open:* a short delay before it opens on hover.

@@ -1,6 +1,6 @@
 ---
-/** /wip/ demo: the two kinds of menu, navigate and pick one. */
-import Icon from '../Icon.astro';
+/** Interface demo: the two kinds of menu, navigate and pick one. */
+import Icon from './Icon.astro';
 const SITES: [string, string, string, boolean][] = [
   ['Products', 'openmined.org', '12,400 visitors', true], ['Products', 'docs.openmined.org', '3,980 visitors', false],
   ['Courses', 'courses.openmined.org', '1,210 visitors', false],
@@ -10,16 +10,16 @@ let group = '';
 ---
 <h4 class="block-title">Navigate, from a nav item</h4>
 <nav class="nav" aria-label="Sections">
-  <button type="button" class="nav__item" popovertarget="wip-menu-sites">openmined.org <Icon name="nav-arrow-down" size={16} class="menu__chevron" /></button>
-  <a class="nav__item" href="#menu">Social</a>
-  <a class="nav__item" href="#menu">Goals</a>
+  <button type="button" class="nav__item" popovertarget="demo-menu-sites">openmined.org <Icon name="nav-arrow-down" size={16} class="menu__chevron" /></button>
+  <a class="nav__item" href="#menus">Social</a>
+  <a class="nav__item" href="#menus">Goals</a>
 </nav>
-  <div class="menu" id="wip-menu-sites" popover aria-label="Sites">
+  <div class="menu" id="demo-menu-sites" popover aria-label="Sites">
     <p class="menu__head">Sites</p>
     {SITES.map(([g, name, detail, current]) => (
       <>
         {g !== group && (group = g) && <p class="menu__group">{g}</p>}
-        <a class="menu__item" href="#menu" aria-current={current ? 'page' : undefined}>
+        <a class="menu__item" href="#menus" aria-current={current ? 'page' : undefined}>
           <span class="menu__text"><span class="menu__name">{name}</span><span class="menu__detail">{detail}</span></span>
           <Icon name="check" size={16} class="menu__check" />
         </a>
@@ -30,17 +30,17 @@ let group = '';
 <div class="table-wrap"><table class="table table--compact">
   <thead><tr><th>Goal</th><th>Status</th></tr></thead>
   <tbody><tr><td>Ship the stat card</td><td>
-  <span class="nav"><button type="button" class="nav__item" popovertarget="wip-menu-status"><span class="menu__current"></span><Icon name="nav-arrow-down" size={16} class="menu__chevron" /></button></span>
-  <div class="menu" id="wip-menu-status" popover role="menu" aria-label="Set status">
+  <span class="nav"><button type="button" class="nav__item" popovertarget="demo-menu-status"><span class="menu__current"></span><Icon name="nav-arrow-down" size={16} class="menu__chevron" /></button></span>
+  <div class="menu" id="demo-menu-status" popover role="menu" aria-label="Set status">
     {STATUSES.map(([value, dot, label, checked]) => (
       <button type="button" class="menu__item" role="menuitemradio" aria-checked={String(checked)} value={value}>
         <span class={`status-dot status-dot--${dot}`} aria-hidden="true"></span><span class="menu__name">{label}</span>
         <Icon name="check" size={16} class="menu__check" />
       </button>
     ))}
-    <p class="menu__foot">Picked: <b id="wip-menu-picked">on-track</b></p>
+    <p class="menu__foot">Picked: <b id="demo-menu-picked">on-track</b></p>
   </div>
   </td></tr></tbody>
 </table></div>
-<script is:inline>document.getElementById('wip-menu-status')?.addEventListener('menupick', (e) => { document.getElementById('wip-menu-picked').textContent = e.detail.value; });</script>
+<script is:inline>document.getElementById('demo-menu-status')?.addEventListener('menupick', (e) => { document.getElementById('demo-menu-picked').textContent = e.detail.value; });</script>
 <p class="muted">Click or press arrow down on the item. Arrows, Home and End move; Escape, Tab or a click outside closes it.</p>

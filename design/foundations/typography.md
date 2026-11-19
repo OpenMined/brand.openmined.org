@@ -42,7 +42,7 @@ Set a heading's style with its class (`.h1` … `.h6`) when the tag and the look
 
 **Fallbacks.** Rubik and Inter fall back to the system sans, never a serif; mono to the system monospace.
 
-**Numbers.** Wherever numbers line up in columns, digits take one width (tabular figures), with `--tracking-numbers` (0, as drawn). Tables set tabular figures throughout; a numeric cell takes `.num` (right-aligned); `.tabular` does the same for numbers outside a table, such as stat tiles and chart labels.
+**Numbers.** Wherever numbers line up in columns, digits take one width (tabular figures), with `--tracking-numbers` (0, as drawn). Tables set tabular figures throughout; a numeric cell takes `.num` (right-aligned); `.tabular` does the same for numbers outside a table, such as chart labels. A number a dashboard leads with (a stat card's) is Inter 600 at the h3's largest size, tabular, not the display face: it's data, read and compared, not a headline.
 
 **Measure.** Text outside an article (a hero's lead, a section intro, a card's text) keeps to a reading width: `.measure`, at `--measure`, the same 640px as the article column. Set `--measure` on the element when a block needs another width.
 

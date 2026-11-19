@@ -13,6 +13,8 @@ tokens: [--surface-sunken, --shadow-sunken, --gray-300, --gray-400, --gray-500, 
 - **Control** (checkbox, radio, toggle track): a recess you operate. It casts its inset shadow at rest. Checked fills with `--emphasis`, the strong gray fill; the check, dot or knob stays a raised surface. On hover the fields' outline, 1px inside the edge (gray 300 in light mode, gray 500 at 0.5 in dark), with no pointer light: the control is too small for one. On keyboard focus the fields' gray line, 1px, drawn 2px outside the control.
 - **Recess** (a progress track, a well inside a card): a recess you don't touch. It never casts.
 
+**The quiet switch** (`switch switch--quiet`): the color-mode switch on a bar (an app bar, a page's header), drawn like the quiet status chip beside it, where the switch's dark fill would be the loudest thing on the bar. For color mode only: its picture is light and dark (off, a disc in the muted color; on, a crescent in the headline color); any other setting takes the switch. 44 by 26, no fill, a hairline ring that darkens on hover; the knob slides in both layers and under reduced motion (it's the state change). It isn't a recess, so it sits on the page's bar (*Recessed controls prefer a raised surface*).
+
 **Anatomy of a field.** Label, an optional description (`--text-body`), the control. A required mark sits after the label.
 
 **Text sizes.** Two sizes, set by the text tokens:

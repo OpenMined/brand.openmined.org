@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   APP BAR — work in progress (design/wip/app-bar.md); not released, never served
+   APP BAR — v2 component (design/components/app-bar.md)
    ════════════════════════════════════════════════════════════════════
    The bar across the top of an internal tool: the brand and the quiet nav at
    its start, set on one baseline, and what applies to the whole tool at its
@@ -20,7 +20,8 @@
    share a baseline, so the nav's smaller text sits on the brand's line, not
    centered by its box (Center by eye): nobody nudges it by hand. The brand
    is semibold in the headline color, its mark 24px. On a phone the nav wraps
-   under the brand. */
+   under the brand. It scrolls away with the page (a project may make it
+   sticky). */
 .app-bar {
   display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap;
   min-block-size: 56px; padding: var(--spacing-xs) var(--spacing-2xl);

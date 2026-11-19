@@ -1,0 +1,22 @@
+---
+/** Interface demo: an app bar with the brand, the quiet nav, a status and the quiet switch. */
+import ThemeToggle from './ThemeToggle.astro';
+---
+<div class="card card--compact" style="padding: 0; overflow: hidden;">
+  <header class="app-bar">
+    <div class="app-bar__start">
+      <a class="app-bar__brand" href="#app-bars"><img src="/logos/OpenMined-Icon.svg" alt="" width="24" height="24" />Reporting</a>
+      <nav class="nav" aria-label="Sections">
+        <a class="nav__item" href="#app-bars" aria-current="page">Web</a>
+        <a class="nav__item" href="#app-bars">Social</a>
+        <a class="nav__item" href="#app-bars">Goals</a>
+      </nav>
+    </div>
+    <div class="app-bar__end">
+      <span class="status-chip status-chip--success">All sources live</span>
+      <ThemeToggle class="switch--quiet" />
+    </div>
+  </header>
+  <div style="padding: var(--spacing-xl) var(--spacing-2xl);"><p class="muted" style="margin: 0;">The page under the bar.</p></div>
+</div>
+<p class="muted">The brand's name and the nav's items sit on one baseline, set by the bar. At its end, the quiet switch changes this page's color mode.</p>

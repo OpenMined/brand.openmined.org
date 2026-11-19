@@ -17,6 +17,8 @@ export { diagrams, diagramPath, diagramSvg } from './diagram.js';
 export { tabs } from './tabs.js';
 export { codeCopy } from './code-copy.js';
 export { tooltips } from './tooltip.js';
+export { menus } from './menu.js';
+export { statCards } from './stat-card.js';
 export { anchor } from './anchor.js';
 export { dialogs } from './dialog.js';
 export { themeInit, themeToggle } from './theme.js';

@@ -1,16 +1,17 @@
 /* ════════════════════════════════════════════════════════════════════
-   HINT — work in progress (design/wip/hint.md); not released, never served
+   HINT — v2 component (design/components/hint.md)
    ════════════════════════════════════════════════════════════════════
    A few words about a word or a chip, from its data-hint, on hover or keyboard
    focus. One attribute; the script decides how much it can do. Needs: the v2
-   tokens, and tooltip.css for the upgraded hint.
+   tokens; tooltip.css and tooltip.js (tooltips(), with anchor.js beside it)
+   for the upgraded hint.
 
    Markup:
      <span class="hint" tabindex="0" data-hint="Visits that left after one page.">Bounce rate</span>
      <span class="status-chip status-chip--warning hint" tabindex="0" data-hint="Two goals are behind.">At risk</span>
      <span class="hint" tabindex="0" data-hint="…" data-align="end">…</span>      prefers aligning to its end
 
-   With the script (hint.js, hints(), with anchor.js beside it): a text-only
+   With the script (tooltips() starts hints too): a text-only
    tooltip (.tooltip--hint), a popover placed to fit the window, described to
    screen readers. With CSS alone: the text drawn below, aligned to its start
    (data-align="end" to its end), inside the page, so a box that clips can cut
@@ -39,5 +40,3 @@
 @media (hover: hover) { .hint:not([data-hint-ready]):hover::after { opacity: 1; visibility: visible; translate: 0 0; } }
 .hint:not([data-hint-ready]):focus-visible::after { opacity: 1; visibility: visible; translate: 0 0; }
 
-/* With the script: a tooltip with only its body, as wide as its words (17rem at most). */
-.tooltip--hint { inline-size: max-content; max-inline-size: min(17rem, calc(100vw - 32px)); padding: var(--spacing-sm) var(--spacing-md); }

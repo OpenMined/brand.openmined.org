@@ -1,0 +1,28 @@
+---
+/** Interface demo: three stat cards (good, bad, needing attention), an info tooltip on the first. */
+import Icon from './Icon.astro';
+const STATS: [string, string, string, string, string, boolean][] = [
+  ['Visitors', '14,032', 'good', '+12%', 'vs last month', false],
+  ['Bounce rate', '41%', 'bad', '+6 pts', 'vs last month', false],
+  ['Goals on schedule', '7 of 9', 'bad', '−1', 'vs last week', true],
+];
+---
+<div class="card-grid">
+  {STATS.map(([label, n, kind, change, vs, flag], i) => (
+    <div class="card card--compact stat-card">
+      <div class="stat-card__head">
+        <span class="stat-card__label">{label}</span>
+        {i === 0 && (
+          <span class="tooltip-host">
+            <button type="button" class="btn btn--icon" aria-label="About visitors"><Icon name="info-circle" size={20} /></button>
+            <span class="tooltip" role="tooltip"><span class="tooltip__title">Visitors</span><span class="tooltip__body">People who opened at least one page, each counted once.</span><span class="tooltip__foot">Plausible · 5 min ago</span></span>
+          </span>
+        )}
+      </div>
+      <span class="stat-card__value">{n}</span>
+      <span class="stat-card__delta"><span class={`stat-card__change stat-card__change--${kind}`}>{change}</span> {vs}</span>
+      {flag && <span class="stat-card__flag">Two goals are behind</span>}
+    </div>
+  ))}
+</div>
+<p class="muted">Hover a card: it goes up a level and the change takes its color. Full layer: it lifts, tilts and the flow comes in, green or red with the change. Minimal layer: it stands still, with a still fade of the same color. The numbers line up whether or not a card has an info button.</p>

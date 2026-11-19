@@ -1,5 +1,5 @@
 /**
- * MENU — work in progress (design/wip/menu.md; look: menu.css). Needs anchor.js. Each
+ * MENU (components/menu.css, design/components/menu.md). Needs anchor.js. Each
  * .menu[popover] is placed below the button that opens it (popovertarget) and follows it on
  * scroll; on open, focus goes to the current or checked item, else the first; the arrow keys,
  * Home and End move between items, Tab closes it; a click on a pick-one item
@@ -11,7 +11,7 @@
  *   menus();                // every .menu[popover]
  *   menu.addEventListener('menupick', (e) => e.detail.value);
  */
-import { anchor } from '../anchor.js';
+import { anchor } from './anchor.js';
 
 export function menus(list = '.menu[popover]') {
   if (typeof list === 'string') list = document.querySelectorAll(list);

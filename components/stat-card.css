@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════
-   STAT CARD — work in progress (design/wip/stat-card.md); not released, never served
+   STAT CARD — v2 component (design/components/stat-card.md)
    ════════════════════════════════════════════════════════════════════
    One number on a card: its label (and an optional tooltip), the number, and
    one line of change. Needs: card.css (it's a compact card), the v2 tokens;
@@ -13,7 +13,6 @@
      </div>
      <span class="stat-card__change stat-card__change--bad">−4%</span>          bad news: red, still only on the card's hover
      <span class="stat-card__flag">Below target</span>                            needs attention: amber at rest
-     <div class="card card--compact stat-card stat-card--display">…</div>         the number in Rubik, to compare
 
    Neutral at rest: the change is the headline color. On the card's hover or
    focus it goes up a level (the raise-2 shadow) and the change takes its
@@ -46,7 +45,6 @@
   font: var(--font-weight-semibold) var(--font-size-h3-max)/1.1 var(--font-body); color: var(--text-headline);
   font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-numbers);
 }
-.stat-card--display .stat-card__value { font-family: var(--font-display); font-weight: var(--font-weight-regular); letter-spacing: normal; }
 .stat-card__delta { font-size: var(--font-size-sm); color: var(--text-muted); }
 .stat-card__change { font-weight: var(--font-weight-semibold); color: var(--text-headline); font-variant-numeric: tabular-nums; transition: color var(--transition-base); }
 .stat-card__flag { font-size: var(--font-size-xs); color: var(--warning-fg); }

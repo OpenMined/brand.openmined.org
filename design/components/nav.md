@@ -19,6 +19,8 @@ tokens: [--text-headline, --text-muted, --line-strong, --stroke-sm, --black, --s
 
 Not tabs: tabs switch between panels of different content in one place. A filter over one table, or a menu, is a nav.
 
+A nav item may open a menu (`popovertarget`, *Menus*). Beside a tool's brand, the quiet nav sits in the app bar, which sets it on the brand's baseline (*App bar*).
+
 **Markup.** Between pages, links in a `<nav>` with `aria-current="page"` on the current one. Views of one page (a filter), buttons in a `role="group"` with `aria-pressed`; the page shows or hides what each view covers. One current item per nav.
 
 **Placement.** No divider line directly under a nav: it competes with the quiet level's line, and a row of places doesn't need a rule to sit on. Space separates it from what follows.

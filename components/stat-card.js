@@ -1,5 +1,5 @@
 /**
- * STAT CARD — work in progress (design/wip/stat-card.md; look: stat-card.css). The full layer:
+ * STAT CARD (components/stat-card.css, design/components/stat-card.md). The full layer:
  * the hover card's tilt and colorflow on each stat card, the flow green for good news and red
  * for bad (from its change), unless the card sets data-hover-hue. The color change itself is
  * CSS, so the minimal layer has it without this. Safe to call again.
@@ -7,8 +7,8 @@
  *   import { statCards } from './stat-card.js';
  *   statCards();            // every .stat-card
  */
-import { cardFlows } from '../card-flow.js';
-import { cardTilt } from '../tilt.js';
+import { cardFlows } from './card-flow.js';
+import { cardTilt } from './tilt.js';
 
 export function statCards(cards = '.stat-card') {
   if (typeof cards === 'string') cards = document.querySelectorAll(cards);

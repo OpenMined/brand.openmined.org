@@ -13,7 +13,8 @@
 
    On hover or keyboard focus the button fills with the hue keys
    (--gradient-interactive: green, teal, blue, violet, red, amber, blended in
-   OKLCH) as a 1200px loop at 20°, drifting left to right (30s per loop). The
+   OKLCH) as a loop at 20°, sized to the button (drawn for a 200px one, so every
+   button shows the same span of hue keys), drifting left to right (30s per loop). The
    start is set by the clock (--flow-start, 0–1 of a loop, one turn per minute),
    so it changes over time but is the same for every button and visitor at a
    given moment; secondary buttons start half a loop on, opposite the primary on
@@ -28,9 +29,10 @@
 [data-interaction="minimal"] .btn-flow { display: none; }
 .btn-flow {
   /* --gradient-interactive's stops, reversed (colors arrive from the loop's end),
-     with green where the loop starts (750px in: the strip's center less one
-     travel), so a run from 0 goes green → teal → blue → … */
-  --flow-spectrum: repeating-linear-gradient(90deg in oklch, var(--green-key) 750px, var(--amber-key) 950px, var(--red-key) 1150px, var(--violet-key) 1350px, var(--blue-key) 1550px, var(--teal-key) 1750px, var(--green-key) 1950px);
+     with green where the loop starts (27.778% in: the strip's center less one
+     travel), so a run from 0 goes green → teal → blue → … Percentages of the
+     strip: at a 200px button, a hue key every 200px. */
+  --flow-spectrum: repeating-linear-gradient(90deg in oklch, var(--green-key) 27.778%, var(--amber-key) 35.185%, var(--red-key) 42.593%, var(--violet-key) 50%, var(--blue-key) 57.407%, var(--teal-key) 64.815%, var(--green-key) 72.222%);
   /* Covers the button's border too: the script sets --flow-inset to minus its width. */
   position: absolute; inset: var(--flow-inset, 0); border-radius: inherit; pointer-events: none;
   overflow: hidden; background: var(--green-key);
@@ -42,14 +44,15 @@
 .btn.has-flow:is(:hover, :focus-visible) .btn-flow--glow { opacity: 0.3; }
 
 .btn-flow i { position: absolute; left: 50%; top: 50%; will-change: transform; }
-/* The color: a strip 2700 × 300px, slid 1200px (one loop) along its axis; a
-   negative delay starts it --flow-start of the way through. The strip runs
-   750px past the button's center on each side at either end of the slide, so a
-   button up to about 1300px wide never sees its end (at 1500px long, buttons
-   wider than about 300px showed a hard edge where the loop restarted). .is-flowing (the
-   script) keeps it running while the fill fades out, so it doesn't snap back to
-   its first frame on mouseout. */
-.btn-flow i:nth-child(1) { width: 2700px; height: 300px; margin: -150px 0 0 -1350px; background: var(--flow-spectrum); transform: rotate(20deg) translateX(-600px); }
+/* The color: a strip sized to the button, so every button shows the span of
+   hue keys a 200px one does: 1350% of the button's width (2700px at 200px), 9 : 1,
+   slid one loop (±22.222% of the strip, 1200px at 200px) along its axis; a
+   negative delay starts it --flow-start of the way through. Centered by a
+   translate, since a margin's percentage would be the button's. The strip runs
+   past the button's ends at either end of the slide at any width. .is-flowing
+   (the script) keeps it running while the fill fades out, so it doesn't snap
+   back to its first frame on mouseout. */
+.btn-flow i:nth-child(1) { width: 1350%; aspect-ratio: 9 / 1; background: var(--flow-spectrum); transform: translate(-50%, -50%) rotate(20deg) translateX(-22.222%); }
 .btn.has-flow:is(:hover, :focus-visible, .is-flowing) .btn-flow i:nth-child(1) { animation: btn-flow-color 30s linear infinite; animation-delay: calc(var(--flow-start, 0) * -30s); }
 /* The shimmer: two layers of white stripes crossing, 1400px squares slid one stripe
    period (large enough that no button sees a square's edge), each at 0.15.
@@ -62,7 +65,7 @@
 .btn-flow i:nth-child(3) { width: 1400px; height: 1400px; margin: -700px 0 0 -700px; opacity: 0.15;
   background: repeating-linear-gradient(90deg, transparent 0, var(--white) 90px, transparent 180px);
   animation: btn-flow-light-cross 8.7s linear infinite; }
-@keyframes btn-flow-color { from { transform: rotate(20deg) translateX(-600px); } to { transform: rotate(20deg) translateX(600px); } }
+@keyframes btn-flow-color { from { transform: translate(-50%, -50%) rotate(20deg) translateX(-22.222%); } to { transform: translate(-50%, -50%) rotate(20deg) translateX(22.222%); } }
 @keyframes btn-flow-light { from { transform: rotate(20deg) translateX(0); } to { transform: rotate(20deg) translateX(240px); } }
 @keyframes btn-flow-light-cross { from { transform: rotate(-40deg) translateX(0); } to { transform: rotate(-40deg) translateX(180px); } }
 

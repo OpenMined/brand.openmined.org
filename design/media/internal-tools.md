@@ -5,7 +5,7 @@ description: "Dense interfaces for the team: the minimal interactive layer with 
 status: released
 level: partly
 order: 3
-updated: 2026-11-16
+updated: 2026-11-19
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -29,9 +29,10 @@ guidance:
   - guidelines/color-tells-a-story
   - guidelines/text-stays-inside
   - guidelines/grays-are-set
-components: [card, table, meter, progress-ring, pager, nav, tabs, status-chip, avatar, tag, button, field, control, tooltip, dialog]
+components: [app-bar, card, stat-card, table, meter, progress-ring, pager, nav, menu, tabs, status-chip, status-dot, avatar, tag, button, field, control, tooltip, hint, dialog]
 examples: [dashboard]
 gaps:
-  - "No app shell or dropdown menus yet; the nav is a row only (no sidebar)."
+  - "The app shell is the app bar only; the nav is a row only (no sidebar)."
+  - "Menus don't yet work as a select in a form (empty state, busy, error)."
   - "No chart rules yet (series colors, axes, labels)."
 ---

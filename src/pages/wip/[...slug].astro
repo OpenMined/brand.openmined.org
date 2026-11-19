@@ -15,12 +15,6 @@ import TwoToneDefs from '../../components/site/TwoToneDefs.astro';
 import { WIP } from '../../lib/design';
 import { DRAFTS_ALLOWED } from '../../lib/release-gate';
 import { componentCode } from '../../lib/components';
-import StatCard from '../../components/site/wip/StatCard.astro';
-import Hint from '../../components/site/wip/Hint.astro';
-import Menu from '../../components/site/wip/Menu.astro';
-import SwitchQuiet from '../../components/site/wip/SwitchQuiet.astro';
-import StatusDot from '../../components/site/wip/StatusDot.astro';
-import AppBar from '../../components/site/wip/AppBar.astro';
 
 export const getStaticPaths = (() => (DRAFTS_ALLOWED ? [{ params: { slug: undefined } }] : [])) satisfies GetStaticPaths;
 
@@ -28,14 +22,7 @@ export const getStaticPaths = (() => (DRAFTS_ALLOWED ? [{ params: { slug: undefi
  *  scripts) and the functions that start it. A note in design/wip/ without a demo here fails the
  *  build, so nothing in progress goes unseen. Empty when nothing is in progress. A start with its
  *  own arguments is called as written. */
-const PIECES: Record<string, { demo: any; css: string[]; js?: string[]; start?: string[] }> = {
-  'app-bar': { demo: AppBar, css: ['wip/app-bar'] },
-  hint: { demo: Hint, css: ['wip/hint'], js: ['wip/hint'], start: ["hints('.hint:not(.wip-hint-css .hint)')"] },
-  menu: { demo: Menu, css: ['wip/menu'], js: ['wip/menu'], start: ['menus'] },
-  'stat-card': { demo: StatCard, css: ['wip/stat-card'], js: ['wip/stat-card'], start: ['statCards'] },
-  'status-dot': { demo: StatusDot, css: ['wip/status-dot'] },
-  'switch-quiet': { demo: SwitchQuiet, css: ['wip/switch-quiet'] },
-};
+const PIECES: Record<string, { demo: any; css: string[]; js?: string[]; start?: string[] }> = {};
 const missing = WIP.filter((w) => !PIECES[w.name]).map((w) => `design/${w.path}`);
 if (missing.length) throw new Error(`Work in progress with no demo on /wip/ (src/pages/wip/[...slug].astro):\n  ${missing.join('\n  ')}`);
 /** The WIP files as text, inlined below (see the note at the top). */

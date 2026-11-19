@@ -17,4 +17,6 @@ tokens: [--success-key, --warning-key, --danger-key, --info-key, --on-key, --tex
 
 **Without a status.** The quiet chip has no dot, a gray ring and gray text; the strong one fills with `--emphasis` and labels in `--on-emphasis`, as the primary button does.
 
+**Smaller than a chip.** Where a chip would be too much (a menu's items, a dense row, a legend), the status dot alone, beside the words (*Status dots*).
+
 **Code.** `components/status-chip.css`, no script. Plain CSS, no build step: load the v2 tokens first. The markup to match is at the top of the CSS file (`components/README.md`).

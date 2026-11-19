@@ -10,7 +10,7 @@ next:
   - "Slide layouts, from the first deck built with the system"
   - "The Google Docs styles on v2 type"
   - "Chart rules: series colors, axes, labels"
-  - "Interface patterns where internal tools need them: navigation, menus"
+  - "Interface patterns where internal tools need them: a sidebar nav, menus as a select"
 not_covered:
   - "Imagery and photography"
   - "Illustration"

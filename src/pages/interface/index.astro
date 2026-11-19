@@ -21,6 +21,11 @@ import AvatarDemo from '../../components/site/AvatarDemo.astro';
 import ProgressRingDemo from '../../components/site/ProgressRingDemo.astro';
 import TooltipDemo from '../../components/site/TooltipDemo.astro';
 import DialogDemo from '../../components/site/DialogDemo.astro';
+import StatCardDemo from '../../components/site/StatCardDemo.astro';
+import MenuDemo from '../../components/site/MenuDemo.astro';
+import AppBarDemo from '../../components/site/AppBarDemo.astro';
+import StatusDotDemo from '../../components/site/StatusDotDemo.astro';
+import HintDemo from '../../components/site/HintDemo.astro';
 
 const button = doc('components/button');
 const link = doc('components/link');
@@ -43,6 +48,11 @@ const avatar = doc('components/avatar');
 const progressRing = doc('components/progress-ring');
 const tooltip = doc('components/tooltip');
 const dialog = doc('components/dialog');
+const statCard = doc('components/stat-card');
+const menu = doc('components/menu');
+const appBar = doc('components/app-bar');
+const statusDot = doc('components/status-dot');
+const hint = doc('components/hint');
 // Each component's files and reference markup, read from components/.
 const CODE = {
   button: componentCode(['button', 'button-hover'], ['button-hover']),
@@ -66,11 +76,16 @@ const CODE = {
   progressRing: componentCode(['progress-ring']),
   tooltip: componentCode(['tooltip'], ['tooltip', 'anchor']),
   dialog: componentCode(['dialog'], ['dialog']),
+  statCard: componentCode(['stat-card'], ['stat-card']),
+  menu: componentCode(['menu'], ['menu', 'anchor']),
+  appBar: componentCode(['app-bar']),
+  statusDot: componentCode(['status-dot']),
+  hint: componentCode(['hint'], ['tooltip', 'anchor']),
 };
 const rules = byTag('interface', 'Guideline', 'Behavior');
 const decisions = decisionsFor('interface');
 /** One section per component inside Components, in page order: its anchor and its guidance file. */
-const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['avatars', avatar], ['cards', card], ['tables', table], ['meters', meterDoc], ['progress-rings', progressRing], ['tabs', tabsDoc], ['navs', navDoc], ['pagers', pagerDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['tooltips', tooltip], ['dialogs', dialog], ['forms', form]];
+const SECTIONS: [string, typeof button][] = [['buttons', button], ['links', link], ['hover-cards', hoverCard], ['link-cards', linkCard], ['status-chips', statusChip], ['status-dots', statusDot], ['avatars', avatar], ['cards', card], ['stat-cards', statCard], ['tables', table], ['meters', meterDoc], ['progress-rings', progressRing], ['tabs', tabsDoc], ['navs', navDoc], ['app-bars', appBar], ['menus', menu], ['pagers', pagerDoc], ['tags', tag], ['steps', steps], ['accordions', accordion], ['code-blocks', codeBlock], ['tooltips', tooltip], ['hints', hint], ['dialogs', dialog], ['forms', form]];
 const NAV: [string, string][] = [['motion', 'Motion'], ['components', 'Components'], ['guidance', 'Guidance'], ['rules', 'Rules'], ['decisions', 'Decisions'], ['examples', 'Examples']];
 const components = SECTIONS.map(([, d]) => d);
 /** A small dataset for the table and tabs demos. */
@@ -201,6 +216,11 @@ const TEXT_FIELDS = [
           </article>
           <BuildRef code={CODE.statusChip} tokens={statusChip.tokens} />
         </section>
+        <section class="component stack stack--xl" id="status-dots">
+          <header class="sec"><h3 class="h3">{statusDot.title}</h3><p>{statusDot.description}</p>{statusDot.status !== 'released' && <p class="status">Status: <b>{statusDot.status}</b></p>}</header>
+          <StatusDotDemo />
+          <BuildRef code={CODE.statusDot} tokens={statusDot.tokens} />
+        </section>
         <section class="component stack stack--xl" id="avatars">
           <header class="sec"><h3 class="h3">{avatar.title}</h3><p>{avatar.description}</p>{avatar.status !== 'released' && <p class="status">Status: <b>{avatar.status}</b></p>}</header>
           <AvatarDemo />
@@ -214,6 +234,11 @@ const TEXT_FIELDS = [
             <div class="card card--icon card--stacked"><Icon name="network" size={32} class="card__icon" /><div><h4 class="card__title">One network</h4><p>Every node speaks the same protocol.</p></div></div>
           </div>
           <BuildRef code={CODE.card} tokens={card.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="stat-cards">
+          <header class="sec"><h3 class="h3">{statCard.title}</h3><p>{statCard.description}</p>{statCard.status !== 'released' && <p class="status">Status: <b>{statCard.status}</b></p>}</header>
+          <StatCardDemo />
+          <BuildRef code={CODE.statCard} tokens={statCard.tokens} />
         </section>
         <section class="component stack stack--xl" id="tables">
           <header class="sec"><h3 class="h3">{table.title}</h3><p>{table.description}</p>{table.status !== 'released' && <p class="status">Status: <b>{table.status}</b></p>}</header>
@@ -295,6 +320,16 @@ const TEXT_FIELDS = [
           </script>
           <BuildRef code={CODE.nav} tokens={navDoc.tokens} />
         </section>
+        <section class="component stack stack--xl" id="app-bars">
+          <header class="sec"><h3 class="h3">{appBar.title}</h3><p>{appBar.description}</p>{appBar.status !== 'released' && <p class="status">Status: <b>{appBar.status}</b></p>}</header>
+          <AppBarDemo />
+          <BuildRef code={CODE.appBar} tokens={appBar.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="menus">
+          <header class="sec"><h3 class="h3">{menu.title}</h3><p>{menu.description}</p>{menu.status !== 'released' && <p class="status">Status: <b>{menu.status}</b></p>}</header>
+          <MenuDemo />
+          <BuildRef code={CODE.menu} tokens={menu.tokens} />
+        </section>
         <section class="component stack stack--xl" id="pagers">
           <header class="sec"><h3 class="h3">{pagerDoc.title}</h3><p>{pagerDoc.description}</p>{pagerDoc.status !== 'released' && <p class="status">Status: <b>{pagerDoc.status}</b></p>}</header>
           <h4 class="block-title">Page 5 of 12</h4>
@@ -357,6 +392,11 @@ const TEXT_FIELDS = [
           <header class="sec"><h3 class="h3">{tooltip.title}</h3><p>{tooltip.description}</p>{tooltip.status !== 'released' && <p class="status">Status: <b>{tooltip.status}</b></p>}</header>
           <TooltipDemo />
           <BuildRef code={CODE.tooltip} tokens={tooltip.tokens} />
+        </section>
+        <section class="component stack stack--xl" id="hints">
+          <header class="sec"><h3 class="h3">{hint.title}</h3><p>{hint.description}</p>{hint.status !== 'released' && <p class="status">Status: <b>{hint.status}</b></p>}</header>
+          <HintDemo />
+          <BuildRef code={CODE.hint} tokens={hint.tokens} />
         </section>
         <section class="component stack stack--xl" id="dialogs">
           <header class="sec"><h3 class="h3">{dialog.title}</h3><p>{dialog.description}</p>{dialog.status !== 'released' && <p class="status">Status: <b>{dialog.status}</b></p>}</header>
