@@ -18,9 +18,8 @@ assets. Each mark is the **trademark of its owner** and is used nominatively
 - `icon-color.svg` — the mark in its **official brand color** (or full color for
   multicolor marks like Google's G). Use via `<img>`; do not recolor.
 - `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available.
-  `logo-mono.svg` is the lockup in `currentColor`; where the owner's lockup has a
-  knockout (a mark on a tile), the mono file paints one color through a mask that
-  cuts the knockout out, so nothing in the drawing changes.
+  `logo-mono.svg` is the lockup in `currentColor`, only where the owner's terms allow
+  a recolored lockup; a brand whose terms forbid recoloring or altering its marks has none.
 - `icon-color-dark.svg` / `logo-dark.svg` — the color file for **dark mode**,
   only where the color mark's ink would vanish on a dark surface. Recorded under
   `dark` in `tools.json`; the owner's own reversed file wherever one exists;
@@ -42,6 +41,10 @@ wordmark lockups behind brand-kit gates). Brands checked against the owner's
 current kit also record when (`checked`), which version of the mark
 (`version`), the owner's terms (`license`), and the exact file each of ours
 came from (`sourceFiles`: the URL, and the path inside a zip).
+`monoRestricted: true` marks a brand whose owner's terms speak to color directly (no
+recoloring, approved colorways only), quoted in `monoTerms`: its `icon.svg` follows the
+set's one-color convention, and whether that mark is shown in one color is the brand
+owner's decision.
 
 ## Source
 
@@ -49,6 +52,5 @@ Lockups/marks are official (GitHub `GitHub_Logos.zip`, Ramp production SVG,
 Google 4-color G artwork). Monochrome glyphs for single-color icons come from
 [Simple Icons](https://simpleicons.org) (CC0 file license; trademarks remain the
 owners'). Never redraw a mark — source it officially or leave it as a documented
-gap. A vector the owner ships only as PDF may be converted path for path (WordPress's
-W mark); a raster is never traced. Every file passes `tools/logos/sanitize.mjs`
-before it is stored (`npm run lint` checks it, with `tools/logos/check-tools.mjs`).
+gap. Every file passes `tools/logos/sanitize.mjs` before it is stored
+(`npm run logos:check` checks every stored file, with `tools/logos/check-tools.mjs`).

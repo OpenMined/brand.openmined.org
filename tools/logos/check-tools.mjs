@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * TOOL MARKS CHECK (in `npm run lint`) — every SVG under public/logos/tools is stored
+ * TOOL MARKS CHECK (`npm run logos:check`) — every SVG under public/logos/tools is stored
  * exactly as tools/logos/sanitize.mjs rebuilds it, and every icon.svg is one color
  * (tools/logos/mono.mjs). So a mark that didn't come through the allowlist, or was
  * edited by hand afterwards, fails CI. `--fix` rewrites files to their sanitized form
@@ -28,6 +28,13 @@ const walk = (dir) => {
       else problems.push(`${rel}: not in sanitized form (run node tools/logos/check-tools.mjs --fix)`);
     }
     if (f === 'icon.svg') for (const m of monoProblems(clean)) problems.push(`${rel}: ${m}`);
+    // An icon.svg is inlined, often more than once on a page: an id would collide, and a
+    // reference would follow the first copy (hidden or not). Other files are used as images,
+    // where ids stay inside the file, but carry the brand's prefix so two marks never share one.
+    const brand = rel.split('/')[0];
+    const ids = [...clean.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+    if (f === 'icon.svg' && (ids.length || /url\(#|href="#/.test(clean))) problems.push(`${rel}: an icon.svg has ids or references (draw it without masks, clip paths or gradients by id)`);
+    for (const id of ids) if (!id.startsWith(`${brand}-`)) problems.push(`${rel}: id "${id}" doesn't start with "${brand}-"`);
   }
 };
 walk(ROOT);

@@ -76,6 +76,13 @@ const hostile = {
   styleUnclosedComment: '<svg xmlns="http://www.w3.org/2000/svg"><style>/* .a{fill:#000}</style><path d="M0 0"/></svg>',
   styleTwoBraces: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{.b{fill:#000}</style><path d="M0 0"/></svg>',
   styleTrailing: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:#000} @import x</style><path d="M0 0"/></svg>',
+  twoRoots: '<svg xmlns="http://www.w3.org/2000/svg"/><svg xmlns="http://www.w3.org/2000/svg"/>',
+  secondRootAfterClose: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg><path d="M1 1"/>',
+  droppedAfterRoot: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg><title>x</title>',
+  styleMedia: '<svg xmlns="http://www.w3.org/2000/svg"><style media="print">.a{fill:#000}</style><path class="a" d="M0 0"/></svg>',
+  styleScriptType: '<svg xmlns="http://www.w3.org/2000/svg"><style type="text/javascript">.a{fill:#000}</style><path class="a" d="M0 0"/></svg>',
+  idSpace: '<svg xmlns="http://www.w3.org/2000/svg"><path id="a b" d="M0 0"/></svg>',
+  idParen: '<svg xmlns="http://www.w3.org/2000/svg"><clipPath id="a)"><rect width="1" height="1"/></clipPath><path d="M0 0"/></svg>',
   transformExpression: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" transform="expression(alert(1))"/></svg>',
   big: `<svg xmlns="http://www.w3.org/2000/svg"><path d="${'M0 0 '.repeat(MAX_BYTES / 4)}"/></svg>`,
 };
@@ -154,4 +161,9 @@ test('hostile shapes are read in linear time', () => {
     const ms = performance.now() - t;
     assert.ok(ms < 250, `${name} took ${ms.toFixed(0)}ms`);
   }
+});
+
+test('a <style> may say type="text/css"', () => {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg"><style type="text/css">.a{fill:#000}</style><path class="a" d="M0 0"/></svg>';
+  assert.equal(sanitizeSvg(svg), '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="#000"/></svg>\n');
 });

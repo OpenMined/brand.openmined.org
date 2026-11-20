@@ -8,7 +8,7 @@
     "build": "astro build",
     "build:review": "OMDS_DRAFTS=1 astro build",
     "preview": "astro preview",
-    "lint": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" && node tools/classes/check.mjs && node --test tools/logos/test/sanitize.test.mjs && node tools/logos/check-tools.mjs",
+    "lint": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" && node tools/classes/check.mjs",
     "lint:fix": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" --fix",
     "tokens": "node tools/palette/generate.mjs && node tools/tokens/build.mjs",
     "tokens:check": "node tools/palette/generate.mjs --check && node tools/tokens/build.mjs --check && node tools/contrast/check.mjs",
@@ -17,7 +17,8 @@
     "census": "node tools/census/census.mjs",
     "icons:import": "node tools/icons/import.mjs",
     "examples:thumbs": "node tools/examples/thumbs.mjs",
-    "logos:import": "node tools/logos/import-org.mjs"
+    "logos:import": "node tools/logos/import-org.mjs",
+    "logos:check": "node --test tools/logos/test/sanitize.test.mjs && node tools/logos/check-tools.mjs"
   },
   "dependencies": {
     "@tabler/icons": "3.50.0",

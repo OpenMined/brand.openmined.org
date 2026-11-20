@@ -1,8 +1,9 @@
 /**
- * SVG ALLOWLIST — every partner mark passes through this before it enters the repo, and
- * the check (tools/logos/check-tools.mjs, in `npm run lint`) runs it over every file
- * already here. Other apps that serve these files (admin.openmined.org's brand_marks)
- * run the same rules again on their side.
+ * SVG ALLOWLIST — every tool mark (public/logos/tools/) passes through this before it enters
+ * the repo, and `npm run logos:check` (tools/logos/check-tools.mjs) runs it over every file
+ * already here. admin.openmined.org's brand_marks runs its own port of these rules
+ * (web/src/lib/server/svg-allowlist.ts) on what it stores; the two are kept in step by hand
+ * and can differ, so neither should assume the other has checked a file.
  *
  * An SVG is a script vector, so this is an allowlist, not a blocklist: the output is
  * rebuilt from the elements and attributes named below and nothing else.
@@ -73,7 +74,7 @@ function functionNames(v) {
   return out;
 }
 
-/** The canonical value check. admin.openmined.org's svg-allowlist.ts copies this function. */
+/** The value check. admin.openmined.org's port started from this function; see the header on keeping them in step. */
 function checkValue(name, value) {
   const v = value.trim();
   if (v.length > MAX_VALUE) bad(`${name} is over ${MAX_VALUE / 1024} KB`);
@@ -156,6 +157,7 @@ function splitStyles(src) {
     const after = src[s + 6];
     if (after !== '>' && after !== ' ' && after !== '\t' && after !== '\n' && after !== '\r' && after !== '/') { rest += src.slice(i, s + 6); i = s + 6; continue; }
     const open = src.indexOf('>', s);
+    if (open >= 0 && !/^<style(\s+type\s*=\s*"text\/css")?\s*>$/.test(src.slice(s, open + 1))) bad('a <style> tag has attributes other than type="text/css"');
     if (open < 0) bad('it has an unclosed <style> tag');
     const close = src.indexOf('</style>', open);
     if (close < 0) bad('it has an unclosed <style> element');
@@ -243,6 +245,7 @@ export function sanitizeSvg(input) {
       if (open !== null) out.push(`</${name}>`);
       continue;
     }
+    if (sawRoot && stack.length === 0) bad('it has more than one root element');
     if (dropping) { if (!selfClose) { stack.push(name); dropping++; } continue; }
     if (DROP.has(name) || local === 'sodipodi' || local === 'inkscape' || local === 'rdf') {
       if (!selfClose) { stack.push(name); dropping++; }
@@ -271,6 +274,7 @@ export function sanitizeSvg(input) {
       if (an === 'class') { classList = av.trim().split(/\s+/).filter(Boolean); continue; }
       if (!ATTRS.has(an)) bad(`<${name}> has a ${an} attribute, which isn't allowed`);
       if (an === 'xmlns' && av !== 'http://www.w3.org/2000/svg') bad('the SVG namespace is wrong');
+      if (an === 'id' && !/^[\w.:-]+$/.test(av)) bad(`<${name}> has an id with characters outside [A-Za-z0-9_.:-]`);
       attrs.set(an, checkValue(`<${name}> ${an}`, av));
     }
     // CSS order: presentation attributes, then class rules, then style="" win.
