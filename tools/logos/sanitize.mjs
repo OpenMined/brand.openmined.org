@@ -19,6 +19,8 @@
  */
 
 export const MAX_BYTES = 64 * 1024;
+/** The longest attribute or style value (the longest real one, a lockup's path data, is ~12 KB). */
+export const MAX_VALUE = 32 * 1024;
 
 const ELEMENTS = new Set([
   'svg', 'g', 'path', 'circle', 'ellipse', 'rect', 'polygon', 'polyline', 'line',
@@ -54,9 +56,27 @@ const FUNCTIONS = new Set(['url', 'rgb', 'rgba', 'hsl', 'hsla', 'matrix', 'trans
 
 const bad = (why) => { throw new Error(why); };
 
+/** The name in front of every "(" in a value ("" when there is none), read backwards from
+ *  each "(" over spaces, then letters and hyphens. Linear: a regex for this was quadratic
+ *  on long runs of spaces. */
+function functionNames(v) {
+  const out = [];
+  const isSpace = (c) => c === ' ' || c === '\t' || c === '\n' || c === '\r';
+  const isName = (c) => /[A-Za-z-]/.test(c);
+  for (let i = v.indexOf('('); i >= 0; i = v.indexOf('(', i + 1)) {
+    let j = i;
+    while (j > 0 && isSpace(v[j - 1])) j--;
+    const end = j;
+    while (j > 0 && isName(v[j - 1])) j--;
+    out.push(v.slice(j, end));
+  }
+  return out;
+}
+
 /** The canonical value check. admin.openmined.org's svg-allowlist.ts copies this function. */
 function checkValue(name, value) {
   const v = value.trim();
+  if (v.length > MAX_VALUE) bad(`${name} is over ${MAX_VALUE / 1024} KB`);
   if (/javascript:|data:|vbscript:/i.test(v)) bad(`${name} has a script or data URI`);
   if (/&/.test(v)) bad(`${name} has an entity or character reference`);
   if (/[<>"`']/.test(v)) bad(`${name} has markup characters or a quote`);
@@ -65,33 +85,53 @@ function checkValue(name, value) {
   if (/\/\*|\*\//.test(v)) bad(`${name} has a CSS comment`);
   if (/[^\t\n\r\x20-\x7e]/.test(v)) bad(`${name} has a character outside printable ASCII`);
   // Every function call must be on the allowlist; a bare "(" (no name in front) is refused too.
-  for (const f of v.matchAll(/([A-Za-z-]*)\s*\(/g)) {
-    if (!FUNCTIONS.has(f[1].toLowerCase())) bad(`${name} uses ${f[1] || 'a bare'}() which isn't allowed`);
+  for (const fn of functionNames(v)) {
+    if (!FUNCTIONS.has(fn.toLowerCase())) bad(`${name} uses ${fn || 'a bare'}() which isn't allowed`);
   }
   if (/url\s*\(/i.test(v) && !/^url\(#[\w.:-]+\)$/.test(v)) bad(`${name} has url() pointing outside the file`);
   if (/expression|@import/i.test(v)) bad(`${name} has CSS that isn't a plain value`);
   return v;
 }
 
-/** `.a{fill:#123;stroke:none}` rules → { a: {fill: '#123', stroke: 'none'} }. Anything else throws. */
+/** Class names that would reach Object.prototype if anything ever keyed a plain object by them. */
+const RESERVED = /^(__proto__|constructor|prototype|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$/;
+
+/** `.a{fill:#123;stroke:none}` rules → Map { a → Map {fill → '#123', stroke → 'none'} }. Anything else throws.
+ *  Maps, not objects: a class named __proto__ or toString is just a key. */
 function parseClassStyles(css) {
-  const rules = {};
-  const body = css.replace(/\/\*[\s\S]*?\*\//g, '').trim();
-  const re = /([^{}]+)\{([^{}]*)\}/g;
-  let used = 0;
-  for (const m of body.matchAll(re)) {
-    used += m[0].length;
-    const selectors = m[1].split(',').map((s) => s.trim());
-    for (const sel of selectors) if (!/^\.[\w-]+$/.test(sel)) bad(`<style> has a selector that isn't a single class: ${sel}`);
-    const decls = parseDecls(m[2], '<style>');
-    for (const sel of selectors) Object.assign((rules[sel.slice(1)] ||= {}), decls);
+  const rules = new Map();
+  // Comments out, then one rule per "}" (indexOf and split only, so linear in the CSS's length).
+  let body = '';
+  for (let i = 0; i < css.length;) {
+    const c = css.indexOf('/*', i);
+    if (c < 0) { body += css.slice(i); break; }
+    const e = css.indexOf('*/', c + 2);
+    if (e < 0) bad('<style> has an unclosed comment');
+    body += css.slice(i, c);
+    i = e + 2;
   }
-  if (body.replace(re, '').trim()) bad('<style> has something other than class rules');
+  const chunks = body.split('}');
+  if (chunks.pop().trim()) bad('<style> has something other than class rules');
+  for (const chunk of chunks) {
+    const brace = chunk.indexOf('{');
+    if (brace < 0 || chunk.indexOf('{', brace + 1) >= 0) bad('<style> has something other than class rules');
+    const selectors = chunk.slice(0, brace).split(',').map((s) => s.trim());
+    for (const sel of selectors) {
+      if (!/^\.[\w-]+$/.test(sel)) bad(`<style> has a selector that isn't a single class: ${sel}`);
+      if (RESERVED.test(sel.slice(1))) bad(`<style> has a reserved class name: ${sel}`);
+    }
+    const decls = parseDecls(chunk.slice(brace + 1), '<style>');
+    for (const sel of selectors) {
+      const k = sel.slice(1);
+      if (!rules.has(k)) rules.set(k, new Map());
+      for (const [p, v] of decls) rules.get(k).set(p, v);
+    }
+  }
   return rules;
 }
 
 function parseDecls(text, where) {
-  const out = {};
+  const out = new Map();
   for (const part of text.split(';')) {
     if (!part.trim()) continue;
     const i = part.indexOf(':');
@@ -100,12 +140,59 @@ function parseDecls(text, where) {
     const val = part.slice(i + 1).trim();
     if ((prop === 'isolation' && val === 'isolate') || (prop === 'mix-blend-mode' && val === 'normal') || prop === 'enable-background') continue;
     if (!STYLE_PROPS.has(prop)) bad(`${where} sets ${prop}, which isn't allowed`);
-    out[prop] = checkValue(`${where} ${prop}`, val);
+    out.set(prop, checkValue(`${where} ${prop}`, val));
   }
   return out;
 }
 
-const TOKEN = /<!--[\s\S]*?-->|<\?[\s\S]*?\?>|<![\s\S]*?>|<\/?[^>]*>|[^<]+/g;
+/** Take out every <style>…</style> block: its CSS, and the file without it. Linear (indexOf). */
+function splitStyles(src) {
+  const styles = [];
+  let rest = '';
+  let i = 0;
+  for (;;) {
+    const s = src.indexOf('<style', i);
+    if (s < 0) { rest += src.slice(i); break; }
+    const after = src[s + 6];
+    if (after !== '>' && after !== ' ' && after !== '\t' && after !== '\n' && after !== '\r' && after !== '/') { rest += src.slice(i, s + 6); i = s + 6; continue; }
+    const open = src.indexOf('>', s);
+    if (open < 0) bad('it has an unclosed <style> tag');
+    const close = src.indexOf('</style>', open);
+    if (close < 0) bad('it has an unclosed <style> element');
+    rest += src.slice(i, s);
+    styles.push(src.slice(open + 1, close));
+    i = close + 8;
+  }
+  return { styles, rest };
+}
+
+/** Split into comments, processing instructions, declarations, tags and text, in one pass:
+ *  each token is found with indexOf from where the last one ended, so the work is linear in
+ *  the file's length however it's built (a regex tokenizer was quadratic on runs of "<").
+ *  A token that never closes stops the file. */
+function tokenize(src) {
+  const out = [];
+  let i = 0;
+  const until = (end, from) => {
+    const j = src.indexOf(end, from);
+    if (j < 0) bad(`it has an unclosed ${end === '-->' ? 'comment' : end === '?>' ? 'processing instruction' : 'tag'}`);
+    return j + end.length;
+  };
+  while (i < src.length) {
+    let j;
+    if (src[i] !== '<') { j = src.indexOf('<', i); if (j < 0) j = src.length; }
+    else if (src.startsWith('<!--', i)) j = until('-->', i + 4);
+    else if (src.startsWith('<?', i)) j = until('?>', i + 2);
+    else {
+      j = until('>', i + 1);
+      const lt = src.indexOf('<', i + 1);
+      if (lt >= 0 && lt < j) bad('it has a "<" inside a tag');
+    }
+    out.push(src.slice(i, j));
+    i = j;
+  }
+  return out;
+}
 const TAG = /^<(\/?)([A-Za-z][\w:.-]*)((?:\s+[^\s=/>]+\s*=\s*(?:"[^"]*"|'[^']*'))*)\s*(\/?)>$/;
 const ATTR = /([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
 
@@ -115,17 +202,21 @@ export function sanitizeSvg(input) {
   if (Buffer.byteLength(src, 'utf8') > MAX_BYTES) bad(`it is over ${MAX_BYTES / 1024} KB`);
 
   // First pass: collect <style> class rules (they apply to elements anywhere in the file).
-  let classes = {};
-  for (const m of src.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/g)) {
-    const css = m[1].replace(/^\s*<!\[CDATA\[|\]\]>\s*$/g, '');
-    for (const [k, v] of Object.entries(parseClassStyles(css))) Object.assign((classes[k] ||= {}), v);
+  const classes = new Map();
+  const { styles, rest } = splitStyles(src);
+  for (const block of styles) {
+    const css = block.replace(/^\s*<!\[CDATA\[/, '').replace(/\]\]>\s*$/, '');
+    for (const [k, v] of parseClassStyles(css)) {
+      if (!classes.has(k)) classes.set(k, new Map());
+      for (const [p, val] of v) classes.get(k).set(p, val);
+    }
   }
 
   const out = [];
   const stack = [];
   let dropping = 0;
   let sawRoot = false;
-  const tokens = src.replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, '').match(TOKEN) || [];
+  const tokens = tokenize(rest);
   for (const tok of tokens) {
     if (tok.startsWith('<!--')) continue;
     if (tok.startsWith('<?')) { if (/^<\?xml\s/.test(tok) && !sawRoot) continue; bad('it has a processing instruction'); }
@@ -141,7 +232,12 @@ export function sanitizeSvg(input) {
     const name = rawName;
     const local = name.includes(':') ? name.split(':')[0] : null;
     if (closing) {
-      if (dropping) { if (stack.pop() === name) dropping--; continue; }
+      if (dropping) {
+        const open = stack.pop();
+        if (open !== name) bad(`tags don't match: </${name}> closes <${open}>`);
+        dropping--;
+        continue;
+      }
       const open = stack.pop();
       if (open !== name) bad(`tags don't match: </${name}> closes <${open}>`);
       if (open !== null) out.push(`</${name}>`);
@@ -158,7 +254,7 @@ export function sanitizeSvg(input) {
 
     const attrs = new Map();
     let classList = [];
-    let style = {};
+    let style = new Map();
     for (const a of attrText.matchAll(ATTR)) {
       const an = a[1];
       const av = a[2] ?? a[3] ?? '';
@@ -179,8 +275,8 @@ export function sanitizeSvg(input) {
     }
     // CSS order: presentation attributes, then class rules, then style="" win.
     const merged = new Map(attrs);
-    for (const c of classList) for (const [k, v] of Object.entries(classes[c] || {})) merged.set(k, v);
-    for (const [k, v] of Object.entries(style)) merged.set(k, v);
+    for (const c of classList) for (const [k, v] of classes.get(c) ?? []) merged.set(k, v);
+    for (const [k, v] of style) merged.set(k, v);
     if (name === 'svg' && !merged.has('xmlns')) merged.set('xmlns', 'http://www.w3.org/2000/svg');
     const attrOut = [...merged].map(([k, v]) => ` ${k}="${v}"`).join('');
     out.push(`<${name}${attrOut}${selfClose ? '/' : ''}>`);

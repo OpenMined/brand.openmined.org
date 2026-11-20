@@ -1,7 +1,7 @@
 // node --test tools/logos/test — the allowlist against hostile SVGs and real-world editor output.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sanitizeSvg, MAX_BYTES } from '../sanitize.mjs';
+import { sanitizeSvg, MAX_BYTES, MAX_VALUE } from '../sanitize.mjs';
 
 const ok = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="#0A66C2"/></svg>';
 
@@ -64,6 +64,18 @@ const hostile = {
   bareParen: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="(https://x.test/a)"/></svg>',
   classStyleEscape: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:u\\rl(https://x.test/a)}</style><path class="a" d="M0 0"/></svg>',
   classStyleComment: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:url/**/(https://x.test/a)}</style><path class="a" d="M0 0"/></svg>',
+  // A dropped element still has to close properly.
+  droppedMismatch: '<svg xmlns="http://www.w3.org/2000/svg"><title></x></x><path d="M0 0"/></svg>',
+  droppedMismatchNested: '<svg xmlns="http://www.w3.org/2000/svg"><metadata><a></b></metadata><path d="M0 0"/></svg>',
+  // Values and tokens that never end.
+  longValue: `<svg xmlns="http://www.w3.org/2000/svg"><path d="${'M0 0 '.repeat(MAX_VALUE / 5 + 1)}"/></svg>`,
+  unclosedTag: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"',
+  ltInsideTag: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" <script>/></svg>',
+  unclosedComment: '<svg xmlns="http://www.w3.org/2000/svg"><!-- <path d="M0 0"/></svg>',
+  unclosedStyle: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:#000}<path d="M0 0"/></svg>',
+  styleUnclosedComment: '<svg xmlns="http://www.w3.org/2000/svg"><style>/* .a{fill:#000}</style><path d="M0 0"/></svg>',
+  styleTwoBraces: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{.b{fill:#000}</style><path d="M0 0"/></svg>',
+  styleTrailing: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:#000} @import x</style><path d="M0 0"/></svg>',
   transformExpression: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" transform="expression(alert(1))"/></svg>',
   big: `<svg xmlns="http://www.w3.org/2000/svg"><path d="${'M0 0 '.repeat(MAX_BYTES / 4)}"/></svg>`,
 };
@@ -103,4 +115,43 @@ test('a blur filter in the same file is kept', () => {
 test('values may still call colors, transforms and a same-file url(#id)', () => {
   const svg = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="rgb(1, 2, 3)" stroke="hsla(0, 0%, 0%, .5)" transform="matrix(1 0 0 1 0 0) translate(2 3) scale(1.5) rotate(45) skewX(2) skewY(3)"/><path d="M0 0" fill="url(#a)"/></svg>';
   assert.equal(sanitizeSvg(svg), svg + '\n');
+});
+
+test('class names never reach Object.prototype, and one file never changes the next', () => {
+  const clean = '<svg xmlns="http://www.w3.org/2000/svg"><path class="toString" d="M0 0"/><path class="__proto__ constructor valueOf hasOwnProperty" d="M1 1"/></svg>';
+  const expected = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/><path d="M1 1"/></svg>\n';
+  assert.equal(sanitizeSvg(clean), expected);
+  for (const cls of ['__proto__', 'constructor', 'toString', 'hasOwnProperty', 'valueOf']) {
+    const hostile = `<svg xmlns="http://www.w3.org/2000/svg"><style>.${cls}{fill:#f00;stroke:#0f0}</style><path class="${cls}" d="M0 0"/></svg>`;
+    try { sanitizeSvg(hostile); } catch { /* refusing is fine too */ }
+    assert.equal(({}).fill, undefined, `.${cls} polluted Object.prototype`);
+    assert.equal(Object.prototype.hasOwnProperty.call(Object.prototype, 'fill'), false);
+    assert.equal(sanitizeSvg(clean), expected, `.${cls} changed the next file`);
+  }
+});
+
+test('reserved class names are refused', () => {
+  for (const cls of ['__proto__', 'constructor', 'prototype']) {
+    assert.throws(() => sanitizeSvg(`<svg xmlns="http://www.w3.org/2000/svg"><style>.${cls}{fill:#000}</style><path class="${cls}" d="M0 0"/></svg>`));
+  }
+});
+
+test('hostile shapes are read in linear time', () => {
+  const N = MAX_BYTES - 200;
+  const shapes = {
+    lt: '<svg xmlns="http://www.w3.org/2000/svg">' + '<'.repeat(N),
+    comments: '<svg xmlns="http://www.w3.org/2000/svg">' + '<!--'.repeat(N / 4),
+    pis: '<svg xmlns="http://www.w3.org/2000/svg">' + '<?'.repeat(N / 2),
+    styles: '<svg xmlns="http://www.w3.org/2000/svg">' + '<style>'.repeat(N / 7),
+    cssRun: `<svg xmlns="http://www.w3.org/2000/svg"><style>${'a'.repeat(N - 100)}</style></svg>`,
+    cssComments: `<svg xmlns="http://www.w3.org/2000/svg"><style>${'/*'.repeat((N - 100) / 2)}</style></svg>`,
+    letters: `<svg xmlns="http://www.w3.org/2000/svg"><path d="${'a'.repeat(MAX_VALUE - 10)}"/></svg>`,
+    spaces: `<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="u${' '.repeat(MAX_VALUE - 10)}x"/></svg>`,
+  };
+  for (const [name, svg] of Object.entries(shapes)) {
+    const t = performance.now();
+    try { sanitizeSvg(svg); } catch { /* refusing is fine */ }
+    const ms = performance.now() - t;
+    assert.ok(ms < 250, `${name} took ${ms.toFixed(0)}ms`);
+  }
 });
