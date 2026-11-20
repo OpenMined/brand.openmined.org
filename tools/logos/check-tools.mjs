@@ -2,8 +2,10 @@
 /**
  * TOOL MARKS CHECK (`npm run logos:check`) — every SVG under public/logos/tools is stored
  * exactly as tools/logos/sanitize.mjs rebuilds it, and every icon.svg is one color
- * (tools/logos/mono.mjs). So a mark that didn't come through the allowlist, or was
- * edited by hand afterwards, fails CI. `--fix` rewrites files to their sanitized form
+ * (tools/logos/mono.mjs), with no ids in an icon.svg and every id brand-prefixed. A mark
+ * that didn't come through the allowlist, or was edited by hand afterwards, fails this
+ * check. No CI workflow runs it yet: gating CI on it is a proposal for the design lead.
+ * `--fix` rewrites files to their sanitized form
  * (the drawing is unchanged; only editor noise and formatting go).
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
