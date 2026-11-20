@@ -18,8 +18,8 @@ assets. Each mark is the **trademark of its owner** and is used nominatively
 - `icon-color.svg` — the mark in its **official brand color** (or full color for
   multicolor marks like Google's G). Use via `<img>`; do not recolor.
 - `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available.
-  `logo-mono.svg` is the lockup in `currentColor`, only where the owner's terms allow
-  a recolored lockup; a brand whose terms forbid recoloring or altering its marks has none.
+  `logo-mono.svg` is the lockup in `currentColor`. A new one is added only where the
+  owner's terms allow a recolored lockup; existing ones under such terms carry `monoRestricted`.
 - `icon-color-dark.svg` / `logo-dark.svg` — the color file for **dark mode**,
   only where the color mark's ink would vanish on a dark surface. Recorded under
   `dark` in `tools.json`; the owner's own reversed file wherever one exists;

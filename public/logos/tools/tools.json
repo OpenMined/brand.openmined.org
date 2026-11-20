@@ -186,10 +186,13 @@
       "brandColor": "#1868DB",
       "icon": "loom/icon.svg",
       "iconColor": "loom/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "Atlassian's logo terms: don't compose or deconstruct the attribution logos (https://atlassian.design/foundations/logos). icon.svg (currentColor) is the burst alone, and logo-mono.svg is the earlier set's currentColor knockout of the purple-era lockup: whether these are kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "loom/logo.svg"
+        "main": "loom/logo.svg",
+        "mono": "loom/logo-mono.svg"
       },
-      "notes": "Loom in Atlassian's brand: a blue #1868DB tile with the white burst. icon-color = Atlassian's own Loom icon (the SVG inside @atlaskit/logo 23.3.3, its CSS-variable fills resolved to their stated defaults #1868db and white; the default artwork, not the flagged 'refreshed' one). icon.svg = the burst alone in currentColor. lockup = Atlassian's Loom attribution lockup (Charlie type), light and dark as supplied. No currentColor lockup: Atlassian asks that the attribution lockups not be composed or deconstructed.",
+      "notes": "Loom in Atlassian's brand: a blue #1868DB tile with the white burst. icon-color = Atlassian's own Loom icon (the SVG inside @atlaskit/logo 23.3.3, its CSS-variable fills resolved to their stated defaults #1868db and white; the default artwork, not the flagged 'refreshed' one). icon.svg = the burst alone in currentColor. lockup = Atlassian's Loom attribution lockup (Charlie type), light and dark as supplied. logo-mono.svg is the earlier set's currentColor knockout of the purple-era lockup, kept as it was; see monoTerms.",
       "gaps": [],
       "dark": {
         "lockup": {
@@ -213,10 +216,13 @@
       "brandColor": "#FF3737",
       "icon": "figma/icon.svg",
       "iconColor": "figma/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "Figma's brand terms: don't modify the marks (https://www.figma.com/using-the-figma-brand/). icon.svg (currentColor) follows the set's one-color convention, and logo-mono.svg is the earlier set's currentColor knockout of the pre-2024 lockup: whether these are kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "figma/logo.svg"
+        "main": "figma/logo.svg",
+        "mono": "figma/logo-mono.svg"
       },
-      "notes": "Multicolor mark in the 2024 palette (#FF3737 #FF7237 #874FFF #00B6FF #24CB71; never recolor the color file). icon-color = the kit's full-color icon. icon.svg = the 1-color silhouette (Simple Icons; same shapes). lockup = the kit's lockup (the icon on its black tile + 'Figma'). No currentColor lockup: Figma asks that the marks not be modified.",
+      "notes": "Multicolor mark in the 2024 palette (#FF3737 #FF7237 #874FFF #00B6FF #24CB71; never recolor the color file). icon-color = the kit's full-color icon. icon.svg = the 1-color silhouette (Simple Icons; same shapes). lockup = the kit's lockup (the icon on its black tile + 'Figma'). logo-mono.svg is the earlier set's currentColor knockout of the pre-2024 lockup, kept as it was; see monoTerms.",
       "gaps": [],
       "checked": "2026-11-20",
       "version": "kit files 2024-08-28",
@@ -521,11 +527,12 @@
       "icon": "docker/icon.svg",
       "iconColor": "docker/icon-color.svg",
       "monoRestricted": true,
-      "monoTerms": "Docker's trademark guidelines: use only the approved colorways (https://www.docker.com/legal/trademark-guidelines/). icon.svg (currentColor) follows the set's one-color convention; whether these owners' marks are shown in one color is the brand owner's decision.",
+      "monoTerms": "Docker's trademark guidelines: use only the approved colorways (https://www.docker.com/legal/trademark-guidelines/). icon.svg (currentColor) follows the set's one-color convention, and logo-mono.svg is the earlier set's currentColor knockout of the retired whale lockup: whether these are kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "docker/logo.svg"
+        "main": "docker/logo.svg",
+        "mono": "docker/logo-mono.svg"
       },
-      "notes": "The 2026-11-19 mark (Moby redrawn). One color by design: Ether #101010 on light, Zero #FFFDFA on dark, both the owner's files (Base #6172FF is a background color in the owner's colorways, not the mark's). icon.svg = the Ether mark in currentColor. lockup = mark + 'docker' wordmark (Ether, and Zero for dark). No currentColor lockup: Docker allows only its approved colorways.",
+      "notes": "The 2026-11-19 mark (Moby redrawn). One color by design: Ether #101010 on light, Zero #FFFDFA on dark, both the owner's files (Base #6172FF is a background color in the owner's colorways, not the mark's). icon.svg = the Ether mark in currentColor. lockup = mark + 'docker' wordmark (Ether, and Zero for dark). logo-mono.svg is the earlier set's currentColor knockout of the retired whale lockup, kept as it was; see monoTerms.",
       "gaps": [],
       "dark": {
         "iconColor": "docker/icon-color-dark.svg",
