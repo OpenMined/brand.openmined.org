@@ -17,13 +17,14 @@ assets. Each mark is the **trademark of its owner** and is used nominatively
   to theme it (mono / "1-color"). As an `<img>` it renders black.
 - `icon-color.svg` — the mark in its **official brand color** (or full color for
   multicolor marks like Google's G). Use via `<img>`; do not recolor.
-- `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available
-  (currently GitHub black/white, Ramp).
+- `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available.
+  `logo-mono.svg` is the lockup in `currentColor`. A new one is added only where the
+  owner's terms allow a recolored lockup; existing ones under such terms carry `monoRestricted`.
 - `icon-color-dark.svg` / `logo-dark.svg` — the color file for **dark mode**,
-  only where the color mark's ink would vanish on a dark surface (AWS, Rippling).
-  Recorded under `dark` in `tools.json`; `derived` says when it was made by
-  OpenMined (dark ink set to white, as in the owner's reversed logo) rather than
-  supplied, and `gaps` asks for the official file.
+  only where the color mark's ink would vanish on a dark surface. Recorded under
+  `dark` in `tools.json`; the owner's own reversed file wherever one exists;
+  `derived` says when it was made by OpenMined (dark ink set to white, as in the
+  owner's reversed logo) rather than supplied, and `gaps` asks for the official file.
 
 ## Color mode
 
@@ -35,8 +36,15 @@ swaps a brand's `-dark` file in wherever the page or a section is dark.
 
 `tools.json` is the source of truth: per brand it records the trademark owner,
 official source URL, available variants, brand color, and known **gaps** (marks
-that still need an official file dropped in — e.g. Rippling, Slack's 4-color icon,
-several wordmark lockups behind brand-kit gates).
+that still need an official file dropped in — e.g. Slack's 4-color icon, several
+wordmark lockups behind brand-kit gates). Brands checked against the owner's
+current kit also record when (`checked`), which version of the mark
+(`version`), the owner's terms (`license`), and the exact file each of ours
+came from (`sourceFiles`: the URL, and the path inside a zip).
+`monoRestricted: true` marks a brand whose owner's terms speak to color directly (no
+recoloring, approved colorways only), quoted in `monoTerms`: its `icon.svg` follows the
+set's one-color convention, and whether that mark is shown in one color is the brand
+owner's decision.
 
 ## Source
 
@@ -44,4 +52,5 @@ Lockups/marks are official (GitHub `GitHub_Logos.zip`, Ramp production SVG,
 Google 4-color G artwork). Monochrome glyphs for single-color icons come from
 [Simple Icons](https://simpleicons.org) (CC0 file license; trademarks remain the
 owners'). Never redraw a mark — source it officially or leave it as a documented
-gap.
+gap. Every file passes `tools/logos/sanitize.mjs` before it is stored
+(`npm run logos:check` checks every stored file, with `tools/logos/check-tools.mjs`).

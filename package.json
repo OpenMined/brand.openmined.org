@@ -17,7 +17,8 @@
     "census": "node tools/census/census.mjs",
     "icons:import": "node tools/icons/import.mjs",
     "examples:thumbs": "node tools/examples/thumbs.mjs",
-    "logos:import": "node tools/logos/import-org.mjs"
+    "logos:import": "node tools/logos/import-org.mjs",
+    "logos:check": "node --test tools/logos/test/sanitize.test.mjs && node tools/logos/check-tools.mjs"
   },
   "dependencies": {
     "@tabler/icons": "3.50.0",

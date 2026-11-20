@@ -1,0 +1,292 @@
+/**
+ * SVG ALLOWLIST — every tool mark (public/logos/tools/) passes through this before it enters
+ * the repo, and `npm run logos:check` (tools/logos/check-tools.mjs) runs it over every file
+ * already here. admin.openmined.org's brand_marks runs its own port of these rules
+ * (web/src/lib/server/svg-allowlist.ts) on what it stores; the two are kept in step by hand
+ * and can differ, so neither should assume the other has checked a file.
+ *
+ * An SVG is a script vector, so this is an allowlist, not a blocklist: the output is
+ * rebuilt from the elements and attributes named below and nothing else.
+ *   - Editor noise (comments, the XML declaration, <metadata>, <desc>, <title>, and
+ *     sodipodi:/inkscape: elements and attributes) is dropped.
+ *   - Simple class styles (`.a{fill:#123}`) are moved onto the elements that use them;
+ *     anything else in a <style> stops the file.
+ *   - Anything else outside the allowlist stops the file with the reason, so a person
+ *     looks at it: scripts, foreignObject, images, <use>, links, animation, DOCTYPE,
+ *     entities, CDATA, any href, event attributes, data:/javascript: anywhere, and in a
+ *     value: any function but colors, transforms and url(#id), quotes, CSS escapes and
+ *     comments, and characters outside printable ASCII.
+ * The drawing itself (paths, shapes, gradients, clip paths, transforms) is kept exactly.
+ */
+
+export const MAX_BYTES = 64 * 1024;
+/** The longest attribute or style value (the longest real one, a lockup's path data, is ~12 KB). */
+export const MAX_VALUE = 32 * 1024;
+
+const ELEMENTS = new Set([
+  'svg', 'g', 'path', 'circle', 'ellipse', 'rect', 'polygon', 'polyline', 'line',
+  'defs', 'linearGradient', 'radialGradient', 'stop', 'clipPath', 'mask',
+  // Blur only (Google's 2025 G shades with it). No other filter primitive: feImage loads
+  // files, and the rest aren't used by any mark.
+  'filter', 'feGaussianBlur',
+]);
+/** Dropped with everything inside them. */
+const DROP = new Set(['metadata', 'desc', 'title']);
+
+const PAINT = ['fill', 'fill-rule', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-linecap',
+  'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke-dasharray', 'stroke-dashoffset',
+  'opacity', 'clip-rule', 'stop-color', 'stop-opacity', 'clip-path', 'mask', 'transform', 'mask-type'];
+const ATTRS = new Set([
+  ...PAINT,
+  'xmlns', 'viewBox', 'width', 'height', 'version', 'id', 'class', 'preserveAspectRatio',
+  'd', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'points',
+  'offset', 'gradientUnits', 'gradientTransform', 'spreadMethod', 'clipPathUnits',
+  'maskUnits', 'maskContentUnits', 'overflow',
+  'filter', 'filterUnits', 'primitiveUnits', 'color-interpolation-filters', 'stdDeviation', 'in', 'result', 'edgeMode',
+  'role', 'aria-label', 'aria-hidden', 'focusable',
+]);
+/** Style properties that may move from a class rule or style="" onto an attribute. */
+const STYLE_PROPS = new Set(PAINT);
+
+/** Editor and exporter leftovers with no effect on the drawing: dropped. (`clipPath` as an
+ *  attribute isn't valid SVG, so browsers ignore it; the clip-path attribute is the real one.) */
+const NS_NOISE = /^(sodipodi:|inkscape:|xmlns:(sodipodi|inkscape|dc|cc|rdf|svg|xlink|serif|sketch|figma)$|serif:|sketch:|data-name$|xml:space$|enable-background$|style-ignored$|jetway-hooks?(-id)?$|clipPath$)/;
+
+/** The only functions a value may call: colors, transforms and a same-file url(#id). */
+const FUNCTIONS = new Set(['url', 'rgb', 'rgba', 'hsl', 'hsla', 'matrix', 'translate', 'scale', 'rotate', 'skewx', 'skewy']);
+
+const bad = (why) => { throw new Error(why); };
+
+/** The name in front of every "(" in a value ("" when there is none), read backwards from
+ *  each "(" over spaces, then letters and hyphens. Linear: a regex for this was quadratic
+ *  on long runs of spaces. */
+function functionNames(v) {
+  const out = [];
+  const isSpace = (c) => c === ' ' || c === '\t' || c === '\n' || c === '\r';
+  const isName = (c) => /[A-Za-z-]/.test(c);
+  for (let i = v.indexOf('('); i >= 0; i = v.indexOf('(', i + 1)) {
+    let j = i;
+    while (j > 0 && isSpace(v[j - 1])) j--;
+    const end = j;
+    while (j > 0 && isName(v[j - 1])) j--;
+    out.push(v.slice(j, end));
+  }
+  return out;
+}
+
+/** The value check. admin.openmined.org's port started from this function; see the header on keeping them in step. */
+function checkValue(name, value) {
+  const v = value.trim();
+  if (v.length > MAX_VALUE) bad(`${name} is over ${MAX_VALUE / 1024} KB`);
+  if (/javascript:|data:|vbscript:/i.test(v)) bad(`${name} has a script or data URI`);
+  if (/&/.test(v)) bad(`${name} has an entity or character reference`);
+  if (/[<>"`']/.test(v)) bad(`${name} has markup characters or a quote`);
+  // Escapes and comments could hide a function name or a URL from the checks below.
+  if (/\\/.test(v)) bad(`${name} has a CSS escape`);
+  if (/\/\*|\*\//.test(v)) bad(`${name} has a CSS comment`);
+  if (/[^\t\n\r\x20-\x7e]/.test(v)) bad(`${name} has a character outside printable ASCII`);
+  // Every function call must be on the allowlist; a bare "(" (no name in front) is refused too.
+  for (const fn of functionNames(v)) {
+    if (!FUNCTIONS.has(fn.toLowerCase())) bad(`${name} uses ${fn || 'a bare'}() which isn't allowed`);
+  }
+  if (/url\s*\(/i.test(v) && !/^url\(#[\w.:-]+\)$/.test(v)) bad(`${name} has url() pointing outside the file`);
+  if (/expression|@import/i.test(v)) bad(`${name} has CSS that isn't a plain value`);
+  return v;
+}
+
+/** Class names that would reach Object.prototype if anything ever keyed a plain object by them. */
+const RESERVED = /^(__proto__|constructor|prototype|__defineGetter__|__defineSetter__|__lookupGetter__|__lookupSetter__)$/;
+
+/** `.a{fill:#123;stroke:none}` rules → Map { a → Map {fill → '#123', stroke → 'none'} }. Anything else throws.
+ *  Maps, not objects: a class named __proto__ or toString is just a key. */
+function parseClassStyles(css) {
+  const rules = new Map();
+  // Comments out, then one rule per "}" (indexOf and split only, so linear in the CSS's length).
+  let body = '';
+  for (let i = 0; i < css.length;) {
+    const c = css.indexOf('/*', i);
+    if (c < 0) { body += css.slice(i); break; }
+    const e = css.indexOf('*/', c + 2);
+    if (e < 0) bad('<style> has an unclosed comment');
+    body += css.slice(i, c);
+    i = e + 2;
+  }
+  const chunks = body.split('}');
+  if (chunks.pop().trim()) bad('<style> has something other than class rules');
+  for (const chunk of chunks) {
+    const brace = chunk.indexOf('{');
+    if (brace < 0 || chunk.indexOf('{', brace + 1) >= 0) bad('<style> has something other than class rules');
+    const selectors = chunk.slice(0, brace).split(',').map((s) => s.trim());
+    for (const sel of selectors) {
+      if (!/^\.[\w-]+$/.test(sel)) bad(`<style> has a selector that isn't a single class: ${sel}`);
+      if (RESERVED.test(sel.slice(1))) bad(`<style> has a reserved class name: ${sel}`);
+    }
+    const decls = parseDecls(chunk.slice(brace + 1), '<style>');
+    for (const sel of selectors) {
+      const k = sel.slice(1);
+      if (!rules.has(k)) rules.set(k, new Map());
+      for (const [p, v] of decls) rules.get(k).set(p, v);
+    }
+  }
+  return rules;
+}
+
+function parseDecls(text, where) {
+  const out = new Map();
+  for (const part of text.split(';')) {
+    if (!part.trim()) continue;
+    const i = part.indexOf(':');
+    if (i < 0) bad(`${where} has a malformed declaration`);
+    const prop = part.slice(0, i).trim().toLowerCase();
+    const val = part.slice(i + 1).trim();
+    if ((prop === 'isolation' && val === 'isolate') || (prop === 'mix-blend-mode' && val === 'normal') || prop === 'enable-background') continue;
+    if (!STYLE_PROPS.has(prop)) bad(`${where} sets ${prop}, which isn't allowed`);
+    out.set(prop, checkValue(`${where} ${prop}`, val));
+  }
+  return out;
+}
+
+/** Take out every <style>…</style> block: its CSS, and the file without it. Linear (indexOf). */
+function splitStyles(src) {
+  const styles = [];
+  let rest = '';
+  let i = 0;
+  for (;;) {
+    const s = src.indexOf('<style', i);
+    if (s < 0) { rest += src.slice(i); break; }
+    const after = src[s + 6];
+    if (after !== '>' && after !== ' ' && after !== '\t' && after !== '\n' && after !== '\r' && after !== '/') { rest += src.slice(i, s + 6); i = s + 6; continue; }
+    const open = src.indexOf('>', s);
+    if (open >= 0 && !/^<style(\s+type\s*=\s*"text\/css")?\s*>$/.test(src.slice(s, open + 1))) bad('a <style> tag has attributes other than type="text/css"');
+    if (open < 0) bad('it has an unclosed <style> tag');
+    const close = src.indexOf('</style>', open);
+    if (close < 0) bad('it has an unclosed <style> element');
+    rest += src.slice(i, s);
+    styles.push(src.slice(open + 1, close));
+    i = close + 8;
+  }
+  return { styles, rest };
+}
+
+/** Split into comments, processing instructions, declarations, tags and text, in one pass:
+ *  each token is found with indexOf from where the last one ended, so the work is linear in
+ *  the file's length however it's built (a regex tokenizer was quadratic on runs of "<").
+ *  A token that never closes stops the file. */
+function tokenize(src) {
+  const out = [];
+  let i = 0;
+  const until = (end, from) => {
+    const j = src.indexOf(end, from);
+    if (j < 0) bad(`it has an unclosed ${end === '-->' ? 'comment' : end === '?>' ? 'processing instruction' : 'tag'}`);
+    return j + end.length;
+  };
+  while (i < src.length) {
+    let j;
+    if (src[i] !== '<') { j = src.indexOf('<', i); if (j < 0) j = src.length; }
+    else if (src.startsWith('<!--', i)) j = until('-->', i + 4);
+    else if (src.startsWith('<?', i)) j = until('?>', i + 2);
+    else {
+      j = until('>', i + 1);
+      const lt = src.indexOf('<', i + 1);
+      if (lt >= 0 && lt < j) bad('it has a "<" inside a tag');
+    }
+    out.push(src.slice(i, j));
+    i = j;
+  }
+  return out;
+}
+const TAG = /^<(\/?)([A-Za-z][\w:.-]*)((?:\s+[^\s=/>]+\s*=\s*(?:"[^"]*"|'[^']*'))*)\s*(\/?)>$/;
+const ATTR = /([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
+
+/** Clean an SVG by the allowlist. Returns the rebuilt file, or throws with the reason. */
+export function sanitizeSvg(input) {
+  const src = String(input);
+  if (Buffer.byteLength(src, 'utf8') > MAX_BYTES) bad(`it is over ${MAX_BYTES / 1024} KB`);
+
+  // First pass: collect <style> class rules (they apply to elements anywhere in the file).
+  const classes = new Map();
+  const { styles, rest } = splitStyles(src);
+  for (const block of styles) {
+    const css = block.replace(/^\s*<!\[CDATA\[/, '').replace(/\]\]>\s*$/, '');
+    for (const [k, v] of parseClassStyles(css)) {
+      if (!classes.has(k)) classes.set(k, new Map());
+      for (const [p, val] of v) classes.get(k).set(p, val);
+    }
+  }
+
+  const out = [];
+  const stack = [];
+  let dropping = 0;
+  let sawRoot = false;
+  const tokens = tokenize(rest);
+  for (const tok of tokens) {
+    if (tok.startsWith('<!--')) continue;
+    if (tok.startsWith('<?')) { if (/^<\?xml\s/.test(tok) && !sawRoot) continue; bad('it has a processing instruction'); }
+    if (tok.startsWith('<!')) bad(/DOCTYPE|ENTITY/i.test(tok) ? 'it has a DOCTYPE or entity declaration' : 'it has CDATA or a declaration');
+    if (!tok.startsWith('<')) {
+      if (dropping) continue;
+      if (tok.trim()) bad('it has text content');
+      continue;
+    }
+    const m = tok.match(TAG);
+    if (!m) bad(`it has a tag that can't be read: ${tok.slice(0, 40)}`);
+    const [, closing, rawName, attrText, selfClose] = m;
+    const name = rawName;
+    const local = name.includes(':') ? name.split(':')[0] : null;
+    if (closing) {
+      if (dropping) {
+        const open = stack.pop();
+        if (open !== name) bad(`tags don't match: </${name}> closes <${open}>`);
+        dropping--;
+        continue;
+      }
+      const open = stack.pop();
+      if (open !== name) bad(`tags don't match: </${name}> closes <${open}>`);
+      if (open !== null) out.push(`</${name}>`);
+      continue;
+    }
+    if (sawRoot && stack.length === 0) bad('it has more than one root element');
+    if (dropping) { if (!selfClose) { stack.push(name); dropping++; } continue; }
+    if (DROP.has(name) || local === 'sodipodi' || local === 'inkscape' || local === 'rdf') {
+      if (!selfClose) { stack.push(name); dropping++; }
+      continue;
+    }
+    if (!ELEMENTS.has(name)) bad(`it has a <${name}> element, which isn't allowed`);
+    if (!sawRoot && name !== 'svg') bad('the root element isn\'t <svg>');
+    sawRoot = true;
+
+    const attrs = new Map();
+    let classList = [];
+    let style = new Map();
+    for (const a of attrText.matchAll(ATTR)) {
+      const an = a[1];
+      const av = a[2] ?? a[3] ?? '';
+      if (/^on/i.test(an)) bad(`<${name}> has an event attribute (${an})`);
+      if (/href$/i.test(an)) {
+        // A gradient may inherit another gradient in the same file (href="#id"); no other link.
+        if (!/^(linearGradient|radialGradient)$/.test(name) || !/^#[\w.:-]+$/.test(av.trim())) bad(`<${name}> has a link (${an})`);
+        attrs.set('href', av.trim());
+        continue;
+      }
+      if (an === 'xmlns:xlink') continue;
+      if (NS_NOISE.test(an)) continue;
+      if (an === 'style') { style = parseDecls(av, `<${name}> style`); continue; }
+      if (an === 'class') { classList = av.trim().split(/\s+/).filter(Boolean); continue; }
+      if (!ATTRS.has(an)) bad(`<${name}> has a ${an} attribute, which isn't allowed`);
+      if (an === 'xmlns' && av !== 'http://www.w3.org/2000/svg') bad('the SVG namespace is wrong');
+      if (an === 'id' && !/^[\w.:-]+$/.test(av)) bad(`<${name}> has an id with characters outside [A-Za-z0-9_.:-]`);
+      attrs.set(an, checkValue(`<${name}> ${an}`, av));
+    }
+    // CSS order: presentation attributes, then class rules, then style="" win.
+    const merged = new Map(attrs);
+    for (const c of classList) for (const [k, v] of classes.get(c) ?? []) merged.set(k, v);
+    for (const [k, v] of style) merged.set(k, v);
+    if (name === 'svg' && !merged.has('xmlns')) merged.set('xmlns', 'http://www.w3.org/2000/svg');
+    const attrOut = [...merged].map(([k, v]) => ` ${k}="${v}"`).join('');
+    out.push(`<${name}${attrOut}${selfClose ? '/' : ''}>`);
+    if (!selfClose) stack.push(name);
+  }
+  if (!sawRoot) bad('it has no <svg> element');
+  if (stack.length) bad('it has unclosed tags');
+  return out.join('') + '\n';
+}
