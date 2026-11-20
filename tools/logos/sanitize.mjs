@@ -1,6 +1,6 @@
 /**
  * SVG ALLOWLIST — every partner mark passes through this before it enters the repo, and
- * the check (tools/logos/check-partners.mjs, in `npm run lint`) runs it over every file
+ * the check (tools/logos/check-tools.mjs, in `npm run lint`) runs it over every file
  * already here. Other apps that serve these files (admin.openmined.org's brand_marks)
  * run the same rules again on their side.
  *
@@ -12,8 +12,9 @@
  *     anything else in a <style> stops the file.
  *   - Anything else outside the allowlist stops the file with the reason, so a person
  *     looks at it: scripts, foreignObject, images, <use>, links, animation, DOCTYPE,
- *     entities, CDATA, any href, event attributes, url() other than url(#id), and
- *     data:/javascript: anywhere.
+ *     entities, CDATA, any href, event attributes, data:/javascript: anywhere, and in a
+ *     value: any function but colors, transforms and url(#id), quotes, CSS escapes and
+ *     comments, and characters outside printable ASCII.
  * The drawing itself (paths, shapes, gradients, clip paths, transforms) is kept exactly.
  */
 
@@ -48,15 +49,27 @@ const STYLE_PROPS = new Set(PAINT);
  *  attribute isn't valid SVG, so browsers ignore it; the clip-path attribute is the real one.) */
 const NS_NOISE = /^(sodipodi:|inkscape:|xmlns:(sodipodi|inkscape|dc|cc|rdf|svg|xlink|serif|sketch|figma)$|serif:|sketch:|data-name$|xml:space$|enable-background$|style-ignored$|jetway-hooks?(-id)?$|clipPath$)/;
 
+/** The only functions a value may call: colors, transforms and a same-file url(#id). */
+const FUNCTIONS = new Set(['url', 'rgb', 'rgba', 'hsl', 'hsla', 'matrix', 'translate', 'scale', 'rotate', 'skewx', 'skewy']);
+
 const bad = (why) => { throw new Error(why); };
 
+/** The canonical value check. admin.openmined.org's svg-allowlist.ts copies this function. */
 function checkValue(name, value) {
   const v = value.trim();
   if (/javascript:|data:|vbscript:/i.test(v)) bad(`${name} has a script or data URI`);
   if (/&/.test(v)) bad(`${name} has an entity or character reference`);
-  if (/[<>"`]/.test(v)) bad(`${name} has markup characters`);
+  if (/[<>"`']/.test(v)) bad(`${name} has markup characters or a quote`);
+  // Escapes and comments could hide a function name or a URL from the checks below.
+  if (/\\/.test(v)) bad(`${name} has a CSS escape`);
+  if (/\/\*|\*\//.test(v)) bad(`${name} has a CSS comment`);
+  if (/[^\t\n\r\x20-\x7e]/.test(v)) bad(`${name} has a character outside printable ASCII`);
+  // Every function call must be on the allowlist; a bare "(" (no name in front) is refused too.
+  for (const f of v.matchAll(/([A-Za-z-]*)\s*\(/g)) {
+    if (!FUNCTIONS.has(f[1].toLowerCase())) bad(`${name} uses ${f[1] || 'a bare'}() which isn't allowed`);
+  }
   if (/url\s*\(/i.test(v) && !/^url\(#[\w.:-]+\)$/.test(v)) bad(`${name} has url() pointing outside the file`);
-  if (/expression\s*\(|@import|\\/i.test(v)) bad(`${name} has CSS that isn't a plain value`);
+  if (/expression|@import/i.test(v)) bad(`${name} has CSS that isn't a plain value`);
   return v;
 }
 

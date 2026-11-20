@@ -43,6 +43,28 @@ const hostile = {
   gradientExternal: '<svg xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="a" href="https://x.test/g.svg#b"/></defs></svg>',
   pathHrefLocal: '<svg xmlns="http://www.w3.org/2000/svg"><path href="#a" d="M0 0"/></svg>',
   quoteBreak: `<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill='a"onload="x'/></svg>`,
+  // url() and other functions, hidden or not.
+  urlUpper: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="URL(https://x.test/a)"/></svg>',
+  urlSpace: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:url (https://x.test/a)"/></svg>',
+  urlEscapedName: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:u\\72l(https://x.test/a)"/></svg>',
+  urlEscapedParen: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:url\\28 https://x.test/a)"/></svg>',
+  urlUnicodeEscape: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:\\000075rl(https://x.test/a)"/></svg>',
+  urlCommentInName: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:url/**/(https://x.test/a)"/></svg>',
+  urlCommentInside: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="url(/**/https://x.test/a)"/></svg>',
+  urlCommentAfterHash: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="url(#a/**/)"/></svg>',
+  urlHashThenExternal: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="url(#a) url(https://x.test/b)"/></svg>',
+  urlQuoted: `<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="url('https://x.test/a')"/></svg>`,
+  urlQuotedHash: `<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="url('#a')"/></svg>`,
+  urlFullwidth: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="ｕｒｌ(https://x.test/a)"/></svg>',
+  urlZeroWidth: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="u​rl(https://x.test/a)"/></svg>',
+  imageSet: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:image-set(https://x.test/a 1x)"/></svg>',
+  cssVar: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:var(--x)"/></svg>',
+  cssAttr: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" style="fill:attr(data-x)"/></svg>',
+  cssEnv: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="env(x)"/></svg>',
+  bareParen: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="(https://x.test/a)"/></svg>',
+  classStyleEscape: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:u\\rl(https://x.test/a)}</style><path class="a" d="M0 0"/></svg>',
+  classStyleComment: '<svg xmlns="http://www.w3.org/2000/svg"><style>.a{fill:url/**/(https://x.test/a)}</style><path class="a" d="M0 0"/></svg>',
+  transformExpression: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" transform="expression(alert(1))"/></svg>',
   big: `<svg xmlns="http://www.w3.org/2000/svg"><path d="${'M0 0 '.repeat(MAX_BYTES / 4)}"/></svg>`,
 };
 for (const [name, svg] of Object.entries(hostile)) {
@@ -75,5 +97,10 @@ test('a gradient may inherit a gradient in the same file', () => {
 
 test('a blur filter in the same file is kept', () => {
   const svg = '<svg xmlns="http://www.w3.org/2000/svg"><defs><filter id="k" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="1"/></filter></defs><path d="M0 0" filter="url(#k)"/></svg>';
+  assert.equal(sanitizeSvg(svg), svg + '\n');
+});
+
+test('values may still call colors, transforms and a same-file url(#id)', () => {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0" fill="rgb(1, 2, 3)" stroke="hsla(0, 0%, 0%, .5)" transform="matrix(1 0 0 1 0 0) translate(2 3) scale(1.5) rotate(45) skewX(2) skewY(3)"/><path d="M0 0" fill="url(#a)"/></svg>';
   assert.equal(sanitizeSvg(svg), svg + '\n');
 });
