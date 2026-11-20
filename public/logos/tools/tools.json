@@ -12,8 +12,14 @@
         "white": "github/logo-white.svg",
         "mono": "github/logo-mono.svg"
       },
-      "notes": "Official (GitHub_Logos.zip). Monochrome by design — use black or white only per GitHub guidelines. Icon = Invertocat.",
-      "gaps": []
+      "notes": "Official (GitHub_Logos.zip). Monochrome by design — use black or white only per GitHub guidelines. Icon = the 2025 Invertocat (GitHub_Invertocat_Black.svg in currentColor; replaces the deprecated 2015 cat).",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "2025 Invertocat (zip re-cut 2026-01-09)",
+      "license": "Trademark of GitHub, Inc. Black or white only; no recoloring or modification; no implied endorsement (https://brand.github.com/foundations/logo).",
+      "sourceFiles": {
+        "github/icon.svg": "https://brand.github.com/GitHub_Logos.zip → GitHub Logos/SVG/GitHub_Invertocat_Black.svg (currentColor)"
+      }
     },
     "ramp": {
       "name": "Ramp",
@@ -123,15 +129,30 @@
       "name": "HubSpot",
       "trademark": "HubSpot, Inc.",
       "source": "https://legal.hubspot.com/tm-usage-guidelines",
-      "brandColor": "#FF7A59",
+      "brandColor": "#FF4800",
       "icon": "hubspot/icon.svg",
       "iconColor": "hubspot/icon-color.svg",
       "lockup": {
         "main": "hubspot/logo.svg",
         "mono": "hubspot/logo-mono.svg"
       },
-      "notes": "Sprocket mark. lockup = sprocket + 'HubSpot' wordmark (Wikimedia Commons, PD-textlogo). Referential use only — keep your name more prominent, include an independence disclaimer.",
-      "gaps": []
+      "notes": "The 2025 brand (orange #FF4800). The kit has no standalone sprocket, so icon-color and icon.svg are the sprocket path taken unchanged from the kit's primary lockup (the 'o' of Spot). lockup = the kit's primary lockup; dark = the kit's cream lockup; mono = currentColor. Referential use only: keep your name more prominent, include an independence disclaimer.",
+      "gaps": [],
+      "dark": {
+        "lockup": {
+          "main": "hubspot/logo-dark.svg"
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "2025 rebrand (kit 2025-08-25)",
+      "license": "Trademark of HubSpot, Inc. Placing the logo on a website needs prior written permission; text references are allowed with a disclaimer; no recoloring or old versions (https://legal.hubspot.com/tm-usage-guidelines).",
+      "sourceFiles": {
+        "hubspot/icon-color.svg": "https://www.hubspot.com/hubfs/WBZ%202025%20Rebrand/HubSpot%20Logo/HubSpot%20Logo%20Zip/HubSpot%20Logos_2025.zip → HubSpot Logos_2025/HubSpot_Logo_Primary.svg (the sprocket path)",
+        "hubspot/icon.svg": "https://www.hubspot.com/hubfs/WBZ%202025%20Rebrand/HubSpot%20Logo/HubSpot%20Logo%20Zip/HubSpot%20Logos_2025.zip → HubSpot Logos_2025/HubSpot_Logo_Primary.svg (the sprocket path, currentColor)",
+        "hubspot/logo.svg": "https://www.hubspot.com/hubfs/WBZ%202025%20Rebrand/HubSpot%20Logo/HubSpot%20Logo%20Zip/HubSpot%20Logos_2025.zip → HubSpot Logos_2025/HubSpot_Logo_Primary.svg",
+        "hubspot/logo-dark.svg": "https://www.hubspot.com/hubfs/WBZ%202025%20Rebrand/HubSpot%20Logo/HubSpot%20Logo%20Zip/HubSpot%20Logos_2025.zip → HubSpot Logos_2025/HubSpot_Logo_Cream.svg",
+        "hubspot/logo-mono.svg": "https://www.hubspot.com/hubfs/WBZ%202025%20Rebrand/HubSpot%20Logo/HubSpot%20Logo%20Zip/HubSpot%20Logos_2025.zip → HubSpot Logos_2025/HubSpot_Logo_Primary.svg (currentColor)"
+      }
     },
     "1password": {
       "name": "1Password",
@@ -155,10 +176,8 @@
       "brandColor": "#000000",
       "icon": "rippling/icon.svg",
       "iconColor": "rippling/icon-color.svg",
-      "notes": "icon = the 3-ripple mark (currentColor); icon-color = same mark in brand plum #402530 (matches the 1-color geometry — not the app-badge). lockup = supplied official vector, plum + currentColor knockout.",
-      "gaps": [
-        "official dark-mode file not fetched (Rippling's press kit, a Google Drive folder, needs a sign-in); dark/ variants are derived"
-      ],
+      "notes": "The current kit is black and white only (no plum). icon-color = the 3-ripple mark, the first path of the kit's black logo; dark = the same path from the kit's white logo. icon.svg = the mark in currentColor. lockup = the kit's black logo; dark = its white logo; mono = currentColor.",
+      "gaps": [],
       "lockup": {
         "main": "rippling/logo.svg",
         "mono": "rippling/logo-mono.svg"
@@ -167,37 +186,70 @@
         "iconColor": "rippling/icon-color-dark.svg",
         "lockup": {
           "main": "rippling/logo-dark.svg"
-        },
-        "derived": "OpenMined, 2026-10-12: the dark ink #402530 set to white, as in the owner's reversed logo. Not an official file."
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "kit SVGs 2025-06-27",
+      "license": "Trademark of Rippling People Center Inc. No published terms in the kit; nominative use.",
+      "sourceFiles": {
+        "rippling/icon-color.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo black.svg (the mark path)",
+        "rippling/icon-color-dark.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo white.svg (the mark path)",
+        "rippling/icon.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo black.svg (the mark path, currentColor)",
+        "rippling/logo.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo black.svg",
+        "rippling/logo-dark.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo white.svg",
+        "rippling/logo-mono.svg": "https://assets.ctfassets.net/k0itp0ir7ty4/3E4spjZts7XCMtyaT2mHHj/20a9ea4e44ec7d760f6e108c1cc0fafb/Rippling-Logos.zip → Full/SVG/Rippling Logo black.svg (currentColor)"
       }
     },
     "loom": {
       "name": "Loom",
-      "trademark": "Loom, Inc. (Atlassian)",
-      "source": "https://www.loom.com/press",
-      "brandColor": "#625DF5",
+      "trademark": "Atlassian Pty Ltd (Loom)",
+      "source": "https://atlassian.design/foundations/logos",
+      "brandColor": "#1868DB",
       "icon": "loom/icon.svg",
       "iconColor": "loom/icon-color.svg",
       "lockup": {
         "main": "loom/logo.svg",
         "mono": "loom/logo-mono.svg"
       },
-      "notes": "Single-color mark (the aperture/burst logomark). icon-color = the mark in brand purple #625DF5; icon.svg = same geometry as currentColor. Mark from Simple Icons (CC0, canonical 0 0 24 24, normalized to ~86% like the other icons). lockup = mark + 'loom' wordmark (purple + near-black; mono = currentColor knockout).",
-      "gaps": []
+      "notes": "Loom in Atlassian's brand: a blue #1868DB tile with the white burst. icon-color = Atlassian's own Loom icon (the SVG inside @atlaskit/logo 23.3.3, its CSS-variable fills resolved to their stated defaults #1868db and white; the default artwork, not the flagged 'refreshed' one). icon.svg = the burst alone in currentColor. lockup = Atlassian's Loom attribution lockup (Charlie type), light and dark as supplied; mono = currentColor through a mask with the burst cut out of the tile.",
+      "gaps": [],
+      "dark": {
+        "lockup": {
+          "main": "loom/logo-dark.svg"
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "Atlassian rebrand (assets 2025-05/06); @atlaskit/logo 23.3.3",
+      "license": "Trademark of Atlassian. Don't compose or deconstruct the attribution logos; app logos come from Atlassian's logo component (https://atlassian.design/foundations/logos).",
+      "sourceFiles": {
+        "loom/icon-color.svg": "https://cdn.jsdelivr.net/npm/@atlaskit/logo@23.3.3/dist/esm/artifacts/logo-components/loom/icon.js (the svg string)",
+        "loom/icon.svg": "https://cdn.jsdelivr.net/npm/@atlaskit/logo@23.3.3/dist/esm/artifacts/logo-components/loom/icon.js (the burst path, currentColor)",
+        "loom/logo.svg": "https://atlassian.design/assets/3ed431de8fd6/logos/loom_attribution.zip → loom attribution/SVG/Loom-Charlie_attribution_light.svg",
+        "loom/logo-dark.svg": "https://atlassian.design/assets/3ed431de8fd6/logos/loom_attribution.zip → loom attribution/SVG/Loom-Charlie_attribution_dark.svg",
+        "loom/logo-mono.svg": "https://atlassian.design/assets/3ed431de8fd6/logos/loom_attribution.zip → loom attribution/SVG/Loom-Charlie_attribution_light.svg (currentColor, burst cut out)"
+      }
     },
     "figma": {
       "name": "Figma",
       "trademark": "Figma, Inc.",
-      "source": "https://www.figma.com/community/file/brand",
-      "brandColor": "#F24E1E",
+      "source": "https://www.figma.com/using-the-figma-brand/",
+      "brandColor": "#FF3737",
       "icon": "figma/icon.svg",
       "iconColor": "figma/icon-color.svg",
       "lockup": {
         "main": "figma/logo.svg",
         "mono": "figma/logo-mono.svg"
       },
-      "notes": "Multicolor mark (the 5-shape logo: #F24E1E #FF7262 #A259FF #1ABCFE #0ACF83 — never recolor the color variant). icon-color = the official 5-color mark fit to a 0 0 24 24 box at ~86% (Slack technique) so it swaps in place with icon.svg, the currentColor 1-color knockout (Simple Icons silhouette). lockup = mark + 'Figma' wordmark; mono = full currentColor knockout.",
-      "gaps": []
+      "notes": "Multicolor mark in the 2024 palette (#FF3737 #FF7237 #874FFF #00B6FF #24CB71; never recolor the color file). icon-color = the kit's full-color icon. icon.svg = the 1-color silhouette (Simple Icons; same shapes). lockup = the kit's lockup (the icon on its black tile + 'Figma'); mono = currentColor through a mask with the icon's shapes cut out of the tile.",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "kit files 2024-08-28",
+      "license": "Trademark of Figma, Inc. Nominative use if truthful, fair and not misleading; don't modify the marks (https://www.figma.com/using-the-figma-brand/).",
+      "sourceFiles": {
+        "figma/icon-color.svg": "https://static.figma.com/uploads/4fbf4d754dbbc027ba1530205f8747cd97d532e5 (zip) → Figma Brand Assets/Figma Icon (Full-color)/Figma Icon (Full-color).svg",
+        "figma/logo.svg": "https://static.figma.com/uploads/4fbf4d754dbbc027ba1530205f8747cd97d532e5 (zip) → Figma Brand Assets/Figma Lockup/Figma Lockup.svg",
+        "figma/logo-mono.svg": "https://static.figma.com/uploads/4fbf4d754dbbc027ba1530205f8747cd97d532e5 (zip) → Figma Brand Assets/Figma Lockup/Figma Lockup.svg (currentColor, icon cut out)"
+      }
     },
     "linkedin": {
       "name": "LinkedIn",
@@ -286,26 +338,55 @@
     "wpengine": {
       "name": "WP Engine",
       "trademark": "WPEngine, Inc.",
-      "source": "https://wpengine.com",
+      "source": "https://wpengine.com/brand-assets/",
       "brandColor": "#0ECAD4",
       "icon": "wpengine/icon.svg",
       "iconColor": "wpengine/icon-color.svg",
-      "notes": "Single-color boxed-W mark (#0ECAD4).",
-      "gaps": [
-        "no official wordmark-lockup vector fetched"
-      ]
+      "notes": "The 2024 logomark (rounded tiles). icon-color = the kit's teal #0ECAD4 logomark; icon.svg = its navy logomark in currentColor. lockup = the kit's horizontal teal & navy logo; dark = teal & white; mono = the navy logo in currentColor.",
+      "gaps": [],
+      "lockup": {
+        "main": "wpengine/logo.svg",
+        "mono": "wpengine/logo-mono.svg"
+      },
+      "dark": {
+        "lockup": {
+          "main": "wpengine/logo-dark.svg"
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "logomark 2024-04-16 (kit 2026-02)",
+      "license": "Trademark of WPEngine, Inc. Use the provided files without alterations (https://wpengine.com/brand-assets/).",
+      "sourceFiles": {
+        "wpengine/icon-color.svg": "https://wpengine.com/wp-content/uploads/2026/02/WPEngine-Brand-Logos.zip → WPEngine Logos/Logomark/svg/WPEngine-Logomark-Teal.svg",
+        "wpengine/icon.svg": "https://wpengine.com/wp-content/uploads/2026/02/WPEngine-Brand-Logos.zip → WPEngine Logos/Logomark/svg/WPEngine-Logomark-Navy.svg (currentColor)",
+        "wpengine/logo.svg": "https://wpengine.com/wp-content/uploads/2026/02/WPEngine-Brand-Logos.zip → WPEngine Logos/Horizontal (Primary)/svg/WPEngine-Logo-Horizontal-Teal&Navy.svg",
+        "wpengine/logo-dark.svg": "https://wpengine.com/wp-content/uploads/2026/02/WPEngine-Brand-Logos.zip → WPEngine Logos/Horizontal (Primary)/svg/WPEngine-Logo-Horizontal-Teal&White.svg",
+        "wpengine/logo-mono.svg": "https://wpengine.com/wp-content/uploads/2026/02/WPEngine-Brand-Logos.zip → WPEngine Logos/Horizontal (Primary)/svg/WPEngine-Logo-Horizontal-Navy.svg (currentColor)"
+      }
     },
     "plausible": {
       "name": "Plausible Analytics",
       "trademark": "Plausible Insights OÜ",
       "source": "https://plausible.io",
-      "brandColor": "#5850EC",
+      "brandColor": "#4B38D8",
       "icon": "plausible/icon.svg",
       "iconColor": "plausible/icon-color.svg",
-      "notes": "Single-color mark (#5850EC). Open-source (AGPL) project brand.",
+      "notes": "The mark is a two-stop gradient (#909CF7 → #4B38D8). icon-color = the owner's favicon vector; icon.svg = the 1-color glyph (Simple Icons; same shape). lockup = the owner's logo (gradient mark + navy #1F2961 wordmark); mono = currentColor. Open-source (AGPL) project brand; no published logo terms.",
       "gaps": [
-        "no official wordmark-lockup vector fetched"
-      ]
+        "no official dark-mode lockup (the wordmark is navy); use the mono lockup on dark"
+      ],
+      "lockup": {
+        "main": "plausible/logo.svg",
+        "mono": "plausible/logo-mono.svg"
+      },
+      "checked": "2026-11-20",
+      "version": "current on plausible.io, 2026-11",
+      "license": "Trademark of Plausible Insights OÜ. No published logo terms; nominative use (AGPL covers the code, not the marks).",
+      "sourceFiles": {
+        "plausible/icon-color.svg": "https://plausible.io/assets/images/icon/favicon.svg",
+        "plausible/logo.svg": "https://plausible.io/assets/images/icon/plausible_logo.svg",
+        "plausible/logo-mono.svg": "https://plausible.io/assets/images/icon/plausible_logo.svg (currentColor)"
+      }
     },
     "bitly": {
       "name": "Bitly",
@@ -337,15 +418,30 @@
       "name": "WordPress",
       "trademark": "WordPress Foundation",
       "source": "https://wordpressfoundation.org/trademark-policy/",
-      "brandColor": "#21759B",
+      "brandColor": "#32373C",
       "icon": "wordpress/icon.svg",
       "iconColor": "wordpress/icon-color.svg",
       "lockup": {
         "main": "wordpress/logo.svg",
         "mono": "wordpress/logo-mono.svg"
       },
-      "notes": "Single-color 'W' circle mark in WordPress blue (#21759B). lockup = mark + 'WordPress' wordmark; mono = currentColor knockout. Trademark note: 'WordPress' (capital P) per foundation policy.",
-      "gaps": []
+      "notes": "The owner's W mark is gray #32373C or white; the blue #21759B was Simple Icons' legacy hex. icon-color = the W mark converted exactly from the owner's vector PDF (its two filled paths, operator for operator; no tracing). icon.svg = the same in currentColor. lockup = mark + 'WordPress' wordmark (still the older blue file; see gaps); mono = currentColor knockout. Trademark note: 'WordPress' (capital P) per foundation policy.",
+      "gaps": [
+        "the owner's lockups are PDF and AI only (WordPress-logotype-standard.pdf); logo.svg is still the older blue file until one is converted the same way",
+        "the owner's white W is PNG only; the dark file is derived"
+      ],
+      "dark": {
+        "iconColor": "wordpress/icon-color-dark.svg",
+        "derived": "OpenMined, 2026-11-20: the owner's W mark vector in white, as in their WordPress-logotype-wmark-white.png. Not an official vector."
+      },
+      "checked": "2026-11-20",
+      "version": "W mark PDF (Illustrator, 2015-04-15)",
+      "license": "Trademark of the WordPress Foundation. OK on a page describing your products or services; never part of your own logo or branding (https://wordpressfoundation.org/trademark-policy/).",
+      "sourceFiles": {
+        "wordpress/icon-color.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG)",
+        "wordpress/icon.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG, currentColor)",
+        "wordpress/icon-color-dark.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG, white; derived)"
+      }
     },
     "excalidraw": {
       "name": "Excalidraw",
@@ -374,14 +470,33 @@
     "openrouter": {
       "name": "OpenRouter",
       "trademark": "OpenRouter, Inc.",
-      "source": "https://openrouter.ai",
-      "brandColor": "#94A3B8",
+      "source": "https://openrouter.ai/brand",
+      "brandColor": "#7624F4",
       "icon": "openrouter/icon.svg",
       "iconColor": "openrouter/icon-color.svg",
-      "notes": "Single-color mark (#94A3B8, the brand's slate).",
-      "gaps": [
-        "no official wordmark-lockup vector fetched"
-      ]
+      "notes": "The 2026-07-13 glyph. icon-color = Grape #7624F4 (the owner's color for light backgrounds); dark = Volt #C8FF00 (theirs for dark). icon.svg = the Ink glyph in currentColor. lockup = horizontal glyph + wordmark; mono = the Ink lockup in currentColor.",
+      "gaps": [],
+      "lockup": {
+        "main": "openrouter/logo.svg",
+        "mono": "openrouter/logo-mono.svg"
+      },
+      "dark": {
+        "iconColor": "openrouter/icon-color-dark.svg",
+        "lockup": {
+          "main": "openrouter/logo-dark.svg"
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "2026-07-13 rebrand",
+      "license": "Trademark of OpenRouter, Inc. Don't stretch, recolor or remix the marks (https://openrouter.ai/brand).",
+      "sourceFiles": {
+        "openrouter/icon-color.svg": "https://openrouter.ai/brand/logos/transparent/glyph/svg/glyph-grape.svg",
+        "openrouter/icon-color-dark.svg": "https://openrouter.ai/brand/logos/transparent/glyph/svg/glyph-volt.svg",
+        "openrouter/icon.svg": "https://openrouter.ai/brand/logos/transparent/glyph/svg/glyph-ink.svg (currentColor)",
+        "openrouter/logo.svg": "https://openrouter.ai/brand/logos/openrouter-logos.zip → transparent/horizontal/svg/horizontal-grape.svg",
+        "openrouter/logo-dark.svg": "https://openrouter.ai/brand/logos/openrouter-logos.zip → transparent/horizontal/svg/horizontal-volt.svg",
+        "openrouter/logo-mono.svg": "https://openrouter.ai/brand/logos/openrouter-logos.zip → transparent/horizontal/svg/horizontal-ink.svg (currentColor)"
+      }
     },
     "readthedocs": {
       "name": "Read the Docs",
@@ -408,14 +523,21 @@
     "pypi": {
       "name": "PyPI",
       "trademark": "Python Software Foundation",
-      "source": "https://pypi.org",
+      "source": "https://github.com/pypi/warehouse",
       "brandColor": "#3775A9",
       "icon": "pypi/icon.svg",
       "iconColor": "pypi/icon-color.svg",
-      "notes": "icon = the official isometric package-boxes mark (dense — prefer >=32px display); icon-color in PyPI blue #3775A9.",
+      "notes": "icon-color = the owner's multicolor package-boxes mark (warehouse logo-small.svg; Inkscape style properties at their defaults dropped before the allowlist, nothing drawn changed). Dense: prefer 32px and up. icon.svg = the 1-color glyph (Simple Icons).",
+      "modeCheck": "Isometric boxes with dark #353564 outlines and light faces, in PyPI blue and yellow: on light the outlines and the blue carry the mark, on dark the light faces do. The owner publishes no other version.",
       "gaps": [
         "no official wordmark-lockup vector (community file is the bare mark only)"
-      ]
+      ],
+      "checked": "2026-11-20",
+      "version": "warehouse main, 2026-11-20",
+      "license": "Trademark of the Python Software Foundation. No specific logo terms found; nominative use.",
+      "sourceFiles": {
+        "pypi/icon-color.svg": "https://raw.githubusercontent.com/pypi/warehouse/main/warehouse/static/images/logo-small.svg"
+      }
     },
     "miro": {
       "name": "Miro",
@@ -437,15 +559,32 @@
       "name": "Docker",
       "trademark": "Docker, Inc.",
       "source": "https://www.docker.com/company/newsroom/media-resources/",
-      "brandColor": "#2496ED",
+      "brandColor": "#101010",
       "icon": "docker/icon.svg",
       "iconColor": "docker/icon-color.svg",
       "lockup": {
         "main": "docker/logo.svg",
         "mono": "docker/logo-mono.svg"
       },
-      "notes": "Single-color whale mark in Docker blue (#2496ED). lockup = whale + 'docker' wordmark; mono = currentColor knockout.",
-      "gaps": []
+      "notes": "The 2026-11-19 mark (Moby redrawn). One color by design: Ether #101010 on light, Zero #FFFDFA on dark, both the owner's files (Base #6172FF is a background color in the owner's colorways, not the mark's). icon.svg = the Ether mark in currentColor. lockup = mark + 'docker' wordmark; mono = currentColor.",
+      "gaps": [],
+      "dark": {
+        "iconColor": "docker/icon-color-dark.svg",
+        "lockup": {
+          "main": "docker/logo-dark.svg"
+        }
+      },
+      "checked": "2026-11-20",
+      "version": "2026-11-19 rebrand",
+      "license": "Trademark of Docker, Inc. Use only the approved colorways; no distortion or effects (https://www.docker.com/legal/trademark-guidelines/).",
+      "sourceFiles": {
+        "docker/icon-color.svg": "https://www.docker.com/app/uploads/brand/logo/docker-mark-ether.svg",
+        "docker/icon.svg": "https://www.docker.com/app/uploads/brand/logo/docker-mark-ether.svg (currentColor)",
+        "docker/icon-color-dark.svg": "https://www.docker.com/app/uploads/brand/logo/docker-mark-zero.svg",
+        "docker/logo.svg": "https://www.docker.com/app/uploads/brand/logo/docker-logo-ether.svg",
+        "docker/logo-mono.svg": "https://www.docker.com/app/uploads/brand/logo/docker-logo-ether.svg (currentColor)",
+        "docker/logo-dark.svg": "https://www.docker.com/app/uploads/brand/logo/docker-logo-zero.svg"
+      }
     },
     "artifacthub": {
       "name": "Artifact Hub",
@@ -458,6 +597,170 @@
       "gaps": [
         "no official wordmark-lockup vector fetched"
       ]
+    },
+    "stripe": {
+      "name": "Stripe",
+      "trademark": "Stripe, Inc.",
+      "source": "https://stripe.com/newsroom/information",
+      "brandColor": "#533AFD",
+      "icon": "stripe/icon.svg",
+      "iconColor": "stripe/icon-color.svg",
+      "lockup": {
+        "main": "stripe/logo.svg",
+        "slate": "stripe/logo-slate.svg",
+        "white": "stripe/logo-white.svg"
+      },
+      "notes": "The September 2025 brand. icon-color = the owner's favicon vector (the white parallelogram on a blurple #533AFD tile); the kit has the wordmark only. icon.svg = the parallelogram alone in currentColor. lockup = the kit's wordmark in blurple, slate or white, the only colors Stripe allows for it, so there is no currentColor lockup. Don't use Simple Icons' stripe glyph: it is the retired 'S'.",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "2025-09 rebrand",
+      "license": "Trademark of Stripe, Inc. Users may identify Stripe; don't modify the marks; the wordmark only in slate, blurple or white (https://stripe.com/marks/legal).",
+      "sourceFiles": {
+        "stripe/icon-color.svg": "https://images.stripeassets.com/fzn2n1nzq965/1hgcBNd12BfT9VLgbId7By/01d91920114b124fb4cf6d448f9f06eb/favicon.svg",
+        "stripe/icon.svg": "https://images.stripeassets.com/fzn2n1nzq965/1hgcBNd12BfT9VLgbId7By/01d91920114b124fb4cf6d448f9f06eb/favicon.svg (the parallelogram path, currentColor)",
+        "stripe/logo.svg": "https://assets.stripeassets.com/fzn2n1nzq965/7q0dJGs6fRS1LRmMpChoAF/87def4edfbb7fd5aef4ab9baf904b2db/Stripe_logo_kit.zip → asset-wordmark/Stripe wordmark - Blurple.svg",
+        "stripe/logo-slate.svg": "https://assets.stripeassets.com/fzn2n1nzq965/7q0dJGs6fRS1LRmMpChoAF/87def4edfbb7fd5aef4ab9baf904b2db/Stripe_logo_kit.zip → asset-wordmark/Stripe wordmark - Slate.svg",
+        "stripe/logo-white.svg": "https://assets.stripeassets.com/fzn2n1nzq965/7q0dJGs6fRS1LRmMpChoAF/87def4edfbb7fd5aef4ab9baf904b2db/Stripe_logo_kit.zip → asset-wordmark/Stripe wordmark - White.svg"
+      }
+    },
+    "resend": {
+      "name": "Resend",
+      "trademark": "Resend, Inc.",
+      "source": "https://resend.com/brand",
+      "brandColor": "#000000",
+      "icon": "resend/icon.svg",
+      "iconColor": "resend/icon-color.svg",
+      "lockup": {
+        "main": "resend/logo.svg",
+        "mono": "resend/logo-mono.svg"
+      },
+      "dark": {
+        "iconColor": "resend/icon-color-dark.svg",
+        "lockup": {
+          "main": "resend/logo-dark.svg"
+        }
+      },
+      "notes": "Black and white by design (no color mark). icon-color = the owner's black icon; dark = their white icon. icon.svg = the icon in currentColor. lockup = the black wordmark; dark = the white; mono = currentColor.",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "brand page, 2026-11-20",
+      "license": "Trademark of Resend, Inc. Don't alter the logo files in any way; spelled 'Resend' (https://resend.com/brand).",
+      "sourceFiles": {
+        "resend/icon-color.svg": "https://cdn.resend.com/brand/resend-icon-black.svg",
+        "resend/icon-color-dark.svg": "https://cdn.resend.com/brand/resend-icon-white.svg",
+        "resend/icon.svg": "https://cdn.resend.com/brand/resend-icon-black.svg (currentColor)",
+        "resend/logo.svg": "https://cdn.resend.com/brand/resend-brand-assets.zip → resend-brand-assets/resend-wordmark-black.svg",
+        "resend/logo-dark.svg": "https://cdn.resend.com/brand/resend-brand-assets.zip → resend-brand-assets/resend-wordmark-white.svg",
+        "resend/logo-mono.svg": "https://cdn.resend.com/brand/resend-brand-assets.zip → resend-brand-assets/resend-wordmark-black.svg (currentColor)"
+      }
+    },
+    "linear": {
+      "name": "Linear",
+      "trademark": "Linear Orbit, Inc.",
+      "source": "https://linear.app/brand",
+      "brandColor": "#222326",
+      "icon": "linear/icon.svg",
+      "iconColor": "linear/icon-color.svg",
+      "lockup": {
+        "main": "linear/logo.svg",
+        "mono": "linear/logo-mono.svg"
+      },
+      "dark": {
+        "iconColor": "linear/icon-color-dark.svg",
+        "lockup": {
+          "main": "linear/logo-dark.svg"
+        }
+      },
+      "notes": "Monochrome by design: the logomark in #222326, white on dark (the kit's gradient linear-icon.svg is the app tile, not the mark). icon-color = the kit's logo-dark; dark = logo-light. icon.svg = the logomark in currentColor. lockup = the kit's wordmark (dark and light); mono = currentColor.",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "logomark 2022; kit v3",
+      "license": "Trademark of Linear. Graphics are proprietary: don't alter them, imply endorsement or combine them with other graphics without written consent (https://linear.app/brand).",
+      "sourceFiles": {
+        "linear/icon-color.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → logo-dark.svg",
+        "linear/icon-color-dark.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → logo-light.svg",
+        "linear/icon.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → logo-dark.svg (currentColor)",
+        "linear/logo.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → wordmark-dark.svg",
+        "linear/logo-dark.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → wordmark-light.svg",
+        "linear/logo-mono.svg": "https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3 → wordmark-dark.svg (currentColor)"
+      }
+    },
+    "substack": {
+      "name": "Substack",
+      "trademark": "Substack Inc.",
+      "source": "https://substack.com/brand",
+      "brandColor": "#FF6719",
+      "icon": "substack/icon.svg",
+      "iconColor": "substack/icon-color.svg",
+      "notes": "The owner publishes the mark as PNG only, so both files are the Simple Icons glyph; icon-color takes the owner's orange #FF6719.",
+      "gaps": [
+        "no owner vector (substack.com/brand offers PNG only); swap in theirs if one appears"
+      ],
+      "checked": "2026-11-20",
+      "version": "simple-icons 16.38.0 (npm, CC0 1.0 file licence)",
+      "license": "Trademark of Substack Inc. No changes to color, proportions or design; nominative reference allowed; written permission for anything implying partnership (https://substack.com/brand).",
+      "sourceFiles": {
+        "substack/icon-color.svg": "simple-icons 16.38.0 (npm, CC0 1.0 file licence) icons/substack.svg, fill #FF6719",
+        "substack/icon.svg": "simple-icons 16.38.0 (npm, CC0 1.0 file licence) icons/substack.svg (currentColor)"
+      }
+    },
+    "discord": {
+      "name": "Discord",
+      "trademark": "Discord Inc.",
+      "source": "https://discord.com/branding",
+      "brandColor": "#5865F2",
+      "icon": "discord/icon.svg",
+      "iconColor": "discord/icon-color.svg",
+      "notes": "icon-color = the owner's Blurple symbol; icon.svg = their black symbol in currentColor. Use the symbol alone only where Discord is clear from context (a labeled list is).",
+      "gaps": [
+        "no wordmark lockup fetched"
+      ],
+      "checked": "2026-11-20",
+      "version": "branding kit, 2026-11-20",
+      "license": "Trademark of Discord Inc. Permission needed except as the guidelines allow; the symbol alone only where the Discord brand is clear; no recolor or edits; digital only (https://discord.com/branding).",
+      "sourceFiles": {
+        "discord/icon-color.svg": "https://cdn.discordapp.com/assets/content/a736b95923ddbc155e828651c92471292e40727655d770a06cec89c48ba0b41f.zip → Discord_Symbol_Color/Discord-Symbol-Blurple.svg",
+        "discord/icon.svg": "https://cdn.discordapp.com/assets/content/aecd9009fd6a24c06c8ce71f6bb84463eaf7252bc5259022fb887b381a428250.zip → Discord_Symbol_Black/Discord-Symbol-Black.svg (currentColor)"
+      }
+    },
+    "postmark": {
+      "name": "Postmark",
+      "trademark": "ActiveCampaign, LLC (Postmark)",
+      "source": "https://postmarkapp.com",
+      "brandColor": "#FFDE00",
+      "icon": "postmark/icon.svg",
+      "iconColor": "postmark/icon-color.svg",
+      "notes": "The yellow stamp with a black P, from the owner's site (no brand kit exists). icon.svg = the stamp in currentColor through a mask with the P cut out.",
+      "modeCheck": "A yellow stamp with a black P: on light the P carries it (the yellow is about 1.3:1 on white), on dark the yellow does. The owner publishes no other version.",
+      "gaps": [
+        "no brand kit or logo terms; the file is the one the owner serves on its site"
+      ],
+      "checked": "2026-11-20",
+      "version": "postmarkapp.com, 2026-11-20",
+      "license": "Trademark of ActiveCampaign (Postmark). No published logo terms; nominative use.",
+      "sourceFiles": {
+        "postmark/icon-color.svg": "https://postmarkapp.com/images/logo-stamp-simple.svg",
+        "postmark/icon.svg": "https://postmarkapp.com/images/logo-stamp-simple.svg (currentColor, P cut out)"
+      }
+    },
+    "instantly": {
+      "name": "Instantly",
+      "trademark": "Instantly.ai",
+      "source": "https://instantly.ai",
+      "brandColor": "#0281FF",
+      "icon": "instantly/icon.svg",
+      "iconColor": "instantly/icon-color.svg",
+      "notes": "The blue #0281FF circle with the bolt, from the owner's site (no brand kit exists). icon.svg = the circle path alone (the bolt is cut out of it) in currentColor.",
+      "gaps": [
+        "no brand kit or logo terms; the file is the one the owner serves on its site (a Webflow URL that may change)"
+      ],
+      "checked": "2026-11-20",
+      "version": "instantly.ai, 2026-11-20",
+      "license": "Trademark of Instantly. No published logo terms; nominative use.",
+      "sourceFiles": {
+        "instantly/icon-color.svg": "https://cdn.prod.website-files.com/63860c8c65e7bef4a1eeebeb/69bc17673305621eae92328e_instantly-logo.svg",
+        "instantly/icon.svg": "https://cdn.prod.website-files.com/63860c8c65e7bef4a1eeebeb/69bc17673305621eae92328e_instantly-logo.svg (the circle path, currentColor)"
+      }
     }
   }
 }
