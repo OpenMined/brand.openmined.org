@@ -365,19 +365,19 @@
       "notes": "Two-tone mark ('aws' squid-ink #232F3E + smile #FF9900). icon-color = official two-tone fit to the 24-box (Slack technique); icon.svg = currentColor silhouette. Covers the AWS / Route 53 rows. lockup = same official logo at natural aspect. icon-color (2026-11-25) = the AWS Cloud logo icon from AWS's own Architecture Icons kit (the squid-ink tile with the white aws and smile), and its light version for dark backgrounds: AWS's icon-only mark, legible at small sizes. The lockups are unchanged; aws.amazon.com now draws the smile in #FF6200, a refresh to check for the lockups.",
       "modeCheck": "A tile mark: the white aws and smile sit on the squid-ink tile, and the dark file's squid ink on its white tile, so each color reads against its own tile in both modes.",
       "checked": "2026-11-25",
-      "license": "Logos need a license or prior written permission; fair use is \"plain text only (no logos)\"; no recoloring (https://aws.amazon.com/trademark-guidelines/).",
-      "usage": "The AWS Cloud logo icon (from AWS's architecture kit) at small sizes, the logo elsewhere. Licence or written permission needed for logos; name AWS in plain text otherwise. No recoloring. The 'Powered by AWS' badge is the open option.",
+      "license": "Logos need a license or prior written permission; fair use is \"plain text only (no logos)\"; no recoloring (https://aws.amazon.com/trademark-guidelines/). The icon files come from the Architecture Icons kit: \"We allow customers and partners to use these toolkits and assets to create architecture diagrams… materials like whitepapers, presentations, data sheets, and posters\" (https://aws.amazon.com/architecture/icons/).",
+      "usage": "The AWS Cloud logo icon (from AWS's Architecture Icons kit) is the icon, shown wherever the icon is shown, by the brand owner's choice (2026-11-25) against the kit's terms, which cover architecture diagrams and published materials. The logo elsewhere. Licence or written permission needed for logos; name AWS in plain text otherwise. No recoloring. The 'Powered by AWS' badge is the open option.",
       "gaps": [
-        "official reversed (white type) file not fetched; dark/ variants are derived"
+        "official reversed (white type) logo not fetched; logo-dark.svg is derived (icon-color-dark.svg is the kit's own light version, official)"
       ],
       "permissionNeeded": true,
-      "permissionTerms": "Logos need a license or prior written permission; fair use is \"plain text only (no logos)\". Only the \"Powered by AWS\" badge is open to customers.",
+      "permissionTerms": "Logos need a license or prior written permission; fair use is \"plain text only (no logos)\"; only the \"Powered by AWS\" badge is open to customers. The icon files are from the Architecture Icons kit, which AWS licenses for architecture diagrams and published materials (whitepapers, presentations, data sheets, posters), not as a product logo.",
       "dark": {
         "iconColor": "aws/icon-color-dark.svg",
         "lockup": {
           "main": "aws/logo-dark.svg"
         },
-        "derived": "OpenMined, 2026-10-12: the dark ink #252F3E set to white, as in the owner's reversed logo. Not an official file."
+        "derived": "OpenMined, 2026-10-12: logo-dark.svg is the dark ink #252F3E set to white, as in the owner's reversed logo. Not an official file. (icon-color-dark.svg is official: the Architecture Icons kit's light version.)"
       },
       "sourceFiles": {
         "aws/icon-color.svg": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip → Architecture-Group-Icons_07312026/AWS-Cloud-logo_32.svg",
@@ -901,14 +901,14 @@
       "lockup": {
         "main": "greenhouse/logo.svg"
       },
-      "notes": "icon-color = the owner's 'g' icon file (GREENHOUSE_ICON_GREEN); icon.svg = the same in currentColor; lockup = the wordmark. Greenhouse doesn't allow the 'g' without the full logo; the brand owner chose the 'g' for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
+      "notes": "icon-color = the owner's 'g' icon file (GREENHOUSE_ICON_GREEN); icon.svg = the same in currentColor; lockup = the wordmark. Greenhouse doesn't allow the 'g' without the full logo; the brand owner chose the 'g' as its icon on 2026-11-25 (for admin rows; it shows wherever the icon does), recorded here with the terms.",
       "gaps": [],
       "checked": "2026-11-25",
       "version": "current brand (c. 2020)",
       "license": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark.\" \"Don't use the 'g' icon when the full Greenhouse logo mark is not present.\" (https://brand.greenhouse.com/trademark-guidelines)",
       "permissionNeeded": true,
       "permissionTerms": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark\"; the 'g' alone is outside the owner's rules.",
-      "usage": "The wordmark wherever it fits; the 'g' alone at small sizes, by the brand owner's choice against the owner's rule (\"Don't use the 'g' icon when the full Greenhouse logo mark is not present\"). Permission needed for any use. Don't use the logo in running copy; add Greenhouse's trademark notice where its marks appear.",
+      "usage": "The 'g' is the icon, shown wherever the icon is shown, and the wordmark is the lockup, by the brand owner's choice against the owner's rule (\"Don't use the 'g' icon when the full Greenhouse logo mark is not present\"). Permission needed for any use. Don't use the logo in running copy; add Greenhouse's trademark notice where its marks appear.",
       "sourceFiles": {
         "greenhouse/icon-color.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg",
         "greenhouse/icon.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg (currentColor)",
@@ -934,7 +934,7 @@
         },
         "derived": "OpenMined, 2026-11-25: logo-dark.svg is the owner's full-color logo with its black wordmark set to white. Not an official file. (icon-color-dark.svg is official: the Nexus from Docusign's reversed logo.)"
       },
-      "notes": "icon-color = the Nexus mark, its three shapes taken unchanged from the owner's full-color logo; dark = the Nexus from Docusign's own reversed logo (official); icon.svg = the Nexus in currentColor. lockup = the full logo. Docusign's Nexus must always appear with the wordmark; the brand owner chose the Nexus for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
+      "notes": "icon-color = the Nexus mark, its three shapes taken unchanged from the owner's full-color logo; dark = the Nexus from Docusign's own reversed logo (official); icon.svg = the Nexus in currentColor. lockup = the full logo. Docusign's Nexus must always appear with the wordmark; the brand owner chose the Nexus as its icon on 2026-11-25 (for admin rows; it shows wherever the icon does), recorded here with the terms.",
       "gaps": [
         "no official reversed file of the plain Docusign logo found (the reversed file found is the 'docusign IAM' product logo); logo-dark.svg is derived"
       ],
@@ -943,7 +943,7 @@
       "license": "The Nexus icon and wordmark \"must always appear together\"; logo use needs a Brand Asset License (brand@docusign.com) (https://brand.docusign.com/logo).",
       "permissionNeeded": true,
       "permissionTerms": "Older Docusign IP pages require a Brand Asset License Request (brand@docusign.com) for logo use.",
-      "usage": "The full logo wherever it fits; the Nexus alone at small sizes, by the brand owner's choice against the owner's rule (the icon \"must always appear together\" with the wordmark). Don't recolor the Nexus. Licence needed.",
+      "usage": "The Nexus is the icon, shown wherever the icon is shown, and the full logo is the lockup, by the brand owner's choice against the owner's rule (the icon \"must always appear together\" with the wordmark). Don't recolor the Nexus. Licence needed.",
       "sourceFiles": {
         "docusign/icon-color.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark's three shapes)",
         "docusign/icon.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark, currentColor)",
