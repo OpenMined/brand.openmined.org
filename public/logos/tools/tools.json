@@ -12,8 +12,14 @@
         "white": "github/logo-white.svg",
         "mono": "github/logo-mono.svg"
       },
-      "notes": "Official (GitHub_Logos.zip). Monochrome by design — use black or white only per GitHub guidelines. Icon = Invertocat.",
-      "gaps": []
+      "notes": "Official (GitHub_Logos.zip). Monochrome by design — use black or white only per GitHub guidelines. Icon = the 2025 Invertocat (GitHub_Invertocat_Black.svg in currentColor; replaces the deprecated 2015 cat).",
+      "gaps": [],
+      "checked": "2026-11-20",
+      "version": "2025 Invertocat (zip re-cut 2026-01-09)",
+      "license": "Trademark of GitHub, Inc. Black or white only; no recoloring or modification; no implied endorsement (https://brand.github.com/foundations/logo).",
+      "sourceFiles": {
+        "github/icon.svg": "https://brand.github.com/GitHub_Logos.zip → GitHub Logos/SVG/GitHub_Invertocat_Black.svg (currentColor)"
+      }
     },
     "ramp": {
       "name": "Ramp",
@@ -187,12 +193,11 @@
       "icon": "loom/icon.svg",
       "iconColor": "loom/icon-color.svg",
       "monoRestricted": true,
-      "monoTerms": "Atlassian's logo terms: don't compose or deconstruct the attribution logos (https://atlassian.design/foundations/logos). icon.svg (currentColor) is the burst alone, and logo-mono.svg is the earlier set's currentColor knockout of the purple-era lockup: whether these are kept is the brand owner's and the design lead's decision.",
+      "monoTerms": "Atlassian's logo terms: don't compose or deconstruct the attribution logos (https://atlassian.design/foundations/logos). icon.svg (currentColor) is the burst alone: whether it is kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "loom/logo.svg",
-        "mono": "loom/logo-mono.svg"
+        "main": "loom/logo.svg"
       },
-      "notes": "Loom in Atlassian's brand: a blue #1868DB tile with the white burst. icon-color = Atlassian's own Loom icon (the SVG inside @atlaskit/logo 23.3.3, its CSS-variable fills resolved to their stated defaults #1868db and white; the default artwork, not the flagged 'refreshed' one). icon.svg = the burst alone in currentColor. lockup = Atlassian's Loom attribution lockup (Charlie type), light and dark as supplied. logo-mono.svg is the earlier set's currentColor knockout of the purple-era lockup, kept as it was; see monoTerms.",
+      "notes": "Loom in Atlassian's brand: a blue #1868DB tile with the white burst. icon-color = Atlassian's own Loom icon (the SVG inside @atlaskit/logo 23.3.3, its CSS-variable fills resolved to their stated defaults #1868db and white; the default artwork, not the flagged 'refreshed' one). icon.svg = the burst alone in currentColor. lockup = Atlassian's Loom attribution lockup (Charlie type), light and dark as supplied. No currentColor lockup: the owner's terms forbid recoloring or altering its marks.",
       "gaps": [],
       "dark": {
         "lockup": {
@@ -217,12 +222,11 @@
       "icon": "figma/icon.svg",
       "iconColor": "figma/icon-color.svg",
       "monoRestricted": true,
-      "monoTerms": "Figma's brand terms: don't modify the marks (https://www.figma.com/using-the-figma-brand/). icon.svg (currentColor) follows the set's one-color convention, and logo-mono.svg is the earlier set's currentColor knockout of the pre-2024 lockup: whether these are kept is the brand owner's and the design lead's decision.",
+      "monoTerms": "Figma's brand terms: don't modify the marks (https://www.figma.com/using-the-figma-brand/). icon.svg (currentColor) follows the set's one-color convention: whether it is kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "figma/logo.svg",
-        "mono": "figma/logo-mono.svg"
+        "main": "figma/logo.svg"
       },
-      "notes": "Multicolor mark in the 2024 palette (#FF3737 #FF7237 #874FFF #00B6FF #24CB71; never recolor the color file). icon-color = the kit's full-color icon. icon.svg = the 1-color silhouette (Simple Icons; same shapes). lockup = the kit's lockup (the icon on its black tile + 'Figma'). logo-mono.svg is the earlier set's currentColor knockout of the pre-2024 lockup, kept as it was; see monoTerms.",
+      "notes": "Multicolor mark in the 2024 palette (#FF3737 #FF7237 #874FFF #00B6FF #24CB71; never recolor the color file). icon-color = the kit's full-color icon. icon.svg = the 1-color silhouette (Simple Icons; same shapes). lockup = the kit's lockup (the icon on its black tile + 'Figma'). No currentColor lockup: the owner's terms forbid recoloring or altering its marks.",
       "gaps": [],
       "checked": "2026-11-20",
       "version": "kit files 2024-08-28",
@@ -397,15 +401,30 @@
       "name": "WordPress",
       "trademark": "WordPress Foundation",
       "source": "https://wordpressfoundation.org/trademark-policy/",
-      "brandColor": "#21759B",
+      "brandColor": "#32373C",
       "icon": "wordpress/icon.svg",
       "iconColor": "wordpress/icon-color.svg",
       "lockup": {
         "main": "wordpress/logo.svg",
         "mono": "wordpress/logo-mono.svg"
       },
-      "notes": "Single-color 'W' circle mark in WordPress blue (#21759B). lockup = mark + 'WordPress' wordmark; mono = currentColor knockout. Trademark note: 'WordPress' (capital P) per foundation policy.",
-      "gaps": []
+      "notes": "The owner's W mark is gray #32373C or white; the blue #21759B was Simple Icons' legacy hex. icon-color = the W mark converted exactly from the owner's vector PDF (its two filled paths, operator for operator; no tracing). icon.svg = the same in currentColor. lockup = mark + 'WordPress' wordmark (still the older blue file; see gaps); mono = currentColor knockout. Trademark note: 'WordPress' (capital P) per foundation policy.",
+      "gaps": [
+        "the owner's lockups are PDF and AI only (WordPress-logotype-standard.pdf); logo.svg is still the older blue file until one is converted the same way",
+        "the owner's white W is PNG only; the dark file is derived"
+      ],
+      "dark": {
+        "iconColor": "wordpress/icon-color-dark.svg",
+        "derived": "OpenMined, 2026-11-20: the owner's W mark vector in white, as in their WordPress-logotype-wmark-white.png. Not an official vector."
+      },
+      "checked": "2026-11-20",
+      "version": "W mark PDF (Illustrator, 2015-04-15)",
+      "license": "Trademark of the WordPress Foundation. OK on a page describing your products or services; never part of your own logo or branding (https://wordpressfoundation.org/trademark-policy/).",
+      "sourceFiles": {
+        "wordpress/icon-color.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG)",
+        "wordpress/icon.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG, currentColor)",
+        "wordpress/icon-color-dark.svg": "https://s.w.org/style/images/about/WordPress-logotype-wmark.pdf (page 1 paths converted to SVG, white; derived)"
+      }
     },
     "excalidraw": {
       "name": "Excalidraw",
@@ -527,12 +546,11 @@
       "icon": "docker/icon.svg",
       "iconColor": "docker/icon-color.svg",
       "monoRestricted": true,
-      "monoTerms": "Docker's trademark guidelines: use only the approved colorways (https://www.docker.com/legal/trademark-guidelines/). icon.svg (currentColor) follows the set's one-color convention, and logo-mono.svg is the earlier set's currentColor knockout of the retired whale lockup: whether these are kept is the brand owner's and the design lead's decision.",
+      "monoTerms": "Docker's trademark guidelines: use only the approved colorways (https://www.docker.com/legal/trademark-guidelines/). icon.svg (currentColor) follows the set's one-color convention: whether it is kept is the brand owner's and the design lead's decision.",
       "lockup": {
-        "main": "docker/logo.svg",
-        "mono": "docker/logo-mono.svg"
+        "main": "docker/logo.svg"
       },
-      "notes": "The 2026-11-19 mark (Moby redrawn). One color by design: Ether #101010 on light, Zero #FFFDFA on dark, both the owner's files (Base #6172FF is a background color in the owner's colorways, not the mark's). icon.svg = the Ether mark in currentColor. lockup = mark + 'docker' wordmark (Ether, and Zero for dark). logo-mono.svg is the earlier set's currentColor knockout of the retired whale lockup, kept as it was; see monoTerms.",
+      "notes": "The 2026-11-19 mark (Moby redrawn). One color by design: Ether #101010 on light, Zero #FFFDFA on dark, both the owner's files (Base #6172FF is a background color in the owner's colorways, not the mark's). icon.svg = the Ether mark in currentColor. lockup = mark + 'docker' wordmark (Ether, and Zero for dark). No currentColor lockup: the owner's terms forbid recoloring or altering its marks.",
       "gaps": [],
       "dark": {
         "iconColor": "docker/icon-color-dark.svg",
