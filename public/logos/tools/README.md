@@ -59,9 +59,12 @@ How a page shows a flagged mark (for example, the color file in place of the one
 one) is proposed to the design lead and not yet a rule of the system: the Logos page's
 One color view still shows every mark in one color.
 
-Greenhouse's 'g' and Docusign's Nexus are used as the icons at small sizes by the brand
-owner's choice, against those owners' rule that the icon appears with the wordmark;
-`usage` and `permissionTerms` record it.
+Greenhouse's 'g' and Docusign's Nexus are those brands' icons (color and one-color),
+shown wherever an icon is, by the brand owner's choice, against those owners' rule that
+the icon appears with the wordmark. AWS's Architecture Icons tile is its color icon, by the
+same choice, outside the uses AWS's kit terms cover (architecture diagrams and published
+materials); its one-color `icon.svg` is still the earlier silhouette of the logo. `usage`
+and `permissionTerms` record each.
 
 ## Source
 
