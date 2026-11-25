@@ -7,6 +7,8 @@
       "source": "https://brand.github.com",
       "brandColor": "#181717",
       "icon": "github/icon.svg",
+      "monoRestricted": true,
+      "monoTerms": "GitHub's logo guidelines: black or white only (rarely gray or green); no recoloring (https://brand.github.com/foundations/logo). icon.svg (currentColor) must render black or white.",
       "lockup": {
         "black": "github/logo-black.svg",
         "white": "github/logo-white.svg",
@@ -322,6 +324,8 @@
       "source": "https://about.x.com/en/who-we-are/brand-toolkit",
       "brandColor": "#000000",
       "icon": "x/icon.svg",
+      "monoRestricted": true,
+      "monoTerms": "X's brand toolkit: black or white only. icon.svg (currentColor) must render black or white.",
       "notes": "Monochrome by design — the X mark IS the logo (black/white only per X brand toolkit); no wordmark lockup exists. Covers the former Twitter accounts.",
       "license": "Toolkit: black or white only (https://about.x.com/en/who-we-are/brand-toolkit).",
       "usage": "Black or white only.",
@@ -856,6 +860,8 @@
       "brandColor": "#F54E00",
       "icon": "posthog/icon.svg",
       "iconColor": "posthog/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "PostHog's logo guidance: don't recolor parts of the logomark (https://brand.posthog.com/logo). icon.svg is the owner's black logomark in currentColor: show PostHog in color, or black or white only.",
       "lockup": {
         "main": "posthog/logo.svg",
         "mono": "posthog/logo-mono.svg"
@@ -870,7 +876,7 @@
       "gaps": [],
       "checked": "2026-11-25",
       "version": "2026 logo refresh",
-      "license": "PostHog's logo files are under the PolyForm Strict License 1.0.0, which doesn't license distribution; its trademark guidance allows 'works with PostHog' and unmodified logos, with no recoloring and no implied endorsement (https://brand.posthog.com/logo).",
+      "license": "PostHog's logo files are under the PolyForm Strict License 1.0.0, which doesn't license distribution. Its logo guidance: don't recolor parts of the logomark; use the light versions on dark backgrounds; no implied endorsement (https://brand.posthog.com/logo).",
       "permissionNeeded": true,
       "permissionTerms": "Asset files are PolyForm Strict 1.0.0: serving them from this site is distribution, which the licence doesn't grant. Licensing contact: hey@posthog.com.",
       "usage": "Standard logo and logomark on light backgrounds only; the light versions on dark. The black logo where one color is needed. Don't recolor, stretch or alter. Name PostHog as a tool we use; no endorsement.",
@@ -890,6 +896,8 @@
       "brandColor": "#23A47F",
       "icon": "greenhouse/icon.svg",
       "iconColor": "greenhouse/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "Greenhouse's trademark guidelines: don't \"alter the logo in any way, use unapproved colors\" (https://brand.greenhouse.com/trademark-guidelines). Covers the one-color 'g' too: show Greenhouse in color.",
       "lockup": {
         "main": "greenhouse/logo.svg"
       },
@@ -900,7 +908,7 @@
       "license": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark.\" \"Don't use the 'g' icon when the full Greenhouse logo mark is not present.\" (https://brand.greenhouse.com/trademark-guidelines)",
       "permissionNeeded": true,
       "permissionTerms": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark\"; the 'g' alone is outside the owner's rules.",
-      "usage": "The wordmark wherever it fits; the 'g' alone at small sizes, by the brand owner's choice against the owner's rule (\"Don't use the 'g' icon when the full Greenhouse logo mark is not present\"). Permission needed for any use.",
+      "usage": "The wordmark wherever it fits; the 'g' alone at small sizes, by the brand owner's choice against the owner's rule (\"Don't use the 'g' icon when the full Greenhouse logo mark is not present\"). Permission needed for any use. Don't use the logo in running copy; add Greenhouse's trademark notice where its marks appear.",
       "sourceFiles": {
         "greenhouse/icon-color.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg",
         "greenhouse/icon.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg (currentColor)",
@@ -914,6 +922,8 @@
       "brandColor": "#4C00FF",
       "icon": "docusign/icon.svg",
       "iconColor": "docusign/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "Docusign's logo guidelines: the one-color Nexus knocks out its center, which this icon.svg (currentColor, no knockout) doesn't; don't recolor the marks (https://brand.docusign.com/logo). Show Docusign in color.",
       "lockup": {
         "main": "docusign/logo.svg"
       },
@@ -922,11 +932,11 @@
         "lockup": {
           "main": "docusign/logo-dark.svg"
         },
-        "derived": "OpenMined, 2026-11-25: the owner's black ink set to white for dark backgrounds (the Nexus's inner shape, and the wordmark). Not an official file."
+        "derived": "OpenMined, 2026-11-25: logo-dark.svg is the owner's full-color logo with its black wordmark set to white. Not an official file. (icon-color-dark.svg is official: the Nexus from Docusign's reversed logo.)"
       },
-      "notes": "icon-color = the Nexus mark, its three shapes taken unchanged from the owner's full-color logo; dark = the same with its black shape set to white (derived); icon.svg = the Nexus in currentColor. lockup = the full logo. Docusign's Nexus must always appear with the wordmark; the brand owner chose the Nexus for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
+      "notes": "icon-color = the Nexus mark, its three shapes taken unchanged from the owner's full-color logo; dark = the Nexus from Docusign's own reversed logo (official); icon.svg = the Nexus in currentColor. lockup = the full logo. Docusign's Nexus must always appear with the wordmark; the brand owner chose the Nexus for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
       "gaps": [
-        "no official reversed (dark-background) file found; the dark files are derived"
+        "no official reversed file of the plain Docusign logo found (the reversed file found is the 'docusign IAM' product logo); logo-dark.svg is derived"
       ],
       "checked": "2026-11-25",
       "version": "2024-04-11 rebrand",
@@ -937,7 +947,7 @@
       "sourceFiles": {
         "docusign/icon-color.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark's three shapes)",
         "docusign/icon.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark, currentColor)",
-        "docusign/icon-color-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark, its black shape set to white; derived)",
+        "docusign/icon-color-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67f6d6ec00573f1a4f6cd59b_2.svg (Docusign's reversed 'docusign IAM' logo; the Nexus mark's three shapes, official)",
         "docusign/logo.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg",
         "docusign/logo-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (wordmark set to white; derived)"
       }
@@ -971,6 +981,8 @@
       "brandColor": "#000000",
       "icon": "digitalocean/icon.svg",
       "iconColor": "digitalocean/icon-color.svg",
+      "monoRestricted": true,
+      "monoTerms": "DigitalOcean's kit supplies the logo in black and white only, and its guidelines forbid using its logos without express written permission. icon.svg (currentColor) must render black or white; the color files are the kit's black and white.",
       "lockup": {
         "main": "digitalocean/logo.svg",
         "mono": "digitalocean/logo-mono.svg"
@@ -1022,6 +1034,8 @@
       "source": "https://www.meta.com/brand/resources/meta/company-brand/",
       "brandColor": "#0467DF",
       "icon": "meta/icon.svg",
+      "monoRestricted": true,
+      "monoTerms": "Meta's brand guidelines: \"Only use the mono variations in low reproduction environments\"; the logo is the blue gradient otherwise (https://www.meta.com/brand/resources/meta/company-brand/). The set has only the one-color files (the gradient file is behind a click-through).",
       "lockup": {
         "mono": "meta/logo-mono.svg"
       },
@@ -1047,17 +1061,20 @@
       "brandColor": "#0866FF",
       "icon": "facebook/icon.svg",
       "iconColor": "facebook/icon-color.svg",
-      "notes": "From the Facebook app logo Meta's brand page shows (the circle with the f cut out). icon.svg = that logo in currentColor; icon-color = the same drawing in Facebook blue #0866FF (the 2023 color, as Simple Icons records it; the owner's color file is in the click-through asset pack).",
+      "monoRestricted": true,
+      "monoTerms": "Meta's Facebook logo guidelines: \"DON'T change the color of the logo\"; the f is always white, never transparent (https://www.meta.com/brand/resources/facebook/logo/). icon.svg (currentColor) follows the set's convention: show Facebook in color.",
+      "notes": "From the Facebook app logo Meta's brand page shows (the circle with the f). icon-color = that drawing in Facebook blue #0866FF with the f white, as Meta requires (the 2023 color, as Simple Icons records it; the owner's color file is in the click-through asset pack). icon.svg = the drawing in currentColor.",
+      "modeCheck": "The white f sits inside the blue circle, so it reads against the circle in both modes.",
       "gaps": [
         "the official color file is in Meta's Facebook asset pack, behind a click-through agreement; download it by hand to confirm the blue and the white f"
       ],
       "checked": "2026-11-25",
       "version": "2023 logo refresh",
       "license": "Don't recolor; no merchandise; partners and sponsors need permission; use only the official pack (https://www.meta.com/brand/resources/facebook/logo/).",
-      "usage": "Facebook blue, or one color where the page needs it. Don't alter the f. Name Facebook as a platform we use; partnership claims need permission.",
+      "usage": "Facebook blue with a white f; never transparent, never recolored. Don't write \"Facebook\" next to the logo. At least 16px; clear space a quarter of the logo's width. Name Facebook as a platform we use; partnership claims need permission.",
       "sourceFiles": {
         "facebook/icon.svg": "https://www.meta.com/brand/resources/facebook/logo/ (the page's Facebook app logo, inline SVG; currentColor)",
-        "facebook/icon-color.svg": "the same drawing, fill #0866FF"
+        "facebook/icon-color.svg": "the same drawing, circle #0866FF, f #FFFFFF"
       }
     },
     "fal": {

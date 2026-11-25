@@ -21,6 +21,12 @@ export type Tool = {
   lockup?: Record<string, string> | null; gaps?: string[]; notes?: string;
   dark?: { iconColor?: string; lockup?: Record<string, string>; derived?: string };
   modeCheck?: string;
+  /** Provenance and the owner's terms (public/logos/tools/README.md). */
+  checked?: string; version?: string; license?: string; usage?: string;
+  sourceFiles?: Record<string, string>;
+  monoRestricted?: boolean; monoTerms?: string;
+  preferColor?: boolean; preferColorReason?: string;
+  permissionNeeded?: boolean; permissionTerms?: string;
 };
 export const BRANDS = DATA.brands as Record<string, Tool>;
 
