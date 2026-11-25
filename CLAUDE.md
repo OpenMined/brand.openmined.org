@@ -129,10 +129,12 @@ existing projects. The review rounds and page reviews were removed 2026-10-29; t
 
 ## Deploying
 
-Cloudflare Pages builds from this repository (Git integration; no deploy token in GitHub).
-A push to `main` builds and deploys production; production changes only by merging to
-`main`, on an explicit go. Every other branch, and every pull request from this repository,
-gets a preview at its own `*.pages.dev` address, built with drafts shown (`OMDS_DRAFTS=1`,
-as `npm run build:review`): shareable but unlisted, and never production. Each build runs
-`npm run tokens:check`, `npm run lint` and `npm run build` → `dist/`, so a failing check
-stops the deploy; `lint.yml` runs the same checks on every pull request.
+Cloudflare Pages builds from this repository (Git integration; no deploy token in GitHub),
+running `npm ci && npm run build:pages`: `tokens:check`, `lint` and `build` → `dist/`, so a
+failing check stops the deploy (`lint.yml` runs the same checks and a production build on
+every pull request). Production changes only when `main` changes (a merged pull request, or
+a direct push by a design maintainer), on an explicit go. Every other branch, and every pull
+request from this repository, gets a preview at its own `*.pages.dev` address, built with
+drafts shown (`OMDS_DRAFTS=1`, as `npm run build:review`); `dependabot/*` branches and pull
+requests from forks get none. Previews aren't linked from the site, but anyone can open one:
+their addresses show on the pull requests' public checks.

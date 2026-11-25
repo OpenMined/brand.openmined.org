@@ -7,6 +7,7 @@
     "prebuild": "mkdir -p public/tokens && cp src/tokens/*.css src/tokens/*.json public/tokens/",
     "build": "astro build",
     "build:review": "OMDS_DRAFTS=1 astro build",
+    "build:pages": "set -e; if [ -n \"$CF_PAGES_BRANCH\" ] && [ \"$CF_PAGES_BRANCH\" != main ]; then export OMDS_DRAFTS=1; fi; npm run tokens:check; npm run lint; npm run build",
     "preview": "astro preview",
     "lint": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" && node tools/classes/check.mjs",
     "lint:fix": "stylelint \"src/**/*.{css,astro}\" \"components/**/*.css\" --fix",
