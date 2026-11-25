@@ -31,3 +31,8 @@ jobs:
 
       - name: Lint (design-token enforcement)
         run: npm run lint
+
+      # Proposed (decision 2026-11-20, tool marks pass an allowlist): every stored tool mark
+      # is in sanitized form, one-color icons are one color, ids are safe to inline.
+      - name: Tool marks (allowlist sanitizer and stored-marks check)
+        run: npm run logos:check

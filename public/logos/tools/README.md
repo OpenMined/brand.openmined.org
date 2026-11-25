@@ -18,7 +18,8 @@ assets. Each mark is the **trademark of its owner** and is used nominatively
 - `icon-color.svg` — the mark in its **official brand color** (or full color for
   multicolor marks like Google's G). Use via `<img>`; do not recolor.
 - `logo-*.svg` / `logo.svg` — full wordmark lockups where officially available.
-  `logo-mono.svg` is the lockup in `currentColor`, where the set has one.
+  `logo-mono.svg` is the lockup in `currentColor`, only where the owner's terms allow a
+  recolored lockup (decision 2026-11-20).
 - `icon-color-dark.svg` / `logo-dark.svg` — the color file for **dark mode**,
   only where the color mark's ink would vanish on a dark surface. Recorded under
   `dark` in `tools.json`; the owner's own reversed file wherever one exists;
@@ -52,5 +53,6 @@ Lockups/marks are official (GitHub `GitHub_Logos.zip`, Ramp production SVG,
 Google 4-color G artwork). Monochrome glyphs for single-color icons come from
 [Simple Icons](https://simpleicons.org) (CC0 file license; trademarks remain the
 owners'). Never redraw a mark — source it officially or leave it as a documented
-gap. Every file passes `tools/logos/sanitize.mjs` before it is stored
-(`npm run logos:check` checks every stored file, with `tools/logos/check-tools.mjs`).
+gap. A vector the owner ships only as PDF may be converted path for path (WordPress's
+W mark); a raster is never traced. Every file passes `tools/logos/sanitize.mjs` before
+it is stored (`npm run logos:check` checks every stored file, and CI runs it on every pull request).

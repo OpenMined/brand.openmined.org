@@ -20,9 +20,15 @@
 
 # Official logo SVGs. <img>/CSS don't need CORS, but allow it so projects can
 # fetch + inline an SVG (e.g. to recolor a mono mark via currentColor).
+# Proposed (for the design lead and om/security): an SVG opened on its own is a document
+# that could run script. The sanitizer keeps scripts out of the files; nosniff and the
+# sandboxing CSP are the second line, so a file opened directly loads and runs nothing.
+# Inline styles stay allowed (marks use style attributes). Fetching or <img> is unaffected.
 /logos/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+  X-Content-Type-Options: nosniff
+  Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; sandbox
 
 # v2: everything the site serves for people and AI agents (src/lib/serve.ts), so
 # any project or tool can fetch it.
@@ -51,3 +57,4 @@
 /starter/*
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+
