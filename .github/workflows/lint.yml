@@ -31,3 +31,8 @@ jobs:
 
       - name: Lint (design-token enforcement)
         run: npm run lint
+
+      # A production build refuses drafts (src/lib/release-gate.ts), so a draft can't merge
+      # green and then break the Cloudflare Pages build of main.
+      - name: Production build (drafts refused)
+        run: npm run build

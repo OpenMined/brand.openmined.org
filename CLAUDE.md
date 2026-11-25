@@ -81,7 +81,7 @@ build (`src/tokens/v2/tokens.css`, generated) and v1's frozen `src/tokens/tokens
 
 `stylelint.config.js` fails on any raw hex, named color or `rgb()`/`hsl()` literal on a color
 property (`npm run lint`). CI runs it with `tokens:check` on every PR (`.github/workflows/lint.yml`)
-and before every deploy (`deploy.yml`). WebGL needs numbers, so embeds take colors from the
+and in every Cloudflare Pages build, which stops the deploy on a failure (*Deploying*). WebGL needs numbers, so embeds take colors from the
 JS token output (`brand-colors.js`), never hand-typed hex. If a color isn't covered, add a
 token first.
 
@@ -129,6 +129,12 @@ existing projects. The review rounds and page reviews were removed 2026-10-29; t
 
 ## Deploying
 
-`npm run build` → `dist/`. Deploys are manual (Wrangler to Cloudflare Pages), built from a
-clean checkout of the pushed commit. Previews go to a branch alias; production only on an
-explicit go.
+Cloudflare Pages builds from this repository (Git integration; no deploy token in GitHub),
+running `npm ci && npm run build:pages`: `tokens:check`, `lint` and `build` → `dist/`, so a
+failing check stops the deploy (`lint.yml` runs the same checks and a production build on
+every pull request). Production changes only when `main` changes (a merged pull request, or
+a direct push by a design maintainer), on an explicit go. Every other branch, and every pull
+request from this repository, gets a preview at its own `*.pages.dev` address, built with
+drafts shown (`OMDS_DRAFTS=1`, as `npm run build:review`); `dependabot/*` branches and pull
+requests from forks get none. Previews aren't linked from the site, but anyone can open one:
+their addresses show on the pull requests' public checks.
