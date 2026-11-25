@@ -40,11 +40,23 @@ wordmark lockups behind brand-kit gates). Brands checked against the owner's
 current kit also record when (`checked`), which version of the mark
 (`version`), the owner's terms (`license`), and the exact file each of ours
 came from (`sourceFiles`: the URL, and the path inside a zip).
-`monoRestricted: true` marks a brand whose owner's terms speak to color directly (no
-recoloring, approved colorways only), or whose existing `logo-mono.svg` recolors artwork
-the owner has retired; `monoTerms` quotes the terms. Its `icon.svg` follows the set's
-one-color convention, and whether the mark is shown in one color is the brand owner's
-decision.
+
+Every brand records the owner's terms (`license`) and how to use the mark under them
+(`usage`: which files, whether one color is allowed, where permission is needed). Three
+flags tell a page or an app how to show a mark:
+
+- `monoRestricted: true` — the owner's terms speak to color directly (no recoloring,
+  approved colorways only), or an existing `logo-mono.svg` recolors artwork the owner
+  has retired; `monoTerms` quotes the terms. Show the color file. Its `icon.svg` follows
+  the set's one-color convention.
+- `preferColor: true` — the one-color glyph doesn't read at small sizes (20–24px);
+  `preferColorReason` says why. Show the color file there.
+- `permissionNeeded: true` — the owner's terms make showing the logo conditional on
+  permission or a licence; `permissionTerms` quotes them. The mark is in the set; whether
+  to ask is the brand owner's decision.
+
+Where an owner allows its icon only together with its wordmark (Greenhouse, Docusign),
+the icon files are the full logo fitted to the icon box.
 
 ## Source
 
