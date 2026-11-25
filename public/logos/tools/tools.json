@@ -358,9 +358,11 @@
         "main": "aws/logo.svg",
         "mono": "aws/logo-mono.svg"
       },
-      "notes": "Two-tone mark ('aws' squid-ink #232F3E + smile #FF9900). icon-color = official two-tone fit to the 24-box (Slack technique); icon.svg = currentColor silhouette. Covers the AWS / Route 53 rows. lockup = same official logo at natural aspect.",
+      "notes": "Two-tone mark ('aws' squid-ink #232F3E + smile #FF9900). icon-color = official two-tone fit to the 24-box (Slack technique); icon.svg = currentColor silhouette. Covers the AWS / Route 53 rows. lockup = same official logo at natural aspect. icon-color (2026-11-25) = the AWS Cloud logo icon from AWS's own Architecture Icons kit (the squid-ink tile with the white aws and smile), and its light version for dark backgrounds: AWS's icon-only mark, legible at small sizes. The lockups are unchanged; aws.amazon.com now draws the smile in #FF6200, a refresh to check for the lockups.",
+      "modeCheck": "A tile mark: the white aws and smile sit on the squid-ink tile, and the dark file's squid ink on its white tile, so each color reads against its own tile in both modes.",
+      "checked": "2026-11-25",
       "license": "Logos need a license or prior written permission; fair use is \"plain text only (no logos)\"; no recoloring (https://aws.amazon.com/trademark-guidelines/).",
-      "usage": "Licence or written permission needed for the logo; name AWS in plain text otherwise. No recoloring. The 'Powered by AWS' badge is the open option.",
+      "usage": "The AWS Cloud logo icon (from AWS's architecture kit) at small sizes, the logo elsewhere. Licence or written permission needed for logos; name AWS in plain text otherwise. No recoloring. The 'Powered by AWS' badge is the open option.",
       "gaps": [
         "official reversed (white type) file not fetched; dark/ variants are derived"
       ],
@@ -372,6 +374,10 @@
           "main": "aws/logo-dark.svg"
         },
         "derived": "OpenMined, 2026-10-12: the dark ink #252F3E set to white, as in the owner's reversed logo. Not an official file."
+      },
+      "sourceFiles": {
+        "aws/icon-color.svg": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip → Architecture-Group-Icons_07312026/AWS-Cloud-logo_32.svg",
+        "aws/icon-color-dark.svg": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip → Architecture-Group-Icons_07312026/AWS-Cloud-logo_32_Dark.svg"
       }
     },
     "godaddy": {
@@ -465,7 +471,7 @@
       "icon": "zapier/icon.svg",
       "iconColor": "zapier/icon-color.svg",
       "preferColor": true,
-      "preferColorReason": "Zapier's current mark is the 'zapier' wordmark (its app icon puts it in an orange tile); there's no small glyph (the asterisk belongs to the retired brand), so it doesn't read at 20–24px. Show the color app icon with the name beside it.",
+      "preferColorReason": "Zapier's mark is the 'zapier' wordmark, and its own small icon is the same: the browser-tab icon zapier.com serves (favicon.ico, checked 2026-11-25) is the wordmark on the orange tile, and Zapier publishes no smaller glyph (the asterisk belongs to the retired brand). Show the color app icon, with the name beside it.",
       "lockup": {
         "main": "zapier/logo.svg",
         "mono": "zapier/logo-mono.svg"
@@ -887,17 +893,17 @@
       "lockup": {
         "main": "greenhouse/logo.svg"
       },
-      "notes": "Greenhouse doesn't allow its 'g' icon without the full logo, so the icon files are the full wordmark fitted to the icon box: small at icon sizes, by the owner's rule. icon.svg = the wordmark in currentColor.",
+      "notes": "icon-color = the owner's 'g' icon file (GREENHOUSE_ICON_GREEN); icon.svg = the same in currentColor; lockup = the wordmark. Greenhouse doesn't allow the 'g' without the full logo; the brand owner chose the 'g' for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
       "gaps": [],
       "checked": "2026-11-25",
       "version": "current brand (c. 2020)",
       "license": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark.\" \"Don't use the 'g' icon when the full Greenhouse logo mark is not present.\" (https://brand.greenhouse.com/trademark-guidelines)",
       "permissionNeeded": true,
-      "permissionTerms": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark.\"",
-      "usage": "The full wordmark only, never the 'g' alone. Permission needed for any use.",
+      "permissionTerms": "\"Third parties need to obtain permission to use any Greenhouse-owned trademark\"; the 'g' alone is outside the owner's rules.",
+      "usage": "The wordmark wherever it fits; the 'g' alone at small sizes, by the brand owner's choice against the owner's rule (\"Don't use the 'g' icon when the full Greenhouse logo mark is not present\"). Permission needed for any use.",
       "sourceFiles": {
-        "greenhouse/icon-color.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff710e3bb7a3f_GREENHOUSE_WORDMARK_GREEN.svg",
-        "greenhouse/icon.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff710e3bb7a3f_GREENHOUSE_WORDMARK_GREEN.svg (currentColor)",
+        "greenhouse/icon-color.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg",
+        "greenhouse/icon.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff70b5dbb7a3e_GREENHOUSE_ICON_GREEN.svg (currentColor)",
         "greenhouse/logo.svg": "https://cdn.prod.website-files.com/62fe5b9ef9e612fe4fed7ff1/634d2ee12d6ff710e3bb7a3f_GREENHOUSE_WORDMARK_GREEN.svg"
       }
     },
@@ -916,9 +922,9 @@
         "lockup": {
           "main": "docusign/logo-dark.svg"
         },
-        "derived": "OpenMined, 2026-11-25: the owner's full-color logo with its black wordmark set to white for dark backgrounds. Not an official file."
+        "derived": "OpenMined, 2026-11-25: the owner's black ink set to white for dark backgrounds (the Nexus's inner shape, and the wordmark). Not an official file."
       },
-      "notes": "Docusign's Nexus icon must always appear with the wordmark, so the icon files are the full logo fitted to the icon box. icon.svg = the full logo in currentColor.",
+      "notes": "icon-color = the Nexus mark, its three shapes taken unchanged from the owner's full-color logo; dark = the same with its black shape set to white (derived); icon.svg = the Nexus in currentColor. lockup = the full logo. Docusign's Nexus must always appear with the wordmark; the brand owner chose the Nexus for small-size use (admin rows) on 2026-11-25, recorded here with the terms.",
       "gaps": [
         "no official reversed (dark-background) file found; the dark files are derived"
       ],
@@ -927,12 +933,12 @@
       "license": "The Nexus icon and wordmark \"must always appear together\"; logo use needs a Brand Asset License (brand@docusign.com) (https://brand.docusign.com/logo).",
       "permissionNeeded": true,
       "permissionTerms": "Older Docusign IP pages require a Brand Asset License Request (brand@docusign.com) for logo use.",
-      "usage": "The full logo only (icon with wordmark). Don't separate or recolor the Nexus mark. Licence needed.",
+      "usage": "The full logo wherever it fits; the Nexus alone at small sizes, by the brand owner's choice against the owner's rule (the icon \"must always appear together\" with the wordmark). Don't recolor the Nexus. Licence needed.",
       "sourceFiles": {
-        "docusign/icon-color.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg",
-        "docusign/icon.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (currentColor)",
+        "docusign/icon-color.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark's three shapes)",
+        "docusign/icon.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark, currentColor)",
+        "docusign/icon-color-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (the Nexus mark, its black shape set to white; derived)",
         "docusign/logo.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg",
-        "docusign/icon-color-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (wordmark set to white; derived)",
         "docusign/logo-dark.svg": "https://cdn.prod.website-files.com/67d160f23e7ffa1df49339fc/67dcd2505ea595bc4b5d0bf3_logo-full-color.svg (wordmark set to white; derived)"
       }
     },
