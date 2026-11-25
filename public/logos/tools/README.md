@@ -40,11 +40,28 @@ wordmark lockups behind brand-kit gates). Brands checked against the owner's
 current kit also record when (`checked`), which version of the mark
 (`version`), the owner's terms (`license`), and the exact file each of ours
 came from (`sourceFiles`: the URL, and the path inside a zip).
-`monoRestricted: true` marks a brand whose owner's terms speak to color directly (no
-recoloring, approved colorways only), or whose existing `logo-mono.svg` recolors artwork
-the owner has retired; `monoTerms` quotes the terms. Its `icon.svg` follows the set's
-one-color convention, and whether the mark is shown in one color is the brand owner's
-decision.
+
+Every brand records the owner's terms (`license`) and a note on using the mark under them
+(`usage`: which files, whether one color is allowed, where permission is needed). Three
+flags record what the terms or the drawing say about a mark:
+
+- `monoRestricted: true`: the owner's terms limit its color (no recoloring, approved
+  colorways only, black or white only), or an existing `logo-mono.svg` recolors artwork
+  the owner has retired; `monoTerms` quotes the terms. Its `icon.svg` follows the set's
+  one-color convention.
+- `preferColor: true`: the one-color glyph doesn't read at small sizes (20–24px);
+  `preferColorReason` says why.
+- `permissionNeeded: true`: the owner's terms make showing the logo conditional on
+  permission or a licence; `permissionTerms` quotes them. Whether to ask is the brand
+  owner's decision.
+
+How a page shows a flagged mark (for example, the color file in place of the one-color
+one) is proposed to the design lead and not yet a rule of the system: the Logos page's
+One color view still shows every mark in one color.
+
+Greenhouse's 'g' and Docusign's Nexus are used as the icons at small sizes by the brand
+owner's choice, against those owners' rule that the icon appears with the wordmark;
+`usage` and `permissionTerms` record it.
 
 ## Source
 
