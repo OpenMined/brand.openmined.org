@@ -27,9 +27,10 @@
    around the question. The answer starts 8px below the question. */
 .accordions { display: grid; gap: var(--spacing-xl); }
 .accordion {
-  padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-3xl) var(--spacing-4xl);
+  padding: 2em 2em 2em 2.5em;
   border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
 }
+details.accordion:not([open]) > :not(summary) { display: none; }
 .accordion__summary {
   display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg);
   cursor: pointer; list-style: none; border-radius: var(--radius-sm);
@@ -38,11 +39,11 @@
 .accordion__summary:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: var(--spacing-2xs); }
 .accordion__title { font: var(--font-weight-regular) var(--font-size-md)/var(--line-height-text) var(--font-body); color: var(--text-body); }
 .accordion__icon {
-  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 2em; height: 2em;
   border-radius: var(--radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); color: var(--text-headline);
   transition: transform var(--transition-base), background-color var(--transition-base), color var(--transition-base), box-shadow var(--transition-base);
 }
-.accordion__icon svg { width: 16px; height: 16px; }
+.accordion__icon svg { width: 1em; height: 1em; }
 @media (hover: hover) { .accordion__summary:hover .accordion__icon { box-shadow: var(--shadow-sunken), inset 0 0 0 1px var(--line); } }
 .accordion[open] .accordion__icon { transform: rotate(180deg); background: var(--emphasis); color: var(--on-emphasis); }
 .accordion__body { padding-top: var(--spacing-sm); }

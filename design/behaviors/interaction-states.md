@@ -18,6 +18,8 @@ tokens: [--accent-key, --line-focus, --surface-sunken, --state-pressed-wash, --s
 
 **Every state.** Focus adds the focus line (1px `--line-focus`, 2px outside). Pressed darkens a fill by `--state-pressed-wash`; a card settles back down. Disabled is `--state-disabled-opacity`, the not-allowed cursor and no hover. Hover only applies where a pointer can hover. Status chips, swatches and labels have no states.
 
+**Status on a goal card.** Tint the progress ring while a link, enabled button or disclosure is hovered or keyboard-focused. Use `:has(:focus-visible)` for focus on a child. Moving the pointer away after a click returns the ring to gray.
+
 **The spec is the code.** Each component's states are written in its files, in both layers: `button.css` with the add-on `button-hover.css` and `.js`; `link.css` with `link-flow.css`; `link-card.css`; `hover-card.css`; `field.css`; `control.css`.
 
 Table rows you act on take a faint wash of gray 950 on hover, kept when current (*Tables*). A menu's items take the same wash in gray 950, faint on hover and stronger on the current or chosen item (*Menus*). Tabs are a segmented control: the selected tab fills with `--emphasis`, the others a faded fill of it on hover (*Tabs*).

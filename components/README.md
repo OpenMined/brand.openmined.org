@@ -96,6 +96,8 @@ rules in your own CSS. Some components need structure a vendor may not give: the
 button hover needs an element that can hold children (`<button>` or `<a>`, not
 `<input>`).
 
+**Control sizing.** Size padding and adjacent icons in em. Check at a 16px and 24px root, then at 200% browser zoom. Layout uses the [spacing tokens](/design/foundations/spacing.md).
+
 **Minimal and full.** Each component's main file is complete on its own, with minimal interaction states in plain CSS. The full layer is an add-on: `button-hover.css` and `.js`, `link-flow.css`, the field's pointer light (`field.js`) and the cards' tilt. Leave the add-ons out where motion doesn't fit (dense interfaces, platforms without scripts), or put `data-interaction="minimal"` on any region to keep it minimal on a page that loads them (`design/behaviors/interaction-states.md`).
 
 Class names are bare (`.btn`, `.ctl`, `.hcard`). Every script follows reduced
@@ -145,7 +147,7 @@ released. Decision 2026-11-13.
 | Page container, 12-column grid, article grid and breakouts | `layout.css` | none | `design/foundations/spacing.md` |
 | Body text, headings, text styles, code, blockquote | `type.css` | none | `design/foundations/typography.md` |
 | Long reads: rhythm, lists, figures, captions, tables, pull quote | `prose.css` | none | `design/patterns/prose.md` |
-| Button | `button.css` | none | `design/components/button.md` |
+| Button and wrapping button row | `button.css` | none | `design/components/button.md` |
 | Button hover (color in motion) | `button-hover.css` | `button-hover.js`, `buttonHover()` | `design/components/button.md` |
 | Field, form layout, errors | `field.css` | `field.js`, `fieldLights()` (pointer light) | `design/components/form-field.md` |
 | Checkbox, radio, toggle, quiet switch (`switch--quiet`) | `control.css` | none | `design/components/form-field.md` |

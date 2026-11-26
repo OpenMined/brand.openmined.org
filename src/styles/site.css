@@ -137,7 +137,7 @@ a:hover { text-decoration-color: currentColor; }
    its headings two levels smaller (prose prose--downsize-2 guide-prose).
    What stays the site's own: the reading width and unbroken inline code. */
 .guide-prose { max-width: var(--measure); }
-.guide-prose code { white-space: nowrap; }
+.guide-prose :not(pre) > code { overflow-wrap: anywhere; }
 /* Tables, here and in .tbl: the long read's table (prose.md, Tables): small
    text, rows on dividers, headers in semibold headline color, no boxes. */
 .tbl-wrap table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); }
@@ -178,7 +178,7 @@ a:hover { text-decoration-color: currentColor; }
 /* Rules and decisions: plain text in two columns, no boxes (dividers only) */
 .docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-3xl) var(--spacing-4xl); }
 @media (max-width: 767px) { .docs { grid-template-columns: minmax(0, 1fr); } }
-.doc { display: grid; gap: var(--spacing-sm); align-content: start; scroll-margin-top: var(--spacing-section); }
+.doc { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spacing-sm); align-content: start; scroll-margin-top: var(--spacing-section); }
 .doc__meta { font-size: var(--font-size-xs); color: var(--text-muted); }
 
 /* The four levels together — ported from the working page's .levels.
@@ -263,7 +263,6 @@ a:hover { text-decoration-color: currentColor; }
    Buttons, fields, controls, links, colored icons and hover cards are the v2
    components (components/, imported in Site.astro); below is only how the
    guide lays them out. */
-.actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); align-items: center; }
 
 /* ── Typography page: specimens set in the v2 type classes (components/type.css,
    prose.css), with the guide's labels beside them ── */

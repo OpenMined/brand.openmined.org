@@ -7,7 +7,7 @@ tags: [interface]
 tokens: [--line, --stroke-sm, --radius-sm, --font-size-xs, --text-body, --text-headline, --accent-key]
 ---
 
-**Anatomy.** A word or two in small text (12px, 500) inside a 1px line in the lighter line color (`--line`), the small corner. No fill: it sits on whatever surface it's on (*Outlines are lines*).
+**Anatomy.** A single-line label of a word or two in small text (12px, 500) inside a 1px line in the lighter line color (`--line`), the small corner. No fill: it sits on whatever surface it's on (*Outlines are lines*).
 
 **When.** Categories on a post, topics on a resource, a type in a list. A tag says what a thing is; a status chip says what state it's in, in the status's color. Keep tags gray.
 

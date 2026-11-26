@@ -131,12 +131,12 @@ const TEXT_FIELDS = [
         <section class="component stack stack--xl" id="buttons">
           <header class="sec"><h3 class="h3">{button.title}</h3><p>{button.description}</p>{button.status !== 'released' && <p class="status">Status: <b>{button.status}</b></p>}</header>
           <article class="card">
-            <div class="actions">
+            <div class="btn-row">
               <button type="button" class="btn btn--solid">Submit</button>
               <button type="button" class="btn">Cancel</button>
               <button type="button" class="btn">Save draft</button>
             </div>
-            <div class="actions">
+            <div class="btn-row">
               <button type="button" class="btn btn--solid"><Icon name="download" size={20} />Download</button>
               <button type="button" class="btn">Read more<Icon name="arrow-right" size={20} /></button>
               <button type="button" class="btn btn--icon" aria-label="Search" style="--ci-key:var(--blue-key);--ci-stroke:url(#tt-blue) var(--blue-key)"><Icon name="search" size={20} /></button>
@@ -157,7 +157,7 @@ const TEXT_FIELDS = [
             </article>
             <article class="card link-demo">
               <h4 class="block-title">Text button</h4>
-              <p class="actions"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
+              <p class="btn-row"><a class="link-text" href="#links"><span class="link-text__label">Read more</span><Icon name="arrow-right" size={18} /></a><a class="link-text" href="#links"><span class="link-text__label">Download the report</span><Icon name="download" size={18} /></a></p>
               <p class="muted">An action that reads as text, standing on its own: no line at rest; on hover the accent's line draws in under the label from the left and leaves to the right, flowing in the full layer, as on a content link. The icon follows the label and isn't underlined.</p>
             </article>
             <article class="card link-demo">
@@ -202,15 +202,15 @@ const TEXT_FIELDS = [
             <div class="status-rows">
               <div class="status-row">
                 <span class="status-row__lab"><b>Quiet</b> · ring and text in <code>fg</code></span>
-                <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--${s}`}>{t}</span>)}</div>
+                <div class="demo-row">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--${s}`}>{t}</span>)}</div>
               </div>
               <div class="status-row">
                 <span class="status-row__lab"><b>Strong</b> · <code>key</code> fill, white text</span>
-                <div class="actions">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--strong status-chip--${s}`}>{t}</span>)}</div>
+                <div class="demo-row">{CHIPS.map(([s, t]) => <span class={`status-chip status-chip--strong status-chip--${s}`}>{t}</span>)}</div>
               </div>
               <div class="status-row">
                 <span class="status-row__lab"><b>No status</b> · body text</span>
-                <div class="actions"><span class="status-chip">Draft</span></div>
+                <div class="demo-row"><span class="status-chip">Draft</span></div>
               </div>
             </div>
           </article>
@@ -457,7 +457,7 @@ const TEXT_FIELDS = [
                 <div class="fld">
                   <span class="fld__label">Notifications</span>
                   <p class="fld__desc">A toggle: a recess you operate, inset 3px.</p>
-                  <div class="actions">
+                  <div class="btn-row">
                     <button type="button" class="switch" role="switch" aria-checked="true" aria-label="Notifications on"><span class="switch__knob"></span></button>
                     <button type="button" class="switch" role="switch" aria-checked="false" aria-label="Digest off"><span class="switch__knob"></span></button>
                   </div>
@@ -488,7 +488,7 @@ const TEXT_FIELDS = [
                   <ul class="fld__errs"><li>Please enter a valid email address.</li></ul>
                 </div>
 
-                <div class="actions">
+                <div class="btn-row">
                   <button type="submit" class="btn btn--solid">Submit</button>
                   <button type="button" class="btn">Cancel</button>
                 </div>

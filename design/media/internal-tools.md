@@ -5,7 +5,7 @@ description: "Dense interfaces for the team: the minimal interactive layer with 
 status: released
 level: partly
 order: 3
-updated: 2026-11-19
+updated: 2026-11-26
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -14,6 +14,8 @@ start:
     href: /omds.css
     note: "Put data-interaction=\"minimal\" on the tool, or don't load /omds.js."
 guidance:
+  - patterns/goal-milestones
+  - foundations/spacing
   - behaviors/interaction-states
   - foundations/surfaces
   - guidelines/controls-on-a-raised-surface

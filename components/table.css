@@ -6,13 +6,14 @@
 
    Markup:
      <div class="table-wrap">                          scrolls sideways when narrow
-       <table class="table">
+       <table class="table" aria-describedby="query-note">
          <thead><tr><th>Project</th><th class="num">Queries</th><th>Status</th></tr></thead>
          <tbody>
            <tr><td>SyftHub</td><td class="num">11,118</td><td><span class="status-chip status-chip--success">Live</span></td></tr>
          </tbody>
        </table>
      </div>
+     <p class="table-note" id="query-note">Counts cover the last seven days.</p>
      <table class="table table--rows">…</table>        rows take the hover wash (a table you act on)
      <table class="table table--compact">…</table>     tighter rows, centered, for dashboards
 
@@ -23,21 +24,23 @@
    enough that a meter's sunken track still reads on it.
    The first and last cells keep 20px (compact: 16px) to the row's edge, so a
    highlighted row has room on both sides of its text. */
-.table-wrap { overflow-x: auto; }
+.table-wrap { min-inline-size: 0; max-inline-size: 100%; overflow-x: auto; }
 .table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); line-height: var(--line-height-text); color: var(--text-body); }
-.table :is(th, td) { text-align: left; vertical-align: top; padding: var(--spacing-sm) var(--spacing-md); border-bottom: var(--stroke-sm) solid var(--line); }
+.table :is(th, td) { text-align: left; vertical-align: top; padding: calc(4em / 7) calc(6em / 7); border-bottom: var(--stroke-sm) solid var(--line); }
 .table th { font-weight: var(--font-weight-semibold); color: var(--text-headline); }
 .table :is(th, td).num { text-align: right; }
 .table thead th { vertical-align: bottom; }
 .table tbody tr:last-child :is(th, td) { border-bottom: 0; }
-.table :is(th, td):first-child { padding-inline-start: var(--spacing-xl); }
-.table :is(th, td):last-child { padding-inline-end: var(--spacing-xl); }
-.table--compact :is(th, td) { padding: var(--spacing-xs) var(--spacing-sm); }
-.table--compact :is(th, td):first-child { padding-inline-start: var(--spacing-lg); }
-.table--compact :is(th, td):last-child { padding-inline-end: var(--spacing-lg); }
+.table :is(th, td):first-child { padding-inline-start: calc(10em / 7); }
+.table :is(th, td):last-child { padding-inline-end: calc(10em / 7); }
+.table--compact :is(th, td) { padding: calc(3em / 7) calc(4em / 7); }
+.table--compact :is(th, td):first-child { padding-inline-start: calc(8em / 7); }
+.table--compact :is(th, td):last-child { padding-inline-end: calc(8em / 7); }
 /* Dense rows hold chips, tags and bars: center them on the row. */
 .table--compact tbody :is(th, td) { vertical-align: middle; }
 .table--rows tbody tr { transition: background-color var(--transition-base); }
 @media (hover: hover) { .table--rows tbody tr:hover { background: color-mix(in oklch, var(--gray-950) calc(var(--state-hover-wash) * 1%), transparent); } }
 .table--rows tbody tr:is([aria-current], .is-current) { background: color-mix(in oklch, var(--gray-950) calc(var(--state-hover-wash) * 1%), transparent); }
-.table caption { caption-side: bottom; padding-top: var(--spacing-sm); text-align: left; font-size: var(--font-size-xs); color: var(--text-muted); }
+.table caption { caption-side: bottom; padding-top: var(--spacing-sm); }
+.table-note { margin: 0; }
+.table caption, .table-note { text-align: left; font-size: var(--font-size-xs); color: var(--text-muted); }

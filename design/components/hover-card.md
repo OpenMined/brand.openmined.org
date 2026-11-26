@@ -32,4 +32,6 @@ tokens: [--surface-raise-1, --surface-base, --shadow-raise-1, --shadow-raise-2, 
 
 *Open:* whether press cards take a hue and a colorflow; the colorflow's strength over text (0.55 light, 0.45 dark).
 
+**Flow band.** Load `card-flow.css` with `card-flow.js` when using individual files. The CSS clips and positions the generated canvas. Set `--card-flow-height` and `--card-flow-bottom` on a card to change its visible band (defaults 34% and −10%). The minimal layer omits the canvas and tilt; a hover card keeps its still fade.
+
 **Code.** `components/hover-card.css` and `hover-card.js` (`hoverCards()`: the pointer light and the tilt; it also puts the two-tone gradients on the page). The colorflow is `card-flow.css` and `card-flow.js` (`cardFlows()`: every hover card, in its `data-hover-hue`, the hue its icon takes, or green without one; `data-flow` picks the flow, `off` for none), drawn by the shared renderer `flow.js` (*Color moves*, "One renderer per page"). Plain CSS and ES modules, no build step: load the v2 tokens first, then only the files a page uses; each script exports one function that takes a selector and is safe to call again. The markup to match is at the top of each CSS file (`components/README.md`).

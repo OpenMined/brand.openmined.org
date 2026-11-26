@@ -28,7 +28,7 @@
    colored copy (the hue's two-tone, moving) and glow fade in over the mono one.
    The arrow stays mono and nudges right. */
 .hcard { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-start; gap: var(--spacing-lg);
-  padding: var(--spacing-4xl) var(--spacing-3xl); border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
+  padding: 2.5em 2em; border-radius: var(--radius-md); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-body); text-decoration: none;
   /* Without a hue, the accent's: green (design/foundations/color.md). */
   --ci-key: var(--accent-key); --ci-stroke: url(#tt-green) var(--accent-key);
@@ -96,7 +96,7 @@
 [data-theme="dark"] [data-interaction="minimal"] .hcard:is(:hover, :focus-visible)::after, [data-theme="dark"][data-interaction="minimal"] .hcard:is(:hover, :focus-visible)::after { opacity: 0.35; }
 /* Large: full width of its container, icon and text centered at a 640px measure, the
    arrow at the right edge; padding one step up (48px top and bottom). */
-.hcard--large { display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; gap: var(--spacing-2xl); padding-block: var(--spacing-5xl); }
+.hcard--large { display: grid; grid-template-columns: 1fr auto minmax(0, 640px) 1fr; gap: var(--spacing-2xl); padding-block: 3em; }
 .hcard--large .hcard__icon { grid-column: 2; }
 .hcard--large .hcard__text { grid-column: 3; }
 .hcard--large .hcard__arrow { grid-column: 4; justify-self: end; }

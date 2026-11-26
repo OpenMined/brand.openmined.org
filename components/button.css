@@ -8,8 +8,11 @@
    design/behaviors/interaction-states.md.
 
    Markup:
-     <button class="btn btn--solid">Join</button>       primary, one per group
-     <a class="btn" href="…">Read the docs</a>          secondary
+     <div class="btn-row">
+       <button class="btn btn--solid">Join</button>
+       <a class="btn" href="/docs/">Read the docs</a>
+     </div>
+     <button class="btn btn--reveal"><svg aria-hidden="true">…icon…</svg><span class="btn__label"><span>Open in GitHub</span></span></button>
      <a class="btn" href="…">Read more <svg aria-hidden="true">…icon…</svg></a>     with a 20px icon, either side
      <button class="btn btn--icon" aria-label="Search"><svg aria-hidden="true">…icon…</svg></button>   icon only, green on hover
      <button class="btn btn--icon" aria-label="Close" style="--ci-key:var(--red-key);--ci-stroke:url(#tt-red) var(--red-key)"><svg aria-hidden="true">…icon…</svg></button>   in a hue chosen for it
@@ -32,17 +35,28 @@
    Pressed: the fill takes the pressed wash. Focus also draws the focus line,
    1px in --line-focus, 2px outside. Disabled: --state-disabled-opacity, the
    not-allowed cursor, no hover. */
+.btn-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-md); }
+.stack > .btn { justify-self: start; }
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-sm);
-  min-height: 48px; padding: 11px 19px;
-  font: 500 1rem/1 var(--font-body); text-decoration: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+  min-height: max(48px, 3em); padding: 0.6875em 1.1875em;
+  font: var(--font-weight-medium) var(--font-size-md)/1 var(--font-body); text-decoration: none; cursor: pointer;
   border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-md);
   background: transparent; color: var(--text-headline);
   transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
 }
-.btn > svg { flex: none; width: 20px; height: 20px; }
-.btn--icon { --ci-key: var(--accent-key); min-width: 48px; padding: 0; border: 0; }
+.btn > svg { flex: none; width: 1.25em; height: 1.25em; }
+.btn--icon { --ci-key: var(--accent-key); min-width: max(48px, 3em); padding: 0; border: 0; }
 .btn--solid { background: var(--emphasis); border-color: var(--emphasis); color: var(--on-emphasis); }
+.btn--reveal { min-width: max(48px, 3em); gap: 0; padding-inline: 0.75em; }
+.btn--reveal .btn__label { display: inline-grid; grid-template-columns: 1fr; }
+.btn--reveal .btn__label > span { overflow: hidden; text-indent: 0.5em; }
+@media (hover: hover) {
+  .btn--reveal .btn__label > span { white-space: nowrap; }
+  .btn--reveal .btn__label { grid-template-columns: 0fr; transition: grid-template-columns var(--transition-base); }
+  .btn--reveal:is(:hover, :focus-visible) .btn__label { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .btn--reveal .btn__label { transition: none; } }
 /* Gray buttons fill with the accent's green on hover and focus, and take the
    pressed wash over it while pressed. Hover only where there is a pointer to hover
    with, so a tap never leaves it on; keyboard focus shows the same fill everywhere. */

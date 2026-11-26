@@ -24,7 +24,7 @@
    sticky). */
 .app-bar {
   display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap;
-  min-block-size: 56px; padding: var(--spacing-xs) var(--spacing-2xl);
+  min-block-size: 3.5em; padding: 0.375em 1.5em;
   border-block-end: var(--stroke-sm) solid var(--line); background: var(--surface-base);
 }
 @media (max-width: 640px) { .app-bar { padding-inline: var(--spacing-lg); } }
@@ -33,6 +33,6 @@
   display: inline-flex; align-items: baseline; gap: var(--spacing-sm);
   font-weight: var(--font-weight-semibold); color: var(--text-headline); text-decoration: none;
 }
-.app-bar__brand > :is(img, svg) { align-self: center; flex: none; inline-size: 24px; block-size: 24px; }
+.app-bar__brand > :is(img, svg) { align-self: center; flex: none; inline-size: 1.5em; block-size: 1.5em; }
 .app-bar__brand:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
 .app-bar__end { display: flex; align-items: center; gap: var(--spacing-md); margin-inline-start: auto; }

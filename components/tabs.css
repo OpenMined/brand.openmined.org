@@ -29,15 +29,15 @@
    body size, 500. Keyboard focus draws the focus line. 24px between the row
    and the panel. A card itself, it sits on the page, not inside another card. */
 .tabs {
-  display: grid; gap: var(--spacing-2xl); padding: var(--spacing-2xl);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5em; padding: 1.5em;
   border-radius: var(--radius-lg); background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
 }
 .tabs__list {
-  display: inline-flex; flex-wrap: wrap; justify-self: start; max-width: 100%; gap: 3px; padding: 3px;
+  display: inline-flex; flex-wrap: wrap; justify-self: start; max-width: 100%; gap: 0.1875em; padding: 0.1875em;
   border-radius: var(--radius-md); background: var(--surface-sunken); box-shadow: var(--shadow-sunken);
 }
 .tabs__tab {
-  padding: calc(0.7em - 3px) var(--spacing-2xl); border: 0; border-radius: var(--radius-sm); background: transparent;
+  padding: 0.5125em 1.5em; border: 0; border-radius: var(--radius-sm); background: transparent;
   font: var(--font-weight-medium) var(--font-size-md) var(--font-body); line-height: inherit; color: var(--text-headline); cursor: pointer;
   transition: background-color var(--transition-base), color var(--transition-base);
 }
@@ -46,7 +46,7 @@
 /* Small: a 36px row for switching a view (one color / official color), three
    quarters of the field-height row. Labels stay 1rem; 3px inside, as every
    recessed control; 16px each side of a label. */
-.tabs--sm .tabs__tab { padding: 3px var(--spacing-lg); line-height: 1.5; }
+.tabs--sm .tabs__tab { padding: 0.1875em 1em; line-height: 1.5; }
 .tabs__tab:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
 .tabs__panel[hidden] { display: none; }
 .tabs__panel:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 4px; border-radius: var(--radius-sm); }

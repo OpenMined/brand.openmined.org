@@ -22,7 +22,9 @@ tokens: [--emphasis, --on-emphasis, --accent-key, --on-key, --text-headline, --l
 
 **Icon only** (`.btn--icon`). A button that is just an icon (menu, search, close) stays bare: no outline, as in an interface's chrome, square at the button's 48px height, with an accessible name (`aria-label`). It never fills: on hover and keyboard focus the icon takes its hue, standing still (minimal) or as the hue's two-tone moving in its stroke with a soft glow behind (full), as a hover card's icon does; pressed darkens it with the pressed wash. The hue is chosen per icon (`--ci-key`, and `--ci-stroke` for the full layer): close red, search blue, say. Without a choice, the accent's green. There's no rule yet for which hue goes with which icon.
 
-**Size.** 48px tall, with `--radius-md` corners. Every button carries the same 1px border (the solid's in its own fill), so solid and secondary are one size.
+**Size.** Buttons are at least 3em tall, with a 48px minimum touch target and `--radius-md` corners. Solid and secondary buttons share a 1px border.
+
+**Grouping.** Use `.btn-row` for a row that wraps with `--spacing-md` between actions. A button directly inside a stack keeps its natural width.
 
 *Open:* colored buttons, for when a page needs them, such as a product associated with a color: a hue at rest (*Color fills use the key*), and a color mode whose hover runs that hue's two-tone gradient instead of the hue keys.
 

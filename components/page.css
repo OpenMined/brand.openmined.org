@@ -20,5 +20,6 @@ html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--surface-base); color: var(--text-body); }
 /* A band locked to a mode carries its own ground: give it the class page-band. */
 .page-band[data-section] { background: var(--surface-base); color: var(--text-body); }
+details:not([open]) > :not(summary) { display: none; }
 img, svg, video, canvas { max-width: 100%; }
 img, video { height: auto; }

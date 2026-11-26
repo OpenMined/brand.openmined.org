@@ -13,7 +13,7 @@ const RIGHT = [['Select sources', 'Choose the endpoints to query: specific data 
     .ex__head p { margin: 0; }
     .paths { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-5xl); }
     .paths h3 { margin: 0 0 var(--spacing-3xl); }
-    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--spacing-md); margin-top: var(--spacing-5xl); }
+    .step-actions { justify-content: center; margin-top: var(--spacing-5xl); }
     @media (max-width: 767px) { .paths { grid-template-columns: 1fr; } }
   </style>
   <section class="ex">
@@ -39,7 +39,7 @@ const RIGHT = [['Select sources', 'Choose the endpoints to query: specific data 
           </ol>
         </div>
       </div>
-      <div class="actions">
+      <div class="btn-row step-actions">
         <a class="btn btn--solid" href="#">Deploy a Space</a>
         <a class="btn" href="#">Explore SyftHub</a>
       </div>

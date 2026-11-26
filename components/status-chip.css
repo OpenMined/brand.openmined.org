@@ -18,14 +18,14 @@
    quiet chip has no dot and the strong one fills with --emphasis. */
 .status-chip {
   --chip-key: var(--emphasis); --chip-on: var(--on-emphasis);
-  display: inline-flex; align-items: center; gap: var(--spacing-xs);
-  padding: var(--spacing-2xs) var(--spacing-md); border-radius: var(--radius-full);
+  display: inline-flex; align-items: center; gap: 0.5em;
+  padding: calc(1em / 3) 1em; border-radius: var(--radius-full);
   font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-text);
   color: var(--text-body); box-shadow: inset 0 0 0 var(--stroke-sm) var(--line);
   white-space: nowrap;
 }
 .status-chip:is(.status-chip--success, .status-chip--warning, .status-chip--danger, .status-chip--info)::before {
-  content: ''; flex: none; inline-size: 6px; block-size: 6px; border-radius: var(--radius-full); background: var(--chip-key);
+  content: ''; flex: none; inline-size: 0.5em; block-size: 0.5em; border-radius: var(--radius-full); background: var(--chip-key);
 }
 .status-chip--strong { background: var(--chip-key); color: var(--chip-on); box-shadow: none; }
 .status-chip--strong::before { display: none; }

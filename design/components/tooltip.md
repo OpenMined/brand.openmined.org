@@ -21,6 +21,8 @@ tokens: [--surface-raise-2, --shadow-raise-2, --line, --text-headline, --text-bo
 
 **Hints.** For a few words with no title or foot, a hint (`data-hint`, *Hints*): `tooltips()` starts hints too, turning each into a text-only tooltip.
 
+**Version.** The tooltip uses `--duration-fast`, introduced in OMDS 2.2.0. When copying individual files, take the tokens, tooltip CSS and script, and `anchor.js` from the same release.
+
 **Code.** `components/tooltip.css`, and `tooltip.js` (`tooltips()`) with `anchor.js` beside it.
 
 *Open:* a short delay before it opens on hover.

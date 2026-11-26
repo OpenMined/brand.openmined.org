@@ -20,7 +20,7 @@ const STATS: [string, string, string, string, string, boolean][] = [
         )}
       </div>
       <span class="stat-card__value">{n}</span>
-      <span class="stat-card__delta"><span class={`stat-card__change stat-card__change--${kind}`}>{change}</span> {vs}</span>
+      <span class="stat-card__delta"><span class={`stat-card__change stat-card__change--${kind}`}><Icon name={change.startsWith("−") ? "graph-down" : "graph-up"} size={16} />{change}</span> {vs}</span>
       {flag && <span class="stat-card__flag">Two goals are behind</span>}
     </div>
   ))}

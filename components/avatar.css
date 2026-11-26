@@ -25,23 +25,23 @@
    is decoration, so the status is also said in words where someone reads it
    (the row's status chip, the tooltip, the name's label). */
 .avatar {
-  --avatar-size: 32px; --avatar-ground: var(--surface-base);
+  --avatar-size: 2rem; --avatar-ground: var(--surface-base);
   position: relative; display: inline-grid; place-items: center; flex: none;
-  inline-size: var(--avatar-size); block-size: var(--avatar-size); border-radius: var(--radius-full);
+  inline-size: calc(1em / 0.42); block-size: calc(1em / 0.42); border-radius: var(--radius-full);
   background: var(--surface-sunken); color: var(--text-muted);
   font: var(--font-weight-medium) calc(var(--avatar-size) * 0.42)/1 var(--font-body); letter-spacing: 0.02em; text-transform: uppercase;
   user-select: none;
 }
-.avatar--sm { --avatar-size: 20px; }
-.avatar--md { --avatar-size: 24px; }
-.avatar--lg { --avatar-size: 40px; }
+.avatar--sm { --avatar-size: 1.25rem; }
+.avatar--md { --avatar-size: 1.5rem; }
+.avatar--lg { --avatar-size: 2.5rem; }
 .avatar--strong { background: var(--emphasis); color: var(--on-emphasis); }
 .avatar img { display: block; inline-size: 100%; block-size: 100%; border-radius: inherit; object-fit: cover; }
 /* The status dot: a quarter of the size (6px at least), over the bottom end. */
 .avatar__status {
   --avatar-status: var(--emphasis);
   position: absolute; inset-block-end: 0; inset-inline-end: 0;
-  inline-size: max(6px, calc(var(--avatar-size) * 0.25)); block-size: max(6px, calc(var(--avatar-size) * 0.25));
+  inline-size: max(0.375rem, 25%); block-size: max(0.375rem, 25%);
   border-radius: var(--radius-full); background: var(--avatar-status);
   box-shadow: 0 0 0 calc(var(--stroke-sm) * 2) var(--avatar-ground);
 }

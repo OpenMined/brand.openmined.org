@@ -17,6 +17,8 @@ export function dialogs(openers = '[data-dialog-open]') {
     btn.dataset.dialogReady = '1';
     btn.setAttribute('aria-haspopup', 'dialog');
     btn.addEventListener('click', () => {
+      // Give Safari pointer users the same return focus as keyboard users.
+      btn.focus({ preventScroll: true });
       dlg.tabIndex = -1;
       dlg.showModal();
       dlg.focus();

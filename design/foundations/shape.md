@@ -16,6 +16,8 @@ OpenMined's corners are sharper than the soft, generic corners common in AI-gene
 | `--radius-lg` | 10px | The outer of two nested shapes: a panel that holds fields, tiles, or cards. |
 | `--radius-full` | fully round | Toggles, pills, dots, status chips. |
 
+**Dashboard actions.** Use `--radius-md` for an action beside a goal title and a pill for read-only status.
+
 **Nesting.** When a rounded shape sits inside another, the outer one takes `--radius-lg` and the inner one `--radius-md`. A single level of nesting is the limit the ladder covers. Deeper nesting is a sign the layout has too many boxes.
 
 **Every level takes the same corner.** A sunken recess has the same corner as the raised tile beside it. A corner too small to read as either sharp or round (2–3px on a large shape) is avoided.

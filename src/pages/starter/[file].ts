@@ -46,7 +46,6 @@ ${omdsCss()}
 /* ── this page ── */
 .page { padding-block: var(--spacing-5xl); display: grid; gap: var(--spacing-2xl); }
 .page h1 { margin: 0; }
-.actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
 </style>
 </head>
 <body>
@@ -61,7 +60,7 @@ ${omdsCss()}
     <div class="card"><h2 class="card__title">Status</h2><p><span class="status-chip status-chip--success">On track</span></p></div>
     <div class="card"><h2 class="card__title">A number</h2><p class="h3 tabular">1,284</p></div>
   </div>
-  <div class="actions"><button class="btn btn--solid">Primary action</button><button class="btn">Secondary</button></div>
+  <div class="btn-row"><button class="btn btn--solid">Primary action</button><button class="btn">Secondary</button></div>
 </main>
 <script type="module">\n${js}</script>
 </body>

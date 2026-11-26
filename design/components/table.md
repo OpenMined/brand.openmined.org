@@ -15,6 +15,8 @@ tokens: [--line, --stroke-sm, --spacing-xl, --spacing-lg, --font-size-sm, --text
 
 **Dense.** `table--compact` tightens the rows for dashboards. Status in a cell is a status chip.
 
-**Narrow screens.** Wrap the table in `table-wrap`, which scrolls sideways rather than squeezing the columns.
+**Narrow screens.** Put the table in `.table-wrap`. In a grid, use `minmax(0, 1fr)` for its track or `min-inline-size: 0` on the grid child that contains the wrapper. Keep a visible note as a sibling after the wrapper (`.table-note`) and point the table’s `aria-describedby` to its ID. The note wraps to the available width while the columns scroll. A native `<caption>` remains appropriate for a table that fits.
+
+**Changes over time.** Pair a signed value and its comparison period with `graph-up` or `graph-down`. The arrow says which way the number moved. Use success for improvement and danger for deterioration on an active control; a drop in error rate is an improvement. Keep neutral or unchanged metrics gray. Keep the signed value readable without the icon or its color.
 
 **Code.** `components/table.css`. No script. Tables inside a long read take the same look from *Prose*.
