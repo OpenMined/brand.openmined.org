@@ -33,11 +33,11 @@
 .stat-card {
   --stat-card-key: var(--success-key);
   --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
-  position: relative; isolation: isolate; overflow: hidden; gap: var(--spacing-xs);
+  position: relative; isolation: isolate; overflow: hidden; gap: 0.375em;
   transition: box-shadow var(--transition-base), transform var(--card-tilt-transition, var(--transition-base));
 }
 .stat-card:has(.stat-card__change--bad) { --stat-card-key: var(--danger-key); }
-.stat-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-sm); block-size: 1.75em; }
+.stat-card__head { display: flex; align-items: center; justify-content: space-between; gap: 0.5em; block-size: 1.75em; }
 .stat-card__head > * { flex: none; }
 .stat-card__head > .stat-card__label { flex: 1; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stat-card__label { font-size: var(--font-size-sm); color: var(--text-muted); }
@@ -46,30 +46,30 @@
   font-variant-numeric: tabular-nums; letter-spacing: var(--tracking-numbers);
 }
 .stat-card__delta { font-size: var(--font-size-sm); color: var(--text-muted); }
-.stat-card__change { font-weight: var(--font-weight-semibold); color: var(--text-headline); font-variant-numeric: tabular-nums; transition: color var(--transition-base); }
+.stat-card__change { display: inline-flex; align-items: baseline; gap: 0.25em; font-weight: var(--font-weight-semibold); color: var(--text-headline); font-variant-numeric: tabular-nums; transition: color var(--transition-base); }
 .stat-card__flag { font-size: var(--font-size-xs); color: var(--warning-fg); }
+.stat-card__change > svg { align-self: center; width: 1em; height: 1em; }
 /* On the card: one level up, the change in its color. */
-.stat-card:focus-within { box-shadow: var(--shadow-raise-2); }
-.stat-card:focus-within .stat-card__change--good { color: var(--success-fg); transition-duration: var(--duration-fast); }
-.stat-card:focus-within .stat-card__change--bad { color: var(--danger-fg); transition-duration: var(--duration-fast); }
+.stat-card:is(:focus-visible, :has(:focus-visible)) { box-shadow: var(--shadow-raise-2); }
+.stat-card:is(:focus-visible, :has(:focus-visible)) .stat-card__change--good { color: var(--success-fg); transition-duration: var(--duration-fast); }
+.stat-card:is(:focus-visible, :has(:focus-visible)) .stat-card__change--bad { color: var(--danger-fg); transition-duration: var(--duration-fast); }
 @media (hover: hover) {
   .stat-card:hover { box-shadow: var(--shadow-raise-2); transition-duration: var(--duration-fast); }
   .stat-card:hover .stat-card__change--good { color: var(--success-fg); transition-duration: var(--duration-fast); }
   .stat-card:hover .stat-card__change--bad { color: var(--danger-fg); transition-duration: var(--duration-fast); }
-  /* Full layer: the hover card's lift and tilt (tilt.js sets --card-tilt-x/-y). */
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .stat-card:hover:not([data-interaction="minimal"] *) {
     transform: perspective(var(--card-tilt-perspective)) translateY(-2px) rotateX(var(--card-tilt-x, 0deg)) rotateY(var(--card-tilt-y, 0deg));
   }
 }
-@media (prefers-reduced-motion: reduce) { .stat-card:hover { transform: none; } }
 /* Minimal: standing still, the still fade in the flow's place. */
-[data-interaction="minimal"] .stat-card:is(:hover, :focus-within) { transform: none; }
 [data-interaction="minimal"] .stat-card::after {
+  --stat-fade-opacity: 0.3;
   content: ''; position: absolute; inset-inline: 0; bottom: -4%; height: 23%; z-index: -1; pointer-events: none;
   background: linear-gradient(to top, var(--stat-card-key), transparent);
   opacity: 0; transition: opacity var(--transition-base);
 }
-@media (hover: hover) { [data-interaction="minimal"] .stat-card:hover::after { opacity: 0.3; transition-duration: var(--duration-fast); } }
-[data-interaction="minimal"] .stat-card:focus-within::after { opacity: 0.3; }
-[data-theme="dark"] [data-interaction="minimal"] .stat-card:is(:hover, :focus-within)::after,
-[data-theme="dark"][data-interaction="minimal"] .stat-card:is(:hover, :focus-within)::after { opacity: 0.35; }
+@media (hover: hover) { [data-interaction="minimal"] .stat-card:hover::after { opacity: var(--stat-fade-opacity); transition-duration: var(--duration-fast); } }
+[data-interaction="minimal"] .stat-card:is(:focus-visible, :has(:focus-visible))::after { opacity: var(--stat-fade-opacity); }
+[data-theme="dark"] .stat-card::after { --stat-fade-opacity: 0.35; }

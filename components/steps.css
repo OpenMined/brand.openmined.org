@@ -25,7 +25,7 @@
 .steps__item { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-lg); isolation: isolate; }
 .steps__num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
-  inline-size: 32px; block-size: 32px; border-radius: var(--radius-md);
+  inline-size: calc(16em / 7); block-size: calc(16em / 7); border-radius: var(--radius-md);
   background: var(--emphasis); color: var(--on-emphasis);
   font: var(--font-weight-medium) var(--font-size-sm)/1 var(--font-body); font-variant-numeric: tabular-nums;
 }
@@ -33,6 +33,6 @@
 .steps__title { margin: 0 0 var(--spacing-lg); font: var(--font-weight-regular) clamp(var(--font-size-h5-min), 1.62vw, var(--font-size-h5-max))/var(--line-height-h5) var(--font-body); color: var(--text-headline); }
 .steps__item p { margin: 0; max-width: var(--measure); }
 .steps--connector .steps__item:not(:last-child)::after {
-  content: ''; position: absolute; z-index: -1; top: 16px; left: 16px;
+  content: ''; position: absolute; z-index: -1; top: 1rem; left: 1rem;
   width: var(--stroke-sm); height: calc(100% + var(--spacing-5xl)); background: var(--line-strong);
 }

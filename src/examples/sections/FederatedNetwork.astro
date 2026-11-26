@@ -28,7 +28,6 @@ const colorIcon = (name: string, hue: string) => {
   .fed__card { border: var(--stroke-sm) solid var(--line-strong); border-radius: var(--radius-lg); overflow: hidden; }
   .fed__row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; padding-block: var(--spacing-5xl); }
   .fed__row + .fed__row { border-top: var(--stroke-sm) solid var(--line-strong); }
-  .fed__inner { grid-column: 2 / 12; }
   .fed__intro { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--spacing-3xl); align-items: start; }
   .fed__intro > div:first-child p { margin: var(--spacing-3xl) 0 0; }
   .fed__intro h2 { margin: 0; }
@@ -49,8 +48,7 @@ const colorIcon = (name: string, hue: string) => {
   .subnet-card .hcard__text strong.h4 { margin: 0; font-family: var(--font-display); font-weight: var(--font-weight-regular); }
   @media (max-width: 991px) {
     .fed__intro, .fed__subnets, .fed__pillars { grid-template-columns: 1fr; }
-    .fed__card { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--spacing-xs); }  /* keeps the 1-column inset on phones */
-    .fed__row { padding-block: var(--spacing-3xl); }
+    .fed__row { padding: var(--spacing-3xl) var(--page-gutter); }
     .fed__intro { gap: var(--spacing-2xl); }
     .fed__intro > div:first-child p, .fed__intro > div:last-child { margin-top: 0; }
     .fed__subnet { min-height: 0; }
@@ -61,13 +59,13 @@ const colorIcon = (name: string, hue: string) => {
 <div class="container">
   <div class="fed__card grid-12">
     <div class="fed__row">
-      <div class="fed__inner fed__intro">
+      <div class="grid-inset fed__intro">
         <div><p>Meet Syft:</p><h2>The Federated<br> AI Network</h2></div>
         <div><p>The network coordinates secure, governed computation across silos — without moving data — making it possible to study information that would otherwise remain private.</p><p>This is how collective intelligence becomes real: when people and communities across information silos connect — respecting their choices and values as they do so, for us to study at any scale, not just what a single group could achieve alone.</p></div>
       </div>
     </div>
     <div class="fed__row">
-      <div class="fed__inner">
+      <div class="grid-inset">
         <p class="fed__label">Supported Subnets</p>
         <div class="fed__subnets">
           {SUBNETS.map(([t, b, l]) => <div class="fed__subnet"><div><h3>{t}</h3><p>{b}</p></div><a class="link-text" href="#"><span class="link-text__label">{l}</span><Fragment set:html={arrow} /></a></div>)}
@@ -75,7 +73,7 @@ const colorIcon = (name: string, hue: string) => {
       </div>
     </div>
     <div class="fed__row">
-      <div class="fed__inner">
+      <div class="grid-inset">
         <div class="fed__pillars">
           {PILLARS.map(([icon, hue, t, b]) => <div class="fed__pillar"><Fragment set:html={colorIcon(icon, hue)} /><div><h3>{t}</h3><p>{b}</p></div></div>)}
         </div>

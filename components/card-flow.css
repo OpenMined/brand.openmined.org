@@ -6,7 +6,7 @@
    edge (the card clips it), so the flow rides lower. In quickly, out at the usual pace. */
 .card-flow {
   --cf-o: 0.55;
-  position: absolute; left: 0; right: 0; bottom: -10%; height: 34%;
+  position: absolute; left: 0; right: 0; bottom: var(--card-flow-bottom, -10%); height: var(--card-flow-height, 34%);
   z-index: -1; pointer-events: none;
   width: 100%;
   opacity: 0; transition: opacity var(--transition-base);

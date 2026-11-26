@@ -23,4 +23,4 @@ tokens: [--font-size-h3-max, --tracking-numbers, --success-fg, --danger-fg, --wa
 
 **Code.** `components/stat-card.css`, `stat-card.js` (`statCards()`), on `card.css`.
 
-*Open:* whether the change needs an arrow as well as its sign.
+When an arrow helps readers scan deltas, use `graph-up` for a rise and `graph-down` for a fall alongside the signed value. Choose good or bad by what the metric measures. A falling error rate and a rising completion rate both improve.

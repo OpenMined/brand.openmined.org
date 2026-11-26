@@ -33,7 +33,7 @@ export const EXAMPLES: Example[] = [
     shows: ['patterns/prose', 'foundations/spacing', 'components/code-block'] },
   { slug: 'dashboard', kind: 'page', motion: false, title: 'Dashboard',
     description: 'An internal tool in the minimal interactive layer: the app bar with the quiet switch, stat cards, a view filter (the strong nav), and a table with status chips and tags and a pager.',
-    shows: ['behaviors/interaction-states', 'components/app-bar', 'components/stat-card', 'components/table', 'components/nav', 'components/meter', 'components/pager', 'components/status-chip', 'components/card', 'components/form-field'] },
+    shows: ['patterns/goal-milestones', 'components/progress-ring', 'components/dialog', 'components/button', 'behaviors/interaction-states', 'components/app-bar', 'components/stat-card', 'components/table', 'components/nav', 'components/meter', 'components/pager', 'components/status-chip', 'components/card', 'components/form-field'] },
   { slug: 'home', kind: 'page', motion: true, title: 'Home page',
     description: 'openmined.org\'s home page in v2, as reviewed: the header, the hero with the diamond and the colorflow, the federated network (subnets, pillars, the sub-network card), partnerships, the full press room, the join form over the gradient map, and the footer.',
     shows: ['overview', 'components/hover-card', 'components/link-card', 'guidelines/logo-groups-one-treatment', 'guidelines/tool-marks-follow-the-mode', 'behaviors/color-moves'] },

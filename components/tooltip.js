@@ -40,23 +40,7 @@ export function tooltips(hosts = '.tooltip-host', hintEls = '.hint') {
       continue;
     }
 
-    tip.popover = 'manual';
-    let stop = null;
-    const open = () => {
-      if (stop) return;
-      tip.showPopover();
-      stop = anchor(tip, control, { side: 'bottom', align: 'end' });
-    };
-    const close = () => {
-      if (!stop) return;
-      stop(); stop = null;
-      tip.hidePopover();
-    };
-    host.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') open(); });
-    host.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch' && !control.matches(':focus-visible')) close(); });
-    control.addEventListener('focus', () => { if (control.matches(':focus-visible')) open(); });
-    control.addEventListener('blur', () => { if (!host.matches(':hover')) close(); });
-    host.addEventListener('keydown', (e) => { if (e.key === 'Escape' && stop) { e.preventDefault(); e.stopPropagation(); close(); } });
+    bindPopover(host, control, tip, 'end');
   }
 }
 
@@ -72,7 +56,6 @@ function hints(els) {
     tip.className = 'tooltip tooltip--hint';
     tip.setAttribute('role', 'tooltip');
     tip.id = `omds-tooltip-${++n}`;
-    tip.popover = 'manual';
     const body = document.createElement('span');
     body.className = 'tooltip__body';
     body.textContent = el.dataset.hint;
@@ -80,22 +63,35 @@ function hints(els) {
     el.after(tip);
     el.setAttribute('aria-describedby', `${el.getAttribute('aria-describedby') || ''} ${tip.id}`.trim());
 
-    const align = el.dataset.align === 'end' ? 'end' : 'start';
-    let stop = null;
-    const open = () => {
-      if (stop) return;
-      tip.showPopover();
-      stop = anchor(tip, el, { side: 'bottom', align });
-    };
-    const close = () => {
-      if (!stop) return;
-      stop(); stop = null;
-      tip.hidePopover();
-    };
-    el.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') open(); });
-    el.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch' && !el.matches(':focus-visible')) close(); });
-    el.addEventListener('focus', () => { if (el.matches(':focus-visible')) open(); });
-    el.addEventListener('blur', () => { if (!el.matches(':hover')) close(); });
-    el.addEventListener('keydown', (e) => { if (e.key === 'Escape' && stop) { e.preventDefault(); e.stopPropagation(); close(); } });
+    bindPopover(el, el, tip, el.dataset.align === 'end' ? 'end' : 'start');
   }
+}
+
+/** Escape also dismisses a pointer-opened tooltip while focus is elsewhere. */
+function bindPopover(host, control, tip, align) {
+  tip.popover = 'manual';
+  let stop = null;
+  const dismiss = (event) => {
+    if (event.key !== 'Escape') return;
+    event.preventDefault();
+    event.stopPropagation();
+    close();
+  };
+  const open = () => {
+    if (stop) return;
+    tip.showPopover();
+    stop = anchor(tip, control, { side: 'bottom', align });
+    document.addEventListener('keydown', dismiss);
+  };
+  const close = () => {
+    if (!stop) return;
+    document.removeEventListener('keydown', dismiss);
+    stop();
+    stop = null;
+    tip.hidePopover();
+  };
+  host.addEventListener('pointerenter', (event) => { if (event.pointerType !== 'touch') open(); });
+  host.addEventListener('pointerleave', (event) => { if (event.pointerType !== 'touch' && !control.matches(':focus-visible')) close(); });
+  control.addEventListener('focus', () => { if (control.matches(':focus-visible')) open(); });
+  control.addEventListener('blur', () => { if (!host.matches(':hover')) close(); });
 }

@@ -5,7 +5,7 @@ description: "Pages, dashboards and tools made as Claude artifacts: one self-con
 status: released
 level: covered
 order: 2
-updated: 2026-11-19
+updated: 2026-11-26
 start:
   - label: Artifact starter, minimal layer
     href: /starter/artifact
@@ -17,6 +17,7 @@ start:
     href: /embeds/single/om-stream.js
     note: "om-diamond.js, om-stream.js and om-mesh.js in /embeds/single/, colors inlined."
 guidance:
+  - patterns/goal-milestones
   - behaviors/interaction-states
   - behaviors/color-modes
   - foundations/color

@@ -28,8 +28,8 @@
    item per nav. No divider line directly under a nav. */
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-2xs); }
 .nav__item {
-  display: inline-flex; align-items: baseline; gap: var(--spacing-3xs);
-  padding: var(--spacing-2xs) var(--spacing-sm); border: 0; border-radius: var(--radius-md);
+  display: inline-flex; align-items: baseline; gap: calc(1em / 7);
+  padding: calc(2em / 7) calc(4em / 7); border: 0; border-radius: var(--radius-md);
   font: var(--font-weight-medium) var(--font-size-sm)/1.4 var(--font-body); color: var(--text-headline);
   text-decoration: none; background-color: transparent; cursor: pointer;
   transition: background-color var(--transition-base), background-size var(--transition-base), color var(--transition-base);

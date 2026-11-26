@@ -161,6 +161,13 @@
       "style": "line",
       "status": "approved"
     },
+    "graph-down": {
+      "src": "tabler",
+      "file": "trending-down",
+      "style": "line",
+      "status": "proposed",
+      "note": "A decrease from the comparison period"
+    },
     "graph-up": {
       "src": "tabler",
       "file": "trending-up",

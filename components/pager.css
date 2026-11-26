@@ -32,7 +32,7 @@
 .pager__pages { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-2xs); }
 .pager__pages .nav__item { justify-content: center; min-inline-size: 2.25em; font-variant-numeric: tabular-nums; }
 .pager__step { align-items: center; }
-.pager__step > svg { flex: none; inline-size: 16px; block-size: 16px; }
+.pager__step > svg { flex: none; inline-size: calc(8em / 7); block-size: calc(8em / 7); }
 .pager__gap { min-inline-size: 1.5em; text-align: center; font-size: var(--font-size-sm); color: var(--text-muted); }
 .pager.nav--wash .pager__step[aria-disabled="true"],
 .pager.nav--wash .pager__step[aria-disabled="true"]:hover { color: var(--text-muted); background: none; cursor: default; }

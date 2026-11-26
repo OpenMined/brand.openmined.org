@@ -90,7 +90,7 @@
 .btn--icon.has-tone > svg { transition: opacity var(--transition-base); }
 .btn-icon-glow, .btn-icon-tone { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; pointer-events: none; transition: opacity var(--transition-base); }
 .btn-icon-glow { z-index: -1; filter: blur(6px); }
-:is(.btn-icon-glow, .btn-icon-tone) > svg { width: 20px; height: 20px; }
+:is(.btn-icon-glow, .btn-icon-tone) > svg { width: 1.25em; height: 1.25em; }
 :is(.btn-icon-glow, .btn-icon-tone) :is(path, circle, rect, line, polyline, polygon, ellipse) { stroke: var(--btn-tone); }
 .btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) > svg { opacity: 0; transition-duration: var(--duration-fast); }
 .btn--icon.has-tone:is(:hover, :focus-visible):not([data-interaction="minimal"] *) .btn-icon-tone { opacity: 1; transition-duration: var(--duration-fast); }

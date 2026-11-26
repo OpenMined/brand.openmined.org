@@ -22,7 +22,7 @@
        </form>
      </dialog>
 
-   Always centered in the window, both ways, and never closer than 16px
+   Always centered in the window, both ways, and never closer than 1rem
    (--spacing-lg) to its edges: past that it scrolls inside. Raise-1 with the
    raise-2 shadow, 38rem at most; generous padding that tightens on a phone.
    The close is a quiet gray icon button that turns red on hover and focus
@@ -39,7 +39,7 @@
    reduced transparency the blur goes and the scrim is almost solid. No
    motion: it appears. */
 .dialog {
-  --dialog-gap: var(--spacing-lg);
+  --dialog-gap: 1rem;
   position: fixed; inset: 0; margin: auto; border: 0; border-radius: var(--radius-lg); padding: 0;
   inline-size: 100%; block-size: fit-content; max-inline-size: min(38rem, calc(100vw - 2 * var(--dialog-gap))); max-block-size: calc(100dvh - 2 * var(--dialog-gap));
   overflow: auto; overscroll-behavior: contain;
@@ -50,10 +50,10 @@
 @media (prefers-reduced-transparency: reduce) {
   .dialog::backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; background: color-mix(in srgb, var(--surface-sunken) 95%, transparent); }
 }
-.dialog__body { display: flex; flex-direction: column; gap: var(--spacing-3xl); padding: var(--spacing-5xl); }
-@media (max-width: 640px) { .dialog__body { gap: var(--spacing-xl); padding: var(--spacing-xl); } }
+.dialog__body { display: flex; flex-direction: column; gap: 2em; padding: 3em; }
+@media (max-width: 640px) { .dialog__body { gap: 1.25em; padding: 1.25em; } }
 .dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-md); }
 .dialog__head :is(h2, h3) { margin: 0; }
-.dialog__close { --ci-key: var(--red-key); --ci-stroke: url(#tt-red) var(--red-key); flex: none; inline-size: 32px; block-size: 32px; min-inline-size: 0; min-block-size: 0; padding: 0; border-radius: var(--radius-full); color: var(--text-muted); }
+.dialog__close { --ci-key: var(--red-key); --ci-stroke: url(#tt-red) var(--red-key); flex: none; inline-size: 2em; block-size: 2em; min-inline-size: 0; min-block-size: 0; padding: 0; border-radius: var(--radius-full); color: var(--text-muted); }
 .dialog__lead { margin: 0; max-inline-size: var(--measure); font-size: var(--font-size-md); line-height: var(--line-height-text); color: var(--text-headline); }
-.dialog__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-sm); }
+.dialog__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--spacing-md); }

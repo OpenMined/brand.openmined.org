@@ -23,7 +23,7 @@
    always has a level to rise to. */
 .lcard {
   position: relative; display: grid; align-content: start; gap: var(--spacing-xs);
-  padding: var(--spacing-2xl); border-radius: var(--radius-md);
+  padding: 1.5em; border-radius: var(--radius-md);
   background: var(--surface-raise-1); box-shadow: var(--shadow-raise-1);
   color: var(--text-body); text-decoration: none;
   --card-tilt-keystone: 1.1; --card-tilt-falloff: -0.3; --card-tilt-max: 6deg; --card-tilt-perspective: 1000px; --card-tilt-track: 90ms linear;
@@ -47,7 +47,7 @@
   font-family: var(--font-body); font-size: var(--font-size-md); font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-text); letter-spacing: 0; color: var(--text-headline);
 }
-.lcard__arrow { flex: none; width: 16px; height: 16px; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }
+.lcard__arrow { flex: none; width: 1em; height: 1em; opacity: 0.3; transition: opacity var(--transition-base), transform var(--transition-base); }
 .lcard__text { font-size: var(--font-size-sm); color: var(--text-muted); }
 /* Pressed: the card settles back onto the page, its shadow back to raise-1 and
    the lift gone, keeping raise-2's surface and the tilt. */
@@ -81,7 +81,7 @@
        <span class="lcard__meta"><time datetime="2026-10-12">Oct 12, 2026</time> · Research</span>
        <span class="lcard__title">Attribution-based control</span>
      </a> */
-.lcard.lcard--logo { grid-template: auto 1fr / minmax(0, 1fr); background: var(--white); min-height: 240px; padding: var(--spacing-5xl) var(--spacing-2xl) var(--spacing-lg); }
+.lcard.lcard--logo { grid-template: auto 1fr / minmax(0, 1fr); background: var(--white); min-height: 240px; padding: 3em 1.5em 1em; }
 @media (hover: hover) { .lcard.lcard--logo:hover { background: var(--white); } }
 .lcard.lcard--logo:focus-visible { background: var(--white); }
 .lcard__logo { position: relative; display: block; width: 100%; aspect-ratio: 4 / 3; }
@@ -89,7 +89,7 @@
 .lcard--logo .lcard__text { align-self: end; font-weight: var(--font-weight-medium); color: var(--text-body); }  /* the logo takes the full width; the caption sits at the bottom */
 
 .lcard--post {
-  aspect-ratio: 1 / 1; overflow: hidden; align-content: space-between; padding: var(--spacing-lg) var(--spacing-2xl) var(--spacing-2xl);
+  aspect-ratio: 1 / 1; overflow: hidden; align-content: space-between; padding: 1em 1.5em 1.5em;
   background: var(--surface-raise-1); color: var(--gray-50);
 }
 .lcard--post[data-text="dark"] { color: var(--gray-900); }

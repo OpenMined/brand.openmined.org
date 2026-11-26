@@ -11,16 +11,20 @@
        <circle class="progress-ring__fill" cx="32" cy="32" r="29" pathLength="100" />
        <text class="progress-ring__text" x="50%" y="50%">62%</text>
      </svg>
-     <svg class="progress-ring progress-ring--success" …>…</svg>      on schedule: green while you're on its card
+     <svg class="progress-ring progress-ring--lg progress-ring--warning" …>…</svg>   a goal at risk; success and danger also available
 
    Like the meter: the track is the sunken level, so the ring sits on a raised
    surface (a card), never on the page; the fill is the strong gray. Gray at
    rest; a ring that carries a status (progress-ring--success) takes the status key
-   only while you're on its card (Color tells a story), in plain CSS, so the
+   on hover or keyboard focus on a card action (Color tells a story), in plain CSS, so the
    minimal layer has it too. 64px by default (--progress-ring-size), the line 6px.
    Moves only its color. */
-.progress-ring { --progress-ring-size: 64px; display: block; inline-size: var(--progress-ring-size); block-size: var(--progress-ring-size); overflow: visible; }
-.progress-ring--sm { --progress-ring-size: 48px; }
+.progress-ring { --progress-ring-size: 4rem; display: block; inline-size: var(--progress-ring-size); block-size: var(--progress-ring-size); overflow: visible; }
+.progress-ring--sm { --progress-ring-size: 3rem; }
+.progress-ring--lg { --progress-ring-size: 7rem; }
+.progress-ring--success { --ring-active: var(--success-key); }
+.progress-ring--warning { --ring-active: var(--warning-key); }
+.progress-ring--danger { --ring-active: var(--danger-key); }
 .progress-ring :is(.progress-ring__track, .progress-ring__fill) { fill: none; stroke-width: 6; transform: rotate(-90deg); transform-origin: center; transform-box: view-box; }
 .progress-ring__track { stroke: var(--surface-sunken); }
 .progress-ring__fill {
@@ -29,7 +33,13 @@
   transition: stroke var(--transition-base);
 }
 .progress-ring__text {
-  fill: var(--text-headline); font: var(--font-weight-semibold) var(--font-size-sm) var(--font-body);
+  fill: var(--text-headline); font: var(--font-weight-semibold) 14px var(--font-body); /* drawing units in the 64-unit viewBox */
   font-variant-numeric: tabular-nums; dominant-baseline: central; text-anchor: middle;
 }
-.card:is(:hover, :focus-within) .progress-ring--success .progress-ring__fill { stroke: var(--success-key); }
+.progress-ring__unit { font-size: 0.5em; fill: var(--text-muted); }
+.card:is(:focus-visible, :has(:focus-visible)) .progress-ring__fill { stroke: var(--ring-active, var(--emphasis)); }
+@media (hover: hover) {
+  .card:where(a[href], button:enabled, summary):hover .progress-ring__fill,
+  .card:has(:where(a[href], button:enabled, summary):hover) .progress-ring__fill { stroke: var(--ring-active, var(--emphasis)); }
+}
+@media (prefers-reduced-motion: reduce) { .progress-ring__fill { transition: none; } }

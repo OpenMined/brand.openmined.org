@@ -19,9 +19,9 @@
    3px inside the box on every side, the recessed-control inset, the same as the toggle's knob; a radio's dot takes twice that. */
 :where(.opts) { margin: 0; }
 .opts { list-style: none; padding: 0; display: grid; gap: var(--spacing-sm); }
-.opt { display: flex; align-items: center; gap: var(--spacing-sm); cursor: pointer; font-size: var(--font-size-md); color: var(--text-body); }
+.opt { display: flex; align-items: center; gap: 0.5em; cursor: pointer; font-size: var(--font-size-md); color: var(--text-body); }
 .opt__box {
-  appearance: none; flex: none; position: relative; width: 18px; height: 18px; margin: 0; cursor: pointer;
+  appearance: none; font-size: inherit; flex: none; position: relative; width: 1.125em; height: 1.125em; margin: 0; cursor: pointer;
   border: none; background: var(--surface-sunken); box-shadow: var(--shadow-sunken); border-radius: var(--radius-sm);
 }
 .opt__box[type="radio"] { border-radius: 50%; }
@@ -29,19 +29,19 @@
 /* The check is a mask, so its color is a token; the path is drawn centered in
    the 12px area inside the inset. */
 .opt__box[type="checkbox"]:checked::after {
-  content: ''; position: absolute; inset: 3px; background: var(--surface-raise-1);
+  content: ''; position: absolute; inset: 0.1875em; background: var(--surface-raise-1);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.25 6.25 4.75 8.75 9.75 3.25' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 /* Radio: twice the inset (6px). A round mark needs more room than a square one to
    read as a dot rather than a ring. */
-.opt__box[type="radio"]:checked::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--surface-raise-1); }
+.opt__box[type="radio"]:checked::after { content: ''; position: absolute; inset: 0.375em; border-radius: 50%; background: var(--surface-raise-1); }
 /* Toggle: a recess you operate, inset 3px */
-.switch { position: relative; width: 46px; height: 26px; flex: none; border: none; padding: 0; cursor: pointer;
+.switch { position: relative; font-size: inherit; width: 2.875em; height: 1.625em; flex: none; border: none; padding: 0; cursor: pointer;
   border-radius: var(--radius-full); background: var(--surface-sunken); box-shadow: var(--shadow-sunken); }
 .switch[aria-checked="true"] { background: var(--emphasis); }
-.switch__knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-raise-1); transition: transform var(--transition-base); }
-.switch[aria-checked="true"] .switch__knob { transform: translateX(20px); }
+.switch__knob { position: absolute; top: 0.1875em; left: 0.1875em; width: 1.25em; height: 1.25em; border-radius: 50%; background: var(--surface-raise-1); transition: transform var(--transition-base); }
+.switch[aria-checked="true"] .switch__knob { transform: translateX(100%); }
 /* Hover and focus, the fields' language without the pointer light (too small for
    it): on hover a 1px outline inside the edge, light
    gray-300, dark gray-500 at 0.5 (a field's edge near the pointer); on keyboard
@@ -64,10 +64,10 @@
    recess, so it may sit on the page (Recessed controls prefer a raised
    surface names it). theme.js's themeToggle() flips aria-checked on
    [data-theme-toggle]. */
-.switch--quiet, .switch--quiet[aria-checked="true"] { width: 44px; height: 26px; background: transparent; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
+.switch--quiet, .switch--quiet[aria-checked="true"] { width: 2.75em; height: 1.625em; background: transparent; box-shadow: inset 0 0 0 var(--stroke-sm) var(--line); }
 .switch--quiet .switch__knob {
-  top: 5px; left: 5px; width: 16px; height: 16px; background: var(--text-muted);
+  top: 0.3125em; left: 0.3125em; width: 1em; height: 1em; background: var(--text-muted);
   transition: transform var(--transition-base), background-color var(--transition-base), box-shadow var(--transition-base);
 }
-.switch--quiet[aria-checked="true"] .switch__knob { transform: translateX(18px); background: transparent; box-shadow: inset -4px -2px 0 0 var(--text-headline); }
+.switch--quiet[aria-checked="true"] .switch__knob { transform: translateX(1.125em); background: transparent; box-shadow: inset -0.25em -0.125em 0 0 var(--text-headline); }
 @media (hover: hover) { .switch--quiet:hover:not(:disabled) { box-shadow: inset 0 0 0 var(--stroke-sm) var(--line-strong); } }

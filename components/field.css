@@ -24,7 +24,7 @@
 .fm { display: grid; gap: var(--spacing-2xl); }
 .fm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-2xl); align-items: start; }
 @media (max-width: 700px) { .fm-grid { grid-template-columns: minmax(0, 1fr); } }
-.fld { display: grid; gap: var(--spacing-xs); align-content: start; }
+.fld { display: grid; min-inline-size: 0; gap: 0.375em; align-content: start; }
 .fld--full { grid-column: 1 / -1; }
 /* Form text: labels and placeholders at body size
    (--font-size-md) and weight 500; values, options and errors at body size,
@@ -77,11 +77,11 @@
 /* Select: appearance none, so its own wrapper draws the arrow (portable: the control's own box) */
 select.ctl { appearance: none; padding-right: 2.4em; cursor: pointer; }
 .fld__ctl--select { position: relative; }
-.fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 7px; height: 7px; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
+.fld__ctl--select::after { content: ''; position: absolute; right: 1em; top: 50%; width: 0.4375em; height: 0.4375em; pointer-events: none; border-right: 2px solid var(--text-body); border-bottom: 2px solid var(--text-body); transform: translateY(-70%) rotate(45deg); }
 textarea.ctl { resize: vertical; min-height: 5em; }
 .ctl--file { padding: 0.5em 0.6em; cursor: pointer; line-height: 1.6; }
-.ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: var(--spacing-md); padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
+.ctl--file::file-selector-button { font: inherit; font-size: var(--font-size-md); cursor: pointer; margin-right: 0.75em; padding: 0.45em 1em; border: none; border-radius: var(--radius-sm); background: var(--surface-raise-1); color: var(--text-headline); }
 
 /* Error: danger-colored text on whatever the form sits on — no box, no
    outline: colored boxes stacked on dark read muddy. */
-.fld__errs { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: var(--font-size-md); color: var(--danger-fg); }
+.fld__errs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.125em; font-size: var(--font-size-md); color: var(--danger-fg); }

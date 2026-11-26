@@ -130,6 +130,7 @@ export function cardFlows(cards = '.hcard', unitOf = (card) => (card.dataset.flo
     card.dataset.cardFlowReady = '1';
     let p = null, unit = null, timer = 0;
     const show = () => {
+      if (card.closest('[data-interaction="minimal"]')) return;
       const u = unitOf(card), hue = card.dataset.hoverHue || ACCENT_HUE;
       if (!u || !hue) return;
       clearTimeout(timer);
@@ -143,12 +144,15 @@ export function cardFlows(cards = '.hcard', unitOf = (card) => (card.dataset.flo
     };
     const hide = () => {
       if (!p) return;
+      clearTimeout(timer);
       p.el.classList.remove('is-on');
       timer = setTimeout(() => { p?.remove(); p = null; unit = null; }, REMOVE_MS);
     };
     card.addEventListener('pointerenter', show);
-    card.addEventListener('pointerleave', hide);
-    card.addEventListener('focusin', show);
-    card.addEventListener('focusout', hide);
+    card.addEventListener('pointerleave', () => {
+      if (!card.matches(':focus-visible, :has(:focus-visible)')) hide();
+    });
+    card.addEventListener('focusin', (event) => { if (event.target.matches(':focus-visible')) show(); });
+    card.addEventListener('focusout', () => { if (!card.matches(':hover')) hide(); });
   }
 }

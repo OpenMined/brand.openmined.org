@@ -6,7 +6,7 @@ import { iconSvg } from '../../lib/icons';
 const ROWS = [
   ['Website restyle', 'Web', 'success', 'On track', 'Oct 30', 82],
   ['Heartbeat talk', 'Team', 'info', 'Drafting', 'Nov 10', 40],
-  ['Design system launch', 'Brand', 'warning', 'At risk', 'Nov 5', 65],
+  ['Design system launch', 'Design systems', 'warning', 'At risk', 'Nov 5', 50],
   ['Docs migration', 'Product', 'danger', 'Blocked', 'Dec 1', 12],
   ['Press kit', 'Comms', 'success', 'Done', 'Oct 20', 100],
 ];
@@ -18,12 +18,26 @@ const STATS: [string, string, string, string, string, string][] = [
 ];
 const icon = (n: string, s = 20) => iconSvg(n, { size: s });
 ---
-<Example slug="dashboard" interaction="minimal" init={`omds.themeToggle();`}>
+<Example slug="dashboard" interaction="minimal" init={`omds.themeToggle(); omds.dialogs();`}>
   <style is:inline slot="head">
     .app { min-height: 100vh; }
-    .app__tools { display: flex; align-items: center; gap: var(--spacing-sm); }
-    .app__main { display: grid; gap: var(--spacing-2xl); max-width: var(--page-width); margin: 0 auto; padding: var(--spacing-3xl) var(--spacing-2xl); }
+    .app__main { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spacing-2xl); max-width: var(--page-width); margin: 0 auto; padding: var(--spacing-3xl) var(--spacing-2xl); }
     .app__main h1 { margin: 0; }
+    .project-sections { gap: calc(var(--spacing-3xl) + var(--spacing-2xl)); }
+    .goal-head { flex-flow: row wrap; align-items: flex-start; gap: var(--spacing-md); }
+    .goal-head details { flex: 1 1 15em; min-inline-size: 0; container-type: inline-size; }
+    .goal-head summary { display: flex; gap: var(--spacing-md); align-items: center; cursor: pointer; list-style: none; border-radius: var(--radius-md); }
+    .goal-head summary::-webkit-details-marker { display: none; }
+    .goal-head summary:focus-visible { outline: var(--stroke-sm) solid var(--line-focus); outline-offset: 2px; }
+    .goal-head summary > svg { flex: none; }
+    .goal-head details[open] summary > svg:last-child { rotate: 180deg; }
+    .goal-head .status-chip { justify-self: start; }
+    @container (max-width: 18em) {
+      .goal-head summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+      .goal-head .progress-ring { grid-column: 1 / -1; }
+    }
+    .due-status { white-space: nowrap; }
+    .milestones { display: grid; gap: var(--spacing-md); padding-inline-start: 1.25em; }
     .row-end { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); flex-wrap: wrap; }
   </style>
   <div class="app">
@@ -39,7 +53,7 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
     <main class="app__main">
       <div class="row-end">
         <h1 class="h3">Q4 projects</h1>
-        <div class="app__tools"><button class="btn">Export</button><button class="btn btn--solid">New project</button></div>
+        <div class="btn-row"><button class="btn">Export</button><button class="btn btn--solid">New project</button></div>
       </div>
       <div class="card-grid">
         {STATS.map(([l, n, kind, change, vs, flag]) => (
@@ -51,20 +65,53 @@ const icon = (n: string, s = 20) => iconSvg(n, { size: s });
           </div>
         ))}
       </div>
-      <div class="stack stack--md">
-        <div class="nav nav--strong" role="group" aria-label="Show" data-filter>
-          <button type="button" class="nav__item" aria-pressed="true" data-show="all">All<span class="nav__count">{ROWS.length}</span></button>
-          <button type="button" class="nav__item" aria-pressed="false" data-show="attention">Needs attention<span class="nav__count">{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').length}</span></button>
+      <div class="stack project-sections">
+        <div class="stack stack--md">
+          <div class="nav nav--strong" role="group" aria-label="Show" data-filter>
+            <button type="button" class="nav__item" aria-pressed="true" data-show="all">All<span class="nav__count">{ROWS.length}</span></button>
+            <button type="button" class="nav__item" aria-pressed="false" data-show="attention">Needs attention<span class="nav__count">{ROWS.filter(r => r[2] === 'warning' || r[2] === 'danger').length}</span></button>
+          </div>
+          <div class="card card--compact"><div class="table-wrap"><table class="table table--compact" aria-label="Q4 projects" aria-describedby="project-progress-note">
+            <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
+            <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="meter" role="progressbar" aria-label="Progress" aria-valuenow={pc} aria-valuemin="0" aria-valuemax="100" aria-valuetext={`${pc}%`}><span class="meter__track"><span class="meter__fill" style={`width: ${pc}%`}></span></span><span class="meter__label">{pc}%</span></span></td></tr>)}</tbody>
+          </table></div>
+            <p id="project-progress-note" class="table-note">Progress is the share of completed milestones for each project.</p>
+          </div>
+          <nav class="nav nav--wash pager" aria-label="Project pages">
+            <span class="nav__item pager__step" aria-disabled="true"><Fragment set:html={icon('nav-arrow-left', 16)} />Previous</span>
+            <span class="pager__pages"><a class="nav__item" href="#" aria-current="page">1</a><a class="nav__item" href="#">2</a><a class="nav__item" href="#">3</a></span>
+            <a class="nav__item pager__step" href="#" rel="next">Next<Fragment set:html={icon('nav-arrow-right', 16)} /></a>
+          </nav>
         </div>
-        <div class="card card--compact"><div class="table-wrap"><table class="table table--rows table--compact">
-          <thead><tr><th>Project</th><th>Team</th><th>Status</th><th>Due</th><th>Progress</th></tr></thead>
-          <tbody>{ROWS.map(([p, t, s, l, d, pc]) => <tr data-attention={s === 'warning' || s === 'danger' ? '' : undefined}><td>{p}</td><td><span class="tag">{t}</span></td><td><span class={`status-chip status-chip--${s}`}>{l}</span></td><td class="tabular">{d}</td><td><span class="meter" role="progressbar" aria-label="Progress" aria-valuenow={pc} aria-valuemin="0" aria-valuemax="100" aria-valuetext={`${pc}%`}><span class="meter__track"><span class="meter__fill" style={`width: ${pc}%`}></span></span><span class="meter__label">{pc}%</span></span></td></tr>)}</tbody>
-        </table></div></div>
-        <nav class="nav nav--wash pager" aria-label="Project pages">
-          <span class="nav__item pager__step" aria-disabled="true"><Fragment set:html={icon('nav-arrow-left', 16)} />Previous</span>
-          <span class="pager__pages"><a class="nav__item" href="#" aria-current="page">1</a><a class="nav__item" href="#">2</a><a class="nav__item" href="#">3</a></span>
-          <a class="nav__item pager__step" href="#" rel="next">Next<Fragment set:html={icon('nav-arrow-right', 16)} /></a>
-        </nav>
+        <section class="stack" aria-labelledby="milestones-title">
+          <h2 id="milestones-title" class="h4">Milestones</h2>
+          <article class="card goal-head">
+            <details>
+              <summary>
+                <svg class="progress-ring progress-ring--lg progress-ring--warning" viewBox="0 0 64 64" role="img" aria-label="50% complete" style="--progress-ring-value: 50">
+                  <circle class="progress-ring__track" cx="32" cy="32" r="29" pathLength="100" />
+                  <circle class="progress-ring__fill" cx="32" cy="32" r="29" pathLength="100" />
+                  <text class="progress-ring__text" x="50%" y="50%">50<tspan class="progress-ring__unit">%</tspan></text>
+                </svg>
+                <span class="stack stack--xs"><strong>Design system launch</strong><span class="status-chip status-chip--warning">At risk</span></span><Fragment set:html={icon('nav-arrow-down', 16)} />
+              </summary>
+              <ul class="milestones">
+                <li><a class="link-content link-content--done" href="/interface/#buttons">Publish button specifications</a> · Done</li>
+                <li>Review the launch checklist · <span class="due-status"><span class="status-dot status-dot--danger" aria-hidden="true"></span> Overdue</span> · <time datetime="2026-11-05">Nov 5, 2026</time></li>
+              </ul>
+            </details>
+            <button type="button" class="btn btn--reveal" data-dialog-open="open-source">
+              <Fragment set:html={icon('open-new-window')} /><span class="btn__label"><span>Open in GitHub</span></span>
+            </button>
+          </article>
+          <dialog class="dialog" id="open-source" aria-labelledby="source-title" aria-describedby="source-item">
+            <form method="dialog" class="dialog__body">
+              <h2 class="h4" id="source-title">Open in GitHub?</h2>
+              <p class="dialog__lead" id="source-item">Design system launch · OpenMined design system repository</p>
+              <div class="dialog__foot"><button class="btn" value="cancel">Cancel</button><a class="btn btn--solid" href="https://github.com/OpenMined/brand.openmined.org">Open in GitHub</a></div>
+            </form>
+          </dialog>
+        </section>
       </div>
       <script is:inline>
         /* The view filter: the nav shows which view is current; the page hides the rows it leaves out. */
